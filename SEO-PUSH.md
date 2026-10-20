@@ -65,3 +65,4 @@
 - 2026-10-20 ~16:55 Lisbon: /fr/ live (427 + /fr/404.html), French pillar /fr/raquette-padel/ (targets "raquette padel" 49.5k, "raquette de padel" 9.9k). Default build now en,es,fr. IndexNow 200 for all 1281 sitemap URLs.
 - QA: qa.mjs clean, layoutqa 0 violations (incl. 27 es/fr pages), mixqa.mjs clean (0 mixed-language issues).
 - Fixes along the way: Astro hoisted the racket spec table out of <table> (added <tbody>); localized racket image alt/labels; material strings translated via terms.mat (also in compare client via TX.FM); PadelTrue CC BY attribution added to es/fr footers; duplicate player slug deduped in sitemap.
+- 2026-10-20 ~21:50 Lisbon: /pt/ live (428 sitemap URLs incl. /pt/404.html), deploy 4447c612. Language switcher now a compact dropdown (scales to more languages). IndexNow 200 for 428 /pt/ URLs.
