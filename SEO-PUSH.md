@@ -67,3 +67,4 @@
 - Fixes along the way: Astro hoisted the racket spec table out of <table> (added <tbody>); localized racket image alt/labels; material strings translated via terms.mat (also in compare client via TX.FM); PadelTrue CC BY attribution added to es/fr footers; duplicate player slug deduped in sitemap.
 - 2026-10-20 ~21:50 Lisbon: /pt/ live (428 sitemap URLs incl. /pt/404.html), deploy 4447c612. Language switcher now a compact dropdown (scales to more languages). IndexNow 200 for 428 /pt/ URLs.
 - 2026-10-20 ~22:50 Lisbon: /it/ live (deploy 5de10ed1). IndexNow 200 for 428 /it/ URLs.
+- 2026-10-20 ~23:20 Lisbon: /de/ live (deploy 8886ecf5). IndexNow 200 for 428 /de/ URLs.
