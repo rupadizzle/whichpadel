@@ -2,8 +2,8 @@
 import { D, url } from '../i18n/index.js'; import { BEST_KEYS, LANG_NAME } from '../i18n/routes.js';
 const { lang, switcher=[], news=false } = Astro.props; const d=D(lang); const u=d.ui; const LN=LANG_NAME;
 ---
-{news ? <section class="news" id="newsletter"><div><h2>{u.newsH}</h2><p>{u.newsP}{' '}<a href={url('privacy',lang)}>{u.privacy}</a>.</p></div>
-<form class="inline-form" novalidate onsubmit="event.preventDefault();const i=this.querySelector('input[type=email]');if(!i.checkValidity()){i.reportValidity();return}this.querySelector('p').hidden=false"><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><button class="btn btn-accent">{u.subscribe}</button><p hidden class="ok" style="color:#d4ff3a">{u.thanks}</p></form></section>
+{news ? <section class="news" id="newsletter"><div><h2>{u.newsH}</h2><p>{u.newsP}{' '}<a href={url('privacy',lang)}>{u.privacy.toLowerCase()}</a>.</p></div>
+<form class="inline-form" novalidate data-sub="news" data-lang={lang} data-err={u.subErr}><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{u.subscribe}</button><p hidden class="ok" style="color:#d4ff3a" role="status" data-ok={u.thanks}></p></form></section>
 : <footer class="ftr"><div class="wrap">
 <div class="cols"><div><a class="logo" href={url('home',lang)}><span class="ball"></span><span>Which<em>Padel</em></span></a><p style="margin-top:12px">{u.footerAbout}</p></div>
 <div><h2 class="fh">{u.footerLists}</h2><ul>{BEST_KEYS.slice(0,9).map(k=><li><a href={url('best',lang,k)}>{d.copy.best.titles[k][0]}</a></li>)}</ul></div>

@@ -1,0 +1,8 @@
+# Pages config (source of truth for bindings). Downloaded project settings had no vars/bindings before this file.
+name = "whichpadel"
+compatibility_date = "2026-10-20"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "SUBSCRIBERS"
+id = "030127a373d949d4a7f83b9e845ececf"
