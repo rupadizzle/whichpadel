@@ -1,6 +1,6 @@
 ---
-import { D, url } from '../i18n/index.js'; import { BEST_KEYS } from '../i18n/routes.js';
-const { lang, switcher=[], news=false } = Astro.props; const d=D(lang); const u=d.ui; const LN={en:'English',es:'Español',fr:'Français'};
+import { D, url } from '../i18n/index.js'; import { BEST_KEYS, LANG_NAME } from '../i18n/routes.js';
+const { lang, switcher=[], news=false } = Astro.props; const d=D(lang); const u=d.ui; const LN=LANG_NAME;
 ---
 {news ? <section class="news" id="newsletter"><div><h2>{u.newsH}</h2><p>{u.newsP}{' '}<a href={url('privacy',lang)}>{u.privacy}</a>.</p></div>
 <form class="inline-form" novalidate onsubmit="event.preventDefault();const i=this.querySelector('input[type=email]');if(!i.checkValidity()){i.reportValidity();return}this.querySelector('p').hidden=false"><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><button class="btn btn-accent">{u.subscribe}</button><p hidden class="ok" style="color:#d4ff3a">{u.thanks}</p></form></section>

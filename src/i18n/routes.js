@@ -6,6 +6,8 @@ import { y27 } from '../lib/extra.js';
 export const ALL_LANGS=['en','es','fr'];
 export const LANGS=(process.env.WP_LANGS||'en,es,fr').split(',');
 export const LOCALE={en:'en-GB',es:'es',fr:'fr'};
+export const LANG_NAME={en:'English',es:'Español',fr:'Français'};
+export const OG_LOCALE={en:'en_GB',es:'es_ES',fr:'fr_FR'};
 export const BEST_SLUG={
  'best-padel-rackets-for-beginners':{es:'palas-padel-principiantes',fr:'raquettes-padel-debutant'},
  'best-control-padel-rackets':{es:'palas-padel-control',fr:'raquettes-padel-controle'},
@@ -51,4 +53,4 @@ export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}
  return REV[pathname]||null; }
-export const langOf=pathname=>pathname.startsWith('/es/')||pathname==='/es'?'es':pathname.startsWith('/fr/')||pathname==='/fr'?'fr':'en';
+export const langOf=pathname=>LANGS.find(l=>l!=='en'&&(pathname.startsWith('/'+l+'/')||pathname==='/'+l))||'en';

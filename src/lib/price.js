@@ -12,4 +12,4 @@ export function pick(r,region){const cur=REGIONS[region]?.[2]||'EUR'; const os=o
  if(!os.length) return {cur,none:true}; os.sort((a,b)=>(a.st==='yes'?0:1)-(b.st==='yes'?0:1)||(b.native-a.native)||a.v-b.v); const o=os[0];
  return {cur,o,v:o.native?o.p:Math.round(o.v),conv:!o.native};}
 export function priceText(r,region='GB',lang='en'){const p=pick(r,region); return p.none?null:fmt(p.v,p.cur,lang);}
-export const DEFAULT_REGION=lang=>lang==='es'?'ES':lang==='fr'?'FR':'GB';
+const DEF_REGION={en:'GB',es:'ES',fr:'FR',pt:'PT',it:'IT',de:'DE'}; export const DEFAULT_REGION=lang=>DEF_REGION[lang]||'GB';

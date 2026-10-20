@@ -1,6 +1,6 @@
 ---
-import { D, url } from '../i18n/index.js'; import { BEST_KEYS } from '../i18n/routes.js';
-const { lang, switcher=[] } = Astro.props; const d=D(lang); const u=d.ui; const LN={en:'English',es:'Español',fr:'Français'};
+import { D, url } from '../i18n/index.js'; import { BEST_KEYS, LANG_NAME } from '../i18n/routes.js';
+const { lang, switcher=[] } = Astro.props; const d=D(lang); const u=d.ui; const LN=LANG_NAME;
 const shortT=k=>d.copy.best.titles[k][0].replace(/^(Mejores|Las|Meilleures|Les|Best|Most) (palas de pádel|raquettes de padel|padel rackets?) /,'').replace(/^(Las |Les )?(palas de pádel|raquettes de padel|padel rackets) /,'').replace(/^(Best|Most) (.*) padel rackets?/,'$1 $2').replace(/ \(.*\)$/,'').replace(/^of (\d+)/i,'Top picks $1').replace(/^./,c=>c.toUpperCase());
 ---
 <nav class="nav" id="nav"><a href={url('home',lang)+'#rackets'}>{u.allRackets}</a><a href={url('guide',lang)}>{u.guide}</a><a href={url('brands',lang)}>{u.brands}</a><a href={url('players',lang)}>{u.players}</a><a href={url('compare',lang)}>{u.compare}</a>

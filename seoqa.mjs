@@ -1,16 +1,16 @@
 // Static check over dist: canonical = own URL; hreflang en/es/fr + x-default present, absolute, self-including, reciprocal, and pointing at built pages.
 import fs from 'fs'; import path from 'path';
-const D='dist', S='https://whichpadel.com'; const errs=[]; const map={};
+const D='dist', S='https://whichpadel.com'; const LANGS=['en',...fs.readdirSync(D).filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`${D}/${d}/index.html`))]; const errs=[]; const map={};
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/,'').replace(/\\/g,'/'); if(/404/.test(rel)) continue;
  const h=fs.readFileSync(f,'utf8'); const canon=(h.match(/<link rel="canonical" href="([^"]+)"/)||[])[1];
  if(canon!==S+rel) errs.push(`${rel}: canonical ${canon}`);
  const alts={}; for(const m of h.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) alts[m[1]]=m[2];
- for(const l of ['en','es','fr','x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
+ for(const l of [...LANGS,'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
  if(alts['x-default']&&alts['x-default']!==alts.en) errs.push(`${rel}: x-default != en`);
  if(!Object.values(alts).includes(S+rel)) errs.push(`${rel}: hreflang set lacks self`);
  const lang=(h.match(/<html lang="([^"]+)"/)||[])[1]; map[rel]={alts,lang}; }
 for(const [rel,{alts}] of Object.entries(map)) for(const [l,u] of Object.entries(alts)){ const r=u.replace(S,''); if(!map[r]){errs.push(`${rel}: hreflang ${l} -> ${r} not built`);continue;} if(JSON.stringify(map[r].alts)!==JSON.stringify(alts)) errs.push(`${rel}: hreflang not reciprocal with ${r}`);
  const want=l==='x-default'?'en':l; if(!map[r].lang.startsWith(want)) errs.push(`${r}: html lang ${map[r].lang} but hreflang ${l}`); }
-console.log(`seoqa: ${Object.keys(map).length} pages, ${errs.length} issues`); errs.slice(0,30).forEach(e=>console.log(' ',e));
+console.log(`seoqa: ${LANGS.join('/')} · ${Object.keys(map).length} pages, ${errs.length} issues`); errs.slice(0,30).forEach(e=>console.log(' ',e));
 process.exit(errs.length?1:0);
