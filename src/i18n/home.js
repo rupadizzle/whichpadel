@@ -1,5 +1,7 @@
 // Homepage strings for every language. One shared component (components/Home.astro) renders all of them.
-export const HOME={
+import tmES from './tm/es.js'; import tmFR from './tm/fr.js'; import tmPT from './tm/pt.js'; import { fill } from './fill.js';
+const sub=(tm,pre)=>Object.fromEntries(Object.entries(tm).filter(([k])=>k.startsWith(pre)).map(([k,v])=>[k.slice(pre.length),v]));
+const H0={
  en:{title:n=>`Padel racket comparison: ${n} rackets with sourced specs | WhichPadel`,desc:(n,b)=>`Compare ${n} padel rackets from ${b} brands by shape, weight, balance, core and price. Sourced specs, spec-based ratings, a quick racket finder quiz.`,
   eyebrow:(n,b)=>`● ${n} rackets · ${b} brands · sourced specs`,h1a:'Find the right padel racket.',h1b:n=>`Compare ${n} rackets`,h1c:' side by side.',lead:'Every spec comes from a published source. Filter by shape, balance, core and budget, or let the finder pick for you.',
   qcta:'Find your racket in 30 seconds',qctaS:'3 taps · top 3 matches with prices',searchPh:'Search a racket, e.g. Bullpadel Vertex',searchL:'Search rackets',search:'Search',cmpCta:'Compare rackets side by side',howCta:'How to choose a racket',
@@ -41,3 +43,5 @@ export const HOME={
   shapes:['Redonda','Lágrima','Diamante','Híbrida'],lmh:['Baixo','Médio','Alto'],smh:['Macio','Médio','Duro'],clear:'Limpar',show:'Ver',racketsW:'raquetes',clearF:'Limpar filtros',cmpSel:'Comparar selecionadas',empty:'Nenhuma raquete corresponde. Retire um filtro.',more:'Ver mais raquetes',noscript:'Explore todas as raquetes por',brandsW:'marca',cmpNow:'Comparar agora',
   js:{rk:'raquetes',showing:(a,b)=>`A mostrar ${a} de ${b}`,tick:'Assinale 2 ou 3 raquetes',max3:'Pode comparar até 3 raquetes',sel:'selecionadas',pick:' (escolha 2–3)',rt:{power:'Potência',control:'Controlo',forgiveness:'Tolerância',comfort:'Conforto',value:'Qualidade-preço'},shp:{round:'Redonda',teardrop:'Lágrima',diamond:'Diamante',hybrid:'Híbrida'},lvl:{low:'baixo',medium:'médio',high:'alto',soft:'macio',hard:'duro'},balF:'equilíbrio {v}',coreF:'núcleo {v}',shapeF:'forma {v}',na:'forma n/d',add:'Adicionar ao comparador',details:'Ficha',check:'Ver preço',top:n=>`As suas ${n} melhores opções`,ad:'Publicidade: «Ver preço» pode ser uma ligação de afiliado; nunca altera a classificação.',disc:'Divulgação',cmpThese:n=>`Comparar estas ${n} lado a lado →`,seeMatches:'Ver todas as opções',noBudget:'Nenhuma raquete cabe nesse orçamento. Experimente um maior.',alt:'raquete de padel',noPrice:'Ver preço'}},
 };
+
+export const HOME=Object.fromEntries(Object.entries(H0).map(([l,h])=>[l,l==='en'?h:fill(H0.en,h,sub({es:tmES,fr:tmFR,pt:tmPT}[l]||{},'home.'))]));
