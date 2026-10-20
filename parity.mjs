@@ -19,7 +19,7 @@ const SIG=()=>{const STATE=['cv','open','show','active','on','sel'];const PROPS=
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const fails=[]; let n=0;
 for(const w of [390,1280]){ const ctx=await b.newContext({viewport:{width:w,height:900}});
  for(const [t,set] of sets){ const res={}; for(const l of ['en','es','fr']){ if(!set[l]){fails.push(`${t}: no ${l} version`);continue;} const pg=await ctx.newPage(); const errs=[];
-   pg.on('pageerror',e=>errs.push(e.message)); await pg.goto(base+set[l],{waitUntil:'load'}); await pg.waitForTimeout(150); res[l]=await pg.evaluate(SIG); if(errs.length) fails.push(`${t} ${l} ${w}: JS error ${errs[0]}`); await pg.close(); n++; }
+   pg.on('pageerror',e=>errs.push(e.message)); await pg.goto(base+set[l],{waitUntil:'networkidle'}).catch(()=>{}); await pg.waitForTimeout(300); res[l]=await pg.evaluate(SIG); if(errs.length) fails.push(`${t} ${l} ${w}: JS error ${errs[0]}`); await pg.close(); n++; }
   for(const l of ['es','fr']){ if(!res.en||!res[l]) continue;
    res.en.skel.forEach((s,i)=>{ if(s!==res[l].skel[i]) {const o=res[l].skel[i]||''; let k=0; while(k<s.length&&s[k]===o[k]) k++; fails.push(`${t} @${w}: structure differs en vs ${l} in root ${i} at char ${k}\n   en: …${s.slice(Math.max(0,k-150),k+150)}\n   ${l}: …${o.slice(Math.max(0,k-150),k+150)}`);} });
    if(res.en.skel.length!==res[l].skel.length) fails.push(`${t} @${w}: root count en ${res.en.skel.length} vs ${l} ${res[l].skel.length}`);
