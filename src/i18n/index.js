@@ -1,7 +1,7 @@
-import en from './en.js'; import es from './es.js'; import fr from './fr.js';
+import en from './en.js'; import es from './es.js'; import fr from './fr.js'; import pt from './pt.js';
 import { priceText, pick, fmt, FX, REGIONS } from '../lib/price.js';
 import { url, alternates, LANGS } from './routes.js';
-export const DICTS={en,es,fr};
+export const DICTS={en,es,fr,pt};
 export const D=lang=>DICTS[lang];
 export { url, alternates, LANGS };
 export const SITE='https://whichpadel.com';
