@@ -47,9 +47,9 @@ await t('hero search',async()=>{await p.fill('.search input','metalbone'); await
 await t('compare tick',async()=>{const cb=p.locator('#tbl .cmp'); await cb.nth(0).check(); await cb.nth(1).check(); if(!await p.isVisible('#cmpbar')) throw Error('bar'); await p.click('#cmp-go2'); await p.waitForURL(/compare\/\?r=/); await p.waitForSelector('.cvals'); });
 await t('compare add via sheet',async()=>{await p.click('.slot-add'); await p.fill('#sheet-q','vertex'); await p.waitForTimeout(200); await p.click('#sheet-list button >> nth=0'); const n=await p.locator('.chead .hc').count(); if(n!==3) throw Error('hc '+n); if(!/r=.*,.*,/.test(p.url())) throw Error('url');});
 await t('compare swap+remove',async()=>{await p.click('.hc [data-add] >> nth=0'); await p.click('#sheet-list button >> nth=3'); await p.click('.hc [data-rm] >> nth=2'); if(await p.locator('.chead .hc').count()!==2) throw Error('rm');});
-await t('newsletter',async()=>{await p.fill('.news input','a@b.co'); await p.click('.news button'); if(!await p.isVisible('.news .ok')) throw Error('no ok');});
+await t('newsletter',async()=>{await p.fill('.news input[type=email]','a@b.co'); await p.click('.news button'); await p.waitForSelector('.news .ok',{state:'visible',timeout:8000}).catch(()=>{throw Error('no ok')}); /* static server: shows localized error; real success checked by subqa on preview */});
 await p.goto(B+'/rackets/adidas-2026-world-cup-argentina/');
-await t('price alert',async()=>{await p.fill('.alert-panel input[type=email]','a@b.co'); await p.click('.alert-panel button'); if(!await p.isVisible('.alert-panel .ok')) throw Error('no ok');});
+await t('price alert',async()=>{await p.fill('.alert-panel input[type=email]','a@b.co'); await p.click('.alert-panel button'); await p.waitForSelector('.alert-panel .ok',{state:'visible',timeout:8000}).catch(()=>{throw Error('no ok')}); /* static server: shows localized error; real success checked by subqa on preview */});
 await t('racket compare link',async()=>{await p.click('.buybox .btn-sm'); await p.waitForURL(/compare/);});
 await p.goto(B+'/best/best-padel-rackets-for-beginners/');
 await t('best compare',async()=>{const cb=p.locator('.cmp'); await cb.nth(0).check(); await cb.nth(1).check(); await p.click('.toolbar button'); await p.waitForURL(/compare/);});
