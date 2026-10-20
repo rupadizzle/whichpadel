@@ -1,0 +1,16 @@
+---
+import Base from '../../../layouts/Base.astro'; import Card from '../../../components/Card.astro'; import { y27, diffRows } from '../../../lib/extra.js';
+export function getStaticPaths(){ return y27.map(b=>({params:{brand:b.slug},props:{b}})); }
+const { b } = Astro.props; const U=`https://whichpadel.com/brands/${b.slug}/2027/`;
+const sh=r=>r.model.replace(b.name+' ','');
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':`${b.name} 2027 padel rackets`,'url':U,'numberOfItems':b.models.length,'itemListElement':b.models.map((r,i)=>({'@type':'ListItem','position':i+1,'url':`https://whichpadel.com/rackets/${r.slug}/`,'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':'https://whichpadel.com/'},{'@type':'ListItem','position':2,'name':'Brands','item':'https://whichpadel.com/brands/'},{'@type':'ListItem','position':3,'name':b.name,'item':`https://whichpadel.com/brands/${b.slug}/`},{'@type':'ListItem','position':4,'name':'2027','item':U}]}]};
+---
+<Base title={`${b.name} 2027 padel rackets: ${b.models.length} new model${b.models.length>1?'s':''} | WhichPadel`} description={`Every ${b.name} 2027 padel racket in our database (${b.models.length}), with specs, spec-based ratings and recorded prices${b.pairs.length?`, plus what changed from ${b.pairs.length} 2026 model${b.pairs.length>1?'s':''}`:''}.`} jsonld={jsonld}>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/brands/">Brands</a> › <a href={`/brands/${b.slug}/`}>{b.name}</a> › <span>2027</span></nav>
+<h1>{b.name} 2027 padel rackets</h1>
+<p class="lead-sm">We list {b.models.length} {b.name} model{b.models.length>1?'s':''} with a 2027 model year.{b.pairs.length>0&&` For ${b.pairs.length} of them we also have the matching 2026 model, so you can see what changed on paper.`} Everything here comes from published specs; we don’t speculate about unpublished changes.</p>
+<div class="grid">{b.models.map((r,i)=><Card r={r} eager={i<2}/>)}</div>
+{b.pairs.length>0&&<section class="panel"><h2>What changed from 2026 to 2027</h2><p class="muted small">Published specs only. Rows in bold changed; “Not published” means the source doesn’t list it, not that it changed.</p>
+{b.pairs.map(({o,n})=><div class="y-pair"><h3>{sh(o)} → {sh(n)}</h3><div class="tscroll"><table class="spec"><tr><th></th><th>2026</th><th>2027</th></tr>{diffRows(o,n).map(d=><tr><th>{d.k}</th><td>{d.same?d.a:<b>{d.a}</b>}</td><td>{d.same?d.b:<b>{d.b}</b>}</td></tr>)}</table></div><p class="small" style="margin:8px 0 0"><a href={`/rackets/${o.slug}/`}>{sh(o)}</a> · <a href={`/rackets/${n.slug}/`}>{sh(n)}</a> · <a href={`/compare/?r=${o.slug},${n.slug}`}>Compare side by side →</a></p></div>)}</section>}
+<p><a href={`/brands/${b.slug}/`}>All {b.name} padel rackets →</a></p>
+</Base>

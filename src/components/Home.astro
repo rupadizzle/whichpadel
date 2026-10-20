@@ -1,0 +1,129 @@
+---
+import Price from './Price.astro'; import Card from './Card.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
+import PriceAlert from './PriceAlert.astro'; import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
+import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
+import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
+const { lang='en' } = Astro.props; const H=HOME[lang]; const EN=lang==='en';
+const lists={...L0,...extraLists};
+const brands=brandList.map(b=>b.name);
+const FIRST=24;
+const ok=rackets.filter(r=>r.image&&r.published>=4);
+const rows=[['best-value-padel-rackets',r=>r.valueScore,'value'],['most-comfortable-padel-rackets',r=>r.ratings.comfort,'comfort'],['most-powerful-padel-rackets',r=>r.ratings.power,'power']].map(([k,f,l],i)=>({h:H.rows[i],k,l:H.js.rt[l],f,rs:L0[k].pick(ok).slice(0,10)}));
+const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
+const gkeys=Object.keys(lists).slice(0,6).filter(k=>EN||BEST_KEYS.includes(k));
+const gname=k=>EN?lists[k].title.replace(/^(The )?best /i,'Best ').replace(/ padel rackets?/i,'').replace(/ \(.*\)/,''):DICTS[lang].copy.best.titles[k][0];
+const L=(t,id)=>url(t,lang,id);
+const SITE='https://whichpadel.com';
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':H.allH,'numberOfItems':rackets.length,'itemListElement':rackets.slice(0,FIRST).map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
+const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
+const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
+const baseProps=EN?{alt:{en:'/',es:'/es/',fr:'/fr/'}}:{lang:DICTS[lang].locale};
+---
+<Base {...baseProps} title={H.title(rackets.length)} description={H.desc(rackets.length,brands.length)} jsonld={jsonld}>
+<section class="hero" slot="hero"><div class="wrap"><div>
+<span class="eyebrow">{H.eyebrow(rackets.length,brands.length)}</span>
+<h1>{H.h1a} <em>{H.h1b(rackets.length)}</em>{H.h1c}</h1>
+<p class="lead">{H.lead}</p>
+<a class="quizcta" href="#quiz">🎯<span>{H.qcta}<small>{H.qctaS}</small></span><span class="arr" aria-hidden="true">→</span></a>
+<form class="search" style="margin-top:16px" onsubmit="event.preventDefault();document.getElementById('f-q').value=this.q.value;document.getElementById('f-q').dispatchEvent(new Event('input'));document.getElementById('rackets').scrollIntoView({behavior:'smooth'})"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
+<div class="hero-ctas"><a class="btn btn-ghost" href={L('compare')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
+<div class="stats"><div><b>{rackets.length}</b><span>{H.stats[0]}</span></div><div><b>{brands.length}</b><span>{H.stats[1]}</span></div><div><b>0</b><span>{H.stats[2]}</span></div></div>
+</div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
+
+<section class="panel section" id="quiz"><div class="sec-head"><div><h2>{H.quizH}</h2><p class="muted" style="margin:0">{H.quizP(rackets.length)}</p></div></div>
+<form class="qsteps" id="qform" onsubmit="return false">
+<div class="qstep"><fieldset><legend><span class="qprog">1/3</span> {H.level}</legend><div class="chipset">{['beginner','intermediate','advanced'].map((v,i)=><label><input type="radio" name="level" value={v} checked={i===0}/><span>{H.levels[i]}</span></label>)}</div></fieldset></div>
+<div class="qstep"><fieldset><legend><span class="qprog">2/3</span> {H.play}</legend><div class="chipset">{['control','all','power','arm'].map((v,i)=><label><input type="radio" name="style" value={v} checked={i===1}/><span>{H.styles[i]}</span></label>)}</div></fieldset></div>
+<div class="qstep"><fieldset><legend><span class="qprog">3/3</span> {H.budget}</legend><div class="chipset">{['100','150','200',''].map((v,i)=><label><input type="radio" name="budget" value={v} checked={i===2}/><span>{H.budgets[i]}</span></label>)}</div></fieldset></div>
+<div><button class="btn btn-accent btn-lg" id="q-go" type="button" style="max-width:420px">{H.go}</button></div>
+</form>
+<div class="qres" id="qres" hidden aria-live="polite"></div>
+<ul class="trustbar"><li>{H.trust[0]}</li><li>{H.trust[1](rackets.length)}</li><li>{H.trust[2](lastChecked)}</li></ul></section>
+
+{rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><ul class="hrow">{x.rs.map(r=><li><a class="hc2" href={L('racket',r.slug)}><img src={r.image} alt={`${r.model} ${H.js.alt}`} width="126" height="120" loading="lazy" decoding="async"/><span class="m">{r.model}</span><span class="s">{x.l} <b>{x.f(r)}</b> · <Price r={r} lang={lang}/></span></a></li>)}</ul></section>)}
+<section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
+<ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brand2027',b.slug)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={EN?L('guide'):L('bestIndex')}>{H.allGuides}</a></li></ul></section>
+
+<section class="section" id="rackets"><div class="sec-head"><h2>{H.allH}</h2></div>
+<div class="fbar"><button class="btn" id="f-open" type="button" aria-controls="filters" aria-expanded="false">⚙ {H.filters} <span id="fn"></span></button><button class="btn btn-line" id="cmp-go3" type="button" hidden>{H.compare}</button></div>
+<div class="fshade" id="fshade" hidden></div>
+<div class="panel filters" id="filters" role="dialog" aria-label={H.filters}>
+<div class="fhead"><h3 style="margin:0">{H.filters}</h3><button class="x" type="button" id="f-x" aria-label={H.close}>✕</button></div>
+<label class="f-q">{H.fSearch} <input id="f-q" type="search" placeholder={H.fSearchPh}/></label>
+<label>{H.brand} <select id="f-brand"><option value="">{H.allBrands}</option>{brands.map(b=><option>{b}</option>)}</select></label>
+<label>{H.max} <input id="f-max" type="number" min="0" inputmode="numeric"/></label>
+<label>{H.sort} <select id="f-sort">{sorts.map((v,i)=><option value={v}>{H.sorts[i]}</option>)}</select></label>
+<div class="fchips"><fieldset><legend>{H.shape}</legend><div class="chipset" data-f="shape"><label><input type="radio" name="f-shape" value="" checked/><span>{H.any}</span></label>{['round','teardrop','diamond','hybrid'].map((v,i)=><label><input type="radio" name="f-shape" value={v}/><span>{H.shapes[i]}</span></label>)}</div></fieldset><fieldset><legend>{H.balance}</legend><div class="chipset" data-f="balance"><label><input type="radio" name="f-balance" value="" checked/><span>{H.any}</span></label>{['low','medium','high'].map((v,i)=><label><input type="radio" name="f-balance" value={v}/><span>{H.lmh[i]}</span></label>)}</div></fieldset><fieldset><legend>{H.core}</legend><div class="chipset" data-f="core"><label><input type="radio" name="f-core" value="" checked/><span>{H.any}</span></label>{['soft','medium','hard'].map((v,i)=><label><input type="radio" name="f-core" value={v}/><span>{H.smh[i]}</span></label>)}</div></fieldset></div>
+<div class="fapply"><button class="btn btn-line" type="button" id="f-clear2">{H.clear}</button><button class="btn btn-accent" type="button" id="f-done">{H.show} <span id="count3">{rackets.length}</span> {H.racketsW}</button></div>
+</div>
+<div class="toolbar"><b id="count" aria-live="polite">{rackets.length} {H.racketsW}</b><button class="btn btn-sm btn-line" id="f-clear" type="button">{H.clearF}</button><button class="btn btn-sm" id="cmp-go" type="button" hidden>{H.cmpSel}</button></div>
+<div class="grid" id="tbl" data-total={rackets.length}>{rackets.slice(0,FIRST).map((r,i)=>EN?<Card r={r}/>:<CardL r={r} lang={lang} eager={i<2}/>)}</div><p class="empty" id="empty" hidden>{H.empty}</p>
+<div class="more"><button class="btn btn-line" id="more" type="button">{H.more}</button><p class="muted small" id="shown"></p></div>
+<noscript><p>{H.noscript} <a href={L('brands')}>{H.brandsW}</a>.</p></noscript>
+{['round','teardrop','diamond','hybrid'].map(sh=><template id={`ic-${sh}`}><RacketIcon shape={sh} size={58}/></template>)}
+</section>
+{EN?<PriceAlert/>:<PriceAlertL lang={lang}/>}
+<div class="cmpbar" id="cmpbar" hidden><span id="cmpn"></span><button class="btn btn-accent btn-sm" id="cmp-go2" type="button">{H.cmpNow}</button></div>
+<script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null},HU,HL:lang,HS:H.js.showing.toString(),HTOP:H.js.top.toString(),HCT:H.js.cmpThese.toString()}}>
+HT.showing=(0,eval)(HS); HT.top=(0,eval)(HTOP); HT.cmpThese=(0,eval)(HCT);
+const T=HT, U=HU, EN=HL==='en';
+const lab=(w,v,enSuf)=>EN?(v[0].toUpperCase()+v.slice(1))+enSuf:w+' '+v;
+const bq=r=>(window.WP&&r.o&&r.o.length)?window.WP.best(r.o):null;
+const pt=r=>{const q=bq(r); return q?q.txt:(EN?r.p:T.noPrice);};
+const pn=r=>{if(EN&&!(window.WP&&window.WP.region!=='GB')) return r.g===''?null:+r.g; const q=bq(r); return q&&q.v!=null?q.v:null;};
+const pu=r=>{const q=bq(r); return (q&&q.u)||r.u;};
+
+const $=id=>document.getElementById(id); const grid=$('tbl'); const PAGE=24; let all=null, view=[], shown=PAGE, sel=new Set();
+const cap=s=>s?s[0].toUpperCase()+s.slice(1):'';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rv=n=>(document.querySelector(`input[name="${n}"]:checked`)||{}).value||'';
+const setR=(n,v)=>{const i=document.querySelector(`input[name="${n}"][value="${v}"]`); if(i) i.checked=true;};
+const pic=(r,w,h)=>r.i?`<img src="${r.i}" alt="${esc(r.m)} ${T.alt}" loading="lazy" decoding="async" width="${w}" height="${h}" style="width:${w}px;height:${h}px">`:'';
+function card(r){const tint=`hsl(${r.h} 55% 38%)`,face=`hsl(${r.h} 60% 95%)`;
+ const img=r.i?pic(r,93,110):($('ic-'+(r.sh||'hybrid'))||$('ic-hybrid')).innerHTML+`<span class="rlabel"><b style="color:${tint}">${esc(r.b)}</b><span>${r.sh?T.shp[r.sh]:T.na}</span></span>`;
+ const chips=[r.sh&&T.shp[r.sh],r.bl&&lab(T.balW,T.lvl[r.bl]||r.bl,' balance'),r.c&&lab(T.coreW,T.lvl[r.c]||r.c,' core')].filter(Boolean).map(c=>`<span class="chip">${c}</span>`).join('');
+ const bars=['power','control','forgiveness'].map(k=>`<div class="mb"><span>${T.rt[k]}</span><div class="bar"><i style="width:${r[k]}%"></i></div><b>${r[k]}</b></div>`).join('');
+ const u=U.rk+r.s+'/';
+ return `<article class="rcard"><a class="rimg" href="${u}" tabindex="-1" aria-hidden="true"><div class="rslot" style="--icon-line:${tint};--icon-face:${face}">${img}</div></a><div class="rbody"><p class="brand">${esc(r.b)} · ${r.y}</p><h3><a href="${u}">${esc(r.m)}</a></h3><div class="chips">${chips}</div><div class="minibars">${bars}</div><label class="cmpbox"><input type="checkbox" class="cmp" value="${r.s}" aria-label="${T.add}: ${esc(r.m)}" ${sel.has(r.s)?'checked':''}> ${T.add}</label><div class="rfoot"><span class="price">${esc(pt(r))}</span><a class="btn btn-sm" href="${u}" aria-label="${esc(r.m)}: ${T.details}">${T.details}</a></div></div></article>`;}
+async function load(){ if(!all){ all=await (await fetch('/cards.json')).json(); } return all; }
+function filt(){const q=$('f-q').value.toLowerCase().trim(),b=$('f-brand').value,s=rv('f-shape'),bl=rv('f-balance'),c=rv('f-core'),m=parseFloat($('f-max').value);
+ return all.filter(d=>(!q||d.m.toLowerCase().includes(q))&&(!b||d.b===b)&&(!s||d.sh===s)&&(!bl||d.bl===bl)&&(!c||d.c===c)&&(isNaN(m)||(pn(d)!=null&&pn(d)<=m)));}
+async function apply(){ await load(); view=filt();
+ const [k,dir]=($('f-sort').value||':').split(':');
+ if(k){const key={gbp:'g',year:'y',model:'m'}[k]||k; const gv=(d)=>key==='g'?(pn(d)??''):d[key]; view=[...view].sort((a,b)=>{const x=gv(a),y=gv(b); if(x===''||x==null) return 1; if(y===''||y==null) return -1; return (typeof x==='string'? x.localeCompare(y): x-y)*dir;});}
+ shown=PAGE; render(); }
+function render(){ grid.innerHTML=view.slice(0,shown).map(card).join(''); const t=view.length+' '+T.rk; $('count').textContent=t; $('count3').textContent=view.length; $('empty').hidden=view.length>0; $('more').hidden=shown>=view.length; $('shown').textContent=view.length?T.showing(Math.min(shown,view.length),view.length):'';
+ const n=[$('f-q').value,$('f-brand').value,rv('f-shape'),rv('f-balance'),rv('f-core'),$('f-max').value].filter(Boolean).length; $('fn').textContent=n?`(${n})`:''; }
+let t; ['f-q','f-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(t);t=setTimeout(apply,150)}));
+['f-brand','f-sort'].forEach(i=>$(i).addEventListener('change',apply));
+document.querySelectorAll('.fchips input').forEach(i=>i.addEventListener('change',apply));
+$('more').onclick=async()=>{ if(!all||!view.length){await apply();} shown+=PAGE; render(); };
+const clear=()=>{['f-q','f-brand','f-max','f-sort'].forEach(i=>$(i).value='');['f-shape','f-balance','f-core'].forEach(n=>setR(n,''));apply();};
+$('f-clear').onclick=clear; $('f-clear2').onclick=clear;
+const sheet=o=>{$('filters').classList.toggle('open',o);$('fshade').hidden=!o;$('f-open').setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';};
+$('f-open').onclick=()=>{load();sheet(true)}; $('f-x').onclick=$('fshade').onclick=()=>sheet(false); $('f-done').onclick=()=>{sheet(false);$('rackets').scrollIntoView();};
+const go=(list)=>{const s=(list||[...sel]).slice(0,3); if(s.length<2) return alert(T.tick); location.href=U.cmp+'?r='+s.join(',');};
+$('cmp-go').onclick=()=>go(); $('cmp-go2').onclick=()=>go(); $('cmp-go3').onclick=()=>go();
+grid.addEventListener('change',e=>{const cb=e.target.closest('.cmp'); if(!cb) return; if(cb.checked){ if(sel.size>=3){cb.checked=false; alert(T.max3); return;} sel.add(cb.value);} else sel.delete(cb.value); const n=sel.size; $('cmpbar').hidden=n<1; $('cmp-go3').hidden=n<2; $('cmp-go').hidden=n<2; $('cmpn').textContent=n+' '+T.sel+(n<2?T.pick:'');});
+// quiz
+const W={beginner:{forgiveness:3,comfort:2,handling:1},intermediate:{control:2,forgiveness:1,handling:1,value:1},advanced:{power:1,control:1,handling:1}};
+const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3},arm:{comfort:3,forgiveness:1}};
+const SHP={control:'round',all:'teardrop',power:'diamond',arm:'round'};
+$('q-go').onclick=async()=>{await load(); const L=rv('level'),S=rv('style'),B=rv('budget');
+ const w={...W[L]}; for(const [k,v] of Object.entries(SW[S])) w[k]=(w[k]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
+ const want=L==='beginner'?'round':SHP[S];
+ const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=+B)&&(L!=='beginner'||d.sh!=='diamond')&&(S!=='arm'||d.c!=='hard'));
+ const sc=d=>Object.entries(w).reduce((a,[k,v])=>a+(d[k]||0)*v,0)/tot+(d.sh===want?6:0)+(d.i?2:0);
+ const top=[...pool].sort((a,b)=>sc(b)-sc(a)).slice(0,3);
+ const why=d=>[d.sh&&lab(T.shapeW,T.shp[d.sh],' shape'),d.bl&&lab(T.balW,T.lvl[d.bl]||d.bl,' balance'),d.c&&lab(T.coreW,T.lvl[d.c]||d.c,' core')].filter(Boolean).join(' · ');
+ const keys=S==='power'?['power','control','value']:S==='arm'?['comfort','forgiveness','value']:L==='beginner'?['forgiveness','control','value']:['control','power','value'];
+ $('qres').innerHTML=top.length?`<h3>${T.top(top.length)}</h3><div class="qcards">${top.map((d,i)=>`<article class="qc"><span class="medal">#${i+1}</span>${d.i?pic(d,72,86):`<span class="noimg">${esc(cap(d.sh||'?')[0])}</span>`}<div><h4><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h4><p class="why">${esc(why(d))}</p><div class="ks">${keys.map(k=>`<span>${T.rt[k]} <b>${d[k]}</b></span>`).join('')}</div><span class="pr">${esc(pt(d))}</span></div><div class="act"><a class="btn aff btn-sm" rel="sponsored nofollow" data-affiliate="PLACEHOLDER" href="${esc(pu(d))}">${T.check}</a><a class="btn btn-line btn-sm" href="${U.rk}${d.s}/">${T.details}</a></div></article>`).join('')}</div>
+ <p class="disc">${T.ad} <a href="${U.aff}">${T.disc}</a></p>
+ <div class="qfoot">${top.length>1?`<a class="btn" id="q-cmp" href="${U.cmp}?r=${top.map(d=>d.s).join(',')}">${T.cmpThese(top.length)}</a>`:''}<button class="btn btn-line" type="button" id="q-all">${T.seeMatches}</button></div>`:'<p>'+T.noBudget+'</p>';
+ $('qres').hidden=false; $('qres').scrollIntoView({behavior:'smooth',block:'start'});
+ const qa=$('q-all'); if(qa) qa.onclick=()=>{clear(); setR('f-shape',want); if(B) $('f-max').value=B; $('f-sort').value=(keys[0])+':-1'; apply(); $('rackets').scrollIntoView({behavior:'smooth'});};
+ try{localStorage.quiz=JSON.stringify({L,S,B})}catch(e){} };
+$('shown').textContent=T.showing(PAGE,grid.dataset.total);
+document.addEventListener('wp:region',()=>{ if(all) render(); });
+</script>
+</Base>

@@ -1,0 +1,25 @@
+---
+import Base from '../../../layouts/Base.astro'; import Card from '../../../components/Card.astro'; import { brandList } from '../../../lib/data.js'; import { y27 } from '../../../lib/extra.js'; import { brandContent } from '../../../lib/seo-content.js';
+export function getStaticPaths(){ return brandList.map(b=>({params:{brand:b.slug},props:{b}})); }
+const { b } = Astro.props; const rs=[...b.rackets].sort((x,y)=>y.year-x.year||x.model.localeCompare(y.model));
+const U=`https://whichpadel.com/brands/${b.slug}/`;
+const cnt=k=>{const m={}; rs.forEach(r=>{if(r[k]) m[r[k]]=(m[r[k]]||0)+1}); return Object.entries(m).sort((a,c)=>c[1]-a[1]);};
+const shapes=cnt('shape'), years=[...new Set(rs.map(r=>r.year).filter(Boolean))].sort(); const prices=rs.map(r=>r.priceGBPApprox).filter(Boolean);
+const avg=k=>Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs.length);
+const introTxt=`We list ${rs.length} ${b.name} padel racket${rs.length>1?'s':''}${years.length?` from ${years[0]}${years.length>1?` to ${years.at(-1)}`:''}`:''}.`+(shapes.length&&rs.length>1?` The most common shape in the range is ${shapes[0][0]} (${shapes[0][1]} of ${rs.length})${shapes.length>1?`, followed by ${shapes[1][0]}`:''}.`:'')+(prices.length>1&&Math.min(...prices)!==Math.max(...prices)?` Recorded prices run from about £${Math.min(...prices)} to £${Math.max(...prices)}.`:prices.length?` The recorded price is about £${prices[0]}.`:'')+` Across the range, the average spec-based power score is ${avg('power')} and control is ${avg('control')}.`;
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':`${b.name} padel rackets`,'url':U,'numberOfItems':rs.length,'itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':i+1,'url':`https://whichpadel.com/rackets/${r.slug}/`,'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':'https://whichpadel.com/'},{'@type':'ListItem','position':2,'name':'Brands','item':'https://whichpadel.com/brands/'},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
+const bc=brandContent(b.slug); if(bc) jsonld['@graph'].push({'@type':'FAQPage','mainEntity':bc.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))});
+const others=brandList.filter(x=>x.slug!==b.slug);
+---
+<Base title={`${b.name} padel rackets: ${rs.length} model${rs.length>1?'s':''} compared | WhichPadel`} description={`${introTxt.slice(0,150).replace(/\s\S*$/,'')}… Compare every ${b.name} racket by specs and price.`} jsonld={jsonld}>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/brands/">Brands</a> › <span>{b.name}</span></nav>
+<h1>{b.name} padel rackets</h1>
+<p class="lead-sm">{bc?bc.blurb+' '+introTxt:introTxt}</p>{bc&&<p class="muted small">{bc.facts} <a href="/padel-rackets/">How to choose a padel racket →</a></p>}
+{y27.some(x=>x.slug===b.slug)&&<p><a class="btn btn-sm" href={`/brands/${b.slug}/2027/`}>See {b.name} 2027 rackets →</a></p>}
+{shapes.length>1&&<div class="bfilter"><div class="chipset" role="group" aria-label="Filter by shape"><label><input type="radio" name="bs" value="" checked/><span>All ({rs.length})</span></label>{shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{k[0].toUpperCase()+k.slice(1)} ({n})</span></label>)}</div><p class="muted small" id="bcount" aria-live="polite" style="margin:8px 0 0">Showing {rs.length} rackets</p></div>}
+<div class="grid" id="bgrid">{rs.map((r,i)=><Card r={r} eager={i<2}/>)}</div>
+<div class="toolbar"><span class="muted small">Tick 2–3 rackets to compare them.</span><button class="btn btn-sm" type="button" onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert('Tick 2 or 3 rackets'); location.href='/compare/?r='+s.join(',');">Compare selected</button></div>
+<script is:inline>document.querySelectorAll('input[name=bs]').forEach(i=>i.onchange=()=>{let n=0;document.querySelectorAll('#bgrid .rcard').forEach(c=>{const ok=!i.value||c.dataset.shape===i.value;c.hidden=!ok;n+=ok});document.getElementById('bcount').textContent='Showing '+n+' rackets'});</script>
+{bc&&<section class="panel"><h2>{b.name} padel racket FAQ</h2>{bc.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>}
+<section class="panel"><h2>Other brands</h2><p class="brandlinks">{others.map(o=><a href={`/brands/${o.slug}/`}>{o.name}</a>)}</p></section>
+</Base>

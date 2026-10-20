@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import { rackets } from '../lib/data.js';
+import { D, url, SITE } from '../i18n/index.js'; import { BEST_KEYS } from '../i18n/routes.js'; import { pickL, method } from '../i18n/lists.js';
+const { k, lang } = Astro.props; const d=D(lang), u=d.ui, B=d.copy.best; const [T,rule,intro]=B.titles[k];
+const top=pickL(k,lang).slice(0,15); const U=SITE+url('best',lang,k); const faq=B.faq(T,rule,top.length,top[0]?.model);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':T,'url':U,'numberOfItems':top.length,'itemListElement':top.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.bestLists,'item':SITE+url('bestIndex',lang)},{'@type':'ListItem','position':3,'name':T,'item':U}]},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+const others=BEST_KEYS.filter(x=>x!==k);
+---
+<Base lang={d.locale} title={B.title(T)+d.copy.titleSuffix} description={B.desc(T,top.length,rackets.length,top[0]?.model)} jsonld={jsonld}>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)} style="color:#9fb6c0">{u.home}</a> › <a href={url('bestIndex',lang)} style="color:#9fb6c0">{u.bestLists}</a></nav><span class="eyebrow">{u.updated(top.length)}</span><h1>{/2026/.test(T)?T:`${T} (2026)`}</h1>{intro&&<p>{intro}</p>}</div></section>
+<div class="rulebox"><b>{u.howBuilt}</b> {rule} {u.topShown(top.length)}</div>
+<div class="rlist" id="best">{top.map((r,i)=><CardL r={r} rank={i+1} lang={lang} eager={i===0}/>)}</div>
+<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('compare',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
+{method(k)&&<section class="panel" id="methodology"><h2>{u.methodology}</h2><p>{B.valueFormula}</p><p class="muted small">{B.valueNote}</p></section>}
+<section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<section class="panel vs"><h2>{u.otherLists}</h2>{others.map(o=><a href={url('best',lang,o)}><span>{B.titles[o][0]}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={url('guide',lang)}>{u.howToChoose}</a> · <a href={url('brands',lang)}>{u.byBrand}</a></p></section>
+</Base>

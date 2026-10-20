@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro'; import { feelData } from '../lib/extra.js'; import { rackets } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.tool;
+const D0=feelData(); const def=['bullpadel-vertex-05-2027','bullpadel-flow-legend-2027','nox-at10-pro-cup-hard-2026','adidas-metalbone-2026'].filter(s=>D0.some(x=>x.s===s)).slice(0,2);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebApplication','name':C.h1,'url':SITE+url('tool',lang),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},{'@type':'FAQPage','mainEntity':C.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+const S={need2:C.need2,balEst:C.balEst,bal:C.bal,same:C.same('§1','§2'),heavier:C.heavier('§1','§p','§2'),lightest:C.lightest('§1'),rk:url('racket',lang,'§')};
+---
+<Base lang={d.locale} title={C.title+d.copy.titleSuffix} description={C.desc(D0.length)} jsonld={jsonld}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.tools}</span></nav>
+<h1>{C.h1}</h1><p class="lead-sm">{C.lead}</p>
+<section class="panel" id="rw"><h2 class="h3">{C.pickH}</h2>
+<div class="rw-pick">{[0,1,2].map(i=><label><span class="small">{C.pick(i+1)}{i===2&&C.optional}</span><select data-i={i} aria-label={C.pick(i+1)}><option value="">{C.choose}</option>{D0.map(x=><option value={x.s} selected={def[i]===x.s}>{x.m}</option>)}</select></label>)}</div>
+<div id="rw-out" aria-live="polite"></div></section>
+<section class="panel" id="formula"><h2>{C.fH}</h2><p><b>{C.f}</b></p><p>{C.f1}</p><p class="muted small">{C.f2(rackets.length-D0.length,rackets.length)}</p></section>
+<section class="panel"><h2>{u.faq}</h2>{C.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<p class="small"><a href={url('guide',lang)}>{u.howToChoose}</a></p>
+<script is:inline define:vars={{D:D0,S,LG:lang}}>
+const by=Object.fromEntries(D.map(d=>[d.s,d])); const sels=[...document.querySelectorAll('#rw select')]; const out=document.getElementById('rw-out');
+const q=new URLSearchParams(location.search).get('r'); if(q) q.split(',').slice(0,3).forEach((s,i)=>{if(by[s]) sels[i].value=s;});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); const n=v=>String(v).replace('.',',');
+function draw(){const xs=sels.map(s=>by[s.value]).filter(Boolean); if(xs.length<2){out.innerHTML='<p class="muted small">'+S.need2+'</p>';return;}
+ const mx=Math.max(...xs.map(x=>x.x)); const lo=[...xs].sort((a,b)=>a.x-b.x)[0];
+ out.innerHTML='<div class="rw-rows">'+xs.map(x=>`<div class="rw-row"><div class="rw-n"><a href="${S.rk.replace('§',x.s)}">${esc(x.m)}</a><span class="small muted">${x.w} g · ${S.bal} ${n(x.cm)} cm${x.e?' ('+S.balEst+')':''}</span></div><div class="bar"><i style="width:${Math.round(x.x/mx*100)}%"></i></div><b>${x.x}</b></div>`).join('')+'</div>'+
+ '<ul class="rw-say">'+xs.filter(x=>x!==lo).map(x=>{const p=Math.round((x.x/lo.x-1)*100); return '<li>'+(p<=2?S.same.replace('§1',esc(x.m)).replace('§2',esc(lo.m)):S.heavier.replace('§1',esc(x.m)).replace('§p',p).replace('§2',esc(lo.m)))+'</li>'}).join('')+(xs.some(x=>x!==lo&&x.x/lo.x>1.02)?'<li>'+S.lightest.replace('§1',esc(lo.m))+'</li>':'')+'</ul>';
+ history.replaceState(null,'','?r='+xs.map(x=>x.s).join(','));}
+sels.forEach(s=>s.addEventListener('change',draw)); draw();
+</script>
+</Base>

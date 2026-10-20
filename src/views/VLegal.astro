@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro'; import { D } from '../i18n/index.js';
+const { lang, kind } = Astro.props; const L=D(lang).copy.legal; const priv=kind==='privacy';
+---
+<Base lang={D(lang).locale} title={(priv?L.privacyTitle:L.affTitle)+D(lang).copy.titleSuffix} description={priv?L.privacyDesc:L.affDesc}><article class="panel prose">
+<h1>{priv?L.privacyTitle:L.affTitle}</h1><p class="muted">{priv?L.updated:L.affUpdated}</p><Fragment set:html={priv?L.privacy:L.aff}/>
+</article></Base>

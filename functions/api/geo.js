@@ -1,0 +1,1 @@
+export const onRequest = ({ request }) => new Response(JSON.stringify({ country: request.cf?.country || request.headers.get('CF-IPCountry') || null }), { headers: { 'content-type': 'application/json', 'cache-control': 'private, no-store' } });

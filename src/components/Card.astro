@@ -1,0 +1,18 @@
+---
+import Price from './Price.astro';
+import RacketImage from './RacketImage.astro'; import { fmtPrice, cap } from '../lib/data.js';
+const { r, rank, eager = false } = Astro.props;
+const keys=['power','control','forgiveness'];
+---
+<article class="rcard" data-brand={r.brand} data-model={r.model.toLowerCase()} data-year={r.year} data-shape={r.shape||''} data-balance={r.balance||''} data-core={r.coreHardness||''} data-weight={r.weightMin??''} data-gbp={r.priceGBPApprox??''} data-power={r.ratings.power} data-control={r.ratings.control} data-forgiveness={r.ratings.forgiveness} data-value={r.ratings.value}>
+  {rank && <span class="rank">#{rank}</span>}
+  <a class="rimg" href={`/rackets/${r.slug}/`} tabindex="-1" aria-hidden="true"><RacketImage r={r} size={58} eager={eager}/></a>
+  <div class="rbody">
+    <p class="brand">{r.brand}{r.year&&<> · {r.year}</>}</p>
+    <h3><a href={`/rackets/${r.slug}/`}>{r.model}</a></h3>
+    <div class="chips">{r.shape&&<span class="chip">{cap(r.shape)}</span>}{r.balance&&<span class="chip">{cap(r.balance)} balance</span>}{r.coreHardness&&<span class="chip">{cap(r.coreHardness)} core</span>}{r.valueScore!=null&&<span class="chip" title="Value score, see /best/best-value-padel-rackets/">Value {r.valueScore}</span>}{r.weightMin&&<span class="chip">{r.weightMin}{r.weightMax&&r.weightMax!==r.weightMin?`–${r.weightMax}`:''} g</span>}</div>
+    <div class="minibars">{keys.map(k=><div class="mb"><span>{cap(k)}</span><div class="bar"><i style={`width:${r.ratings[k]}%`}></i></div><b>{r.ratings[k]}</b></div>)}</div>
+    <label class="cmpbox"><input type="checkbox" class="cmp" value={r.slug} aria-label={`Compare ${r.model}`}/> Add to compare</label>
+    <div class="rfoot"><Price r={r} cls="price"/><a class="btn btn-sm" href={`/rackets/${r.slug}/`} aria-label={`${r.model} details`}>Details</a></div>
+  </div>
+</article>

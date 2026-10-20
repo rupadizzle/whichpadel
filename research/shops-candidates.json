@@ -1,0 +1,401 @@
+[
+ {
+  "id": "padel-nuestro",
+  "name": "Padel Nuestro",
+  "website": "https://www.padelnuestro.com",
+  "ships_to": [
+   "ES",
+   "PT",
+   "FR",
+   "IT",
+   "DE",
+   "NL",
+   "BE",
+   "IE",
+   "GB",
+   "SE",
+   "US"
+  ],
+  "shipping_source": "https://www.padelnuestro.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "CJ (also Awin ES)",
+  "commission": "5-7.5%",
+  "cookie": "30d",
+  "signup": "https://www.cj.com/publisher",
+  "feed": "yes (CJ product catalog: price, stock, GTIN, image)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padel-market",
+  "name": "Padel Market",
+  "website": "https://www.padelmarket.com",
+  "ships_to": [
+   "ES",
+   "PT",
+   "IT",
+   "SE",
+   "GB",
+   "FR",
+   "DE",
+   "NL",
+   "BE",
+   "IE"
+  ],
+  "shipping_source": "https://www.padelmarket.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR/GBP/SEK",
+  "network": "Awin (ES 24562); UK via Tradetracker",
+  "commission": "5% (Awin) / 5% UK",
+  "cookie": "30d",
+  "signup": "https://ui.awin.com/merchant-profile/24562",
+  "feed": "yes - Awin feed 12,500+ products EN/IT/ES/SV",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "verified Awin profile; NOTE published terms ban copying images from site -> use feed images only"
+ },
+ {
+  "id": "zona-de-padel",
+  "name": "Zona de Padel",
+  "website": "https://www.zonadepadel.com",
+  "ships_to": [
+   "ES",
+   "PT",
+   "FR",
+   "IT",
+   "DE",
+   "NL",
+   "BE",
+   "GB",
+   "IE"
+  ],
+  "shipping_source": "https://www.zonadepadel.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "direct/in-house",
+  "commission": "7-10%",
+  "cookie": "30d?",
+  "signup": "email affiliate team",
+  "feed": "unknown - ask for CSV/XML",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padel-point-de",
+  "name": "Padel-Point DE",
+  "website": "https://www.padel-point.de",
+  "ships_to": [
+   "DE",
+   "AT",
+   "NL",
+   "BE",
+   "CH"
+  ],
+  "shipping_source": "https://www.padel-point.de (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "Awin 24050",
+  "commission": "8-9% content",
+  "cookie": "30d",
+  "signup": "https://ui.awin.com/merchant-profile/24050",
+  "feed": "yes - detailed product feed",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "verified (Awin profile / shop page fetched 2026-10-20)"
+ },
+ {
+  "id": "padel-point-fr",
+  "name": "Padel-Point FR",
+  "website": "https://www.padel-point.fr",
+  "ships_to": [
+   "FR",
+   "BE"
+  ],
+  "shipping_source": "https://www.padel-point.fr (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "Awin 25160",
+  "commission": "8-9% content",
+  "cookie": "30d",
+  "signup": "https://ui.awin.com/merchant-profile/25160",
+  "feed": "yes - detailed product feed",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "verified (Awin profile / shop page fetched 2026-10-20)"
+ },
+ {
+  "id": "padel-point-uk",
+  "name": "Padel-Point UK/ES/IT",
+  "website": "https://www.padel-point.co.uk",
+  "ships_to": [
+   "GB",
+   "ES",
+   "IT",
+   "NL",
+   "SE"
+  ],
+  "shipping_source": "https://www.padel-point.co.uk (shipping page - fetch failed / not yet verified)",
+  "currency": "GBP/EUR",
+  "network": "Awin (likely separate programmes per country)",
+  "commission": "~8%",
+  "cookie": "30d",
+  "signup": "https://www.awin.com",
+  "feed": "yes (Awin)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "ninepadel",
+  "name": "NINEPADEL",
+  "website": "https://ninepadel.com",
+  "ships_to": [
+   "GB",
+   "IE"
+  ],
+  "shipping_source": "https://ninepadel.com (shipping page - fetch failed / not yet verified)",
+  "currency": "GBP/EUR",
+  "network": "direct ?ref= code",
+  "commission": "10%",
+  "cookie": "30d",
+  "signup": "https://ninepadel.com/pages/affiliates",
+  "feed": "yes - public daily XML/CSV/JSON with price, stock, GTIN, image, specs",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "verified (Awin profile / shop page fetched 2026-10-20)"
+ },
+ {
+  "id": "time2padel",
+  "name": "Time2Padel",
+  "website": "https://www.time2padel.co.uk",
+  "ships_to": [
+   "GB"
+  ],
+  "shipping_source": "https://www.time2padel.co.uk (shipping page - fetch failed / not yet verified)",
+  "currency": "GBP",
+  "network": "Awin?",
+  "commission": "3.15%",
+  "cookie": "30d?",
+  "signup": "https://www.awin.com",
+  "feed": "probably (Awin)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "decathlon-uk",
+  "name": "Decathlon UK",
+  "website": "https://www.decathlon.co.uk",
+  "ships_to": [
+   "GB"
+  ],
+  "shipping_source": "https://www.decathlon.co.uk (shipping page - fetch failed / not yet verified)",
+  "currency": "GBP",
+  "network": "Awin",
+  "commission": "3%",
+  "cookie": "30d",
+  "signup": "https://www.awin.com",
+  "feed": "yes (Awin feed, EAN)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "decathlon-fr-es-it-de",
+  "name": "Decathlon FR/ES/IT/DE/NL/BE/PT",
+  "website": "https://www.decathlon.com",
+  "ships_to": [
+   "FR",
+   "ES",
+   "IT",
+   "DE",
+   "NL",
+   "BE",
+   "PT"
+  ],
+  "shipping_source": "https://www.decathlon.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "Awin/Effiliation/Rakuten per country",
+  "commission": "2-5%",
+  "cookie": "varies",
+  "signup": "per country",
+  "feed": "mostly yes",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padelproshop",
+  "name": "PadelProShop",
+  "website": "https://www.padelproshop.com",
+  "ships_to": [
+   "ES",
+   "PT",
+   "FR",
+   "IT",
+   "DE",
+   "NL",
+   "BE"
+  ],
+  "shipping_source": "https://www.padelproshop.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "direct/unknown",
+  "commission": "?",
+  "cookie": "?",
+  "signup": "contact",
+  "feed": "unknown",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "all-for-padel",
+  "name": "All For Padel",
+  "website": "https://www.allforpadel.com",
+  "ships_to": [
+   "ES",
+   "PT",
+   "FR",
+   "IT",
+   "DE",
+   "NL",
+   "BE",
+   "GB",
+   "IE"
+  ],
+  "shipping_source": "https://www.allforpadel.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "direct/unknown",
+  "commission": "?",
+  "cookie": "?",
+  "signup": "contact",
+  "feed": "unknown",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padel-usa",
+  "name": "Padel USA",
+  "website": "https://padelusa.com",
+  "ships_to": [
+   "US"
+  ],
+  "shipping_source": "https://padelusa.com (shipping page - fetch failed / not yet verified)",
+  "currency": "USD",
+  "network": "ShareASale/Awin US?",
+  "commission": "?",
+  "cookie": "?",
+  "signup": "contact",
+  "feed": "unknown",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "holabird",
+  "name": "Holabird Sports",
+  "website": "https://www.holabirdsports.com",
+  "ships_to": [
+   "US"
+  ],
+  "shipping_source": "https://www.holabirdsports.com (shipping page - fetch failed / not yet verified)",
+  "currency": "USD",
+  "network": "AvantLink",
+  "commission": "~5%",
+  "cookie": "?",
+  "signup": "https://www.avantlink.com",
+  "feed": "yes (AvantLink datafeed)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "tennis-warehouse",
+  "name": "Tennis Warehouse (padel section)",
+  "website": "https://www.tennis-warehouse.com",
+  "ships_to": [
+   "US"
+  ],
+  "shipping_source": "https://www.tennis-warehouse.com (shipping page - fetch failed / not yet verified)",
+  "currency": "USD",
+  "network": "AvantLink",
+  "commission": "~5-8%",
+  "cookie": "?",
+  "signup": "https://www.avantlink.com",
+  "feed": "yes (AvantLink datafeed)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padel-reference",
+  "name": "Padel Reference (FR)",
+  "website": "https://www.padel-reference.com",
+  "ships_to": [
+   "FR",
+   "BE"
+  ],
+  "shipping_source": "https://www.padel-reference.com (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "unknown",
+  "commission": "?",
+  "cookie": "?",
+  "signup": "contact",
+  "feed": "unknown",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "padelzon",
+  "name": "Padelzon / Swedish leader (e.g. Padelzon, Padelmarket SE)",
+  "website": "https://www.padelzon.se",
+  "ships_to": [
+   "SE"
+  ],
+  "shipping_source": "https://www.padelzon.se (shipping page - fetch failed / not yet verified)",
+  "currency": "SEK",
+  "network": "Adtraction?",
+  "commission": "?",
+  "cookie": "?",
+  "signup": "https://adtraction.com",
+  "feed": "yes (Adtraction feed)",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "amazon-uk",
+  "name": "Amazon UK",
+  "website": "https://www.amazon.co.uk",
+  "ships_to": [
+   "GB"
+  ],
+  "shipping_source": "https://www.amazon.co.uk (shipping page - fetch failed / not yet verified)",
+  "currency": "GBP",
+  "network": "Amazon Associates",
+  "commission": "~3-4% sports",
+  "cookie": "24h",
+  "signup": "https://affiliate-program.amazon.co.uk",
+  "feed": "no feed; PA-API needs 3 sales/180d; price display only via PA-API with 24h freshness",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified; strict price-display rules"
+ },
+ {
+  "id": "amazon-es",
+  "name": "Amazon ES",
+  "website": "https://www.amazon.es",
+  "ships_to": [
+   "ES",
+   "PT"
+  ],
+  "shipping_source": "https://www.amazon.es (shipping page - fetch failed / not yet verified)",
+  "currency": "EUR",
+  "network": "Amazon Associates",
+  "commission": "~3-4%",
+  "cookie": "24h",
+  "signup": "https://afiliados.amazon.es",
+  "feed": "as Amazon UK",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ },
+ {
+  "id": "amazon-us",
+  "name": "Amazon US",
+  "website": "https://www.amazon.com",
+  "ships_to": [
+   "US"
+  ],
+  "shipping_source": "https://www.amazon.com (shipping page - fetch failed / not yet verified)",
+  "currency": "USD",
+  "network": "Amazon Associates",
+  "commission": "~3%",
+  "cookie": "24h",
+  "signup": "https://affiliate-program.amazon.com",
+  "feed": "as Amazon UK",
+  "price_display_allowed": "yes if from network feed (standard); Amazon only via PA-API",
+  "status": "unverified - check on signup"
+ }
+]

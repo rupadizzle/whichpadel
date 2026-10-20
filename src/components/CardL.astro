@@ -1,0 +1,18 @@
+---
+import RacketImage from './RacketImage.astro'; import Price from './Price.astro'; import { D, url } from '../i18n/index.js';
+const { r, rank, lang, eager=false } = Astro.props; const d=D(lang); const t=d.terms; const keys=['power','control','forgiveness'];
+const href=url('racket',lang,r.slug);
+const bal=t.bal[r.balance];
+---
+<article class="rcard" data-shape={r.shape||''}>
+  {rank && <span class="rank">#{rank}</span>}
+  <a class="rimg" href={href} tabindex="-1" aria-hidden="true"><RacketImage lang={lang} r={r} size={58} eager={eager}/></a>
+  <div class="rbody">
+    <p class="brand">{r.brand}{r.year&&<> · {r.year}</>}</p>
+    <h3><a href={href}>{r.model}</a></h3>
+    <div class="chips">{r.shape&&<span class="chip">{t.shapeCap[r.shape]}</span>}{bal&&<span class="chip">{t.balWord} {bal}</span>}{r.coreHardness&&<span class="chip">{t.coreWord} {t.core[r.coreHardness]}</span>}{r.valueScore!=null&&<span class="chip">{t.rt.value} {r.valueScore}</span>}{r.weightMin&&<span class="chip">{r.weightMin}{r.weightMax&&r.weightMax!==r.weightMin?`–${r.weightMax}`:''} g</span>}</div>
+    <div class="minibars">{keys.map(k=><div class="mb"><span>{t.rt[k]}</span><div class="bar"><i style={`width:${r.ratings[k]}%`}></i></div><b>{r.ratings[k]}</b></div>)}</div>
+    <label class="cmpbox"><input type="checkbox" class="cmp" value={r.slug} aria-label={`${d.ui.addToCompare}: ${r.model}`}/> {d.ui.addToCompare}</label>
+    <div class="rfoot"><Price r={r} lang={lang} cls="price"/><a class="btn btn-sm" href={href} aria-label={`${d.ui.details}: ${r.model}`}>{d.ui.details}</a></div>
+  </div>
+</article>

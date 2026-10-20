@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro';
+import { brandList } from '../lib/data.js'; import { y27 } from '../lib/extra.js';
+import { D, url, SITE } from '../i18n/index.js'; import { brandStats, brandFaq } from '../i18n/stats.js';
+const { b, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brand, t=d.terms;
+const rs=[...b.rackets].sort((x,y)=>(y.year||0)-(x.year||0)||x.model.localeCompare(y.model)); const x=brandStats(b,lang); const faq=brandFaq(b,lang,d);
+const intro=(C.blurb[b.slug]||C.generic(b.name))+' '+C.intro(b.name,x,t); const U=SITE+url('brand',lang,b.slug);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':C.h1(b.name),'url':U,'numberOfItems':rs.length,'itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
+const others=brandList.filter(o=>o.slug!==b.slug); const has27=y27.some(y=>y.slug===b.slug);
+---
+<Base lang={d.locale} title={C.title(b.name,rs.length)+d.copy.titleSuffix} description={C.desc(b.name,x)} jsonld={jsonld}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav>
+<h1>{C.h1(b.name)}</h1>
+<p class="lead-sm">{intro}</p>
+{has27&&<p><a class="btn btn-sm" href={url('brand2027',lang,b.slug)}>{C.see2027(b.name)}</a></p>}
+{x.shapes.length>1&&<div class="bfilter"><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div><p class="muted small" id="bcount" aria-live="polite" style="margin:8px 0 0">{C.showing(rs.length)}</p></div>}
+<div class="grid" id="bgrid">{rs.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>
+<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('compare',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
+<script is:inline define:vars={{SH:C.showing(0)}}>document.querySelectorAll('input[name=bs]').forEach(i=>i.onchange=()=>{let n=0;document.querySelectorAll('#bgrid .rcard').forEach(c=>{const ok=!i.value||c.dataset.shape===i.value;c.hidden=!ok;n+=ok});document.getElementById('bcount').textContent=SH.replace('0',n)});</script>
+<section class="panel"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<section class="panel"><h2>{u.otherBrands}</h2><p class="brandlinks">{others.map(o=><a href={url('brand',lang,o.slug)}>{o.name}</a>)}</p></section>
+</Base>

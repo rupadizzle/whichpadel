@@ -1,0 +1,8 @@
+---
+const { racket, price } = Astro.props;
+---
+<section class="offer alert-panel"><div><h2 class="h3">🔔 {racket?`Get told when the ${racket} drops in price`:'Never overpay for a racket'}</h2>
+<p>{racket?`We'll email you once if it drops below ${price||'today’s recorded price'} at UK or Spanish padel shops.`:'Set a budget and we’ll email you when a matching racket drops below it.'}</p>
+<ul><li>One email per drop</li><li>No spam</li><li>Unsubscribe anytime</li></ul></div>
+<form class="inline-form" onsubmit="event.preventDefault();const i=this.querySelector('input[type=email]');if(!i.checkValidity()){i.reportValidity();return}this.querySelector('p').hidden=false"><input type="email" required placeholder="you@example.com" aria-label="Email" autocomplete="email"/>{!racket&&<input type="number" min="0" inputmode="numeric" placeholder="Max price £ (optional)" aria-label="Max price"/>}<button class="btn btn-accent">Alert me</button><p hidden class="ok">Thanks! (Placeholder: nothing was stored or sent.)</p>
+<p class="muted small" style="margin:0">Placeholder: not connected to an email tool yet. See our <a href="/privacy/">privacy policy</a>.</p></form></section>

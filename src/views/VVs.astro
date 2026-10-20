@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro';
+import { vsPairs, sh } from '../lib/vs.js'; import { offersOf } from '../lib/price.js'; import { D, url, SITE, P, Pnum, balTxt, wt, mat } from '../i18n/index.js';
+const { p, lang } = Astro.props; const {A,B}=p; const xs=[A,B]; const d=D(lang), u=d.ui, C=d.copy.vs, t=d.terms, c=u.cmp;
+const a=sh(A), b=sh(B); const df=k=>A.ratings[k]-B.ratings[k]; const hi=k=>Math.max(A.ratings[k],B.ratings[k]), lo=k=>Math.min(A.ratings[k],B.ratings[k]);
+const gaps=['power','control','handling','forgiveness','comfort'].map(k=>[k,df(k)]).sort((x,y)=>Math.abs(y[1])-Math.abs(x[1])); const [gk,gv]=gaps[0];
+const w=k=>df(k)>0?a:df(k)<0?b:null; const fg=(A.ratings.forgiveness+A.ratings.comfort)-(B.ratings.forgiveness+B.ratings.comfort);
+const pa=Pnum(A,lang), pb=Pnum(B,lang); const cheap=pa!=null&&pb!=null&&pa!==pb?(pa<pb?a:b):null;
+const x={A:A.model,B:B.model,a,b,sameBrand:A.brand===B.brand,brandA:A.brand,brandB:B.brand,shA:A.shape,shB:B.shape,wA:wt(A),wB:wt(B),balA:balTxt(A,lang),balB:balTxt(B,lang),cA:A.coreHardness,cB:B.coreHardness,gap:Math.abs(gv),gapK:gk,gapW:gv>0?a:b,gapHi:hi(gk),gapLo:lo(gk),pw:w('power'),pwHi:hi('power'),pwLo:lo('power'),ct:w('control'),ctHi:hi('control'),ctLo:lo('control'),fg:fg?(fg>0?a:b):null,cheap,cheapP:cheap?(cheap===a?P(A,lang):P(B,lang)):null,expP:cheap?(cheap===a?P(B,lang):P(A,lang)):null,pA:P(A,lang),pB:P(B,lang)};
+const intro=C.intro(x,t), verdict=C.verdict(x), faq=C.faq(x); const U=SITE+url('vs',lang,p.slug);
+const win=(vals,h=true)=>{const n=vals.filter(v=>typeof v==='number'); if(n.length<2||n[0]===n[1]) return null; return h?Math.max(...n):Math.min(...n);};
+const SC=['power','control','handling','forgiveness','comfort','value']; const pw=win([pa,pb],false);
+const spec=r=>[[t.spec.shape,t.shapeCap[r.shape]],[t.spec.weight,wt(r)],[t.spec.balance,balTxt(r,lang)],[t.spec.core,mat(r.coreMaterial,lang)],[t.spec.hardness,t.core[r.coreHardness]],[t.spec.face,mat(r.faceMaterial,lang)],[t.spec.thickness,r.thicknessMm?r.thicknessMm+' mm':null],[t.spec.year,r.year]];
+const SA=spec(A), SB=spec(B);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','mainEntity':faq.map(([q,an])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':an}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.compare,'item':SITE+url('compare',lang)},{'@type':'ListItem','position':3,'name':`${a} vs ${b}`,'item':U}]}]};
+const others=vsPairs.filter(o=>o.slug!==p.slug).slice(0,6);
+---
+<Base lang={d.locale} title={C.title(A.model,B.model)+d.copy.titleSuffix} description={C.desc(a,b).slice(0,158)} jsonld={jsonld} ogImage={A.image?`${SITE}${A.image}`:undefined}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('compare',lang)}>{u.compare}</a> › <span>{a} vs {b}</span></nav>
+<div class="cmp-intro"><h1>{a} vs {b}</h1><p class="muted">{intro}</p></div>
+<div class="cmp" style="--n:2">
+<div class="chead" style="--n:2">{xs.map(r=><div class="hc"><RacketImage lang={lang} r={r} size={48}/><a class="hn" href={url('racket',lang,r.slug)}>{sh(r)}</a><Price r={r} lang={lang} cls="hp"/></div>)}</div>
+<section class="verdict" aria-label={c.ourVerdict}><h2 class="h3">{c.ourVerdict}</h2><p style="margin:0">{verdict}</p></section>
+<details class="cgroup" open><summary>{c.price}</summary><div class="crow"><div class="clab">{u.recordedPrice}</div><div class="cvals" style="--n:2">{xs.map((r,i)=><div class={`cv${pw!==null&&[pa,pb][i]===pw?' win':''}`}><b><Price r={r} lang={lang}/></b>{r.priceChecked&&<span class="tiny">{u.checked} {r.priceChecked}</span>}</div>)}</div></div></details>
+<details class="cgroup" open><summary>{c.ratings}</summary>{SC.map(k=>{const wv=win([A.ratings[k],B.ratings[k]]); return <div class="crow"><div class="clab">{t.rt[k]}</div><div class="cvals" style="--n:2">{xs.map(r=><div class={`cv${wv!==null&&r.ratings[k]===wv?' win':''}`}><b>{r.ratings[k]}</b><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span></div>)}</div></div>;})}</details>
+<details class="cgroup" open><summary>{c.specsH}</summary>{SA.map(([k,v],i)=>(v!=null||SB[i][1]!=null)&&<div class="crow"><div class="clab">{k}</div><div class="cvals" style="--n:2"><div class="cv">{v??u.notPublished}</div><div class="cv">{SB[i][1]??u.notPublished}</div></div></div>)}</details>
+<div class="buyrow" style="--n:2">{xs.map(r=><a class="btn aff" rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={JSON.stringify(offersOf(r))} href={r.productUrl} aria-label={`${u.checkPrice}: ${r.model}`}><span class="bn">{sh(r)}</span><span>{u.checkPrice}</span></a>)}<p class="disc">{u.adNoteShort} <a href={url('affiliate',lang)}>{u.disclosure}</a></p></div>
+</div>
+<p class="muted small trust">{u.ratingsNote} <a href={url('compare',lang)+`?r=${A.slug},${B.slug}`}>{c.addThird}</a></p>
+<section class="panel"><h2>{C.faqH(a,b)}</h2>{faq.map(([q,an])=><div class="faq"><h3>{q}</h3><p>{an}</p></div>)}</section>
+<section class="panel vs"><h2>{u.moreVs}</h2>{others.map(o=><a href={url('vs',lang,o.slug)}><span>{o.A.model} vs {o.B.model}</span><span>→</span></a>)}</section>
+</Base>

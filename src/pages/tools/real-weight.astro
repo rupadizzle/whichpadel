@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro'; import { feelData } from '../../lib/extra.js'; import { rackets } from '../../lib/data.js';
+const D=feelData(); const def=['bullpadel-vertex-05-2027','bullpadel-flow-legend-2027','nox-at10-pro-cup-hard-2026','adidas-metalbone-2026'].filter(s=>D.some(d=>d.s===s)).slice(0,2);
+const faq=[['What is swingweight in padel?','Swingweight is how heavy a racket feels when you swing it, which depends on how far its weight sits from your hand as well as on the total weight. Two rackets of the same weight can feel very different if one is head-heavy.'],['Is this a measured swingweight?','No. Brands rarely publish swingweight, so this tool estimates a head-feel index from the published weight and balance. Treat it as a guide for comparing rackets, not a lab measurement.'],['What does a higher head-feel index mean?','A higher number means more of the racket’s mass sits towards the head, so it will usually feel heavier to swing, give more weight behind smashes and be slower to react at the net.']];
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebApplication','name':'Padel racket real-weight estimator','url':'https://whichpadel.com/tools/real-weight/','applicationCategory':'SportsApplication','offers':{'@type':'Offer','price':'0','priceCurrency':'GBP'}},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+---
+<Base title="Padel racket real weight: how heavy it feels to swing | WhichPadel" description={`Estimate how heavy a padel racket feels in the head from its published weight and balance. Compare 2–3 of ${D.length} rackets with a clear, open formula.`} jsonld={jsonld} preload={null}>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Real-weight tool</span></nav>
+<h1>How heavy will it feel? Padel racket real-weight tool</h1>
+<p class="lead-sm">The number on the box is the static weight. What your arm feels is closer to swingweight: the same 360 g feels heavier if more of it sits in the head. Pick 2–3 rackets to see which will feel heavier or lighter in the head.</p>
+<section class="panel" id="rw"><h2 class="h3">Compare rackets</h2>
+<div class="rw-pick">{[0,1,2].map(i=><label><span class="small">Racket {i+1}{i===2&&' (optional)'}</span><select data-i={i} aria-label={`Racket ${i+1}`}><option value="">Choose…</option>{D.map(d=><option value={d.s} selected={def[i]===d.s}>{d.m}</option>)}</select></label>)}</div>
+<div id="rw-out" aria-live="polite"></div></section>
+<section class="panel" id="formula"><h2>The formula (an estimate)</h2>
+<p><b>Head-feel index = average published weight (g) × (balance point in cm − 10) ÷ 100</b></p>
+<p>The 10 cm is roughly where your hand pivots on the grip. The further the balance point sits beyond it, and the heavier the racket, the more effort it takes to swing. Where a brand publishes balance as a word, we use 25.5 cm for low, 26.5 cm for medium and 27.5 cm for high; those rackets are marked “balance estimated”.</p>
+<p class="muted small">This is a simplified estimate from published specs, not a measured swingweight. Real swingweight also depends on how mass is spread along the frame, which brands don’t publish. {rackets.length-D.length} of our {rackets.length} rackets are left out because their weight or balance isn’t published.</p></section>
+<section class="panel"><h2>FAQ</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<p class="small"><a href="/padel-rackets/">How to choose a padel racket →</a></p>
+<script is:inline define:vars={{D}}>
+const by=Object.fromEntries(D.map(d=>[d.s,d])); const sels=[...document.querySelectorAll('#rw select')]; const out=document.getElementById('rw-out');
+const q=new URLSearchParams(location.search).get('r'); if(q) q.split(',').slice(0,3).forEach((s,i)=>{if(by[s]) sels[i].value=s;});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function draw(){const xs=sels.map(s=>by[s.value]).filter(Boolean); if(xs.length<2){out.innerHTML='<p class="muted small">Choose at least 2 rackets.</p>';return;}
+ const mx=Math.max(...xs.map(x=>x.x)); const lo=[...xs].sort((a,b)=>a.x-b.x)[0];
+ out.innerHTML='<div class="rw-rows">'+xs.map(x=>`<div class="rw-row"><div class="rw-n"><a href="/rackets/${x.s}/">${esc(x.m)}</a><span class="small muted">${x.w} g · balance ${x.cm} cm${x.e?' (balance estimated)':''}</span></div><div class="bar"><i style="width:${Math.round(x.x/mx*100)}%"></i></div><b>${x.x}</b></div>`).join('')+'</div>'+
+ '<ul class="rw-say">'+xs.filter(x=>x!==lo).map(x=>{const p=Math.round((x.x/lo.x-1)*100); return `<li>${p<=2?`<b>${esc(x.m)}</b> should feel about the same in the head as the ${esc(lo.m)}.`:`<b>${esc(x.m)}</b> should feel about ${p}% heavier in the head than the ${esc(lo.m)}.`}</li>`}).join('')+(xs.some(x=>x!==lo&&x.x/lo.x>1.02)?`<li><b>${esc(lo.m)}</b> is the lightest-feeling of these, so it should be quickest at the net.</li>`:'')+'</ul>';
+ history.replaceState(null,'','?r='+xs.map(x=>x.s).join(','));}
+sels.forEach(s=>s.addEventListener('change',draw)); draw();
+</script>
+</Base>

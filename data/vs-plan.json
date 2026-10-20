@@ -1,0 +1,107 @@
+{
+ "note": "Curated vs pages plan (data only, not built). Slugs must exist in rackets.normalised.json; validated by script. URL pattern proposal: /compare/{a}-vs-{b}/",
+ "pairs": [
+  {
+   "a": "adidas-metalbone-2026",
+   "b": "nox-at10-pro-cup-hard-2026",
+   "why": "Adidas Metalbone 2026 vs Nox AT10 Pro Cup HARD 2026 by Agust\u00edn Tapia",
+   "target": "adidas metalbone vs nox at10 pro cup hard"
+  },
+  {
+   "a": "head-evo-speed-2025",
+   "b": "nox-x-one-silhouette-2026",
+   "why": "Head Evo Speed 2025 vs Nox X-One Silhouette 2026",
+   "target": "head evo speed vs nox x-one silhouette"
+  },
+  {
+   "a": "bullpadel-vertex-04-2025",
+   "b": "bullpadel-hack-04-2026",
+   "why": "Bullpadel Vertex 04 2025 vs Bullpadel Hack 04 2026",
+   "target": "bullpadel vertex 04 vs bullpadel hack 04"
+  },
+  {
+   "a": "babolat-technical-viper-3-0-2026",
+   "b": "babolat-air-viper-2-6",
+   "why": "Babolat Technical Viper 3.0 2026 vs Babolat Air Viper 2.6",
+   "target": "babolat technical viper 3.0 vs babolat air viper 2.6"
+  },
+  {
+   "a": "nox-at10-pro-cup-hard-2026",
+   "b": "nox-ml10-pro-cup-coorp-2027",
+   "why": "Nox AT10 Pro Cup HARD 2026 by Agust\u00edn Tapia vs Nox ML10 Pro Cup COORP by Miguel Lamperti 2027",
+   "target": "nox at10 pro cup hard vs nox ml10 pro cup coorp by miguel lamperti"
+  },
+  {
+   "a": "head-coello-pro-2026",
+   "b": "nox-at10-pro-cup-hard-2026",
+   "why": "Head Coello Pro 2026 vs Nox AT10 Pro Cup HARD 2026 by Agust\u00edn Tapia",
+   "target": "head coello pro vs nox at10 pro cup hard"
+  },
+  {
+   "a": "bullpadel-vertex-05-2027",
+   "b": "adidas-metalbone-2026",
+   "why": "Bullpadel Vertex 05 2027 vs Adidas Metalbone 2026",
+   "target": "bullpadel vertex 05 vs adidas metalbone"
+  },
+  {
+   "a": "babolat-counter-crest",
+   "b": "head-gravity-pro-2024",
+   "why": "Babolat Counter Crest vs Head Gravity Pro 2024",
+   "target": "babolat counter crest vs head gravity pro"
+  },
+  {
+   "a": "wilson-bela-pro-v3-2025",
+   "b": "babolat-technical-viper-3-0-2026",
+   "why": "Wilson Bela Pro V3 2025 vs Babolat Technical Viper 3.0 2026",
+   "target": "wilson bela pro v3 vs babolat technical viper 3.0"
+  },
+  {
+   "a": "head-extreme-pro-2026",
+   "b": "head-speed-pro-2025",
+   "why": "Head Extreme Pro 2026 vs Head Speed Pro 2025",
+   "target": "head extreme pro vs head speed pro"
+  },
+  {
+   "a": "adidas-match-black-2026",
+   "b": "head-evo-speed-2025",
+   "why": "Adidas Match Black 2026 vs Head Evo Speed 2025",
+   "target": "adidas match black vs head evo speed"
+  },
+  {
+   "a": "bullpadel-flow-legend-2027",
+   "b": "bullpadel-indiga-w-2026",
+   "why": "Bullpadel Flow Legend 2027 vs Bullpadel Indiga W 2026",
+   "target": "bullpadel flow legend vs bullpadel indiga w"
+  },
+  {
+   "a": "siux-electra-pro-it-2026",
+   "b": "bullpadel-vertex-05-2027",
+   "why": "Siux Electra Pro IT 2026 vs Bullpadel Vertex 05 2027",
+   "target": "siux electra pro it vs bullpadel vertex 05"
+  },
+  {
+   "a": "starvie-shade-2027",
+   "b": "nox-at10-pro-cup-hard-2026",
+   "why": "StarVie Shade 2027 vs Nox AT10 Pro Cup HARD 2026 by Agust\u00edn Tapia",
+   "target": "starvie shade vs nox at10 pro cup hard"
+  },
+  {
+   "a": "adidas-cross-it-ctrl-2026",
+   "b": "adidas-metalbone-2026",
+   "why": "Adidas Cross IT Ctrl 2026 vs Adidas Metalbone 2026",
+   "target": "adidas cross it ctrl vs adidas metalbone"
+  },
+  {
+   "a": "babolat-technical-veron-3-0-2026",
+   "b": "babolat-technical-viper-3-0-2026",
+   "why": "Babolat Technical Veron 3.0 2026 vs Babolat Technical Viper 3.0 2026",
+   "target": "babolat technical veron 3.0 vs babolat technical viper 3.0"
+  },
+  {
+   "a": "wilson-bela-v3-2025",
+   "b": "head-coello-pro-2026",
+   "why": "Wilson Bela V3 2025 vs Head Coello Pro 2026",
+   "target": "wilson bela v3 vs head coello pro"
+  }
+ ]
+}

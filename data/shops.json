@@ -1,0 +1,517 @@
+{
+ "note": "delivers = verified delivery regions; unknown = not verified (we still show the price, flagged); no = known not to deliver (we show Check price only). Region codes match src/lib/price.js REGIONS.",
+ "updated": "2026-10-20",
+ "shops": {
+  "padelnuestro.com": {
+   "name": "Padel Nuestro",
+   "delivers": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB"
+   ],
+   "unknown": [
+    "US",
+    "ROW"
+   ],
+   "source": "https://www.padelnuestro.com/uk/shipping-and-delivery (checked 2026-10-20)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "allforpadel.com": {
+   "name": "All For Padel",
+   "delivers": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU"
+   ],
+   "unknown": [
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "https://allforpadel.com/en/inf/33-faq (EU 3–7 days; other destinations listed on its shipping page, not verified)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "decathlon.co.uk": {
+   "name": "Decathlon UK",
+   "delivers": [
+    "GB"
+   ],
+   "unknown": [
+    "IE"
+   ],
+   "no": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "EU",
+    "US",
+    "ROW"
+   ],
+   "source": "UK store (domain); other countries use their own Decathlon sites",
+   "affiliate": "PLACEHOLDER"
+  },
+  "padelsmith.co.uk": {
+   "name": "Padelsmith",
+   "delivers": [
+    "GB"
+   ],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "US",
+    "ROW"
+   ],
+   "source": "UK store; international delivery not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "mantissport.com": {
+   "name": "Mantis",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "tennis-warehouse.com": {
+   "name": "Tennis Warehouse",
+   "delivers": [
+    "US"
+   ],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "ROW"
+   ],
+   "source": "US store; international delivery not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "babolat.com": {
+   "name": "babolat.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "bullpadel.com": {
+   "name": "bullpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "corkpadel.com": {
+   "name": "corkpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "dunlopsports.com": {
+   "name": "dunlopsports.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "es.dropshotstore.com": {
+   "name": "es.dropshotstore.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "head.com": {
+   "name": "head.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "joma-sport.com": {
+   "name": "joma-sport.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "noxsport.com": {
+   "name": "noxsport.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "oxdog.net": {
+   "name": "oxdog.net",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "oxdogpadel.com": {
+   "name": "oxdogpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "royalpadel.com": {
+   "name": "royalpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "shooterpadel.com": {
+   "name": "shooterpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "siuxpadel.com": {
+   "name": "siuxpadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "starvie.com": {
+   "name": "starvie.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "tecnifibre.com": {
+   "name": "tecnifibre.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "varlion.com": {
+   "name": "varlion.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "viborapadel.com": {
+   "name": "viborapadel.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  },
+  "wilson.com": {
+   "name": "wilson.com",
+   "delivers": [],
+   "unknown": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "IE",
+    "SE",
+    "EU",
+    "GB",
+    "US",
+    "ROW"
+   ],
+   "source": "brand/shop page; delivery countries not verified",
+   "affiliate": "PLACEHOLDER"
+  }
+ }
+}

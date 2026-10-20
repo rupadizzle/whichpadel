@@ -1,0 +1,56 @@
+---
+import Price from '../../components/Price.astro'; import { offersOf } from '../../lib/price.js';
+import Base from '../../layouts/Base.astro'; import PriceAlert from '../../components/PriceAlert.astro'; import RacketImage from '../../components/RacketImage.astro'; import { rackets, fmtPrice, cap, intro, brandSlug, absImg, lists, playerSlug } from '../../lib/data.js';
+export function getStaticPaths(){ return rackets.map(r=>({params:{slug:r.slug},props:{r}})); }
+const { r } = Astro.props;
+const rows=[['Brand',r.brand],['Year',r.year],['Shape',cap(r.shape)],['Weight',r.weight],['Balance',cap(r.balance)],['Core',r.coreMaterial],['Core hardness',cap(r.coreHardness)],['Face',r.faceMaterial],['Frame',r.frame],['Thickness',r.thicknessMm?r.thicknessMm+' mm':null],...(r.player?[['Player',r.player]]:[]),['Value score',r.valueScore!=null?`${r.valueScore}/100`:null],['Price',fmtPrice(r)+(r.priceChecked?` (checked ${r.priceChecked})`:'')]];
+const srcKey={Shape:'shape',Weight:'weight',Balance:'balance',Core:'core',Face:'surface',Frame:'frame',Thickness:'thicknessMm',Price:'price'};
+const similar=rackets.filter(x=>x.slug!==r.slug&&x.shape===r.shape&&x.priceGBPApprox&&r.priceGBPApprox&&Math.abs(x.priceGBPApprox-r.priceGBPApprox)<40).slice(0,3);
+const bs=brandSlug(r.brand); const sameBrand=rackets.filter(x=>x.brand===r.brand&&x.slug!==r.slug).slice(0,6);
+const inLists=Object.entries(lists).filter(([k,v])=>v.pick(rackets).slice(0,15).some(x=>x.slug===r.slug));
+const U=`https://whichpadel.com/rackets/${r.slug}/`;
+const jsonld={'@context':'https://schema.org','@graph':[
+ {'@type':'Product','name':r.model,'url':U,'brand':{'@type':'Brand','name':r.brand},...(r.image?{'image':absImg(r)}:{}),'description':intro(r),'category':'Padel racket',...(r.price!=null?{'offers':{'@type':'Offer','price':String(r.price),'priceCurrency':r.currency,'url':r.productUrl,...(r.priceChecked?{'priceValidUntil':undefined}:{})}}:{}),
+  'additionalProperty':[['Shape',r.shape],['Weight',r.weight],['Balance',r.balance],['Core',r.coreMaterial],['Face',r.faceMaterial],['Year',r.year]].filter(x=>x[1]).map(([n,v])=>({'@type':'PropertyValue','name':n,'value':String(v)}))},
+ {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':'https://whichpadel.com/'},{'@type':'ListItem','position':2,'name':'Brands','item':'https://whichpadel.com/brands/'},{'@type':'ListItem','position':3,'name':r.brand,'item':`https://whichpadel.com/brands/${bs}/`},{'@type':'ListItem','position':4,'name':r.model,'item':U}]}]};
+const desc=`${r.model}: ${[r.shape&&r.shape+' shape',r.weightMin&&r.weightMin+(r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:'')+' g',r.balance&&r.balance+' balance',r.coreHardness&&r.coreHardness+' core'].filter(Boolean).join(', ')}. Sourced specs, spec-based ratings (power ${r.ratings.power}, control ${r.ratings.control})${r.priceGBPApprox?` and a recorded price of about £${r.priceGBPApprox}`:''}.`;
+const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
+import { vsFor } from '../../lib/vs.js';
+import { isWomens, extraLists } from '../../lib/seo-content.js';
+const lvl=isWomens(r)?'best-womens-padel-rackets':r.shape==='round'?'best-padel-rackets-for-beginners':r.shape==='diamond'?'best-advanced-padel-rackets':'best-intermediate-padel-rackets';
+const lvlT=({...lists,...extraLists})[lvl]?.title;
+const avg=Math.round(Object.values(r.ratings).reduce((a,b)=>a+b,0)/Object.values(r.ratings).length);
+---
+<Base title={`${r.model}: specs, ratings and price | WhichPadel`} description={desc} jsonld={jsonld} ogImage={absImg(r)}>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/brands/">Brands</a> › <a href={`/brands/${bs}/`}>{r.brand}</a> › <span>{r.model.replace(r.brand+' ','')}</span></nav>
+<div class="detail"><div>
+<section class="panel dhero"><div class="art"><RacketImage r={r} size={100} eager/></div><div>
+<p class="brand"><a href={`/brands/${bs}/`}>{r.brand}</a>{r.year&&<> · {r.year}</>}</p><h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem)">{r.model}</h1>
+{r.player&&<p class="small" style="margin:0 0 8px">Used by <a href={`/players/${playerSlug(r.player)}/`}>{r.player}</a></p>}<div class="chips">{r.shape&&<span class="chip">{cap(r.shape)} shape</span>}{r.balance&&<span class="chip">{cap(r.balance)} balance</span>}{r.coreHardness&&<span class="chip">{cap(r.coreHardness)} core</span>}{(r.profile||[]).map(p=><span class="chip" style="background:#f5ffd6;color:#3d5200">{p}</span>)}</div></div></section>
+<section class="panel"><h2>Overview</h2><p class="intro">{intro(r)}</p><p class="small" style="margin:0 0 8px">Not sure it’s right for you? Read <a href="/padel-rackets/">how to choose a padel racket</a>{lvlT&&<> or see the <a href={`/best/${lvl}/`}>{lvlT.toLowerCase()}</a></>}.</p>{inLists.length>0&&<p class="muted small" style="margin:0">Featured in: {inLists.map(([k,v],i)=><>{i>0&&' · '}<a href={`/best/${k}/`}>{v.title}</a></>)}</p>}</section>
+<section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${avg*3.6}deg,#e8edf0 0)`}><span>{avg}</span></div><div><h2 style="margin:0">Calculated ratings</h2><p class="muted small" style="margin:0">Average of six spec-based scores (0–100)</p></div></div>
+<div class="scores">{Object.entries(r.ratings).map(([k,v])=><div class="row"><span>{cap(k)}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
+<p class="muted small">Model outputs from published specs (our rating formula), not court tests.</p></section>
+<section class="panel"><h2>Specifications</h2><div class="tscroll"><table class="spec">{rows.map(([k,v])=><tr><th>{k}</th><td>{v||'Not published'}{srcKey[k]&&r.sources[srcKey[k]]&&<> · <a class="muted small" href={r.sources[srcKey[k]]} rel="nofollow">source</a></>}</td></tr>)}</table></div>
+{r.inputsMissing.length>0&&<p class="muted small" style="margin-top:12px">Missing inputs: {r.inputsMissing.join(', ')}. Missing means unknown, not zero.</p>}</section>
+{vsFor(r.slug).length>0&&<section class="panel vs"><h2>Head-to-head comparisons</h2>{vsFor(r.slug).map(v=><a href={`/compare/${v.slug}/`}><span>{v.A.model} vs {v.B.model}</span><span>→</span></a>)}</section>}
+{similar.length>0&&<section class="panel vs"><h2>Compare with similar rackets</h2>{similar.map(s=><a href={`/compare/?r=${r.slug},${s.slug}`}><span>{r.model} vs {s.model}</span><span>→</span></a>)}</section>}
+{sameBrand.length>0&&<section class="panel vs"><h2>More {r.brand} rackets</h2>{sameBrand.map(s=><a href={`/rackets/${s.slug}/`}><span>{s.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={`/brands/${bs}/`}>All {r.brand} padel rackets →</a></p></section>}
+</div>
+<aside class="panel buybox" id="buybox"><p class="muted small" style="margin:0">Recorded price</p><p class="price-big"><Price r={r}/></p>{r.priceChecked&&<p class="muted small">Checked {r.priceChecked}. Not a live quote.</p>}{r.valueScore!=null&&<p class="small" style="margin:0 0 8px">Value score <b>{r.valueScore}/100</b> · <a href="/best/best-value-padel-rackets/#methodology">how it works</a></p>}
+<a class="btn aff btn-lg" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={JSON.stringify(offersOf(r))}>Check price at retailer →</a> <span class="disc">Ad: this may be an affiliate link. We may earn a commission at no extra cost to you; it never changes our ratings. <a href="/affiliate-disclosure/">Disclosure</a></span>
+<ul class="trustbar"><li>Ratings calculated from published specs</li><li>{rackets.length} rackets compared, no paid placements</li>{r.priceChecked&&<li>Price checked {r.priceChecked}</li>}</ul>
+<a class="btn btn-sm" style="width:100%" href={`/compare/?r=${r.slug}${similar[0]?','+similar[0].slug:''}`}>Compare this racket</a>{r.weightMin&&r.balance&&<p class="small" style="margin:8px 0 0"><a href={`/tools/real-weight/?r=${r.slug}${similar[0]?','+similar[0].slug:''}`}>How heavy will it feel? →</a></p>}</aside>
+</div>
+<section class="nudge" id="rv-wrap" hidden><h2>Recently viewed</h2><div class="rv" id="rv"></div></section>
+<PriceAlert racket={r.model} price={fmtPrice(r)}/>
+<div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r}/></b><span>{r.model} · Ad</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={JSON.stringify(offersOf(r))} tabindex="-1">Check price</a></div>
+<script is:inline define:vars={{cur:{s:r.slug,m:r.model,i:r.image||''}}}>
+document.body.classList.add('has-sticky');
+const sc=document.getElementById('stickycta'),bb=document.querySelector('#buybox .aff');
+new IntersectionObserver(([e])=>{const show=!e.isIntersecting;sc.classList.toggle('show',show);sc.setAttribute('aria-hidden',!show);}).observe(bb);
+try{let rv=JSON.parse(localStorage.rv||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');
+if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="/rackets/${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${x.m.replace(/[<>&]/g,'')}</span></a>`).join('')+`<a href="/compare/?r=${cur.s},${rv[0].s}"><span>Compare with ${rv[0].m.replace(/[<>&]/g,'')} →</span></a>`;document.getElementById('rv-wrap').hidden=false;}
+localStorage.rv=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
+</script>
+</Base>

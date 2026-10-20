@@ -1,0 +1,30 @@
+---
+import { REGIONS, FX, SHOPS, DEFAULT_REGION } from '../lib/price.js'; import es_ from '../i18n/es.js'; import fr_ from '../i18n/fr.js';
+const { lang='en' } = Astro.props; const es=lang!=='en'; const RG=({es:es_,fr:fr_})[lang]?.ui.region;
+const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[]}]));
+const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]]))};
+const def=DEFAULT_REGION(lang); const SYM={GBP:'£',EUR:'€',USD:'$',SEK:'kr'};
+---
+<button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={es?RG.btn:'Change country and currency'}><span id="rgn-lab">{REGIONS[def][0]} {def} {SYM[REGIONS[def][2]]}</span></button>
+<dialog class="sheet rgn-sheet" id="rgn-sheet" aria-labelledby="rgn-h"><div class="sheet-in"><div class="sheet-top"><h2 id="rgn-h" class="h3">{es?RG.h:'Where are you shopping from?'}</h2><button class="x" type="button" data-rgn-close aria-label={es?(lang==='fr'?'Fermer':'Cerrar'):'Close'}>✕</button></div>
+<p class="muted small" style="margin:0">{es?RG.p:'We pick the currency and shops that deliver to you. Saved in this browser only.'}</p>
+<ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k}><span>{f} {n}</span><span class="muted">{c}</span></button></li>)}</ul></div></dialog>
+<script is:inline define:vars={{CFG,lang,DEF:def,CONV:es?RG.conv('§',FX.date):null,NONE:es?(lang==='fr'?'Voir le prix':'Ver precio'):'Check price'}}>
+(()=>{const {FX,SH,R}=CFG; const SYM={GBP:'£',EUR:'€',USD:'$',SEK:'kr'}; const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
+const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
+const es=lang!=='en'; let reg=ls('wp_region')||(es?DEF:ls('wp_geo'))||DEF; if(!R[reg]) reg='GB';
+const fmt=(n,c)=>{const v=Math.round(n*100)/100; if(c==='SEK') return Math.round(n)+' kr'; const s=es?String(v).replace('.',','):String(v); return es?s+' '+SYM[c]:SYM[c]+s;};
+function best(os,lg){const cur=R[reg][1]; const c=(os||[]).map(o=>{const s=SH[o.d]||{y:[],n:[]}; const st=s.y.includes(reg)?0:s.n.includes(reg)?2:1; const nat=o.c===cur; return {...o,st,nat,v:nat?o.p:Math.round(o.p/FX.rates[o.c]*FX.rates[cur])};}).filter(o=>o.st<2).sort((a,b)=>a.st-b.st||(b.nat-a.nat)||a.v-b.v);
+ if(!c.length) return {txt:NONE,v:null,u:null}; const o=c[0]; return {txt:fmt(o.v,cur),v:o.v,u:o.u,conv:!o.nat,from:o.c,unk:o.st===1};}
+function apply(){const [f,c]=R[reg]; const l=document.getElementById('rgn-lab'); if(l) l.textContent=f+' '+reg+' '+SYM[c];
+ document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); if(q.conv) e.title=es?CONV.replace('§',q.from):'Converted from '+q.from+' at the '+FX.date+' rate'; else e.removeAttribute('title');});
+ document.querySelectorAll('a.aff[data-o]').forEach(a=>{const q=best(JSON.parse(a.dataset.o)); if(q.u) a.href=q.u;});
+ document.dispatchEvent(new Event('wp:region'));}
+window.WP={best,get region(){return reg}};
+function choose(k){reg=k; set('wp_region',k); apply();}
+document.addEventListener('DOMContentLoaded',()=>{ if(reg!==DEF) apply();
+ const d=document.getElementById('rgn-sheet'); document.getElementById('rgn-btn').onclick=()=>d.showModal();
+ d.addEventListener('click',e=>{const b=e.target.closest('[data-rgn]'); if(b){choose(b.dataset.rgn); d.close(); return;} if(e.target.closest('[data-rgn-close]')||e.target===d) d.close();});
+ if(!es&&!ls('wp_region')&&!ls('wp_geo')) fetch('/api/geo').then(r=>r.json()).then(j=>{const c=j.country; const k=R[c]?c:c==='UK'?'GB':EU.includes(c)?'EU':c?'ROW':null; if(k){set('wp_geo',k); if(!ls('wp_region')&&k!==reg){reg=k; apply();}}}).catch(()=>{});
+});})();
+</script>
