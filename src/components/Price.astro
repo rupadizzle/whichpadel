@@ -4,4 +4,4 @@ const { r, lang='en', cls='', checkLabel } = Astro.props; const p=pick(r,DEFAULT
 const U=D(lang).ui; const none=U.checkPrice;
 const tip=p.conv?U.region.conv(p.o.c,FX.date):undefined;
 ---
-<span class={`pz ${cls}${p.conv?' cv':''}`} data-o={JSON.stringify(offersOf(r))} title={tip}>{p.none?(checkLabel||none):fmt(p.v,p.cur,lang)}</span>
+<span class={`pz ${cls}${p.conv?' cv':''}`} data-o={JSON.stringify(offersOf(r))} title={tip} data-ap={D(lang).ui.region.approx}>{p.none?(checkLabel||none):fmt(p.v,p.cur,lang)}</span>

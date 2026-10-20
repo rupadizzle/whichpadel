@@ -13,5 +13,6 @@ URL=$($W --branch preview 2>&1 | grep -o 'https://[a-z0-9.-]*pages\.dev' | tail 
 [ -n "$URL" ] || fail "preview deploy"
 echo "preview: $URL"; sleep 10
 node parity.mjs "$URL" || fail "parity (preview)"
+node curqa.mjs "$URL" || fail "curqa (preview)"
 $W --branch main 2>&1 | grep -o 'https://[a-z0-9.-]*pages\.dev' | tail -1
 echo DEPLOYED

@@ -70,6 +70,7 @@ const T=HT, U=HU;
 const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
 const bq=r=>(window.WP&&r.o&&r.o.length)?window.WP.best(r.o):null;
 const pt=r=>{const q=bq(r); return q?q.txt:T.noPrice;};
+const ph=(r,cls)=>{const q=bq(r); return `<span class="pz ${cls}${q&&q.conv?' cv':''}" data-ap="${esc(window.WP?WP.approx:'')}">${esc(q?q.txt:T.noPrice)}</span>`;};
 const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
 const pu=r=>{const q=bq(r); return (q&&q.u)||r.u;};
 
@@ -84,7 +85,7 @@ function card(r){const tint=`hsl(${r.h} 55% 38%)`,face=`hsl(${r.h} 60% 95%)`;
  const chips=[r.sh&&T.shp[r.sh],r.bl&&lab('balF',T.lvl[r.bl]||r.bl),r.c&&lab('coreF',T.lvl[r.c]||r.c)].filter(Boolean).map(c=>`<span class="chip">${c}</span>`).join('');
  const bars=['power','control','forgiveness'].map(k=>`<div class="mb"><span>${T.rt[k]}</span><div class="bar"><i style="width:${r[k]}%"></i></div><b>${r[k]}</b></div>`).join('');
  const u=U.rk+r.s+'/';
- return `<article class="rcard"><a class="rimg" href="${u}" tabindex="-1" aria-hidden="true"><div class="rslot" style="--icon-line:${tint};--icon-face:${face}">${img}</div></a><div class="rbody"><p class="brand">${esc(r.b)} · ${r.y}</p><h3><a href="${u}">${esc(r.m)}</a></h3><div class="chips">${chips}</div><div class="minibars">${bars}</div><label class="cmpbox"><input type="checkbox" class="cmp" value="${r.s}" aria-label="${T.add}: ${esc(r.m)}" ${sel.has(r.s)?'checked':''}> ${T.add}</label><div class="rfoot"><span class="price">${esc(pt(r))}</span><a class="btn btn-sm" href="${u}" aria-label="${esc(r.m)}: ${T.details}">${T.details}</a></div></div></article>`;}
+ return `<article class="rcard"><a class="rimg" href="${u}" tabindex="-1" aria-hidden="true"><div class="rslot" style="--icon-line:${tint};--icon-face:${face}">${img}</div></a><div class="rbody"><p class="brand">${esc(r.b)} · ${r.y}</p><h3><a href="${u}">${esc(r.m)}</a></h3><div class="chips">${chips}</div><div class="minibars">${bars}</div><label class="cmpbox"><input type="checkbox" class="cmp" value="${r.s}" aria-label="${T.add}: ${esc(r.m)}" ${sel.has(r.s)?'checked':''}> ${T.add}</label><div class="rfoot">${ph(r,'price')}<a class="btn btn-sm" href="${u}" aria-label="${esc(r.m)}: ${T.details}">${T.details}</a></div></div></article>`;}
 async function load(){ if(!all){ all=await (await fetch('/cards.json')).json(); } return all; }
 function filt(){const q=$('f-q').value.toLowerCase().trim(),b=$('f-brand').value,s=rv('f-shape'),bl=rv('f-balance'),c=rv('f-core'),m=parseFloat($('f-max').value);
  return all.filter(d=>(!q||d.m.toLowerCase().includes(q))&&(!b||d.b===b)&&(!s||d.sh===s)&&(!bl||d.bl===bl)&&(!c||d.c===c)&&(isNaN(m)||(pn(d)!=null&&pn(d)<=m)));}
@@ -117,7 +118,7 @@ $('q-go').onclick=async()=>{await load(); const L=rv('level'),S=rv('style'),B=rv
  const top=[...pool].sort((a,b)=>sc(b)-sc(a)).slice(0,3);
  const why=d=>[d.sh&&lab('shapeF',T.shp[d.sh].toLowerCase()),d.bl&&lab('balF',T.lvl[d.bl]||d.bl),d.c&&lab('coreF',T.lvl[d.c]||d.c)].filter(Boolean).join(' · ');
  const keys=S==='power'?['power','control','value']:S==='arm'?['comfort','forgiveness','value']:L==='beginner'?['forgiveness','control','value']:['control','power','value'];
- $('qres').innerHTML=top.length?`<h3>${T.top(top.length)}</h3><div class="qcards">${top.map((d,i)=>`<article class="qc"><span class="medal">#${i+1}</span>${d.i?pic(d,72,86):`<span class="noimg">${esc(cap(d.sh||'?')[0])}</span>`}<div><h4><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h4><p class="why">${esc(why(d))}</p><div class="ks">${keys.map(k=>`<span>${T.rt[k]} <b>${d[k]}</b></span>`).join('')}</div><span class="pr">${esc(pt(d))}</span></div><div class="act"><a class="btn aff btn-sm" rel="sponsored nofollow" data-affiliate="PLACEHOLDER" href="${esc(pu(d))}">${T.check}</a><a class="btn btn-line btn-sm" href="${U.rk}${d.s}/">${T.details}</a></div></article>`).join('')}</div>
+ $('qres').innerHTML=top.length?`<h3>${T.top(top.length)}</h3><div class="qcards">${top.map((d,i)=>`<article class="qc"><span class="medal">#${i+1}</span>${d.i?pic(d,72,86):`<span class="noimg">${esc(cap(d.sh||'?')[0])}</span>`}<div><h4><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h4><p class="why">${esc(why(d))}</p><div class="ks">${keys.map(k=>`<span>${T.rt[k]} <b>${d[k]}</b></span>`).join('')}</div>${ph(d,'pr')}</div><div class="act"><a class="btn aff btn-sm" rel="sponsored nofollow" data-affiliate="PLACEHOLDER" href="${esc(pu(d))}">${T.check}</a><a class="btn btn-line btn-sm" href="${U.rk}${d.s}/">${T.details}</a></div></article>`).join('')}</div>
  <p class="disc">${T.ad} <a href="${U.aff}">${T.disc}</a></p>
  <div class="qfoot">${top.length>1?`<a class="btn" id="q-cmp" href="${U.cmp}?r=${top.map(d=>d.s).join(',')}">${T.cmpThese(top.length)}</a>`:''}<button class="btn btn-line" type="button" id="q-all">${T.seeMatches}</button></div>`:'<p>'+T.noBudget+'</p>';
  $('qres').hidden=false; $('qres').scrollIntoView({behavior:'smooth',block:'start'});
