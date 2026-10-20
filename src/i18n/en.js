@@ -24,7 +24,7 @@ export default {
   nf:{title:'Page not found', p:'That page has moved or never existed.', all:'All rackets'},
  },
  terms:{
-  racketFull:'Padel racket', imgAlt:m=>`${m} padel racket`, noShape:'shape n/a', 
+  fShape:v=>`${v[0].toUpperCase()+v.slice(1)} shape`, fBal:v=>`${v[0].toUpperCase()+v.slice(1)} balance`, fCore:v=>`${v[0].toUpperCase()+v.slice(1)} core`,   racketFull:'Padel racket', imgAlt:m=>`${m} padel racket`, noShape:'shape n/a', 
   shape:{round:'round',teardrop:'teardrop',diamond:'diamond',hybrid:'hybrid'},
   shapeCap:{round:'Round',teardrop:'Teardrop',diamond:'Diamond',hybrid:'Hybrid'},
   bal:{low:'low',medium:'medium',high:'high'},

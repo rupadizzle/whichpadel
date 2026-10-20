@@ -23,7 +23,7 @@ export default {
   nf:{title:'Page introuvable', p:'Cette page a été déplacée ou n’a jamais existé.', all:'Toutes les raquettes'},
  },
  terms:{
-  racketFull:'Raquette de padel', imgAlt:m=>`Raquette de padel ${m}`, noShape:'—', 
+  fShape:v=>`Forme ${v}`, fBal:v=>`Équilibre ${v}`, fCore:v=>`Noyau ${v}`,   racketFull:'Raquette de padel', imgAlt:m=>`Raquette de padel ${m}`, noShape:'—', 
   shape:{round:'ronde',teardrop:'goutte d’eau',diamond:'diamant',hybrid:'hybride'},
   shapeCap:{round:'Ronde',teardrop:'Goutte d’eau',diamond:'Diamant',hybrid:'Hybride'},
   bal:{low:'bas',medium:'moyen',high:'haut'},

@@ -64,8 +64,8 @@ const baseProps={lang:DICTS[lang].locale};
 </section>
 <PriceAlertL lang={lang}/>
 <div class="cmpbar" id="cmpbar" hidden><span id="cmpn"></span><button class="btn btn-accent btn-sm" id="cmp-go2" type="button">{H.cmpNow}</button></div>
-<script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null},HU,HL:lang,HS:H.js.showing.toString(),HTOP:H.js.top.toString(),HCT:H.js.cmpThese.toString()}}>
-HT.showing=(0,eval)(HS); HT.top=(0,eval)(HTOP); HT.cmpThese=(0,eval)(HCT);
+<script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null,showing0:H.js.showing('§1','§2'),top0:H.js.top('§'),cmpThese0:H.js.cmpThese('§')},HU,HL:lang}}>
+const F=(t,...a)=>a.reduce((o,v,i)=>o.replace(a.length>1?'§'+(i+1):'§',v),t); HT.showing=(a,b)=>F(HT.showing0,a,b); HT.top=n=>F(HT.top0,n); HT.cmpThese=n=>F(HT.cmpThese0,n);
 const T=HT, U=HU;
 const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
 const bq=r=>(window.WP&&r.o&&r.o.length)?window.WP.best(r.o):null;

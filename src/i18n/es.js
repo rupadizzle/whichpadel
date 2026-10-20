@@ -23,7 +23,7 @@ export default {
   nf:{title:'Página no encontrada', p:'Esta página se ha movido o nunca existió.', all:'Todas las palas'},
  },
  terms:{
-  racketFull:'Pala de pádel', imgAlt:m=>`Pala de pádel ${m}`, noShape:'—', 
+  fShape:v=>`Forma ${v}`, fBal:v=>`Balance ${v}`, fCore:v=>`Núcleo ${v}`,   racketFull:'Pala de pádel', imgAlt:m=>`Pala de pádel ${m}`, noShape:'—', 
   shape:{round:'redonda',teardrop:'lágrima',diamond:'diamante',hybrid:'híbrida'},
   shapeCap:{round:'Redonda',teardrop:'Lágrima',diamond:'Diamante',hybrid:'Híbrida'},
   bal:{low:'bajo',medium:'medio',high:'alto'},
