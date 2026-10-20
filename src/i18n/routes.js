@@ -27,7 +27,7 @@ const P={
  home:{en:()=>'/',es:()=>'/es/',fr:()=>'/fr/'},
  guide:{en:()=>'/padel-rackets/',es:()=>'/es/palas-padel/',fr:()=>'/fr/raquette-padel/'},
  compare:{en:()=>'/compare/',es:()=>'/es/comparador-palas-padel/',fr:()=>'/fr/comparateur-raquettes-padel/'},
- bestIndex:{en:null,es:()=>'/es/mejores-palas-padel/',fr:()=>'/fr/meilleures-raquettes-padel/'},
+ bestIndex:{en:()=>'/best/',es:()=>'/es/mejores-palas-padel/',fr:()=>'/fr/meilleures-raquettes-padel/'},
  racket:{en:s=>`/rackets/${s}/`,es:s=>`/es/palas/${s}/`,fr:s=>`/fr/raquettes/${s}/`},
  brands:{en:()=>'/brands/',es:()=>'/es/marcas/',fr:()=>'/fr/marques/'},
  brand:{en:s=>`/brands/${s}/`,es:s=>`/es/marcas/${s}/`,fr:s=>`/fr/marques/${s}/`},
@@ -40,10 +40,11 @@ const P={
  bf:{en:()=>'/black-friday-padel-rackets/',es:()=>'/es/black-friday-palas-padel/',fr:()=>'/fr/black-friday-raquettes-padel/'},
  privacy:{en:()=>'/privacy/',es:()=>'/es/privacidad/',fr:()=>'/fr/confidentialite/'},
  affiliate:{en:()=>'/affiliate-disclosure/',es:()=>'/es/afiliados/',fr:()=>'/fr/affiliation/'},
+ about:{en:()=>'/about/',es:()=>'/es/sobre-nosotros/',fr:()=>'/fr/a-propos/'},
 };
 export const url=(type,lang,id)=>P[type][lang]?P[type][lang](id):null;
 export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
- ['home','guide','compare','bestIndex','brands','players','tool','bf','privacy','affiliate'].forEach(t=>add(t));
+ ['home','guide','compare','bestIndex','brands','players','tool','bf','privacy','affiliate','about'].forEach(t=>add(t));
  rackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); y27.forEach(b=>add('brand2027',b.slug));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); return out;};
 // reverse map for hreflang on any page

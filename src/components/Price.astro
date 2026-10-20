@@ -1,7 +1,7 @@
 ---
-import { pick, fmt, offersOf, FX, DEFAULT_REGION } from '../lib/price.js';
+import { pick, fmt, offersOf, FX, DEFAULT_REGION } from '../lib/price.js'; import { D } from '../i18n/index.js';
 const { r, lang='en', cls='', checkLabel } = Astro.props; const p=pick(r,DEFAULT_REGION(lang));
-const none=lang==='es'?'Ver precio':lang==='fr'?'Voir le prix':'Check price';
-const tip=p.conv?(lang==='es'?`Convertido desde ${p.o.c} con el tipo del ${FX.date}`:lang==='fr'?`Converti depuis ${p.o.c} au taux du ${FX.date}`:`Converted from ${p.o.c} at the ${FX.date} rate`):undefined;
+const U=D(lang).ui; const none=U.checkPrice;
+const tip=p.conv?U.region.conv(p.o.c,FX.date):undefined;
 ---
 <span class={`pz ${cls}${p.conv?' cv':''}`} data-o={JSON.stringify(offersOf(r))} title={tip}>{p.none?(checkLabel||none):fmt(p.v,p.cur,lang)}</span>

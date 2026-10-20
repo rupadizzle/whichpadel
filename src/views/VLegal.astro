@@ -1,7 +1,10 @@
 ---
-import Base from '../layouts/Base.astro'; import { D } from '../i18n/index.js';
-const { lang, kind } = Astro.props; const L=D(lang).copy.legal; const priv=kind==='privacy';
+// Privacy, affiliate disclosure and About: one component for every language.
+import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.js';
+const { lang, kind } = Astro.props; const d=D(lang), L=d.copy.legal, u=d.ui;
+const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about]}[kind];
+const body=kind==='about'?T[3].replace('§',`<a href="${url('affiliate',lang)}">${u.affiliate.toLowerCase()}</a>`):T[3];
 ---
-<Base lang={D(lang).locale} title={(priv?L.privacyTitle:L.affTitle)+D(lang).copy.titleSuffix} description={priv?L.privacyDesc:L.affDesc}><article class="panel prose">
-<h1>{priv?L.privacyTitle:L.affTitle}</h1><p class="muted">{priv?L.updated:L.affUpdated}</p><Fragment set:html={priv?L.privacy:L.aff}/>
+<Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]}><article class="panel prose">
+<h1>{T[0]}</h1>{T[2]&&<p class="muted">{T[2]}</p>}<Fragment set:html={body}/>{kind==='about'&&L.credit&&<p class="muted small">{L.credit}</p>}
 </article></Base>

@@ -1,9 +1,9 @@
 ---
 import { D, url } from '../i18n/index.js'; import { BEST_KEYS } from '../i18n/routes.js';
 const { lang, switcher=[] } = Astro.props; const d=D(lang); const u=d.ui; const LN={en:'English',es:'Español',fr:'Français'};
-const shortT=k=>d.copy.best.titles[k][0].replace(/^(Mejores|Las|Meilleures|Les) (palas de pádel|raquettes de padel) /,'').replace(/^(Las |Les )?(palas de pádel|raquettes de padel) /,'').replace(/^./,c=>c.toUpperCase());
+const shortT=k=>d.copy.best.titles[k][0].replace(/^(Mejores|Las|Meilleures|Les|Best|Most) (palas de pádel|raquettes de padel|padel rackets?) /,'').replace(/^(Las |Les )?(palas de pádel|raquettes de padel|padel rackets) /,'').replace(/^(Best|Most) (.*) padel rackets?/,'$1 $2').replace(/ \(.*\)$/,'').replace(/^./,c=>c.toUpperCase());
 ---
-<nav class="nav" id="nav"><a href={url('home',lang)}>{u.home}</a><a href={url('guide',lang)}>{u.guide}</a><a href={url('brands',lang)}>{u.brands}</a><a href={url('players',lang)}>{u.players}</a><a href={url('compare',lang)}>{u.compare}</a>
-<div class="dd"><button type="button" aria-haspopup="true" aria-expanded="false" onclick="this.setAttribute('aria-expanded',this.parentNode.classList.toggle('open'))">{u.bestLists} ▾</button><div class="menu">{BEST_KEYS.map(k=><a href={url('best',lang,k)}>{shortT(k)}</a>)}<a href={url('bf',lang)}>{u.bf}</a><a href={url('tool',lang)}>{u.tools}</a></div></div>
+<nav class="nav" id="nav"><a href={url('home',lang)+'#rackets'}>{u.allRackets}</a><a href={url('guide',lang)}>{u.guide}</a><a href={url('brands',lang)}>{u.brands}</a><a href={url('players',lang)}>{u.players}</a><a href={url('compare',lang)}>{u.compare}</a>
+<div class="dd"><button type="button" aria-haspopup="true" aria-expanded="false" onclick="this.setAttribute('aria-expanded',this.parentNode.classList.toggle('open'))">{u.bestLists} ▾</button><div class="menu"><a href={url('bestIndex',lang)}>{u.seeAll.replace(' →','')}</a>{BEST_KEYS.map(k=><a href={url('best',lang,k)}>{shortT(k)}</a>)}<a href={url('bf',lang)}>{u.bf}</a><a href={url('tool',lang)}>{u.tools}</a></div></div>
 {switcher.map(([l,h])=><a class="lang" href={h} hreflang={l} lang={l}>{LN[l]}</a>)}
-<a class="cta" href={url('bestIndex',lang)}>{u.bestLists}</a></nav>
+<a class="cta" href={url('home',lang)+'#quiz'}>{u.finder}</a></nav>

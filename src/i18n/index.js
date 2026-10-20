@@ -1,13 +1,13 @@
-import es from './es.js'; import fr from './fr.js';
-import { priceText, pick, fmt, FX } from '../lib/price.js';
+import en from './en.js'; import es from './es.js'; import fr from './fr.js';
+import { priceText, pick, fmt, FX, REGIONS } from '../lib/price.js';
 import { url, alternates, LANGS } from './routes.js';
-export const DICTS={es,fr};
+export const DICTS={en,es,fr};
 export const D=lang=>DICTS[lang];
 export { url, alternates, LANGS };
 export const SITE='https://whichpadel.com';
 export const P=(r,lang)=>priceText(r,D(lang).region,lang);
 export const Pnum=(r,lang)=>{const p=pick(r,D(lang).region); return p.none?null:p.v;};
-export const money=(n,lang)=>n==null?null:fmt(Math.round(n),'EUR',lang);
+export const money=(n,lang)=>n==null?null:fmt(Math.round(n),REGIONS[D(lang).region][2],lang);
 export const mat=(s,lang)=>{if(!s) return null; let o=s; for(const [re,rep] of D(lang).terms.mat) o=o.replace(re,rep); return o;};
 export const wt=r=>r.weightMin?`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''} g`:null;
 export const balTxt=(r,lang)=>{if(!r.balance) return null; const t=D(lang).terms.bal; if(t[r.balance]) return t[r.balance]; const m=String(r.balance).match(/([\d.]+)\s*(cm|mm)/); if(!m) return r.balance; const cm=m[2]==='mm'?+m[1]/10:+m[1]; return `${String(cm).replace('.',',')} cm`;};

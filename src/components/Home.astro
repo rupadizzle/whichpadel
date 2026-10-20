@@ -1,23 +1,23 @@
 ---
-import Price from './Price.astro'; import Card from './Card.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
-import PriceAlert from './PriceAlert.astro'; import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
+import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
+import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
 import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
 import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
-const { lang='en' } = Astro.props; const H=HOME[lang]; const EN=lang==='en';
+const { lang='en' } = Astro.props; const H=HOME[lang];
 const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
 const FIRST=24;
 const ok=rackets.filter(r=>r.image&&r.published>=4);
 const rows=[['best-value-padel-rackets',r=>r.valueScore,'value'],['most-comfortable-padel-rackets',r=>r.ratings.comfort,'comfort'],['most-powerful-padel-rackets',r=>r.ratings.power,'power']].map(([k,f,l],i)=>({h:H.rows[i],k,l:H.js.rt[l],f,rs:L0[k].pick(ok).slice(0,10)}));
 const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
-const gkeys=Object.keys(lists).slice(0,6).filter(k=>EN||BEST_KEYS.includes(k));
-const gname=k=>EN?lists[k].title.replace(/^(The )?best /i,'Best ').replace(/ padel rackets?/i,'').replace(/ \(.*\)/,''):DICTS[lang].copy.best.titles[k][0];
+const gkeys=Object.keys(lists).slice(0,6).filter(k=>BEST_KEYS.includes(k));
+const gname=k=>DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,'');
 const L=(t,id)=>url(t,lang,id);
 const SITE='https://whichpadel.com';
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':H.allH,'numberOfItems':rackets.length,'itemListElement':rackets.slice(0,FIRST).map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
-const baseProps=EN?{alt:{en:'/',es:'/es/',fr:'/fr/'}}:{lang:DICTS[lang].locale};
+const baseProps={lang:DICTS[lang].locale};
 ---
 <Base {...baseProps} title={H.title(rackets.length)} description={H.desc(rackets.length,brands.length)} jsonld={jsonld}>
 <section class="hero" slot="hero"><div class="wrap"><div>
@@ -42,7 +42,7 @@ const baseProps=EN?{alt:{en:'/',es:'/es/',fr:'/fr/'}}:{lang:DICTS[lang].locale};
 
 {rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><ul class="hrow">{x.rs.map(r=><li><a class="hc2" href={L('racket',r.slug)}><img src={r.image} alt={`${r.model} ${H.js.alt}`} width="126" height="120" loading="lazy" decoding="async"/><span class="m">{r.model}</span><span class="s">{x.l} <b>{x.f(r)}</b> · <Price r={r} lang={lang}/></span></a></li>)}</ul></section>)}
 <section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
-<ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brand2027',b.slug)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={EN?L('guide'):L('bestIndex')}>{H.allGuides}</a></li></ul></section>
+<ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brand2027',b.slug)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
 
 <section class="section" id="rackets"><div class="sec-head"><h2>{H.allH}</h2></div>
 <div class="fbar"><button class="btn" id="f-open" type="button" aria-controls="filters" aria-expanded="false">⚙ {H.filters} <span id="fn"></span></button><button class="btn btn-line" id="cmp-go3" type="button" hidden>{H.compare}</button></div>
@@ -57,20 +57,20 @@ const baseProps=EN?{alt:{en:'/',es:'/es/',fr:'/fr/'}}:{lang:DICTS[lang].locale};
 <div class="fapply"><button class="btn btn-line" type="button" id="f-clear2">{H.clear}</button><button class="btn btn-accent" type="button" id="f-done">{H.show} <span id="count3">{rackets.length}</span> {H.racketsW}</button></div>
 </div>
 <div class="toolbar"><b id="count" aria-live="polite">{rackets.length} {H.racketsW}</b><button class="btn btn-sm btn-line" id="f-clear" type="button">{H.clearF}</button><button class="btn btn-sm" id="cmp-go" type="button" hidden>{H.cmpSel}</button></div>
-<div class="grid" id="tbl" data-total={rackets.length}>{rackets.slice(0,FIRST).map((r,i)=>EN?<Card r={r}/>:<CardL r={r} lang={lang} eager={i<2}/>)}</div><p class="empty" id="empty" hidden>{H.empty}</p>
+<div class="grid" id="tbl" data-total={rackets.length}>{rackets.slice(0,FIRST).map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div><p class="empty" id="empty" hidden>{H.empty}</p>
 <div class="more"><button class="btn btn-line" id="more" type="button">{H.more}</button><p class="muted small" id="shown"></p></div>
 <noscript><p>{H.noscript} <a href={L('brands')}>{H.brandsW}</a>.</p></noscript>
 {['round','teardrop','diamond','hybrid'].map(sh=><template id={`ic-${sh}`}><RacketIcon shape={sh} size={58}/></template>)}
 </section>
-{EN?<PriceAlert/>:<PriceAlertL lang={lang}/>}
+<PriceAlertL lang={lang}/>
 <div class="cmpbar" id="cmpbar" hidden><span id="cmpn"></span><button class="btn btn-accent btn-sm" id="cmp-go2" type="button">{H.cmpNow}</button></div>
 <script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null},HU,HL:lang,HS:H.js.showing.toString(),HTOP:H.js.top.toString(),HCT:H.js.cmpThese.toString()}}>
 HT.showing=(0,eval)(HS); HT.top=(0,eval)(HTOP); HT.cmpThese=(0,eval)(HCT);
-const T=HT, U=HU, EN=HL==='en';
-const lab=(w,v,enSuf)=>EN?(v[0].toUpperCase()+v.slice(1))+enSuf:w+' '+v;
+const T=HT, U=HU;
+const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
 const bq=r=>(window.WP&&r.o&&r.o.length)?window.WP.best(r.o):null;
-const pt=r=>{const q=bq(r); return q?q.txt:(EN?r.p:T.noPrice);};
-const pn=r=>{if(EN&&!(window.WP&&window.WP.region!=='GB')) return r.g===''?null:+r.g; const q=bq(r); return q&&q.v!=null?q.v:null;};
+const pt=r=>{const q=bq(r); return q?q.txt:T.noPrice;};
+const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
 const pu=r=>{const q=bq(r); return (q&&q.u)||r.u;};
 
 const $=id=>document.getElementById(id); const grid=$('tbl'); const PAGE=24; let all=null, view=[], shown=PAGE, sel=new Set();
@@ -81,7 +81,7 @@ const setR=(n,v)=>{const i=document.querySelector(`input[name="${n}"][value="${v
 const pic=(r,w,h)=>r.i?`<img src="${r.i}" alt="${esc(r.m)} ${T.alt}" loading="lazy" decoding="async" width="${w}" height="${h}" style="width:${w}px;height:${h}px">`:'';
 function card(r){const tint=`hsl(${r.h} 55% 38%)`,face=`hsl(${r.h} 60% 95%)`;
  const img=r.i?pic(r,93,110):($('ic-'+(r.sh||'hybrid'))||$('ic-hybrid')).innerHTML+`<span class="rlabel"><b style="color:${tint}">${esc(r.b)}</b><span>${r.sh?T.shp[r.sh]:T.na}</span></span>`;
- const chips=[r.sh&&T.shp[r.sh],r.bl&&lab(T.balW,T.lvl[r.bl]||r.bl,' balance'),r.c&&lab(T.coreW,T.lvl[r.c]||r.c,' core')].filter(Boolean).map(c=>`<span class="chip">${c}</span>`).join('');
+ const chips=[r.sh&&T.shp[r.sh],r.bl&&lab('balF',T.lvl[r.bl]||r.bl),r.c&&lab('coreF',T.lvl[r.c]||r.c)].filter(Boolean).map(c=>`<span class="chip">${c}</span>`).join('');
  const bars=['power','control','forgiveness'].map(k=>`<div class="mb"><span>${T.rt[k]}</span><div class="bar"><i style="width:${r[k]}%"></i></div><b>${r[k]}</b></div>`).join('');
  const u=U.rk+r.s+'/';
  return `<article class="rcard"><a class="rimg" href="${u}" tabindex="-1" aria-hidden="true"><div class="rslot" style="--icon-line:${tint};--icon-face:${face}">${img}</div></a><div class="rbody"><p class="brand">${esc(r.b)} · ${r.y}</p><h3><a href="${u}">${esc(r.m)}</a></h3><div class="chips">${chips}</div><div class="minibars">${bars}</div><label class="cmpbox"><input type="checkbox" class="cmp" value="${r.s}" aria-label="${T.add}: ${esc(r.m)}" ${sel.has(r.s)?'checked':''}> ${T.add}</label><div class="rfoot"><span class="price">${esc(pt(r))}</span><a class="btn btn-sm" href="${u}" aria-label="${esc(r.m)}: ${T.details}">${T.details}</a></div></div></article>`;}
@@ -115,7 +115,7 @@ $('q-go').onclick=async()=>{await load(); const L=rv('level'),S=rv('style'),B=rv
  const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=+B)&&(L!=='beginner'||d.sh!=='diamond')&&(S!=='arm'||d.c!=='hard'));
  const sc=d=>Object.entries(w).reduce((a,[k,v])=>a+(d[k]||0)*v,0)/tot+(d.sh===want?6:0)+(d.i?2:0);
  const top=[...pool].sort((a,b)=>sc(b)-sc(a)).slice(0,3);
- const why=d=>[d.sh&&lab(T.shapeW,T.shp[d.sh],' shape'),d.bl&&lab(T.balW,T.lvl[d.bl]||d.bl,' balance'),d.c&&lab(T.coreW,T.lvl[d.c]||d.c,' core')].filter(Boolean).join(' · ');
+ const why=d=>[d.sh&&lab('shapeF',T.shp[d.sh].toLowerCase()),d.bl&&lab('balF',T.lvl[d.bl]||d.bl),d.c&&lab('coreF',T.lvl[d.c]||d.c)].filter(Boolean).join(' · ');
  const keys=S==='power'?['power','control','value']:S==='arm'?['comfort','forgiveness','value']:L==='beginner'?['forgiveness','control','value']:['control','power','value'];
  $('qres').innerHTML=top.length?`<h3>${T.top(top.length)}</h3><div class="qcards">${top.map((d,i)=>`<article class="qc"><span class="medal">#${i+1}</span>${d.i?pic(d,72,86):`<span class="noimg">${esc(cap(d.sh||'?')[0])}</span>`}<div><h4><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h4><p class="why">${esc(why(d))}</p><div class="ks">${keys.map(k=>`<span>${T.rt[k]} <b>${d[k]}</b></span>`).join('')}</div><span class="pr">${esc(pt(d))}</span></div><div class="act"><a class="btn aff btn-sm" rel="sponsored nofollow" data-affiliate="PLACEHOLDER" href="${esc(pu(d))}">${T.check}</a><a class="btn btn-line btn-sm" href="${U.rk}${d.s}/">${T.details}</a></div></article>`).join('')}</div>
  <p class="disc">${T.ad} <a href="${U.aff}">${T.disc}</a></p>
