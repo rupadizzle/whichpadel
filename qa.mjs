@@ -67,3 +67,6 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(h.includes('≈')) i
 issues.push(...await layoutQA(b));
 log('errors',errs); log('ISSUES\n'+issues.join('\n'));
 await b.close();
+const { execSync } = await import('child_process');
+try{ execSync('node parity.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PARITY FAILED'); console.log('PARITY FAILED'); }
+if(errs.length||issues.length){ console.log('QA FAIL'); process.exit(1); } else console.log('QA PASS');
