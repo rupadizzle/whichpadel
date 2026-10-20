@@ -1,9 +1,9 @@
-import en from './en.js'; import es from './es.js'; import fr from './fr.js'; import pt from './pt.js';
-import tmES from './tm/es.js'; import tmFR from './tm/fr.js'; import tmPT from './tm/pt.js'; import { fill } from './fill.js';
+import en from './en.js'; import es from './es.js'; import fr from './fr.js'; import pt from './pt.js'; import it from './it.js';
+import tmES from './tm/es.js'; import tmFR from './tm/fr.js'; import tmPT from './tm/pt.js'; import tmIT from './tm/it.js'; import { fill } from './fill.js';
 import { priceText, pick, fmt, FX, REGIONS } from '../lib/price.js';
 import { url, alternates, LANGS } from './routes.js';
-export const TM={es:tmES,fr:tmFR,pt:tmPT};
-export const DICTS={en,es:fill(en,es,tmES),fr:fill(en,fr,tmFR),pt:fill(en,pt,tmPT)};
+export const TM={it:tmIT,es:tmES,fr:tmFR,pt:tmPT};
+export const DICTS={en,es:fill(en,es,tmES),fr:fill(en,fr,tmFR),pt:fill(en,pt,tmPT),it:fill(en,it,tmIT)};
 export const D=lang=>DICTS[lang];
 export { url, alternates, LANGS };
 export const SITE='https://whichpadel.com';
