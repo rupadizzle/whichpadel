@@ -29,4 +29,4 @@
 .rgn-save{width:100%;min-height:44px;margin-top:var(--s4)}
 @media(width <= 400px){.rgn-x{display:none}}
 @media(width > 1180px){.nav a,.nav .dd>button{white-space:nowrap}}
-@media(width > 1180px) and (width < 1320px){.hdr .wrap{gap:var(--s2)}.nav{gap:0}.nav a,.nav .dd>button{padding:var(--s2);font-size:.88rem}}
+@media(width > 1180px){.hdr .wrap{gap:var(--s2)}.nav{gap:0}.nav a,.nav .dd>button{padding:var(--s2);font-size:.88rem}}

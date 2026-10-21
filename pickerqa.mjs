@@ -18,7 +18,7 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh
  if(!types.has(k)) types.set(k,rel);}
 console.log(`pickerqa: ${n} pages checked statically, ${types.size} sampled for geometry`);
 const br=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); 
-for(const w of [360,390,1024,1181,1280]){const pg=await br.newPage({viewport:{width:w,height:800}});
+for(const w of [360,390,1024,1181,1280,1440]){const pg=await br.newPage({viewport:{width:w,height:800}});
  for(const rel of types.values()){ await pg.goto(B+rel,{waitUntil:'domcontentloaded'});
   const r=await pg.evaluate(()=>{const o=[]; const hd=document.querySelector('.hdr .wrap'); const R=e=>e.getBoundingClientRect();
    const kids=[...hd.children].filter(e=>{const s=getComputedStyle(e);return s.display!=='none'&&s.position!=='absolute'&&R(e).width>0&&e.tagName!=='SCRIPT'&&e.tagName!=='DIALOG'});
