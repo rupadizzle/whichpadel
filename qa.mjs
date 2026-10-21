@@ -62,7 +62,7 @@ await t('mobile burger+finder',async()=>{await m.tap('.burger'); await m.tap('.n
 await t('mobile best list link',async()=>{await m.tap('.burger'); await m.tap('.dd .menu a >> nth=1'); await m.waitForURL(/best/);});
 await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('mobile sticky cta',async()=>{await m.waitForTimeout(500); if(!await m.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) throw Error('not shown');});
 await m.goto(B+'/'); await t('mobile filter sheet',async()=>{await m.tap('#f-open'); await m.tap('input[name=f-shape][value=diamond] + span'); await m.waitForTimeout(400); const c=await m.textContent('#count3'); await m.tap('#f-done'); if(await m.isVisible('#f-done')) throw Error('open'); log(' sheet diamond ->',c);});
-await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('region picker',async()=>{await m.tap('#rgn-btn'); await m.tap('[data-rgn=US]'); const x=await m.textContent('.price-big .pz'); if(!/^\$/.test(x)) throw Error('price '+x); await m.evaluate(()=>localStorage.clear());});
+await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('region picker',async()=>{await m.tap('#rgn-btn'); await m.tap('[data-rgn=US]'); await m.tap('[data-cur=USD]'); await m.tap('[data-rgn-save]'); const x=await m.textContent('.price-big .pz'); if(!/^\$/.test(x)) throw Error('price '+x); await m.evaluate(()=>localStorage.clear());});
 for(const f of files){const h=fs.readFileSync(f,'utf8'); if(h.includes('≈')) issues.push('dual/approx price marker in '+f.slice(4));}
 issues.push(...await layoutQA(b));
 log('errors',errs); log('ISSUES\n'+issues.join('\n'));
