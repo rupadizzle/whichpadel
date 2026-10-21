@@ -17,12 +17,16 @@
 .cur-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s2);margin-bottom:var(--s2)}
 .cur-seg button{min-height:44px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-weight:600;display:flex;align-items:center;justify-content:center}
 .cur-seg button[aria-checked="true"],.rgn-list button[aria-pressed="true"]{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2)}
-.dd-lang .menu{min-width:10rem}
 .hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
 /* v10: language inside the region picker */
 .rgn{gap:var(--s2)}
-.rgn-lang{padding-right:var(--s2);border-right:1px solid rgb(255 255 255 / 25%);line-height:1.1}
 .lang-seg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:var(--s2)}
 .lang-seg a{display:flex;align-items:center;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-decoration:none}
 .lang-seg a:hover{border-color:var(--green2)}
 .lang-seg a.on{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2);font-weight:600}
+/* v11: one globe button, staged panel with Save */
+.rgn-globe{flex:none}
+.rgn-save{width:100%;min-height:44px;margin-top:var(--s4)}
+@media(width <= 400px){.rgn-x{display:none}}
+@media(width > 1180px){.nav a,.nav .dd>button{white-space:nowrap}}
+@media(width > 1180px) and (width < 1320px){.hdr .wrap{gap:var(--s2)}.nav{gap:0}.nav a,.nav .dd>button{padding:var(--s2);font-size:.88rem}}

@@ -7,7 +7,8 @@ const exists=h=>{const p=h.split('#')[0].split('?')[0]; return fs.existsSync('di
 const files=walk('dist').filter(f=>!/\/(404|api)\b/.test(f)&&!f.endsWith('/404.html')); let n=0; const types=new Map();
 for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h)) continue; n++;
  const rel='/'+path.relative('dist',f).replace(/index\.html$/,''); 
- if(!h.includes('id="rgn-btn"')) bad.push('no picker: '+rel);
+ if((h.match(/id="rgn-btn"/g)||[]).length!==1) bad.push('picker count: '+rel);
+ const dup=h.replace(/<ul class="lang-seg".*?<\/ul>/s,'').match(/<a [^>]*hreflang="/g); if(dup) bad.push('duplicate language links: '+rel);
  const m=h.match(/<ul class="lang-seg"[^>]*>(.*?)<\/ul>/s); if(!m){bad.push('no language list: '+rel); continue;}
  const links=[...m[1].matchAll(/href="([^"]+)"[^>]*hreflang="([a-z]{2})"/g)].map(x=>[x[2],x[1]]);
  const alts=Object.fromEntries([...h.matchAll(/<link rel="alternate" hreflang="([a-z]{2})" href="https:\/\/whichpadel\.com([^"]+)"/g)].map(x=>[x[1],x[2]]));
@@ -17,7 +18,7 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh
  if(!types.has(k)) types.set(k,rel);}
 console.log(`pickerqa: ${n} pages checked statically, ${types.size} sampled for geometry`);
 const br=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); 
-for(const w of [360,390,1280]){const pg=await br.newPage({viewport:{width:w,height:800}});
+for(const w of [360,390,1024,1181,1280]){const pg=await br.newPage({viewport:{width:w,height:800}});
  for(const rel of types.values()){ await pg.goto(B+rel,{waitUntil:'domcontentloaded'});
   const r=await pg.evaluate(()=>{const o=[]; const hd=document.querySelector('.hdr .wrap'); const R=e=>e.getBoundingClientRect();
    const kids=[...hd.children].filter(e=>{const s=getComputedStyle(e);return s.display!=='none'&&s.position!=='absolute'&&R(e).width>0&&e.tagName!=='SCRIPT'&&e.tagName!=='DIALOG'});
@@ -25,6 +26,7 @@ for(const w of [360,390,1280]){const pg=await br.newPage({viewport:{width:w,heig
     if(i){const p=R(kids[i-1]); if(a.left<p.right-0.5) o.push('overlap '+kids[i-1].className+'/'+kids[i].className);}}
    const b=document.getElementById('rgn-btn'); const br=R(b); if(br.height<44) o.push('rgn height '+br.height);
    if(b.scrollWidth>b.clientWidth+1) o.push('rgn clipped'); const bu=document.querySelector('.burger'); if(getComputedStyle(bu).display!=='none'&&R(bu).height<44) o.push('burger '+R(bu).height);
+   document.querySelectorAll('#nav > *').forEach(e=>{const r=R(e); if(getComputedStyle(document.getElementById('nav')).flexDirection==='row'&&r.width&&(r.height>46||r.right>innerWidth)) o.push('nav item wraps/overflows '+e.textContent.slice(0,15));});
    if(document.documentElement.scrollWidth>innerWidth+1) o.push('page hscroll'); return o;});
   r.forEach(x=>bad.push(`${w}px ${rel}: ${x}`));}
  // open sheet once per width: language buttons >=44px, no overlap, no overflow

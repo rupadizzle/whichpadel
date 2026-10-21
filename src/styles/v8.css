@@ -12,7 +12,7 @@
 .hrow .s{font-size:.8rem;color:var(--mut)}
 .hrow .s b{color:var(--green)}
 .gchips{contain:inline-size;min-width:0}
-@media(width <= 860px){.nav{max-height:calc(100dvh - 62px);overflow-y:auto;overscroll-behavior:contain}.nav .cta{order:-1;margin-bottom:var(--s2)}}
+@media(width <= 1180px){.nav{max-height:calc(100dvh - 62px);overflow-y:auto;overscroll-behavior:contain}.nav .cta{order:-1;margin-bottom:var(--s2)}}
 .rw-pick{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .rw-pick label{display:flex;flex-direction:column;gap:var(--s1);min-width:0}
 .rw-pick select{min-height:44px;width:100%;max-width:100%;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit}
@@ -23,7 +23,7 @@
 .y-pair + .y-pair{margin-top:var(--s5)}
 .rgn{margin-left:auto;display:inline-flex;align-items:center;min-height:44px;padding:0 var(--s3);border:1px solid rgb(255 255 255 / 25%);border-radius:99px;background:transparent;color:#fff;font:inherit;font-weight:600;font-size:.85rem;cursor:pointer;white-space:nowrap}
 .hdr .nav{margin-left:var(--s3)}
-@media(width <= 860px){.burger{margin-left:var(--s2)}}
+@media(width <= 1180px){.burger{margin-left:var(--s2)}}
 .rgn-list{list-style:none;margin:var(--s3) 0 0;padding:0;display:grid;gap:var(--s1)}
 .rgn-list button{display:flex;justify-content:space-between;width:100%;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;cursor:pointer;color:var(--ink)}
 .rgn-list button:hover{border-color:var(--green2)}
@@ -33,4 +33,4 @@
 .rgn-list{margin-top:var(--s4);gap:var(--s2)}
 .rgn-list button{align-items:center;gap:var(--s2);padding:var(--s2) var(--s3);line-height:1.3;text-align:left}
 .rgn-list button>span{display:block}
-@media(width <= 860px){.hdr .wrap{gap:var(--s2)}.burger{display:inline-flex;align-items:center;justify-content:center;margin-left:0}}
+@media(width <= 1180px){.hdr .wrap{gap:var(--s2)}.burger{display:inline-flex;align-items:center;justify-content:center;margin-left:0}}

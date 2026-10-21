@@ -8,17 +8,17 @@ const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers|
 const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]])),SYM,CUR:CURRENCIES};
 const def=DEFAULT_REGION(lang); const dc=REGIONS[def][2];
 ---
-<button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={RG.all}><span class="rgn-lang">{lang.toUpperCase()}</span><span id="rgn-lab">{REGIONS[def][0]} {def} · {SYM[dc]}</span></button>
+<button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={RG.all}><svg class="rgn-globe" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span class="rgn-x">{lang.toUpperCase()} · <span id="rgn-reg">{def}</span> · </span><span id="rgn-cur">{SYM[dc]}</span></button>
 <dialog class="sheet rgn-sheet" id="rgn-sheet" aria-labelledby="rgn-h"><div class="sheet-in"><div class="sheet-top"><h2 id="rgn-h" class="h3">{RG.all}</h2><button class="x" type="button" data-rgn-close aria-label={UI.close}>✕</button></div>
 <h3 class="rgn-sub">{UI.language}</h3>
 <ul class="lang-seg" data-lang-pick><li><a aria-current="true" href={Astro.url.pathname} lang={lang} hreflang={lang} class="on">{LANG_NAME[lang]}</a></li>{switcher.map(([l,h])=><li><a href={h} lang={l} hreflang={l}>{LANG_NAME[l]}</a></li>)}</ul>
-<h3 class="rgn-sub">{RG.h}</h3>
-<p class="muted small" style="margin:0">{RG.p}</p>
+<h3 class="rgn-sub">{RG.countryH}</h3>
+<p class="muted small" style="margin:0">{RG.shops}</p>
+<ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n}</span><span class="muted">{c}</span></button></li>)}</ul>
 <h3 class="rgn-sub">{RG.curH}</h3>
 <div class="cur-seg" role="radiogroup" aria-label={RG.curH}>{CURRENCIES.map(c=><button type="button" role="radio" data-cur={c} aria-checked={c===dc?'true':'false'}>{SYM[c]} {c}</button>)}</div>
 <p class="muted small" style="margin:0">{RG.curNote}</p>
-<h3 class="rgn-sub">{RG.countryH}</h3>
-<ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n}</span><span class="muted">{c}</span></button></li>)}</ul></div></dialog>
+<button type="button" class="btn btn-accent rgn-save" data-rgn-save>{RG.save}</button></div></dialog>
 <script is:inline define:vars={{CFG,lang,DEF:def,CONV:RG.conv('§',FX.date),NONE:UI.checkPrice,AP:RG.approx}}>
 (()=>{const {FX,SH,R,SYM,CUR}=CFG; const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
 const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
@@ -27,7 +27,7 @@ let cur=ls('wp_cur'); if(!CUR.includes(cur)) cur=null; const curNow=()=>cur||R[r
 const fmt=(n,c)=>{const v=Math.round(n); if(c==='SEK') return v+' kr'; return nonEn?v+' '+SYM[c]:SYM[c]+v;};
 function best(os){const C=curNow(); const c=(os||[]).map(o=>{const s=SH[o.d]||{y:[],n:[]}; const st=s.y.includes(reg)?0:s.n.includes(reg)?2:1; const nat=o.c===C; return {...o,st,nat,v:nat?o.p:Math.round(o.p/FX.rates[o.c]*FX.rates[C])};}).filter(o=>o.st<2).sort((a,b)=>a.st-b.st||(b.nat-a.nat)||a.v-b.v);
  if(!c.length) return {txt:NONE,v:null,u:null}; const o=c[0]; return {txt:fmt(o.v,C),v:o.v,u:o.u,conv:!o.nat,from:o.c,unk:o.st===1,cur:C};}
-function apply(){const C=curNow(); const l=document.getElementById('rgn-lab'); if(l) l.textContent=R[reg][0]+' '+reg+' · '+SYM[C];
+function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===C?'true':'false'));
  document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===reg?'true':'false'));
  document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
@@ -35,9 +35,17 @@ function apply(){const C=curNow(); const l=document.getElementById('rgn-lab'); i
  document.dispatchEvent(new Event('wp:region'));}
 window.WP={best,get region(){return reg},get currency(){return curNow()},approx:AP};
 document.addEventListener('DOMContentLoaded',()=>{ if(reg!==DEF||cur) apply();
- const d=document.getElementById('rgn-sheet'); document.getElementById('rgn-btn').onclick=()=>d.showModal();
- d.addEventListener('click',e=>{const la=e.target.closest('[data-lang-pick] a'); if(la){set('wp_lang',la.lang); try{document.cookie='wp_lang='+la.lang+';path=/;max-age=31536000;samesite=lax'}catch(x){} return;} const k=e.target.closest('[data-cur]'); if(k){cur=k.dataset.cur; set('wp_cur',cur); apply(); return;}
-  const b=e.target.closest('[data-rgn]'); if(b){reg=b.dataset.rgn; set('wp_region',reg); apply(); d.close(); return;} if(e.target.closest('[data-rgn-close]')||e.target===d) d.close();});
+ const d=document.getElementById('rgn-sheet'); 
+ let sR,sC,sL; const mark=()=>{document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===sR?'true':'false'));
+  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===(sC||R[sR][1])?'true':'false'));
+  document.querySelectorAll('[data-lang-pick] a').forEach(a=>a.classList.toggle('on',a===sL));};
+ document.getElementById('rgn-btn').onclick=()=>{sR=reg;sC=cur;sL=document.querySelector('[data-lang-pick] a[aria-current]');mark();d.showModal();};
+ d.addEventListener('click',e=>{const la=e.target.closest('[data-lang-pick] a'); if(la){e.preventDefault(); sL=la; mark(); return;}
+  const k=e.target.closest('[data-cur]'); if(k){sC=k.dataset.cur; mark(); return;}
+  const b=e.target.closest('[data-rgn]'); if(b){sR=b.dataset.rgn; mark(); return;}
+  if(e.target.closest('[data-rgn-save]')){ if(sR!==reg||ls('wp_region')){reg=sR; set('wp_region',reg);} if(sC){cur=sC; set('wp_cur',cur);} apply(); d.close();
+   if(sL&&!sL.hasAttribute('aria-current')){set('wp_lang',sL.lang); try{document.cookie='wp_lang='+sL.lang+';path=/;max-age=31536000;samesite=lax'}catch(x){} location.href=sL.getAttribute('href');} return;}
+  if(e.target.closest('[data-rgn-close]')||e.target===d) d.close();});
  if(!nonEn&&!ls('wp_region')&&!ls('wp_geo')) fetch('/api/geo').then(r=>r.json()).then(j=>{const c=j.country; const k=R[c]?c:c==='UK'?'GB':EU.includes(c)?'EU':c?'ROW':null; if(k){set('wp_geo',k); if(!ls('wp_region')&&k!==reg){reg=k; apply();}}}).catch(()=>{});
 });})();
 </script>
