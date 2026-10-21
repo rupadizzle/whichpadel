@@ -70,5 +70,6 @@ await b.close();
 const { execSync } = await import('child_process');
 try{ execSync('node seoqa.mjs',{stdio:'inherit'}); }catch(e){ issues.push('SEOQA FAILED'); }
 try{ execSync('node curqa.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('CURQA FAILED'); }
+try{ execSync('node pickerqa.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PICKERQA FAILED'); }
 try{ execSync('node parity.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PARITY FAILED'); console.log('PARITY FAILED'); }
 if(errs.length||issues.length){ console.log('QA FAIL'); process.exit(1); } else console.log('QA PASS');

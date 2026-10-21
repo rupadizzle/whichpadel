@@ -29,7 +29,7 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 </head><body>
 <header class="hdr"><div class="wrap">
 <a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
-<Region lang={L2}/>
+<Region lang={L2} switcher={switcher}/>
 <button class="burger" aria-label={D(L2).ui.menu} aria-expanded="false" aria-controls="nav" onclick="const n=document.getElementById('nav');this.setAttribute('aria-expanded',n.classList.toggle('open'))">☰</button>
 <NavL lang={L2} switcher={switcher}/>
 <script is:inline>document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"))}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});</script>
