@@ -1,6 +1,6 @@
 import {parse,sane} from './parse.js'; import {FEEDS} from './feeds.js';
 const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpadel.com)';
-const PER_DOMAIN=3, GAP_MS=4000, DAY=86400e3, RECHECK=20*3600e3;
+const PER_RUN={'noxsport.com':1}, PER_DOMAIN=2, GAP_MS=8000, RETRY=6*3600e3, DAY=86400e3, RECHECK=20*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 export function robotsAllows(txt,path){if(!txt) return true; let on=false,rules=[]; for(const raw of txt.split(/\r?\n/)){const l=raw.replace(/#.*/,'').trim(); const m=l.match(/^([\w-]+)\s*:\s*(.*)$/); if(!m) continue; const k=m[1].toLowerCase(), v=m[2].trim();
@@ -14,7 +14,8 @@ async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.ur
  const fail=async(status,err)=>{await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,status,err),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now,err,o.id)]); return {id:o.id,err};};
  if(!robotsAllows(rtxt,u.pathname+u.search)) return fail(0,'robots');
  let res; try{res=await fetch(o.url,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en'},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
- if(!res.ok) return fail(res.status,'http');
+ if(res.status===429||res.status===403||res.status===405||res.status>=500){await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,res.status,'blocked-retry'),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now-RECHECK+RETRY,'http'+res.status,o.id)]); return {id:o.id,err:'retry'};}
+ if(!res.ok) return fail(res.status,'http'+res.status);
  const p=parse(await res.text(),o.shop); if(p.error) return fail(res.status,p.error);
  const {results:hist}=await env.DB.prepare('SELECT price,currency FROM price_observations WHERE offer_id=? ORDER BY ts DESC LIMIT 5').bind(o.id).all();
  if(!sane(p.price,hist.filter(h=>h.currency===p.currency).map(h=>h.price))) return fail(res.status,'outlier:'+p.price);
@@ -24,7 +25,7 @@ async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.ur
  await env.DB.batch(st); return {id:o.id,price:p.price};}
 export async function run(env){const {results:shops}=await env.DB.prepare("SELECT * FROM shops WHERE active=1 AND mode='page'").all();
  for(const f of FEEDS) if(f.enabled(env)) await f.fetchOffers(env); // inactive until credentials exist
- const out=await Promise.all(shops.map(async s=>{const {results:due}=await env.DB.prepare('SELECT * FROM offers WHERE shop=? AND last_checked<? ORDER BY last_checked LIMIT ?').bind(s.domain,Date.now()-RECHECK,PER_DOMAIN).all();
+ const out=await Promise.all(shops.map(async s=>{const {results:due}=await env.DB.prepare('SELECT * FROM offers WHERE shop=? AND last_checked<? ORDER BY last_checked LIMIT ?').bind(s.domain,Date.now()-RECHECK,PER_RUN[s.domain]||PER_DOMAIN).all();
   if(!due.length) return []; const rt=await robots(env,s); const r=[]; for(const [i,o] of due.entries()){if(i) await sleep(GAP_MS); r.push(await checkOffer(env,o,rt));} return r;}));
  return out.flat();}
 // public read API: best current offer per racket + 30/90-day lows + short history + drop flag
