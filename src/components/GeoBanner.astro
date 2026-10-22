@@ -1,32 +1,35 @@
 ---
-// First-visit geo suggestion: if the visitor's country's language differs from this page, offer (never force) a switch.
-import { D } from '../i18n/index.js'; import { LANG_NAME, LANGS } from '../i18n/routes.js'; import { REGIONS, SYM } from '../lib/price.js';
-const { lang='en' } = Astro.props;
-const T=Object.fromEntries(LANGS.map(l=>{const r=D(l).ui.region; return [l,{m:r.geoMsg('§c','§l','§s'),sw:r.geoSw,st:r.geoStay,n:LANG_NAME[l]}];}));
-const RC=Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,SYM[v[2]]]));
+// First-visit country confirm: "Are you in {Country}?" -> Confirm (saves country+currency via the picker; switches language only if the
+// country's language differs) or Choose country (opens the globe picker). Close = dismiss. Never auto-redirects. Bots excluded.
+import { D } from '../i18n/index.js'; import { REGIONS, SYM } from '../lib/price.js';
+const { lang='en' } = Astro.props; const r=D(lang).ui.region;
+const T={m:r.geoQ('§c','§s'),ok:r.geoOk('§c'),ch:r.geoCh,x:D(lang).ui.close};
+const RC=Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,v[2]]));
 ---
-<div id="geo-bn" class="geo-bn" role="region" aria-live="polite" hidden><p id="geo-msg"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-sw"></button><button type="button" class="btn" id="geo-st"></button></div></div>
-<script is:inline define:vars={{T,RC,lang}}>
+<div id="geo-bn" class="geo-bn" role="region" aria-live="polite" hidden><p id="geo-msg"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-ok"></button><button type="button" class="btn" id="geo-ch"></button></div><button type="button" class="geo-x" id="geo-x" aria-label={T.x}>✕</button></div>
+<script is:inline define:vars={{T,RC,SYM,lang}}>
 (()=>{const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
 if(ls('wp_lang')||ls('wp_region')||ls('wp_cur')||ls('wp_geo_stay')) return;
 const q=new URLSearchParams(location.search).get('geo');
 if(!q&&(navigator.webdriver||/bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit|bingpreview/i.test(navigator.userAgent))) return;
 const LM={ES:'es',PT:'pt',FR:'fr',BE:'fr',IT:'it',DE:'de'};
-const go=c=>{if(!c) return; c=c.toUpperCase(); if(c==='UK') c='GB'; const tl=LM[c]||'en'; if(tl===lang) return;
- const a=document.querySelector('[data-lang-pick] a[hreflang="'+tl+'"]'); if(!a) return;
- const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
- const rk=RC[c]?c:EU.includes(c)?'EU':'ROW'; let cn=c; try{cn=new Intl.DisplayNames([tl],{type:'region'}).of(c)||c}catch(e){}
- const t=T[tl]; const b=document.getElementById('geo-bn'); b.lang=tl;
- document.getElementById('geo-msg').textContent=t.m.replace('§c',cn).replace('§l',t.n).replace('§s',RC[rk]);
- const sw=document.getElementById('geo-sw'), st=document.getElementById('geo-st'); sw.textContent=t.sw; st.textContent=t.st;
- sw.onclick=()=>{set('wp_lang',tl); set('wp_region',rk); try{document.cookie='wp_lang='+tl+';path=/;max-age=31536000;samesite=lax'}catch(x){} location.href=a.getAttribute('href');};
- st.onclick=()=>{set('wp_geo_stay','1'); b.hidden=true;};
+const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
+const go=c=>{if(!c||!/^[A-Za-z]{2}$/.test(c)) return; c=c.toUpperCase(); if(c==='UK') c='GB';
+ const rk=RC[c]?c:EU.includes(c)?'EU':'ROW', cu=RC[rk], tl=LM[c]||'en'; let cn=c; try{cn=new Intl.DisplayNames([lang],{type:'region'}).of(c)||c}catch(e){}
+ const b=document.getElementById('geo-bn'), ok=document.getElementById('geo-ok'), ch=document.getElementById('geo-ch');
+ document.getElementById('geo-msg').textContent=T.m.replace('§c',cn).replace('§s',SYM[cu]); ok.textContent=T.ok.replace('§c',cn); ch.textContent=T.ch;
+ const hide=()=>{b.hidden=true;};
+ ok.onclick=()=>{ if(window.WP&&WP.setRC) WP.setRC(rk,cu); else {set('wp_region',rk); set('wp_cur',cu);} hide();
+  if(tl!==lang){const a=document.querySelector('[data-lang-pick] a[hreflang="'+tl+'"]'); if(a){set('wp_lang',tl); try{document.cookie='wp_lang='+tl+';path=/;max-age=31536000;samesite=lax'}catch(x){} location.href=a.getAttribute('href');}}};
+ ch.onclick=()=>{set('wp_geo_stay','1'); hide(); const g=document.getElementById('rgn-btn'); if(g) g.click();};
+ document.getElementById('geo-x').onclick=()=>{set('wp_geo_stay','1'); hide();};
  b.hidden=false;};
 const run=()=>{ if(q) return go(q); fetch('/api/geo').then(r=>r.json()).then(j=>go(j.country)).catch(()=>{}); };
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run):run();})();
 </script>
 <style is:global>
-.geo-bn{position:fixed;left:var(--sp-2,16px);right:var(--sp-2,16px);top:var(--sp-2,16px);z-index:60;margin:0 auto;max-width:640px;display:flex;align-items:center;gap:var(--sp-2,16px);padding:var(--sp-2,16px);background:#fff;color:#0b2a3c;border:1px solid #d7dee3;border-radius:var(--r)}
+.geo-bn{position:fixed;left:var(--sp-2,16px);right:var(--sp-2,16px);top:var(--sp-2,16px);z-index:60;margin:0 auto;max-width:680px;display:flex;align-items:center;gap:var(--sp-2,16px);padding:var(--sp-2,16px);padding-right:52px;background:#fff;color:#0b2a3c;border:1px solid #d7dee3;border-radius:var(--r);box-sizing:border-box}
 .geo-bn[hidden]{display:none}.geo-bn p{margin:0;flex:1;font-size:15px;line-height:1.4}.geo-act{display:flex;gap:8px;flex-shrink:0}.geo-act .btn{min-height:44px}
-@media (max-width:560px){.geo-bn{flex-direction:column;align-items:stretch}.geo-act .btn{flex:1}}
+.geo-x{position:absolute;top:2px;right:2px;width:44px;height:44px;border:0;background:none;color:inherit;font-size:16px;cursor:pointer}
+@media (max-width:600px){.geo-bn{flex-direction:column;align-items:stretch}.geo-act{flex-direction:column}.geo-act .btn{width:100%}}
 </style>
