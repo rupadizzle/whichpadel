@@ -7,7 +7,7 @@ import '../styles/v6.css';
 import '../styles/v7.css';
 import '../styles/v8.css';
 import '../styles/v9.css';
-import { D } from '../i18n/index.js'; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
+import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
 const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null } = Astro.props;
@@ -34,6 +34,7 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <NavL lang={L2} switcher={switcher}/>
 <script is:inline>document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"))}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});</script>
 </div></header>
+<GeoBanner lang={L2}/>
 <slot name="hero"/>
 <main class="wrap"><slot/>
 <FooterL lang={L2} news/>
