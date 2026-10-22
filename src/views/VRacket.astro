@@ -41,7 +41,7 @@ const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('co
 <div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} tabindex="-1">{u.checkPrice}</a></div>
 <script is:inline define:vars={{PS:r.slug,PX:u.px,PU:r.productUrl}}>
 // live prices from the price engine (/api/prices); amounts are .mz tokens so the currency picker converts them
-fetch('/api/prices').then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+if(location.hostname==='whichpadel.com'||/[?&]px=1/.test(location.search)) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
  const o=JSON.stringify([{d:e.d,p:e.p,c:e.c,u:e.u}]); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=o);
  const m=v=>`<span class="mz" data-m="${v}" data-mc="${e.c}" data-k="m"></span>`; const L=document.getElementById('pxlive');
  L.innerHTML=`<li>${PX.checked.replace('{d}',e.t)}${e.s===0?' · '+PX.oos:''}</li><li>${PX.low30}: ${m(e.min30)}</li>`+(Date.now()-Date.parse(e.since)>45*864e5?`<li>${PX.low90}: ${m(e.min90)}</li>`:'');
