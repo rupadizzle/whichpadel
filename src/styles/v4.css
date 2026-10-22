@@ -140,3 +140,7 @@ body{overflow-x:hidden}
 p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2px}
 .cmp{min-height:110vh}
 .hc{position:relative}.hn::after{content:"";position:absolute;inset:0;border-radius:12px}.hact{position:relative;z-index:1}
+
+.pxlive{list-style:none;padding:0;margin:var(--s2) 0 0;display:grid;gap:var(--s1)}
+.pxdrop{display:inline-block;vertical-align:middle;font-size:var(--fs-s);font-weight:700;letter-spacing:0;color:#fff;background:var(--green2);border-radius:4px;padding:2px var(--s2)}
+.pxdrop[hidden],.pxlive[hidden]{display:none}

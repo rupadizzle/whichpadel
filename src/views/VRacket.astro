@@ -30,7 +30,7 @@ const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('co
 {similar.length>0&&<section class="panel vs"><h2>{u.compareSimilar}</h2>{similar.map(s=><a href={url('compare',lang)+`?r=${r.slug},${s.slug}`}><span>{r.model} vs {s.model}</span><span>→</span></a>)}</section>}
 {sameBrand.length>0&&<section class="panel vs"><h2>{u.moreFrom(r.brand)}</h2>{sameBrand.map(s=><a href={url('racket',lang,s.slug)}><span>{s.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={url('brand',lang,bs)}>{u.allBrand(r.brand)}</a></p></section>}
 </div>
-<aside class="panel buybox" id="buybox"><p class="muted small" style="margin:0">{u.recordedPrice}</p><p class="price-big"><Price r={r} lang={lang}/></p>{r.priceChecked&&<p class="muted small">{u.checkedOn(r.priceChecked)}</p>}
+<aside class="panel buybox" id="buybox"><p class="muted small" style="margin:0">{u.recordedPrice}</p><p class="price-big"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
 {r.valueScore!=null&&<p class="small" style="margin:0 0 8px">{u.valueScore} <b>{r.valueScore}/100</b> · <a href={url('best',lang,'best-value-padel-rackets')+'#methodology'}>{u.howItWorks}</a></p>}
 <a class="btn aff btn-lg" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.checkPrice} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
 <ul class="trustbar"><li>{u.trustA}</li><li>{u.trustB(rackets.length)}</li>{r.priceChecked&&<li>{u.trustC(r.priceChecked)}</li>}</ul>
@@ -39,6 +39,16 @@ const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('co
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
 <div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} tabindex="-1">{u.checkPrice}</a></div>
+<script is:inline define:vars={{PS:r.slug,PX:u.px,PU:r.productUrl}}>
+// live prices from the price engine (/api/prices); amounts are .mz tokens so the currency picker converts them
+fetch('/api/prices').then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+ const o=JSON.stringify([{d:e.d,p:e.p,c:e.c,u:e.u}]); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=o);
+ const m=v=>`<span class="mz" data-m="${v}" data-mc="${e.c}" data-k="m"></span>`; const L=document.getElementById('pxlive');
+ L.innerHTML=`<li>${PX.checked.replace('{d}',e.t)}${e.s===0?' · '+PX.oos:''}</li><li>${PX.low30}: ${m(e.min30)}</li>`+(Date.now()-Date.parse(e.since)>45*864e5?`<li>${PX.low90}: ${m(e.min90)}</li>`:'');
+ L.hidden=false; const st=document.getElementById('pxstatic'); if(st) st.hidden=true;
+ if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
+ window.wpApply&&window.wpApply();}).catch(()=>{});
+</script>
 <script is:inline define:vars={{cur:{s:r.slug,m:r.model,i:r.image||''},RK:url('racket',lang,'X').replace(/X\/$/,''),CMP:url('compare',lang),CW:u.compareWith('§')}}>
 document.body.classList.add('has-sticky');
 const sc=document.getElementById('stickycta'),bb=document.querySelector('#buybox .aff');
