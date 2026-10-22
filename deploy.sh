@@ -10,6 +10,7 @@ rm -rf dist && npm run build >/tmp/wp-build.log 2>&1 || fail "build (see /tmp/wp
 node qa.mjs        2>&1 | tee /tmp/wp-qa.log;     grep -q "QA PASS" /tmp/wp-qa.log || fail qa
 node layoutqa.mjs  | tee /tmp/wp-lqa.log;    grep -q "LAYOUT VIOLATIONS 0" /tmp/wp-lqa.log || fail layoutqa
 node mixqa.mjs     | tee /tmp/wp-mix.log;    grep -q "^0 issues" /tmp/wp-mix.log || fail mixqa
+node padqa.mjs     | tee /tmp/wp-pad.log;    grep -q "PASS" /tmp/wp-pad.log || fail padqa
 URL=$($W --branch preview 2>&1 | grep -o 'https://[a-z0-9.-]*pages\.dev' | tail -1)
 [ -n "$URL" ] || fail "preview deploy"
 echo "preview: $URL"; sleep 10

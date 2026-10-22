@@ -30,3 +30,6 @@
 @media(width <= 400px){.rgn-x{display:none}}
 @media(width > 1180px){.nav a,.nav .dd>button{white-space:nowrap}}
 @media(width > 1180px){.hdr .wrap{gap:var(--s2)}.nav{gap:0}.nav a,.nav .dd>button{padding:var(--s2);font-size:.88rem}}
+
+/* Main content vertical padding: same gap below header/hero and above footer on every page */
+main.wrap{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
