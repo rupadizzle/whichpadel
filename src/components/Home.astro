@@ -2,8 +2,8 @@
 import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
 import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
 import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
-import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
-const { lang='en' } = Astro.props; const H=HOME[lang];
+import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
+const { lang='en' } = Astro.props; const H=HOME[lang]; const CUR0=CURL(lang);
 const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
 const FIRST=24;
@@ -34,7 +34,7 @@ const baseProps={lang:DICTS[lang].locale};
 <form class="qsteps" id="qform" onsubmit="return false">
 <div class="qstep"><fieldset><legend><span class="qprog">1/3</span> {H.level}</legend><div class="chipset">{['beginner','intermediate','advanced'].map((v,i)=><label><input type="radio" name="level" value={v} checked={i===0}/><span>{H.levels[i]}</span></label>)}</div></fieldset></div>
 <div class="qstep"><fieldset><legend><span class="qprog">2/3</span> {H.play}</legend><div class="chipset">{['control','all','power','arm'].map((v,i)=><label><input type="radio" name="style" value={v} checked={i===1}/><span>{H.styles[i]}</span></label>)}</div></fieldset></div>
-<div class="qstep"><fieldset><legend><span class="qprog">3/3</span> {H.budget}</legend><div class="chipset">{['100','150','200',''].map((v,i)=><label><input type="radio" name="budget" value={v} checked={i===2}/><span>{H.budgets[i]}</span></label>)}</div></fieldset></div>
+<div class="qstep"><fieldset><legend><span class="qprog">3/3</span> {H.budget}</legend><div class="chipset">{['100','150','200',''].map((v,i)=><label><input type="radio" name="budget" value={v} data-mb={v||undefined} data-mc={v?CUR0:undefined} checked={i===2}/><span>{H.budgets[i]}</span></label>)}</div></fieldset></div>
 <div><button class="btn btn-accent btn-lg" id="q-go" type="button" style="max-width:420px">{H.go}</button></div>
 </form>
 <div class="qres" id="qres" hidden aria-live="polite"></div>

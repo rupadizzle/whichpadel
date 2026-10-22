@@ -1,3 +1,4 @@
+import { tk } from './money.js';
 // SEO push content (new file). Data-derived lists, brand copy, vs plan.
 import { rackets, slugify } from './data.js';
 const avg = (rs,k)=> rs.length? Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs.length):0;
@@ -17,8 +18,8 @@ export const extraLists = {
     rule:'Included: diamond or teardrop shape and a medium, medium-hard or hard core. Sorted by the average of power and handling, then control.',
     pick: rs=>rs.filter(r=>['diamond','teardrop'].includes(r.shape) && ['medium','medium-hard','hard'].includes(r.coreHardness)).sort((a,b)=>(b.ratings.power+b.ratings.handling)-(a.ratings.power+a.ratings.handling)||b.ratings.control-a.ratings.control) },
   'best-cheap-padel-rackets': { title:'Best cheap padel rackets', kw:'cheap padel racket',
-    intro:'You do not need to spend £200 to enjoy padel. These are the best-rated rackets in our database with a recorded price of £80 or less, which covers most first rackets and spares.',
-    rule:'Included: recorded price at or below £80 (EUR/USD converted at the 20 Oct 2026 rate). Sorted by the average of forgiveness, comfort and value, then lower price.',
+    intro:'You do not need to spend ⟦b|200|GBP|GBP⟧ to enjoy padel. These are the best-rated rackets in our database with a recorded price of ⟦b|80|GBP|GBP⟧ or less, which covers most first rackets and spares.',
+    rule:'Included: recorded price at or below ⟦b|80|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate). Sorted by the average of forgiveness, comfort and value, then lower price.',
     pick: rs=>rs.filter(r=>r.priceGBPApprox!=null && r.priceGBPApprox<=80).sort((a,b)=>(b.ratings.forgiveness+b.ratings.comfort+b.ratings.value)-(a.ratings.forgiveness+a.ratings.comfort+a.ratings.value)||a.priceGBPApprox-b.priceGBPApprox) },
   'best-womens-padel-rackets': { title:"Best women's padel rackets", kw:"women's padel racket",
     intro:"These are the rackets that the brand itself markets as a women's model (W, Woman or Mujer in the official name). They are often a little lighter than the matching unisex model. Any racket can be used by anyone: weight and shape matter more than the label, so also check the lightweight picks in the full database.",
@@ -52,14 +53,14 @@ export function brandContent(slug){
   const sh={}; rs.forEach(r=>{if(r.shape) sh[r.shape]=(sh[r.shape]||0)+1});
   const top=k=>[...rs].sort((a,b)=>b.ratings[k]-a.ratings[k])[0];
   const name=rs[0]?.brand||slug;
-  const facts=`In our database: ${rs.length} ${name} racket${rs.length>1?'s':''}${Object.keys(sh).length?`; shapes ${Object.entries(sh).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(', ')}`:''}${p.length?`; recorded prices about £${Math.min(...p)}–£${Math.max(...p)} (median £${med(p)})`:''}. Highest power score: ${top('power').model}. Most forgiving: ${top('forgiveness').model}.`;
-  const faq=[...c.faq,...(p.length?[]:[]),[`How much do ${name} padel rackets cost?`,p.length>1?`Recorded prices for the ${p.length} ${name} rackets with a price in our database run from about £${Math.min(...p)} to £${Math.max(...p)}, with a median of £${med(p)}. Prices change often, so check the shop before buying.`:p.length?`We have one recorded price for ${name}: about £${p[0]}. Prices change often, so check the shop before buying.`:`We do not have a recorded price for ${name} yet. Check the shop link on each racket page.`]];
+  const facts=`In our database: ${rs.length} ${name} racket${rs.length>1?'s':''}${Object.keys(sh).length?`; shapes ${Object.entries(sh).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(', ')}`:''}${p.length?`; recorded prices about ${tk(Math.min(...p),'GBP')}–${tk(Math.max(...p),'GBP')} (median ${tk(med(p),'GBP')})`:''}. Highest power score: ${top('power').model}. Most forgiving: ${top('forgiveness').model}.`;
+  const faq=[...c.faq,...(p.length?[]:[]),[`How much do ${name} padel rackets cost?`,p.length>1?`Recorded prices for the ${p.length} ${name} rackets with a price in our database run from about ${tk(Math.min(...p),'GBP')} to ${tk(Math.max(...p),'GBP')}, with a median of ${tk(med(p),'GBP')}. Prices change often, so check the shop before buying.`:p.length?`We have one recorded price for ${name}: about ${tk(p[0],'GBP')}. Prices change often, so check the shop before buying.`:`We do not have a recorded price for ${name} yet. Check the shop link on each racket page.`]];
   return { blurb:c.blurb, facts, faq, topPower:top('power'), topForgiving:top('forgiveness') };
 }
 export const shapeStats = ['round','teardrop','diamond','hybrid'].map(s=>{const g=rackets.filter(r=>r.shape===s);return {shape:s,n:g.length,power:avg(g,'power'),control:avg(g,'control'),forgiveness:avg(g,'forgiveness'),comfort:avg(g,'comfort'),price:med(g.map(r=>r.priceGBPApprox).filter(Boolean))};});
 export const coreStats = ['soft','medium-soft','medium','medium-hard','hard'].map(s=>{const g=rackets.filter(r=>r.coreHardness===s);return {core:s,n:g.length,power:avg(g,'power'),control:avg(g,'control'),comfort:avg(g,'comfort'),forgiveness:avg(g,'forgiveness')};});
 export const balanceStats = ['low','medium','high'].map(s=>{const g=rackets.filter(r=>r.balance===s);return {balance:s,n:g.length,power:avg(g,'power'),control:avg(g,'control'),forgiveness:avg(g,'forgiveness')};});
 const P=rackets.map(r=>r.priceGBPApprox).filter(Boolean);
-export const priceStats = { n:P.length, min:Math.min(...P), max:Math.max(...P), median:med(P), tiers:[['Up to £100',0,100],['£101–£150',100,150],['£151–£250',150,250],['Over £250',250,1e9]].map(([l,a,b])=>({label:l,n:P.filter(p=>p>a&&p<=b).length})) };
+export const priceStats = { n:P.length, min:Math.min(...P), max:Math.max(...P), median:med(P), tiers:[['Up to ⟦b|100|GBP|GBP⟧',0,100],['⟦b|101|GBP|GBP⟧–⟦b|150|GBP|GBP⟧',100,150],['⟦b|151|GBP|GBP⟧–⟦b|250|GBP|GBP⟧',150,250],['Over ⟦b|250|GBP|GBP⟧',250,1e9]].map(([l,a,b])=>({label:l,n:P.filter(p=>p>a&&p<=b).length})) };
 const W=rackets.filter(r=>r.weightMin); export const weightStats={n:W.length,min:Math.min(...W.map(r=>r.weightMin)),max:Math.max(...rackets.filter(r=>r.weightMax).map(r=>r.weightMax))};
 export const faceStats=(()=>{let c=0,g=0;rackets.forEach(r=>{const f=(r.faceMaterial||'').toLowerCase(); if(!f) return; if(/carbon|carbono|\d+k\b/.test(f)) c++; else if(/glass|vidrio|fibrix|polyglass/.test(f)) g++;}); return {carbon:c,glass:g};})();

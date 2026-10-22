@@ -1,3 +1,4 @@
+import { tk } from './money.js';
 import raw from '../../data/rackets.normalised.json';
 import imgs from '../../data/images.json';
 export const meta = raw.meta;
@@ -24,7 +25,7 @@ export const lists = {
   'best-value-padel-rackets': { title: 'Best value padel rackets', intro: 'The most rating for your money: each racket’s two strongest spec-based scores, divided by its recorded price.', method: true, rule: 'Sorted by our value score (formula below). Only rackets with a recorded price.', pick: rs => rs.filter(r=>r.valueScore!=null).sort((a,b)=> b.valueScore - a.valueScore) },
   'most-comfortable-padel-rackets': { title: 'Most comfortable padel rackets', intro: 'Rackets with the highest spec-based comfort rating, which favours softer cores and lower weights.', rule: 'Sorted by the comfort rating, ties broken by forgiveness.', pick: rs => [...rs].sort((a,b)=> b.ratings.comfort - a.ratings.comfort || b.ratings.forgiveness - a.ratings.forgiveness) },
   'most-powerful-padel-rackets': { title: 'Most powerful padel rackets', intro: 'Rackets with the highest spec-based power rating, usually diamond shapes with a high balance and firmer core.', rule: 'Sorted by the power rating, ties broken by handling.', pick: rs => [...rs].sort((a,b)=> b.ratings.power - a.ratings.power || b.ratings.handling - a.ratings.handling) },
-  'best-padel-rackets-under-100': { title: 'Best padel rackets under £100', rule: 'Recorded price at or below £100 (EUR/USD converted at the 20 Oct 2026 rate), sorted by the value rating.', pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 100).sort((a,b)=> b.ratings.value - a.ratings.value) },
+  'best-padel-rackets-under-100': { title: 'Best padel rackets under ⟦b|100|GBP|GBP⟧', rule: 'Recorded price at or below ⟦b|100|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate), sorted by the value rating.', pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 100).sort((a,b)=> b.ratings.value - a.ratings.value) },
 };
 
 export const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -40,7 +41,7 @@ export function intro(r){
   if(r.faceMaterial) bits.push(`a ${r.faceMaterial} face`);
   if(bits.length) s.push(`It has ${bits.length>1?bits.slice(0,-1).join(', ')+' and '+bits.at(-1):bits[0]}.`);
   s.push(`On our spec-based model its strongest score is ${best[0]} (${best[1]}/100) and its lowest is ${worst[0]} (${worst[1]}/100)${R.comfort>=70?', so it suits players who want an arm-friendly feel':R.power>=70?', so it suits attacking players who finish points at the net':R.forgiveness>=70?', which makes it a sensible pick for newer players':''}.`);
-  if(r.priceGBPApprox) s.push(`The last recorded price was about £${r.priceGBPApprox}.`);
+  if(r.priceGBPApprox) s.push(`The last recorded price was about ${tk(r.priceGBPApprox,'GBP')}.`);
   if(r.inputsMissing?.length) s.push(`The maker or retailer does not publish its ${r.inputsMissing.join(' or ')}, so treat related scores with care.`);
   return s.join(' ');
 }

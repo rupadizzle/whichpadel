@@ -13,3 +13,6 @@ export function pick(r,region){const cur=REGIONS[region]?.[2]||'EUR'; const os=o
  return {cur,o,v:o.native?o.p:Math.round(o.v),conv:!o.native};}
 export function priceText(r,region='GB',lang='en'){const p=pick(r,region); return p.none?null:fmt(p.v,p.cur,lang);}
 const DEF_REGION={en:'GB',es:'ES',fr:'FR',pt:'PT',it:'IT',de:'DE'}; export const DEFAULT_REGION=lang=>DEF_REGION[lang]||'GB';
+import { tk } from './money.js';
+// price as a currency token (shop's own amount + currency, shown in the region's currency); follows the visitor's choice like .pz
+export function priceTok(r,region='GB'){const p=pick(r,region); return p.none?null:tk(p.o.p,p.o.c,p.cur);}

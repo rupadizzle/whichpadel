@@ -7,6 +7,7 @@ W="npx -y -p node@22 -p wrangler@latest wrangler pages deploy dist --project-nam
 fail(){ echo "ABORT: $1"; exit 1; }
 curl -sf -o /dev/null http://127.0.0.1:4987/ || (nohup npx astro preview --port 4987 --host 127.0.0.1 >/tmp/wp-preview.log 2>&1 &) ; node scripts/translate-missing.mjs | tee /tmp/wp-tm.log; grep -q "complete" /tmp/wp-tm.log || fail "translate-missing (untranslated keys, see /tmp/wp-tm.log)"
 rm -rf dist && npm run build >/tmp/wp-build.log 2>&1 || fail "build (see /tmp/wp-build.log)"
+node curtextqa.mjs | tee /tmp/wp-cur.log; grep -q "CURTEXT PASS" /tmp/wp-cur.log || fail curtextqa
 node qa.mjs        2>&1 | tee /tmp/wp-qa.log;     grep -q "QA PASS" /tmp/wp-qa.log || fail qa
 node layoutqa.mjs  | tee /tmp/wp-lqa.log;    grep -q "LAYOUT VIOLATIONS 0" /tmp/wp-lqa.log || fail layoutqa
 node mixqa.mjs     | tee /tmp/wp-mix.log;    grep -q "^0 issues" /tmp/wp-mix.log || fail mixqa
