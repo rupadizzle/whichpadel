@@ -14,6 +14,7 @@ node mixqa.mjs     | tee /tmp/wp-mix.log;    grep -q "^0 issues" /tmp/wp-mix.log
 node padqa.mjs     | tee /tmp/wp-pad.log;    grep -q "PASS" /tmp/wp-pad.log || fail padqa
 node pxqa.mjs      | tee /tmp/wp-px.log;     grep -q "PXQA PASS" /tmp/wp-px.log || fail pxqa
 node geoqa.mjs     | tee /tmp/wp-geo.log;    grep -q "GEOQA PASS" /tmp/wp-geo.log || fail geoqa
+node cmpqa.mjs     | tee /tmp/wp-cmp.log;    grep -q "CMPQA PASS" /tmp/wp-cmp.log || fail cmpqa
 URL=$($W --branch preview 2>&1 | grep -o 'https://[a-z0-9.-]*pages\.dev' | tail -1)
 [ -n "$URL" ] || fail "preview deploy"
 echo "preview: $URL"; sleep 10
