@@ -37,7 +37,8 @@ export async function exportPrices(env){const now=Date.now();
   const min=n=>Math.min(...same.filter(o=>now-o.ts<=n*DAY).map(o=>o.price)); const prev=[...h].reverse().find(([,p])=>p!==last.price);
   const recentPrev=prev&&now-Date.parse(prev[0])<=7*DAY+DAY?prev[1]:null; const drop=recentPrev&&last.price<=recentPrev*0.95?Math.round((1-last.price/recentPrev)*100):0;
   const e={p:last.price,c,u:last.u,d:last.d,s:last.s,t:new Date(last.ts).toISOString().slice(0,10),min30:min(30),min90:min(90),since:h[0][0],drop,h:h.slice(-90)};
-  const cur=out[last.r]; if(!cur||(e.s!==0&&(cur.s===0||e.p<cur.p))) out[last.r]=e;}
+  const all=[...(out[last.r]?.o||[]),{d:e.d,p:e.p,c:e.c,u:e.u,s:e.s,t:e.t,min30:e.min30}];
+  const cur=out[last.r]; out[last.r]=(!cur||(e.s!==0&&(cur.s===0||e.p<cur.p)))?e:cur; out[last.r].o=all;}
  return {updated:new Date(now).toISOString(),r:out};}
 export default {
  async scheduled(ev,env,ctx){ctx.waitUntil(run(env));},
