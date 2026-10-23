@@ -1,5 +1,5 @@
 /* racket page v2: gallery + 2-col desktop / ordered single column mobile. 8px scale, 16px gutters, 44px targets */
-.detail.rp2:not(#_){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);grid-template-areas:"gal head" "gal buy" "body buy";grid-template-rows:auto 1fr auto;gap:0 32px;align-items:start}
+.detail.rp2:not(#_){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);grid-template-areas:"head buy" "gal buy" "body buy";grid-template-rows:auto auto 1fr;gap:0 32px;align-items:start}
 .rp2 .rpg{grid-area:gal;position:relative;margin:0 0 24px}.rp2 .rph{grid-area:head;margin:0 0 24px}.rp2 .rpbody{grid-area:body;min-width:0}
 .rp2 #buybox{grid-area:buy;position:sticky;top:80px;margin:0}
 .rp2 .rpbody>*{margin:0 0 24px!important}.rp2 .rpbody>section+section,.rp2 .rpbody>*+*{border-top:0;padding-top:24px}
@@ -48,7 +48,7 @@
 .rpcmp:not(#_){display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:16px;width:100%;background:#fff;color:#13795c;border:1.5px solid #13795c}
 .rp2 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between}.rp2 .fcard h2{margin:0 0 8px}.rp2 .fcard p{margin:0}.rp2 .fcard .btn{min-height:44px;display:inline-flex;align-items:center}
 @media(max-width:899px){
- .detail.rp2:not(#_){grid-template-columns:minmax(0,1fr);grid-template-areas:"gal" "head" "buy" "body";gap:0}
+ .detail.rp2:not(#_){grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "gal" "buy" "body";gap:0}
  .rp2 #buybox{position:static;margin:0 0 24px}
  .rp2 .rpg{margin:0 -16px 16px}
  .rpg .gtrack{height:auto;aspect-ratio:1/1;border-radius:0;border-width:1px 0}
@@ -63,5 +63,13 @@
 }
 @media(min-width:601px) and (max-width:899px){.rp2 .rpg{margin-inline:calc(-1 * var(--s5))}.kchips{margin-inline:calc(-1 * var(--s5));padding-inline:var(--s5)}}
 
-.crumbs:has(+.rp2){margin:16px 0!important;padding:0!important}
-@media(min-width:900px){.rp2 .rph{margin:0 0 16px}.rp2 .rpg{margin:0 0 32px}}
+.crumbs:has(+.rp2):not(#_){margin:16px 0 16px!important;padding:0!important}
+.rp2 .rph .brand{margin-top:0}
+@media(min-width:900px){.rp2 .rph{margin:0 0 24px}.rp2 .rpg{margin:0 0 32px}}
+
+#buybox #pxbig{font-size:28px;font-weight:800;line-height:1.15;margin:0;font-variant-numeric:tabular-nums}#buybox #pxbig *{font-size:inherit}#buybox #pxbig small,#buybox #pxbig .ax{font-size:13px;font-weight:500}
+.rp2 .rph h1{margin-bottom:0}.rp2 .rph .kchips{margin-top:16px}
+@media(max-width:899px){.rp2 .rph{margin:0 0 16px}}
+main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
+#buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:13px;font-weight:500}.crumbs:has(+.rp2):not(#_){margin-bottom:8px!important}
+@media(min-width:900px){.rp2 #buybox:not(#_){margin-top:29px}}

@@ -1,6 +1,6 @@
 // Racket page v2: gallery list, level, key chips, who-it-suits + pros/cons from spec data (6 langs).
 import gal from '../../data/gallery.json';
-export const gallery=r=>{const n=gal[r.slug]||0; if(n) return Array.from({length:n},(_,i)=>({s:`/rackets/g/${r.slug}-${i}-480.webp`,l:`/rackets/g/${r.slug}-${i}-960.webp`})); return r.image?[{s:r.image,l:r.image,one:true}]:[];};
+export const gallery=r=>{const n=gal[r.slug]||0; if(n) return Array.from({length:n},(_,i)=>({s:`/rackets/g/${r.slug}-${i}-400.webp`,l:`/rackets/g/${r.slug}-${i}-800.webp`})); return r.image?[{s:r.image,l:r.image,one:true}]:[];};
 export const levelOf=r=>{const s=(r.level||'').toLowerCase(); if(!s) return null; const has=re=>re.test(s);
  const b=has(/beginn|inici|princip|casual|kid/), i=has(/interm/), a=has(/advanc|avanz|avanç|compet|alto|high|tourn/), p=has(/pro(f|\b)|pro$|semi/);
  return p&&!b?'pro':a&&!b?'advanced':i&&!b?'intermediate':b&&(i||a)?'beginInt':b?'beginner':i?'intermediate':null;};
