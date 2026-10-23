@@ -31,8 +31,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
 // expander: 7 shops delivering GB
 {const many=Array.from({length:7},(_,i)=>of('padelnuestro.com',100+i,'EUR')).map((o,i)=>({...o,d:i<3?'padelnuestro.com':'decathlon.co.uk',u:o.u+i}));
  const pg=await page('/rackets/'+S+'/',360,{wp_region:'GB',wp_cur:'GBP'},{updated:'x',r:{[S]:{...many[0],min90:1,since:T,drop:0,h:[],o:many}}});
- let x=await info(pg); if(x.rows.filter(r=>!r[2]).length!==5||x.more!=='Show all 7 shops') F('expander closed '+x.more);
- await pg.click('.pxmore'); x=await info(pg); if(x.rows.filter(r=>!r[2]).length!==7) F('expander open'); await pg.close();}
+ const x=await info(pg); if(x.rows.length!==4||x.other!==3||x.otherOpen) F('top4 + more shops '+x.rows.length+'/'+x.other); await pg.close();}
 // fallback: no live offer
 {const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); if(!x.hidden||!x.main) F('fallback'); await pg.close();}
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'GB'},{updated:'x',r:{[S]:{...of('noxsport.com',90,'EUR'),min90:1,since:T,drop:0,h:[],o:[of('noxsport.com',90,'EUR')]}}}); const x=await info(pg); if(x.rows.length||x.other!==1||!x.otherOpen) F('only-unknown'); await pg.close();}
