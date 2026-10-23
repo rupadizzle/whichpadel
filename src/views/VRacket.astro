@@ -38,8 +38,8 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 </div>
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
-<div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} id="stickybuy" tabindex="-1">{u.px.cmp.buy.replace('{s}',BN)}</a></div>
-<script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang}}>
+<div class="stickycta" id="stickycta" aria-hidden="true"><button type="button" class="sp" id="stickyopen" tabindex="-1" aria-haspopup="dialog" aria-label={u.px.cmp.openS}><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></button><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} id="stickybuy" tabindex="-1">{u.px.cmp.buy.replace('{s}',BN)}</a></div>
+<script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:r.model}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
 const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
 if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
@@ -59,14 +59,34 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
-  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm"><i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}${ag(o.t)}</small></span><span class="pxp">${f(o.v)}</span><a class="btn pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
-  const main=rows.filter(o=>o.st==='y'), top=main.slice(0,4), oth=[...main.slice(4),...rows.filter(o=>o.st!=='y')];
-  const b=top[0]||oth[0]; let h=`<p class="pxbigp">${f(b.v)}</p><p class="pxsub">${sn(b)} · ${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`;
-  if(top.length) h+=`<ul class="pxl">${top.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
-  if(oth.length) h+=`<details class="pxo"${top.length?'':' open'}><summary>${C.more} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}${o.st!=='y'?' nc':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm">${best?`<span class="pxbd">${C.bestDeal}</span>`:''}<i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}${ag(o.t)}</small>${o.st!=='y'?`<small class="pxnc">${C.nc}</small>`:''}</span><span class="pxp">${f(o.v)}</span><a class="btn pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
+  const conf=rows.filter(o=>o.st==='y'), unc=rows.filter(o=>o.st!=='y'), all=[...conf,...unc], top=all.slice(0,4);
+  const b=all[0], bi=b.s!==0; const ul=(L,o0)=>`<ul class="pxl">${L.map((o,i)=>row(o,o0&&i===0&&bi)).join('')}</ul>`;
+  let h=`<p class="pxbigp">${f(b.v)}</p><p class="pxsub">${sn(b)} · ${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`+ul(top,true);
+  if(all.length>4) h+=`<button type="button" class="pxall" id="pxall" aria-haspopup="dialog">${C.allN.replace('{n}',all.length)}</button>`;
   P.innerHTML=h; P.hidden=false; M.hidden=true; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
   const S=document.getElementById('stickybuy'); if(S){S.href=href(b); S.textContent=C.buyS; S.setAttribute('aria-label',C.buy.replace('{s}',(SN[b.d]||[b.n||b.d])[0])); const SP=document.querySelector('#stickycta .sp'); if(SP) SP.innerHTML=`<b>${C.bestS} ${f(b.v)}</b><span>${sn(b)}</span>`;}
+  // bottom sheet
+  let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
+  D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc"><div class="pxsbest"><p class="pxbigp">${f(b.v)}</p><span class="pxsub">${sn(b)}</span><a class="btn aff pxsbuy" href="${esc(href(b))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(b))}">${C.buyS}</a></div>${ul(top,true)}${all.length>4?`<div class="pxsmore" hidden>${ul(all.slice(4),false)}</div><button type="button" class="pxall pxsall">${C.showAll.replace('{n}',all.length)}</button>`:''}</div></div>`;
+  sheetWire(D);
   hist(cv,f);}
+ let opener=null;
+ function sheetOpen(full){const D=document.getElementById('pxsheet'); if(!D) return; opener=document.activeElement; D.classList.toggle('full',!!full); const m=D.querySelector('.pxsmore'), sa=D.querySelector('.pxsall'); if(m){m.hidden=!full; sa.hidden=!!full;}
+  D.hidden=false; document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>requestAnimationFrame(()=>D.classList.add('open'))); setTimeout(()=>D.querySelector('.pxsp').focus(),30);}
+ function sheetClose(){const D=document.getElementById('pxsheet'); if(!D||D.hidden) return; D.classList.remove('open'); const p=D.querySelector('.pxsp'); p.style.transform=''; document.documentElement.classList.remove('pxlock');
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches; setTimeout(()=>{D.hidden=true;},rm?0:250); if(opener&&opener.focus) opener.focus();}
+ function sheetWire(D){D.querySelectorAll('[data-x]').forEach(x=>x.onclick=sheetClose);
+  const sa=D.querySelector('.pxsall'); if(sa) sa.onclick=()=>{D.querySelector('.pxsmore').hidden=false; sa.hidden=true; D.classList.add('full'); const f=D.querySelector('.pxsmore a'); if(f) f.focus();};
+  const p=D.querySelector('.pxsp'), sc=D.querySelector('.pxsc'); let y0=null, dy=0;
+  p.addEventListener('touchstart',e=>{if(sc.scrollTop>0&&sc.contains(e.target)) {y0=null;return;} y0=e.touches[0].clientY; dy=0; p.style.transition='none';},{passive:true});
+  p.addEventListener('touchmove',e=>{if(y0==null) return; dy=Math.max(0,e.touches[0].clientY-y0); p.style.transform=`translateY(${dy}px)`;},{passive:true});
+  p.addEventListener('touchend',()=>{if(y0==null) return; p.style.transition=''; if(dy>80) sheetClose(); else p.style.transform=''; y0=null;});
+  const pa=document.getElementById('pxall'); if(pa) pa.onclick=()=>sheetOpen(true);}
+ document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden) return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
+  if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];
+   if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});
+ const SC=document.getElementById('stickycta'); if(SC) SC.addEventListener('click',e=>{if(e.target.closest('a')) return; sheetOpen(false);});
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
  function hist(cv,f){const B=document.getElementById('pxhist'); if(!B||!H.length) return; const W=window.WP||{currency:'GBP'};
   const dd=new Set(H.map(x=>x[0])).size; if(dd<3){const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}
