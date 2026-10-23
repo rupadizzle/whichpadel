@@ -27,7 +27,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  await pg.close();}
 // currency switch EUR + country ES: allforpadel, padelnuestro, mantis(unknown) ... ES delivers padelnuestro, allforpadel
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Padel Nuestro,Mantis,Tennis Warehouse'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
- if(!/3d ago/.test(await pg.locator('#pxcmp').innerText())) F('age text');
+ if(!/3d ago/.test(await pg.locator('#pxcmp').textContent())) F('age text');
  await pg.evaluate(()=>WP.setRC('US','USD')); const y=await info(pg); if(y.rows[0][0]!=='Tennis Warehouse'||y.rows.length!==4||!/\$100/.test(y.rows[0][1])) F('live switch US '+JSON.stringify(y.rows)); await pg.close();}
 // expander: 7 shops delivering GB
 {const many=Array.from({length:7},(_,i)=>of('padelnuestro.com',100+i,'EUR')).map((o,i)=>({...o,d:i<3?'padelnuestro.com':'decathlon.co.uk',u:o.u+i}));
