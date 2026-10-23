@@ -39,10 +39,13 @@ export async function exportPrices(env){const now=Date.now();
   const e={p:last.price,c,u:last.u,d:last.d,n:last.n,s:last.s,t:new Date(last.ts).toISOString().slice(0,10),min30:min(30),min90:min(90),since:h[0][0],drop,h:h.slice(-90)};
   const all=[...(out[last.r]?.o||[]),{d:e.d,n:e.n,p:e.p,c:e.c,u:e.u,s:e.s,t:e.t,min30:e.min30}];
   const cur=out[last.r]; out[last.r]=(!cur||(e.s!==0&&(cur.s===0||e.p<cur.p)))?e:cur; out[last.r].o=all;}
+ // cross-shop sanity: drop offers far from the racket's median (wrong product matched); approx EUR rates are enough for this
+ const FXA={EUR:1,GBP:0.84,USD:1.12,SEK:11.1}; for(const [k,e] of Object.entries(out)){const v=x=>x.p/(FXA[x.c]||1); if(e.o.length<3) continue; const md=e.o.map(v).sort((a,b)=>a-b)[e.o.length>>1];
+  const keep=e.o.filter(x=>v(x)>=md*0.55&&v(x)<=md*1.8); if(keep.length<e.o.length){const b=keep.filter(x=>x.s!==0).sort((a,b)=>v(a)-v(b))[0]||keep[0]; out[k]={...e,...(e.o.includes(b)?{}:{}),o:keep}; if(!keep.some(x=>x.u===e.u)) Object.assign(out[k],{p:b.p,c:b.c,u:b.u,d:b.d,n:b.n,s:b.s,t:b.t,min30:b.min30,drop:0});}}
  return {updated:new Date(now).toISOString(),r:out};}
 export default {
  async scheduled(ev,env,ctx){ctx.waitUntil(run(env));},
  async fetch(req,env,ctx){const u=new URL(req.url); if(!u.pathname.endsWith('/api/prices')) return new Response('Not found',{status:404});
-  const cache=caches.default; const key=new Request(u.origin+'/api/prices'); let r=await cache.match(key); if(r) return r;
-  r=new Response(JSON.stringify(await exportPrices(env)),{headers:{'content-type':'application/json','cache-control':'public, max-age=1800','access-control-allow-origin':'https://whichpadel.com'}});
+  const cache=caches.default; const key=new Request(u.origin+'/api/prices?v=3'); let r=await cache.match(key); if(r) return r;
+  r=new Response(JSON.stringify(await exportPrices(env)),{headers:{'content-type':'application/json','cache-control':'public, max-age=900','access-control-allow-origin':'https://whichpadel.com'}});
   ctx.waitUntil(cache.put(key,r.clone())); return r;}};

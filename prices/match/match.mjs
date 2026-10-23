@@ -4,7 +4,7 @@ const R=JSON.parse(fs.readFileSync(new URL('../../data/rackets.normalised.json',
 const urls=JSON.parse(fs.readFileSync(new URL('./urls.json',import.meta.url)));
 const tok=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').split(/[^a-z0-9]+/).filter(Boolean);
 const STOP=new Set(['padel','pala','racket','raquette','raqueta','racchetta','schlaeger','by','the','de','la','el','and','x','with','en','es','p','products','product','html']);
-const BAD=['junior','jr','kids','nino','enfant','bag','paletero','grip','overgrip','protector','funda','cover','mochila','backpack','shoe','zapatilla','balls','pelotas','camiseta','shirt','pack','kit','set','tshirt','short','falda','skirt','cap','gorra','sock','llavero','keyring','keychain','mini','minipala','bolsa','toalla','bottle','wristband','munequera','bag','thermobag','sticker','replica'];
+const BAD=['junior','jr','kids','nino','enfant','bag','paletero','grip','overgrip','protector','funda','cover','mochila','backpack','shoe','zapatilla','balls','pelotas','camiseta','shirt','pack','kit','set','tshirt','short','falda','skirt','cap','gorra','sock','llavero','keyring','keychain','mini','minipala','bolsa','toalla','bottle','wristband','munequera','bag','thermobag','sticker','replica','padelschuh','schuh','rucksack','tasche','shoe','shoes','backpack'];
 const BRAND_ALIAS={'star vie':'starvie','starvie':'starvie','black crown':'black','royal padel':'royal','siux':'siux','oxdog':'oxdog','drop shot':'dropshot'};
 export function matchShop(list){const idx=list.map(u=>{let p; try{p=new URL(u).pathname}catch{return null} return {u,t:new Set(tok(p.replace(/\d{5,}/g,' ')))}}).filter(Boolean);
  const res={}; for(const r of R){const b=(BRAND_ALIAS[r.brand.toLowerCase()]||r.brand.toLowerCase()); const bt=tok(b);
