@@ -1,69 +1,116 @@
 ---
-import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js';
-import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { CURL } from '../i18n/index.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang]; const CUR0=CURL(lang);
+import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, CURL } from '../i18n/index.js';
+import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { SHOPS, offersOf } from '../lib/price.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
+const nShops=new Set(rackets.flatMap(r=>offersOf(r).map(o=>o.d))).size;
+const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]},
  {'@type':'FAQPage','mainEntity':F.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
-const Q=[['level',H.level,['beginner','intermediate','advanced'],H.levels,0],['style',H.play,['control','all','power','arm'],H.styles,1],['budget',H.budget,['100','150','200','300','any'],[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]],2]];
-const T={...H.js,top0:H.js.top('§'),cmpThese0:H.js.cmpThese('§'),top:null,cmpThese:null,showing:null,buy:F.buy,details:F.details,copied:F.copied,again:F.again,share:F.share,f1:u.from1,fn:u.fromN,none:u.seeSpecs};
-const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
+const BUD=['100','150','200','300','any'];
+const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]];
+const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['style',Z.q[1],['control','all','power'],Z.st],['prio',Z.q[2],['comfort','light','durable','latest'],Z.pr],
+ ['budget',Z.q[3],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
+const ZC={...Z,sub:null,w:null,cmpShops:Z.cmpShops('§'),buyAt:Z.buyAt('§'),
+ W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1')}};
+const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate'),lang};
 ---
-<Base lang={d.locale} title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={L('home')}>{u.home}</a> › <span>{F.crumb}</span></nav>
-<h1 class="fh1">{F.h1}</h1><p class="lead-sm">{F.lead}</p>
-<section class="panel fq" id="finder">
-<div class="fq-prog" aria-hidden="true"><i id="fq-bar" style="width:33%"></i></div>
-<form id="fq" onsubmit="return false">
-{Q.map(([n,lab,vals,labels,i])=><fieldset class="fq-step" data-i={i} hidden={i>0}><legend><span class="qprog">{F.step} {i+1}/3</span><span class="fq-q">{lab}</span></legend>
-<div class="fq-opts">{vals.map((v,j)=><label><input type="radio" name={n} value={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined} data-t={v}/><span>{labels[j]}</span></label>)}</div>
-{i>0&&<button type="button" class="btn btn-line fq-back">← {F.back}</button>}</fieldset>)}
-</form>
-<div id="fq-res" hidden aria-live="polite"></div>
+<Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
+<div class="fz" id="fz" data-state="intro">
+<section class="fz-scr fz-intro" data-scr="intro">
+ <span class="fz-eb">🎯 {F.crumb}</span>
+ <h1>{Z.promise}</h1>
+ <p class="fz-sub">{Z.sub(rackets.length,'§').split('§')[0]}<span id="fz-ns">{nShops}</span>{Z.sub(rackets.length,'§').split('§')[1]}</p>
+ <button type="button" class="btn btn-accent fz-start" id="fz-start">{Z.start} →</button>
+ <p class="fz-trust">✓ {Z.trust}</p>
+ <details class="fz-faq"><summary>{u.faq}</summary>{F.faq.map(([q,a])=><div class="faq"><h2 class="h3">{q}</h2><p>{a}</p></div>)}</details>
 </section>
-<section class="panel"><h2>{u.faq}</h2>{F.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
-<p class="small"><a href={L('guide')}>{u.howToChoose}</a> · <a href={L('bestIndex')}>{u.bestLists}</a></p>
-<script is:inline define:vars={{T,U}}>
-const F=(t,v)=>t.replace('§',v); const $=id=>document.getElementById(id);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const steps=[...document.querySelectorAll('.fq-step')]; const names=['level','style','budget'];
+<section class="fz-scr fz-q" data-scr="q" hidden>
+ <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/4</span></div>
+ <form id="fq" onsubmit="return false">
+ {Q.map(([n,lab,vals,opts],i)=><fieldset class="fz-step" data-i={i} hidden={i>0}><legend class="fz-qh">{lab}</legend>
+ <div class="fz-opts">{vals.map((v,j)=><label class="fz-o"><input type="radio" name={n} value={v} data-t={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{opts[j][0]}</span><span class="fz-ot"><b>{opts[j][1]}</b><small>{opts[j][2]}</small></span></span></label>)}</div></fieldset>)}
+ </form>
+</section>
+<section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p>{Z.finding}</p></section>
+<section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><div id="fz-out"></div>
+ <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
+ <label class="fz-cons"><input type="checkbox" required/> <span>{Z.consent} <a href={L('privacy')}>{Z.priv}</a>.</span></label><p class="fz-msg" hidden></p></form>
+ <p class="disc">{Z.ad} <a href={L('affiliate')}>{Z.disc}</a></p>
+</section>
+<div class="fz-bar" id="fz-sticky" hidden></div>
+</div>
+<script is:inline define:vars={{Z:ZC,U,SN,LG:lang}}>
+const $=id=>document.getElementById(id), fz=$('fz'); const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const R=(t,...a)=>a.reduce((o,v,i)=>o.split('§'+(i+1)).join(v),t).replace('§',a[0]);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const steps=[...document.querySelectorAll('.fz-step')]; const N=steps.length; let cur=0;
 const rv=n=>(document.querySelector(`#fq input[name="${n}"]:checked`)||{}).value||'';
-let all=null, live=null;
-const load=async()=>{ if(!all){ const [a,p]=await Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/prices').then(r=>r.ok?r.json():null).catch(()=>null)]); all=a; live=p&&p.r||{};
- all.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}));}); } return all; };
+const scr=s=>{fz.dataset.state=s; document.querySelectorAll('.fz-scr').forEach(e=>{const on=e.dataset.scr===s; e.hidden=!on; if(on&&!RM){e.classList.remove('in'); void e.offsetWidth; e.classList.add('in');}}); $('fz-sticky').hidden=s!=='res'; scrollTo(0,0);};
+function show(i){cur=i; scr('q'); steps.forEach((s,j)=>{s.hidden=j!==i; if(j===i&&!RM){s.classList.remove('in'); void s.offsetWidth; s.classList.add('in');}}); $('fz-bar').style.width=((i+1)/N*100)+'%'; $('fz-cnt').textContent=(i+1)+'/'+N; $('fz-pr').setAttribute('aria-valuenow',i+1);
+ const f=steps[i].querySelector('input:checked')||steps[i].querySelector('input'); try{f.focus({preventScroll:true})}catch(e){} }
+$('fz-start').onclick=()=>show(0);
+$('fz-back').onclick=()=>cur>0?show(cur-1):scr('intro');
+steps.forEach((s,i)=>s.addEventListener('change',()=>setTimeout(()=>i<N-1?show(i+1):finish(),RM?0:180)));
+let all=null,prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{};
+ a.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s,t:o.t}));});
+ const ns=new Set(a.flatMap(c=>(c.o||[]).map(o=>o.d))).size; if(ns) $('fz-ns').textContent=ns; all=a; return a;}));
+load();
 const bq=r=>(window.WP&&r.o&&r.o.length)?WP.best(r.o):null; const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
-function show(i){steps.forEach((s,j)=>s.hidden=j!==i); $('fq-bar').style.width=((i+1)/3*100)+'%'; $('fq').hidden=false; $('fq-res').hidden=true; const f=steps[i].querySelector('input:checked')||steps[i].querySelector('input'); }
-steps.forEach((s,i)=>{ s.addEventListener('change',()=>{ if(i<2) show(i+1); else run(true); }); const b=s.querySelector('.fq-back'); if(b) b.onclick=()=>show(i-1); });
 const W={beginner:{forgiveness:3,comfort:2,handling:1,control:1},intermediate:{control:2,power:1,forgiveness:1,handling:1},advanced:{power:1.5,control:1.5,handling:1}};
-const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3},arm:{comfort:3,forgiveness:1}};
-const SHP={control:'round',all:'teardrop',power:'diamond',arm:'round'};
+const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3}};
+const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest:{}};
+const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&d.c!=='hard'&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
-async function run(push){ await load(); const L=rv('level'),S=rv('style'),Bi=document.querySelector('#fq input[name="budget"]:checked'); const Bt=Bi?Bi.dataset.t:'any'; const B=Bt==='any'?0:+Bi.value;
+const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
+const sn=d=>esc((SN[d]||[d])[0]); const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+function rank(A){const L=A.level,S=A.style,P=A.prio; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;
- if(push) history.replaceState(null,'','?level='+L+'&style='+S+'&budget='+Bt);
- const w={...W[L]}; for(const [kk,v] of Object.entries(SW[S])) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
- const want=L==='beginner'?'round':SHP[S];
- const ov=d=>(d.power+d.control+d.forgiveness+d.comfort+d.handling)/5;
+ const w={...W[L]}; for(const o of [SW[S],PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
+ const want=L==='beginner'?'round':SHP[S]; const ov=d=>(d.power+d.control+d.forgiveness+d.comfort+d.handling)/5;
  const tier=d=>{const p=gp(d); if(L==='advanced') return Math.min(p,250)/250*10-(S==='power'&&/\b(team|light|lite|control)\b/i.test(d.m)?4:0); if(L==='intermediate') return p>=70&&p<=220?5:0; return 0;};
- const shops=d=>new Set((d.o||[]).filter(o=>!window.WP||WP.shop(o.d)!=='n').map(o=>o.d)).size;
- const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+(shops(d)>=2?3:0)+(d.y>=2025?3:0)+(d.i?1:0)+tier(d);};
- const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=B)&&OK[L](d)&&(S!=='arm'||d.c!=='hard')&&!/\b(jr|junior|kids?)\b/i.test(d.m)).sort((a,b)=>sc(b)-sc(a));
- const top=[],br=new Set(); for(const d of pool){ const bb=d.b.toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(d); if(top.length===3) break; }
- const keys=S==='power'?['power','control','value']:S==='arm'?['comfort','forgiveness','value']:L==='beginner'?['forgiveness','control','value']:['control','power','value'];
- const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
- const why=d=>[d.sh&&T.shp[d.sh],d.bl&&lab('balF',T.lvl[d.bl]||d.bl),d.c&&lab('coreF',T.lvl[d.c]||d.c)].filter(Boolean).join(' · ');
- const sum=[...document.querySelectorAll('#fq input:checked')].map(i=>i.nextElementSibling.textContent).join(' · ');
- $('fq-res').innerHTML=`<div class="fq-sum"><span>${esc(sum)}</span><button type="button" class="btn btn-line btn-sm" id="fq-again">↺ ${T.again||''}</button></div>`+(top.length?`<h2 class="h3">${F(T.top0,top.length)}</h2><ol class="fq-list">${top.map((d,i)=>{const q=bq(d); const os=(d.o||[]).filter(o=>WP.shop(o.d)!=='n'); const pr=q.v==null?T.none:(os.length>1?T.fn.replace('{n}',os.length):T.f1).replace('{p}',q.txt); const u=U.rk+d.s+'/';
-  return `<li class="fq-r"><span class="fq-n">${i+1}</span><a class="fq-img" href="${u}" tabindex="-1" aria-hidden="true">${d.i?`<img src="${d.i}" alt="" width="56" height="66" loading="lazy">`:''}</a><div class="fq-b"><a class="fq-m" href="${u}">${esc(d.m)}</a><span class="fq-w">${esc(why(d))}</span><span class="fq-k">${keys.map(k=>`${T.rt[k]} <b>${d[k]}</b>`).join(' · ')}</span><span class="fq-p">${esc(pr)}</span></div><div class="fq-a"><a class="btn btn-accent btn-sm aff" rel="sponsored nofollow" target="_blank" href="${esc(q.u||d.u)}">${T.buy}</a><a class="btn btn-line btn-sm" href="${u}">${T.details}</a></div></li>`}).join('')}</ol>
- <div class="fq-foot">${top.length>1?`<a class="btn" href="${U.cmp}?r=${top.slice(0,3).map(d=>d.s).join(',')}">${F(T.cmpThese0,Math.min(3,top.length))}</a>`:''}<button class="btn btn-line" type="button" id="fq-share">🔗 ${T.share}</button></div><p class="disc">${esc(T.ad.replace(/“[^”]*”|«[^»]*»|„[^“”]*[“”]|"[^"]*"/,(m=>m.replace(/^(.\s?)[\s\S]*?(\s?.)$/,(x,a,b)=>a+T.buy+b))))} <a href="${U.aff}">${T.disc}</a></p>`:'<p>'+T.noBudget+'</p>');
- $('fq').hidden=true; window.__fq=top.map(d=>d.m); $('fq-bar').style.width='100%'; $('fq-res').hidden=false;
- $('fq-again').onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);};
- const sh=$('fq-share'); if(sh) sh.onclick=async()=>{try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+T.copied;}catch(e){prompt('',location.href)}};
- if(push) $('finder').scrollIntoView({behavior:'smooth',block:'start'}); }
+ const pri=d=>P==='light'?(d.w1&&d.w1<=360?6:d.w0>=370?-4:0):P==='durable'?((d.c==='hard'?5:d.c==='medium'?3:0)+(gp(d)>=120?2:0)):P==='latest'?(d.y>=2026?8:d.y>=2025?3:-3):P==='comfort'?(d.c==='soft'?3:0):0;
+ const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:0)+(d.i?1:0)+tier(d)+pri(d);};
+ const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=B)&&OK[L](d)&&(P!=='comfort'||d.c!=='hard')&&!/\b(jr|junior|kids?)\b/i.test(d.m)).map(d=>({d,s:sc(d)})).sort((a,b)=>b.s-a.s);
+ const top=[],br=new Set(); for(const x of pool){const bb=x.d.b.toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;}
+ const why=d=>{const out=[]; const sh=Z.shape[d.sh]||'';
+  if(L==='beginner'&&d.forgiveness>=60&&sh) out.push(R(Z.W.forg,sh));
+  out.push(S==='control'?R(Z.W.ctl,d.control):S==='power'?R(Z.W.pow,d.power):R(Z.W.bal,d.power,d.control));
+  if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0) out.push(R(Z.W.light,d.w0,d.w1||d.w0)); else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
+  const ss=shopsOf(d); if(out.length<3&&ss.length) out.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt)); return out.slice(0,3);};
+ const max=top.length?top[0].s:1; return top.map((x,i)=>({...x,pct:i===0?Math.min(98,Math.round(88+x.s/12)):Math.max(80,Math.round(Math.min(98,88+max/12)*x.s/max)),why:why(x.d)}));}
+const img=(d,w,h)=>d.i?`<img src="${d.i}" alt="${esc(d.m)}" width="${w}" height="${h}" loading="eager" decoding="async">`:'';
+const buy=(o,cls,label)=>`<a class="btn ${cls}" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" data-ev="buy">${label}</a>`;
+function render(A){const top=rank(A); const out=$('fz-out');
+ if(!top.length){out.innerHTML=`<p class="fz-none">${esc(Z.none)}</p><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button>`; $('fz-alert').hidden=true; $('fz-sticky').innerHTML=''; bind(); return;}
+ $('fz-alert').hidden=false; const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
+ const rows=ss.slice(0,4).map((o,i)=>`<li class="fz-sr${i===0?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${o.s===0?Z.oos:Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join('');
+ const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${U.rk}${x.d.s}/">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${U.rk}${x.d.s}/">${esc(x.d.m)}</a><span class="fz-am">${x.pct}% ${esc(Z.match)} · ${esc(x.why[0]||'')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`}).join('');
+ out.innerHTML=`<p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${U.rk}${d.s}/" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a><span class="fz-badge">★ ${h.pct}% · ${esc(Z.fit)}</span></div>
+ <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h2>
+ <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+ <div class="fz-pb"><span class="fz-bp">${esc(b.txt)}</span><span class="fz-bs">${sn(b.d)}</span></div>${buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,(SN[b.d]||[b.d])[0]))+' →')}</div></article>
+ ${ss.length>1?`<details class="fz-shops" open><summary>${esc(R(Z.cmpShops,Math.min(4,ss.length)))}</summary><ul>${rows}</ul></details>`:''}
+ ${alt?`<h2 class="fz-h2">${esc(Z.also)}</h2><div class="fz-alts">${alt}</div>`:''}
+ <div class="fz-acts">${top.length>1?`<a class="btn" href="${U.cmp}?r=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="btn btn-line" type="button" id="fz-share">↗ ${esc(Z.shareB)}</button><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button></div>`;
+ $('fz-sticky').innerHTML=`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else st.classList.remove('off');}
+ window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
+function bind(){document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);});
+ const sh=$('fz-share'); if(sh) sh.onclick=async()=>{const t=document.title; try{ if(navigator.share){await navigator.share({title:t,url:location.href}); return;} await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(e){ if(e&&e.name==='AbortError') return; try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(_){prompt('',location.href)}}};}
+const ans=()=>({level:rv('level'),style:rv('style'),prio:rv('prio'),budget:(document.querySelector('#fq input[name="budget"]:checked')||{dataset:{}}).dataset.t||'any'});
+async function finish(){const A=ans(); history.replaceState(null,'','?'+new URLSearchParams(A)); scr('load'); const t0=Date.now(); await load().then(a=>all=a); await new Promise(r=>setTimeout(r,Math.max(0,(RM?250:650)-(Date.now()-t0)))); render(A); scr('res');}
+// alert form
+$('fz-alert').addEventListener('submit',async e=>{e.preventDefault(); const f=e.target, em=f.querySelector('[type=email]'), cb=f.querySelector('[type=checkbox]'), m=f.querySelector('.fz-msg');
+ if(!em.checkValidity()){em.focus(); return;} if(!cb.checked){cb.focus(); cb.parentNode.classList.add('err'); return;}
+ const x=window.__fz||{}; try{const r=await fetch('/api/alert',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:em.value,consent:true,racket:x.racket,price:x.price,cur:x.cur,lang:LG,answers:location.search.slice(1),website:f.website.value})});
+  if(!r.ok) throw 0; m.textContent=Z.alertOk; m.className='fz-msg ok'; f.querySelector('.fz-af').hidden=true; f.querySelector('.fz-cons').hidden=true;}catch(_){m.textContent=Z.alertErr; m.className='fz-msg bad';} m.hidden=false;});
+// deep link
 const p=new URLSearchParams(location.search); const set=(n,v)=>{const i=document.querySelector(`#fq input[name="${n}"][data-t="${v}"]`); if(i){i.checked=true; return true;} return false;};
-if(['level','style','budget'].every(n=>p.get(n)&&set(n,p.get(n)))) run(false);
-document.addEventListener('wp:region',()=>{ if(all&&!$('fq-res').hidden) run(false); });
+if(p.get('style')==='arm'){p.set('style','all'); if(!p.get('prio')) p.set('prio','comfort');}
+if(!p.get('prio')&&p.get('level')) p.set('prio','latest');
+if(['level','style','prio','budget'].every(n=>p.get(n)&&set(n,p.get(n)))){ load().then(a=>{all=a; render(ans()); scr('res');}); }
+document.addEventListener('wp:region',()=>{ if(Array.isArray(all)&&fz.dataset.state==='res') render(ans()); });
 </script>
 </Base>

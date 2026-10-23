@@ -6,3 +6,8 @@ pages_build_output_dir = "dist"
 [[kv_namespaces]]
 binding = "SUBSCRIBERS"
 id = "030127a373d949d4a7f83b9e845ececf"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "whichpadel-prices"
+database_id = "61cc4611-5325-4c84-9b8b-8858aaf40510"

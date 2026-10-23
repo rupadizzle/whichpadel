@@ -5,7 +5,7 @@ const B=process.argv[2]||'http://127.0.0.1:4987'; const bad=[];
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 const exists=h=>{const p=h.split('#')[0].split('?')[0]; return fs.existsSync('dist'+p+(p.endsWith('/')?'index.html':''))||fs.existsSync('dist'+p);};
 const files=walk('dist').filter(f=>!/\/(404|api)\b/.test(f)&&!f.endsWith('/404.html')); let n=0; const types=new Map();
-for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h)) continue; n++;
+for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h)||h.includes('fz-hdr')) continue; /* focused finder: no nav/picker by design */ n++;
  const rel='/'+path.relative('dist',f).replace(/index\.html$/,''); 
  if((h.match(/id="rgn-btn"/g)||[]).length!==1) bad.push('picker count: '+rel);
  const dup=h.replace(/<ul class="lang-seg".*?<\/ul>/s,'').match(/<a [^>]*hreflang="/g); if(dup) bad.push('duplicate language links: '+rel);

@@ -37,7 +37,7 @@ const c=await b.newContext({viewport:{width:1280,height:900}}); const p=await c.
 const t=async(name,fn)=>{try{await fn();log('ok',name)}catch(e){issues.push('FAIL '+name+': '+e.message.split('\n')[0])}};
 await p.goto(B+'/');
 await t('header finder',async()=>{await p.click('.nav .cta'); await p.waitForURL(/racket-finder/);});
-await t('finder quiz',async()=>{await p.click('#fq label:has-text("Advanced")'); await p.click('#fq label:has-text("Power / attack")'); await p.click('#fq label:has-text("No limit")'); await p.waitForSelector('.fq-r'); const n=await p.locator('.fq-r').count(); if(n<3) throw Error('fq '+n); if(!/level=advanced&style=power&budget=any/.test(p.url())) throw Error('url '+p.url()); const rel=await p.getAttribute('.fq-r .aff','rel'); if(rel!=='sponsored nofollow') throw Error('rel'); log(' finder ->',await p.textContent('.fq-m'),'|',await p.textContent('.fq-p')); await p.goto(p.url()); await p.waitForSelector('.fq-r');});
+await t('finder quiz',async()=>{await p.click('.fz-start'); for(const x of ['Advanced','Power','Latest','No limit']) await p.click('.fz-step:not([hidden]) label:has-text("'+x+'")'); await p.waitForSelector('.fz-hero',{timeout:8000}); const n=await p.locator('.fz-alt').count(); if(n<2) throw Error('alts '+n); if(!/level=advanced&style=power&prio=latest&budget=any/.test(p.url())) throw Error('url '+p.url()); const rel=await p.getAttribute('.fz-buy','rel'); if(rel!=='sponsored nofollow') throw Error('rel'); log(' finder ->',(await p.textContent('.fz-hn')).trim()); await p.goto(p.url()); await p.waitForSelector('.fz-hero');});
 await p.goto(B+'/');
 await t('dropdown',async()=>{await p.click('.dd>button'); if(!await p.isVisible('.dd .menu a')) throw Error('menu hidden'); await p.click('.dd .menu a >> nth=0'); await p.waitForURL(/best/); await p.goBack();});
 await t('home finder cta',async()=>{if(!await p.isVisible('.fcta-card')) throw Error('no cta');});
@@ -61,6 +61,7 @@ await t('brand compare',async()=>{const cb=p.locator('.cmp'); await cb.nth(0).ch
 const m=await (await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true})).newPage(); m.setDefaultTimeout(8000);
 await m.goto(B+'/brands/');
 await t('mobile burger+finder',async()=>{await m.tap('.burger'); await m.tap('.nav .cta'); await m.waitForURL(/racket-finder/); await m.waitForTimeout(400); if(await m.isVisible('.nav')) throw Error('nav still open');});
+await m.goto(B+'/brands/');
 await t('mobile best list link',async()=>{await m.tap('.burger'); await m.tap('.dd .menu a >> nth=1'); await m.waitForURL(/best/);});
 await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('mobile sticky cta',async()=>{await m.waitForTimeout(400); if(await m.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) throw Error('shown while price card visible'); await m.evaluate(()=>scrollTo(0,document.body.scrollHeight)); await m.waitForTimeout(500); if(!await m.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) throw Error('not shown');});
 await m.goto(B+'/'); await t('mobile filter sheet',async()=>{await m.tap('#f-open'); await m.tap('input[name=f-shape][value=diamond] + span'); await m.waitForTimeout(400); const c=await m.textContent('#count3'); await m.tap('#f-done'); if(await m.isVisible('#f-done')) throw Error('open'); log(' sheet diamond ->',c);});

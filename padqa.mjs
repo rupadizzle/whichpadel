@@ -9,6 +9,7 @@ const pages=[...seen.entries()].filter(([k])=>!process.env.QA_FAST||/^(en|es|de)
 const br=await chromium.launch(); const pg=await br.newPage(); const res=[]; let bad=0;
 for(const w of W){ await pg.setViewportSize({width:w,height:900});
  for(const p of pages){ await pg.goto(B+p,{waitUntil:process.env.QA_FAST?'load':'networkidle'}); if(process.env.QA_FAST) await pg.waitForTimeout(200);
+  if(await pg.$('.fz-hdr')) continue; /* focused finder shell: no footer */
   const r=await pg.evaluate(()=>{const vis=e=>{const s=getComputedStyle(e),b=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&b.height>0&&!['SCRIPT','STYLE'].includes(e.tagName)};
    const m=document.querySelector('main');const kids=[...m.children].filter(vis);const f=kids[0],l=kids[kids.length-1];
    let above=m.previousElementSibling;while(above&&!vis(above))above=above.previousElementSibling;
