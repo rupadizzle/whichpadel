@@ -25,7 +25,7 @@ function check(){
  // c) overflow of parent / page
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);
  for(const e of document.querySelectorAll('main *, header *, footer *')){ if(!vis(e)||!inflow(e)) continue; const p=e.parentElement; if(!p||!vis(p)) continue;
-  if(e.closest('.tscroll,.gchips,.hrow,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
+  if(e.closest('.rpg,.kchips,.tscroll,.gchips,.hrow,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
   const a=R(e),b=R(p); if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
  // d) text clipping
  for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue;
@@ -54,7 +54,7 @@ function check(){
   if(gs.length>=2&&!par.matches('dialog[open] .sheet-in')&&Math.max(...gs)-Math.min(...gs)>2) out.push(`uneven sibling gaps in ${name(par)}: ${[...new Set(gs)].join(',')}`);}
  // i) stray visible glyphs (bare text nodes in layout containers) and things poking past viewport edges
  for(const c of document.querySelectorAll('header, header .wrap, header nav, .sheet-in, .sheet-top, main, footer, .ftr .cols')) for(const n of c.childNodes) if(n.nodeType===3&&n.textContent.trim()) out.push(`stray text "${n.textContent.trim().slice(0,10)}" in ${name(c)}`);
- for(const e of document.querySelectorAll('header *, dialog[open] *')){ if(!vis(e)||e.closest('.menu,.nav:not(.open)')) continue; const r=R(e); if(r.right>W+1||r.left<-1) out.push(`past viewport edge: ${name(e)} (${Math.round(r.left)}..${Math.round(r.right)})`);}
+ for(const e of document.querySelectorAll('header *, dialog[open] *')){ if(!vis(e)||e.closest('.menu,.nav:not(.open),.kchips')) continue; const r=R(e); if(r.right>W+1||r.left<-1) out.push(`past viewport edge: ${name(e)} (${Math.round(r.left)}..${Math.round(r.right)})`);}
  // j) header items: >=8px between items, not touching
  const hk=[...(document.querySelector('header .wrap')?.children||[])].filter(x=>vis(x)&&inflow(x)&&x.tagName!=='DIALOG'&&!x.matches('.nav')).map(R).sort((a,b)=>a.left-b.left);
  for(let i=1;i<hk.length;i++) if(hk[i].left-hk[i-1].right<7.5) out.push(`header items cramped: ${Math.round(hk[i].left-hk[i-1].right)}px`);
