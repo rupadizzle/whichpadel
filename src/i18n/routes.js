@@ -45,6 +45,7 @@ const P={
  players:{en:()=>'/players/',es:()=>'/es/jugadores/',fr:()=>'/fr/joueurs/',pt:()=>'/pt/jogadores/',it:()=>'/it/giocatori/',de:()=>'/de/spieler/'},
  player:{en:s=>`/players/${s}/`,es:s=>`/es/jugadores/${s}/`,fr:s=>`/fr/joueurs/${s}/`,pt:s=>`/pt/jogadores/${s}/`,it:s=>`/it/giocatori/${s}/`,de:s=>`/de/spieler/${s}/`},
  vs:{en:s=>`/compare/${s}/`,es:s=>`/es/comparar/${s}/`,fr:s=>`/fr/comparer/${s}/`,pt:s=>`/pt/comparar/${s}/`,it:s=>`/it/confronto/${s}/`,de:s=>`/de/vergleich/${s}/`},
+ finder:{en:()=>'/racket-finder/',es:()=>'/es/buscador-de-palas/',fr:()=>'/fr/test-raquette-padel/',pt:()=>'/pt/teste-raquete-padel/',it:()=>'/it/quiz-racchetta-padel/',de:()=>'/de/schlaeger-finder/'},
  tool:{en:()=>'/tools/real-weight/',es:()=>'/es/herramientas/peso-real/',fr:()=>'/fr/outils/poids-reel/',pt:()=>'/pt/ferramentas/peso-real/',it:()=>'/it/strumenti/peso-reale/',de:()=>'/de/tools/echtes-gewicht/'},
  bf:{en:()=>'/black-friday-padel-rackets/',es:()=>'/es/black-friday-palas-padel/',fr:()=>'/fr/black-friday-raquettes-padel/',pt:()=>'/pt/black-friday-raquetes-padel/',it:()=>'/it/black-friday-racchette-padel/',de:()=>'/de/black-friday-padelschlaeger/'},
  privacy:{en:()=>'/privacy/',es:()=>'/es/privacidad/',fr:()=>'/fr/confidentialite/',pt:()=>'/pt/privacidade/',it:()=>'/it/privacy/',de:()=>'/de/datenschutz/'},
@@ -53,7 +54,7 @@ const P={
 };
 export const url=(type,lang,id)=>P[type][lang]?P[type][lang](id):null;
 export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
- ['home','guide','compare','bestIndex','brands','players','tool','bf','privacy','affiliate','about'].forEach(t=>add(t));
+ ['home','guide','compare','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about'].forEach(t=>add(t));
  rackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); y27.forEach(b=>add('brand2027',b.slug));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); return out;};
 // reverse map for hreflang on any page

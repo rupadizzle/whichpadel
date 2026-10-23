@@ -4,7 +4,7 @@ import { pages, url, LANGS } from '../i18n/routes.js';
 import { rackets, brandList, players, bySlug } from '../lib/data.js'; import { y27 } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
 import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VCompare from '../views/VCompare.astro'; import VBestIndex from '../views/VBestIndex.astro'; import VBest from '../views/VBest.astro';
 import VRacket from '../views/VRacket.astro'; import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrand2027 from '../views/VBrand2027.astro';
-import VPlayers from '../views/VPlayers.astro'; import VPlayer from '../views/VPlayer.astro'; import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import V404 from '../views/V404.astro';
+import VPlayers from '../views/VPlayers.astro'; import VPlayer from '../views/VPlayer.astro'; import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import VFinder from '../views/VFinder.astro'; import V404 from '../views/V404.astro';
 export function getStaticPaths(){ const out=[];
  for(const lang of LANGS){ for(const p of pages()){ const u=url(p.type,lang,p.id); if(!u) continue; out.push({params:{path:u.replace(/^\/|\/$/g,'')||undefined},props:{type:p.type,id:p.id,lang}}); }
   if(lang!=='en') out.push({params:{path:`${lang}/404`},props:{type:'404',lang}}); }
@@ -24,6 +24,7 @@ const brand=s=>brandList.find(b=>b.slug===s);
 {type==='players'&&<VPlayers lang={lang}/>}
 {type==='player'&&<VPlayer p={players.find(p=>p.slug===id)} lang={lang}/>}
 {type==='vs'&&<VVs p={vsPairs.find(v=>v.slug===id)} lang={lang}/>}
+{type==='finder'&&<VFinder lang={lang}/>}
 {type==='tool'&&<VTool lang={lang}/>}
 {type==='bf'&&<VBf lang={lang}/>}
 {type==='privacy'&&<VLegal kind="privacy" lang={lang}/>}

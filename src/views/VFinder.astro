@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js';
+import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { CURL } from '../i18n/index.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang]; const CUR0=CURL(lang);
+const L=(t,id)=>url(t,lang,id);
+const jsonld={'@context':'https://schema.org','@graph':[
+ {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
+ {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]},
+ {'@type':'FAQPage','mainEntity':F.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+const Q=[['level',H.level,['beginner','intermediate','advanced'],H.levels,0],['style',H.play,['control','all','power','arm'],H.styles,1],['budget',H.budget,['100','150','200','any'],H.budgets,2]];
+const T={...H.js,top0:H.js.top('§'),cmpThese0:H.js.cmpThese('§'),top:null,cmpThese:null,showing:null,buy:F.buy,details:F.details,copied:F.copied,again:F.again,share:F.share,f1:u.from1,fn:u.fromN,none:u.seeSpecs};
+const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
+---
+<Base lang={d.locale} title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={L('home')}>{u.home}</a> › <span>{F.crumb}</span></nav>
+<h1 class="fh1">{F.h1}</h1><p class="lead-sm">{F.lead}</p>
+<section class="panel fq" id="finder">
+<div class="fq-prog" aria-hidden="true"><i id="fq-bar" style="width:33%"></i></div>
+<form id="fq" onsubmit="return false">
+{Q.map(([n,lab,vals,labels,i])=><fieldset class="fq-step" data-i={i} hidden={i>0}><legend><span class="qprog">{F.step} {i+1}/3</span><span class="fq-q">{lab}</span></legend>
+<div class="fq-opts">{vals.map((v,j)=><label><input type="radio" name={n} value={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined} data-t={v}/><span>{labels[j]}</span></label>)}</div>
+{i>0&&<button type="button" class="btn btn-line fq-back">← {F.back}</button>}</fieldset>)}
+</form>
+<div id="fq-res" hidden aria-live="polite"></div>
+</section>
+<section class="panel"><h2>{u.faq}</h2>{F.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<p class="small"><a href={L('guide')}>{u.howToChoose}</a> · <a href={L('bestIndex')}>{u.bestLists}</a></p>
+<script is:inline define:vars={{T,U}}>
+const F=(t,v)=>t.replace('§',v); const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const steps=[...document.querySelectorAll('.fq-step')]; const names=['level','style','budget'];
+const rv=n=>(document.querySelector(`#fq input[name="${n}"]:checked`)||{}).value||'';
+let all=null, live=null;
+const load=async()=>{ if(!all){ const [a,p]=await Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/prices').then(r=>r.ok?r.json():null).catch(()=>null)]); all=a; live=p&&p.r||{};
+ all.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}));}); } return all; };
+const bq=r=>(window.WP&&r.o&&r.o.length)?WP.best(r.o):null; const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
+function show(i){steps.forEach((s,j)=>s.hidden=j!==i); $('fq-bar').style.width=((i+1)/3*100)+'%'; $('fq').hidden=false; $('fq-res').hidden=true; const f=steps[i].querySelector('input:checked')||steps[i].querySelector('input'); }
+steps.forEach((s,i)=>{ s.addEventListener('change',()=>{ if(i<2) show(i+1); else run(true); }); const b=s.querySelector('.fq-back'); if(b) b.onclick=()=>show(i-1); });
+const W={beginner:{forgiveness:3,comfort:2,handling:1},intermediate:{control:2,forgiveness:1,handling:1,value:1},advanced:{power:1,control:1,handling:1}};
+const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3},arm:{comfort:3,forgiveness:1}};
+const SHP={control:'round',all:'teardrop',power:'diamond',arm:'round'};
+async function run(push){ await load(); const L=rv('level'),S=rv('style'),Bi=document.querySelector('#fq input[name="budget"]:checked'); const Bt=Bi?Bi.dataset.t:'any'; const B=Bt==='any'?0:+Bi.value;
+ if(push) history.replaceState(null,'','?level='+L+'&style='+S+'&budget='+Bt);
+ const w={...W[L]}; for(const [k,v] of Object.entries(SW[S])) w[k]=(w[k]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
+ const want=L==='beginner'?'round':SHP[S];
+ const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=B)&&(L!=='beginner'||d.sh!=='diamond')&&(S!=='arm'||d.c!=='hard'));
+ const sc=d=>Object.entries(w).reduce((a,[k,v])=>a+(d[k]||0)*v,0)/tot+(d.sh===want?6:0)+(d.i?2:0);
+ const top=[...pool].sort((a,b)=>sc(b)-sc(a)).slice(0,3);
+ const keys=S==='power'?['power','control','value']:S==='arm'?['comfort','forgiveness','value']:L==='beginner'?['forgiveness','control','value']:['control','power','value'];
+ const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
+ const why=d=>[d.sh&&T.shp[d.sh],d.bl&&lab('balF',T.lvl[d.bl]||d.bl),d.c&&lab('coreF',T.lvl[d.c]||d.c)].filter(Boolean).join(' · ');
+ const sum=[...document.querySelectorAll('#fq input:checked')].map(i=>i.nextElementSibling.textContent).join(' · ');
+ $('fq-res').innerHTML=`<div class="fq-sum"><span>${esc(sum)}</span><button type="button" class="btn btn-line btn-sm" id="fq-again">↺ ${T.again||''}</button></div>`+(top.length?`<h2 class="h3">${F(T.top0,top.length)}</h2><ol class="fq-list">${top.map((d,i)=>{const q=bq(d); const os=(d.o||[]).filter(o=>WP.shop(o.d)!=='n'); const pr=q.v==null?T.none:(os.length>1?T.fn.replace('{n}',os.length):T.f1).replace('{p}',q.txt); const u=U.rk+d.s+'/';
+  return `<li class="fq-r"><span class="fq-n">${i+1}</span><a class="fq-img" href="${u}" tabindex="-1" aria-hidden="true">${d.i?`<img src="${d.i}" alt="" width="56" height="66" loading="lazy">`:''}</a><div class="fq-b"><a class="fq-m" href="${u}">${esc(d.m)}</a><span class="fq-w">${esc(why(d))}</span><span class="fq-k">${keys.map(k=>`${T.rt[k]} <b>${d[k]}</b>`).join(' · ')}</span><span class="fq-p">${esc(pr)}</span></div><div class="fq-a"><a class="btn btn-accent btn-sm aff" rel="sponsored nofollow" target="_blank" href="${esc(q.u||d.u)}">${T.buy}</a><a class="btn btn-line btn-sm" href="${u}">${T.details}</a></div></li>`}).join('')}</ol>
+ <div class="fq-foot">${top.length>1?`<a class="btn" href="${U.cmp}?r=${top.slice(0,3).map(d=>d.s).join(',')}">${F(T.cmpThese0,Math.min(3,top.length))}</a>`:''}<button class="btn btn-line" type="button" id="fq-share">🔗 ${T.share}</button></div><p class="disc">${esc(T.ad.replace(/“[^”]*”|«[^»]*»|„[^“”]*[“”]|"[^"]*"/,'“'+T.buy+'”'))} <a href="${U.aff}">${T.disc}</a></p>`:'<p>'+T.noBudget+'</p>');
+ $('fq').hidden=true; $('fq-bar').style.width='100%'; $('fq-res').hidden=false;
+ $('fq-again').onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);};
+ const sh=$('fq-share'); if(sh) sh.onclick=async()=>{try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+T.copied;}catch(e){prompt('',location.href)}};
+ if(push) $('finder').scrollIntoView({behavior:'smooth',block:'start'}); }
+const p=new URLSearchParams(location.search); const set=(n,v)=>{const i=document.querySelector(`#fq input[name="${n}"][data-t="${v}"]`); if(i){i.checked=true; return true;} return false;};
+if(['level','style','budget'].every(n=>p.get(n)&&set(n,p.get(n)))) run(false);
+document.addEventListener('wp:region',()=>{ if(all&&!$('fq-res').hidden) run(false); });
+</script>
+</Base>
