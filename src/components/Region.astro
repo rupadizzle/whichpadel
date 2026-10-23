@@ -25,7 +25,7 @@ const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404
 // strict countries: only shops verified to deliver there AND pricing in the local currency (one price, one currency; no cross-border guesses)
 const STRICT={US:'USD'};
 const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
-const nonEn=lang!=='en'; // a country-specific page (e.g. US money pages) sets its own default; a saved choice still wins
+const nonEn=lang!=='en';
 // PAGE = a country-specific page (the /us/ pages): it always opens in that country and currency, without changing the saved choice
 let reg=PAGE?DEF:(ls('wp_region')||(nonEn?DEF:ls('wp_geo'))||DEF); if(!R[reg]) reg=DEF;
 let cur=ls('wp_cur'); if(!CUR.includes(cur)) cur=null; const curNow=()=>cur||R[reg][1];
@@ -35,7 +35,7 @@ function best(os){const C=curNow(); const c=(os||[]).map(o=>{const s=SH[o.d]||{y
 function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===C?'true':'false'));
  document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===reg?'true':'false'));
- document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); if(e.dataset.fn){const os=JSON.parse(e.dataset.o).filter(o=>{const x=SH[o.d]; return !x||!x.n.includes(reg)}); e.textContent=q.v==null?e.dataset.none:(os.length>1?e.dataset.fn.replace('{n}',os.length):e.dataset.f1).replace('{p}',q.txt);} else e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
+ document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); if(e.dataset.fn){const os=JSON.parse(e.dataset.o).filter(o=>{const x=SH[o.d], sx=STRICT[reg]; return sx?!!x&&x.y.includes(reg)&&o.c===sx:!x||!x.n.includes(reg)}); e.textContent=q.v==null?e.dataset.none:(os.length>1?e.dataset.fn.replace('{n}',os.length):e.dataset.f1).replace('{p}',q.txt);} else e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
  document.querySelectorAll('a.aff[data-o]').forEach(a=>{const q=best(JSON.parse(a.dataset.o)); if(q.u) a.href=q.u; a.toggleAttribute('data-nous',!!(q.none&&STRICT[reg]));});
  const MR=(k,n,f)=>{if(f===C) return Math.round(n); const v=n/FX.rates[f]*FX.rates[C]; if(k!=='b') return Math.round(v); const st=v<50?5:v<300?10:v<1000?50:100; return Math.max(st,Math.round(v/st)*st);};
  document.querySelectorAll('.mz').forEach(e=>{e.textContent=fmt(MR(e.dataset.k,+e.dataset.m,e.dataset.mc),C);});
