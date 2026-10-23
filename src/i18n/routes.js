@@ -23,7 +23,12 @@ export const BEST_SLUG={
  'best-advanced-padel-rackets':{es:'palas-padel-nivel-avanzado',fr:'raquettes-padel-niveau-avance',pt:'raquetes-padel-nivel-avancado',it:'racchette-padel-livello-avanzato',de:'padelschlaeger-starke-spieler'},
  'best-cheap-padel-rackets':{es:'palas-padel-baratas',fr:'raquettes-padel-pas-cheres',pt:'raquetes-padel-baratas',it:'racchette-padel-economiche',de:'guenstige-padelschlaeger'},
  'best-womens-padel-rackets':{es:'palas-padel-mujer',fr:'raquettes-padel-femme',pt:'raquetes-padel-mulher',it:'racchette-padel-donna',de:'padelschlaeger-damen'},
+ 'best-round-padel-rackets':{'es':'palas-padel-redondas','fr':'raquettes-padel-rondes','pt':'raquetes-padel-redondas','it':'racchette-padel-rotonde','de':'runde-padelschlaeger'},
+ 'best-teardrop-padel-rackets':{'es':'palas-padel-lagrima','fr':'raquettes-padel-goutte-d-eau','pt':'raquetes-padel-lagrima','it':'racchette-padel-a-goccia','de':'padelschlaeger-tropfenform'},
+ 'best-diamond-padel-rackets':{'es':'palas-padel-diamante','fr':'raquettes-padel-diamant','pt':'raquetes-padel-diamante','it':'racchette-padel-a-diamante','de':'padelschlaeger-diamantform'},
+ 'best-hybrid-padel-rackets':{'es':'palas-padel-hibridas','fr':'raquettes-padel-hybrides','pt':'raquetes-padel-hibridas','it':'racchette-padel-ibride','de':'padelschlaeger-hybridform'},
 };
+export const SHAPE_KEYS=['round','teardrop','diamond','hybrid'].map(s=>`best-${s}-padel-rackets`);
 export const BEST_KEYS=Object.keys(BEST_SLUG).filter(k=>lists[k]||extraLists[k]);
 const P={
  home:{en:()=>'/',es:()=>'/es/',fr:()=>'/fr/',pt:()=>'/pt/',it:()=>'/it/',de:()=>'/de/'},

@@ -14,7 +14,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Article','head
 <nav class="toc" aria-label={G.tocH}><b>{G.tocH}</b><ol>{Object.entries(G.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>
 <h2 id="what">{S.what[0]}</h2><Fragment set:html={S.what[1]}/>
 <h2 id="shape">{S.shape[0]}</h2><Fragment set:html={S.shape[1]}/>
-<div class="tw"><table><thead><tr><th>{c.shape}</th><th>{c.rackets}</th><th>{c.power}</th><th>{c.control}</th><th>{c.forgiveness}</th><th>{c.comfort}</th><th>{c.median}</th></tr></thead><tbody>{g.shapeStats.filter(s=>s.n).map(s=><tr><td><b>{t.shapeCap[s.shape]}</b></td><td>{s.n}</td><td>{s.power}</td><td>{s.control}</td><td>{s.forgiveness}</td><td>{s.comfort}</td><td>{g.S[s.shape].price}</td></tr>)}</tbody></table></div>
+<div class="tw"><table><thead><tr><th>{c.shape}</th><th>{c.rackets}</th><th>{c.power}</th><th>{c.control}</th><th>{c.forgiveness}</th><th>{c.comfort}</th><th>{c.median}</th></tr></thead><tbody>{g.shapeStats.filter(s=>s.n).map(s=><tr><td><b><a href={url('best',lang,`best-${s.shape}-padel-rackets`)}>{t.shapeCap[s.shape]}</a></b></td><td>{s.n}</td><td>{s.power}</td><td>{s.control}</td><td>{s.forgiveness}</td><td>{s.comfort}</td><td>{g.S[s.shape].price}</td></tr>)}</tbody></table></div>
 <Fragment set:html={S.shape[2]}/>
 <h2 id="balance">{S.balance[0]}</h2><Fragment set:html={S.balance[1]}/>
 <div class="tw"><table><thead><tr><th>{c.balance}</th><th>{c.rackets}</th><th>{c.power}</th><th>{c.control}</th><th>{c.forgiveness}</th></tr></thead><tbody>{g.balanceStats.filter(s=>s.n).map(s=><tr><td><b>{cap(t.bal[s.balance])}</b></td><td>{s.n}</td><td>{s.power}</td><td>{s.control}</td><td>{s.forgiveness}</td></tr>)}</tbody></table></div>

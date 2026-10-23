@@ -4,6 +4,7 @@ import { rackets, slugify } from './data.js';
 const avg = (rs,k)=> rs.length? Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs.length):0;
 const med = a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[Math.floor(s.length/2)]:null;};
 export const isWomens = r => /\b(W|Woman|Women|Mujer)\b/.test(r.model);
+const shapePick = s => rs => rs.filter(r=>r.shape===s).map(r=>({r,s:(r.ratings.power+r.ratings.control+r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/5})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r);
 export const extraLists = {
   'best-padel-racket-2026': { title:'Best padel rackets of 2026', kw:'best padel racket 2026',
     intro:'Every 2026 and 2027 model in our database, ranked on a balanced all-round score so that no single trait (pure power or pure control) dominates. Use the level and style lists linked below if you already know what you need.',
@@ -25,6 +26,22 @@ export const extraLists = {
     intro:"These are the rackets that the brand itself markets as a women's model (W, Woman or Mujer in the official name). They are often a little lighter than the matching unisex model. Any racket can be used by anyone: weight and shape matter more than the label, so also check the lightweight picks in the full database.",
     rule:"Included: rackets whose official model name marks them as a women's version (W, Woman, Women or Mujer). Sorted by the average of handling, forgiveness and comfort, then lower published weight.",
     pick: rs=>rs.filter(isWomens).sort((a,b)=>(b.ratings.handling+b.ratings.forgiveness+b.ratings.comfort)-(a.ratings.handling+a.ratings.forgiveness+a.ratings.comfort)||(a.weightMin??999)-(b.weightMin??999)) },
+  'best-round-padel-rackets': { title:'Best round padel rackets', kw:'round padel racket', shape:'round',
+    intro:'A round head puts the sweet spot low and central, so off-centre hits still come back with control. Round rackets are the usual choice for beginners and defensive players who build points from the back of the court.',
+    rule:'Included: every racket with a round head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
+    pick: shapePick('round') },
+  'best-teardrop-padel-rackets': { title:'Best teardrop padel rackets', kw:'teardrop padel racket', shape:'teardrop',
+    intro:'A teardrop head sits between round and diamond: the sweet spot is a little higher than on a round racket, giving extra punch without losing too much control. It suits all-round players who both attack and defend.',
+    rule:'Included: every racket with a teardrop head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
+    pick: shapePick('teardrop') },
+  'best-diamond-padel-rackets': { title:'Best diamond padel rackets', kw:'diamond padel racket', shape:'diamond',
+    intro:'A diamond head moves the sweet spot and the weight towards the tip, which adds power on smashes and volleys but makes the racket less forgiving. Diamond rackets suit attacking players with sound technique.',
+    rule:'Included: every racket with a diamond head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
+    pick: shapePick('diamond') },
+  'best-hybrid-padel-rackets': { title:'Best hybrid padel rackets', kw:'hybrid padel racket', shape:'hybrid',
+    intro:'A hybrid head blends round and teardrop characteristics, aiming for control and forgiveness with a little more reach than a pure round racket. Hybrids suit players moving up from a first racket.',
+    rule:'Included: every racket with a hybrid head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
+    pick: shapePick('hybrid') },
 };
 // Brand copy: facts below are generic brand background plus figures computed live from our data.
 const brandCopy = {
