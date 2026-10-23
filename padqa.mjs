@@ -5,10 +5,10 @@ const urls=[...fs.readFileSync('dist/sitemap.xml','utf8').matchAll(/<loc>https:\
 const L=['es','fr','pt','it','de']; const seen=new Map();
 for(const u of urls){const s=u.split('/').filter(Boolean);const lang=L.includes(s[0])?s.shift():'en';const key=lang+':'+(s[0]||'')+':'+s.length+(s[0]&&s[1]&&s[1].includes('-vs-')?':vs':'');if(!seen.has(key))seen.set(key,u)}
 for(const l of ['en',...L]) seen.set(l+':404',(l==='en'?'':'/'+l)+'/404.html');
-const pages=[...seen.values()]; const W=[360,390,1280];
+const pages=[...seen.entries()].filter(([k])=>!process.env.QA_FAST||/^(en|es|de):/.test(k)).map(([,v])=>v); const W=(process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280]);
 const br=await chromium.launch(); const pg=await br.newPage(); const res=[]; let bad=0;
 for(const w of W){ await pg.setViewportSize({width:w,height:900});
- for(const p of pages){ await pg.goto(B+p,{waitUntil:'networkidle'});
+ for(const p of pages){ await pg.goto(B+p,{waitUntil:process.env.QA_FAST?'load':'networkidle'}); if(process.env.QA_FAST) await pg.waitForTimeout(200);
   const r=await pg.evaluate(()=>{const vis=e=>{const s=getComputedStyle(e),b=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&b.height>0&&!['SCRIPT','STYLE'].includes(e.tagName)};
    const m=document.querySelector('main');const kids=[...m.children].filter(vis);const f=kids[0],l=kids[kids.length-1];
    let above=m.previousElementSibling;while(above&&!vis(above))above=above.previousElementSibling;

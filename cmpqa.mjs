@@ -11,7 +11,7 @@ const info=pg=>pg.evaluate(()=>{const P=document.getElementById('pxcmp'); const 
  return {hidden:P.hidden,main:!document.getElementById('buymain').hidden,rows:rows.map(li=>[li.querySelector('.pxs b').textContent,li.querySelector('.pxp').textContent,li.hidden,li.classList.contains('best'),li.querySelector('a').rel,li.querySelector('a').getBoundingClientRect().height]),
   other:P.querySelectorAll('details .pxl li').length,otherOpen:!!P.querySelector('details[open]'),more:P.querySelector('.pxmore')?.textContent||null,sw:document.documentElement.scrollWidth,vw:innerWidth,low:document.getElementById('pxlive').innerText,
   ext:[...P.querySelectorAll('a')].every(a=>/^https:\/\//.test(a.href)&&a.rel==='sponsored nofollow')};});
-for(const w of [360,390,1280]) for(const [l,d] of Object.entries(dirs)){
+for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280])) for(const [l,d] of Object.entries(dirs)){
  const pg=await page(`/${d}/${S}/`,w,{wp_region:'GB',wp_cur:'GBP'}); const x=await info(pg); const tag=`${l}@${w}`;
  // GB delivers: padelnuestro, decathlon, padelsmith(oos). unknown: allforpadel, mantis, tennis-warehouse
  if(x.hidden||x.main) F(tag+' list not shown');

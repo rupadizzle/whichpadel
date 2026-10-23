@@ -21,7 +21,7 @@ for(const [t,p] of Object.entries(descs)) if(p.length>1) issues.push('dup desc '
 log('pages',files.length,'broken internal',bad.size,[...bad].slice(0,10));
 // 2. overflow + tap targets
 const pages=['/','/brands/bullpadel/2027/','/tools/real-weight/','/black-friday-padel-rackets/','/players/','/players/agustin-tapia/','/best/best-value-padel-rackets/','/rackets/adidas-2026-world-cup-argentina/','/compare/?r=adidas-2026-world-cup-argentina,adidas-2026-world-cup-belgium','/compare/?r='+CMP3,'/compare/','/best/best-padel-rackets-for-beginners/','/brands/','/brands/bullpadel/','/padel-rackets/','/best/best-padel-racket-2026/','/best/best-womens-padel-rackets/','/brands/nox/','/privacy/','/affiliate-disclosure/','/404.html','/compare/adidas-metalbone-2026-vs-nox-at10-pro-cup-hard-2026/','/es/','/es/palas-padel/','/es/mejores-palas-padel/','/es/comparador-palas-padel/?r=adidas-metalbone-2026,nox-at10-pro-cup-hard-2026'];
-for(const w of [360,390,768,1280]){ const c=await b.newContext({viewport:{width:w,height:800}}); const p=await c.newPage();
+for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.newContext({viewport:{width:w,height:800}}); const p=await c.newPage();
  for(const u of pages){ await p.goto(B+u); await p.waitForTimeout(400);
   const r=await p.evaluate(()=>{const W=document.documentElement.clientWidth; const o=[];
    if(document.documentElement.scrollWidth>W+1) o.push('overflow '+document.documentElement.scrollWidth);
@@ -64,12 +64,12 @@ await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('mobile sti
 await m.goto(B+'/'); await t('mobile filter sheet',async()=>{await m.tap('#f-open'); await m.tap('input[name=f-shape][value=diamond] + span'); await m.waitForTimeout(400); const c=await m.textContent('#count3'); await m.tap('#f-done'); if(await m.isVisible('#f-done')) throw Error('open'); log(' sheet diamond ->',c);});
 await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('region picker',async()=>{await m.tap('#rgn-btn'); await m.tap('[data-rgn=US]'); await m.tap('[data-cur=USD]'); await m.tap('[data-rgn-save]'); const x=await m.textContent('.price-big .pz'); if(!/^\$/.test(x)) throw Error('price '+x); await m.evaluate(()=>localStorage.clear());});
 for(const f of files){const h=fs.readFileSync(f,'utf8'); if(h.includes('≈')) issues.push('dual/approx price marker in '+f.slice(4));}
-issues.push(...await layoutQA(b));
+if(!process.env.QA_FAST) issues.push(...await layoutQA(b));
 log('errors',errs); log('ISSUES\n'+issues.join('\n'));
 await b.close();
 const { execSync } = await import('child_process');
-try{ execSync('node seoqa.mjs',{stdio:'inherit'}); }catch(e){ issues.push('SEOQA FAILED'); }
+if(!process.env.QA_FAST){ try{ execSync('node seoqa.mjs',{stdio:'inherit'}); }catch(e){ issues.push('SEOQA FAILED'); }
 try{ execSync('node curqa.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('CURQA FAILED'); }
 try{ execSync('node pickerqa.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PICKERQA FAILED'); }
-try{ execSync('node parity.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PARITY FAILED'); console.log('PARITY FAILED'); }
+try{ execSync('node parity.mjs '+B,{stdio:'inherit'}); }catch(e){ issues.push('PARITY FAILED'); console.log('PARITY FAILED'); } }
 if(errs.length||issues.length){ console.log('QA FAIL'); process.exit(1); } else console.log('QA PASS');

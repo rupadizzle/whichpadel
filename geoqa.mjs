@@ -4,7 +4,7 @@ const B=process.argv[2]||'http://127.0.0.1:4987'; const bad=[]; const ok=(c,m)=>
 const br=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
 const CASES=[['/','GB','United Kingdom','£'],['/','ES','Spain','€'],['/es/','ES','España','€'],['/es/','GB','Reino Unido','£'],['/','US','United States','$'],['/de/','FR','Frankreich','€'],['/fr/','SE','Suède','kr']];
 const st=pg=>pg.evaluate(()=>({h:document.getElementById('geo-bn').hidden,r:localStorage.wp_region,c:localStorage.wp_cur,l:localStorage.wp_lang,s:localStorage.wp_geo_stay,p:location.pathname,d:!!document.getElementById('rgn-sheet')?.open}));
-for(const w of [360,390,1280]){
+for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280])){
  for(const [p,c,cn,sym] of CASES){
   const ctx=await br.newContext({viewport:{width:w,height:800}}); const pg=await ctx.newPage();
   await pg.addInitScript(()=>{window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__cls+=e.value}).observe({type:'layout-shift',buffered:true});});
