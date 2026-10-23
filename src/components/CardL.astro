@@ -13,6 +13,6 @@ const bal=t.bal[r.balance];
     <div class="chips">{r.shape&&<span class="chip">{t.shapeCap[r.shape]}</span>}{bal&&<span class="chip">{t.fBal(bal)}</span>}{r.coreHardness&&<span class="chip">{t.fCore(t.core[r.coreHardness])}</span>}{r.valueScore!=null&&<span class="chip">{t.rt.value} {r.valueScore}</span>}{r.weightMin&&<span class="chip">{r.weightMin}{r.weightMax&&r.weightMax!==r.weightMin?`–${r.weightMax}`:''} g</span>}</div>
     <div class="minibars">{keys.map(k=><div class="mb"><span>{t.rt[k]}</span><div class="bar"><i style={`width:${r.ratings[k]}%`}></i></div><b>{r.ratings[k]}</b></div>)}</div>
     <label class="cmpbox"><input type="checkbox" class="cmp" value={r.slug} aria-label={`${d.ui.addToCompare}: ${r.model}`}/> {d.ui.addToCompare}</label>
-    <div class="rfoot"><Price r={r} lang={lang} cls="price"/><a class="btn btn-sm" href={href} aria-label={`${d.ui.details}: ${r.model}`}>{d.ui.details}</a></div>
+    <div class="rfoot"><Price r={r} lang={lang} cls="price" from/><a class="btn btn-sm" href={href} aria-label={`${d.ui.details}: ${r.model}`}>{d.ui.details}</a></div>
   </div>
 </article>

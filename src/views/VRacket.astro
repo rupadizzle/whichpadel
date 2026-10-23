@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro'; import PriceAlertL from '../components/PriceAlertL.astro';
-import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX } from '../lib/price.js';
+import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX, domainOf } from '../lib/price.js';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 import { D, url, P, racketX, mat, balTxt, wt, SITE } from '../i18n/index.js';
 const { r, lang } = Astro.props; const d=D(lang), t=d.terms, u=d.ui, C=d.copy.racket; const x=racketX(r,lang);
@@ -12,7 +12,7 @@ const lvl=isWomens(r)?'best-womens-padel-rackets':r.shape==='round'?'best-padel-
 const U=SITE+url('racket',lang,r.slug); const intro=C.intro(r,t,x); const avg=Math.round(Object.values(r.ratings).reduce((a,b)=>a+b,0)/6);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name':r.model,'url':U,'brand':{'@type':'Brand','name':r.brand},...(r.image?{'image':absImg(r)}:{}),'description':intro,'category':t.racketFull,...(r.price!=null?{'offers':{'@type':'Offer','price':String(r.price),'priceCurrency':r.currency,'url':r.productUrl}}:{})},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':r.brand,'item':SITE+url('brand',lang,bs)},{'@type':'ListItem','position':4,'name':r.model,'item':U}]}]};
-const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('compare',lang)+`?r=${r.slug}${similar[0]?','+similar[0].slug:''}`;
+const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const BN=(SN[BD]||[BD||r.brand])[0]; const vs=vsFor(r.slug); const cmpU=url('compare',lang)+`?r=${r.slug}${similar[0]?','+similar[0].slug:''}`;
 ---
 <Base lang={d.locale} title={C.title(r.model)+d.copy.titleSuffix} description={C.desc(r,t,x.price)} jsonld={jsonld} ogImage={absImg(r)}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <a href={url('brand',lang,bs)}>{r.brand}</a> › <span>{r.model.replace(r.brand+' ','')}</span></nav>
@@ -31,16 +31,14 @@ const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('co
 {similar.length>0&&<section class="panel vs"><h2>{u.compareSimilar}</h2>{similar.map(s=><a href={url('compare',lang)+`?r=${r.slug},${s.slug}`}><span>{r.model} vs {s.model}</span><span>→</span></a>)}</section>}
 {sameBrand.length>0&&<section class="panel vs"><h2>{u.moreFrom(r.brand)}</h2>{sameBrand.map(s=><a href={url('racket',lang,s.slug)}><span>{s.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={url('brand',lang,bs)}>{u.allBrand(r.brand)}</a></p></section>}
 </div>
-<aside class="panel buybox" id="buybox"><p class="muted small" style="margin:0">{u.recordedPrice}</p><p class="price-big"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
-{r.valueScore!=null&&<p class="small" style="margin:0 0 8px">{u.valueScore} <b>{r.valueScore}/100</b> · <a href={url('best',lang,'best-value-padel-rackets')+'#methodology'}>{u.howItWorks}</a></p>}
-<div class="pxcmp" id="pxcmp" hidden></div>
-<a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.checkPrice} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
-<ul class="trustbar"><li>{u.trustA}</li><li>{u.trustB(rackets.length)}</li>{r.priceChecked&&<li>{u.trustC(r.priceChecked)}</li>}</ul>
-<a class="btn btn-sm" style="width:100%" href={cmpU}>{u.compareThis}</a>{r.weightMin&&r.balance&&<p class="small" style="margin:8px 0 0"><a href={url('tool',lang)+`?r=${r.slug}${similar[0]?','+similar[0].slug:''}`}>{u.howHeavy}</a></p>}</aside>
+<aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
+<div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
+<a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.px.cmp.buy.replace('{s}',BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
+<a class="btn btn-sm" style="width:100%" href={cmpU}>{u.compareThis}</a></aside>
 </div>
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
-<div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} tabindex="-1">{u.checkPrice}</a></div>
+<div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} id="stickybuy" tabindex="-1">{u.px.cmp.buy.replace('{s}',BN)}</a></div>
 <script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
 const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
@@ -59,13 +57,24 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   if(!rows.length){P.hidden=true;P.innerHTML='';M.hidden=false;return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
-  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${esc((SN[o.d]||[o.d])[0])}</b>${best?` <em>${C.best}</em>`:''}<small>${o.s===0?PX.oos:C.inStock} · ${age(o.t)}</small></span><span class="pxp">${f(o.v)}</span><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank">${C.view}</a></li>`;
-  const main=rows.filter(o=>o.st==='y'), oth=rows.filter(o=>o.st!=='y'); const bi=main.findIndex(o=>o.s!==0);
-  let h=`<h3>${C.title}</h3>`;
-  if(main.length){h+=`<ul class="pxl">${main.map((o,i)=>row(o,i===bi).replace('<li ',i>=5?'<li hidden data-x ':'<li ')).join('')}</ul>`; if(main.length>5) h+=`<button type="button" class="pxmore" aria-expanded="false">${C.all.replace('{n}',main.length)}</button>`;}
-  if(oth.length) h+=`<details class="pxo"${main.length?'':' open'}><summary>${C.other} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
-  P.innerHTML=h; P.hidden=false; M.hidden=true;
-  const mb=P.querySelector('.pxmore'); if(mb) mb.onclick=()=>{const op=mb.getAttribute('aria-expanded')!=='true'; P.querySelectorAll('[data-x]').forEach(x=>x.hidden=!op); mb.setAttribute('aria-expanded',op); mb.textContent=op?C.less:C.all.replace('{n}',main.length);};}
+  const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b>${best?` <em>${C.bestP}</em>`:''}</span><span class="pxp">${f(o.v)}</span><small class="pxm">${o.s===0?PX.oos:C.inStock} · ${age(o.t)}</small><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank">${C.buy.replace('{s}',sn(o))}</a></li>`;
+  const main=rows.filter(o=>o.st==='y'), top=main.slice(0,4), oth=[...main.slice(4),...rows.filter(o=>o.st!=='y')];
+  const b=top[0]||oth[0]; let h=`<p class="pxh">${C.head.replace('{p}','<b>'+f(b.v)+'</b>').replace('{s}',sn(b)).replace('{n}',rows.length)}</p>`;
+  if(top.length) h+=`<ul class="pxl">${top.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
+  if(oth.length) h+=`<details class="pxo"${top.length?'':' open'}><summary>${C.more} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
+  P.innerHTML=h; P.hidden=false; M.hidden=true; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
+  const S=document.getElementById('stickybuy'); if(S){S.href=href(b); S.textContent=C.buy.replace('{s}',(SN[b.d]||[b.n||b.d])[0]);}
+  hist(cv,f);}
+ let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
+ function hist(cv,f){const B=document.getElementById('pxhist'); if(!B||!H.length) return; const W=window.WP||{currency:'GBP'};
+  const cut=new Date(Date.now()-HD*864e5).toISOString().slice(0,10); const pts=H.filter(x=>x[0]>=cut).map(x=>[x[0],cv(x[1],e.c)]); if(!pts.length) return;
+  const vs=pts.map(p=>p[1]), lo=Math.min(...vs), hi=Math.max(...vs), rg=(hi-lo)||1, n=pts.length;
+  const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(70-(p[1]-lo)/rg*60).toFixed(1)]);
+  const svg=`<svg viewBox="0 0 300 80" preserveAspectRatio="none" role="img" aria-label="${C.hist}"><polyline fill="none" stroke="#13795c" stroke-width="2" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${n<4?xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#13795c"/>`).join(''):''}</svg>`;
+  const note=H.length<7&&HD===90?C.since.replace('{d}',H[0][0]):C.lowN.replace('{n}',HD).replace('{p}',f(lo));
+  B.innerHTML=`<div class="pxhh"><h3>${C.hist}</h3><button type="button" class="pxt" data-d="${HD===90?30:90}">${C.days.replace('{n}',HD===90?30:90)}</button></div>${svg}<p class="muted small">${note}</p>`; B.hidden=false;
+  B.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{HD=+x.dataset.d; hist(cv,f);});}
  render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
  window.wpApply&&window.wpApply();}).catch(()=>{});

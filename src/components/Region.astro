@@ -19,7 +19,7 @@ const def=DEFAULT_REGION(lang); const dc=REGIONS[def][2];
 <div class="cur-seg" role="radiogroup" aria-label={RG.curH}>{CURRENCIES.map(c=><button type="button" role="radio" data-cur={c} aria-checked={c===dc?'true':'false'}>{SYM[c]} {c}</button>)}</div>
 <p class="muted small" style="margin:0">{RG.curNote}</p>
 <button type="button" class="btn btn-accent rgn-save" data-rgn-save>{RG.save}</button></div></dialog>
-<script is:inline define:vars={{CFG,lang,DEF:def,CONV:RG.conv('§',FX.date),NONE:UI.checkPrice,AP:RG.approx}}>
+<script is:inline define:vars={{CFG,lang,DEF:def,CONV:RG.conv('§',FX.date),NONE:UI.seeSpecs,AP:RG.approx}}>
 (()=>{const {FX,SH,R,SYM,CUR}=CFG; const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
 const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
 const nonEn=lang!=='en'; let reg=ls('wp_region')||(nonEn?DEF:ls('wp_geo'))||DEF; if(!R[reg]) reg=DEF;
@@ -30,7 +30,7 @@ function best(os){const C=curNow(); const c=(os||[]).map(o=>{const s=SH[o.d]||{y
 function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===C?'true':'false'));
  document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===reg?'true':'false'));
- document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
+ document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); if(e.dataset.fn){const os=JSON.parse(e.dataset.o).filter(o=>{const x=SH[o.d]; return !x||!x.n.includes(reg)}); e.textContent=q.v==null?e.dataset.none:(os.length>1?e.dataset.fn.replace('{n}',os.length):e.dataset.f1).replace('{p}',q.txt);} else e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
  document.querySelectorAll('a.aff[data-o]').forEach(a=>{const q=best(JSON.parse(a.dataset.o)); if(q.u) a.href=q.u;});
  const MR=(k,n,f)=>{if(f===C) return Math.round(n); const v=n/FX.rates[f]*FX.rates[C]; if(k!=='b') return Math.round(v); const st=v<50?5:v<300?10:v<1000?50:100; return Math.max(st,Math.round(v/st)*st);};
  document.querySelectorAll('.mz').forEach(e=>{e.textContent=fmt(MR(e.dataset.k,+e.dataset.m,e.dataset.mc),C);});
@@ -41,6 +41,7 @@ function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); i
 window.WP={best,shop(d){const s=SH[d]; return !s?'u':s.y.includes(reg)?'y':s.n.includes(reg)?'n':'u';},setRC(r,c){if(R[r]){reg=r;set('wp_region',r);} if(CUR.includes(c)){cur=c;set('wp_cur',c);} apply();},get region(){return reg},get currency(){return curNow()},approx:AP};
 window.wpApply=apply;
 document.addEventListener('DOMContentLoaded',()=>{ if(reg!==DEF||cur) apply();
+ const fs=document.querySelectorAll('.pz[data-s]'); if(fs.length) fetch('/api/prices').then(x=>x.ok?x.json():null).then(j=>{if(!j||!j.r) return; fs.forEach(e=>{const r=j.r[e.dataset.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) e.dataset.o=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u})));}); apply();}).catch(()=>{});
  const d=document.getElementById('rgn-sheet'); 
  let sR,sC,sL; const mark=()=>{document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===sR?'true':'false'));
   document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===(sC||R[sR][1])?'true':'false'));

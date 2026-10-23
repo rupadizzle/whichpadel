@@ -1,7 +1,9 @@
 ---
 import { pick, fmt, offersOf, FX, DEFAULT_REGION } from '../lib/price.js'; import { D } from '../i18n/index.js';
-const { r, lang='en', cls='', checkLabel } = Astro.props; const p=pick(r,DEFAULT_REGION(lang));
-const U=D(lang).ui; const none=U.checkPrice;
+const { r, lang='en', cls='', checkLabel, from=false } = Astro.props; const p=pick(r,DEFAULT_REGION(lang));
+const U=D(lang).ui; const none=from?U.seeSpecs:U.checkPrice;
 const tip=p.conv?U.region.conv(p.o.c,FX.date):undefined;
+const fx=from?{'data-s':r.slug,'data-f1':U.from1,'data-fn':U.fromN,'data-none':U.seeSpecs}:{};
+const txt=p.none?(checkLabel||none):fmt(p.v,p.cur,lang);
 ---
-<span class={`pz ${cls}${p.conv?' cv':''}`} data-o={JSON.stringify(offersOf(r))} title={tip} data-ap={D(lang).ui.region.approx}>{p.none?(checkLabel||none):fmt(p.v,p.cur,lang)}</span>
+<span class={`pz ${cls}${p.conv?' cv':''}`} data-o={JSON.stringify(offersOf(r))} title={tip} data-ap={D(lang).ui.region.approx} {...fx}>{from&&!p.none?U.from1.replace('{p}',txt):txt}</span>
