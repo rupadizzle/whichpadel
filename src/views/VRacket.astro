@@ -59,22 +59,22 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
-  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b></span><span class="pxp">${f(o.v)}</span><span class="pxm"><i class="dot${o.s===0?' no':''}" title="${o.s===0?PX.oos:C.inStock}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${ag(o.t)}</span><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm"><i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}${ag(o.t)}</small></span><span class="pxp">${f(o.v)}</span><a class="btn pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
   const main=rows.filter(o=>o.st==='y'), top=main.slice(0,4), oth=[...main.slice(4),...rows.filter(o=>o.st!=='y')];
-  const b=top[0]||oth[0]; let h=`<p class="pxh">${(rows.length===1?C.head1:C.head).replace('{p}','<b>'+f(b.v)+'</b>').replace('{s}',sn(b)).replace('{n}',rows.length)}</p>`;
+  const b=top[0]||oth[0]; let h=`<p class="pxbigp">${f(b.v)}</p><p class="pxsub">${sn(b)} · ${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`;
   if(top.length) h+=`<ul class="pxl">${top.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
   if(oth.length) h+=`<details class="pxo"${top.length?'':' open'}><summary>${C.more} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
   P.innerHTML=h; P.hidden=false; M.hidden=true; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
-  const S=document.getElementById('stickybuy'); if(S){S.href=href(b); S.textContent=C.buy.replace('{s}',(SN[b.d]||[b.n||b.d])[0]);}
+  const S=document.getElementById('stickybuy'); if(S){S.href=href(b); S.textContent=C.buyS; S.setAttribute('aria-label',C.buy.replace('{s}',(SN[b.d]||[b.n||b.d])[0])); const SP=document.querySelector('#stickycta .sp'); if(SP) SP.innerHTML=`<b>${C.bestS} ${f(b.v)}</b><span>${sn(b)}</span>`;}
   hist(cv,f);}
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
  function hist(cv,f){const B=document.getElementById('pxhist'); if(!B||!H.length) return; const W=window.WP||{currency:'GBP'};
   const cut=new Date(Date.now()-HD*864e5).toISOString().slice(0,10); const pts=H.filter(x=>x[0]>=cut).map(x=>[x[0],cv(x[1],e.c)]); if(!pts.length) return;
   const vs=pts.map(p=>p[1]), lo=Math.min(...vs), hi=Math.max(...vs), rg=(hi-lo)||1, n=pts.length;
-  const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(70-(p[1]-lo)/rg*60).toFixed(1)]);
-  const svg=`<svg viewBox="0 0 300 80" preserveAspectRatio="none" role="img" aria-label="${C.hist}"><polyline fill="none" stroke="#13795c" stroke-width="2" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${n<4?xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#13795c"/>`).join(''):''}</svg>`;
+  const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(58-(p[1]-lo)/rg*52).toFixed(1)]);
+  const svg=`<svg viewBox="0 0 300 64" preserveAspectRatio="none" role="img" aria-label="${C.hist}"><polyline fill="none" stroke="#13795c" stroke-width="2" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${n<4?xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#13795c"/>`).join(''):''}</svg>`;
   const note=H.length<7&&HD===90?C.since.replace('{d}',H[0][0]):C.lowN.replace('{n}',HD).replace('{p}',f(lo));
-  B.innerHTML=`<div class="pxhh"><h3>${C.hist}</h3>${H.length>=7?`<button type="button" class="pxt" data-d="${HD===90?30:90}">${C.days.replace('{n}',HD===90?30:90)}</button>`:''}</div>${svg}<p class="muted small">${note}</p>`; B.hidden=false;
+  B.innerHTML=`${svg}<p class="muted small">${note}</p>`; B.hidden=false;
   B.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{HD=+x.dataset.d; hist(cv,f);});}
  render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
