@@ -1,6 +1,6 @@
 import {parse,sane} from './parse.js'; import {FEEDS} from './feeds.js';
 const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpadel.com)';
-const PER_RUN={'noxsport.com':1}, PER_DOMAIN=2, GAP_MS=8000, RETRY=6*3600e3, DAY=86400e3, RECHECK=20*3600e3;
+const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=20*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 export function robotsAllows(txt,path){if(!txt) return true; let on=false,rules=[]; for(const raw of txt.split(/\r?\n/)){const l=raw.replace(/#.*/,'').trim(); const m=l.match(/^([\w-]+)\s*:\s*(.*)$/); if(!m) continue; const k=m[1].toLowerCase(), v=m[2].trim();
@@ -30,14 +30,14 @@ export async function run(env){const {results:shops}=await env.DB.prepare("SELEC
  return out.flat();}
 // public read API: best current offer per racket + 30/90-day lows + short history + drop flag
 export async function exportPrices(env){const now=Date.now();
- const {results}=await env.DB.prepare(`SELECT o.id,o.racket_id r,o.shop d,o.url u,p.ts,p.price,p.currency c,p.in_stock s FROM offers o JOIN price_observations p ON p.offer_id=o.id WHERE p.ts>? ORDER BY p.ts`).bind(now-90*DAY).all();
+ const {results}=await env.DB.prepare(`SELECT o.id,o.racket_id r,o.shop d,s.name n,o.url u,p.ts,p.price,p.currency c,p.in_stock s FROM offers o JOIN shops s ON s.domain=o.shop JOIN price_observations p ON p.offer_id=o.id WHERE p.ts>? ORDER BY p.ts`).bind(now-90*DAY).all();
  const by={}; for(const x of results)(by[x.id]??=[]).push(x);
  const out={}; for(const obs of Object.values(by)){const last=obs.at(-1); if(now-last.ts>4*DAY) continue; const c=last.c; const same=obs.filter(o=>o.c===c);
   const days={}; for(const o of same) days[new Date(o.ts).toISOString().slice(0,10)]=o.price; const h=Object.entries(days);
   const min=n=>Math.min(...same.filter(o=>now-o.ts<=n*DAY).map(o=>o.price)); const prev=[...h].reverse().find(([,p])=>p!==last.price);
   const recentPrev=prev&&now-Date.parse(prev[0])<=7*DAY+DAY?prev[1]:null; const drop=recentPrev&&last.price<=recentPrev*0.95?Math.round((1-last.price/recentPrev)*100):0;
-  const e={p:last.price,c,u:last.u,d:last.d,s:last.s,t:new Date(last.ts).toISOString().slice(0,10),min30:min(30),min90:min(90),since:h[0][0],drop,h:h.slice(-90)};
-  const all=[...(out[last.r]?.o||[]),{d:e.d,p:e.p,c:e.c,u:e.u,s:e.s,t:e.t,min30:e.min30}];
+  const e={p:last.price,c,u:last.u,d:last.d,n:last.n,s:last.s,t:new Date(last.ts).toISOString().slice(0,10),min30:min(30),min90:min(90),since:h[0][0],drop,h:h.slice(-90)};
+  const all=[...(out[last.r]?.o||[]),{d:e.d,n:e.n,p:e.p,c:e.c,u:e.u,s:e.s,t:e.t,min30:e.min30}];
   const cur=out[last.r]; out[last.r]=(!cur||(e.s!==0&&(cur.s===0||e.p<cur.p)))?e:cur; out[last.r].o=all;}
  return {updated:new Date(now).toISOString(),r:out};}
 export default {

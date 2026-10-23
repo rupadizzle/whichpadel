@@ -512,6 +512,115 @@
    ],
    "source": "brand/shop page; delivery countries not verified",
    "affiliate": "PLACEHOLDER"
+  },
+  "zonadepadel.es": {
+   "name": "Zona de Padel",
+   "delivers": [
+    "ES"
+   ],
+   "unknown": [
+    "GB",
+    "IE",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-23)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "streetpadel.com": {
+   "name": "StreetPadel",
+   "delivers": [
+    "ES"
+   ],
+   "unknown": [
+    "GB",
+    "IE",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-23)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "padel-point.de": {
+   "name": "Padel-Point",
+   "delivers": [
+    "DE"
+   ],
+   "unknown": [
+    "GB",
+    "IE",
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-23)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "padelproshop.com": {
+   "name": "Padel Pro Shop",
+   "delivers": [],
+   "unknown": [
+    "GB",
+    "IE",
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-23)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "pdhsports.com": {
+   "name": "PDH Sports",
+   "delivers": [
+    "GB",
+    "US"
+   ],
+   "unknown": [
+    "IE",
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-23)",
+   "affiliate": "PLACEHOLDER"
   }
  }
 }
