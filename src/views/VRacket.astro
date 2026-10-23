@@ -5,18 +5,20 @@ import Base from '../layouts/Base.astro'; import RacketImage from '../components
 import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX, domainOf } from '../lib/price.js';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 import { D, url, P, racketX, mat, balTxt, wt, SITE } from '../i18n/index.js';
-const { r, lang } = Astro.props; const d=D(lang), t=d.terms, u=d.ui, C=d.copy.racket; const x=racketX(r,lang);
+import { HUB as HUBA } from '../i18n/hub.js';
+const { r, lang } = Astro.props; const audLbl=HUBA[lang].aud+': '+HUBA[lang].auds[['men','women','junior','unisex'].indexOf(r.audience)];
+const audLD={'@type':'PeopleAudience',...(r.audience==='men'?{suggestedGender:'male'}:r.audience==='women'?{suggestedGender:'female'}:r.audience==='junior'?{audienceType:'Junior'}:{suggestedGender:'unisex'})}; const d=D(lang), t=d.terms, u=d.ui, C=d.copy.racket; const x=racketX(r,lang);
 const rows=[[t.spec.brand,r.brand],[t.spec.year,r.year],[t.spec.shape,t.shapeCap[r.shape]],[t.spec.weight,wt(r)],[t.spec.balance,x.bal],[t.spec.core,mat(r.coreMaterial,lang)],[t.spec.hardness,t.core[r.coreHardness]],[t.spec.face,x.face],[t.spec.frame,mat(r.frame,lang)],[t.spec.thickness,r.thicknessMm?r.thicknessMm+' mm':null],...(r.player?[[t.spec.player,r.player]]:[]),[t.spec.value,r.valueScore!=null?`${r.valueScore}/100`:null]];
 const similar=rackets.filter(y=>y.slug!==r.slug&&y.shape===r.shape&&y.priceGBPApprox&&r.priceGBPApprox&&Math.abs(y.priceGBPApprox-r.priceGBPApprox)<40).slice(0,3);
 const bs=brandSlug(r.brand); const sameBrand=rackets.filter(y=>y.brand===r.brand&&y.slug!==r.slug).slice(0,6);
 const ALL={...lists,...extraLists}; const inLists=Object.entries(ALL).filter(([k,v])=>d.copy.best.titles[k]&&v.pick(rackets).slice(0,15).some(y=>y.slug===r.slug));
 const lvl=isWomens(r)?'best-womens-padel-rackets':r.shape==='round'?'best-padel-rackets-for-beginners':r.shape==='diamond'?'best-advanced-padel-rackets':'best-intermediate-padel-rackets';
 const U=SITE+url('racket',lang,r.slug); const intro=C.intro(r,t,x); const avg=Math.round(Object.values(r.ratings).reduce((a,b)=>a+b,0)/6);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name':r.model,'url':U,'brand':{'@type':'Brand','name':r.brand},...(r.image?{'image':absImg(r)}:{}),'description':intro,'category':t.racketFull,...(r.price!=null?{'offers':{'@type':'Offer','price':String(r.price),'priceCurrency':r.currency,'url':r.productUrl}}:{})},
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name':r.model,'url':U,'brand':{'@type':'Brand','name':r.brand},...(r.image?{'image':absImg(r)}:{}),'description':intro,'category':t.racketFull,'audience':audLD,...(r.price!=null?{'offers':{'@type':'Offer','price':String(r.price),'priceCurrency':r.currency,'url':r.productUrl}}:{})},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':r.brand,'item':SITE+url('brand',lang,bs)},{'@type':'ListItem','position':4,'name':r.model,'item':U}]}]};
 const G=gallery(r), R2=RP(lang), lv=levelOf(r), ins=insight(r,lang), FC=FCARD[lang]||FCARD.en; const alt=t.imgAlt(r.model);
 const srows=rows.filter(([k,v])=>v!=null&&v!==''&&v!==false);
-const kchips=[r.shape&&t.shapeCap[r.shape],x.bal&&t.fBal(x.bal),wt(r),r.coreHardness&&t.fCore(t.core[r.coreHardness]),lv&&R2.lvl[lv]].filter(Boolean);
+const kchips=[r.audience&&audLbl,r.shape&&t.shapeCap[r.shape],x.bal&&t.fBal(x.bal),wt(r),r.coreHardness&&t.fCore(t.core[r.coreHardness]),lv&&R2.lvl[lv]].filter(Boolean);
 const more=[...new Map([...similar,...rackets.filter(y=>y.slug!==r.slug&&y.shape===r.shape&&y.brand!==r.brand&&y.image)].map(y=>[y.slug,y])).values()].slice(0,4);
 const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const BN=(SN[BD]||[BD||r.brand])[0]; const vs=vsFor(r.slug); const cmpU=url('compare',lang)+`?r=${r.slug}${similar[0]?','+similar[0].slug:''}`;
 ---

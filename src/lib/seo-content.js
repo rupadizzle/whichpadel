@@ -3,9 +3,10 @@ import { tk } from './money.js';
 import { rackets, slugify } from './data.js';
 const avg = (rs,k)=> rs.length? Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs.length):0;
 const med = a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[Math.floor(s.length/2)]:null;};
-export const isWomens = r => /\b(W|Woman|Women|Mujer)\b/.test(r.model);
+export const isWomens = r => r.audience==='women';
 const shapePick = s => rs => rs.filter(r=>r.shape===s).map(r=>({r,s:(r.ratings.power+r.ratings.control+r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/5})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r);
-export const isJunior = r => /\b(JR|Jr|Junior)\b/.test(r.model);
+export const isJunior = r => r.audience==='junior';
+export const isMens = r => r.audience==='men';
 export const isCarbon = r => /carbon|carbono|\b\d+k\b/i.test(r.faceMaterial||'') && !/fib(re|er|ra).{0,4}(glass|vidrio)|glass|polyglass|fibrix/i.test(r.faceMaterial||'');
 const bal5 = r => (r.ratings.power+r.ratings.control+r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/5;
 export const extraLists = {
@@ -28,7 +29,7 @@ export const extraLists = {
   'best-womens-padel-rackets': { title:"Best women's padel rackets", kw:"women's padel racket",
     pick: rs=>rs.filter(r=>!isJunior(r)&&(isWomens(r)||(r.weightMax&&r.weightMax<=360&&r.balance!=='high'&&!['hard','medium-hard'].includes(r.coreHardness)))).map(r=>({r,s:(r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/3+(isWomens(r)?0.5:0)})).sort((a,b)=>b.s-a.s||(a.r.weightMin??999)-(b.r.weightMin??999)).map(x=>x.r) },
   'best-mens-padel-rackets': { title:"Best men's padel rackets", kw:"men's padel racket",
-    pick: rs=>rs.filter(r=>!isJunior(r)&&!isWomens(r)&&r.weightMin&&r.weightMin>=355&&['medium','high'].includes(r.balance)).map(r=>({r,s:bal5(r)+(r.ratings.power+r.ratings.control)/10})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r) },
+    pick: rs=>rs.filter(r=>isMens(r)||r.audience==='unisex'&&r.weightMin&&r.weightMin>=355&&['medium','high'].includes(r.balance)).map(r=>({r,s:bal5(r)+(r.ratings.power+r.ratings.control)/10+(isMens(r)?0.5:0)})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r) },
   'best-round-padel-rackets': { title:'Best round padel rackets', kw:'round padel racket', shape:'round',
     intro:'A round head puts the sweet spot low and central, so off-centre hits still come back with control. Round rackets are the usual choice for beginners and defensive players who build points from the back of the court.',
     rule:'Included: every racket with a round head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
