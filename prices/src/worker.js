@@ -1,6 +1,6 @@
 import {parse,sane} from './parse.js'; import {FEEDS} from './feeds.js';
 const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpadel.com)';
-const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=20*3600e3;
+const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=8*3600e3, MAX_AGE=48*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 export function robotsAllows(txt,path){if(!txt) return true; let on=false,rules=[]; for(const raw of txt.split(/\r?\n/)){const l=raw.replace(/#.*/,'').trim(); const m=l.match(/^([\w-]+)\s*:\s*(.*)$/); if(!m) continue; const k=m[1].toLowerCase(), v=m[2].trim();
@@ -30,9 +30,9 @@ export async function run(env){const {results:shops}=await env.DB.prepare("SELEC
  return out.flat();}
 // public read API: best current offer per racket + 30/90-day lows + short history + drop flag
 export async function exportPrices(env){const now=Date.now();
- const {results}=await env.DB.prepare(`SELECT o.id,o.racket_id r,o.shop d,s.name n,o.url u,p.ts,p.price,p.currency c,p.in_stock s FROM offers o JOIN shops s ON s.domain=o.shop JOIN price_observations p ON p.offer_id=o.id WHERE p.ts>? ORDER BY p.ts`).bind(now-90*DAY).all();
+ const {results}=await env.DB.prepare(`SELECT o.id,o.racket_id r,o.shop d,s.name n,o.url u,p.ts,p.price,p.currency c,p.in_stock s FROM offers o JOIN shops s ON s.domain=o.shop JOIN price_observations p ON p.offer_id=o.id WHERE p.ts>? AND o.fails<2 ORDER BY p.ts`).bind(now-90*DAY).all();
  const by={}; for(const x of results)(by[x.id]??=[]).push(x);
- const out={}; for(const obs of Object.values(by)){const last=obs.at(-1); if(now-last.ts>4*DAY) continue; const c=last.c; const same=obs.filter(o=>o.c===c);
+ const out={}; for(const obs of Object.values(by)){const last=obs.at(-1); if(now-last.ts>MAX_AGE) continue; // unverified for 48h: hide rather than show a stale price const c=last.c; const same=obs.filter(o=>o.c===c);
   const days={}; for(const o of same) days[new Date(o.ts).toISOString().slice(0,10)]=o.price; const h=Object.entries(days);
   const min=n=>Math.min(...same.filter(o=>now-o.ts<=n*DAY).map(o=>o.price)); const prev=[...h].reverse().find(([,p])=>p!==last.price);
   const recentPrev=prev&&now-Date.parse(prev[0])<=7*DAY+DAY?prev[1]:null; const drop=recentPrev&&last.price<=recentPrev*0.95?Math.round((1-last.price/recentPrev)*100):0;
@@ -46,6 +46,6 @@ export async function exportPrices(env){const now=Date.now();
 export default {
  async scheduled(ev,env,ctx){ctx.waitUntil(run(env));},
  async fetch(req,env,ctx){const u=new URL(req.url); if(!u.pathname.endsWith('/api/prices')) return new Response('Not found',{status:404});
-  const cache=caches.default; const key=new Request(u.origin+'/api/prices?v=3'); let r=await cache.match(key); if(r) return r;
+  const cache=caches.default; const key=new Request(u.origin+'/api/prices?v=4'); let r=await cache.match(key); if(r) return r;
   r=new Response(JSON.stringify(await exportPrices(env)),{headers:{'content-type':'application/json','cache-control':'public, max-age=900','access-control-allow-origin':'https://whichpadel.com'}});
   ctx.waitUntil(cache.put(key,r.clone())); return r;}};

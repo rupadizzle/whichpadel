@@ -247,3 +247,4 @@ html.pxlock,html.pxlock body{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.pxsp,.pxsb{transition:none!important}}
 #pxsheet .pxr{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px}#pxsheet .pxb{width:auto;grid-column:auto;grid-row:auto;margin:0}
 #buybox .pxcmp .pxr.best:not(#_){padding-left:12px;padding-right:8px;margin:0 -8px 0 -12px}
+.pxp .pxcv{display:block;font-size:.72rem;font-weight:500;color:#5b6670;line-height:1.2}
