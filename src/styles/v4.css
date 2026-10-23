@@ -245,3 +245,5 @@ html.pxlock,html.pxlock body{overflow:hidden}
 .pxsheet .pxsall{border:1px solid var(--line);border-radius:8px;text-decoration:none;margin-top:16px}
 @media(min-width:900px){.pxsp{bottom:auto;top:50%;border-radius:16px;transform:translateY(-40%);opacity:0;transition:transform .25s ease-out,opacity .25s ease-out}.pxsheet.open .pxsp{transform:translateY(-50%);opacity:1}.pxsg{display:none}}
 @media(prefers-reduced-motion:reduce){.pxsp,.pxsb{transition:none!important}}
+#pxsheet .pxr{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px}#pxsheet .pxb{width:auto;grid-column:auto;grid-row:auto;margin:0}
+#buybox .pxcmp .pxr.best:not(#_){padding-left:12px;padding-right:8px;margin:0 -8px 0 -12px}
