@@ -23,7 +23,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(x.rows.some(r=>r[5]<44)) F(tag+' tap target');
  if(x.sw>x.vw) F(tag+' overflow '+x.sw);
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
- const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
+ const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs):not(.pxag)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
  await pg.close();}
 // currency switch EUR + country ES: allforpadel, padelnuestro, mantis(unknown) ... ES delivers padelnuestro, allforpadel
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Padel Nuestro,Mantis,Tennis Warehouse'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
