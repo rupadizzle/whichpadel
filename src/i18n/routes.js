@@ -29,6 +29,12 @@ export const BEST_SLUG={
  'best-teardrop-padel-rackets':{'es':'palas-padel-lagrima','fr':'raquettes-padel-goutte-d-eau','pt':'raquetes-padel-lagrima','it':'racchette-padel-a-goccia','de':'padelschlaeger-tropfenform'},
  'best-diamond-padel-rackets':{'es':'palas-padel-diamante','fr':'raquettes-padel-diamant','pt':'raquetes-padel-diamante','it':'racchette-padel-a-diamante','de':'padelschlaeger-diamantform'},
  'best-hybrid-padel-rackets':{'es':'palas-padel-hibridas','fr':'raquettes-padel-hybrides','pt':'raquetes-padel-hibridas','it':'racchette-padel-ibride','de':'padelschlaeger-hybridform'},
+ 'best-lightweight-padel-rackets':{es:'palas-padel-ligeras',fr:'raquettes-padel-legeres',pt:'raquetes-padel-leves',it:'racchette-padel-leggere',de:'leichte-padelschlaeger'},
+ 'best-carbon-padel-rackets':{es:'palas-padel-carbono',fr:'raquettes-padel-carbone',pt:'raquetes-padel-carbono',it:'racchette-padel-carbonio',de:'padelschlaeger-carbon'},
+ 'best-junior-padel-rackets':{es:'palas-padel-junior',fr:'raquettes-padel-junior',pt:'raquetes-padel-junior',it:'racchette-padel-junior',de:'padelschlaeger-kinder'},
+ 'best-pro-padel-rackets':{es:'palas-padel-profesionales',fr:'raquettes-padel-pro',pt:'raquetes-padel-profissionais',it:'racchette-padel-professionali',de:'padelschlaeger-profis'},
+ 'best-soft-padel-rackets':{es:'palas-padel-blandas',fr:'raquettes-padel-souples',pt:'raquetes-padel-macias',it:'racchette-padel-morbide',de:'weiche-padelschlaeger'},
+ 'best-hard-padel-rackets':{es:'palas-padel-duras',fr:'raquettes-padel-dures',pt:'raquetes-padel-duras',it:'racchette-padel-dure',de:'harte-padelschlaeger'},
 };
 export const SHAPE_KEYS=['round','teardrop','diamond','hybrid'].map(s=>`best-${s}-padel-rackets`);
 export const BEST_KEYS=Object.keys(BEST_SLUG).filter(k=>lists[k]||extraLists[k]);

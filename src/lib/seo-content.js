@@ -5,6 +5,9 @@ const avg = (rs,k)=> rs.length? Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs
 const med = a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[Math.floor(s.length/2)]:null;};
 export const isWomens = r => /\b(W|Woman|Women|Mujer)\b/.test(r.model);
 const shapePick = s => rs => rs.filter(r=>r.shape===s).map(r=>({r,s:(r.ratings.power+r.ratings.control+r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/5})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r);
+export const isJunior = r => /\b(JR|Jr|Junior)\b/.test(r.model);
+export const isCarbon = r => /carbon|carbono|\b\d+k\b/i.test(r.faceMaterial||'') && !/fib(re|er|ra).{0,4}(glass|vidrio)|glass|polyglass|fibrix/i.test(r.faceMaterial||'');
+const bal5 = r => (r.ratings.power+r.ratings.control+r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/5;
 export const extraLists = {
   'best-padel-racket-2026': { title:'Best padel rackets of 2026', kw:'best padel racket 2026',
     intro:'Every 2026 and 2027 model in our database, ranked on a balanced all-round score so that no single trait (pure power or pure control) dominates. Use the level and style lists linked below if you already know what you need.',
@@ -42,6 +45,12 @@ export const extraLists = {
     intro:'A hybrid head blends round and teardrop characteristics, aiming for control and forgiveness with a little more reach than a pure round racket. Hybrids suit players moving up from a first racket.',
     rule:'Included: every racket with a hybrid head shape (as published). Score = average of power, control, handling, forgiveness and comfort; ties broken by the value rating.',
     pick: shapePick('hybrid') },
+  'best-lightweight-padel-rackets': { title:'Best lightweight padel rackets', pick: rs=>rs.filter(r=>!isJunior(r)&&r.weightMax&&r.weightMax<=355).sort((a,b)=>(b.ratings.handling+b.ratings.comfort)-(a.ratings.handling+a.ratings.comfort)||a.weightMax-b.weightMax) },
+  'best-carbon-padel-rackets': { title:'Best carbon padel rackets', pick: rs=>rs.filter(r=>!isJunior(r)&&isCarbon(r)).map(r=>({r,s:bal5(r)})).sort((a,b)=>b.s-a.s||b.r.ratings.value-a.r.ratings.value).map(x=>x.r) },
+  'best-junior-padel-rackets': { title:'Best junior padel rackets', pick: rs=>rs.filter(isJunior).sort((a,b)=>(b.ratings.handling+b.ratings.forgiveness)-(a.ratings.handling+a.ratings.forgiveness)) },
+  'best-pro-padel-rackets': { title:'Best pro padel rackets', pick: rs=>rs.filter(r=>r.player&&!isJunior(r)).map(r=>({r,s:bal5(r)})).sort((a,b)=>b.s-a.s||(b.r.year||0)-(a.r.year||0)).map(x=>x.r) },
+  'best-soft-padel-rackets': { title:'Best soft padel rackets', pick: rs=>rs.filter(r=>!isJunior(r)&&['soft','medium-soft'].includes(r.coreHardness)).sort((a,b)=>(b.ratings.comfort+b.ratings.forgiveness)-(a.ratings.comfort+a.ratings.forgiveness)||b.ratings.control-a.ratings.control) },
+  'best-hard-padel-rackets': { title:'Best hard padel rackets', pick: rs=>rs.filter(r=>!isJunior(r)&&['hard','medium-hard'].includes(r.coreHardness)).sort((a,b)=>(b.ratings.power+b.ratings.control)-(a.ratings.power+a.ratings.control)||b.ratings.handling-a.ratings.handling) },
 };
 // Brand copy: facts below are generic brand background plus figures computed live from our data.
 const brandCopy = {
