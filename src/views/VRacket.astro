@@ -73,7 +73,7 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(70-(p[1]-lo)/rg*60).toFixed(1)]);
   const svg=`<svg viewBox="0 0 300 80" preserveAspectRatio="none" role="img" aria-label="${C.hist}"><polyline fill="none" stroke="#13795c" stroke-width="2" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${n<4?xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#13795c"/>`).join(''):''}</svg>`;
   const note=H.length<7&&HD===90?C.since.replace('{d}',H[0][0]):C.lowN.replace('{n}',HD).replace('{p}',f(lo));
-  B.innerHTML=`<div class="pxhh"><h3>${C.hist}</h3><button type="button" class="pxt" data-d="${HD===90?30:90}">${C.days.replace('{n}',HD===90?30:90)}</button></div>${svg}<p class="muted small">${note}</p>`; B.hidden=false;
+  B.innerHTML=`<div class="pxhh"><h3>${C.hist}</h3>${H.length>=7?`<button type="button" class="pxt" data-d="${HD===90?30:90}">${C.days.replace('{n}',HD===90?30:90)}</button>`:''}</div>${svg}<p class="muted small">${note}</p>`; B.hidden=false;
   B.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{HD=+x.dataset.d; hist(cv,f);});}
  render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
