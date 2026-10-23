@@ -45,7 +45,7 @@
 .rk-t{display:flex;flex-direction:column;gap:4px;min-width:0}.rk-b{font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
 .rk-m{font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.rk-a:hover .rk-m{text-decoration:underline}
 .rk-c{font-size:.8125rem;color:var(--mut)}
-.rk-p{display:flex;flex-direction:column;margin-top:8px}.rk-p b{color:var(--green);font-size:1rem}.rk-s{font-size:.8125rem;color:var(--ink,#0f1c24);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-p{display:flex;flex-direction:column;margin-top:8px}.rk-pv{font-weight:700;color:var(--green);font-size:1rem}.rk-s{font-size:.8125rem;color:var(--ink,#0f1c24);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rk-x{position:absolute;top:4px;right:4px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .rk-x input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
 .rk-x>span{width:24px;height:24px;border:1.5px solid #b8c4cc;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center}
