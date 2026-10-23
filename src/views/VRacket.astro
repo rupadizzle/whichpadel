@@ -53,7 +53,7 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const cv=(n,c)=>c===cur?n:n/RATES[c]*RATES[cur]; const f=n=>{const v=Math.round(n); return cur==='SEK'?v+' kr':LG!=='en'?v+' '+{GBP:'£',EUR:'€',USD:'$'}[cur]:{GBP:'£',EUR:'€',USD:'$'}[cur]+v;};
   // exact shop price in the shop's own currency (what the visitor will see on the shop), e.g. €64.95
   const fn=(n,c)=>{const v=Number.isInteger(n)?String(n):n.toFixed(2); const sy={GBP:'£',EUR:'€',USD:'$'}[c]; return c==='SEK'?v+' kr':LG!=='en'?v.replace('.',',')+' '+sy:sy+v;};
-  const fb=o=>o.c===cur?fn(o.p,o.c):'≈ '+f(o.v);
+  const AX=(window.WP&&WP.approx)||'approx.'; const fb=o=>o.c===cur?fn(o.p,o.c):AX+' '+f(o.v);
   const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
    .sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
   const low=Math.min(...os.map(o=>cv(o.min30||o.p,o.c)));
@@ -64,7 +64,7 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
-  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}${o.st!=='y'?' nc':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm">${best?`<span class="pxbd">${C.bestDeal}</span>`:''}<i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}${ag(o.t)}</small>${o.st!=='y'?`<small class="pxnc">${C.nc}</small>`:''}</span><span class="pxp">${fn(o.p,o.c)}${o.c!==cur?`<small class="pxcv">≈ ${f(o.v)}</small>`:''}</span><a class="btn pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}${o.st!=='y'?' nc':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm">${best?`<span class="pxbd">${C.bestDeal}</span>`:''}<i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}${ag(o.t)}</small>${o.st!=='y'?`<small class="pxnc">${C.nc}</small>`:''}</span><span class="pxp">${fn(o.p,o.c)}${o.c!==cur?`<small class="pxcv">${AX} ${f(o.v)}</small>`:''}</span><a class="btn pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
   const conf=rows.filter(o=>o.st==='y'), unc=rows.filter(o=>o.st!=='y'), all=[...conf,...unc], top=all.slice(0,4);
   const b=all[0], bi=b.s!==0; const ul=(L,o0)=>`<ul class="pxl">${L.map((o,i)=>row(o,o0&&i===0&&bi)).join('')}</ul>`;
   let h=`<p class="pxbigp">${fb(b)}</p><p class="pxsub">${sn(b)} · ${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`+ul(top,true);
