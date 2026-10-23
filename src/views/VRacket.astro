@@ -69,7 +69,7 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 <script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:r.model}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
 const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
-if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+if(okHost) fetch('/api/all-prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
  const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
  const oj=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}))); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=oj);
  const L=document.getElementById('pxlive'); const C=PX.cmp, esc=s=>String(s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');

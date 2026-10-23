@@ -27,5 +27,5 @@ full(){
  par "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs"; }
 live(){ # post-deploy check against a deployed URL
  step "check $1"; sleep 3
- for p in / /es/ /rackets/head-evo-speed-2025/ /compare/ /best/best-round-padel-rackets/ /api/prices; do c=$(curl -s -o /dev/null -w '%{http_code}' "$1$p"); [ "$c" = 200 ] || fail "$1$p -> $c"; done
+ for p in / /es/ /rackets/head-evo-speed-2025/ /compare/ /best/best-round-padel-rackets/ /api/prices /api/all-prices /api/shoe-prices; do c=$(curl -s -o /dev/null -w '%{http_code}' "$1$p"); [ "$c" = 200 ] || fail "$1$p -> $c"; done
  node subqa.mjs "$1" >$L/sub.log 2>&1 || { cat $L/sub.log; fail "subqa $1"; } }

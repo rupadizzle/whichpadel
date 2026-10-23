@@ -56,7 +56,7 @@ function show(i){cur=i; scr('q'); steps.forEach((s,j)=>{s.hidden=j!==i; if(j===i
 $('fz-start').onclick=()=>show(0);
 $('fz-back').onclick=()=>cur>0?show(cur-1):scr('intro');
 steps.forEach((s,i)=>s.addEventListener('change',()=>setTimeout(()=>i<N-1?show(i+1):finish(),RM?0:180)));
-let all=null,prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{};
+let all=null,prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{};
  a.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s,t:o.t}));});
  const ns=new Set(a.flatMap(c=>(c.o||[]).map(o=>o.d))).size; if(ns) $('fz-ns').textContent=ns; all=a; return a;}));
 load();

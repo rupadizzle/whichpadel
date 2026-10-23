@@ -47,7 +47,7 @@ function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); i
 window.WP={best,shop(d,c){const s=SH[d], sx=STRICT[reg]; if(sx) return s&&s.y.includes(reg)&&(!c||c===sx)?'y':'n'; return !s?'u':s.y.includes(reg)?'y':s.n.includes(reg)?'n':'u';},strict(){return !!STRICT[reg]},setRC(r,c){if(R[r]){reg=r;set('wp_region',r);} if(CUR.includes(c)){cur=c;set('wp_cur',c);} apply();},get region(){return reg},get currency(){return curNow()},approx:AP};
 window.wpApply=apply;
 document.addEventListener('DOMContentLoaded',()=>{ if(reg!==DEF||cur) apply();
- const fs=document.querySelectorAll('.pz[data-s]'); if(fs.length) fetch('/api/prices').then(x=>x.ok?x.json():null).then(j=>{if(!j||!j.r) return; fs.forEach(e=>{const r=j.r[e.dataset.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) e.dataset.o=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u})));}); apply();}).catch(()=>{});
+ const fs=document.querySelectorAll('.pz[data-s]'); if(fs.length) fetch('/api/all-prices').then(x=>x.ok?x.json():null).then(j=>{if(!j||!j.r) return; fs.forEach(e=>{const r=j.r[e.dataset.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) e.dataset.o=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u})));}); apply();}).catch(()=>{});
  const d=document.getElementById('rgn-sheet'); 
  let sR,sC,sL; const mark=()=>{document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===sR?'true':'false'));
   document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===(sC||R[sR][1])?'true':'false'));

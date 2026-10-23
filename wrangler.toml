@@ -11,3 +11,17 @@ id = "030127a373d949d4a7f83b9e845ececf"
 binding = "DB"
 database_name = "whichpadel-prices"
 database_id = "61cc4611-5325-4c84-9b8b-8858aaf40510"
+
+# Price Workers reached via service bindings (same-zone fetch to a Worker route is not reliable from Functions).
+# PRICES = production racket Worker (unchanged); US + SHOES = US and shoe price Workers (own D1s, cron every 10 min).
+[[services]]
+binding = "PRICES"
+service = "whichpadel-prices"
+
+[[services]]
+binding = "US"
+service = "whichpadel-us-prices-preview"
+
+[[services]]
+binding = "SHOES"
+service = "whichpadel-shoe-prices-preview"

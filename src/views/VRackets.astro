@@ -108,7 +108,7 @@ async function apply(push=true){ await load(); const s=get(); const act=active(s
  if(!act&&!hub.dataset.dirty){ shown=T.PER*T.p; refreshPrices(); const m=$('h-more'); if(m) m.hidden=shown>=view.length; return; }
  hub.dataset.dirty=1; if(!act) shown=T.PER; render(true); }
 function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&&all.find(x=>x.s===li.dataset.s); if(r) li.querySelector('.rk-pv').textContent=ptxt(r); li.querySelector('.rk-s').textContent=stxt(r);}); }
-let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const L=p&&p.r||{}; a.forEach(r=>{const e=L[r.s]; if(e){const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s})); if(os.length) r.live=os; r.drop=e.drop||0;}}); all=a; return a;}));
+let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const L=p&&p.r||{}; a.forEach(r=>{const e=L[r.s]; if(e){const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s})); if(os.length) r.live=os; r.drop=e.drop||0;}}); all=a; return a;}));
 // active filter chips
 const LBL=k=>({aud:T.aud,shape:T.shape,bal:T.balance,wt:T.weight,hard:T.hard,level:T.level,brand:T.brand,year:T.year})[k];
 function chips(){const s=get(); const out=[]; const lab=n=>{const i=document.querySelector(`input[name="h-${n}"]:checked`); return i?i.nextElementSibling.firstChild.textContent.trim():'';};
