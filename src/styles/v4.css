@@ -144,3 +144,13 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 .pxlive{list-style:none;padding:0;margin:var(--s2) 0 0;display:grid;gap:var(--s1)}
 .pxdrop{display:inline-block;vertical-align:middle;font-size:var(--fs-s);font-weight:700;letter-spacing:0;color:#fff;background:var(--green2);border-radius:4px;padding:2px var(--s2)}
 .pxdrop[hidden],.pxlive[hidden]{display:none}
+.pxcmp[hidden],#buymain[hidden],.pxl li[hidden]{display:none}
+.pxcmp{margin:var(--s3) 0}.pxcmp h3{font-size:1rem;margin:0 0 var(--s2)}
+.pxl{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
+.pxr{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"s p" "b b";gap:6px var(--s2);align-items:center;padding:var(--s2);border:1px solid var(--line);border-radius:8px;min-width:0}
+.pxr.best{border-color:var(--green2);background:#f1fbf6}.pxr.oos{opacity:.75}
+.pxs{grid-area:s;min-width:0;overflow-wrap:anywhere}.pxs small{display:block;color:var(--muted,#5b6b75)}.pxs em{font-style:normal;font-size:.75rem;font-weight:700;color:#fff;background:var(--green2);border-radius:4px;padding:1px 6px}
+.pxp{grid-area:p;font-weight:800;font-size:1.1rem;white-space:nowrap}
+.pxb{grid-area:b;width:100%;min-height:44px;display:flex;align-items:center;justify-content:center}
+.pxmore,.pxo summary{min-height:44px;width:100%;margin-top:var(--s2);background:none;border:1px solid var(--line);border-radius:8px;cursor:pointer;font:inherit;display:flex;align-items:center;justify-content:center;padding:0 var(--s2);text-align:center}
+.pxo .pxl{margin-top:var(--s2)}

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro'; import PriceAlertL from '../components/PriceAlertL.astro';
-import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf } from '../lib/price.js';
+import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX } from '../lib/price.js';
+const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 import { D, url, P, racketX, mat, balTxt, wt, SITE } from '../i18n/index.js';
 const { r, lang } = Astro.props; const d=D(lang), t=d.terms, u=d.ui, C=d.copy.racket; const x=racketX(r,lang);
 const rows=[[t.spec.brand,r.brand],[t.spec.year,r.year],[t.spec.shape,t.shapeCap[r.shape]],[t.spec.weight,wt(r)],[t.spec.balance,x.bal],[t.spec.core,mat(r.coreMaterial,lang)],[t.spec.hardness,t.core[r.coreHardness]],[t.spec.face,x.face],[t.spec.frame,mat(r.frame,lang)],[t.spec.thickness,r.thicknessMm?r.thicknessMm+' mm':null],...(r.player?[[t.spec.player,r.player]]:[]),[t.spec.value,r.valueScore!=null?`${r.valueScore}/100`:null]];
@@ -32,26 +33,46 @@ const oj=JSON.stringify(offersOf(r)); const vs=vsFor(r.slug); const cmpU=url('co
 </div>
 <aside class="panel buybox" id="buybox"><p class="muted small" style="margin:0">{u.recordedPrice}</p><p class="price-big"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
 {r.valueScore!=null&&<p class="small" style="margin:0 0 8px">{u.valueScore} <b>{r.valueScore}/100</b> · <a href={url('best',lang,'best-value-padel-rackets')+'#methodology'}>{u.howItWorks}</a></p>}
-<a class="btn aff btn-lg" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.checkPrice} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
+<div class="pxcmp" id="pxcmp" hidden></div>
+<a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.checkPrice} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
 <ul class="trustbar"><li>{u.trustA}</li><li>{u.trustB(rackets.length)}</li>{r.priceChecked&&<li>{u.trustC(r.priceChecked)}</li>}</ul>
 <a class="btn btn-sm" style="width:100%" href={cmpU}>{u.compareThis}</a>{r.weightMin&&r.balance&&<p class="small" style="margin:8px 0 0"><a href={url('tool',lang)+`?r=${r.slug}${similar[0]?','+similar[0].slug:''}`}>{u.howHeavy}</a></p>}</aside>
 </div>
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
 <div class="stickycta" id="stickycta" aria-hidden="true"><div class="sp"><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></div><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} tabindex="-1">{u.checkPrice}</a></div>
-<script is:inline define:vars={{PS:r.slug,PX:u.px,PU:r.productUrl}}>
-// live prices from the price engine (/api/prices); amounts are .mz tokens so the currency picker converts them
-if(location.hostname==='whichpadel.com'||/[?&]px=1/.test(location.search)) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
- const o=JSON.stringify([{d:e.d,p:e.p,c:e.c,u:e.u}]); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=o);
- const m=v=>`<span class="mz" data-m="${v}" data-mc="${e.c}" data-k="m"></span>`; const L=document.getElementById('pxlive');
- L.innerHTML=`<li>${PX.checked.replace('{d}',e.t)}${e.s===0?' · '+PX.oos:''}</li><li>${PX.low30}: ${m(e.min30)}</li>`+(Date.now()-Date.parse(e.since)>45*864e5?`<li>${PX.low90}: ${m(e.min90)}</li>`:'');
- L.hidden=false; const st=document.getElementById('pxstatic'); if(st) st.hidden=true;
+<script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang}}>
+// live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
+const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
+if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+ const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
+ const oj=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}))); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=oj);
+ const L=document.getElementById('pxlive'); const C=PX.cmp, esc=s=>String(s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
+ const today=Date.parse(new Date().toISOString().slice(0,10));
+ function render(){const W=window.WP||{region:'GB',currency:'GBP'}, reg=W.region, cur=W.currency;
+  const cv=(n,c)=>c===cur?n:n/RATES[c]*RATES[cur]; const f=n=>{const v=Math.round(n); return cur==='SEK'?v+' kr':LG!=='en'?v+' '+{GBP:'£',EUR:'€',USD:'$'}[cur]:{GBP:'£',EUR:'€',USD:'$'}[cur]+v;};
+  const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
+   .sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
+  const low=Math.min(...os.map(o=>cv(o.min30||o.p,o.c)));
+  L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
+  const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
+  if(!rows.length){P.hidden=true;P.innerHTML='';M.hidden=false;return;}
+  const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
+  const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${esc((SN[o.d]||[o.d])[0])}</b>${best?` <em>${C.best}</em>`:''}<small>${o.s===0?PX.oos:C.inStock} · ${age(o.t)}</small></span><span class="pxp">${f(o.v)}</span><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank">${C.view}</a></li>`;
+  const main=rows.filter(o=>o.st==='y'), oth=rows.filter(o=>o.st!=='y'); const bi=main.findIndex(o=>o.s!==0);
+  let h=`<h3>${C.title}</h3>`;
+  if(main.length){h+=`<ul class="pxl">${main.map((o,i)=>row(o,i===bi).replace('<li ',i>=5?'<li hidden data-x ':'<li ')).join('')}</ul>`; if(main.length>5) h+=`<button type="button" class="pxmore" aria-expanded="false">${C.all.replace('{n}',main.length)}</button>`;}
+  if(oth.length) h+=`<details class="pxo"${main.length?'':' open'}><summary>${C.other} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
+  P.innerHTML=h; P.hidden=false; M.hidden=true;
+  const mb=P.querySelector('.pxmore'); if(mb) mb.onclick=()=>{const op=mb.getAttribute('aria-expanded')!=='true'; P.querySelectorAll('[data-x]').forEach(x=>x.hidden=!op); mb.setAttribute('aria-expanded',op); mb.textContent=op?C.less:C.all.replace('{n}',main.length);};}
+ render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
  window.wpApply&&window.wpApply();}).catch(()=>{});
 </script>
 <script is:inline define:vars={{cur:{s:r.slug,m:r.model,i:r.image||''},RK:url('racket',lang,'X').replace(/X\/$/,''),CMP:url('compare',lang),CW:u.compareWith('§')}}>
 document.body.classList.add('has-sticky');
-const sc=document.getElementById('stickycta'),bb=document.querySelector('#buybox .aff');
+const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox');
 new IntersectionObserver(([e])=>{const show=!e.isIntersecting;sc.classList.toggle('show',show);sc.setAttribute('aria-hidden',!show);}).observe(bb);
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`;document.getElementById('rv-wrap').hidden=false;}

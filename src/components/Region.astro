@@ -38,7 +38,7 @@ function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); i
  document.querySelectorAll('input[data-mb]').forEach(e=>{e.value=MR('b',+e.dataset.mb,e.dataset.mc);});
  const mt=document.documentElement.dataset.mt; if(mt) document.title=mt.replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧/gi,(_,k,n,f)=>(k=k.toLowerCase())==="s"?SYM[C]:fmt(MR(k,+n,f.toUpperCase()),C));
  document.dispatchEvent(new Event('wp:region'));}
-window.WP={best,setRC(r,c){if(R[r]){reg=r;set('wp_region',r);} if(CUR.includes(c)){cur=c;set('wp_cur',c);} apply();},get region(){return reg},get currency(){return curNow()},approx:AP};
+window.WP={best,shop(d){const s=SH[d]; return !s?'u':s.y.includes(reg)?'y':s.n.includes(reg)?'n':'u';},setRC(r,c){if(R[r]){reg=r;set('wp_region',r);} if(CUR.includes(c)){cur=c;set('wp_cur',c);} apply();},get region(){return reg},get currency(){return curNow()},approx:AP};
 window.wpApply=apply;
 document.addEventListener('DOMContentLoaded',()=>{ if(reg!==DEF||cur) apply();
  const d=document.getElementById('rgn-sheet'); 
