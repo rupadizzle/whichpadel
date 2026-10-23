@@ -1,4 +1,5 @@
 ---
+import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import { rackets } from '../lib/data.js';
 import { D, url, SITE } from '../i18n/index.js'; import { BEST_KEYS } from '../i18n/routes.js'; import { pickL, method } from '../i18n/lists.js';
 const { k, lang } = Astro.props; const d=D(lang), u=d.ui, B=d.copy.best; const [T,rule,intro]=B.titles[k];
@@ -14,6 +15,7 @@ const others=BEST_KEYS.filter(x=>x!==k);
 <section class="panel fcard" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:24px 0"><div><h2 class="h3" style="margin:0 0 8px">{FC[0]}</h2><p class="muted" style="margin:0">{FC[1]}</p></div><a class="btn" style="min-height:44px;display:inline-flex;align-items:center" href={url('finder',lang)}>{FC[2]} →</a></section>
 <div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('compare',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
 {method(k)&&<section class="panel" id="methodology"><h2>{u.methodology}</h2><p>{B.valueFormula}</p><p class="muted small">{B.valueNote}</p></section>}
+<NewsL lang={lang} src="ranking"/>
 <section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
 <section class="panel vs"><h2>{u.otherLists}</h2>{others.map(o=><a href={url('best',lang,o)}><span>{B.titles[o][0]}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={url('guide',lang)}>{u.howToChoose}</a> · <a href={url('brands',lang)}>{u.byBrand}</a></p></section>
 </Base>

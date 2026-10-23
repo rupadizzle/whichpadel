@@ -1,0 +1,16 @@
+---
+import { NEWS } from '../i18n/news.js'; import { url } from '../i18n/routes.js';
+const { lang='en', src='' } = Astro.props; const N=NEWS[lang]||NEWS.en;
+---
+<form class="nl" novalidate data-sub="nl" data-lang={lang} data-src={src} data-err={N.err}>
+<p class="nl-t"><b>✉ {N.h}:</b> {N.p}</p>
+<div class="nl-r"><input type="email" required placeholder={N.ph} aria-label={N.ph} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{N.b}</button></div>
+<label class="nl-c"><input type="checkbox" required/><span>{N.c} <a href={url('privacy',lang)}>{N.priv}</a>.</span></label>
+<p hidden class="nl-m" role="status" data-ok={N.ok}></p>
+</form>
+<style is:global>
+.nl{margin:24px 0;padding:16px;border:1px solid var(--line,#e3e3e3);border-radius:8px;display:grid;gap:8px}
+.nl-t{margin:0}.nl-r{display:flex;gap:8px;flex-wrap:wrap}.nl-r input[type=email]{flex:1;min-width:200px;min-height:44px;padding:0 16px}.nl-r .btn{min-height:44px;padding:0 16px}
+.nl-c{display:flex;gap:8px;align-items:flex-start;font-size:.85rem;min-height:44px;cursor:pointer}.nl-c input{width:24px;height:24px;margin:0;flex:none}
+.nl-m{margin:0;font-weight:600}.nl-m.bad{color:#c62828}.nl-m.good{color:var(--green,#1b7a3a)}
+</style>

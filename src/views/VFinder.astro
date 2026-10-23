@@ -1,4 +1,5 @@
 ---
+import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, CURL } from '../i18n/index.js';
 import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { SHOPS, offersOf } from '../lib/price.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang]; const CUR0=CURL(lang);
@@ -38,6 +39,7 @@ const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate
 <section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><div id="fz-out"></div>
  <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
  <label class="fz-cons"><input type="checkbox" required/> <span>{Z.consent} <a href={L('privacy')}>{Z.priv}</a>.</span></label><p class="fz-msg" hidden></p></form>
+ <NewsL lang={lang} src="finder"/>
  <p class="disc">{Z.ad} <a href={L('affiliate')}>{Z.disc}</a></p>
 </section>
 <div class="fz-bar" id="fz-sticky" hidden></div>

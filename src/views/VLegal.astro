@@ -1,8 +1,9 @@
 ---
+import { NEWS } from '../i18n/news.js';
 // Privacy, affiliate disclosure and About: one component for every language. Contact is only ever hello@whichpadel.com.
 import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.js';
 const { lang, kind } = Astro.props; const d=D(lang), L=d.copy.legal, u=d.ui;
-const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about]}[kind];
+const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy+NEWS[lang].pv],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about]}[kind];
 const body=kind==='about'?T[3].replace('§',`<a href="${url('affiliate',lang)}">${u.affiliate.toLowerCase()}</a>`):T[3];
 ---
 <Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]}><article class="panel prose">

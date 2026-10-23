@@ -1,4 +1,5 @@
 ---
+import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro'; import PriceAlertL from '../components/PriceAlertL.astro';
 import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX, domainOf } from '../lib/price.js';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
@@ -38,6 +39,7 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 </div>
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
+<NewsL lang={lang} src="racket"/>
 <div class="stickycta" id="stickycta" aria-hidden="true"><button type="button" class="sp" id="stickyopen" tabindex="-1" aria-haspopup="dialog" aria-label={u.px.cmp.openS}><b><Price r={r} lang={lang}/></b><span>{r.model} · {u.ad}</span></button><a class="btn aff" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj} id="stickybuy" tabindex="-1">{u.px.cmp.buy.replace('{s}',BN)}</a></div>
 <script is:inline define:vars={{PS:r.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:r.model}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.

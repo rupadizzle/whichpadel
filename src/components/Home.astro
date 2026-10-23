@@ -1,4 +1,5 @@
 ---
+import NewsL from './NewsL.astro';
 import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
 import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
 import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
@@ -22,8 +23,8 @@ const baseProps={lang:DICTS[lang].locale};
 <Base {...baseProps} title={H.title(rackets.length)} description={H.desc(rackets.length,brands.length)} jsonld={jsonld}>
 <section class="hero" slot="hero"><div class="wrap"><div>
 <span class="eyebrow">{H.eyebrow(rackets.length,brands.length)}</span>
-<h1>{H.h1a} <em>{H.h1b(rackets.length)}</em>{H.h1c}</h1>
-<p class="lead">{H.lead}</p>
+<h1>{H.h1a}</h1>
+<p class="lead">{typeof H.lead==="function"?H.lead(rackets.length):H.lead}</p>
 <a class="quizcta" href={L('finder')}>🎯<span>{H.qcta}<small>{H.qctaS}</small></span><span class="arr" aria-hidden="true">→</span></a>
 <form class="search" style="margin-top:16px" onsubmit="event.preventDefault();document.getElementById('f-q').value=this.q.value;document.getElementById('f-q').dispatchEvent(new Event('input'));document.getElementById('rackets').scrollIntoView({behavior:'smooth'})"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
 <div class="hero-ctas"><a class="btn btn-ghost" href={L('compare')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
@@ -54,7 +55,7 @@ const baseProps={lang:DICTS[lang].locale};
 <noscript><p>{H.noscript} <a href={L('brands')}>{H.brandsW}</a>.</p></noscript>
 {['round','teardrop','diamond','hybrid'].map(sh=><template id={`ic-${sh}`}><RacketIcon shape={sh} size={58}/></template>)}
 </section>
-<PriceAlertL lang={lang}/>
+<NewsL lang={lang} src="home"/>
 <div class="cmpbar" id="cmpbar" hidden><span id="cmpn"></span><button class="btn btn-accent btn-sm" id="cmp-go2" type="button">{H.cmpNow}</button></div>
 <script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null,showing0:H.js.showing('§1','§2'),top0:H.js.top('§'),cmpThese0:H.js.cmpThese('§')},HU,HL:lang}}>
 const F=(t,...a)=>a.reduce((o,v,i)=>o.replace(a.length>1?'§'+(i+1):'§',v),t); HT.showing=(a,b)=>F(HT.showing0,a,b); HT.top=n=>F(HT.top0,n); HT.cmpThese=n=>F(HT.cmpThese0,n);
