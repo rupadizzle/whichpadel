@@ -46,6 +46,6 @@ export async function exportPrices(env){const now=Date.now();
 export default {
  async scheduled(ev,env,ctx){ctx.waitUntil(run(env));},
  async fetch(req,env,ctx){const u=new URL(req.url); if(!u.pathname.endsWith('/api/prices')) return new Response('Not found',{status:404});
-  const cache=caches.default; const key=new Request(u.origin+'/api/prices?v=4'); let r=await cache.match(key); if(r) return r;
+  const cache=caches.default; const key=new Request(u.origin+'/api/prices?v=5'); let r=await cache.match(key); if(r) return r;
   r=new Response(JSON.stringify(await exportPrices(env)),{headers:{'content-type':'application/json','cache-control':'public, max-age=900','access-control-allow-origin':'https://whichpadel.com'}});
   ctx.waitUntil(cache.put(key,r.clone())); return r;}};
