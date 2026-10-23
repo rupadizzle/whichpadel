@@ -21,7 +21,7 @@ const canon = new URL(Astro.url.pathname, Astro.site).href;
 const short = t => t.replace('Best padel rackets ','').replace('Best padel racket ','').replace('Best ','').replace(/ \(.*\)$/,'').replace(/^for /,'For ').replace(/^of (\d+)/,'Top picks $1').replace(/^./,c=>c.toUpperCase());
 ---
 <html lang={lang}><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>{title}</title><meta name="description" content={description}/>
+<title>{title}</title>{Astro.url.pathname==="/" && <script is:inline type="text/javascript" src="https://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=a52e561e6375dd63575f8532b8eb75077321980b"></script>}<meta name="description" content={description}/>
 {noindex ? <meta name="robots" content="noindex"/> : <link rel="canonical" href={canon}/>}
 <meta property="og:url" content={canon}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>{ogImage&&<meta property="og:image" content={ogImage}/>}<meta name="twitter:card" content={ogImage?'summary_large_image':'summary'}/>
 {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}<meta property="og:site_name" content="WhichPadel"/>
