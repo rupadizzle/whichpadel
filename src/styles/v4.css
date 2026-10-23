@@ -162,6 +162,6 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 .pxhist[hidden]{display:none}.pxhist{margin:var(--s3) 0}.pxhist svg{width:100%;height:80px;display:block;background:#fafbfc;border-radius:6px}.pxhist p{margin:4px 0 0}
 .pxhh{display:flex;justify-content:space-between;align-items:center}.pxhh h3{font-size:1rem;margin:0 0 6px}.pxt{font-size:.75rem;padding:2px 8px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;margin-left:4px}
 @media(min-width:901px){.pxr{grid-template-columns:1fr auto auto}.pxr .pxm{grid-column:1}.pxr .pxb{grid-row:1/3;grid-column:3}}
-@media(max-width:900px){.detail>div:first-child{display:contents}.detail{display:flex;flex-direction:column}.detail>div:first-child>*{order:2}.detail>div:first-child>.dhero{order:0}.detail .buybox{order:1}}
+@media(max-width:900px){.detail>div:first-child{display:contents}.detail:not(#_){display:flex;flex-direction:column}.detail>div:first-child>*{order:2}.detail>div:first-child>.dhero{order:0}.detail .buybox{order:1}}
 #pxbig[hidden]{display:none}
 .buyrow .btn .pz{white-space:normal;display:inline;font-size:inherit}
