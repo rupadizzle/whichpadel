@@ -41,11 +41,11 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  // sticky bar: hidden while box in view; tap bar opens compact sheet; show all expands; backdrop closes; Buy goes direct
  await pg.evaluate(()=>scrollTo(0,0)); await pg.waitForTimeout(300); if(await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar visible while box in view');
  await pg.evaluate(()=>scrollTo(0,document.body.scrollHeight/2)); await pg.waitForTimeout(400); if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar not shown after scroll');
- await pg.click('#stickyopen'); await pg.waitForTimeout(400); sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!!D.querySelector('.pxsbest .pxsbuy[href^="https://"]')}});
+ await pg.click('#stickyopen'); await pg.waitForTimeout(400); sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!!D.querySelector('.pxr.best .pxb.pri[href^="https://"]')&&new Set([...D.querySelectorAll('.pxr .pxs b')].map(x=>x.textContent)).size===D.querySelectorAll('.pxr').length}});
  if(!sh.open||sh.vis!==4||!sh.best) F('bar->sheet '+JSON.stringify(sh));
  await pg.click('.pxsall'); await pg.waitForTimeout(200); if(await pg.evaluate(()=>[...document.querySelectorAll('#pxsheet .pxr')].filter(r=>r.offsetParent).length)!==7) F('show all');
  await pg.mouse.click(195,20); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden)) F('backdrop close');
- if(!/^https:/.test(await pg.getAttribute('#stickybuy','href'))) F('bar buy href');
+ if(await pg.getAttribute('#stickybuy','href')) F('bar must not link out');
  await pg.close();}
 // fallback: no live offer
 {const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); if(!x.hidden||!x.main) F('fallback'); await pg.close();}
