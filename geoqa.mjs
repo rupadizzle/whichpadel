@@ -1,6 +1,6 @@
 // Geo banner QA: country-confirm shown to every first-time visitor; Confirm (same/different language), Choose (picker), Close; hidden after saved choice/dismiss/bot; overlay, CLS, 44px taps, fit at 360/390/1280.
 import { chromium } from 'playwright-core';
-const B=process.argv[2]||'http://127.0.0.1:4987'; const bad=[]; const ok=(c,m)=>{if(!c) bad.push(m)};
+const B=process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const bad=[]; const ok=(c,m)=>{if(!c) bad.push(m)};
 const br=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
 const CASES=[['/','GB','United Kingdom','£'],['/','ES','Spain','€'],['/es/','ES','España','€'],['/es/','GB','Reino Unido','£'],['/','US','United States','$'],['/de/','FR','Frankreich','€'],['/fr/','SE','Suède','kr']];
 const st=pg=>pg.evaluate(()=>({h:document.getElementById('geo-bn').hidden,r:localStorage.wp_region,c:localStorage.wp_cur,l:localStorage.wp_lang,s:localStorage.wp_geo_stay,p:location.pathname,d:!!document.getElementById('rgn-sheet')?.open}));

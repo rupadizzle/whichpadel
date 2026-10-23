@@ -1,6 +1,6 @@
 // DOM-geometry layout QA: overlap, min gap, overflow-parent, text clipping, container nesting.
 import { chromium } from 'playwright-core'; import fs from 'fs';
-const B='http://127.0.0.1:4987';
+const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+'';
 const C3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]);
 export const PAGES=process.env.QA_PAGES?process.env.QA_PAGES.split(','):['/','/brands/bullpadel/2027/','/tools/real-weight/','/black-friday-padel-rackets/','/players/','/players/agustin-tapia/','/best/best-value-padel-rackets/','/rackets/'+C3[0]+'/','/compare/?r='+C3.join(','),'/compare/','/best/best-padel-rackets-for-beginners/','/best/best-padel-racket-2026/','/padel-rackets/','/brands/','/brands/bullpadel/','/privacy/','/affiliate-disclosure/','/404.html','/compare/adidas-metalbone-2026-vs-nox-at10-pro-cup-hard-2026/','/es/','/es/palas-padel/','/es/mejores-palas-padel/','/es/comparador-palas-padel/?r=adidas-metalbone-2026,nox-at10-pro-cup-hard-2026','/es/palas/'+C3[0]+'/','/es/marcas/','/es/marcas/bullpadel/','/es/marcas/bullpadel/2027/','/es/mejores/palas-padel-principiantes/','/es/jugadores/','/es/jugadores/agustin-tapia/','/es/comparar/adidas-metalbone-2026-vs-nox-at10-pro-cup-hard-2026/','/es/herramientas/peso-real/','/es/black-friday-palas-padel/','/es/privacidad/','/es/afiliados/','/es/404.html','/fr/','/fr/raquette-padel/','/fr/meilleures-raquettes-padel/','/fr/comparateur-raquettes-padel/?r=adidas-metalbone-2026,nox-at10-pro-cup-hard-2026','/fr/raquettes/'+C3[0]+'/','/fr/marques/','/fr/marques/bullpadel/','/fr/marques/bullpadel/2027/','/fr/joueurs/agustin-tapia/','/fr/comparer/adidas-metalbone-2026-vs-nox-at10-pro-cup-hard-2026/','/fr/outils/poids-reel/','/fr/black-friday-raquettes-padel/','/fr/confidentialite/','/fr/404.html'];
 export const WIDTHS=process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,412,768,1280,1440];
@@ -25,7 +25,7 @@ function check(){
  // c) overflow of parent / page
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);
  for(const e of document.querySelectorAll('main *, header *, footer *')){ if(!vis(e)||!inflow(e)) continue; const p=e.parentElement; if(!p||!vis(p)) continue;
-  if(e.closest('.rpg,.kchips,.tscroll,.gchips,.hrow,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
+  if(e.closest('.rpg,.kchips,.tscroll,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
   const a=R(e),b=R(p); if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
  // d) text clipping
  for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue;

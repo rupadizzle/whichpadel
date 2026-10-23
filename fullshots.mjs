@@ -1,5 +1,5 @@
 import { chromium } from 'playwright-core'; import fs from 'fs';
-const B='http://127.0.0.1:4987'; const dir=process.argv[2]||'shots/v5';
+const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const dir=process.argv[2]||'shots/v5';
 const C3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]);
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
 const pages={home:'/',racket:'/rackets/'+C3[0]+'/',compare:'/compare/?r='+C3.join(','),guide:'/padel-rackets/',brand:'/brands/bullpadel/',best:'/best/best-padel-rackets-for-beginners/'};

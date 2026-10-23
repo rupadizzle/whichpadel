@@ -8,8 +8,8 @@ build(){
  step translate; node scripts/translate-missing.mjs >$L/tm.log 2>&1; grep -q complete $L/tm.log || fail "translate-missing ($L/tm.log)"
  step build; rm -rf dist && npm run build >$L/build.log 2>&1 || fail "build ($L/build.log)"
  # always restart the local server: astro preview caches the file list at start, a stale one serves false 404s
- pkill -f "astro preview --port 4987" || true; (nohup npx astro preview --port 4987 --host 127.0.0.1 >$L/srv.log 2>&1 &)
- for i in $(seq 40); do curl -sf -o /dev/null http://127.0.0.1:4987/ && break; sleep 0.25; done
+ pkill -f "astro preview --port ${QA_PORT:-4987}" || true; (nohup npx astro preview --port ${QA_PORT:-4987} --host 127.0.0.1 >$L/srv.log 2>&1 &)
+ for i in $(seq 40); do curl -sf -o /dev/null http://127.0.0.1:${QA_PORT:-4987}/ && break; sleep 0.25; done
 }
 # run "name|expected-regex|command" jobs in parallel, fail if any misses its PASS marker
 par(){ local pids=() names=() pats=(); for j in "$@"; do IFS='|' read -r n p c <<<"$j"; (bash -c "$c" >$L/$n.log 2>&1; true) & pids+=($!); names+=($n); pats+=("$p"); done
@@ -18,8 +18,8 @@ par(){ local pids=() names=() pats=(); for j in "$@"; do IFS='|' read -r n p c <
 smoke(){
  step "smoke QA (parallel, 390+1280)"; export QA_FAST=1 QA_WIDTHS=390,1280 QA_PAGES=$(node scripts/smoke-pages.mjs)
  par "curtext|CURTEXT PASS|node curtextqa.mjs" "mix|^0 issues|node mixqa.mjs" "px|PXQA PASS|node pxqa.mjs" "seo|0 issues|node seoqa.mjs" \
-     "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs" "parity|, 0 mismatches|node parity.mjs http://127.0.0.1:4987" \
-     "pad|PASS|node padqa.mjs" "geo|GEOQA PASS|node geoqa.mjs" "cmp|CMPQA PASS|node cmpqa.mjs" "picker|PICKERQA PASS|node pickerqa.mjs" "cur|curqa: pass|node curqa.mjs http://127.0.0.1:4987"
+     "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs" "parity|, 0 mismatches|node parity.mjs http://127.0.0.1:${QA_PORT:-4987}" \
+     "pad|PASS|node padqa.mjs" "geo|GEOQA PASS|node geoqa.mjs" "cmp|CMPQA PASS|node cmpqa.mjs" "picker|PICKERQA PASS|node pickerqa.mjs" "cur|curqa: pass|node curqa.mjs http://127.0.0.1:${QA_PORT:-4987}"
  unset QA_FAST QA_WIDTHS QA_PAGES; }
 full(){
  step "full QA (all pages/sizes)"

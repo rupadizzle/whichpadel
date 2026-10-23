@@ -57,6 +57,7 @@ const P={
  bf:{en:()=>'/black-friday-padel-rackets/',es:()=>'/es/black-friday-palas-padel/',fr:()=>'/fr/black-friday-raquettes-padel/',pt:()=>'/pt/black-friday-raquetes-padel/',it:()=>'/it/black-friday-racchette-padel/',de:()=>'/de/black-friday-padelschlaeger/'},
  privacy:{en:()=>'/privacy/',es:()=>'/es/privacidad/',fr:()=>'/fr/confidentialite/',pt:()=>'/pt/privacidade/',it:()=>'/it/privacy/',de:()=>'/de/datenschutz/'},
  affiliate:{en:()=>'/affiliate-disclosure/',es:()=>'/es/afiliados/',fr:()=>'/fr/affiliation/',pt:()=>'/pt/afiliados/',it:()=>'/it/affiliazione/',de:()=>'/de/affiliate-hinweis/'},
+ rackets:{en:p=>p>1?`/rackets/page/${p}/`:'/rackets/',es:p=>p>1?`/es/palas/pagina/${p}/`:'/es/palas/',fr:p=>p>1?`/fr/raquettes/page/${p}/`:'/fr/raquettes/',pt:p=>p>1?`/pt/raquetes/pagina/${p}/`:'/pt/raquetes/',it:p=>p>1?`/it/racchette/pagina/${p}/`:'/it/racchette/',de:p=>p>1?`/de/schlaeger/seite/${p}/`:'/de/schlaeger/'},
  years:{en:()=>'/rackets/year/',es:()=>'/es/palas/ano/',fr:()=>'/fr/raquettes/annee/',pt:()=>'/pt/raquetes/ano/',it:()=>'/it/racchette/anno/',de:()=>'/de/schlaeger/jahr/'},
  year:{en:y=>`/rackets/year/${y}/`,es:y=>`/es/palas/ano/${y}/`,fr:y=>`/fr/raquettes/annee/${y}/`,pt:y=>`/pt/raquetes/ano/${y}/`,it:y=>`/it/racchette/anno/${y}/`,de:y=>`/de/schlaeger/jahr/${y}/`},
  about:{en:()=>'/about/',es:()=>'/es/sobre-nosotros/',fr:()=>'/fr/a-propos/',pt:()=>'/pt/sobre-nos/',it:()=>'/it/chi-siamo/',de:()=>'/de/ueber-uns/'},
@@ -65,7 +66,7 @@ export const url=(type,lang,id)=>P[type][lang]?P[type][lang](id):null;
 export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','compare','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','years'].forEach(t=>add(t));
  rackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); y27.forEach(b=>add('brand2027',b.slug));
- BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); return out;};
+ BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(rackets.length/24);i++) add('rackets',i); return out;};
 // reverse map for hreflang on any page
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}

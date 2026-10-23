@@ -1,6 +1,6 @@
 // Email forms (newsletter + price alert) post to /api/subscribe and show the localized result. Uses @qa.invalid (validated, never stored).
 import { chromium } from 'playwright-core';
-const B=(process.argv[2]||'http://127.0.0.1:4987').replace(/\/$/,''); const errs=[];
+const B=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,''); const errs=[];
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const pg=await (await b.newContext({viewport:{width:390,height:844}})).newPage();
 const R=(await (await fetch(B+'/cards.json')).json())[0].s;
 for(const [path,sel] of [['/','form[data-sub=news]'],['/pt/','form[data-sub=news]'],['/rackets/'+R+'/','form[data-sub=alert]'],['/es/','form[data-sub=news]']]){
