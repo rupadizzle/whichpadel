@@ -1,7 +1,7 @@
 # Shared by deploy.sh / preview.sh. Sourced; expects set -euo pipefail.
 export CLOUDFLARE_ACCOUNT_ID=d8202fcd97eb92f367c3d0faf4b31372
 W="npx -y -p node@22 -p wrangler@latest wrangler pages deploy dist --project-name whichpadel"
-L=/tmp/wpqa; mkdir -p $L
+L=${WPQA_DIR:-/tmp/wpqa}; mkdir -p $L
 fail(){ echo "ABORT: $1"; exit 1; }
 T0=$(date +%s); step(){ echo "[$(( $(date +%s)-T0 ))s] $*"; }
 build(){

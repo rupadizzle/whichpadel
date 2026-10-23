@@ -7,7 +7,10 @@ const ALIAS={'Alejandro Galán':'Ale Galán','Federico Chingotto':'Fede Chingott
 const PL=Object.fromEntries(src.rackets.filter(x=>x.player).map(x=>[x.slug,ALIAS[x.player.trim()]||x.player.trim()]));
 const top2=r=>{const v=Object.entries(r.ratings).filter(([k])=>k!=='value').map(([,v])=>v).sort((a,b)=>b-a); return (v[0]+v[1])/2;};
 const pub=r=>[r.shape,r.weightMin,r.balance,r.coreHardness,r.faceMaterial,r.thicknessMm].filter(x=>x!=null&&x!=='').length;
-const base = raw.rackets.map(r => ({...(imgs[r.slug]?.ok ? { ...r, image: `/rackets/${r.slug}.webp` } : r), player: PL[r.slug]||null, published: pub(r)}));
+// one canonical spelling per brand (case-insensitive, most common casing wins)
+const BC={}; for(const r of raw.rackets){const k=String(r.brand||'').trim().toLowerCase(); (BC[k]=BC[k]||{})[String(r.brand||'').trim()]=(BC[k][String(r.brand||'').trim()]||0)+1;}
+const canonB=b=>{const c=BC[String(b||'').trim().toLowerCase()]; return c?Object.entries(c).sort((a,b)=>b[1]-a[1]||(/^[A-Z]/.test(b[0])-/^[A-Z]/.test(a[0])))[0][0]:b;};
+const base = raw.rackets.map(r=>({...r,brand:canonB(r.brand)})).map(r => ({...(imgs[r.slug]?.ok ? { ...r, image: `/rackets/${r.slug}.webp` } : r), player: PL[r.slug]||null, published: pub(r)}));
 const rawV = r => r.priceGBPApprox ? top2(r)/r.priceGBPApprox : null;
 const maxV = Math.max(...base.map(rawV).filter(Boolean));
 export const VALUE_FORMULA = 'Value score = (average of the racket’s two highest calculated ratings, excluding the existing value rating) ÷ recorded price in GBP, then scaled so the best racket in the database scores 100. Rackets without a recorded price get no value score.';
