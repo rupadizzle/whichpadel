@@ -32,7 +32,7 @@ export async function run(env){const {results:shops}=await env.DB.prepare("SELEC
 export async function exportPrices(env){const now=Date.now();
  const {results}=await env.DB.prepare(`SELECT o.id,o.racket_id r,o.shop d,s.name n,o.url u,p.ts,p.price,p.currency c,p.in_stock s FROM offers o JOIN shops s ON s.domain=o.shop JOIN price_observations p ON p.offer_id=o.id WHERE p.ts>? AND o.fails<2 ORDER BY p.ts`).bind(now-90*DAY).all();
  const by={}; for(const x of results)(by[x.id]??=[]).push(x);
- const out={}; for(const obs of Object.values(by)){const last=obs.at(-1); if(now-last.ts>MAX_AGE) continue; // unverified for 48h: hide rather than show a stale price const c=last.c; const same=obs.filter(o=>o.c===c);
+ const out={}; for(const obs of Object.values(by)){const last=obs.at(-1); if(now-last.ts>MAX_AGE) continue; /* unverified for 48h: hide */ const c=last.c; const same=obs.filter(o=>o.c===c);
   const days={}; for(const o of same) days[new Date(o.ts).toISOString().slice(0,10)]=o.price; const h=Object.entries(days);
   const min=n=>Math.min(...same.filter(o=>now-o.ts<=n*DAY).map(o=>o.price)); const prev=[...h].reverse().find(([,p])=>p!==last.price);
   const recentPrev=prev&&now-Date.parse(prev[0])<=7*DAY+DAY?prev[1]:null; const drop=recentPrev&&last.price<=recentPrev*0.95?Math.round((1-last.price/recentPrev)*100):0;
