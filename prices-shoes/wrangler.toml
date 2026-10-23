@@ -1,0 +1,11 @@
+# Shoe price engine, PREVIEW ONLY: same code as ../prices (strict offers, 8h recheck, 48h freshness), separate D1, workers.dev URL, no whichpadel.com route.
+name = "whichpadel-shoe-prices-preview"
+main = "worker.js"
+compatibility_date = "2026-10-20"
+workers_dev = true
+[triggers]
+crons = ["*/10 * * * *"]
+[[d1_databases]]
+binding = "DB"
+database_name = "whichpadel-shoes-preview"
+database_id = "b651759c-4867-40fb-9516-9bc153892c1c"

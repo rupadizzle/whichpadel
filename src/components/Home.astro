@@ -3,7 +3,7 @@ import NewsL from './NewsL.astro';
 import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
 import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
 import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
-import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js';
+import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { SHOE } from '../i18n/shoes.js';
 const { lang='en' } = Astro.props; const H=HOME[lang]; const F=FINDER[lang]; const CUR0=CURL(lang);
 const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
@@ -33,6 +33,7 @@ const baseProps={lang:DICTS[lang].locale};
 <div class="stats"><div><b>{rackets.length}</b><span>{H.stats[0]}</span></div><div><b>{brands.length}</b><span>{H.stats[1]}</span></div><div><b>0</b><span>{H.stats[2]}</span></div></div>
 </div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
 
+<section class="section fcta"><a class="fcta-card" href={L('shoes')}><span class="fcta-ic" aria-hidden="true">👟</span><span class="fcta-t"><b>{SHOE[lang].home.t}</b><span>{SHOE[lang].home.s}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a></section>
 <section class="section fcta"><a class="fcta-card" href={L('finder')}><span class="fcta-ic" aria-hidden="true">🎯</span><span class="fcta-t"><b>{F.cta}</b><span>{F.ctaS}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a></section>
 
 {rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><ul class="hrow">{x.rs.map(r=><li><a class="hc2" href={L('racket',r.slug)}><img src={r.image} alt={`${r.model} ${H.js.alt}`} width="126" height="120" loading="lazy" decoding="async"/><span class="m">{r.model}</span><span class="s">{x.l} <b>{x.f(r)}</b> · <Price r={r} lang={lang}/></span></a></li>)}</ul></section>)}

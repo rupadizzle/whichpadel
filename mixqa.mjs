@@ -2,6 +2,9 @@
 import fs from 'fs';
 const R=JSON.parse(fs.readFileSync('data/rackets.normalised.json')); const arr=Array.isArray(R)?R:(R.rackets||Object.values(R));
 const names=[...new Set(arr.flatMap(r=>{const m=r.model||r.name||'';return [r.name,m,r.brand,r.coreMaterial,m.replace(new RegExp('^'+(r.brand||'')+'\\s*','i'),'')]}).filter(Boolean))].sort((a,b)=>b.length-a.length).map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+const S=fs.existsSync('data/shoes.json')?JSON.parse(fs.readFileSync('data/shoes.json')).shoes:[]; // shoe product names are proper nouns too
+for(const n of [...new Set(S.flatMap(s=>[s.name,s.model]).filter(Boolean))].sort((a,b)=>b.length-a.length)) names.push(n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+names.sort((a,b)=>b.length-a.length);
 const NM=new RegExp(names.join('|'),'gi');
 const files=[]; (function w(d){for(const f of fs.readdirSync(d,{withFileTypes:true})){const p=d+'/'+f.name; f.isDirectory()?w(p):p.endsWith('.html')&&files.push(p);}})('dist');
 const out=[]; const LANGS=fs.readdirSync('dist').filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`dist/${d}/index.html`));

@@ -3,7 +3,7 @@ export const FX=fx; export const SHOPS=shopsRaw.shops;
 // region -> currency
 export const REGIONS={GB:['🇬🇧','United Kingdom','GBP'],IE:['🇮🇪','Ireland','EUR'],ES:['🇪🇸','España','EUR'],PT:['🇵🇹','Portugal','EUR'],FR:['🇫🇷','France','EUR'],IT:['🇮🇹','Italia','EUR'],DE:['🇩🇪','Deutschland','EUR'],NL:['🇳🇱','Nederland','EUR'],BE:['🇧🇪','Belgique','EUR'],SE:['🇸🇪','Sverige','SEK'],US:['🇺🇸','United States','USD'],EU:['🇪🇺','Other EU','EUR'],ROW:['🌍','Rest of world','EUR']};
 export const domainOf=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch{return ''}};
-export const offersOf=r=>r.price==null||!r.productUrl?[]:[{d:domainOf(r.productUrl),p:r.price,c:r.currency,u:r.productUrl}];
+export const offersOf=r=>Array.isArray(r.offs)?r.offs.filter(o=>o.p>0&&(o.s||!r.offs.some(x=>x.s))).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u})):r.price==null||!r.productUrl?[]:[{d:domainOf(r.productUrl),p:r.price,c:r.currency,u:r.productUrl}];
 export const conv=(n,from,to)=>n/fx.rates[from]*fx.rates[to];
 export const SYM={GBP:'£',EUR:'€',USD:'$',SEK:'kr'}; export const CURRENCIES=['EUR','GBP','USD','SEK'];
 export const fmt=(n,cur,lang='en')=>{const v=Math.round(n); const s=String(v); return cur==='SEK'?`${Math.round(n)} kr`:lang!=='en'?`${s} ${SYM[cur]}`:`${SYM[cur]}${s}`;};

@@ -1,0 +1,5 @@
+/* Padel shoes section. 8px scale, 44px taps. */
+main.wrap>.crumbs:has(+.rp2.shoe):not(#_){margin-top:0!important}
+.shoe .rpg img,.sk .rk-i img{object-fit:contain;aspect-ratio:1/1;background:#fff}
+.sk .rk-a{min-height:44px}
+.hub-fl label,.hub-chips button{min-height:44px}
