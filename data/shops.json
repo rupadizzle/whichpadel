@@ -621,6 +621,50 @@
    ],
    "source": "home market only; other countries not verified (2026-10-23)",
    "affiliate": "PLACEHOLDER"
+  },
+  "usaplayspadel.com": {
+   "name": "USA Plays Padel",
+   "delivers": [
+    "US"
+   ],
+   "no": [
+    "GB",
+    "IE",
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "EU",
+    "ROW"
+   ],
+   "source": "https://usaplayspadel.com/ (US-only store, ships from Dallas TX; checked 2026-10-23)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "us.padelproshop.com": {
+   "name": "Padel Pro Shop",
+   "delivers": [
+    "US"
+   ],
+   "no": [
+    "GB",
+    "IE",
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "EU",
+    "ROW"
+   ],
+   "source": "https://padelproshop.com/en-us/ (US market store in USD; checkout ships only to the chosen country; checked 2026-10-23)",
+   "affiliate": "PLACEHOLDER"
   }
  }
 }

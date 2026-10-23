@@ -1,0 +1,12 @@
+# US price engine, PREVIEW ONLY: same engine as ../prices (strict offers, 8h recheck, 48h freshness), separate D1, workers.dev URL, no whichpadel.com route.
+# Racket offers use the racket slug; shoe offers use "shoe:<slug>". /api/prices -> rackets, /api/shoe-prices -> shoes (all USD).
+name = "whichpadel-us-prices-preview"
+main = "worker.js"
+compatibility_date = "2026-10-20"
+workers_dev = true
+[triggers]
+crons = ["*/10 * * * *"]
+[[d1_databases]]
+binding = "DB"
+database_name = "whichpadel-us-preview"
+database_id = "f045222e-5c07-4f52-b865-b26b9b563a30"

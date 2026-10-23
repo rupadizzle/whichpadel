@@ -167,3 +167,6 @@ select,input{min-height:44px}
 
 
 .rslot img{width:var(--w);height:var(--h)}
+/* US (strict country): no delivering USD shop -> hide the generic buy button, show a calm empty state */
+a.aff[data-nous]{display:none!important}
+.pxnous{margin:0;padding:16px;border:1px dashed var(--line,#d9dee3);border-radius:12px;color:var(--muted,#5b6670);text-align:center;min-height:44px}

@@ -7,7 +7,9 @@ import { SHOE } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/i
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,v])=>[k,[v.name&&v.name!==k?v.name:k.replace(/\.(com|net|co\.uk|de|es)$/,''),typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?v.affiliate:'']]));
 const { s, lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], R2=RP(lang);
 const G=shoeGallery(s); const alt=T.alt(s.name); const bs=slugify(s.brand); const hasB=shoeBrands.some(b=>b.slug===bs);
-const soleT=s.sole.map(k=>T.soles[k]); const sz=a=>a.map(x=>String(x).replace('.',lang==='en'?'.':',')).join(' · ');
+const soleT=s.sole.map(k=>T.soles[k]);
+// US sizes (English pages, shown when the country is US): men's US = UK + 1, women's US = UK + 2; junior sizes are not converted
+const usSz=lang==='en'&&s.sizesUK.length&&s.gender!=='k'?s.sizesUK.map(x=>String(x+(s.gender==='w'?2:1))).join(' · '):null; const sz=a=>a.map(x=>String(x).replace('.',lang==='en'?'.':',')).join(' · ');
 const fmtD=n=>String(n).replace('.',lang==='en'?'.':',')+' mm';
 const rows=[[T.spec.brand,s.brand],[T.spec.year,s.year],[T.spec.gender,T.genders[s.gender]],[T.spec.sole,soleT.join(', ')||null],[T.spec.outsole,s.vibram?T.vibram:null],[T.spec.cushion,s.cushion.length?s.cushion.map(c=>c.toUpperCase()).join(', '):null],[T.spec.weight,s.weight?s.weight+' g':null],[T.spec.drop,s.drop!=null?fmtD(s.drop):null],[T.spec.width,s.wide?T.wide:null],[T.spec.sizesEU,s.sizesEU.length?sz(s.sizesEU):null],[T.spec.sizesUK,s.sizesUK.length?sz(s.sizesUK):null],[T.spec.cols,s.colours],[T.spec.shops,s.shops]].filter(([,v])=>v!=null&&v!=='');
 const miss=[!s.weight&&T.mk.weight,s.drop==null&&T.mk.drop].filter(Boolean);
@@ -45,7 +47,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 <section class="panel"><h2>{T.overview}</h2><p class="intro">{intro}</p>
 {s.sole.length>0&&<ul class="suits">{s.sole.filter((k,i,a)=>!(k==='herringbone'&&a.includes('clay'))).map(k=><li>{T.soleTip[k]}</li>)}</ul>}
 {lk&&SHOE_LIST_KEYS.includes(lk)&&<p class="small rpguide"><a href={url('shoeList',lang,lk)}>{T.lists[lk][0]}</a> · <a href={url('shoeList',lang,'best')}>{T.lists.best[0]}</a></p>}</section>
-<details class="panel rpspec" id="rpspec" open><summary><h2>{T.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{rows.map(([k,v])=><tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table></div>
+<details class="panel rpspec" id="rpspec" open><summary><h2>{T.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{rows.map(([k,v])=><tr><th>{k}</th><td>{v}</td></tr>)}{usSz&&<tr data-usrow hidden><th>Sizes in stock (US)</th><td>{usSz}</td></tr>}</tbody></table></div>
 {miss.length>0&&<p class="muted small" style="margin-top:12px">{T.missing(miss.join(', '))}</p>}</details>
 {similar.length>0&&<section class="panel"><h2>{T.similar}</h2><div class="rpsim">{similar.map(x=><a href={url('shoe',lang,x.slug)}><span class="rpsi">{shoeImg(x)&&<img src={shoeImg(x)} alt="" width="72" height="72" loading="lazy" decoding="async"/>}</span><span><b>{x.name}</b><small>{x.sole.map(k=>T.soles[k]).join(', ')}{x.sole.length>0&&' · '}<Price r={x} lang={lang}/></small></span></a>)}</div></section>}
 {sameBrand.length>0&&<section class="panel vs"><h2>{T.moreFrom(s.brand)}</h2>{sameBrand.map(x=><a href={url('shoe',lang,x.slug)}><span>{x.name}</span><span>→</span></a>)}{hasB&&<p style="margin:12px 0 0"><a href={url('shoeBrand',lang,bs)}>{T.allFrom(s.brand)}</a></p>}</section>}
@@ -67,12 +69,12 @@ if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.time
   // exact shop price in the shop's own currency (what the visitor will see on the shop), e.g. €64.95
   const fn=(n,c)=>{const v=Number.isInteger(n)?String(n):n.toFixed(2); const sy={GBP:'£',EUR:'€',USD:'$'}[c]; return c==='SEK'?v+' kr':LG!=='en'?v.replace('.',',')+' '+sy:sy+v;};
   const AX=(window.WP&&WP.approx)||'approx.'; const fb=o=>o.c===cur?fn(o.p,o.c):AX+' '+f(o.v);
-  const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
+  const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d,o.c):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
    .sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
-  const low=Math.min(...os.map(o=>cv(o.min30||o.p,o.c)));
+  const vis=os.filter(o=>!window.WP||!WP.shop||WP.shop(o.d,o.c)!=='n'); const low=Math.min(...vis.map(o=>cv(o.min30||o.p,o.c)));
   L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
-  if(!rows.length){P.hidden=true;P.innerHTML='';M.hidden=false;return;}
+  if(!rows.length){if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false;return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);

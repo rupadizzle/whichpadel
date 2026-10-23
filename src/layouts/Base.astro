@@ -12,7 +12,7 @@ import '../styles/shoes.css';
 import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
-const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null } = Astro.props;
+const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false } = Astro.props;
 const L2 = LANGS.find(l=>l!=='en'&&lang.toLowerCase().startsWith(l))||'en';
 const alts = alternates(Astro.url.pathname);
 const LN=LANG_NAME;
@@ -25,16 +25,16 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 {noindex ? <meta name="robots" content="noindex"/> : <link rel="canonical" href={canon}/>}
 <meta property="og:url" content={canon}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>{ogImage&&<meta property="og:image" content={ogImage}/>}<meta name="twitter:card" content={ogImage?'summary_large_image':'summary'}/>
 {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}<meta property="og:site_name" content="WhichPadel"/>
-<slot name="head"/>{preload&&<link rel="preload" href={preload} as="fetch" crossorigin="anonymous"/>}<meta name="theme-color" content="#0b2a3c"/>{alts&&<>{Object.entries(alts).map(([l,u])=><link rel="alternate" hreflang={l} href={"https://whichpadel.com"+u}/>)}{alts.en&&<link rel="alternate" hreflang="x-default" href={"https://whichpadel.com"+alts.en}/>}</>}<meta property="og:locale" content={OG_LOCALE[L2]}/>
+<slot name="head"/>{preload&&<link rel="preload" href={preload} as="fetch" crossorigin="anonymous"/>}<meta name="theme-color" content="#0b2a3c"/>{usPage?<link rel="alternate" hreflang="en-US" href={canon}/>:alts&&<>{Object.entries(alts).map(([l,u])=><link rel="alternate" hreflang={l} href={"https://whichpadel.com"+u}/>)}{alts.en&&<link rel="alternate" hreflang="x-default" href={"https://whichpadel.com"+alts.en}/>}</>}<meta property="og:locale" content={usPage?'en_US':OG_LOCALE[L2]}/>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "cf3636dc954245fca45c0fa20ca789bf"}'></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23d4ff3a'/%3E%3C/svg%3E"/>
 </head><body>
 {focus ? <Fragment><header class="hdr fz-hdr"><div class="wrap"><a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
-<a class="fz-x" href={closeHref||url("home",L2)} aria-label={D(L2).ui.close}>✕</a><div hidden><Region lang={L2} switcher={switcher}/></div></div></header>
+<a class="fz-x" href={closeHref||url("home",L2)} aria-label={D(L2).ui.close}>✕</a><div hidden><Region lang={L2} switcher={switcher} region={region}/></div></div></header>
 <main class="fz-main"><slot/></main>
 </Fragment> : <Fragment><header class="hdr"><div class="wrap">
 <a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
-<Region lang={L2} switcher={switcher}/>
+<Region lang={L2} switcher={switcher} region={region}/>
 <button class="burger" aria-label={D(L2).ui.menu} aria-expanded="false" aria-controls="nav" onclick="const n=document.getElementById('nav');this.setAttribute('aria-expanded',n.classList.toggle('open'))">☰</button>
 <NavL lang={L2} switcher={switcher}/>
 <script is:inline>document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"))}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});</script>

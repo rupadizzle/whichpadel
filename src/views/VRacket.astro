@@ -77,12 +77,12 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   // exact shop price in the shop's own currency (what the visitor will see on the shop), e.g. €64.95
   const fn=(n,c)=>{const v=Number.isInteger(n)?String(n):n.toFixed(2); const sy={GBP:'£',EUR:'€',USD:'$'}[c]; return c==='SEK'?v+' kr':LG!=='en'?v.replace('.',',')+' '+sy:sy+v;};
   const AX=(window.WP&&WP.approx)||'approx.'; const fb=o=>o.c===cur?fn(o.p,o.c):AX+' '+f(o.v);
-  const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
+  const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d,o.c):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
    .sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
-  const low=Math.min(...os.map(o=>cv(o.min30||o.p,o.c)));
+  const vis=os.filter(o=>!window.WP||!WP.shop||WP.shop(o.d,o.c)!=='n'); const low=Math.min(...vis.map(o=>cv(o.min30||o.p,o.c)));
   L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
-  if(!rows.length){P.hidden=true;P.innerHTML='';M.hidden=false;return;}
+  if(!rows.length){if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false;return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);

@@ -6,6 +6,8 @@ const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?
 const AMT=/(?:[£€$]\s?\d[\d.,]*|\d[\d.,]*\s?(?:[£€]|kr\b)|\b(?:GBP|EUR|USD|SEK)\s?\d)/;
 const bad=[]; let pages=0, conv=0;
 for(const f of walk('dist')){const h0=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h0)) continue; pages++; const rel='/'+path.relative('dist',f);
+ // /us/ pages are US-only and always open in USD (Region PAGE lock), so their $ amounts are intentional
+ if(rel.startsWith('/us/')) continue;
  if(/⟦|⟧/.test(h0.replace(/<script[\s\S]*?<\/script>/g,'').replace(/ data-mt="[^"]*"/,''))) bad.push(`raw token: ${rel}`);
  const t=(h0.match(/<title>([^<]*)<\/title>/)||[])[1]||''; if(AMT.test(t)&&!/<html[^>]*\sdata-mt="/.test(h0)) bad.push(`title not templated: ${rel} :: ${t}`);
  let h=h0.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<head>[\s\S]*?<\/head>|<!--[\s\S]*?-->/g,'');

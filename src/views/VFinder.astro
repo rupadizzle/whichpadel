@@ -66,7 +66,7 @@ const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{powe
 const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest:{}};
 const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&d.c!=='hard'&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
-const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
+const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
 const sn=d=>esc((SN[d]||[d])[0]); const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
 function rank(A){const L=A.level,S=A.style,P=A.prio; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;

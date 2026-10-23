@@ -68,10 +68,10 @@ const active=s=>KEYS.some(k=>s[k]);
 const nf=s=>['q','brand','year','shape','bal','wt','hard','level','stock'].filter(k=>s[k]).length+((s.min||s.max)?1:0);
 // offers: static card offer, replaced by the live price engine when it answers
 const offers=r=>(r.live||r.o||[]).filter(o=>o.p>0);
-const reach=r=>offers(r).filter(o=>!window.WP||WP.shop(o.d)!=='n');
+const reach=r=>offers(r).filter(o=>!window.WP||WP.shop(o.d,o.c)!=='n');
 const best=r=>window.WP?WP.best(offers(r)):null;
 const priceV=r=>{const q=best(r); return q&&q.v!=null?q.v:null;};
-const near=r=>window.WP?offers(r).some(o=>WP.shop(o.d)==='y'&&o.s!==0):offers(r).length>0;
+const near=r=>window.WP?offers(r).some(o=>WP.shop(o.d,o.c)==='y'&&o.s!==0):offers(r).length>0;
 const saving=r=>{const os=reach(r); if(os.length<2) return (r.drop||0); const v=os.map(o=>o.p); return Math.max(r.drop||0,(Math.max(...v)-Math.min(...v))/Math.max(...v));};
 const ptxt=r=>{const q=best(r); if(!q||q.v==null) return T.none; const n=reach(r).length; return (n>1?T.fromN:T.from1).replace('{p}',q.txt).replace('{n}',n);};
 const card=(r,i)=>{const img=r.i?`<img src="${r.i}" alt="${esc(r.m)} ${esc(T.alt)}" width="96" height="112" loading="${i<4?'eager':'lazy'}" decoding="async">`:($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
