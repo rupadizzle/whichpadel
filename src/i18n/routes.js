@@ -18,6 +18,8 @@ export const BEST_SLUG={
  'most-comfortable-padel-rackets':{es:'palas-padel-mas-comodas',fr:'raquettes-padel-les-plus-confortables',pt:'raquetes-padel-mais-confortaveis',it:'racchette-padel-piu-confortevoli',de:'komfortabelste-padelschlaeger'},
  'most-powerful-padel-rackets':{es:'palas-padel-mas-potentes',fr:'raquettes-padel-les-plus-puissantes',pt:'raquetes-padel-mais-potentes',it:'racchette-padel-piu-potenti',de:'kraftvollste-padelschlaeger'},
  'best-padel-rackets-under-100':{es:'palas-padel-menos-de-100-euros',fr:'raquettes-padel-moins-de-100-euros',pt:'raquetes-padel-menos-de-100-euros',it:'racchette-padel-sotto-100-euro',de:'padelschlaeger-unter-100-euro'},
+ 'best-padel-rackets-under-150':{es:'palas-padel-menos-de-150-euros',fr:'raquettes-padel-moins-de-150-euros',pt:'raquetes-padel-menos-de-150-euros',it:'racchette-padel-sotto-150-euro',de:'padelschlaeger-unter-150-euro'},
+ 'best-padel-rackets-under-200':{es:'palas-padel-menos-de-200-euros',fr:'raquettes-padel-moins-de-200-euros',pt:'raquetes-padel-menos-de-200-euros',it:'racchette-padel-sotto-200-euro',de:'padelschlaeger-unter-200-euro'},
  'best-padel-racket-2026':{es:'mejores-palas-padel-2026',fr:'meilleures-raquettes-padel-2026',pt:'melhores-raquetes-padel-2026',it:'migliori-racchette-padel-2026',de:'beste-padelschlaeger-2026'},
  'best-intermediate-padel-rackets':{es:'palas-padel-nivel-intermedio',fr:'raquettes-padel-niveau-intermediaire',pt:'raquetes-padel-nivel-intermedio',it:'racchette-padel-livello-intermedio',de:'padelschlaeger-fortgeschrittene'},
  'best-advanced-padel-rackets':{es:'palas-padel-nivel-avanzado',fr:'raquettes-padel-niveau-avance',pt:'raquetes-padel-nivel-avancado',it:'racchette-padel-livello-avanzato',de:'padelschlaeger-starke-spieler'},
