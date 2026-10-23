@@ -7,11 +7,12 @@ const { lang='en', switcher=[] } = Astro.props; const RG=D(lang).ui.region; cons
 const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[]}]));
 const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]])),SYM,CUR:CURRENCIES};
 const def=DEFAULT_REGION(lang); const dc=REGIONS[def][2];
+const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404.html');
 ---
 <button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={RG.all}><svg class="rgn-globe" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span class="rgn-x">{lang.toUpperCase()} · <span id="rgn-reg">{def}</span> · </span><span id="rgn-cur">{SYM[dc]}</span></button>
 <dialog class="sheet rgn-sheet" id="rgn-sheet" aria-labelledby="rgn-h"><div class="sheet-in"><div class="sheet-top"><h2 id="rgn-h" class="h3">{RG.all}</h2><button class="x" type="button" data-rgn-close aria-label={UI.close}>✕</button></div>
 <h3 class="rgn-sub">{UI.language}</h3>
-<ul class="lang-seg" data-lang-pick><li><a aria-current="true" href={Astro.url.pathname} lang={lang} hreflang={lang} class="on">{LANG_NAME[lang]}</a></li>{switcher.map(([l,h])=><li><a href={h} lang={l} hreflang={l}>{LANG_NAME[l]}</a></li>)}</ul>
+<ul class="lang-seg" data-lang-pick><li><a aria-current="true" href={selfHref} lang={lang} hreflang={lang} class="on">{LANG_NAME[lang]}</a></li>{switcher.map(([l,h])=><li><a href={h} lang={l} hreflang={l}>{LANG_NAME[l]}</a></li>)}</ul>
 <h3 class="rgn-sub">{RG.countryH}</h3>
 <p class="muted small" style="margin:0">{RG.shops}</p>
 <ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n}</span><span class="muted">{c}</span></button></li>)}</ul>
