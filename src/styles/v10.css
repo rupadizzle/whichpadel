@@ -71,5 +71,5 @@
 .rp2 .rph h1{margin-bottom:0}.rp2 .rph .kchips{margin-top:16px}
 @media(max-width:899px){.rp2 .rph{margin:0 0 16px}}
 main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
-#buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:13px;font-weight:500}.crumbs:has(+.rp2):not(#_){margin-bottom:8px!important}
+#buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:13px;font-weight:500}.crumbs:has(+.rp2):not(#_){margin-bottom:16px!important}
 @media(min-width:900px){.rp2 #buybox:not(#_){margin-top:29px}}
