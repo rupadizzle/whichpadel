@@ -1,4 +1,5 @@
 ---
+import { YC } from '../lib/years.js';
 import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro'; import PriceAlertL from '../components/PriceAlertL.astro';
 import { rackets, cap, brandSlug, absImg, lists, playerSlug } from '../lib/data.js'; import { extraLists, isWomens } from '../lib/seo-content.js'; import { vsFor } from '../lib/vs.js'; import { offersOf, SHOPS, FX, domainOf } from '../lib/price.js';
@@ -30,6 +31,7 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 {r.inputsMissing.length>0&&<p class="muted small" style="margin-top:12px">{u.missing(x.missing.join(', '))}</p>}</section>
 {vs.length>0&&<section class="panel vs"><h2>{u.headToHead}</h2>{vs.map(v=><a href={url('vs',lang,v.slug)}><span>{v.A.model} vs {v.B.model}</span><span>→</span></a>)}</section>}
 {similar.length>0&&<section class="panel vs"><h2>{u.compareSimilar}</h2>{similar.map(s=><a href={url('compare',lang)+`?r=${r.slug},${s.slug}`}><span>{r.model} vs {s.model}</span><span>→</span></a>)}</section>}
+{r.year&&<p style="margin:16px 0"><a class="btn btn-sm" style="min-height:44px;display:inline-flex;align-items:center" href={url('year',lang,r.year)}>{YC[lang].more(r.year)} →</a></p>}
 {sameBrand.length>0&&<section class="panel vs"><h2>{u.moreFrom(r.brand)}</h2>{sameBrand.map(s=><a href={url('racket',lang,s.slug)}><span>{s.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={url('brand',lang,bs)}>{u.allBrand(r.brand)}</a></p></section>}
 </div>
 <aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
