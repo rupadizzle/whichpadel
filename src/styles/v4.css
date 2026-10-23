@@ -165,3 +165,10 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 @media(max-width:900px){.detail>div:first-child{display:contents}.detail:not(#_){display:flex;flex-direction:column}.detail>div:first-child>*{order:2}.detail>div:first-child>.dhero{order:0}.detail .buybox{order:1}}
 #pxbig[hidden]{display:none}
 .buyrow .btn .pz{white-space:normal;display:inline;font-size:inherit}
+.pxcmp .pxr{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;padding:6px 6px;grid-template-columns:none}
+.pxcmp .pxr .pxs{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pxcmp .pxr .pxp{flex:none}.pxcmp .pxr .pxm{flex:none;font-size:.72rem;color:#5b6670;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.pxcmp .pxr .pxb{flex:none;width:auto;grid-row:auto;grid-column:auto;min-height:44px;padding:0 12px}
+.pxcmp .dot{width:7px;height:7px;border-radius:50%;background:#1a9e6a;display:inline-block}.pxcmp .dot.no{background:#c0392b}
+.pxcmp .pxr.best .pxs b::after{content:"";}
+@media(max-width:359px){.pxcmp .pxr{flex-wrap:wrap}.pxcmp .pxr .pxs{flex-basis:100%}.pxcmp .pxr .pxb{margin-left:auto}}

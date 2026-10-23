@@ -58,9 +58,10 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
-  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b>${best?` <em>${C.bestP}</em>`:''}</span><span class="pxp">${f(o.v)}</span><small class="pxm">${o.s===0?PX.oos:C.inStock} · ${age(o.t)}</small><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank">${C.buy.replace('{s}',sn(o))}</a></li>`;
+  const ag=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
+  const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b></span><span class="pxp">${f(o.v)}</span><span class="pxm"><i class="dot${o.s===0?' no':''}" title="${o.s===0?PX.oos:C.inStock}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${ag(o.t)}</span><a class="btn btn-sm pxb" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
   const main=rows.filter(o=>o.st==='y'), top=main.slice(0,4), oth=[...main.slice(4),...rows.filter(o=>o.st!=='y')];
-  const b=top[0]||oth[0]; let h=`<p class="pxh">${C.head.replace('{p}','<b>'+f(b.v)+'</b>').replace('{s}',sn(b)).replace('{n}',rows.length)}</p>`;
+  const b=top[0]||oth[0]; let h=`<p class="pxh">${(rows.length===1?C.head1:C.head).replace('{p}','<b>'+f(b.v)+'</b>').replace('{s}',sn(b)).replace('{n}',rows.length)}</p>`;
   if(top.length) h+=`<ul class="pxl">${top.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
   if(oth.length) h+=`<details class="pxo"${top.length?'':' open'}><summary>${C.more} (${oth.length})</summary><ul class="pxl">${oth.map(o=>row(o,false)).join('')}</ul></details>`;
   P.innerHTML=h; P.hidden=false; M.hidden=true; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
