@@ -69,6 +69,7 @@ if(okHost) fetch('/api/prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5
   hist(cv,f);}
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
  function hist(cv,f){const B=document.getElementById('pxhist'); if(!B||!H.length) return; const W=window.WP||{currency:'GBP'};
+  const dd=new Set(H.map(x=>x[0])).size; if(dd<3){const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}
   const cut=new Date(Date.now()-HD*864e5).toISOString().slice(0,10); const pts=H.filter(x=>x[0]>=cut).map(x=>[x[0],cv(x[1],e.c)]); if(!pts.length) return;
   const vs=pts.map(p=>p[1]), lo=Math.min(...vs), hi=Math.max(...vs), rg=(hi-lo)||1, n=pts.length;
   const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(58-(p[1]-lo)/rg*52).toFixed(1)]);

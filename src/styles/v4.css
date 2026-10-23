@@ -213,3 +213,5 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 #buybox .pxcmp .pxo summary{padding:0;border:0;background:none}
 #buybox .pxcmp .pxr{grid-template-areas:none}#buybox .pxcmp .pxr>*{grid-area:auto}
 #buybox .pxcmp .pxl{display:block}#buybox .pxcmp .pxr{align-content:center}
+
+.pxhist .pxsince,#buybox .pxhist .pxsince{margin:8px 0 0;font-size:12px;color:#6b7280;background:none}
