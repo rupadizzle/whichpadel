@@ -270,3 +270,26 @@ html.pxlock,html.pxlock body{overflow:hidden}
 .pxr.best .pxb.pri:not(#_){background:var(--lime,#d4f53c);color:#0f1c24;border-color:transparent}
 #buybox .pxcnt,.pxcnt{margin:0 0 8px;font-size:13px;color:#5b6670}
 #buybox .pxcmp .pxs b:not(#_),#pxsheet .pxs b:not(#_){white-space:normal;overflow:visible;overflow-wrap:anywhere}
+
+/* price rows v3: strict 8px scale, shared by sheet + desktop box */
+#pxsheet .pxsp:not(#_){padding:8px 16px calc(16px + env(safe-area-inset-bottom))}
+#pxsheet .pxsg:not(#_){margin:0 auto 8px}
+#pxsheet .pxsh:not(#_){min-height:48px;margin:0 0 16px;gap:8px}#pxsheet .pxsx:not(#_){margin-right:-8px}
+:is(#pxsheet,#buybox .pxcmp) .pxl:not(#_){margin:0;padding:0}
+:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_){display:grid;grid-template-columns:minmax(0,1fr) auto 72px;column-gap:16px;align-items:center;min-height:72px;margin:0;padding:12px 8px;box-sizing:border-box;border:0;border-top:1px solid var(--line);border-radius:0;background:none;box-shadow:none}
+:is(#pxsheet,#buybox .pxcmp) li.pxr:first-child:not(#_){border-top:0}
+:is(#pxsheet,#buybox .pxcmp) li.pxr.best:not(#_){background:#eef8f3;box-shadow:inset 3px 0 0 #13795c;border-radius:8px}
+:is(#pxsheet,#buybox .pxcmp) li.pxr.best+li.pxr:not(#_){border-top:0}
+:is(#pxsheet,#buybox .pxcmp) .pxs:not(#_){display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
+:is(#pxsheet,#buybox .pxcmp) .pxs b:not(#_){font-size:16px;line-height:24px;font-weight:600;white-space:normal;overflow:visible;overflow-wrap:anywhere}
+:is(#pxsheet,#buybox .pxcmp) .pxm:not(#_){display:flex;align-items:center;gap:4px;margin:0;font-size:13px;line-height:16px;color:#5b6670;min-width:0}
+:is(#pxsheet,#buybox .pxcmp) .pxag{min-width:0;white-space:normal}
+:is(#pxsheet,#buybox .pxcmp) .pxnc:not(#_){display:inline;margin:0;font-size:inherit;color:#8a949c}
+:is(#pxsheet,#buybox .pxcmp) .pxbd:not(#_){margin:0;flex:none}
+:is(#pxsheet,#buybox .pxcmp) .pxp:not(#_){text-align:right;font-size:16px;line-height:24px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+:is(#pxsheet,#buybox .pxcmp) .pxp .pxcv:not(#_){display:block;margin:0;font-size:12px;line-height:16px;font-weight:500;color:#5b6670}
+:is(#pxsheet,#buybox .pxcmp) .pxb:not(#_){width:72px;min-width:0;min-height:44px;height:44px;padding:0;margin:0;justify-self:end;grid-column:auto;grid-row:auto}
+#pxsheet .pxsall:not(#_),#buybox .pxcmp .pxall:not(#_){display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin:16px 0 0;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#13795c;font-size:14px;font-weight:600;text-decoration:none}
+#pxsheet .pxsmore .pxl li.pxr:first-child:not(#_){border-top:1px solid var(--line)}
+@media(max-width:359px){:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_){grid-template-columns:minmax(0,1fr) auto 64px;column-gap:8px}:is(#pxsheet,#buybox .pxcmp) .pxb:not(#_){width:64px}}
+:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_)::before,:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_)::after{content:none;display:none}:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_){row-gap:0}
