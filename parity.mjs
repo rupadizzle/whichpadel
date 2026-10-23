@@ -3,7 +3,7 @@
 // Usage: node parity.mjs [baseUrl]   Exit 1 on any mismatch.
 import { chromium } from 'playwright-core'; import fs from 'fs';
 const LANGS=['en',...fs.readdirSync('dist').filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`dist/${d}/index.html`))];
-const base=(process.argv[2]||'http://127.0.0.1:4987').replace(/\/$/,'');
+const base=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,'');
 const first=d=>fs.readdirSync('dist/'+d,{withFileTypes:true}).filter(e=>e.isDirectory()&&fs.existsSync(`dist/${d}/${e.name}/index.html`)).map(e=>e.name).sort()[0];
 const brand=first('brands'), y27=fs.readdirSync('dist/brands').find(b=>fs.existsSync(`dist/brands/${b}/2027/index.html`));
 const vs=fs.readdirSync('dist/compare').find(x=>x.includes('-vs-'));

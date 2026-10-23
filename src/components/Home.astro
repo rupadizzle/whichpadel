@@ -1,13 +1,15 @@
 ---
 import NewsL from './NewsL.astro';
 import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
-import PriceAlertL from './PriceAlertL.astro'; import Base from '../layouts/Base.astro';
+import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
 import { rackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
 import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js';
 const { lang='en' } = Astro.props; const H=HOME[lang]; const F=FINDER[lang]; const CUR0=CURL(lang);
 const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
-const FIRST=24;
+const ptxt=r=>{const q=pick(r,DEFAULT_REGION(lang)); return q.none?HB.none:HB.from1.replace('{p}',fmt(q.v,q.cur,lang));};
+const FIRST=8; const HB=HUB[lang];
+const picks=(()=>{const seen=new Set(),o=[]; for(const r of hubOrder().filter(r=>r.image&&r.price!=null&&r.year>=2026).sort((a,b)=>(b.valueScore||0)-(a.valueScore||0))){ if(seen.has(r.brand)) continue; seen.add(r.brand); o.push(r); if(o.length===8) break;} return o;})();
 const ok=rackets.filter(r=>r.image&&r.published>=4);
 const rows=[['best-value-padel-rackets',r=>r.valueScore,'value'],['most-comfortable-padel-rackets',r=>r.ratings.comfort,'comfort'],['most-powerful-padel-rackets',r=>r.ratings.power,'power']].map(([k,f,l],i)=>({h:H.rows[i],k,l:H.js.rt[l],f,rs:L0[k].pick(ok).slice(0,10)}));
 const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
@@ -15,7 +17,7 @@ const gkeys=Object.keys(lists).slice(0,6).filter(k=>BEST_KEYS.includes(k));
 const gname=k=>DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,'');
 const L=(t,id)=>url(t,lang,id);
 const SITE='https://whichpadel.com';
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':H.allH,'numberOfItems':rackets.length,'itemListElement':rackets.slice(0,FIRST).map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
 const baseProps={lang:DICTS[lang].locale};
@@ -26,7 +28,7 @@ const baseProps={lang:DICTS[lang].locale};
 <h1>{H.h1a}</h1>
 <p class="lead">{typeof H.lead==="function"?H.lead(rackets.length):H.lead}</p>
 <a class="quizcta" href={L('finder')}>🎯<span>{H.qcta}<small>{H.qctaS}</small></span><span class="arr" aria-hidden="true">→</span></a>
-<form class="search" style="margin-top:16px" onsubmit="event.preventDefault();document.getElementById('f-q').value=this.q.value;document.getElementById('f-q').dispatchEvent(new Event('input'));document.getElementById('rackets').scrollIntoView({behavior:'smooth'})"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
+<form class="search" style="margin-top:16px" action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
 <div class="hero-ctas"><a class="btn btn-ghost" href={L('compare')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
 <div class="stats"><div><b>{rackets.length}</b><span>{H.stats[0]}</span></div><div><b>{brands.length}</b><span>{H.stats[1]}</span></div><div><b>0</b><span>{H.stats[2]}</span></div></div>
 </div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
@@ -37,69 +39,11 @@ const baseProps={lang:DICTS[lang].locale};
 <section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
 <ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brand2027',b.slug)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
 
-<section class="section" id="rackets"><div class="sec-head"><h2>{H.allH}</h2></div>
-<div class="fbar"><button class="btn" id="f-open" type="button" aria-controls="filters" aria-expanded="false">⚙ {H.filters} <span id="fn"></span></button><button class="btn btn-line" id="cmp-go3" type="button" hidden>{H.compare}</button></div>
-<div class="fshade" id="fshade" hidden></div>
-<div class="panel filters" id="filters" role="dialog" aria-label={H.filters}>
-<div class="fhead"><h3 style="margin:0">{H.filters}</h3><button class="x" type="button" id="f-x" aria-label={H.close}>✕</button></div>
-<label class="f-q">{H.fSearch} <input id="f-q" type="search" placeholder={H.fSearchPh}/></label>
-<label>{H.brand} <select id="f-brand"><option value="">{H.allBrands}</option>{brands.map(b=><option>{b}</option>)}</select></label>
-<label>{H.max} <input id="f-max" type="number" min="0" inputmode="numeric"/></label>
-<label>{H.sort} <select id="f-sort">{sorts.map((v,i)=><option value={v}>{H.sorts[i]}</option>)}</select></label>
-<div class="fchips"><fieldset><legend>{H.shape}</legend><div class="chipset" data-f="shape"><label><input type="radio" name="f-shape" value="" checked/><span>{H.any}</span></label>{['round','teardrop','diamond','hybrid'].map((v,i)=><label><input type="radio" name="f-shape" value={v}/><span>{H.shapes[i]}</span></label>)}</div></fieldset><fieldset><legend>{H.balance}</legend><div class="chipset" data-f="balance"><label><input type="radio" name="f-balance" value="" checked/><span>{H.any}</span></label>{['low','medium','high'].map((v,i)=><label><input type="radio" name="f-balance" value={v}/><span>{H.lmh[i]}</span></label>)}</div></fieldset><fieldset><legend>{H.core}</legend><div class="chipset" data-f="core"><label><input type="radio" name="f-core" value="" checked/><span>{H.any}</span></label>{['soft','medium','hard'].map((v,i)=><label><input type="radio" name="f-core" value={v}/><span>{H.smh[i]}</span></label>)}</div></fieldset></div>
-<div class="fapply"><button class="btn btn-line" type="button" id="f-clear2">{H.clear}</button><button class="btn btn-accent" type="button" id="f-done">{H.show} <span id="count3">{rackets.length}</span> {H.racketsW}</button></div>
-</div>
-<div class="toolbar"><b id="count" aria-live="polite">{rackets.length} {H.racketsW}</b><button class="btn btn-sm btn-line" id="f-clear" type="button">{H.clearF}</button><button class="btn btn-sm" id="cmp-go" type="button" hidden>{H.cmpSel}</button></div>
-<div class="grid" id="tbl" data-total={rackets.length}>{rackets.slice(0,FIRST).map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div><p class="empty" id="empty" hidden>{H.empty}</p>
-<div class="more"><button class="btn btn-line" id="more" type="button">{H.more}</button><p class="muted small" id="shown"></p></div>
-<noscript><p>{H.noscript} <a href={L('brands')}>{H.brandsW}</a>.</p></noscript>
-{['round','teardrop','diamond','hybrid'].map(sh=><template id={`ic-${sh}`}><RacketIcon shape={sh} size={58}/></template>)}
+<section class="section" id="rackets"><div class="sec-head hrow-head"><h2>{HB.top}</h2><a href={L('rackets')}>{HB.all(rackets.length)}</a></div>
+<ul class="tp-row">{picks.map((r,i)=><li class="rk"><a class="rk-a" href={L('racket',r.slug)}><span class="rk-i"><img src={r.image} alt={`${r.model} ${HB.alt}`} width="96" height="112" loading={i<4?"eager":"lazy"} decoding="async"/></span><span class="rk-t"><span class="rk-b">{r.brand}{r.year&&` · ${r.year}`}</span><span class="rk-m">{r.model}</span><span class="rk-p pz" data-s={r.slug} data-o={JSON.stringify(offersOf(r))} data-f1={HB.from1} data-fn={HB.fromN} data-none={HB.none}>{ptxt(r)}</span></span></a></li>)}</ul>
+<div class="tp-cta"><a class="btn btn-accent" href={L('rackets')}>{HB.all(rackets.length)} →</a></div>
+<script is:inline define:vars={{RU:L('rackets')}}>if(location.hash==='#rackets') location.replace(RU);</script>
 </section>
 <NewsL lang={lang} src="home"/>
-<div class="cmpbar" id="cmpbar" hidden><span id="cmpn"></span><button class="btn btn-accent btn-sm" id="cmp-go2" type="button">{H.cmpNow}</button></div>
-<script is:inline define:vars={{HT:{...H.js,showing:null,top:null,cmpThese:null,showing0:H.js.showing('§1','§2'),top0:H.js.top('§'),cmpThese0:H.js.cmpThese('§')},HU,HL:lang}}>
-const F=(t,...a)=>a.reduce((o,v,i)=>o.replace(a.length>1?'§'+(i+1):'§',v),t); HT.showing=(a,b)=>F(HT.showing0,a,b); HT.top=n=>F(HT.top0,n); HT.cmpThese=n=>F(HT.cmpThese0,n);
-const T=HT, U=HU;
-const lab=(f,v)=>{const o=T[f].replace('{v}',v); return o[0].toUpperCase()+o.slice(1);};
-const bq=r=>(window.WP&&r.o&&r.o.length)?window.WP.best(r.o):null;
-const pt=r=>{const q=bq(r); return q?q.txt:T.noPrice;};
-const ph=(r,cls)=>{const q=bq(r); return `<span class="pz ${cls}${q&&q.conv?' cv':''}" data-ap="${esc(window.WP?WP.approx:'')}">${esc(q?q.txt:T.noPrice)}</span>`;};
-const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
-const pu=r=>{const q=bq(r); return (q&&q.u)||r.u;};
 
-const $=id=>document.getElementById(id); const grid=$('tbl'); const PAGE=24; let all=null, view=[], shown=PAGE, sel=new Set();
-const cap=s=>s?s[0].toUpperCase()+s.slice(1):'';
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const rv=n=>(document.querySelector(`input[name="${n}"]:checked`)||{}).value||'';
-const setR=(n,v)=>{const i=document.querySelector(`input[name="${n}"][value="${v}"]`); if(i) i.checked=true;};
-const pic=(r,w,h)=>r.i?`<img src="${r.i}" alt="${esc(r.m)} ${T.alt}" loading="lazy" decoding="async" width="${w}" height="${h}" style="width:${w}px;height:${h}px">`:'';
-function card(r){const tint=`hsl(${r.h} 55% 38%)`,face=`hsl(${r.h} 60% 95%)`;
- const img=r.i?pic(r,93,110):($('ic-'+(r.sh||'hybrid'))||$('ic-hybrid')).innerHTML+`<span class="rlabel"><b style="color:${tint}">${esc(r.b)}</b><span>${r.sh?T.shp[r.sh]:T.na}</span></span>`;
- const chips=[r.sh&&T.shp[r.sh],r.bl&&lab('balF',T.lvl[r.bl]||r.bl),r.c&&lab('coreF',T.lvl[r.c]||r.c)].filter(Boolean).map(c=>`<span class="chip">${c}</span>`).join('');
- const bars=['power','control','forgiveness'].map(k=>`<div class="mb"><span>${T.rt[k]}</span><div class="bar"><i style="width:${r[k]}%"></i></div><b>${r[k]}</b></div>`).join('');
- const u=U.rk+r.s+'/';
- return `<article class="rcard"><a class="rimg" href="${u}" tabindex="-1" aria-hidden="true"><div class="rslot" style="--icon-line:${tint};--icon-face:${face}">${img}</div></a><div class="rbody"><p class="brand">${esc(r.b)} · ${r.y}</p><h3><a href="${u}">${esc(r.m)}</a></h3><div class="chips">${chips}</div><div class="minibars">${bars}</div><label class="cmpbox"><input type="checkbox" class="cmp" value="${r.s}" aria-label="${T.add}: ${esc(r.m)}" ${sel.has(r.s)?'checked':''}> ${T.add}</label><div class="rfoot">${ph(r,'price')}<a class="btn btn-sm" href="${u}" aria-label="${esc(r.m)}: ${T.details}">${T.details}</a></div></div></article>`;}
-async function load(){ if(!all){ all=await (await fetch('/cards.json')).json(); } return all; }
-function filt(){const q=$('f-q').value.toLowerCase().trim(),b=$('f-brand').value,s=rv('f-shape'),bl=rv('f-balance'),c=rv('f-core'),m=parseFloat($('f-max').value);
- return all.filter(d=>(!q||d.m.toLowerCase().includes(q))&&(!b||d.b===b)&&(!s||d.sh===s)&&(!bl||d.bl===bl)&&(!c||d.c===c)&&(isNaN(m)||(pn(d)!=null&&pn(d)<=m)));}
-async function apply(){ await load(); view=filt();
- const [k,dir]=($('f-sort').value||':').split(':');
- if(k){const key={gbp:'g',year:'y',model:'m'}[k]||k; const gv=(d)=>key==='g'?(pn(d)??''):d[key]; view=[...view].sort((a,b)=>{const x=gv(a),y=gv(b); if(x===''||x==null) return 1; if(y===''||y==null) return -1; return (typeof x==='string'? x.localeCompare(y): x-y)*dir;});}
- shown=PAGE; render(); }
-function render(){ grid.innerHTML=view.slice(0,shown).map(card).join(''); const t=view.length+' '+T.rk; $('count').textContent=t; $('count3').textContent=view.length; $('empty').hidden=view.length>0; $('more').hidden=shown>=view.length; $('shown').textContent=view.length?T.showing(Math.min(shown,view.length),view.length):'';
- const n=[$('f-q').value,$('f-brand').value,rv('f-shape'),rv('f-balance'),rv('f-core'),$('f-max').value].filter(Boolean).length; $('fn').textContent=n?`(${n})`:''; }
-let t; ['f-q','f-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(t);t=setTimeout(apply,150)}));
-['f-brand','f-sort'].forEach(i=>$(i).addEventListener('change',apply));
-document.querySelectorAll('.fchips input').forEach(i=>i.addEventListener('change',apply));
-$('more').onclick=async()=>{ if(!all||!view.length){await apply();} shown+=PAGE; render(); };
-const clear=()=>{['f-q','f-brand','f-max','f-sort'].forEach(i=>$(i).value='');['f-shape','f-balance','f-core'].forEach(n=>setR(n,''));apply();};
-$('f-clear').onclick=clear; $('f-clear2').onclick=clear;
-const sheet=o=>{$('filters').classList.toggle('open',o);$('fshade').hidden=!o;$('f-open').setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';};
-$('f-open').onclick=()=>{load();sheet(true)}; $('f-x').onclick=$('fshade').onclick=()=>sheet(false); $('f-done').onclick=()=>{sheet(false);$('rackets').scrollIntoView();};
-const go=(list)=>{const s=(list||[...sel]).slice(0,3); if(s.length<2) return alert(T.tick); location.href=U.cmp+'?r='+s.join(',');};
-$('cmp-go').onclick=()=>go(); $('cmp-go2').onclick=()=>go(); $('cmp-go3').onclick=()=>go();
-grid.addEventListener('change',e=>{const cb=e.target.closest('.cmp'); if(!cb) return; if(cb.checked){ if(sel.size>=3){cb.checked=false; alert(T.max3); return;} sel.add(cb.value);} else sel.delete(cb.value); const n=sel.size; $('cmpbar').hidden=n<1; $('cmp-go3').hidden=n<2; $('cmp-go').hidden=n<2; $('cmpn').textContent=n+' '+T.sel+(n<2?T.pick:'');});
-$('shown').textContent=T.showing(PAGE,grid.dataset.total);
-document.addEventListener('wp:region',()=>{ if(all) render(); });
-</script>
 </Base>

@@ -1,6 +1,6 @@
 // Currency picker behaviour: currency is independent of country, saved, and converted prices carry the approx. marker.
 import { chromium } from 'playwright-core';
-const B=(process.argv[2]||'http://127.0.0.1:4987').replace(/\/$/,''); const errs=[]; const ok=(c,m)=>{ if(!c) errs.push(m); };
+const B=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,''); const errs=[]; const ok=(c,m)=>{ if(!c) errs.push(m); };
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const pg=await (await b.newContext({viewport:{width:390,height:844}})).newPage();
 const R=(await (await fetch(B+'/cards.json')).json()).find(r=>r.o?.length).s;
 for(const [home,rk] of [['/es/','/es/palas/'],['/','/rackets/']]){

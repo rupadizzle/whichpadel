@@ -1,6 +1,6 @@
 // Vertical rhythm QA: gap header(/hero)->first content and last content->footer, one page per type per language, at 360/390/1280.
 import { chromium } from 'playwright-core'; import fs from 'fs';
-const B=process.argv[2]||'http://127.0.0.1:4987';
+const B=process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'';
 const urls=[...fs.readFileSync('dist/sitemap.xml','utf8').matchAll(/<loc>https:\/\/whichpadel\.com([^<]*)<\/loc>/g)].map(m=>m[1]);
 const L=['es','fr','pt','it','de']; const seen=new Map();
 for(const u of urls){const s=u.split('/').filter(Boolean);const lang=L.includes(s[0])?s.shift():'en';const key=lang+':'+(s[0]||'')+':'+s.length+(s[0]&&s[1]&&s[1].includes('-vs-')?':vs':'');if(!seen.has(key))seen.set(key,u)}

@@ -1,7 +1,7 @@
 // Picker QA: every built page has the header picker; its language links resolve to built pages and match hreflang;
 // header geometry at 360/390/1280 for every page type in every language (no overlap/wrap, tap targets >=44px).
 import fs from 'fs'; import path from 'path'; import { chromium } from 'playwright-core';
-const B=process.argv[2]||'http://127.0.0.1:4987'; const bad=[];
+const B=process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const bad=[];
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 const exists=h=>{const p=h.split('#')[0].split('?')[0]; return fs.existsSync('dist'+p+(p.endsWith('/')?'index.html':''))||fs.existsSync('dist'+p);};
 const files=walk('dist').filter(f=>!/\/(404|api)\b/.test(f)&&!f.endsWith('/404.html')); let n=0; const types=new Map();

@@ -1,5 +1,5 @@
 import { chromium } from 'playwright-core'; import fs from 'fs';
-const B='http://127.0.0.1:4987'; const C3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]).join(',');
+const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const C3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]).join(',');
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
 const m=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true})).newPage();
 const S=n=>m.screenshot({path:'shots/v4/'+n+'.png'});

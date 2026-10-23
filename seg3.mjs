@@ -1,5 +1,5 @@
 import { chromium } from 'playwright-core'; import fs from 'fs';
-const B='http://127.0.0.1:4987'; fs.mkdirSync('shots/seg3',{recursive:true});
+const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; fs.mkdirSync('shots/seg3',{recursive:true});
 const img=JSON.parse(fs.readFileSync('data/images.json'));
 const ok=Object.keys(img).filter(k=>img[k].ok); const no=fs.readdirSync('dist/rackets').filter(f=>!f.includes('.')&&!(img[f]&&img[f].ok));
 const only=process.argv[2];
