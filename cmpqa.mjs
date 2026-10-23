@@ -23,7 +23,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(x.rows.some(r=>r[5]<44)) F(tag+' tap target');
  if(x.sw>x.vw) F(tag+' overflow '+x.sw);
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
- const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs)')].some(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible')); if(ov) F(tag+' element overflow');
+ const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
  await pg.close();}
 // currency switch EUR + country ES: allforpadel, padelnuestro, mantis(unknown) ... ES delivers padelnuestro, allforpadel
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Padel Nuestro,Mantis,Tennis Warehouse'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
@@ -41,7 +41,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  // sticky bar: hidden while box in view; tap bar opens compact sheet; show all expands; backdrop closes; Buy goes direct
  await pg.evaluate(()=>scrollTo(0,0)); await pg.waitForTimeout(300); if(await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar visible while box in view');
  await pg.evaluate(()=>scrollTo(0,document.body.scrollHeight/2)); await pg.waitForTimeout(400); if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar not shown after scroll');
- await pg.click('#stickyopen'); await pg.waitForTimeout(400); sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!!D.querySelector('.pxr.best .pxb.pri[href^="https://"]')&&new Set([...D.querySelectorAll('.pxr .pxs b')].map(x=>x.textContent)).size===D.querySelectorAll('.pxr').length}});
+ await pg.click('#stickyopen'); await pg.waitForTimeout(400); sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!D.querySelector('.pxsbest')&&[...D.querySelectorAll('.pxr.best')].every(r=>r.querySelector('.pxb.pri[href^="https://"]'))}});
  if(!sh.open||sh.vis!==4||!sh.best) F('bar->sheet '+JSON.stringify(sh));
  await pg.click('.pxsall'); await pg.waitForTimeout(200); if(await pg.evaluate(()=>[...document.querySelectorAll('#pxsheet .pxr')].filter(r=>r.offsetParent).length)!==7) F('show all');
  await pg.mouse.click(195,20); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden)) F('backdrop close');

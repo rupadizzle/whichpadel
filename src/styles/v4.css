@@ -269,3 +269,4 @@ html.pxlock,html.pxlock body{overflow:hidden}
 /* single price list: best row = badge + accent + primary buy */
 .pxr.best .pxb.pri:not(#_){background:var(--lime,#d4f53c);color:#0f1c24;border-color:transparent}
 #buybox .pxcnt,.pxcnt{margin:0 0 8px;font-size:13px;color:#5b6670}
+#buybox .pxcmp .pxs b:not(#_),#pxsheet .pxs b:not(#_){white-space:normal;overflow:visible;overflow-wrap:anywhere}
