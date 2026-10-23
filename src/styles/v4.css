@@ -172,3 +172,4 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 .pxcmp .dot{width:7px;height:7px;border-radius:50%;background:#1a9e6a;display:inline-block}.pxcmp .dot.no{background:#c0392b}
 .pxcmp .pxr.best .pxs b::after{content:"";}
 @media(max-width:359px){.pxcmp .pxr{flex-wrap:wrap}.pxcmp .pxr .pxs{flex-basis:100%}.pxcmp .pxr .pxb{margin-left:auto}}
+@media(max-width:480px){.buybox:not(#_){padding:12px}.pxcmp .pxr{gap:6px;padding:6px 4px}.pxcmp .pxr .pxb{padding:0 10px}.pxcmp .pxr .pxs b{font-size:.9rem}}
