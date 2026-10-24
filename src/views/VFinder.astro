@@ -1,7 +1,7 @@
 ---
 import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, CURL } from '../i18n/index.js';
-import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { SHOPS, offersOf } from '../lib/price.js';
+import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
 const nShops=new Set(rackets.flatMap(r=>offersOf(r).map(o=>o.d))).size;
@@ -10,7 +10,8 @@ const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]}]};
 const BUD=['100','150','200','300','any'];
-const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]];
+const money=s=>String(s).replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧/g,(_,k,n,f,d0)=>{k=k.toLowerCase();f=f.toUpperCase();d0=d0.toUpperCase();return k==='s'?`<span class="mzs" data-mc="${d0}">${SYMS[d0]}</span>`:`<span class="mz" data-k="${k}" data-m="${n}" data-mc="${f}">${fmtM(val(FX.rates,k,+n,f,d0),d0,lang)}</span>`;});
+const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]].map(money);
 const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['style',Z.q[1],['control','all','power'],Z.st],['prio',Z.q[2],['comfort','light','durable','latest'],Z.pr],
  ['budget',Z.q[3],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
 const ZC={...Z,sub:null,w:null,cmpShops:Z.cmpShops('§'),buyAt:Z.buyAt('§'),
@@ -30,7 +31,7 @@ const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate
  <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/4</span></div>
  <form id="fq" onsubmit="return false">
  {Q.map(([n,lab,vals,opts],i)=><fieldset class="fz-step" data-i={i} hidden={i>0}><legend class="fz-qh">{lab}</legend>
- <div class="fz-opts">{vals.map((v,j)=><label class="fz-o"><input type="radio" name={n} value={v} data-t={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{opts[j][0]}</span><span class="fz-ot"><b>{opts[j][1]}</b><small>{opts[j][2]}</small></span></span></label>)}</div></fieldset>)}
+ <div class="fz-opts">{vals.map((v,j)=><label class="fz-o"><input type="radio" name={n} value={v} data-t={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{opts[j][0]}</span><span class="fz-ot">{n==='budget'?<b set:html={opts[j][1]}/>:<b>{opts[j][1]}</b>}<small>{opts[j][2]}</small></span></span></label>)}</div></fieldset>)}
  </form>
 </section>
 <section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p>{Z.finding}</p></section>
@@ -53,7 +54,9 @@ function show(i){cur=i; scr('q'); steps.forEach((s,j)=>{s.hidden=j!==i; if(j===i
  const f=steps[i].querySelector('input:checked')||steps[i].querySelector('input'); try{f.focus({preventScroll:true})}catch(e){} }
 $('fz-start').onclick=()=>show(0);
 $('fz-back').onclick=()=>cur>0?show(cur-1):scr('intro');
-steps.forEach((s,i)=>s.addEventListener('change',()=>setTimeout(()=>i<N-1?show(i+1):finish(),RM?0:180)));
+steps.forEach((s,i)=>{s.addEventListener('pointerdown',e=>{const inp=e.target.closest('.fz-o')?.querySelector('input'); s.dataset.keep=inp&&inp.checked?'1':'';});
+ s.addEventListener('click',e=>{if(s.dataset.keep!=='1') return; s.dataset.keep=''; const inp=e.target.closest('.fz-o')?.querySelector('input'); if(inp&&inp.checked) advance(i);});
+ s.addEventListener('change',()=>setTimeout(()=>advance(i),RM?0:180));});
 let all=null,prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{};
  a.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s,t:o.t}));});
  const ns=new Set(a.flatMap(c=>(c.o||[]).map(o=>o.d))).size; if(ns) $('fz-ns').textContent=ns; all=a; return a;}));
@@ -78,17 +81,18 @@ function rank(A){const L=A.level,S=A.style,P=A.prio; const Bi=document.querySele
  const why=d=>{const out=[]; const sh=Z.shape[d.sh]||'';
   if(L==='beginner'&&d.forgiveness>=60&&sh) out.push(R(Z.W.forg,sh));
   out.push(S==='control'?R(Z.W.ctl,d.control):S==='power'?R(Z.W.pow,d.power):R(Z.W.bal,d.power,d.control));
-  if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0) out.push(R(Z.W.light,d.w0,d.w1||d.w0)); else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
+  if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0){const span=R(Z.W.light,d.w0,d.w1&&d.w1!==d.w0?d.w1:d.w0); out.push(!d.w1||d.w1===d.w0?span.replace(/(\d+)\s*[–-]\s*\1/,'$1'):span);} else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
   const ss=shopsOf(d); if(out.length<3&&ss.length) out.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt)); return out.slice(0,3);};
- const max=top.length?top[0].s:1; return top.map((x,i)=>({...x,pct:i===0?Math.min(98,Math.round(88+x.s/12)):Math.max(80,Math.round(Math.min(98,88+max/12)*x.s/max)),why:why(x.d)}));}
+ return top.map(x=>({...x,why:why(x.d)}));}
 const img=(d,w,h)=>d.i?`<img src="${d.i}" alt="${esc(d.m)}" width="${w}" height="${h}" loading="eager" decoding="async">`:'';
 const buy=(o,cls,label)=>`<a class="btn ${cls}" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" data-ev="buy">${label}</a>`;
 function render(A){const top=rank(A); const out=$('fz-out');
  if(!top.length){out.innerHTML=`<p class="fz-none">${esc(Z.none)}</p><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button>`; $('fz-alert').hidden=true; $('fz-sticky').innerHTML=''; bind(); return;}
  $('fz-alert').hidden=false; const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
  const rows=ss.slice(0,4).map((o,i)=>`<li class="fz-sr${i===0?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${o.s===0?Z.oos:Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join('');
- const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${U.rk}${x.d.s}/">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${U.rk}${x.d.s}/">${esc(x.d.m)}</a><span class="fz-am">${x.pct}% ${esc(Z.match)} · ${esc(x.why[0]||'')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`}).join('');
- out.innerHTML=`<p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${U.rk}${d.s}/" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a><span class="fz-badge">★ ${h.pct}% · ${esc(Z.fit)}</span></div>
+ const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${U.rk}${x.d.s}/">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${U.rk}${x.d.s}/">${esc(x.d.m)}</a><span class="fz-am">${esc(x.why[0]||'')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`}).join('');
+ const picks=['level','style','prio','budget'].map((n,i)=>{const t=choiceLabel(n); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(Z.path[i]+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
+ out.innerHTML=`<div class="fz-picks">${picks}</div><p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${U.rk}${d.s}/" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a></div>
  <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
  <div class="fz-pb"><span class="fz-bp">${esc(b.txt)}</span><span class="fz-bs">${sn(b.d)}</span></div>${buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,(SN[b.d]||[b.d])[0]))+' →')}</div></article>
@@ -97,7 +101,10 @@ function render(A){const top=rank(A); const out=$('fz-out');
  <div class="fz-acts">${top.length>1?`<a class="btn" href="${U.cmp}?r=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="btn btn-line" type="button" id="fz-share">↗ ${esc(Z.shareB)}</button><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button></div>`;
  $('fz-sticky').innerHTML=`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else st.classList.remove('off');}
  window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
-function bind(){document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);});
+const choiceLabel=n=>{const inp=document.querySelector(`#fq input[name="${n}"]:checked`); const b=inp&&inp.parentElement.querySelector('b'); return b?b.textContent.trim():'';};
+function advance(i){ if(i<N-1&&steps.slice(i+1).every(st=>st.querySelector('input:checked'))) finish(); else if(i<N-1) show(i+1); else finish(); }
+function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
+ document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);});
  const sh=$('fz-share'); if(sh) sh.onclick=async()=>{const t=document.title; try{ if(navigator.share){await navigator.share({title:t,url:location.href}); return;} await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(e){ if(e&&e.name==='AbortError') return; try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(_){prompt('',location.href)}}};}
 const ans=()=>({level:rv('level'),style:rv('style'),prio:rv('prio'),budget:(document.querySelector('#fq input[name="budget"]:checked')||{dataset:{}}).dataset.t||'any'});
 async function finish(){const A=ans(); history.replaceState(null,'','?'+new URLSearchParams(A)); scr('load'); const t0=Date.now(); await load().then(a=>all=a); await new Promise(r=>setTimeout(r,Math.max(0,(RM?250:650)-(Date.now()-t0)))); render(A); scr('res');}

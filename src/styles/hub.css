@@ -30,6 +30,17 @@
 .hub-chips{display:flex;flex-wrap:wrap;gap:8px}.hub-chips label{position:relative}.hub-chips input{position:absolute;opacity:0;inset:0;pointer-events:none}
 .hub-chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;font-size:.875rem;cursor:pointer;background:#fff}
 .hub-chips input:checked+span{background:var(--navy);color:#fff;border-color:var(--navy)}
+.hub-chips small{margin-left:4px;font-weight:400;color:var(--mut);font-size:.75rem}
+.hub-chips input:checked+span small{color:rgb(255 255 255/.75)}
+.hub-chips label[hidden]{display:none}
+.hub-brands .hub-chips label:has(input:checked){order:-1}
+.hub-bq{display:flex;align-items:center;margin:0 0 8px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.hub-bq input{flex:1;width:100%;min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;font:inherit;font-size:.875rem;font-weight:500;line-height:normal;min-height:40px;color:var(--ink)}
+.hub-bq input:focus{outline:none;border:0;box-shadow:none}
+.hub-bq:focus-within{border-color:var(--navy);outline:2px solid var(--green2);outline-offset:1px}
+.hub-bmore{display:inline-flex;align-items:center;min-height:36px;margin:2px 0 0;padding:0;border:0;background:none;color:var(--navy);font:inherit;font-size:.8125rem;font-weight:600;text-decoration:underline;cursor:pointer}
+.hub-bnone{margin:4px 0 0;color:var(--mut);font-size:.8125rem;font-weight:500}
+.hub-bmore[hidden],.hub-bnone[hidden]{display:none}
 .hub-pr{display:flex;align-items:center;gap:8px}.hub-pr label{flex:1}.hub-pr input{width:100%}
 .hub-tg{display:flex;gap:12px;align-items:flex-start;min-height:44px;cursor:pointer}.hub-tg input{width:24px;height:24px;margin:2px 0 0;accent-color:var(--green);flex:none}.hub-tg span{display:flex;flex-direction:column;font-size:.875rem}.hub-tg small{color:var(--mut)}
 .hub-adv{border-top:1px solid var(--line)}.hub-adv summary{display:flex;align-items:center;justify-content:space-between;min-height:48px;font-weight:600;cursor:pointer;list-style:none}.hub-adv summary::-webkit-details-marker{display:none}
@@ -68,11 +79,11 @@ body.has-tray{padding-bottom:88px}
 @media(max-width:860px){
  .hub-l{grid-template-columns:1fr}
  .hub-fo{display:inline-flex}.hub-sort,.hub-dd{display:none}.hub-fl.hub-msort{display:flex}
- .hub-f{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:80;max-height:90vh;background:#fff;border-radius:16px 16px 0 0;transform:translateY(100%);transition:transform .2s;visibility:hidden}
+ .hub-f{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:80;max-height:90vh;overflow:hidden;background:#fff;border-radius:16px 16px 0 0;transform:translateY(100%);transition:transform .2s;visibility:hidden}
  .hub-f.open{transform:none;visibility:visible}.hub-shade{position:fixed;inset:0;background:rgb(11 42 60/.45);z-index:79}
- .hub-fh{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 16px;border-bottom:1px solid var(--line)}.hub-fh h2{margin:0;font-size:1.0625rem}.hub-fh .x{min-width:44px;min-height:44px;border:0;background:none;font-size:1.125rem;cursor:pointer}
- .hub-fb{padding:16px}
- .hub-ff{padding:8px 16px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}.hub-ff #h-apply{display:block;flex:2}
+ .hub-fh{display:flex;flex:none;align-items:center;justify-content:space-between;padding:8px 8px 8px 16px;border-bottom:1px solid var(--line)}.hub-fh h2{margin:0;font-size:1.0625rem}.hub-fh .x{min-width:44px;min-height:44px;border:0;background:none;font-size:1.125rem;cursor:pointer}
+ .hub-fb{flex:1 1 auto;min-height:0;overflow:auto;padding:16px}
+ .hub-ff{flex:none;padding:8px 16px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}.hub-ff #h-apply{display:block;flex:2}
  .hub-ac{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.hub-chip{flex:none}
  .hub-grid{grid-template-columns:1fr;gap:8px}
  .hub-grid .rk-a{flex-direction:row;gap:16px;padding:8px 48px 8px 8px;align-items:center}
@@ -154,7 +165,12 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-g legend{width:100%;margin:0;font-size:.6875rem}
  .cat .hub-chips{gap:5px;width:100%;min-width:0}
  .cat .hub-chips label{display:inline-flex;max-width:100%}
+ .cat .hub-chips label[hidden]{display:none}
  .cat .hub-chips span{min-height:30px;height:auto;padding:4px 8px;border-radius:7px;font-size:.8125rem;line-height:1.25;white-space:normal}
+ .cat .hub-bq{margin:0 0 6px;padding:0 8px;border-radius:8px}
+ .cat .hub-bq input{min-height:30px;font-size:.8125rem}
+ .cat .hub-bmore{min-height:28px;font-size:.75rem}
+ .cat .hub-bnone{font-size:.75rem}
  .cat .hub-fl{gap:4px;min-width:0;max-width:100%}
  .cat .hub-f .hub-fl select,.cat .hub-f .hub-pr input,.cat .hub-f .hub-sort select{width:100%;min-width:0;max-width:100%;height:auto;min-height:32px;max-height:none;border-radius:8px;font-size:.8125rem;line-height:normal}
  .cat .hub-pr{min-width:0;max-width:100%}
@@ -209,6 +225,7 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-grid .rk-pv::after{content:"";width:6px;height:10px;flex:none;background:var(--mut);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath fill='%23000' d='M0 1.4 4.4 5 0 8.6 1.5 8.6 6 5 1.5 1.4Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath fill='%23000' d='M0 1.4 4.4 5 0 8.6 1.5 8.6 6 5 1.5 1.4Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat}
  .cat .hub-pg ol{display:none}
  .cat .hub-f .hub-chips span{min-height:40px}
+ .cat .hub-bq input{min-height:40px;font-size:1rem}
 }
 /* Ball cards have no compare control. Keep the spec to one line and sit the price on the right, same as the shoe and racket cards. */
 .cat.balls .rk-m{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -221,19 +238,9 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-m{white-space:normal}
  .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-pv{align-self:end}
 }
-/* Shoe fit pills are wider than the racket ones, so they take their own row
-   instead of sharing the search row and getting clipped. */
-.shoes .hub-seg{flex:1 0 100%;max-width:100%;overflow:visible;flex-wrap:wrap;row-gap:6px}
-.shoes .hub-tb{flex:1 1 100%;width:100%;min-width:0}
-@media(min-width:861px){
- .shoes .hub-f{top:150px;max-height:calc(100vh - 162px)}
-}
 @media(min-width:640px) and (max-width:860px){
  .cat .hub-bar{flex-direction:row;align-items:center}
  .cat .hub-tb{flex:1 1 180px;width:auto}
- .shoes .hub-bar{flex-direction:column;align-items:stretch}
- .shoes .hub-seg{flex:none;width:100%}
- .shoes .hub-tb{flex:none;width:100%}
  .cat .hub-grid{grid-template-columns:1fr 1fr;gap:8px}
  .cat .hub-grid .rk:not(:has(.rk-x)) .rk-a{grid-template-columns:72px minmax(0,1fr);padding:0}
  .cat .hub-grid .rk-m{font-size:.8125rem}

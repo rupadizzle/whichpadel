@@ -4,21 +4,24 @@
 import { REGIONS, FX, SHOPS, DEFAULT_REGION, CURRENCIES, SYM } from '../lib/price.js'; import { D } from '../i18n/index.js';
 import { LANG_NAME } from '../i18n/routes.js';
 const { lang='en', switcher=[], region=null } = Astro.props; const RG=D(lang).ui.region; const UI=D(lang).ui;
+const LANG_FLAG={en:'🇬🇧',es:'🇪🇸',fr:'🇫🇷',pt:'🇵🇹',it:'🇮🇹',de:'🇩🇪'};
 const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[]}]));
 const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]])),SYM,CUR:CURRENCIES};
 const def=region||DEFAULT_REGION(lang); const dc=REGIONS[def][2];
 const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404.html');
 ---
-<button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={RG.all}><svg class="rgn-globe" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span class="rgn-x">{lang.toUpperCase()} · <span id="rgn-reg">{def}</span> · </span><span id="rgn-cur">{SYM[dc]}</span></button>
+<button type="button" class="rgn" id="rgn-btn" aria-haspopup="dialog" aria-label={RG.all}><span class="rgn-bit"><span class="rgn-flag" aria-hidden="true">{LANG_FLAG[lang]}</span><span class="rgn-x">{lang.toUpperCase()}</span></span><span class="rgn-sep" aria-hidden="true">·</span><span class="rgn-bit"><span class="rgn-flag" id="rgn-reg-flag" aria-hidden="true">{REGIONS[def][0]}</span><span class="rgn-x" id="rgn-reg">{def}</span></span><span class="rgn-x rgn-sep" aria-hidden="true">·</span><span id="rgn-cur">{SYM[dc]}</span></button>
 <dialog class="sheet rgn-sheet" id="rgn-sheet" aria-labelledby="rgn-h"><div class="sheet-in"><div class="sheet-top"><h2 id="rgn-h" class="h3">{RG.all}</h2><button class="x" type="button" data-rgn-close aria-label={UI.close}>✕</button></div>
+<div class="rgn-scroll">
 <h3 class="rgn-sub">{UI.language}</h3>
 <ul class="lang-seg" data-lang-pick><li><a aria-current="true" href={selfHref} lang={lang} hreflang={lang} class="on">{LANG_NAME[lang]}</a></li>{switcher.map(([l,h])=><li><a href={h} lang={l} hreflang={l}>{LANG_NAME[l]}</a></li>)}</ul>
 <h3 class="rgn-sub">{RG.countryH}</h3>
 <p class="muted small" style="margin:0">{RG.shops}</p>
-<ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n}</span><span class="muted">{c}</span></button></li>)}</ul>
+<ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n}</span></button></li>)}</ul>
 <h3 class="rgn-sub">{RG.curH}</h3>
 <div class="cur-seg" role="radiogroup" aria-label={RG.curH}>{CURRENCIES.map(c=><button type="button" role="radio" data-cur={c} aria-checked={c===dc?'true':'false'}>{SYM[c]} {c}</button>)}</div>
 <p class="muted small" style="margin:0">{RG.curNote}</p>
+</div>
 <button type="button" class="btn btn-accent rgn-save" data-rgn-save>{RG.save}</button></div></dialog>
 <script is:inline define:vars={{CFG,lang,DEF:def,CONV:RG.conv('§',FX.date),NONE:UI.seeSpecs,NOUS:RG.noUS||UI.seeSpecs,AP:RG.approx,PAGE:!!region}}>
 (()=>{const {FX,SH,R,SYM,CUR}=CFG; const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT','PL','RO','SK','SI'];
@@ -32,7 +35,7 @@ let cur=ls('wp_cur'); if(!CUR.includes(cur)) cur=null; const curNow=()=>cur||R[r
 const fmt=(n,c)=>{const v=Math.round(n); if(c==='SEK') return v+' kr'; return nonEn?v+' '+SYM[c]:SYM[c]+v;};
 function best(os){const C=curNow(); const c=(os||[]).map(o=>{const s=SH[o.d]||{y:[],n:[]}; const sx=STRICT[reg]; const st=sx?(s.y.includes(reg)&&o.c===sx?0:2):s.y.includes(reg)?0:s.n.includes(reg)?2:1; const nat=o.c===C; return {...o,st,nat,v:nat?o.p:Math.round(o.p/FX.rates[o.c]*FX.rates[C])};}).filter(o=>o.st<2).sort((a,b)=>a.st-b.st||(b.nat-a.nat)||a.v-b.v);
  if(!c.length) return {txt:STRICT[reg]?NOUS:NONE,v:null,u:null,none:true}; const o=c[0]; return {txt:fmt(o.v,C),v:o.v,u:o.u,conv:!o.nat,from:o.c,unk:o.st===1,cur:C};}
-function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
+function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lf=document.getElementById('rgn-reg-flag'); if(lf&&R[reg]) lf.textContent=R[reg][0]; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
  document.querySelectorAll('[data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===C?'true':'false'));
  document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===reg?'true':'false'));
  document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); if(e.dataset.fn){const os=JSON.parse(e.dataset.o).filter(o=>{const x=SH[o.d], sx=STRICT[reg]; return sx?!!x&&x.y.includes(reg)&&o.c===sx:!x||!x.n.includes(reg)}); e.textContent=q.v==null?e.dataset.none:(os.length>1?e.dataset.fn.replace('{n}',os.length):e.dataset.f1).replace('{p}',q.txt);} else e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});

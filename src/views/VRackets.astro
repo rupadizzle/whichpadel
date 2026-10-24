@@ -6,7 +6,8 @@ import { rackets, brandList } from '../lib/data.js'; import { D, url, SITE } fro
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
 const { p=1, lang } = Astro.props; const d=D(lang), u=d.ui, H=HUB[lang], t=d.terms; const N=rackets.length; const P=hubPages();
 const order=hubOrder(); const rs=order.slice((p-1)*PER,p*PER);
-const brands=[...brandList].sort((a,b)=>a.name.localeCompare(b.name)); const topB=[...brandList].sort((a,b)=>b.count-a.count).slice(0,10);
+const topB=[...brandList].sort((a,b)=>b.count-a.count).slice(0,10);
+const brandPick=[...brandList].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 const years=[...new Set(rackets.map(r=>r.year).filter(Boolean))].sort((a,b)=>b-a);
 const reg=DEFAULT_REGION(lang);
 const AUD=['men','women','junior']; const audN=Object.fromEntries(AUD.map(k=>[k,rackets.filter(r=>r.audience===k).length]));
@@ -20,8 +21,8 @@ const title=p>1?`${H.h1(N)} · ${H.pageL} ${p} | WhichPadel`:H.title(N);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':H.h1(N),'url':U,'description':H.desc(N)},{'@type':'ItemList','name':H.h1(N),'numberOfItems':N,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':(p-1)*PER+i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':H.crumb,'item':SITE+pu(1)}]}]};
 const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),brands:Object.fromEntries(brandList.map(b=>[b.slug,b.name])),PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
 const hasNext=p<P; const PAGES=Array.from({length:P},(_,i)=>i+1);
-const chip=(name,vals,labels)=>[['',H.any],...vals.map((v,i)=>[v,labels[i]])];
-const groupsA=[['shape',H.shape,chip('shape',['round','teardrop','diamond','hybrid'],H.shapes)],['bal',H.balance,chip('bal',['low','medium','high'],H.lmh)],['wt',H.weight,chip('wt',['l','m','h'],H.wts)],['hard',H.hard,chip('hard',['soft','medium','hard'],H.smh)],['level',H.level,chip('level',['b','i','a'],H.lvls)]];
+const chip=(vals,labels)=>vals.map((v,i)=>[v,labels[i]]);
+const groupsA=[['shape',H.shape,chip(['round','teardrop','diamond','hybrid'],H.shapes)],['bal',H.balance,chip(['low','medium','high'],H.lmh)],['wt',H.weight,chip(['l','m','h'],H.wts)],['hard',H.hard,chip(['soft','medium','hard'],H.smh)],['level',H.level,chip(['b','i','a'],H.lvls)]];
 const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.level]; const adv=[G.bal,G.wt,G.hard];
 ---
 <Base lang={d.locale} title={title} description={p>1?`${H.desc(N)} ${H.pageL} ${p}/${P}.`:H.desc(N)} jsonld={jsonld}>
@@ -29,7 +30,6 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 <div class="hub cat" id="hub" data-p={p}>
 <header class="hub-hd"><h1>{H.h1(N)}</h1><p>{H.intro}</p></header>
 <div class="hub-bar">
-<div class="hub-seg" role="radiogroup" aria-label={H.aud}>{[['',H.allA,N],...AUD.map(k=>[k,audL(k),audN[k]])].map(o=><label><input type="radio" name="h-aud" value={o[0]} checked={o[0]===''}/><span>{o[1]} <small>{o[2]}</small></span></label>)}</div>
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
@@ -43,13 +43,14 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
  <div class="hub-fh"><h2>{H.fsT}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
  <div class="hub-fb">
   <label class="hub-fl hub-msort">{H.sort}<select id="h-sort2">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k}>{H.sorts[i]}</option>)}</select></label>
-  {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="radio" name={'h-'+g[0]} value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>)}
+  <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips"><label><input type="checkbox" name="h-aud" value="" checked/><span>{H.allA} <small>{N}</small></span></label>{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)} <small>{audN[k]}</small></span></label>)}</div></fieldset>
+  {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div></fieldset>)}
   <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div></fieldset>
   <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b><small>{H.stockS}</small></span></label>
   <details class="hub-adv" id="h-adv"><summary>{H.moreF}</summary><div class="hub-advb">
-   <label class="hub-fl">{H.brand}<select id="h-brand"><option value="">{H.allBrands}</option>{brands.map(b=><option value={b.slug}>{b.name} ({b.count})</option>)}</select></label>
-   <label class="hub-fl">{H.year}<select id="h-year"><option value="">{H.any}</option>{years.map(y=><option value={y}>{y}</option>)}</select></label>
-   {adv.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="radio" name={'h-'+g[0]} value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>)}
+   <fieldset class="hub-g hub-brands"><legend>{H.brand}</legend><label class="hub-bq"><span class="sr">{H.brandPh}</span><input id="h-bq" type="search" placeholder={H.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.slug}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{H.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={H.moreB}>{H.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
+   <fieldset class="hub-g"><legend>{H.year}</legend><div class="hub-chips">{years.map(y=><label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div></fieldset>
+   {adv.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div></fieldset>)}
   </div></details>
  </div>
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{H.clr}</button><button type="button" class="btn btn-accent" id="h-apply">{H.apply.replace('§',String(N))}</button></div>
@@ -77,12 +78,17 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 <script is:inline>
 (()=>{const T=JSON.parse(document.getElementById('h-data').textContent);const $=id=>document.getElementById(id), hub=$('hub'), grid=$('h-grid'); let all=null, view=[], shown=0; const sel=[];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const rv=n=>(document.querySelector(`input[name="h-${n}"]:checked`)||{}).value||''; const setR=(n,v)=>{const i=document.querySelector(`input[name="h-${n}"][value="${v}"]`); if(i) i.checked=true;};
+const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
+const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
+const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
+const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','aud','brand','year','shape','bal','wt','hard','level','min','max','stock','sort'];
-const get=()=>({q:$('h-q').value.trim(),aud:rv('aud'),brand:$('h-brand').value,year:$('h-year').value,shape:rv('shape'),bal:rv('bal'),wt:rv('wt'),hard:rv('hard'),level:rv('level'),min:$('h-min').value,max:$('h-max').value,stock:$('h-stock').checked?'1':'',sort:$('h-sort').value==='pop'?'':$('h-sort').value});
-const put=s=>{$('h-q').value=s.q||'';$('h-brand').value=T.brands[s.brand]?s.brand:'';$('h-year').value=s.year||'';['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['brand','year','bal','wt','hard'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop';};
+const get=()=>({q:$('h-q').value.trim(),aud:rv('aud'),brand:rv('brand'),year:rv('year'),shape:rv('shape'),bal:rv('bal'),wt:rv('wt'),hard:rv('hard'),level:rv('level'),min:$('h-min').value,max:$('h-max').value,stock:$('h-stock').checked?'1':'',sort:$('h-sort').value==='pop'?'':$('h-sort').value});
+const put=s=>{$('h-q').value=s.q||'';setR('brand',parts(s.brand).filter(v=>T.brands[v]).join(','));setR('year',s.year||'');['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['brand','year','bal','wt','hard'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop'; paintBrands();};
 const active=s=>KEYS.some(k=>s[k]);
-const nf=s=>['brand','year','shape','bal','wt','hard','level','stock'].filter(k=>s[k]).length+((s.min||s.max)?1:0);
+const nf=s=>['aud','brand','year','shape','bal','wt','hard','level'].reduce((n,k)=>n+parts(s[k]).length,0)+(s.stock?1:0)+((s.min||s.max)?1:0);
+const hit=(sel,v)=>!sel.length||sel.includes(String(v??''));
 // offers: static card offer, replaced by the live price engine when it answers
 const offers=r=>(r.live||r.o||[]).filter(o=>o.p>0);
 const reach=r=>offers(r).filter(o=>!window.WP||WP.shop(o.d,o.c)!=='n');
@@ -97,8 +103,8 @@ const card=(r,i)=>{const img=r.i?`<img src="${r.i}" alt="${esc(r.m)} ${esc(T.alt
  const on=sel.includes(r.s);
  return `<li class="rk${on?' sel':''}" data-s="${r.s}"><a class="rk-a" href="${T.rk}${r.s}/"><span class="rk-i">${img}</span><span class="rk-t"><span class="rk-b">${esc([r.b,r.y].filter(Boolean).join(' · '))}</span><span class="rk-m">${esc(shortM(r))}</span><span class="rk-c">${esc(spec(r))}</span><span class="rk-p"><span class="pz rk-pv">${esc(ptxt(r))}</span></span></span></a><label class="rk-x" title="${esc(T.compare)}"><input type="checkbox" class="rk-cb" value="${r.s}"${on?' checked':''}><span><span class="sr">${esc(T.compare)}: ${esc(r.m)}</span></span></label></li>`;};
 const OI=Object.fromEntries(T.order.map((s,i)=>[s,i])); const pop=r=>-(OI[r.s]??1e6);
-function filt(s){const q=s.q.toLowerCase(), bn=T.brands[s.brand], mn=parseFloat(s.min), mx=parseFloat(s.max);
- return all.filter(r=>(!q||(r.m+' '+r.b).toLowerCase().includes(q))&&(!bn||r.b===bn)&&(!s.year||String(r.y)===s.year)&&(!s.aud||r.a===s.aud)&&(!s.shape||r.sh===s.shape)&&(!s.bal||r.bn===s.bal)&&(!s.wt||r.wn===s.wt)&&(!s.hard||r.cn===s.hard)&&(!s.level||r.lv===s.level)&&(!s.stock||near(r))&&((isNaN(mn)&&isNaN(mx))||((v=>v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx))(priceV(r)))));}
+function filt(s){const q=s.q.toLowerCase(), bn=parts(s.brand).map(sl=>T.brands[sl]).filter(Boolean), mn=parseFloat(s.min), mx=parseFloat(s.max);
+ return all.filter(r=>(!q||(r.m+' '+r.b).toLowerCase().includes(q))&&hit(bn,r.b)&&hit(parts(s.year),r.y)&&hit(parts(s.aud),r.a)&&hit(parts(s.shape),r.sh)&&hit(parts(s.bal),r.bn)&&hit(parts(s.wt),r.wn)&&hit(parts(s.hard),r.cn)&&hit(parts(s.level),r.lv)&&(!s.stock||near(r))&&((isNaN(mn)&&isNaN(mx))||((v=>v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx))(priceV(r)))));}
 function sortv(v,k){const P=r=>{const x=priceV(r); return x==null?Infinity:x;};
  const map={best:(a,b)=>(P(a)===Infinity)-(P(b)===Infinity)||saving(b)-saving(a)||P(a)-P(b),price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===Infinity)-(P(a)===Infinity)||P(b)-P(a),new:(a,b)=>(b.y||0)-(a.y||0)||P(a)-P(b),old:(a,b)=>(a.y||9999)-(b.y||9999)||P(a)-P(b),pop:(a,b)=>pop(b)-pop(a)}; const f=map[k]||map.pop;
  return [...v].sort(f);}
@@ -113,21 +119,21 @@ function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&
 let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const L=p&&p.r||{}; a.forEach(r=>{const e=L[r.s]; if(e){const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s})); if(os.length) r.live=os; r.drop=e.drop||0;}}); all=a; return a;}));
 // active filter chips
 const LBL=k=>({aud:T.aud,shape:T.shape,bal:T.balance,wt:T.weight,hard:T.hard,level:T.level,brand:T.brand,year:T.year})[k];
-function chips(){const s=get(); const out=[]; const lab=n=>{const i=document.querySelector(`input[name="h-${n}"]:checked`); return i?i.nextElementSibling.firstChild.textContent.trim():'';};
- ['aud','shape','level','bal','wt','hard'].forEach(k=>{if(s[k]) out.push([k,lab(k)]);}); if(s.brand) out.push(['brand',T.brands[s.brand]]); if(s.year) out.push(['year',s.year]);
- if(s.min||s.max) out.push(['price',T.price+': '+(s.min||'0')+'–'+(s.max||'∞')]); if(s.stock) out.push(['stock',T.stock]); if(s.q) out.push(['q','“'+s.q+'”']);
- const ac=$('h-ac'); ac.hidden=!out.length; ac.innerHTML=out.map(([k,v])=>`<button type="button" class="hub-chip" data-k="${k}">${esc(v)}<span aria-hidden="true">✕</span></button>`).join('')+(out.length>1?`<button type="button" class="hub-chip hub-chip-x" data-k="*">${esc(T.clr)}</button>`:'');}
-$('h-ac').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(!b) return; const k=b.dataset.k; if(k==='*') return clear(); const s=get(); if(k==='price'){s.min='';s.max='';} else s[k]=''; put(s); hub.dataset.dirty=1; apply();});
+function chips(){const s=get(); const out=[]; const lab=(n,v)=>{const i=[...document.querySelectorAll(`input[name="h-${n}"]`)].find(el=>el.value===v); const t=i&&i.nextElementSibling; return t?(t.childNodes[0].textContent||'').trim():v;};
+ ['aud','shape','level','bal','wt','hard','year'].forEach(k=>parts(s[k]).forEach(v=>out.push([k,v,lab(k,v)]))); parts(s.brand).forEach(v=>out.push(['brand',v,T.brands[v]||v]));
+ if(s.min||s.max) out.push(['price','',T.price+': '+(s.min||'0')+'–'+(s.max||'∞')]); if(s.stock) out.push(['stock','',T.stock]); if(s.q) out.push(['q','','“'+s.q+'”']);
+ const ac=$('h-ac'); ac.hidden=!out.length; ac.innerHTML=out.map(([k,v,label])=>`<button type="button" class="hub-chip" data-k="${esc(k)}" data-v="${esc(v)}">${esc(label)}<span aria-hidden="true">✕</span></button>`).join('')+(out.length>1?`<button type="button" class="hub-chip hub-chip-x" data-k="*">${esc(T.clr)}</button>`:'');}
+$('h-ac').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(!b) return; const k=b.dataset.k; if(k==='*') return clear(); const s=get(); if(k==='price'){s.min='';s.max='';} else if(b.dataset.v) s[k]=parts(s[k]).filter(v=>v!==b.dataset.v).join(','); else s[k]=''; put(s); hub.dataset.dirty=1; apply();});
 // sheet (mobile)
 const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':''; if(o) load();};
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); hub.scrollIntoView({block:'start'});};
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
 let tm; ['h-q','h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
-['h-brand','h-year','h-sort','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
+['h-sort','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
 $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
-document.querySelectorAll('.hub-seg input').forEach(i=>i.addEventListener('change',()=>apply()));
-document.querySelectorAll('.hub-chips input').forEach(i=>i.addEventListener('change',()=>apply()));
-const clear=()=>{put({}); hub.dataset.dirty=1; apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
+$('h-bq').addEventListener('input',paintBrands); const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{document.querySelector('.hub-brands .hub-chips').dataset.open='1'; paintBrands();});
+const clear=()=>{$('h-bq').value=''; const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); hub.dataset.dirty=1; apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 // load more: crawlable link to the next static page, enhanced to append in place
 const more=$('h-more'); if(more) more.addEventListener('click',async e=>{e.preventDefault(); if(!all) await apply(false);
  grid.insertAdjacentHTML('beforeend',view.slice(shown,shown+T.PER).map(card).join('')); shown+=T.PER; more.hidden=shown>=view.length;

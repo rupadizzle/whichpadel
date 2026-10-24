@@ -19,14 +19,21 @@
 .cur-seg button[aria-checked="true"],.rgn-list button[aria-pressed="true"]{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2)}
 .hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
 /* v10: language inside the region picker */
-.rgn{gap:var(--s2)}
 .lang-seg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:var(--s2)}
 .lang-seg a{display:flex;align-items:center;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-decoration:none}
 .lang-seg a:hover{border-color:var(--green2)}
 .lang-seg a.on{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2);font-weight:600}
-/* v11: one globe button, staged panel with Save */
-.rgn-globe{flex:none}
-.rgn-save{width:100%;min-height:44px;margin-top:var(--s4)}
+/* v11: closed bar shows a language flag and a delivery-country flag */
+.rgn{gap:6px}
+.rgn-bit{display:inline-flex;align-items:center;gap:4px}
+.rgn-flag{flex:none;font-family:"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",emoji;font-size:15px;line-height:1}
+.rgn-sep{opacity:.55}
+.rgn-sheet[open]{display:flex;flex-direction:column;overflow:hidden;max-height:min(85dvh,85vh)}
+.rgn-sheet .sheet-in{flex:1;min-height:0;max-height:min(85dvh,85vh);overflow:hidden}
+.rgn-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.rgn-list{display:flex;flex-wrap:wrap;margin-top:var(--s2)}
+.rgn-list button{width:auto;max-width:100%;justify-content:flex-start;white-space:nowrap;padding:0 var(--s3)}
+.rgn-save{flex:none;width:100%;min-height:44px;margin-top:var(--s3)}
 @media(width <= 400px){.rgn-x{display:none}}
 @media(width > 1180px){.nav a,.nav .dd>button{white-space:nowrap}}
 @media(width > 1180px){.hdr .wrap{gap:var(--s2)}.nav{gap:2px}.nav a,.nav .dd>button{padding:var(--s2) var(--s3);font-size:.9rem}}
@@ -80,6 +87,10 @@ main.fz-main:has(#fz[data-state="intro"]){min-height:calc(100svh - 62px);display
 @keyframes fzs{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.fz-spin{animation:none}}
 .fz-res .fz-eb{margin:var(--s2) 0}
+.fz-picks{display:flex;flex-wrap:wrap;align-items:baseline;margin:0 0 var(--s4);line-height:1.5}
+.fz-pick{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;font-size:.95rem;font-weight:650;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c5d0d6}
+.fz-pick:hover{color:var(--green);text-decoration-color:var(--green)}
+.fz-dot{color:var(--mut);margin:0 8px}
 .fz-hero{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh);padding:var(--s4);display:grid;gap:var(--s4)}
 .fz-hi{position:relative;display:flex;justify-content:center;background:var(--bg);border-radius:14px;padding:var(--s4) 0;min-height:176px}
 .fz-hi img{width:120px;height:144px;object-fit:contain}

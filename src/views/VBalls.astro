@@ -1,12 +1,12 @@
 ---
-// /balls/ hub: every ball rendered statically (crawlable). Same catalog shell as /shoes/ and /rackets/: speed pills, search, filter sidebar, sort. Filter state stays in the URL.
+// /balls/ hub: every ball rendered statically (crawlable). Same catalog shell as /shoes/ and /rackets/: search, filter sidebar, sort. Filter state stays in the URL.
 import Base from '../layouts/Base.astro'; import '../styles/hub.css';
 import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js'; import { BALL } from '../i18n/balls.js'; import { D, url, SITE } from '../i18n/index.js'; import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const N=balls.length;
 const list=rankBalls(balls,lang); const brands=[...new Set(balls.map(b=>b.brand))].sort();
+const brandPick=brands.map(b=>({name:b,n:balls.filter(x=>x.brand===b).length})).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
 const SPEEDS=['fast','medium']; const spN=Object.fromEntries(SPEEDS.map(k=>[k,balls.filter(b=>b.speed===k).length]));
 const pv=Object.fromEntries(balls.map(b=>[b.slug,ballPrice(b,lang)]));
-const chips=obj=>[['',T.any],...Object.entries(obj)];
 const pr=b=>{const q=pick(b,DEFAULT_REGION(lang)); return q.none?u.checkPrice:`${fmt(q.v,q.cur,lang)} · ${fmt(Math.round(q.v/b.balls*100)/100,q.cur,lang)} ${T.perBall}`;};
 const spec=b=>[T.speeds[b.speed],b.tour&&T.tours[b.tour],b.eco&&T.eco].filter(Boolean).join(' · ');
 const U=SITE+url('balls',lang);
@@ -17,7 +17,6 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <div class="hub cat balls" id="hub">
 <header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
 <div class="hub-bar">
-<div class="hub-seg" role="radiogroup" aria-label={T.speed}>{[['',T.allA,N],...SPEEDS.map(k=>[k,T.speeds[k],spN[k]])].map(o=><label><input type="radio" name="h-sp" value={o[0]} checked={o[0]===''}/><span>{o[1]} <small>{o[2]}</small></span></label>)}</div>
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
@@ -29,8 +28,9 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
   <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{['rec','price','hi','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
-  <label class="hub-fl">{T.brand}<select id="h-brand"><option value="">{T.allBrands}</option>{brands.map(b=><option value={b}>{b}</option>)}</select></label>
-  <fieldset class="hub-g"><legend>{T.tourF}</legend><div class="hub-chips">{chips(T.tours).map(o=><label><input type="radio" name="h-tour" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{T.speed}</legend><div class="hub-chips"><label><input type="checkbox" name="h-sp" value="" checked/><span>{T.allA} <small>{N}</small></span></label>{SPEEDS.map(k=><label><input type="checkbox" name="h-sp" value={k}/><span>{T.speeds[k]} <small>{spN[k]}</small></span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><label class="hub-bq"><span class="sr">{T.brandPh}</span><input id="h-bq" type="search" placeholder={T.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{T.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
+  <fieldset class="hub-g"><legend>{T.tourF}</legend><div class="hub-chips">{Object.entries(T.tours).map(([k,v])=><label><input type="checkbox" name="h-tour" value={k}/><span>{v}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.price}</legend><div class="hub-pr"><label><span class="sr">{T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={T.max}/></label></div></fieldset>
   <label class="hub-tg"><input type="checkbox" id="h-eco"/><span><b>{T.ecoF}</b><small>{T.ecoS}</small></span></label>
   <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{T.stock}</b><small>{T.stockS}</small></span></label>
@@ -47,25 +47,30 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <script type="application/json" id="h-data" set:html={JSON.stringify({pv,T:{results:T.results,apply:T.apply}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
 (()=>{const {pv,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
-const rv=n=>(document.querySelector(`input[name="h-${n}"]:checked`)||{}).value||''; const setR=(n,v)=>{const i=document.querySelector(`input[name="h-${n}"][value="${v}"]`); if(i) i.checked=true;};
+const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
+const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
+const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
+const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','brand','sp','tour','eco','stock','min','max','sort'];
-const get=()=>({q:$('h-q').value.trim(),brand:$('h-brand').value,sp:rv('sp'),tour:rv('tour'),eco:$('h-eco').checked?'1':'',stock:$('h-stock').checked?'1':'',min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
-const put=s=>{$('h-q').value=s.q||'';$('h-brand').value=s.brand||'';setR('sp',s.sp||'');setR('tour',s.tour||'');$('h-eco').checked=s.eco==='1';$('h-stock').checked=s.stock==='1';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec';};
-function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max); let n=0;
- const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!s.brand||d.b===s.brand)&&(!s.sp||d.sp===s.sp)&&(!s.tour||d.tour===s.tour)&&(!s.eco||d.eco==='1')&&(!s.stock||+d.n>0)&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
+const get=()=>({q:$('h-q').value.trim(),brand:rv('brand'),sp:rv('sp'),tour:rv('tour'),eco:$('h-eco').checked?'1':'',stock:$('h-stock').checked?'1':'',min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
+const put=s=>{$('h-q').value=s.q||'';setR('brand',s.brand||'');setR('sp',s.sp||'');setR('tour',s.tour||'');$('h-eco').checked=s.eco==='1';$('h-stock').checked=s.stock==='1';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
+function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max), bn=parts(s.brand), sp=parts(s.sp), tour=parts(s.tour); let n=0;
+ const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!bn.length||bn.includes(d.b))&&(!sp.length||sp.includes(d.sp))&&(!tour.length||tour.includes(d.tour))&&(!s.eco||d.eco==='1')&&(!s.stock||+d.n>0)&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
  const P=li=>pv[li.dataset.s]??1e9; const map={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===1e9)-(P(a)===1e9)||P(b)-P(a),shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}; const f=map[s.sort]||map[''];
  [...items].sort(f).forEach(li=>{const on=ok(li); li.hidden=!on; if(on) n++; grid.appendChild(li);});
  $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n); $('h-empty').hidden=n>0;
- const c=['q','brand','tour','eco','stock'].filter(k=>s[k]).length+((s.min||s.max)?1:0); $('h-fn').textContent=c?String(c):'';
+ const c=(s.q?1:0)+sp.length+bn.length+tour.length+(s.eco?1:0)+(s.stock?1:0)+((s.min||s.max)?1:0); $('h-fn').textContent=c?String(c):'';
  const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); history.replaceState(null,'',location.pathname+(qs.toString()?'?'+qs:''));}
 const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':'';};
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
 let tm; ['h-q','h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
-['h-brand','h-sort','h-eco','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
+['h-sort','h-eco','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
 $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
-document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',apply));
-const clear=()=>{put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
+$('h-bq').addEventListener('input',paintBrands); const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{document.querySelector('.hub-brands .hub-chips').dataset.open='1'; paintBrands();});
+const clear=()=>{$('h-bq').value=''; const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
 })();
 </script>
