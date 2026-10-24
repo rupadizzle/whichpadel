@@ -14,10 +14,8 @@
 .phero p a{color:#fff;text-decoration:underline}
 .pz.cv::after{content:" " attr(data-ap);font-size:.72em;font-weight:500;opacity:.7;white-space:nowrap}
 .rgn-sub{margin:var(--s4) 0 var(--s2);font-size:.95rem}
-.cur-seg{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s2)}
-.cur-seg button{width:auto;max-width:100%;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-weight:600;display:flex;align-items:center;justify-content:center;white-space:nowrap}
-.cur-seg button[aria-checked="true"],.rgn-list button[aria-pressed="true"]{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2)}
-.hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
+.rgn-list button[aria-pressed="true"]{border-color:var(--green2);box-shadow:inset 0 0 0 1px var(--green2)}
+input.hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0;pointer-events:none}
 /* v10: language inside the region picker */
 .lang-seg{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
 .lang-seg li{display:flex}

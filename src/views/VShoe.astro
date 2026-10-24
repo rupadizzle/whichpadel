@@ -58,7 +58,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 <div class="stickycta" id="stickycta" aria-hidden="true"><button type="button" class="sp" id="stickyopen" tabindex="-1" aria-haspopup="dialog" aria-label={u.px.cmp.openS}><b><Price r={s} lang={lang}/><svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>{BN}</span></button><button type="button" class="btn" id="stickybuy" tabindex="-1" aria-haspopup="dialog">{u.px.cmp.showP}</button></div>
 <script is:inline define:vars={{PS:s.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:s.name}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
-const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
+const okHost=location.hostname==='whichpadel.com'||location.hostname==='localhost'||location.hostname==='127.0.0.1'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
 if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
  const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
  const oj=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}))); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=oj);

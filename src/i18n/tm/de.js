@@ -3,5 +3,5 @@
 export default {
  'ui.region.shops':'Welche Shops zu dir liefern.',
  'ui.region.save':'Speichern',
- 'ui.region.all':'Sprache, Land und Währung',
+ 'ui.region.all':'Sprache und Land',
 };

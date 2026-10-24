@@ -64,12 +64,29 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
  .cmp{min-height:0}
  .chead,.buyrow{padding-inline:0}
  .chead{margin-bottom:12px;padding-block:0}
- .hc{padding:10px}
- .hact{margin-top:0}
+ .hc{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:12px 8px 8px}
+ .hc img,.hc .noimg{width:72px;height:48px;align-self:center;object-fit:contain}
+ .hn{width:100%;text-align:center}
+ .hc .hp{text-align:center;font-size:.8rem;line-height:1.2}
+ .hact{width:100%;margin-top:0;gap:4px}
+ .hact .mini{flex:1 1 0;min-width:0;padding-inline:2px}
  .buyrow{margin-top:12px;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
- .crow{padding-inline:0}
- .clab{padding-inline:var(--s4)}
+ .crow{padding:12px 0}
+ .clab{padding-inline:8px;margin-bottom:6px}
+ .cgroup:first-of-type .clab{display:none}
+ .cv{padding:0 8px;border-radius:0}
+ .cv.win{background:none;box-shadow:none;color:var(--green)}
+ .cv.win b{color:var(--green)}
 }
+.shoe-cmp .chead{width:100%;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.shoe-cmp .hc{align-items:center;gap:6px;padding:12px 12px 10px;min-width:0;max-width:100%;contain:inline-size}
+.shoe-cmp .hc img,.shoe-cmp .hc .noimg{width:auto;max-width:100%;min-width:0;height:128px;max-height:128px;aspect-ratio:auto;align-self:center;object-fit:contain}
+.shoe-cmp .noimg{display:grid;place-items:center;font-size:1.5rem}
+.shoe-cmp .hn{font-size:1.05rem;font-weight:750;line-height:1.25;min-height:2.5em;max-height:none;width:100%;min-width:0;text-align:center}
+.shoe-cmp .hp{font-size:.9rem}
+.shoe-cmp .hact{width:auto;margin-top:2px;gap:6px;align-self:center}
+.shoe-cmp .hact .mini{flex:0 0 auto;width:32px;height:32px;min-width:32px;min-height:32px;padding:0;border-radius:8px;display:inline-grid;place-items:center;color:var(--mut)}
+.shoe-cmp .hact .mini:hover{color:var(--ink)}
 .cgroup{border-radius:var(--r);box-shadow:none}
 /* sticky bars never cover content */
 @media(width <= 899px){body:has(.stickycta){padding-bottom:var(--bar)}body.has-sticky .ftr{padding-bottom:var(--sp-4)}}

@@ -20,7 +20,7 @@ const DATA={slim,popular,C,L:{price:C.price,specs:C.specs,fit:T.spec.gender,sole
 <script is:inline>if(location.search){const m=document.createElement('meta');m.name='robots';m.content='noindex,follow';document.head.appendChild(m);}</script>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{C.h1}</span></nav>
 <div class="cmp-intro"><h1>{C.h1}</h1><p class="muted">{C.lead}</p></div>
-<div id="cmp" class="cmp" data-popular={popular.join(',')}><p class="panel empty">{C.loading}</p></div>
+<div id="cmp" class="cmp shoe-cmp" data-popular={popular.join(',')}><p class="panel empty">{C.loading}</p></div>
 <p class="muted small trust">{C.trust}</p>
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-h"><div class="sheet-in"><div class="sheet-top"><h2 id="sheet-h" class="h3">{C.add}</h2><button class="x" type="button" data-close aria-label={u.close}>✕</button></div>
 <input id="sheet-q" type="search" placeholder={C.searchPh} aria-label={C.search} autocomplete="off"/>
@@ -36,12 +36,14 @@ if(sel.length<2){try{const mem=(sessionStorage.wp_shoe_cmp||'').split(',').filte
 let held=[]; try{held=(sessionStorage.wp_shoe_cmp_held||'').split(',').filter(s=>by[s]&&!sel.includes(s)).slice(0,1)}catch(e){}
 let cap=sel.length>=3?3:2;
 let slot=-1;
-const img=x=>x.i?`<img src="${esc(x.i)}" alt="" width="48" height="48" decoding="async">`:`<span class="noimg" style="width:48px;height:48px" aria-hidden="true">${esc((x.b||'?')[0])}</span>`;
+const img=x=>x.i?`<img src="${esc(x.i)}" alt="" width="160" height="128" decoding="async">`:`<span class="noimg" aria-hidden="true">${esc((x.b||'?')[0])}</span>`;
+const icoSwap='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 8h12m0 0-3-3m3 3-3 3M20 16H8m0 0 3-3m-3 3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const icoX='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const short=x=>x.n.replace(new RegExp('^'+x.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),'');
 const cell=(x,k,kind)=>{const v=x[k]; if(kind==='yn') return v?C.yes:C.no; return v==null||v===''?'—':esc(v);};
 function save(){const q=sel.length?'?s='+sel.join(','):''; history.replaceState(null,'',location.pathname+q); try{sessionStorage.wp_shoe_cmp=sel.join(','); sessionStorage.wp_shoe_cmp_held=held.join(',')}catch(e){}}
 function winner(vals){const n=vals.filter(v=>typeof v==='number'); if(n.length<2) return null; const m=Math.min(...n); return n.filter(v=>v===m).length===n.length?null:m;}
-function headCell(x,i){return `<div class="hc">${img(x)}<a class="hn" href="${shoe.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.pt||none)}</span><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${esc(C.swap)}: ${esc(x.n)}">${esc(C.swap)}</button><button type="button" class="mini" data-rm="${i}" aria-label="${esc(C.remove)}: ${esc(x.n)}">✕</button></div></div>`;}
+function headCell(x,i){return `<div class="hc">${img(x)}<a class="hn" href="${shoe.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.pt||none)}</span><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${esc(C.swap)}: ${esc(x.n)}">${icoSwap}</button><button type="button" class="mini" data-rm="${i}" aria-label="${esc(C.remove)}: ${esc(x.n)}">${icoX}</button></div></div>`;}
 function setCap(n){n=n===3?3:2; if(n===2){if(sel.length>2) held=[sel[2]]; sel=sel.slice(0,2); cap=2; draw(); return;}
  if(sel.length>=3){cap=3; held=[]; draw(); return;}
  const extra=held.find(s=>!sel.includes(s)); if(extra){sel=sel.concat(extra).slice(0,3); held=[]; cap=3; draw(); return;}

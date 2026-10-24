@@ -3,5 +3,5 @@
 export default {
  'ui.region.shops':'Que lojas entregam onde está.',
  'ui.region.save':'Guardar',
- 'ui.region.all':'Idioma, país e moeda',
+ 'ui.region.all':'Idioma e país',
 };
