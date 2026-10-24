@@ -87,6 +87,7 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 .shoe-cmp .hact{width:auto;margin-top:2px;gap:6px;align-self:center}
 .shoe-cmp .hact .mini{flex:0 0 auto;width:32px;height:32px;min-width:32px;min-height:32px;padding:0;border-radius:8px;display:inline-grid;place-items:center;color:var(--mut)}
 .shoe-cmp .hact .mini:hover{color:var(--ink)}
+@media(width>=900px){.shoe-cmp .chead{grid-template-columns:var(--lab,180px) repeat(var(--n),minmax(0,1fr))}}
 .cgroup{border-radius:var(--r);box-shadow:none}
 /* sticky bars never cover content */
 @media(width <= 899px){body:has(.stickycta){padding-bottom:var(--bar)}body.has-sticky .ftr{padding-bottom:var(--sp-4)}}
