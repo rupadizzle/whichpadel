@@ -16,7 +16,7 @@ async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.ur
  let res; try{res=await fetch(o.url,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en'},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
  if(res.status===429||res.status===403||res.status===405||res.status>=500){await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,res.status,'blocked-retry'),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now-RECHECK+RETRY,'http'+res.status,o.id)]); return {id:o.id,err:'retry'};}
  if(!res.ok) return fail(res.status,'http'+res.status);
- const p=parse(await res.text(),o.shop); if(p.error) return fail(res.status,p.error);
+ const p=parse(await res.text(),o.shop,/^(shoe:)?ball-/.test(o.racket_id||'')?2:15); if(p.error) return fail(res.status,p.error);
  const {results:hist}=await env.DB.prepare('SELECT price,currency FROM price_observations WHERE offer_id=? ORDER BY ts DESC LIMIT 5').bind(o.id).all();
  if(!sane(p.price,hist.filter(h=>h.currency===p.currency).map(h=>h.price))) return fail(res.status,'outlier:'+p.price);
  const st=[env.DB.prepare('INSERT INTO price_observations VALUES(?,?,?,?,?,?)').bind(o.id,now,p.price,p.currency,p.inStock==null?null:+p.inStock,p.method),
