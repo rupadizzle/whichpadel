@@ -1,0 +1,45 @@
+---
+// Ball detail page: specs + per-shop tube prices. Live offers from /api/shoe-prices key "ball-<slug>" (same engine, 8h recheck, 48h freshness); US visitors see US shops only.
+import Base from '../layouts/Base.astro'; import Price from '../components/Price.astro';
+import { SHOPS, FX } from '../lib/price.js';
+import { balls, ballImg, rankBalls, BALL_CHECKED } from '../lib/balls.js'; import { BALL } from '../i18n/balls.js'; import { D, url, SITE } from '../i18n/index.js';
+const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,v])=>[k,[v.name&&v.name!==k?v.name:k.replace(/\.(com|net|co\.uk|de|es)$/,''),typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?v.affiliate:'']]));
+const { b, lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const img=ballImg(b);
+const intro=T.intro1(b)+(b.tour?' '+T.tour[b.tour]+'.':'');
+const rows=[[T.spec.brand,b.brand],[T.spec.balls,b.balls],[T.spec.speed,T.speeds[b.speed]],[T.spec.tour,b.tour?T.tour[b.tour]:null],[T.spec.shops,b.shops]].filter(([,v])=>v!=null);
+const best0=[...b.offs].sort((x,y)=>y.s-x.s||x.p-y.p)[0]; const BN=(SN[best0.d]||[best0.d])[0];
+const oj=JSON.stringify(b.offs.filter(o=>o.s||!b.offs.some(x=>x.s)).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u})));
+const similar=rankBalls(balls.filter(x=>x.slug!==b.slug&&x.speed===b.speed),lang).slice(0,6);
+const U=SITE+url('ball',lang,b.slug);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name':b.name+' (3)','url':U,'brand':{'@type':'Brand','name':b.brand},...(img?{'image':SITE+img}:{}),'description':intro,'offers':{'@type':'AggregateOffer','lowPrice':String(Math.min(...b.offs.map(o=>o.p))),'highPrice':String(Math.max(...b.offs.map(o=>o.p))),'priceCurrency':best0.c,'offerCount':b.offs.length}},
+ {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':T.crumb,'item':SITE+url('balls',lang)},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
+---
+<Base lang={d.locale} title={`${b.name} | ${T.crumb} | WhichPadel`} description={intro} jsonld={jsonld} ogImage={img?SITE+img:undefined}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('balls',lang)}>{T.crumb}</a> › <span>{b.name}</span></nav>
+<div class="detail rp2">
+<header class="rph"><p class="brand">{b.brand}</p><h1>{b.name}</h1>
+<ul class="kchips">{[T.speeds[b.speed],b.tour&&T.tour[b.tour],b.eco&&T.eco,T.tube].filter(Boolean).map(c=><li>{c}</li>)}</ul></header>
+{img&&<section class="rpg"><img src={img} alt={T.alt(b.name)} width="400" height="400" fetchpriority="high"/></section>}
+<aside class="panel buybox" id="buybox"><p class="price-big"><Price r={b} lang={lang}/> <small class="muted">({T.tube})</small></p><p class="muted small" id="pxstatic">{u.checkedOn(BALL_CHECKED)}</p>
+<ul class="pxl" id="bxl" hidden></ul><p class="pxnous" id="bxnous" hidden>{T.noUS}</p>
+<a class="btn aff btn-lg" id="buymain" href={best0.u} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{T.buy.replace('{s}',BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></aside>
+<div class="rpbody">
+<section class="panel"><p class="intro">{intro}</p></section>
+<section class="panel"><h2>{T.specs}</h2><table class="spec"><tbody>{rows.map(([k,v])=><tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table></section>
+{similar.length>0&&<section class="panel vs"><h2>{T.similar}</h2>{similar.map(x=><a href={url('ball',lang,x.slug)}><span>{x.name}</span><span>→</span></a>)}</section>}
+</div></div>
+<script is:inline define:vars={{PS:'ball-'+b.slug,SN,RATES:FX.rates,LG:lang,PB:T.perBall,BUY:T.buy,N:b.balls}}>
+const okHost=location.hostname==='whichpadel.com'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
+if(okHost) fetch('/api/shoe-prices').then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+ const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
+ const esc=s=>String(s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
+ function render(){const W=window.WP||{currency:'GBP'}, cur=W.currency; const cv=(n,c)=>c===cur?n:n/RATES[c]*RATES[cur];
+  const f=n=>{const v=n.toFixed(2), sy={GBP:'£',EUR:'€',USD:'$'}[cur]||''; return LG!=='en'?v.replace('.',',')+' '+sy:sy+v;};
+  const rows=os.filter(o=>!W.shop||W.shop(o.d,o.c)!=='n').map(o=>({...o,v:cv(o.p,o.c)})).sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
+  const L=document.getElementById('bxl'), M=document.getElementById('buymain'), NU=document.getElementById('bxnous');
+  if(!rows.length){ if(W.strict&&W.strict()){NU.hidden=false; M.hidden=true; L.hidden=true;} return; }
+  NU.hidden=true; M.hidden=true; document.getElementById('pxstatic').hidden=true;
+  L.innerHTML=rows.map(o=>{const a=(SN[o.d]||[])[1]; const h=a?a.replace('{url}',encodeURIComponent(o.u)):o.u; return `<li class="pxr${o.s===0?' oos':''}"><span class="pxs"><b>${esc((SN[o.d]||[o.n||o.d])[0])}</b> <small>${f(o.v)} · ${f(o.v/N)} ${PB}</small></span> <a class="btn aff btn-sm" href="${esc(h)}" rel="sponsored nofollow" target="_blank">${esc(BUY.replace('{s}',''))}→</a></li>`;}).join(''); L.hidden=false;}
+ render(); document.addEventListener('wp:region',render);}).catch(()=>{});
+</script>
+</Base>
