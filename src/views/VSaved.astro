@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui;
+const TX={empty:u.savedEmpty,remove:u.remove,details:u.details,save:u.save,saved:u.saved,compare:u.savedCompare,keepOk:u.keepOk,keepErr:u.keepErr,keepMail:u.keepMail,deleteAsk:u.deleteAsk};
+---
+<Base lang={d.locale} title={u.savedH+d.copy.titleSuffix} description={u.savedDesc} noindex preload="/cards.json">
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.savedNav}</span></nav>
+<h1>{u.savedH}</h1>
+<p class="muted" id="saved-device" hidden>{u.savedDevice}</p>
+<p id="saved-empty" class="empty" hidden>{u.savedEmpty}</p>
+<p id="saved-go" hidden><a class="btn" href={url('rackets',lang)}>{u.rackets}</a></p>
+<div class="saved-grid" id="saved-list"></div>
+<p id="saved-cmp-wrap" hidden><a class="btn" id="saved-cmp" href={url('compare',lang)}>{u.savedCompare}</a></p>
+<section class="panel" id="saved-keep">
+ <h2 class="h3">{u.keepH}</h2>
+ <p class="muted">{u.keepP} <a href={url('privacy',lang)}>{u.privacy}</a></p>
+ <form id="keep-form" class="inline-form" novalidate>
+  <input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/>
+  <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
+  <button class="btn btn-accent" type="submit">{u.keepBtn}</button>
+  <p hidden class="ok" id="keep-msg" role="status"></p>
+ </form>
+</section>
+<section class="panel" id="saved-acct" hidden>
+ <p><b>{u.savedAs}</b> <span id="saved-email"></span></p>
+ <p class="hero-ctas"><button type="button" class="btn btn-line" id="saved-out">{u.signOut}</button><button type="button" class="btn btn-line" id="saved-del">{u.deleteAccount}</button></p>
+</section>
+<script is:inline define:vars={{TX, CMP:url('compare',lang), RK:url('racket',lang,'X').replace(/X\/$/,'')}}>
+document.addEventListener('DOMContentLoaded',async()=>{
+ const S=window.wpSaved; if(!S) return;
+ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const $=id=>document.getElementById(id);
+ let cat=[];
+ const prune=list=>{const known=new Set(cat.map(r=>r.s)); return list.filter(x=>x.t!=='r'||known.has(x.s));};
+ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+ function showIn(email){ try{localStorage.wp_acct='1'}catch(e){} $('saved-keep').hidden=true; $('saved-acct').hidden=false; $('saved-email').textContent=email||''; $('saved-device').hidden=true; }
+ function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=false; $('saved-acct').hidden=true; $('saved-device').hidden=false; }
+ function render(){
+  const by=Object.fromEntries(cat.map(r=>[r.s,r]));
+  const rows=S.read().filter(x=>x.t==='r').map(x=>by[x.s]).filter(Boolean);
+  $('saved-empty').hidden=rows.length>0; $('saved-go').hidden=rows.length>0;
+  $('saved-list').innerHTML=rows.map(r=>`<article class="rcard"><a class="rimg" href="${RK}${esc(r.s)}/" tabindex="-1" aria-hidden="true">${r.i?`<img src="${esc(r.i)}" alt="" width="200" height="240" loading="lazy">`:''}</a><div class="rbody"><p class="brand">${esc(r.b)}${r.y?' · '+esc(r.y):''}</p><h3><a href="${RK}${esc(r.s)}/">${esc(r.m)}</a></h3><div class="rcard-acts"><button type="button" class="savebtn" data-save="${esc(r.s)}" data-off="${esc(TX.save)}" data-on="${esc(TX.saved)}" aria-pressed="true">${esc(TX.saved)}</button><button type="button" class="btn btn-sm btn-line" data-remove="${esc(r.s)}">${esc(TX.remove)}</button></div><div class="rfoot">${r.p?`<span class="price">${esc(r.p)}</span>`:''}<a class="btn btn-sm" href="${RK}${esc(r.s)}/">${esc(TX.details)}</a></div></div></article>`).join('');
+  const cmp=$('saved-cmp'); if(rows.length>=2){ cmp.href=CMP+'?r='+rows.slice(0,3).map(r=>r.s).join(','); $('saved-cmp-wrap').hidden=false; } else $('saved-cmp-wrap').hidden=true;
+  S.paint();
+ }
+ document.addEventListener('wp:saved',render);
+ try{ cat=await (await fetch('/cards.json')).json(); }catch(e){ cat=[]; }
+ const q=new URLSearchParams(location.search); let signed=false, items=null;
+ try{
+  if(q.get('sync')==='1'){
+   const r=await fetch('/api/saved',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({merge:true,items:S.read()})});
+   if(r.ok){ const d=await r.json(); items=d.items||[]; showIn(d.email); signed=true; }
+  } else {
+   const r=await fetch('/api/saved',{credentials:'same-origin'});
+   if(r.ok){ const d=await r.json(); items=d.items||[]; showIn(d.email); signed=true; }
+  }
+ }catch(e){}
+ if(!signed) showOut();
+ const base=prune(items||S.read());
+ if(signed&&!same(base,items||[])){ try{ await fetch('/api/saved',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({merge:false,items:base})}); }catch(e){} }
+ if(!same(base,S.read())) S.write(base);
+ if(q.get('auth')==='bad'){ const msg=$('keep-msg'); msg.hidden=false; msg.textContent=TX.keepErr; }
+ if(q.has('sync')||q.has('auth')){ q.delete('sync'); q.delete('auth'); history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')); }
+ render();
+ $('keep-form').onsubmit=async e=>{
+  e.preventDefault(); const f=e.target, i=f.querySelector('input[type=email]'), b=f.querySelector('button'), msg=$('keep-msg');
+  if(!i.checkValidity()){ i.reportValidity(); return; }
+  b.disabled=true; let status=0;
+  try{ const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||''})}); status=r.status; }catch(err){ status=0; }
+  b.disabled=false; msg.hidden=false; msg.textContent=status===503?TX.keepMail:(status>=200&&status<300)?TX.keepOk:TX.keepErr;
+ };
+ $('saved-out').onclick=async()=>{ try{ await fetch('/api/auth/out',{method:'POST',credentials:'same-origin'}); }catch(e){} showOut(); };
+ $('saved-del').onclick=async()=>{ if(!confirm(TX.deleteAsk)) return; try{ const r=await fetch('/api/account',{method:'DELETE',credentials:'same-origin'}); if(!r.ok) return; }catch(e){ return; } showOut(); };
+});
+</script>
+</Base>
