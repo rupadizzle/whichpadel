@@ -16,7 +16,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 ---
 <Base lang={d.locale} title={`${b.name} | ${T.crumb} | WhichPadel`} description={intro} jsonld={jsonld} ogImage={img?SITE+img:undefined}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('balls',lang)}>{T.crumb}</a> › <span>{b.name}</span></nav>
-<div class="detail rp2">
+<div class="detail rp2 shoe ball">
 <header class="rph"><p class="brand">{b.brand}</p><h1>{b.name}</h1>
 <ul class="kchips">{[T.speeds[b.speed],b.tour&&T.tour[b.tour],b.eco&&T.eco,T.tube].filter(Boolean).map(c=><li>{c}</li>)}</ul></header>
 {img&&<section class="rpg"><img src={img} alt={T.alt(b.name)} width="400" height="400" fetchpriority="high"/></section>}
