@@ -24,14 +24,14 @@ const FALLBACK={
  'noxsport.com':h=>{const p=num(h.match(/"price":\s*"?([\d.,]+)/)?.[1]); return p?{price:p,currency:'EUR',inStock:null,method:'fallback'}:null;},
 };
 const DEFAULT_CUR={'padelnuestro.com':'EUR','allforpadel.com':'EUR','noxsport.com':'EUR'};
-export function parse(html,domain){
+export function parse(html,domain,min=15){
  const r=fromLd(html)||fromMeta(html)||fromMicro(html)||FALLBACK[domain]?.(html); if(!r) return {error:'no-price'};
  // fill stock/currency from other layers if missing
  if(r.inStock==null) r.inStock=(fromMicro(html)?.inStock)??(fromMeta(html)?.inStock)??null;
  if(!r.currency) r.currency=fromMicro(html)?.currency||DEFAULT_CUR[domain]||null;
  r.currency=r.currency?String(r.currency).toUpperCase():null;
  if(!r.currency||!CUR.test(r.currency)) return {error:'currency:'+r.currency};
- if(!(r.price>=15&&r.price<=1500)) return {error:'implausible:'+r.price};
+ if(!(r.price>=min&&r.price<=1500)) return {error:'implausible:'+r.price};
  return r;}
 // outlier check vs recent history (median of last observations): reject >60% drop or >150% rise in one step
 export function sane(price,recent){if(!recent?.length) return true; const s=[...recent].sort((a,b)=>a-b), m=s[s.length>>1]; return price>=m*0.4&&price<=m*2.5;}

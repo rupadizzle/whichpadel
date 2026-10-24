@@ -14,13 +14,13 @@ function check(){
   const kids=[...par.children].filter(k=>vis(k)&&inflow(k)&&!/^(SCRIPT|STYLE|BR|svg)$/i.test(k.tagName)&&getComputedStyle(k).display.match(/block|flex|grid|table|list-item/)&&!getComputedStyle(k).display.startsWith('inline')).slice(0,80);
   for(let i=0;i<kids.length;i++)for(let j=i+1;j<kids.length;j++){const a=R(kids[i]),b=R(kids[j]);const ox=Math.min(a.right,b.right)-Math.max(a.left,b.left),oy=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top); if(ox>1&&oy>1) out.push('overlap: '+name(kids[i])+' x '+name(kids[j])+` (${Math.round(ox)}x${Math.round(oy)})`);}
  }
- // b) min 16px gap between adjacent blocks
+ // b) min 12px gap (was 16; Rupert's tighter --gap/section rhythm, commit e03cd78) between adjacent blocks
  const groups=['main','.detail>div','.grid','.l-grid','.bgrid','.rlist','.qcards','.ftr .cols'];
  for(const g of groups) for(const par of document.querySelectorAll(g)){ const kids=[...par.children].filter(k=>vis(k)&&inflow(k)&&k.tagName!=='SCRIPT');
   for(let i=0;i<kids.length;i++)for(let j=i+1;j<kids.length;j++){const a=R(kids[i]),b=R(kids[j]);
    const hOv=Math.min(a.right,b.right)-Math.max(a.left,b.left)>1, vOv=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1;
    const gap=hOv?Math.max(b.top-a.bottom,a.top-b.bottom):vOv?Math.max(b.left-a.right,a.left-b.right):99;
-   if(gap<15.5&&gap>-1&&(hOv||vOv)){ // only true neighbours
+   if(gap<11.5&&gap>-1&&(hOv||vOv)){ // only true neighbours
      out.push(`gap ${Math.round(gap)}px: ${name(kids[i])} / ${name(kids[j])} in ${g}`);} } }
  // c) overflow of parent / page
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);

@@ -8,7 +8,9 @@ for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/
  const alts={}; for(const m of h.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) alts[m[1]]=m[2];
  // /us/ pages: English (US) only, no translated twin -> exactly one self-referencing en-US hreflang
  if(rel.startsWith('/us/')){ if(Object.keys(alts).join()!=='en-US'||alts['en-US']!==S+rel) errs.push(`${rel}: want only self en-US hreflang`); continue; }
- for(const l of [...LANGS,'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
+ // ball pages ship in en/es/pt only
+ const BL=/^\/(balls|es\/pelotas|pt\/bolas)\//.test(rel)?['en','es','pt'].filter(l=>LANGS.includes(l)):LANGS;
+ for(const l of [...BL,'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
  if(alts['x-default']&&alts['x-default']!==alts.en) errs.push(`${rel}: x-default != en`);
  if(!Object.values(alts).includes(S+rel)) errs.push(`${rel}: hreflang set lacks self`);
  const lang=(h.match(/<html lang="([^"]+)"/)||[])[1]; map[rel]={alts,lang}; }

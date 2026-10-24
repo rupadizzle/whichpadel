@@ -1,0 +1,34 @@
+---
+// /balls/ hub (en, es, pt): every ball rendered statically, client-side brand/speed filter and sort.
+import Base from '../layouts/Base.astro'; import '../styles/hub.css';
+import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js'; import { BALL } from '../i18n/balls.js'; import { D, url, SITE } from '../i18n/index.js'; import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const N=balls.length;
+const list=rankBalls(balls,lang); const brands=[...new Set(balls.map(b=>b.brand))].sort();
+const pv=Object.fromEntries(balls.map(b=>[b.slug,ballPrice(b,lang)]));
+const U=SITE+url('balls',lang);
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':T.h1(N),'url':U,'description':T.desc(N)},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':T.crumb,'item':U}]}]};
+const pr=b=>{const q=pick(b,DEFAULT_REGION(lang)); return q.none?u.checkPrice:`${fmt(q.v,q.cur,lang)} · ${fmt(Math.round(q.v/b.balls*100)/100,q.cur,lang)} ${T.perBall}`;};
+---
+<Base lang={d.locale} title={T.title(N)} description={T.desc(N)} jsonld={jsonld}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<div class="hub cat" id="hub">
+<header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
+<div class="hub-bar"><div class="hub-tb">
+ <label class="hub-fl">{T.brand} <select id="b-brand"><option value="">{T.allBrands}</option>{brands.map(b=><option value={b}>{b}</option>)}</select></label>
+ <label class="hub-fl">{T.speed} <select id="b-sp"><option value="">{T.any}</option>{Object.entries(T.speeds).map(([k,v])=><option value={k}>{v}</option>)}</select></label>
+ <label class="hub-sort">{T.sort} <select id="b-sort">{T.sorts.map((x,i)=><option value={['rec','price'][i]}>{x}</option>)}</select></label>
+</div></div>
+<section class="hub-main">
+ <p class="hub-cnt"><b id="b-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p>
+ <ul class="hub-grid" id="b-grid">{list.map((b,i)=><li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed}><a class="rk-a" href={url('ball',lang,b.slug)}><span class="rk-i">{ballImg(b)&&<img src={ballImg(b)} alt={T.alt(b.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b">{b.brand}</span><span class="rk-m">{b.model}</span><span class="rk-c">{[T.speeds[b.speed],b.tour&&T.tour[b.tour],b.eco&&T.eco,T.tube].filter(Boolean).join(' · ')}</span><span class="rk-p"><span class="pz rk-pv">{pr(b)}</span></span></span></a></li>)}</ul>
+ <p class="hub-empty" id="b-empty" hidden>{T.empty}</p>
+</section>
+</div>
+<script is:inline define:vars={{pv,R:T.results}}>
+(()=>{const $=id=>document.getElementById(id),g=$('b-grid'),items=[...g.children];items.forEach((li,i)=>li.dataset.o=i);
+function ap(){const b=$('b-brand').value,s=$('b-sp').value,o=$('b-sort').value;let n=0;const P=li=>pv[li.dataset.s]??1e9;
+[...items].sort(o==='price'?(a,c)=>P(a)-P(c):(a,c)=>a.dataset.o-c.dataset.o).forEach(li=>{const on=(!b||li.dataset.b===b)&&(!s||li.dataset.sp===s);li.hidden=!on;if(on)n++;g.appendChild(li);});
+$('b-count').textContent=R.replace('§',n);$('b-empty').hidden=n>0;}
+['b-brand','b-sp','b-sort'].forEach(i=>$(i).addEventListener('change',ap));})();
+</script>
+</Base>
