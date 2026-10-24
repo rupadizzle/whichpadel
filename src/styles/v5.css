@@ -46,9 +46,15 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 .hero-art svg:nth-child(2){transform:none}
 .sec-head{margin-bottom:var(--sp-2)}.toolbar{margin:var(--sp-2) 0}
 .more{margin-top:var(--sp-3)}
-/* compare: no negative bleed */
-.chead{margin:0;padding-inline:0}
+/* compare: header, spec values and buy buttons share one content box.
+   Spec rows sit inside a 1px card border plus row padding. */
+.chead,.buyrow{margin:0;padding-inline:var(--cmp-inset,17px)}
 .buyrow{margin:var(--sp-3) 0 0}
+@media(width >= 900px){
+ .chead,.buyrow,.crow{grid-template-columns:var(--lab,180px) repeat(var(--n),minmax(0,1fr));column-gap:var(--s2)}
+ .chead::before,.buyrow::before{content:""}
+ .cvals{display:contents}
+}
 .cgroup{border-radius:var(--r);box-shadow:none}
 /* sticky bars never cover content */
 @media(width <= 899px){body:has(.stickycta){padding-bottom:var(--bar)}body.has-sticky .ftr{padding-bottom:var(--sp-4)}}

@@ -8,7 +8,7 @@ body{overflow-x:hidden}
 .trustbar li::before{content:"✓ ";color:var(--green2);font-weight:800}
 /* compare */
 .cmp-intro h1{font-size:var(--title);margin-bottom:var(--s1)}.cmp-intro p{margin-bottom:var(--s4)}
-.cmp{--n:2}
+.cmp{--n:2;--lab:180px;--cmp-inset:calc(1px + var(--s4))}
 .chead{position:sticky;top:62px;z-index:15;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s2);background:rgb(245,247,248,.97);backdrop-filter:blur(6px);padding:var(--s2) 0;padding-inline:var(--s4);border-bottom:1px solid var(--line)}
 .hc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s2);display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"i n" "i p" "a a";column-gap:var(--s2);align-items:center;min-width:0}
 .hc img,.hc .noimg{grid-area:i;object-fit:contain}
@@ -44,7 +44,7 @@ body{overflow-x:hidden}
 .buyrow .disc{grid-column:1/-1;margin:0;font-size:.7rem;text-align:center}
 .buyrow .disc a{display:inline}
 
-@media(min-width:900px){.chead{top:62px;margin:0;padding-inline:0}.buyrow{margin:var(--s4) 0 0;border-radius:var(--r) var(--r) 0 0}.crow{display:grid;grid-template-columns:180px 1fr;align-items:center;gap:var(--s4)}.clab{margin:0}.verdict ul{grid-template-columns:repeat(4,1fr)}.hc{grid-template-columns:auto 1fr auto;grid-template-areas:"i n a" "i p a"}.hact{flex-direction:column;margin:0}.hc img{width:64px;height:78px}}
+@media(min-width:900px){.chead{top:62px;margin:0;padding-inline:0}.buyrow{margin:var(--s4) 0 0;border-radius:var(--r) var(--r) 0 0}.crow{display:grid;grid-template-columns:var(--lab) 1fr;align-items:center;gap:var(--s4)}.clab{margin:0}.verdict ul{grid-template-columns:repeat(4,1fr)}.hc{grid-template-columns:auto 1fr auto;grid-template-areas:"i n a" "i p a"}.hact{flex-direction:column;margin:0}.hc img{width:64px;height:78px}}
 /* bottom sheet */
 .sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:640px;max-height:85vh;border-radius:18px 18px 0 0;background:#fff;color:var(--ink)}
 .sheet::backdrop{background:rgb(7,28,40,.55)}

@@ -36,21 +36,21 @@ if(sel.length<2){try{const mem=(sessionStorage.wp_shoe_cmp||'').split(',').filte
 let slot=-1;
 const img=x=>x.i?`<img src="${esc(x.i)}" alt="" width="48" height="48" decoding="async">`:`<span class="noimg" style="width:48px;height:48px" aria-hidden="true">${esc((x.b||'?')[0])}</span>`;
 const short=x=>x.n.replace(new RegExp('^'+x.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),'');
-const cell=(x,k,kind)=>{const v=x[k]; if(kind==='yn') return L[k]&& (v?C.yes:C.no); return v==null||v===''?'—':esc(v);};
+const cell=(x,k,kind)=>{const v=x[k]; if(kind==='yn') return v?C.yes:C.no; return v==null||v===''?'—':esc(v);};
 function save(){const q=sel.length?'?s='+sel.join(','):''; history.replaceState(null,'',location.pathname+q); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){}}
 function winner(vals){const n=vals.filter(v=>typeof v==='number'); if(n.length<2) return null; const m=Math.min(...n); return n.filter(v=>v===m).length===n.length?null:m;}
 function headCell(x,i){return `<div class="hc">${img(x)}<a class="hn" href="${shoe.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.pt||none)}</span><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${esc(C.swap)}: ${esc(x.n)}">${esc(C.swap)}</button><button type="button" class="mini" data-rm="${i}" aria-label="${esc(C.remove)}: ${esc(x.n)}">✕</button></div></div>`;}
-function draw(){save(); const xs=sel.map(s=>by[s]); root.style.setProperty('--n',Math.max(xs.length,2));
+function draw(){save(); const xs=sel.map(s=>by[s]); const slots=xs.length<2?2:xs.length+(xs.length<3?1:0); root.style.setProperty('--n',slots);
  if(xs.length<2){const pop=popular.filter(s=>!sel.includes(s)).slice(0,4);
   root.innerHTML=`<div class="slots">${[0,1].map(i=>xs[i]?headCell(xs[i],i):`<button class="slot-add" type="button" data-add="${i}"><span>+</span>${esc(C.addN.replace('§',i+1))}</button>`).join('')}</div>
   <section class="panel"><h2 class="h3">${esc(C.popular)}</h2><div class="pop">${pop.map(s=>`<button type="button" class="popb" data-quick="${s}">${img(by[s])}<span>${esc(by[s].n)}</span></button>`).join('')}</div></section>`; return;}
- let h=`<div class="chead" style="--n:${xs.length+(xs.length<3?1:0)}">${xs.map(headCell).join('')}${xs.length<3?`<button class="slot-add sm" type="button" data-add="${xs.length}"><span>+</span>${esc(C.addShort)}</button>`:''}</div>`;
+ let h=`<div class="chead" style="--n:${slots}">${xs.map(headCell).join('')}${xs.length<3?`<button class="slot-add sm" type="button" data-add="${xs.length}"><span>+</span>${esc(C.addShort)}</button>`:''}</div>`;
  const pr=xs.map(x=>x.p); const pw=winner(pr);
- h+=`<details class="cgroup" open><summary>${esc(C.price)}</summary><div class="crow"><div class="clab">${esc(L.price)}</div><div class="cvals" style="--n:${xs.length}">${xs.map(x=>`<div class="cv${pw!==null&&x.p===pw?' win':''}"><b>${esc(x.pt||none)}</b></div>`).join('')}</div></div></details>`;
+ h+=`<details class="cgroup" open><summary>${esc(C.price)}</summary><div class="crow"><div class="clab">${esc(L.price)}</div><div class="cvals" style="--n:${slots}">${xs.map(x=>`<div class="cv${pw!==null&&x.p===pw?' win':''}"><b>${esc(x.pt||none)}</b></div>`).join('')}</div></div></details>`;
  const body=ROWS.map(([k,lab,kind])=>{const vals=xs.map(x=>x[k]); if(kind!=='yn'&&vals.every(v=>v==null||v==='')) return '';
-  return `<div class="crow"><div class="clab">${esc(L[lab])}</div><div class="cvals" style="--n:${xs.length}">${xs.map(x=>`<div class="cv">${cell(x,k,kind)}</div>`).join('')}</div></div>`;}).join('');
+  return `<div class="crow"><div class="clab">${esc(L[lab])}</div><div class="cvals" style="--n:${slots}">${xs.map(x=>`<div class="cv">${cell(x,k,kind)}</div>`).join('')}</div></div>`;}).join('');
  if(body) h+=`<details class="cgroup" open><summary>${esc(C.specs)}</summary>${body}</details>`;
- h+=`<div class="buyrow" style="--n:${xs.length}">${xs.map(x=>`<a class="btn" href="${shoe.replace('§',x.s)}"><span class="bn">${esc(short(x))}</span><span>${esc(x.pt||C.see)}</span></a>`).join('')}<p class="disc">${esc(note)} <a href="${aff}">${esc(disc)}</a></p></div>`;
+ h+=`<div class="buyrow" style="--n:${slots}">${xs.map(x=>`<a class="btn" href="${shoe.replace('§',x.s)}"><span class="bn">${esc(short(x))}</span><span>${esc(x.pt||C.see)}</span></a>`).join('')}<p class="disc">${esc(note)} <a href="${aff}">${esc(disc)}</a></p></div>`;
  root.innerHTML=h;}
 function list(){const q=$('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||(x.n+' '+x.b).toLowerCase().includes(q))).slice(0,40);
  $('sheet-list').innerHTML=r.length?r.map(x=>`<li><button type="button" data-pick="${x.s}">${img(x)}<span><b>${esc(x.n)}</b><small>${esc(x.g||'')} · ${esc(x.pt||none)}</small></span></button></li>`).join(''):'<li class="muted">'+esc(C.noMatch)+'</li>';}
