@@ -3,6 +3,7 @@
 import Base from '../layouts/Base.astro'; import Price from '../components/Price.astro';
 import { SHOPS, FX } from '../lib/price.js';
 import { balls, ballImg, rankBalls, BALL_CHECKED } from '../lib/balls.js'; import { BALL } from '../i18n/balls.js'; import { D, url, SITE } from '../i18n/index.js';
+import SaveHeart from '../components/SaveHeart.astro';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,v])=>[k,[v.name&&v.name!==k?v.name:k.replace(/\.(com|net|co\.uk|de|es)$/,''),typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?v.affiliate:'']]));
 const { b, lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const img=ballImg(b);
 const intro=T.intro1(b)+(b.tour?' '+T.tour[b.tour]+'.':'');
@@ -17,7 +18,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 <Base lang={d.locale} title={`${b.name} | ${T.crumb} | WhichPadel`} description={intro} jsonld={jsonld} ogImage={img?SITE+img:undefined}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('balls',lang)}>{T.crumb}</a> › <span>{b.name}</span></nav>
 <div class="detail rp2 shoe ball">
-<header class="rph"><p class="brand">{b.brand}</p><h1>{b.name}</h1>
+<header class="rph"><p class="brand"><span>{b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></p><h1>{b.name}</h1>
 <ul class="kchips">{[T.speeds[b.speed],b.tour&&T.tour[b.tour],b.eco&&T.eco,T.tube].filter(Boolean).map(c=><li>{c}</li>)}</ul></header>
 {img&&<section class="rpg"><img src={img} alt={T.alt(b.name)} width="400" height="400" fetchpriority="high"/></section>}
 <aside class="panel buybox" id="buybox"><p class="price-big"><Price r={b} lang={lang}/> <small class="muted">({T.tube})</small></p><p class="muted small" id="pxstatic">{u.checkedOn(BALL_CHECKED)}</p>

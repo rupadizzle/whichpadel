@@ -1,7 +1,12 @@
 ---
 import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.js';
+import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js';
+import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui;
 const TX={empty:u.savedEmpty,remove:u.remove,details:u.details,save:u.save,saved:u.saved,compare:u.savedCompare,keepOk:u.keepOk,keepErr:u.keepErr,keepMail:u.keepMail,deleteAsk:u.deleteAsk};
+const money=x=>{const q=pick(x,DEFAULT_REGION(lang)); return q.none?'':fmt(q.v,q.cur,lang);};
+const MORE=[...shoes.map(s=>({t:'s',s:s.slug,b:s.brand,m:s.name,y:s.year||'',i:shoeImg(s)||'',p:money(s)})),...balls.map(b=>({t:'b',s:b.slug,b:b.brand,m:b.name,y:'',i:ballImg(b)||'',p:money(b)}))];
+const ballBase=(lang==='en'||lang==='es'||lang==='pt'?url('ball',lang,'X'):url('ball','en','X')).replace(/X\/$/,'');
 ---
 <Base lang={d.locale} title={u.savedH+d.copy.titleSuffix} description={u.savedDesc} noindex preload="/cards.json">
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.savedNav}</span></nav>
@@ -25,26 +30,29 @@ const TX={empty:u.savedEmpty,remove:u.remove,details:u.details,save:u.save,saved
  <p><b>{u.savedAs}</b> <span id="saved-email"></span></p>
  <p class="hero-ctas"><button type="button" class="btn btn-line" id="saved-out">{u.signOut}</button><button type="button" class="btn btn-line" id="saved-del">{u.deleteAccount}</button></p>
 </section>
-<script is:inline define:vars={{TX, CMP:url('compare',lang), RK:url('racket',lang,'X').replace(/X\/$/,'')}}>
+<script is:inline define:vars={{TX, MORE, CMP:url('compare',lang), RK:url('racket',lang,'X').replace(/X\/$/,''), SK:url('shoe',lang,'X').replace(/X\/$/,''), BK:ballBase}}>
 document.addEventListener('DOMContentLoaded',async()=>{
  const S=window.wpSaved; if(!S) return;
  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const $=id=>document.getElementById(id);
  let cat=[];
- const prune=list=>{const known=new Set(cat.map(r=>r.s)); return list.filter(x=>x.t!=='r'||known.has(x.s));};
+ const key=x=>x.t+'\0'+x.s;
+ const prune=list=>{const known=new Set(cat.map(key)); return list.filter(x=>known.has(key(x)));};
  const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
  function showIn(email){ try{localStorage.wp_acct='1'}catch(e){} $('saved-keep').hidden=true; $('saved-acct').hidden=false; $('saved-email').textContent=email||''; $('saved-device').hidden=true; }
  function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=false; $('saved-acct').hidden=true; $('saved-device').hidden=false; }
  function render(){
-  const by=Object.fromEntries(cat.map(r=>[r.s,r]));
-  const rows=S.read().filter(x=>x.t==='r').map(x=>by[x.s]).filter(Boolean);
+  const by=Object.fromEntries(cat.map(r=>[key(r),r]));
+  const rows=S.read().map(x=>by[key(x)]).filter(Boolean);
   $('saved-empty').hidden=rows.length>0; $('saved-go').hidden=rows.length>0;
-  $('saved-list').innerHTML=rows.map(r=>`<article class="rcard"><a class="rimg" href="${RK}${esc(r.s)}/" tabindex="-1" aria-hidden="true">${r.i?`<img src="${esc(r.i)}" alt="" width="200" height="240" loading="lazy">`:''}</a><div class="rbody"><p class="brand"><span>${esc(r.b)}${r.y?' · '+esc(r.y):''}</span><button type="button" class="save-heart" data-save="${esc(r.s)}" data-off="${esc(TX.save)}" data-on="${esc(TX.saved)}" aria-pressed="true" aria-label="${esc(TX.saved)}"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></p><h3><a href="${RK}${esc(r.s)}/">${esc(r.m)}</a></h3><button type="button" class="btn btn-sm btn-line" data-remove="${esc(r.s)}">${esc(TX.remove)}</button><div class="rfoot">${r.p?`<span class="price">${esc(r.p)}</span>`:''}<a class="btn btn-sm" href="${RK}${esc(r.s)}/">${esc(TX.details)}</a></div></div></article>`).join('');
-  const cmp=$('saved-cmp'); if(rows.length>=2){ cmp.href=CMP+'?r='+rows.slice(0,3).map(r=>r.s).join(','); $('saved-cmp-wrap').hidden=false; } else $('saved-cmp-wrap').hidden=true;
+  const href=r=>(r.t==='s'?SK:r.t==='b'?BK:RK)+esc(r.s)+'/';
+  $('saved-list').innerHTML=rows.map(r=>`<article class="rcard"><a class="rimg" href="${href(r)}" tabindex="-1" aria-hidden="true">${r.i?`<img src="${esc(r.i)}" alt="" width="200" height="240" loading="lazy">`:''}</a><div class="rbody"><p class="brand"><span>${esc(r.b)}${r.y?' · '+esc(r.y):''}</span><button type="button" class="save-heart" data-save="${esc(r.s)}" data-kind="${esc(r.t)}" data-off="${esc(TX.save)}" data-on="${esc(TX.saved)}" aria-pressed="true" aria-label="${esc(TX.saved)}"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></p><h3><a href="${href(r)}">${esc(r.m)}</a></h3><button type="button" class="btn btn-sm btn-line" data-remove="${esc(r.s)}" data-kind="${esc(r.t)}">${esc(TX.remove)}</button><div class="rfoot">${r.p?`<span class="price">${esc(r.p)}</span>`:''}<a class="btn btn-sm" href="${href(r)}">${esc(TX.details)}</a></div></div></article>`).join('');
+  const rs=rows.filter(r=>r.t==='r'); const cmp=$('saved-cmp'); if(rs.length>=2){ cmp.href=CMP+'?r='+rs.slice(0,3).map(r=>r.s).join(','); $('saved-cmp-wrap').hidden=false; } else $('saved-cmp-wrap').hidden=true;
   S.paint();
  }
  document.addEventListener('wp:saved',render);
- try{ cat=await (await fetch('/cards.json')).json(); }catch(e){ cat=[]; }
+ try{ cat=(await (await fetch('/cards.json')).json()).map(r=>({...r,t:'r'})); }catch(e){ cat=[]; }
+ cat=cat.concat(MORE);
  const q=new URLSearchParams(location.search); let signed=false, items=null;
  try{
   if(q.get('sync')==='1'){

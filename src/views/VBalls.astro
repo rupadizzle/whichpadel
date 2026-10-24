@@ -1,6 +1,6 @@
 ---
 // /balls/ hub: every ball rendered statically (crawlable). Same catalog shell as /shoes/ and /rackets/: search, filter sidebar, sort. Filter state stays in the URL.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css';
+import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import SaveHeart from '../components/SaveHeart.astro';
 import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js'; import { BALL } from '../i18n/balls.js'; import { D, url, SITE } from '../i18n/index.js'; import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const N=balls.length;
 const list=rankBalls(balls,lang); const brands=[...new Set(balls.map(b=>b.brand))].sort();
@@ -39,7 +39,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 </aside>
 <section class="hub-main">
  <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p><label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{['rec','price','hi','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label></div>
- <ul class="hub-grid" id="h-grid">{list.map((b,i)=><li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour||''} data-eco={b.eco?'1':'0'} data-n={b.inStock}><a class="rk-a" href={url('ball',lang,b.slug)}><span class="rk-i">{ballImg(b)&&<img src={ballImg(b)} alt={T.alt(b.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b">{b.brand}</span><span class="rk-m">{b.model}</span><span class="rk-c">{spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{pr(b)}</span></span></span></a></li>)}</ul>
+ <ul class="hub-grid" id="h-grid">{list.map((b,i)=><li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour||''} data-eco={b.eco?'1':'0'} data-n={b.inStock}><a class="rk-a" href={url('ball',lang,b.slug)}><span class="rk-i">{ballImg(b)&&<img src={ballImg(b)} alt={T.alt(b.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{b.model}</span><span class="rk-c">{spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{pr(b)}</span></span></span></a></li>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{T.clear}</button></p>
 </section>
 </div>

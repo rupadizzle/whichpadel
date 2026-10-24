@@ -1,12 +1,12 @@
 ---
-import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js';
+import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js'; import { HUB } from '../i18n/hub.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, c=u.cmp, t=d.terms;
 const popular=['bullpadel','nox','adidas','babolat','head','siux'].map(b=>rackets.find(r=>r.brand.toLowerCase().includes(b)&&r.image)).filter(Boolean).slice(0,6).map(r=>r.slug);
 const FM=Object.fromEntries([...new Set(rackets.flatMap(r=>[r.faceMaterial,r.coreMaterial]).filter(Boolean))].map(v=>[v,mat(v,lang)]).filter(([a,b])=>a!==b));
 const TX={FM,c:{...c,addN:c.addN('§'),search:c.search('§')},u:{checkPrice:u.checkPrice,cmpP:u.px.cmp.title,seeSpecs:u.seeSpecs,checked:u.checked,adNoteShort:u.adNoteShort,disclosure:u.disclosure,recordedPrice:u.recordedPrice,aff:url('affiliate',lang),rk:url('racket',lang,'§')},TR:{Power:t.rt.power,Control:t.rt.control,Handling:t.rt.handling,Forgiveness:t.rt.forgiveness,Comfort:t.rt.comfort,Value:t.rt.value,Shape:t.spec.shape,Weight:t.spec.weight,Balance:t.spec.balance,Hardness:t.spec.hardness,Core:t.spec.core,Face:t.spec.face,Thickness:t.spec.thickness,Year:t.spec.year},VT:{Round:t.shapeCap.round,Teardrop:t.shapeCap.teardrop,Diamond:t.shapeCap.diamond,Hybrid:t.shapeCap.hybrid,Low:t.bal.low,Medium:t.bal.medium,High:t.bal.high,Soft:t.core.soft,'Medium-soft':t.core['medium-soft'],'Medium-hard':t.core['medium-hard'],Hard:t.core.hard}};
 ---
 <Base lang={d.locale} preload="/compare-data.json" title={d.copy.cmpTitle(rackets.length)+d.copy.titleSuffix} description={d.copy.cmpDesc(rackets.length)}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.compare}</span></nav>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('rackets',lang)}>{HUB[lang].nav}</a> › <span>{u.compare}</span></nav>
 <div class="cmp-intro"><h1>{c.h1}</h1><p class="muted">{c.lead}</p></div>
 <div id="cmp" class="cmp cmp-cards" data-popular={popular.join(',')}><p class="panel empty">{c.loading}</p></div>
 <p class="muted small trust">{c.trust}</p>
@@ -36,15 +36,12 @@ function setCap(n){n=n===3?3:2; if(n===2){if(sel.length>2) held=[sel[2]]; sel=se
  const extra=held.find(s=>!sel.includes(s)); if(extra){sel=sel.concat(extra).slice(0,3); held=[]; cap=3; draw(); return;}
  cap=3; open(sel.length);}
 function winner(vals,hi=true){const n=vals.filter(v=>typeof v==='number'); if(n.length<2) return null; const m=hi?Math.max(...n):Math.min(...n); return n.filter(v=>v===m).length===n.length?null:m;}
-function verdict(xs){const pick=(f,lab)=>{const b=[...xs].sort((a,c)=>f(c)-f(a)); if(f(b[0])===f(b[1])) return ''; return `<li><span>${lab}</span><b>${esc(short(b[0]))}</b></li>`;};
- return pick(x=>x.Power,C.bestPower)+pick(x=>x.Control,C.bestControl)+pick(x=>x.Forgiveness+x.Comfort,C.bestBeginners)+pick(x=>x.Value,C.bestValue);}
 function draw(){save(); const xs=sel.slice(0,cap).map(s=>by[s]); const n=xs.length; root.style.setProperty('--n',Math.max(n,2));
  if(n<2){const pop=root.dataset.popular.split(',').filter(s=>!sel.includes(s)).slice(0,4);
   root.innerHTML=`<div class="slots">${[0,1].map(i=>xs[i]?headCell(xs[i],i):`<button class="slot-add" type="button" data-add="${i}"><span>+</span>${C.addN.replace('§',i+1)}</button>`).join('')}</div>
   <section class="panel"><h2 class="h3">${C.popular}</h2><div class="pop">${pop.map(s=>`<button type="button" class="popb" data-quick="${s}">${img(by[s],40,48)}<span>${esc(by[s].m)}</span></button>`).join('')}</div></section>`; return;}
  const tog=`<div class="cmp-n"><span class="cmp-n-lab" id="cmp-n-lab">${esc(C.compare)}</span><div class="cmp-n-set" role="radiogroup" aria-labelledby="cmp-n-lab"><label><input type="radio" name="cmpn" value="2"${cap===2?' checked':''}><span>2</span></label><label><input type="radio" name="cmpn" value="3"${cap===3?' checked':''}><span>3</span></label></div></div>`;
  let h=tog+`<div class="chead" style="--n:${n}">${xs.map(headCell).join('')}</div>`;
- const v=verdict(xs); if(v) h+=`<section class="verdict" aria-label="${C.verdict}"><h2 class="h3">${C.verdict}</h2><ul>${v}</ul></section>`;
  const grp=(title,fields,open,isNum)=>`<details class="cgroup" ${open?'open':''}><summary>${title}</summary>${fields.map(f=>{const vals=xs.map(x=>x[f]); if(vals.every(v=>v==null||v==='—')) return ''; const w=isNum?winner(vals):null;
   return `<div class="crow"><div class="clab">${TR[f]||f}</div><div class="cvals" style="--n:${n}">${vals.map(val=>`<div class="cv${w!==null&&val===w?' win':''}">${isNum?`<b>${val}</b><span class="bar"><i style="width:${val}%"></i></span>`:esc(val??'—')}</div>`).join('')}</div></div>`;}).join('')}</details>`;
  const pr=xs.map(x=>x.g); const pw=winner(pr.map(g=>g??Infinity),false);

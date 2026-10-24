@@ -43,7 +43,7 @@ export const BEST_KEYS=Object.keys(BEST_SLUG).filter(k=>lists[k]||extraLists[k])
 const P={
  home:{en:()=>'/',es:()=>'/es/',fr:()=>'/fr/',pt:()=>'/pt/',it:()=>'/it/',de:()=>'/de/'},
  guide:{en:()=>'/padel-rackets/',es:()=>'/es/palas-padel/',fr:()=>'/fr/raquette-padel/',pt:()=>'/pt/raquetes-padel/',it:()=>'/it/racchette-padel/',de:()=>'/de/padelschlaeger/'},
- compare:{en:()=>'/compare/',es:()=>'/es/comparador-palas-padel/',fr:()=>'/fr/comparateur-raquettes-padel/',pt:()=>'/pt/comparador-raquetes-padel/',it:()=>'/it/confronto-racchette-padel/',de:()=>'/de/padelschlaeger-vergleich/'},
+ compare:{en:()=>'/rackets/compare/',es:()=>'/es/palas/comparar/',fr:()=>'/fr/raquettes/comparer/',pt:()=>'/pt/raquetes/comparar/',it:()=>'/it/racchette/confronta/',de:()=>'/de/schlaeger/vergleich/'},
  bestIndex:{en:()=>'/best/',es:()=>'/es/mejores-palas-padel/',fr:()=>'/fr/meilleures-raquettes-padel/',pt:()=>'/pt/melhores-raquetes-padel/',it:()=>'/it/migliori-racchette-padel/',de:()=>'/de/beste-padelschlaeger/'},
  racket:{en:s=>`/rackets/${s}/`,es:s=>`/es/palas/${s}/`,fr:s=>`/fr/raquettes/${s}/`,pt:s=>`/pt/raquetes/${s}/`,it:s=>`/it/racchette/${s}/`,de:s=>`/de/schlaeger/${s}/`},
  brands:{en:()=>'/brands/',es:()=>'/es/marcas/',fr:()=>'/fr/marques/',pt:()=>'/pt/marcas/',it:()=>'/it/marchi/',de:()=>'/de/marken/'},

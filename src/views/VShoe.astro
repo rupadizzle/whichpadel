@@ -4,6 +4,7 @@ import NewsL from '../components/NewsL.astro'; import Base from '../layouts/Base
 import { SHOPS, FX } from '../lib/price.js'; import { RP } from '../lib/rp2.js';
 import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrands, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js'; import { slugify } from '../lib/data.js';
 import { SHOE } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
+import SaveHeart from '../components/SaveHeart.astro';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,v])=>[k,[v.name&&v.name!==k?v.name:k.replace(/\.(com|net|co\.uk|de|es)$/,''),typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?v.affiliate:'']]));
 const { s, lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], R2=RP(lang);
 const G=shoeGallery(s); const alt=T.alt(s.name); const bs=slugify(s.brand); const hasB=shoeBrands.some(b=>b.slug===bs);
@@ -28,7 +29,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › {hasB?<><a href={url('shoeBrand',lang,bs)}>{s.brand}</a> › </>:null}<span>{s.model}</span></nav>
 <div class="detail rp2 shoe">
 <header class="rph">
-<p class="brand">{hasB?<a href={url('shoeBrand',lang,bs)}>{s.brand}</a>:s.brand}{s.year&&<> · {s.year}</>}</p><h1>{s.name}</h1>
+<p class="brand"><span>{hasB?<a href={url('shoeBrand',lang,bs)}>{s.brand}</a>:s.brand}{s.year&&<> · {s.year}</>}</span><SaveHeart slug={s.slug} kind="s" off={u.save} on={u.saved}/></p><h1>{s.name}</h1>
 {kchips.length>0&&<ul class="kchips">{kchips.map(c=><li>{c}</li>)}</ul>}
 </header>
 <section class="rpg" aria-label={alt} data-n={G.length}>

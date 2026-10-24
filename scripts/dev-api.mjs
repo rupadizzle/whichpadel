@@ -2,12 +2,29 @@
 // Proxy the read-only price and geo endpoints to production so localhost matches the live site.
 const ORIGIN = 'https://whichpadel.com';
 const PATHS = new Set(['/api/all-prices', '/api/shoe-prices', '/api/geo']);
+const REDIR = new Map([
+  ['/compare', '/rackets/compare/'],
+  ['/es/comparador-palas-padel', '/es/palas/comparar/'],
+  ['/fr/comparateur-raquettes-padel', '/fr/raquettes/comparer/'],
+  ['/pt/comparador-raquetes-padel', '/pt/raquetes/comparar/'],
+  ['/it/confronto-racchette-padel', '/it/racchette/confronta/'],
+  ['/de/padelschlaeger-vergleich', '/de/schlaeger/vergleich/'],
+]);
 const TTL = 10 * 60 * 1000;
 
 export function localApi() {
   const cache = new Map();
   const handle = async (req, res, next) => {
-    const path = (req.url || '').split('?')[0];
+    const raw = req.url || '';
+    const path = raw.split('?')[0].replace(/\/$/, '') || '/';
+    const to = REDIR.get(path);
+    if (to && (req.method === 'GET' || req.method === 'HEAD')) {
+      const q = raw.includes('?') ? raw.slice(raw.indexOf('?')) : '';
+      res.statusCode = 301;
+      res.setHeader('location', to + q);
+      res.end();
+      return;
+    }
     if ((req.method !== 'GET' && req.method !== 'HEAD') || !PATHS.has(path)) return next();
     try {
       let hit = cache.get(path);

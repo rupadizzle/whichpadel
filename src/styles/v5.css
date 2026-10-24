@@ -93,7 +93,7 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 @container(max-width:280px){
  .cmp-cards .hcin{grid-template-columns:48px minmax(0,1fr) auto;column-gap:6px;padding:6px}
  .cmp-cards .hcin img,.cmp-cards .hcin .noimg{width:48px;height:48px}
- .cmp-cards .hn{font-size:.8rem}
+ .cmp-cards .hn{font-size:.8rem;-webkit-line-clamp:3;max-height:3.6em}
  .cmp-cards .hact .mini{width:26px;height:26px;min-width:26px;min-height:26px}
 }
 @container(max-width:130px){
