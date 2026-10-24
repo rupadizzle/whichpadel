@@ -27,6 +27,7 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <a href={url('brand',lang,bs)}>{r.brand}</a> › <span>{r.model.replace(r.brand+' ','')}</span></nav>
 <div class="detail rp2">
 <section class="rpg" aria-label={alt} data-n={G.length}>
+<button type="button" class="savebtn save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
 {G.length>0?<>
 <div class="gtrack" tabindex="0">{G.map((g,i)=><button type="button" class="gslide" data-i={i} aria-label={`${R2.zoom}: ${R2.photo(i+1,G.length)}`}><img src={g.l} srcset={g.one?undefined:`${g.s} 400w, ${g.l} 800w`} sizes="(max-width: 899px) 100vw, 480px" alt={i===0?alt:`${alt} – ${R2.photo(i+1,G.length)}`} width="480" height="600" loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':undefined} decoding={i===0?'sync':'async'}/></button>)}</div>
 {G.length>1&&<><span class="gcount" aria-live="polite"><b>1</b> / {G.length}</span>
@@ -44,7 +45,7 @@ const oj=JSON.stringify(offersOf(r)); const BD=domainOf(r.productUrl||''); const
 <aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked&&<p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
 <div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
 {r.productUrl&&r.price!=null&&<a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={oj}>{u.px.cmp.buy.replace('{s}',BN)} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span>
-<a class="btn btn-sm" style="width:100%" href={cmpU}>{u.compareThis}</a><button type="button" class="savebtn" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}>{u.save}</button></aside>
+<a class="btn btn-sm" style="width:100%" href={cmpU}>{u.compareThis}</a><button type="button" class="savebtn" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="save-lab">{u.save}</span></button></aside>
 <div class="rpbody">
 <section class="panel"><h2>{u.overview}</h2><p class="intro">{intro}</p>
 {(ins.suits.length>0)&&<><h3>{R2.suits}</h3><ul class="suits">{ins.suits.map(s=><li>{s}</li>)}</ul></>}

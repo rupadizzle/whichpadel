@@ -76,8 +76,14 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 .rcard-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
 .rcard-acts .cmpbox{margin:0}
 .savebtn{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink,#0f1c24);font:inherit;font-weight:600;font-size:.85rem;cursor:pointer}
-.savebtn[aria-pressed="true"]{background:#13795c;color:#fff;border-color:#13795c}
-#buybox .savebtn{display:flex;width:100%;margin-top:8px;align-items:center;justify-content:center}
+.heart{display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.savebtn[aria-pressed="true"] .heart{fill:currentColor;stroke:currentColor}
+.save-heart{position:absolute;z-index:3;top:8px;left:8px;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5b6b75;background:#fff;box-shadow:0 1px 4px rgb(15 28 36 / .18)}
+.save-heart[aria-pressed="true"]{color:#e11d48;background:#fff;border-color:#f3c3cb}
+.rcard>.save-heart{left:auto;right:10px;top:10px}
+.rpg>.save-heart{top:12px;left:12px}
+#buybox .savebtn{display:flex;width:100%;margin-top:8px;align-items:center;justify-content:center;gap:8px}
+@media(max-width:640px){.hub-grid .save-heart{width:36px;height:36px;min-height:36px;top:6px;left:6px}.hub-grid .save-heart .heart{width:18px;height:18px}}
 #saved-n{margin-left:6px;min-width:1.25rem;height:1.25rem;padding:0 4px;border-radius:99px;background:var(--lime);color:var(--navy);font-size:.72rem;font-weight:800;line-height:1.25rem;text-align:center}
 #saved-n:not([hidden]){display:inline-block}
 .saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:16px;margin:16px 0}
