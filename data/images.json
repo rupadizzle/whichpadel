@@ -18,24 +18,24 @@
   ]
  },
  "adidas-2026-world-cup-colombia": {
-  "ok": false,
-  "url": "https://allforpadel.com/en/padel-rackets/7452-padel-racket-adidas-2026-world-cup-colombia-8435739406441.html",
-  "src": "https://allforpadel.com/9779-thickbox_default/padel-racket-adidas-2026-world-cup-colombia.jpg",
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/adidas-padel/15071-adidas-world-cup-colombia-2026.html",
+  "src": "https://www.zonadepadel.nl/31972-zdp_customer/adidas-world-cup-colombia-2026.jpg",
   "size": [
    900,
    900
   ],
-  "rejected": "non-product/lifestyle image"
+  "source": "shop"
  },
  "adidas-2026-world-cup-france": {
-  "ok": false,
-  "url": "https://allforpadel.com/en/padel-rackets/7462-padel-racket-adidas-2026-world-cup-france-8435739406519.html",
-  "src": "https://allforpadel.com/9783-thickbox_default/padel-racket-adidas-2026-world-cup-france.jpg",
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/adidas-padel/15063-adidas-world-cup-france-2026.html",
+  "src": "https://www.zonadepadel.nl/31939-zdp_customer/adidas-world-cup-france-2026.jpg",
   "size": [
    900,
    900
   ],
-  "rejected": "non-product/lifestyle image"
+  "source": "shop"
  },
  "adidas-adipower-10th-anniversary": {
   "ok": true,
@@ -380,9 +380,14 @@
   ]
  },
  "adidas-rx-series-light-2026": {
-  "ok": false,
-  "url": "https://allforpadel.com/en/padel-rackets/7486-padel-racket-adidas-rx-series-light-2026-8435739406014.html",
-  "err": "all rejected"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/adidas-padel/14057-adidas-rx-series-light-2026.html",
+  "src": "https://www.zonadepadel.nl/29011-zdp_customer/adidas-rx-series-light-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "adidas-world-cup-2026-england": {
   "ok": true,
@@ -538,9 +543,14 @@
   ]
  },
  "babolat-viper-juan-lebron-3-0-2026": {
-  "ok": false,
-  "url": "https://www.babolat.com/us/viper-juan-lebron-3.0/150174.html",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/babolat-padel-racket-viper-juan-lebron-3-0-fw-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaBabolatViperJuanLebron3.0FW2026_1.webp?v=1776842858",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "babolat-viper-juan-lebron-3-1": {
   "ok": true,
@@ -733,13 +743,8 @@
  },
  "bullpadel-icon-2027": {
   "ok": false,
-  "url": "https://www.bullpadel.com/es/6841-pala-bullpadel-icon-27.html",
-  "src": "https://www.bullpadel.com/img/bp_extra_producto/promo2a-6841-1790259457-0f0c1f04@1x.webp",
-  "size": [
-   755,
-   706
-  ],
-  "rejected": "non-product/lifestyle image"
+  "url": "https://padelproshop.com/products/bullpadel-padel-racket-icon-2027",
+  "err": "all rejected"
  },
  "bullpadel-indiga-boy-2026": {
   "ok": true,
@@ -1286,9 +1291,14 @@
   ]
  },
  "head-extreme-motion-2026": {
-  "ok": false,
-  "url": "https://www.head.com/product/extreme-motion-2026-223136",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/head-extreme-motion-2026-padelschlaeger-vollflaechig-p0000011480201",
+  "src": "https://www.padel-point.de/cdn/shop/files/P000001148020100.jpg?v=1790175025",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "head-extreme-motion-pro-2026": {
   "ok": true,
@@ -1350,9 +1360,14 @@
   ]
  },
  "head-gravity-team-2024": {
-  "ok": false,
-  "url": "https://www.head.com/es_ES/product/gravity-team-2024-224024",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/head-gravity-team-2024-padelschlaeger-00606804471000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0060680447100000.jpg?v=1774901782",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "head-radical-pro-2026": {
   "ok": true,
@@ -1506,14 +1521,24 @@
   "err": "page None"
  },
  "nox-at10-luxury-genius-18k-alum-2025": {
-  "ok": false,
-  "url": "https://noxsport.com/products/pala-at10-genius-18k-alum-by-agustin-tapia",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelusa.com/products/nox-at10-luxury-genius-18k-alum-2025-by-agustin-tapia-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Nox-AT10_Luxury_Genuis_18k_2025_Padel_Racket_PadelUSA_store_1_1.webp?v=1731020418",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
  },
  "nox-at10-luxury-genius-18k-alum-2026": {
-  "ok": false,
-  "url": "https://noxsport.com/products/pala-at10-genius-18k-alum-2026-by-agustin-tapia",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/nox/13771-nox-at10-luxury-genius-18k-alum-2026.html",
+  "src": "https://www.zonadepadel.nl/27987-zdp_customer/nox-at10-luxury-genius-18k-alum-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "nox-at10-luxury-genius-attack-12k-alum-xtreme-2026": {
   "ok": true,
@@ -1845,29 +1870,54 @@
   ]
  },
  "oxdog-hyper-pro-2-0-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.871/hyper-pro-20",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-hyper-pro-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogHyperPro_2.02026_1.webp?v=1764839273",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-hyper-pro-plus-2-0-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.870/hyper-pro-20",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/pala-oxdog-hyper-pro-plus-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogHyperPro_2.02026_1.webp?v=1764839273",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-hyper-tour-x-2-0-2026": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/hyper-tour-x-2-0-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-hyper-tour-x-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogHyperTourX2.02026_1.webp?v=1764839864",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-hyper-woman-air-2-0": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.1335/hyper-woman-air-20",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-hyper-woman-air-2-0",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogHyperWomanAIR2.0_1.webp?v=1780386481",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "oxdog-pure-court-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.875/pure-court",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-pure-court-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogPureCourt2026_1.webp?v=1769176065",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-pure-pro-plus-2026": {
   "ok": false,
@@ -1875,44 +1925,84 @@
   "err": "page None"
  },
  "oxdog-ultimate-nxt-gen-2026": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/ultimate-nxt-gen-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-nxt-gen-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateNXT-GEN2026_1.webp?v=1764839002",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-2025": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/ultimate-pro-2025",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-pro-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimatePro_2025_1.webp?v=1769171885",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-light-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.867/ultimate-pro-light",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-pro-light-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateProLight2026_0.webp?v=1776666485",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-light-2027": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/ultimate-pro-light-2027",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-pro-light-2027",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateProLight2027_1.webp?v=1790843633",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-smash-2025": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/pala-oxdog-ultimate-pro-smash",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-pro-smash-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateProSmash2025_1.webp?v=1769173662",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-smash-2026": {
-  "ok": false,
-  "url": "https://www.oxdogpadel.com/products/ultimate-pro-smash-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-pro-smash-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateProSmash2026_1.webp?v=1764838577",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-plus-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.865/ultimate-pro",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/pala-oxdog-ultimate-pro-plus",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimatePro_2025_1.webp?v=1769171885",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-tour-x-2026": {
-  "ok": false,
-  "url": "https://www.oxdog.net/en/articles/2.13.868/ultimate-tour-x",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-tour-x-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaOxdogUltimateTourX2026_1.webp?v=1764838809",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
  },
  "padelsmith-1": {
   "ok": false,
@@ -2060,14 +2150,24 @@
   "err": "page None"
  },
  "siux-astra-hybrid-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-astra-hybrid-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/13957-siux-astra-hybrid-2026.html",
+  "src": "https://www.zonadepadel.nl/28500-zdp_customer/siux-astra-hybrid-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-beat-control-2-2025": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-beat-control-2",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/siux-beat-control-2-2025-112623-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/112623-siux-beat-control-2-1500x1500-1.jpg?v=1786110569",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "siux-diablo-elite-6": {
   "ok": true,
@@ -2079,14 +2179,24 @@
   ]
  },
  "siux-diablo-pro-2026-night-blue": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-diablo-pro-2026-night-blue",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/13931-siux-diablo-pro-night-blue-2026.html",
+  "src": "https://www.zonadepadel.nl/28479-zdp_customer/siux-diablo-pro-night-blue-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-diablo-pro-2026-royal-blue": {
-  "ok": false,
-  "url": "https://www.siuxpadel.com/en/products/siux-diablo-pro-2026-royal-blue",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/13930-siux-diablo-pro-royal-blue-2026.html",
+  "src": "https://www.zonadepadel.nl/28462-zdp_customer/siux-diablo-pro-royal-blue-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-diablo-pro-se-north-2026": {
   "ok": false,
@@ -2094,14 +2204,24 @@
   "err": "page None"
  },
  "siux-electra-pro-2026-shadow-red": {
-  "ok": false,
-  "url": "https://www.siuxpadel.com/en/products/siux-electra-pro-2026-shadow-red",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/13933-siux-electra-pro-shadow-red-2026.html",
+  "src": "https://www.zonadepadel.nl/28485-zdp_customer/siux-electra-pro-shadow-red-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-electra-pro-it-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-electra-pro-it-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/16260-siux-electra-pro-it-2026.html",
+  "src": "https://www.zonadepadel.nl/34646-zdp_customer/siux-electra-pro-it-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-electra-pro-rl-2-0-2026": {
   "ok": false,
@@ -2109,19 +2229,34 @@
   "err": "page None"
  },
  "siux-electra-st2-flex-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-electra-st2-flex-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/siux-padel-racket-electra-st2-flex-exclusive-padelproshop-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaSiuxElectraST2Flex_ExclusivaPadelPROShop_2026_1.webp?v=1789393178",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "siux-electra-stupa-pro-st3": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-electra-stupa-pro-st3",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/siux-electra-st3-stupa-pro-109477-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/109477-siux-electra-stupa-pro-st3-1500x1500-vista1.jpg?v=1786110530",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "siux-electra-stupa-pro-st4-2025": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-electra-stupa-pro-st4",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/siux-electra-stupa-pro-st4-2025-112639-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/112639-siux-electra-stupa-pro-st4-reedicion-1500x1500-vista1.jpg?v=1786110606",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "siux-fenix-pro-2026-glow-purple": {
   "ok": true,
@@ -2133,19 +2268,34 @@
   ]
  },
  "siux-fenix-pro-5": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-fenix-pro-5",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/11975-siux-fenix-pro-5-2025.html",
+  "src": "https://www.zonadepadel.nl/22964-zdp_customer/siux-fenix-pro-5-2025.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-fenix-pro-5-black": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-fenix-pro-5-black",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/siux-fenix-pro-5-black-115239-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/115239-siux-fenix-pro-5-black-reedicion-1500x1500-vista1.jpg?v=1786110577",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "siux-fenix-pro-mad-se": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-fenix-pro-mad-se",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/16140-siux-fenix-pro-mad-se-2026.html",
+  "src": "https://www.zonadepadel.nl/34475-zdp_customer/siux-fenix-pro-mad-se-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-fenix-pro-se-2-0": {
   "ok": false,
@@ -2153,19 +2303,34 @@
   "err": "page None"
  },
  "siux-gea": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-gea",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/siux-gea-112645-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/112645-siux-gea-1500x1500-1.jpg?v=1786110802",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "siux-obsidian-elite-2027": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/obsidian-elite-2027",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/siux/16398-siux-obsidian-elite-2027.html",
+  "src": "https://www.zonadepadel.nl/35096-zdp_customer/siux-obsidian-elite-2027.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-obsidian-pro-2027-black": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/obsidian-pro-2027-black",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelproshop.com/products/siux-padel-racket-obsidian-pro-black-2027",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaSiuxObsidianProBlack2027_1.webp?v=1791996771",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
  },
  "siux-obsidian-pro-2027-silver": {
   "ok": true,
@@ -2259,9 +2424,14 @@
   ]
  },
  "starvie-black-titan": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/black-titan",
-  "err": "page 404"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/starvie-black-titan-121643-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/121643-pala-starvie-black-titan-pstbt31000-1500x1500-1.jpg?v=1786110647",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "starvie-black-titan-blue-2027": {
   "ok": true,
@@ -2305,14 +2475,24 @@
   "err": "timeout"
  },
  "starvie-nyra": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/nyra",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/starvie-nyra-121646-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/121646-pala-starvie-nyra-pstn31000-1500x1500-1.jpg?v=1786110755",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "starvie-phantom-2027": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/pala-phantom",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/starvie-phantom-padelschlaeger-p0000012670601",
+  "src": "https://www.padel-point.de/cdn/shop/files/P000001267060100.jpg?v=1791966458",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "starvie-raptor-plus-2026": {
   "ok": false,
@@ -2325,9 +2505,14 @@
   "err": "page None"
  },
  "starvie-shade-2027": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/pala-shade",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.streetpadel.com/en/products/starvie-shade-162979-p",
+  "src": "https://www.streetpadel.com/cdn/shop/files/162979-pala-starvie-shade-psts41000-1500x1500-1.jpg?v=1788643554",
+  "size": [
+   1500,
+   1500
+  ],
+  "source": "shop"
  },
  "starvie-triton-balance-plus-2027": {
   "ok": false,
@@ -2340,9 +2525,14 @@
   "err": "page None"
  },
  "starvie-triton-t-one-2027": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/pala-triton-t-one-by-tamara-icardo",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/starvie-triton-t-one-padelschlaeger-p0000012671101",
+  "src": "https://www.padel-point.de/cdn/shop/files/P000001267110100.jpg?v=1791966459",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "tecnifibre-curva-power-2026": {
   "ok": true,
