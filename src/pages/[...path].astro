@@ -9,7 +9,7 @@ export function getStaticPaths(){ const out=[];
  for(const lang of LANGS){ for(const p of pages()){ const u=url(p.type,lang,p.id); if(!u) continue; out.push({params:{path:u.replace(/^\/|\/$/g,'')||undefined},props:{type:p.type,id:p.id,lang}}); }
   if(lang!=='en') out.push({params:{path:`${lang}/404`},props:{type:'404',lang}}); }
  return out; }
-import VUs from '../views/VUs.astro'; import VBalls from '../views/VBalls.astro'; import VBall from '../views/VBall.astro'; import { ballBySlug } from '../lib/balls.js';
+import VUs from '../views/VUs.astro'; import VBalls from '../views/VBalls.astro'; import VBall from '../views/VBall.astro'; import { ballBySlug } from '../lib/balls.js'; import VSaved from '../views/VSaved.astro';
 const { type, id, lang } = Astro.props;
 const brand=s=>brandList.find(b=>b.slug===s);
 ---
@@ -43,3 +43,4 @@ const brand=s=>brandList.find(b=>b.slug===s);
 {type==='ball'&&<VBall b={ballBySlug[id]} lang={lang}/>}
 {type==='us'&&<VUs k={id}/>}
 {type==='404'&&<V404 lang={lang}/>}
+{type==='saved'&&<VSaved lang={lang}/>}

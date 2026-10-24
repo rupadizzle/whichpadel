@@ -71,10 +71,11 @@ const P={
  // US money pages: English only, own URLs under /us/ (no translated or en-GB twin, so no hreflang pairs)
  us:{en:k=>`/us/${k}/`},
  about:{en:()=>'/about/',es:()=>'/es/sobre-nosotros/',fr:()=>'/fr/a-propos/',pt:()=>'/pt/sobre-nos/',it:()=>'/it/chi-siamo/',de:()=>'/de/ueber-uns/'},
+ saved:{en:()=>'/saved/',es:()=>'/es/guardadas/',fr:()=>'/fr/enregistrees/',pt:()=>'/pt/guardadas/',it:()=>'/it/salvate/',de:()=>'/de/gespeichert/'},
 };
 export const url=(type,lang,id)=>P[type][lang]?P[type][lang](id):null;
 export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
- ['home','guide','compare','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','years'].forEach(t=>add(t));
+ ['home','guide','compare','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','years','saved'].forEach(t=>add(t));
  allRackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(allRackets.length/24);i++) add('rackets',i);
  add('shoes'); add('shoeCompare'); shoes.forEach(x=>add('shoe',x.slug)); shoeBrands.forEach(b=>add('shoeBrand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); return out;};
