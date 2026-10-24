@@ -76,14 +76,13 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 .rcard-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
 .rcard-acts .cmpbox{margin:0}
 .heart{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linejoin:round}
-.save-heart{position:absolute;z-index:3;top:4px;right:4px;left:auto;width:28px;height:28px;min-height:28px;padding:0;border:0;border-radius:6px;background:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#8b98a1;cursor:pointer}
+.rk-i,.rimg{position:relative}
+.save-heart{position:absolute;z-index:3;top:8px;left:8px;width:28px;height:28px;min-height:28px;padding:0;border:0;border-radius:6px;background:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#8b98a1;cursor:pointer}
 .save-heart:hover{color:var(--ink,#0f1c24)}
 .save-heart[aria-pressed="true"]{color:#e11d48}
 .save-heart[aria-pressed="true"] .heart{fill:currentColor;stroke:currentColor}
-.rcard:has(>.save-heart) .cmpbox{right:36px}
-.rph-save{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.rph-save .save-heart{position:static;flex:none}
-@media(max-width:860px){.cat .hub-grid .rk>.save-heart{position:relative;top:auto;right:auto;grid-column:3;grid-row:1;align-self:start;justify-self:end}}
+.rcard:has(.save-heart)>.rank,#best .rcard:has(.save-heart)>.rank{left:44px}
+@media(width<=640px){#bgrid .rcard:has(.save-heart)>.rank,#best .rcard:has(.save-heart)>.rank{top:12px;left:56px}}
 #saved-n{margin-left:6px;min-width:1.25rem;height:1.25rem;padding:0 4px;border-radius:99px;background:var(--lime);color:var(--navy);font-size:.72rem;font-weight:800;line-height:1.25rem;text-align:center}
 #saved-n:not([hidden]){display:inline-block}
 .saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:16px;margin:16px 0}
