@@ -1,6 +1,6 @@
 ---
 // Shoe money pages (best, men's, women's, junior, clay, omni, wide, cheap, under X) and brand pages: ranked list + method + FAQ.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro';
 import { shoes, rankShoes, SHOE_LISTS, SHOE_LIST_KEYS, shoeBrands, UNDER, listCur } from '../lib/shoes.js'; import { bud } from '../lib/money.js';
 import { SHOE } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
 const { k, b, lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang];
@@ -14,7 +14,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','nam
 const others=SHOE_LIST_KEYS.filter(x=>x!==k&&!x.startsWith('u'));
 ---
 <Base lang={d.locale} title={T.t(h1,list.length)} description={intro} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{h1}</span></nav><h1>{h1}</h1><div class="seo"><p>{intro}</p><p>{T.method}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{h1}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{intro}</p><p>{T.method}</p></div></div></section>
 <div class="hub">
 <ul class="hub-grid">{list.map((s,i)=><ShoeCard s={s} lang={lang} rank={i+1} eager={i<4}/>)}</ul>
 <p><a class="btn btn-line" href={url('shoes',lang)}>{T.hubLink}</a></p>

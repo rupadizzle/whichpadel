@@ -1,6 +1,5 @@
 import { pages, url, LANGS, alternates } from '../i18n/routes.js';
 import { rackets, lists, brandList, players } from '../lib/data.js';
-import { y27 } from '../lib/extra.js';
 import { vsPairs } from '../lib/vs.js';
 import { extraLists } from '../lib/seo-content.js';
 export function GET(){

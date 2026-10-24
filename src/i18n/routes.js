@@ -2,7 +2,7 @@
 import { rackets, brandList, players, lists } from '../lib/data.js';
 import { extraLists } from '../lib/seo-content.js';
 import { vsPairs } from '../lib/vs.js';
-import { y27 } from '../lib/extra.js';
+import { brandYears } from '../lib/extra.js';
 import { shoes, shoeBrands, SHOE_LIST_KEYS } from '../lib/shoes.js'; import { US_KEYS } from '../lib/us.js'; import { balls } from '../lib/balls.js'; import { SHOE_LIST } from './shoes.js';
 export const ALL_LANGS=['en','es','fr','pt','it','de'];
 export const LANGS=(process.env.WP_LANGS||'en,es,fr,pt,it,de').split(',');
@@ -48,7 +48,7 @@ const P={
  racket:{en:s=>`/rackets/${s}/`,es:s=>`/es/palas/${s}/`,fr:s=>`/fr/raquettes/${s}/`,pt:s=>`/pt/raquetes/${s}/`,it:s=>`/it/racchette/${s}/`,de:s=>`/de/schlaeger/${s}/`},
  brands:{en:()=>'/brands/',es:()=>'/es/marcas/',fr:()=>'/fr/marques/',pt:()=>'/pt/marcas/',it:()=>'/it/marchi/',de:()=>'/de/marken/'},
  brand:{en:s=>`/brands/${s}/`,es:s=>`/es/marcas/${s}/`,fr:s=>`/fr/marques/${s}/`,pt:s=>`/pt/marcas/${s}/`,it:s=>`/it/marchi/${s}/`,de:s=>`/de/marken/${s}/`},
- brand2027:{en:s=>`/brands/${s}/2027/`,es:s=>`/es/marcas/${s}/2027/`,fr:s=>`/fr/marques/${s}/2027/`,pt:s=>`/pt/marcas/${s}/2027/`,it:s=>`/it/marchi/${s}/2027/`,de:s=>`/de/marken/${s}/2027/`},
+ brandYear:{en:s=>`/brands/${s}/`,es:s=>`/es/marcas/${s}/`,fr:s=>`/fr/marques/${s}/`,pt:s=>`/pt/marcas/${s}/`,it:s=>`/it/marchi/${s}/`,de:s=>`/de/marken/${s}/`},
  best:{en:k=>`/best/${k}/`,es:k=>`/es/mejores/${BEST_SLUG[k].es}/`,fr:k=>`/fr/meilleures/${BEST_SLUG[k].fr}/`,pt:k=>`/pt/melhores/${BEST_SLUG[k].pt}/`,it:k=>`/it/migliori/${BEST_SLUG[k].it}/`,de:k=>`/de/beste/${BEST_SLUG[k].de}/`},
  players:{en:()=>'/players/',es:()=>'/es/jugadores/',fr:()=>'/fr/joueurs/',pt:()=>'/pt/jogadores/',it:()=>'/it/giocatori/',de:()=>'/de/spieler/'},
  player:{en:s=>`/players/${s}/`,es:s=>`/es/jugadores/${s}/`,fr:s=>`/fr/joueurs/${s}/`,pt:s=>`/pt/jogadores/${s}/`,it:s=>`/it/giocatori/${s}/`,de:s=>`/de/spieler/${s}/`},
@@ -75,7 +75,7 @@ const P={
 export const url=(type,lang,id)=>P[type][lang]?P[type][lang](id):null;
 export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','compare','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','years'].forEach(t=>add(t));
- rackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); y27.forEach(b=>add('brand2027',b.slug));
+ rackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(rackets.length/24);i++) add('rackets',i);
  add('shoes'); add('shoeCompare'); shoes.forEach(x=>add('shoe',x.slug)); shoeBrands.forEach(b=>add('shoeBrand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); return out;};
 // reverse map for hreflang on any page

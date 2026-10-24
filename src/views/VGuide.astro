@@ -1,14 +1,14 @@
 ---
 // Buying guide: one component for every language. Copy lives in src/i18n/guide-<lang>.js.
-import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import { D, url, SITE } from '../i18n/index.js'; import { guideData } from '../i18n/guide-data.js'; import { pickL } from '../i18n/lists.js';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import { D, url, SITE } from '../i18n/index.js'; import { guideData } from '../i18n/guide-data.js'; import { pickL } from '../i18n/lists.js';
 import gEN from '../i18n/guide-en.js'; import gES from '../i18n/guide-es.js'; import gFR from '../i18n/guide-fr.js'; import gPT from '../i18n/guide-pt.js'; import gDE from '../i18n/guide-de.js'; import gIT from '../i18n/guide-it.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, t=d.terms; const g=guideData(lang); const G=({en:gEN,es:gES,fr:gFR,pt:gPT,it:gIT,de:gDE})[lang](g,t); const U=SITE+url('guide',lang);
 const picks=['best-padel-rackets-for-beginners','best-intermediate-padel-rackets','best-advanced-padel-rackets'].map(k=>pickL(k,lang)[0]).filter(Boolean);
 const cap=s=>s[0].toUpperCase()+s.slice(1); const c=G.col; const S=G.sec;
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Article','headline':G.h1,'inLanguage':d.locale,'url':U,'datePublished':'2026-10-20','dateModified':'2026-10-20','author':{'@type':'Organization','name':'WhichPadel'},'publisher':{'@type':'Organization','name':'WhichPadel','url':SITE+url('home',lang)}},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':G.crumb,'item':U}]},{'@type':'FAQPage','mainEntity':G.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':G.crumb,'item':U}]},{'@type':'FAQPage','mainEntity':G.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
 ---
 <Base lang={d.locale} title={G.title+d.copy.titleSuffix} description={G.desc} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{G.crumb}</span></nav><span class="eyebrow">{G.eyebrow}</span><h1>{G.h1}</h1><div class="seo"><p>{G.lead} <a href={url('finder',lang)}>{G.quiz}</a>.</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{G.crumb}</span></nav><span class="eyebrow">{G.eyebrow}</span><h1>{G.h1}</h1><Byline lang={lang} headline={G.h1} pageUrl={U}/><div class="seo"><p>{G.lead} <a href={url('finder',lang)}>{G.quiz}</a>.</p></div></div></section>
 <article class="prose pg">
 <div class="tldr"><h2>{G.tldrH}</h2><ul>{G.tldr.map(x=><li set:html={x}/>)}</ul></div>
 <nav class="toc" aria-label={G.tocH}><b>{G.tocH}</b><ol>{Object.entries(G.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>

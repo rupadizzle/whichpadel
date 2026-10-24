@@ -1,8 +1,8 @@
 ---
-import Base from '../layouts/Base.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro';
 import { vsPairs, sh } from '../lib/vs.js'; import { offersOf } from '../lib/price.js'; import { D, url, SITE, P, Pnum, balTxt, wt, mat } from '../i18n/index.js';
 const { p, lang } = Astro.props; const {A,B}=p; const xs=[A,B]; const d=D(lang), u=d.ui, C=d.copy.vs, t=d.terms, c=u.cmp;
-const a=sh(A), b=sh(B); const df=k=>A.ratings[k]-B.ratings[k]; const hi=k=>Math.max(A.ratings[k],B.ratings[k]), lo=k=>Math.min(A.ratings[k],B.ratings[k]);
+const a=sh(A), b=sh(B), title=`${a} vs ${b}`; const df=k=>A.ratings[k]-B.ratings[k]; const hi=k=>Math.max(A.ratings[k],B.ratings[k]), lo=k=>Math.min(A.ratings[k],B.ratings[k]);
 const gaps=['power','control','handling','forgiveness','comfort'].map(k=>[k,df(k)]).sort((x,y)=>Math.abs(y[1])-Math.abs(x[1])); const [gk,gv]=gaps[0];
 const w=k=>df(k)>0?a:df(k)<0?b:null; const fg=(A.ratings.forgiveness+A.ratings.comfort)-(B.ratings.forgiveness+B.ratings.comfort);
 const pa=Pnum(A,lang), pb=Pnum(B,lang); const cheap=pa!=null&&pb!=null&&pa!==pb?(pa<pb?a:b):null;
@@ -16,7 +16,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','main
 const others=vsPairs.filter(o=>o.slug!==p.slug).slice(0,6);
 ---
 <Base lang={d.locale} title={C.title(A.model,B.model)+d.copy.titleSuffix} description={C.desc(a,b).slice(0,158)} jsonld={jsonld} ogImage={A.image?`${SITE}${A.image}`:undefined}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('compare',lang)}>{u.compare}</a> › <span>{a} vs {b}</span></nav><h1>{a} vs {b}</h1><div class="seo"><p>{intro}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('compare',lang)}>{u.compare}</a> › <span>{a} vs {b}</span></nav><h1>{title}</h1><Byline lang={lang} headline={title} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
 <div class="cmp" style="--n:2">
 <div class="chead" style="--n:2">{xs.map(r=><div class="hc"><RacketImage lang={lang} r={r} size={48}/><a class="hn" href={url('racket',lang,r.slug)}>{sh(r)}</a><Price r={r} lang={lang} cls="hp"/></div>)}</div>
 <section class="verdict" aria-label={c.ourVerdict}><h2 class="h3">{c.ourVerdict}</h2><p style="margin:0">{verdict}</p></section>

@@ -1,12 +1,12 @@
 ---
-import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro';
 import { D, url, SITE } from '../i18n/index.js'; import { YEARS, YC, ofYear, FCARD } from '../lib/years.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, C=YC[lang], FC=FCARD[lang];
 const L=YEARS.map(y=>({y,rs:ofYear(y)})); const n=L.reduce((a,l)=>a+l.rs.length,0);
 const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.hub,'itemListElement':L.map((l,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('year',lang,l.y),'name':C.h(l.y)}))};
 ---
 <Base lang={d.locale} title={C.hubT+d.copy.titleSuffix} description={C.hubD(n)} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{C.hub}</span></nav><h1>{C.hub}</h1><div class="seo"><p>{C.hubL}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{C.hub}</span></nav><h1>{C.hub}</h1><Byline lang={lang} headline={C.hub} pageUrl={SITE+url('years',lang)}/><div class="seo"><p>{C.hubL}</p></div></div></section>
 <section class="panel vs">{L.map(l=><a href={url('year',lang,l.y)}><span>{C.h(l.y)}</span><span>{C.count(l.rs.length)} →</span></a>)}</section>
 {L.filter(l=>l.rs.length>=3).map(l=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{C.h(l.y)}</h2><a href={url('year',lang,l.y)}>{u.seeAll}</a></div><div class="grid">{l.rs.slice(0,3).map((r,i)=><CardL r={r} rank={i+1} lang={lang}/>)}</div></section>)}
 <section class="panel fcard" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:24px 0"><div><h2 class="h3" style="margin:0 0 8px">{FC[0]}</h2><p class="muted" style="margin:0">{FC[1]}</p></div><a class="btn" style="min-height:44px;display:inline-flex;align-items:center" href={url('finder',lang)}>{FC[2]} →</a></section>

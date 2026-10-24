@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import { D, url, SITE, P } from '../i18n/index.js'; import { cnt } from '../i18n/stats.js';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import { D, url, SITE, P } from '../i18n/index.js'; import { cnt } from '../i18n/stats.js';
 const { p, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.player, t=d.terms; const rs=p.rackets; const cur=rs[0]; const U=SITE+url('player',lang,p.slug);
 const ys=[...new Set(rs.map(r=>r.year).filter(Boolean))].sort(); const w=rs.filter(r=>r.weightMin);
 const x={n:rs.length,brands:[...new Set(rs.map(r=>r.brand))],y0:ys[0],y1:ys.at(-1),shapes:cnt(rs,'shape'),cores:cnt(rs,'coreHardness'),w:w.length?`${Math.min(...w.map(r=>r.weightMin))}–${Math.max(...w.map(r=>r.weightMax||r.weightMin))} g`:null,cur:cur.model,year:cur.year,price:P(cur,lang),list:rs.map(r=>r.model).join(', ')};
@@ -7,7 +7,7 @@ const summary=C.summary(p.name,x,t); const faq=C.faq(p.name,x);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':C.h1(p.name),'url':U,'numberOfItems':rs.length,'itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.players,'item':SITE+url('players',lang)},{'@type':'ListItem','position':3,'name':p.name,'item':U}]}]};
 ---
 <Base lang={d.locale} title={C.title(p.name,rs.length)+d.copy.titleSuffix} description={summary.slice(0,158).replace(/\s\S*$/,'')} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('players',lang)}>{u.players}</a> › <span>{p.name}</span></nav><h1>{C.h1(p.name)}</h1><div class="seo"><p>{summary}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('players',lang)}>{u.players}</a> › <span>{p.name}</span></nav><h1>{C.h1(p.name)}</h1><Byline lang={lang} headline={C.h1(p.name)} pageUrl={U}/><div class="seo"><p>{summary}</p></div></div></section>
 {rs.length>1&&<p><a class="btn" href={url('compare',lang)+`?r=${rs.slice(0,3).map(r=>r.slug).join(',')}`}>{C.compare(p.name)}</a></p>}
 <div class="grid">{rs.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>
 <section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>

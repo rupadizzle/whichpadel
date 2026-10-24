@@ -1,7 +1,7 @@
 ---
 // US money pages (English, USD). Lists only items with a live US-dollar price from a shop that delivers in the US (data/us.json snapshot;
 // cards then refresh from /api/prices). Country defaults to US on these pages unless the visitor saved another choice.
-import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import ShoeCard from '../components/ShoeCard.astro'; import '../styles/hub.css';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import ShoeCard from '../components/ShoeCard.astro'; import '../styles/hub.css';
 import { US_PAGES, US_KEYS, US_CHECKED } from '../lib/us.js'; import { url, SITE } from '../i18n/index.js';
 const { k } = Astro.props; const P=US_PAGES[k]; const list=P.list(); const n=list.length; const isS=P.kind==='s';
 const C={
@@ -9,7 +9,7 @@ const C={
  'padel-rackets-for-beginners':[`Best padel rackets for beginners in the USA`,`${n} forgiving, easy-to-play padel rackets for new players, all sold by shops that deliver in the US, priced in dollars.`],
  'padel-shoes':[`Padel shoes in the USA`,`${n} padel shoes in stock at shops that deliver in the US, with live prices in dollars. Padel shoes have a padel or clay outsole built for sideways movement on sand-filled turf.`],
 };
-const [h1,intro]=C[k]||(isS?[`Padel shoes under $${P.cap} in the USA`,`${n} padel shoes at $${P.cap} or less from shops that deliver in the US, ranked by availability and season.`]:[`Best padel rackets under $${P.cap} in the USA`,`${n} padel rackets at $${P.cap} or less from US-delivering shops, ranked by power, control and comfort.`]);
+const [h1,intro]=C[k]||(isS?[`Padel shoes under $${P.cap} in the USA`,`${n} padel shoes at $${P.cap} or less from shops that deliver in the US, ranked by availability and season.`]:[`Best padel rackets under $${P.cap} in the USA`,`${n} padel rackets at $${P.cap} or less from US-delivering shops, ranked by power, control and comfort.`]); const head=`${h1} (2026)`;
 const U=SITE+url('us','en',k); const title=`${h1} (2026): ${n} picks, $ prices | WhichPadel`;
 const desc=`${intro.split('. ')[0]}.`.slice(0,158);
 const faq=[
@@ -25,7 +25,7 @@ const label=x=>C[x]?.[0]||(US_PAGES[x].kind==='s'?`Padel shoes under $${US_PAGES
 const others=US_KEYS.filter(x=>x!==k);
 ---
 <Base lang="en-US" title={title} description={desc} jsonld={jsonld} region="US" usPage>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>{h1}</span></nav><h1>{h1} (2026)</h1><div class="seo"><p>{intro}</p><p><b>How this list is built:</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>{h1}</span></nav><h1>{head}</h1><Byline lang="en" headline={head} pageUrl={U}/><div class="seo"><p>{intro}</p><p><b>How this list is built:</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p></div></div></section>
 <div class="hub us">
 {isS?<ul class="hub-grid">{list.map((s,i)=><ShoeCard s={s} lang="en" rank={i+1} eager={i<4} region="US"/>)}</ul>
  :<div class="rlist">{list.map((r,i)=><CardL r={r} rank={i+1} lang="en" eager={i===0} region="US"/>)}</div>}

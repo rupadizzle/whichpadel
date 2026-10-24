@@ -1,9 +1,9 @@
 ---
 // Every page of every language is generated here from the route map (src/i18n/routes.js). One view per page type; no per-language page files.
 import { pages, url, LANGS } from '../i18n/routes.js';
-import { rackets, brandList, players, bySlug } from '../lib/data.js'; import { y27 } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
+import { rackets, brandList, players, bySlug } from '../lib/data.js'; import { brandYears } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
 import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VCompare from '../views/VCompare.astro'; import VBestIndex from '../views/VBestIndex.astro'; import VBest from '../views/VBest.astro';
-import VRacket from '../views/VRacket.astro'; import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrand2027 from '../views/VBrand2027.astro';
+import VRacket from '../views/VRacket.astro'; import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrandYear from '../views/VBrandYear.astro';
 import VPlayers from '../views/VPlayers.astro'; import VPlayer from '../views/VPlayer.astro'; import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import VFinder from '../views/VFinder.astro'; import V404 from '../views/V404.astro'; import VYears from '../views/VYears.astro'; import VYear from '../views/VYear.astro'; import VShoes from '../views/VShoes.astro'; import VShoe from '../views/VShoe.astro'; import VShoeCompare from '../views/VShoeCompare.astro'; import VShoeList from '../views/VShoeList.astro'; import { shoeBySlug, shoeBrands } from '../lib/shoes.js'; import VRackets from '../views/VRackets.astro';
 export function getStaticPaths(){ const out=[];
  for(const lang of LANGS){ for(const p of pages()){ const u=url(p.type,lang,p.id); if(!u) continue; out.push({params:{path:u.replace(/^\/|\/$/g,'')||undefined},props:{type:p.type,id:p.id,lang}}); }
@@ -21,7 +21,7 @@ const brand=s=>brandList.find(b=>b.slug===s);
 {type==='racket'&&<VRacket r={bySlug[id]} lang={lang}/>}
 {type==='brands'&&<VBrands lang={lang}/>}
 {type==='brand'&&<VBrand b={brand(id)} lang={lang}/>}
-{type==='brand2027'&&<VBrand2027 b={y27.find(b=>b.slug===id)} lang={lang}/>}
+{type==='brandYear'&&<VBrandYear b={brandYears.find(b=>b.id===id)} lang={lang}/>}
 {type==='players'&&<VPlayers lang={lang}/>}
 {type==='player'&&<VPlayer p={players.find(p=>p.slug===id)} lang={lang}/>}
 {type==='vs'&&<VVs p={vsPairs.find(v=>v.slug===id)} lang={lang}/>}

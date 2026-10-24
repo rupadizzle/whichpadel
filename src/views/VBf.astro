@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro'; import CardL from '../components/CardL.astro'; import PriceAlertL from '../components/PriceAlertL.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, Pnum } from '../i18n/index.js';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import PriceAlertL from '../components/PriceAlertL.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, Pnum } from '../i18n/index.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.bf;
 const dates=rackets.map(r=>r.priceChecked).filter(Boolean).sort(); const from=dates[0], to=dates.at(-1);
 const ok=rackets.filter(r=>r.valueScore!=null&&r.image&&Pnum(r,lang)!=null);
@@ -8,7 +8,7 @@ const faq=C.faq(from,to);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':C.h1,'item':SITE+url('bf',lang)}]}]};
 ---
 <Base lang={d.locale} title={C.title+d.copy.titleSuffix} description={C.desc(to)} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bf}</span></nav><h1>{C.h1}</h1><div class="seo"><p>{C.lead}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bf}</span></nav><h1>{C.h1}</h1><Byline lang={lang} headline={C.h1} pageUrl={SITE+url('bf',lang)}/><div class="seo"><p>{C.lead}</p></div></div></section>
 <p class="rulebox"><Fragment set:html={C.stamp(from,to)}/> <a href={url('best',lang,'best-value-padel-rackets')+'#methodology'}>{u.methodology}</a>.</p>
 {tiers.filter(x=>x.rs.length).map(x=><section><h2>{x.h}</h2><div class="grid">{x.rs.map(r=><CardL r={r} lang={lang}/>)}</div></section>)}
 <p><a href={url('best',lang,'best-value-padel-rackets')}>{C.full}</a></p>
