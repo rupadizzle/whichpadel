@@ -8,8 +8,7 @@ const nShops=new Set(rackets.flatMap(r=>offersOf(r).map(o=>o.d))).size;
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
- {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]},
- {'@type':'FAQPage','mainEntity':F.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+ {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]}]};
 const BUD=['100','150','200','300','any'];
 const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]];
 const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['style',Z.q[1],['control','all','power'],Z.st],['prio',Z.q[2],['comfort','light','durable','latest'],Z.pr],
@@ -21,12 +20,11 @@ const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate
 <Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
 <div class="fz" id="fz" data-state="intro">
 <section class="fz-scr fz-intro" data-scr="intro">
- <span class="fz-eb">🎯 {F.crumb}</span>
  <h1>{Z.promise}</h1>
  <p class="fz-sub">{Z.sub(rackets.length,'§').split('§')[0]}<span id="fz-ns">{nShops}</span>{Z.sub(rackets.length,'§').split('§')[1]}</p>
  <button type="button" class="btn btn-accent fz-start" id="fz-start">{Z.start} →</button>
+ <ol class="fz-path">{Z.path.map((label,i)=><li><span aria-hidden="true">{i+1}</span>{label}</li>)}</ol>
  <p class="fz-trust">✓ {Z.trust}</p>
- <details class="fz-faq"><summary>{u.faq}</summary>{F.faq.map(([q,a])=><div class="faq"><h2 class="h3">{q}</h2><p>{a}</p></div>)}</details>
 </section>
 <section class="fz-scr fz-q" data-scr="q" hidden>
  <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/4</span></div>

@@ -1,4 +1,4 @@
-.pg{max-width:820px;margin:0 auto;padding:8px 16px 40px;line-height:1.65}
+.pg{max-width:820px;margin:0 auto;padding:8px 0 40px;line-height:1.65}
 .pg h2{margin-top:2em;scroll-margin-top:80px}
 .pg .tldr{border:1px solid #d7e3e8;border-radius:12px;padding:14px 18px;background:#f5fafb}
 .pg .tldr h2{margin:0 0 6px;font-size:1.15rem}
@@ -29,7 +29,7 @@
 .rgn-save{width:100%;min-height:44px;margin-top:var(--s4)}
 @media(width <= 400px){.rgn-x{display:none}}
 @media(width > 1180px){.nav a,.nav .dd>button{white-space:nowrap}}
-@media(width > 1180px){.hdr .wrap{gap:var(--s2)}.nav{gap:0}.nav a,.nav .dd>button{padding:var(--s2);font-size:.88rem}}
+@media(width > 1180px){.hdr .wrap{gap:var(--s2)}.nav{gap:2px}.nav a,.nav .dd>button{padding:var(--s2) var(--s3);font-size:.9rem}}
 
 /* Main content vertical padding: same gap below header/hero and above footer on every page */
 main.wrap{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
@@ -46,15 +46,18 @@ main.wrap{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
 .fz-scr.in,.fz-step.in{animation:fzin .22s ease-out}
 @keyframes fzin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.fz-scr.in,.fz-step.in{animation:none}.fz-prog i{transition:none}}
-.fz-intro{text-align:center;padding:var(--s6) 0 var(--s4)}
+main.fz-main:has(#fz[data-state="intro"]){min-height:calc(100svh - 62px);display:flex;flex-direction:column;justify-content:center}
+.fz-intro{text-align:center;width:100%;padding:var(--s5) 0}
 .fz-eb{display:inline-block;font-size:var(--fs-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin:0 0 var(--s2)}
-.fz-intro h1{font-size:var(--title);line-height:1.15;margin:0 0 var(--s3);letter-spacing:-.02em}
-.fz-sub{color:var(--mut);font-size:1.05rem;margin:0 0 var(--s5)}
+.fz-intro h1{font-size:clamp(2rem,5vw,2.75rem);line-height:1.08;margin:0 auto var(--s3);letter-spacing:-.03em;text-wrap:balance;max-width:14em}
+.fz-sub{color:var(--mut);font-size:1.05rem;margin:0 auto var(--s5);max-width:34em}
 .fz-start{width:100%;max-width:360px;min-height:56px;font-size:1.1rem;font-weight:800;border-radius:14px}
-.fz-trust{font-size:var(--fs-s);color:var(--mut);margin:var(--s3) 0 var(--s7)}
-.fz-faq{text-align:left;border-top:1px solid var(--line);padding-top:var(--s2)}
-.fz-faq summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
-.fz-faq .h3{font-size:1rem;margin:var(--s4) 0 var(--s1)}.fz-faq p{margin:0;color:var(--mut);font-size:var(--fs-s)}
+.fz-path{list-style:none;display:flex;justify-content:center;flex-wrap:wrap;gap:10px 0;margin:var(--s5) auto 0;padding:0;color:var(--ink);font-size:var(--fs-s);font-weight:650}
+.fz-path li{display:flex;align-items:center;gap:8px}
+.fz-path li+li::before{content:"";width:16px;height:1px;background:var(--line);margin:0 10px 0 2px}
+.fz-path span{width:22px;height:22px;border-radius:99px;background:#e6f6d0;color:var(--green);font-size:.75rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.fz-trust{font-size:var(--fs-s);color:var(--mut);margin:var(--s4) 0 0}
+@media(max-width:560px){.fz-path{flex-direction:column;align-items:flex-start;width:max-content;gap:12px}.fz-path li+li::before{display:none}}
 .fz-top{display:flex;align-items:center;gap:var(--s3);margin:0 0 var(--s5)}
 .fz-back{width:44px;height:44px;border-radius:99px;border:1px solid var(--line);background:#fff;font-size:1.1rem;cursor:pointer;flex:0 0 auto;color:var(--ink)}
 .fz-prog{flex:1;height:8px;border-radius:99px;background:#e3e9ee;overflow:hidden}
