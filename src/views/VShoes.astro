@@ -20,14 +20,14 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
+ <label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
 </div></div>
 <div class="hub-l">
 <div class="hub-shade" id="h-shade" hidden></div>
 <aside class="hub-f" id="h-f" aria-label={T.filters}>
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
-  <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
+  <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
   <label class="hub-fl">{T.brand}<select id="h-brand"><option value="">{T.allBrands}</option>{brands.map(b=><option value={b}>{b}</option>)}</select></label>
   <fieldset class="hub-g"><legend>{T.sole}</legend><div class="hub-chips">{chips('so',T.soles).map(o=><label><input type="radio" name="h-so" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
   <label class="hub-fl">{T.size}<select id="h-sz"><option value="">{T.any}</option>{sizes.map(x=><option value={x}>{x}</option>)}</select></label>
@@ -57,7 +57,7 @@ const get=()=>({q:$('h-q').value.trim(),brand:$('h-brand').value,g:rv('g'),so:rv
 const put=s=>{$('h-q').value=s.q||'';$('h-brand').value=s.brand||'';setR('g',s.g||'');setR('so',s.so||'');$('h-sz').value=s.sz||'';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec';};
 function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max); let n=0;
  const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!s.brand||d.b===s.brand)&&(!s.g||d.g===s.g)&&(!s.so||d.so.split(' ').includes(s.so))&&(!s.sz||d.sz.split(' ').some(x=>Math.floor(+x)===+s.sz))&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
- const P=li=>pv[li.dataset.s]??1e9; const f={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),new:(a,b)=>b.dataset.y-a.dataset.y||a.dataset.o-b.dataset.o,shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}[s.sort];
+ const P=li=>pv[li.dataset.s]??1e9; const map={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===1e9)-(P(a)===1e9)||P(b)-P(a),new:(a,b)=>b.dataset.y-a.dataset.y||a.dataset.o-b.dataset.o,old:(a,b)=>(+a.dataset.y||9999)-(+b.dataset.y||9999)||a.dataset.o-b.dataset.o,shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}; const f=map[s.sort]||map[''];
  [...items].sort(f).forEach(li=>{const on=ok(li); li.hidden=!on; if(on) n++; grid.appendChild(li);});
  $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n); $('h-empty').hidden=n>0;
  const c=['q','brand','so','sz'].filter(k=>s[k]).length+((s.min||s.max)?1:0); $('h-fn').textContent=c?`(${c})`:'';

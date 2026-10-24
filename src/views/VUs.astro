@@ -25,7 +25,8 @@ const label=x=>C[x]?.[0]||(US_PAGES[x].kind==='s'?`Padel shoes under $${US_PAGES
 const others=US_KEYS.filter(x=>x!==k);
 ---
 <Base lang="en-US" title={title} description={desc} jsonld={jsonld} region="US" usPage>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>{h1}</span></nav><h1>{head}</h1><Byline lang="en" headline={head} pageUrl={U}/><div class="seo"><p>{intro}</p><p><b>How this list is built:</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>{h1}</span></nav><h1>{head}</h1><Byline lang="en" headline={head} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
+<p class="rulebox"><b>How this list is built:</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p>
 <div class="hub us">
 {isS?<ul class="hub-grid">{list.map((s,i)=><ShoeCard s={s} lang="en" rank={i+1} eager={i<4} region="US"/>)}</ul>
  :<div class="rlist">{list.map((r,i)=><CardL r={r} rank={i+1} lang="en" eager={i===0} region="US"/>)}</div>}

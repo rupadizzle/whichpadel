@@ -33,7 +33,7 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-sort"><span class="sr">{H.sort}</span><select id="h-sort">{[3,0,1,2].map(i=><option value={['best','price','new','pop'][i]} selected={i===3}>{H.sorts[i]}</option>)}</select></label>
+ <label class="hub-sort"><span class="sr">{H.sort}</span><select id="h-sort">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k} selected={k==='pop'}>{H.sorts[i]}</option>)}</select></label>
 </div>
 </div>
 <div class="hub-ac" id="h-ac" aria-label={H.activeF} hidden></div>
@@ -42,7 +42,7 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 <aside class="hub-f" id="h-f" aria-label={H.filters}>
  <div class="hub-fh"><h2>{H.fsT}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
  <div class="hub-fb">
-  <label class="hub-fl hub-msort">{H.sort}<select id="h-sort2">{[3,0,1,2].map(i=><option value={['best','price','new','pop'][i]}>{H.sorts[i]}</option>)}</select></label>
+  <label class="hub-fl hub-msort">{H.sort}<select id="h-sort2">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k}>{H.sorts[i]}</option>)}</select></label>
   {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="radio" name={'h-'+g[0]} value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>)}
   <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div></fieldset>
   <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b><small>{H.stockS}</small></span></label>
@@ -100,7 +100,7 @@ const OI=Object.fromEntries(T.order.map((s,i)=>[s,i])); const pop=r=>-(OI[r.s]??
 function filt(s){const q=s.q.toLowerCase(), bn=T.brands[s.brand], mn=parseFloat(s.min), mx=parseFloat(s.max);
  return all.filter(r=>(!q||(r.m+' '+r.b).toLowerCase().includes(q))&&(!bn||r.b===bn)&&(!s.year||String(r.y)===s.year)&&(!s.aud||r.a===s.aud)&&(!s.shape||r.sh===s.shape)&&(!s.bal||r.bn===s.bal)&&(!s.wt||r.wn===s.wt)&&(!s.hard||r.cn===s.hard)&&(!s.level||r.lv===s.level)&&(!s.stock||near(r))&&((isNaN(mn)&&isNaN(mx))||((v=>v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx))(priceV(r)))));}
 function sortv(v,k){const P=r=>{const x=priceV(r); return x==null?Infinity:x;};
- const f={best:(a,b)=>(P(a)===Infinity)-(P(b)===Infinity)||saving(b)-saving(a)||P(a)-P(b),price:(a,b)=>P(a)-P(b),new:(a,b)=>(b.y||0)-(a.y||0)||P(a)-P(b),pop:(a,b)=>pop(b)-pop(a)}[k||'pop'];
+ const map={best:(a,b)=>(P(a)===Infinity)-(P(b)===Infinity)||saving(b)-saving(a)||P(a)-P(b),price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===Infinity)-(P(a)===Infinity)||P(b)-P(a),new:(a,b)=>(b.y||0)-(a.y||0)||P(a)-P(b),old:(a,b)=>(a.y||9999)-(b.y||9999)||P(a)-P(b),pop:(a,b)=>pop(b)-pop(a)}; const f=map[k]||map.pop;
  return [...v].sort(f);}
 const syncURL=s=>{const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); const q=qs.toString(); history.replaceState(null,'',(q?T.base:location.pathname)+(q?'?'+q:'')+location.hash);};
 const setCount=n=>{chips();$('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n);};
