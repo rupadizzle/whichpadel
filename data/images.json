@@ -2145,9 +2145,14 @@
   ]
  },
  "siux-astra-ctrl-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-astra-ctrl-2026",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.siuxpadel.com/en/products/siux-astra-ctrl-2026",
+  "src": "https://www.siuxpadel.com/cdn/shop/files/d13f411f7737ce7ad1cbe788dc84beb5.webp?v=1781267940&width=2048",
+  "size": [
+   1000,
+   1000
+  ],
+  "source": "brand"
  },
  "siux-astra-hybrid-2026": {
   "ok": true,
@@ -2224,9 +2229,14 @@
   "source": "shop"
  },
  "siux-electra-pro-rl-2-0-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-electra-pro-rl-2-0",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.siuxpadel.com/en/products/siux-electra-pro-rl-2-0",
+  "src": "https://www.siuxpadel.com/cdn/shop/files/8d7faee8e362bb0b23da1c9a73c28714.png?v=1788344972&width=2048",
+  "size": [
+   1920,
+   1920
+  ],
+  "source": "brand"
  },
  "siux-electra-st2-flex-2026": {
   "ok": true,
@@ -2298,9 +2308,14 @@
   "source": "shop"
  },
  "siux-fenix-pro-se-2-0": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-fenix-pro-se-2-0",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.siuxpadel.com/en/products/siux-fenix-pro-se-2-0",
+  "src": "https://www.siuxpadel.com/cdn/shop/files/2852c2f38e8395809a2a31d376c21884.png?v=1781268257&width=2048",
+  "size": [
+   1920,
+   1920
+  ],
+  "source": "brand"
  },
  "siux-gea": {
   "ok": true,
@@ -2342,9 +2357,14 @@
   ]
  },
  "siux-pegasus-3-2025": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-pegasus-3",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.siuxpadel.com/en/products/siux-pegasus-3",
+  "src": "https://www.siuxpadel.com/cdn/shop/files/0c88341d6505ad75474c49c56b081dbb.webp?v=1781698202&width=2048",
+  "size": [
+   1000,
+   1000
+  ],
+  "source": "brand"
  },
  "siux-pegasus-pro-2026-lava-orange": {
   "ok": true,
@@ -2742,9 +2762,14 @@
   ]
  },
  "wilson-bela-ls-v3": {
-  "ok": false,
-  "url": "https://www.wilson.com/en-us/product/bela-ls-v3-padel-wr18670",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/wilson-bela-ls-v3-padelschlaeger-00707504155000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0070750415500000.jpg?v=1775122220",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "wilson-bela-pro-v2-5": {
   "ok": true,
@@ -2756,14 +2781,24 @@
   ]
  },
  "wilson-bela-pro-v3-2025": {
-  "ok": false,
-  "url": "https://www.wilson.com/en-us/product/bela-pro-v3-padel-wr18640",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/wilson-padel/13466-wilson-bela-pro-v3-2025.html",
+  "src": "https://www.zonadepadel.nl/26909-zdp_customer/wilson-bela-pro-v3-2025.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "wilson-bela-v3-2025": {
-  "ok": false,
-  "url": "https://www.wilson.com/en-us/product/bela-v3-padel-wr18650",
-  "err": "page None"
+  "ok": true,
+  "url": "https://www.zonadepadel.nl/wilson-padel/13467-wilson-bela-v3-2025.html",
+  "src": "https://www.zonadepadel.nl/26912-zdp_customer/wilson-bela-v3-2025.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "wilson-blade-v3": {
   "ok": true,
@@ -2884,7 +2919,7 @@
  },
  "black-crown-iconic-2026": {
   "ok": false,
-  "url": "https://www.zonadepadel.nl/black-crown/15555-black-crown-iconic-2026.html",
+  "url": "https://www.streetpadel.com/en/products/black-crown-iconic-121585-p",
   "err": "no candidate"
  },
  "black-crown-patron-gold-2025": {
@@ -3014,9 +3049,14 @@
   ]
  },
  "bullpadel-icon-2025": {
-  "ok": false,
-  "url": "https://www.zonadepadel.nl/bullpadel/12794-bullpadel-icon-cloud-2025.html",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://www.padel-point.de/products/bullpadel-icon-25-14907500145000",
+  "src": "https://www.padel-point.de/cdn/shop/files/1490750014500000.jpg?v=1774887908",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
  },
  "bullpadel-indiga-woman-2026": {
   "ok": true,
@@ -4138,5 +4178,725 @@
    1200,
    1200
   ]
+ },
+ "adidas-adipower-carbon-ctrl-3-4-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-adipower-carbon-ctrl-3-4-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/ad5_7975eea0-a97f-449d-9410-767f856f8669.webp?v=1760981046",
+  "size": [
+   600,
+   700
+  ],
+  "source": "shop"
+ },
+ "adidas-adipower-carbon-light-3-4-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-adipower-carbon-light-3-4-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/ad5_11f87cde-3b8a-4705-8176-ec42a60daddf.webp?v=1760981088",
+  "size": [
+   600,
+   700
+  ],
+  "source": "shop"
+ },
+ "adidas-cross-it-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/raquette-de-padel-adidas-cross-it-ctrl2026",
+  "src": "https://padelproshop.com/cdn/shop/files/tap6.webp?v=1762961032",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
+ },
+ "adidas-cross-it-3-4-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-cross-it-3-4-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Adidas_Cross_IT_3.4_2025.webp?v=1772796319",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "adidas-cross-it-ctrl-3-4-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-cross-it-ctrl-3-4-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/243242.webp?v=1760980874",
+  "size": [
+   600,
+   700
+  ],
+  "source": "shop"
+ },
+ "adidas-cross-it-team-3-4-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-cross-it-team-3-4-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/it5_f34dcf67-092b-4832-9ea2-823a1d66e921.webp?v=1760980974",
+  "size": [
+   600,
+   700
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-3-3-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/racchetta-da-padel-adidas-metalbone-ctrl3-3",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Adidas_Metalbone_CTRL_3.3.webp?v=1777885915",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-ctrl-3-3-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-metalbone-ctrl-3-3",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Adidas_Metalbone_CTRL_3.3.webp?v=1777885915",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-carbon-ctrl-3-4-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/adidas-metalbone-carbon-ctrl-3-4-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Adidas-Metalbone_Carbon_CTRL_3.4_2025_Padel_Racket_PadelUSA_store_1.webp?v=1735638290",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-team-2024": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/adidas-metalbone-zidane-team-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/METALB-ZZ-1.png?v=1791455511",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-team-3-4-2025": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/adidas-metalbone-team-3-4-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/Metalbone_team_3.4_AR2AA0FRONT.png?v=1733325263",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-team-light-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-metalbone-team-light-reed",
+  "src": "https://padelproshop.com/cdn/shop/files/AdidasMetalboneTeamLight3.3_1.webp?v=1778741414",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-team-light-3-4-2025": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/adidas-metalbone-team-light-3-4-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/Metalbone_team_light_3.4_AR2CA0FRONT.png?v=1733326362",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "adidas-metalbone-3-4-2025-ale-galan": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/adidas-padel-racket-metalbone-3-4-2025-ale-galan",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Adidas_Metalbone_3.4_2025_Ale_Galan.webp?v=1771321348",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
+ },
+ "babolat-air-viper-2025": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/babolat-air-viper-2025-padelschlaeger-00907503063000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0090750306300000.jpg?v=1775121862",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "babolat-counter-viper-2025": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/babolat-counter-viper-2025-00907503064000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0090750306400000.jpg?v=1775122334",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "babolat-lamborghini-bl-002-2025": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/babolat-bl-002-lamborghini-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/152002-BL.002-105-1-Face..png?v=1748334016",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "babolat-lamborghini-bl-002-bronze-2026": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/babolat-bl-002-lamborghini-padel-racket-bronze",
+  "src": "https://pdhsports.com/cdn/shop/files/152004-BL.002-171-1-Face.png?v=1779791352",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "babolat-lamborghini-bl-003-2026": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/babolat-bl-003-lamborghini-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/152003-BL.003-136-1-Face.png?v=1769703292",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "babolat-technical-veron-2024": {
+  "ok": true,
+  "url": "https://padelusa.com/products/babolat-technical-veron-2024-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Babolat-Technical_Veron_2024_Padel_Racket_PadelUSA_store_1.webp?v=1710190658",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "babolat-technical-vertuo-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/babolat-technical-vertuo-juan-lebron-2025-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Babolat-Technical_Vertuo_Juan_Lebron_2025_Padel_Racket_PadelUSA_store_1_1.webp?v=1732910350",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "babolat-technical-viper-juan-lebron-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/babolat-padel-racket-technical-viper-2025-juan-lebron",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Babolat_Technical_Viper_2025_Juan_Lebron_2.webp?v=1771932929",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "babolat-veron-3-0-2026-juan-lebron": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/babolat-veron-juan-lebron-3-0-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/150182-VERON_JUAN_LEBRON_3.0-100-1-Face.png?v=1764174856",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "babolat-viper-soft-3-0-2026-juan-lebron": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/babolat-viper-soft-juan-lebron-3-0-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/150178-VIPER_SOFT_JUAN_LEBRON_3.0-100-1-Face.png?v=1764166571",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "bullpadel-hack-04-hybrid-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/bullpadel-hack-04-hybrid-2025-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Bullpadel-Hack-04_Hybrid_2025_Padel_Racket_PadelUSA_store_1.webp?v=1729012787",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "bullpadel-impulse-pwr-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/pala-bullpadel-impulse-pwr-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaBullpadelImpulsePWR2026_1.webp?v=1768899113",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
+ },
+ "bullpadel-ionic-control-2025": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/bullpadel-ionic-control-25-padelschlaeger-14907500153000",
+  "src": "https://www.padel-point.de/cdn/shop/files/1490750015300000.jpg?v=1774900071",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "bullpadel-ionic-power-2025": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/bullpadel-ionic-power-25-padelschlaeger-14907500152000",
+  "src": "https://www.padel-point.de/cdn/shop/files/1490750015200000.jpg?v=1774929855",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "bullpadel-neuron-2024": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/bullpadel-neuron-schlaegertasche-grau-14937600159000",
+  "src": "https://www.padel-point.de/cdn/shop/files/1493760015900000.jpg?v=1774889093",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "bullpadel-pearl-bea-gonzalez-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/bullpadel-padel-racket-pearl-bea-gonzalez-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Bullpadel_Pearl_Bea_Gonzalez_2026_2.webp?v=1771420011",
+  "size": [
+   800,
+   800
+  ],
+  "source": "shop"
+ },
+ "bullpadel-vertex-04-comfort-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/bullpadel-vertex-04-comfort-2025",
+  "src": "https://padelusa.com/cdn/shop/files/Bullpadel-Vertex-04_Comfort_2025_Padel_Racket_PadelUSA_store_1.webp?v=1731932895",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "bullpadel-vertex-04-hybrid-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/bullpadel-vertex-04-hybrid-2025-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Bullpadel-Vertex-04_Hybrid_2025_Padel_Racket_PadelUSA_store_1.webp?v=1729020800",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "bullpadel-vertex-05-comfort-2026": {
+  "ok": true,
+  "url": "https://padelusa.com/products/bullpadel-vertex-05-comfort-2026-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Bullpadel-Vertex_05_Comfort_2026_Padel_Racket_PadelUSA_store_1.webp?v=1763078661",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "bullpadel-xplo-comfort-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/bullpadel-xplo-comfort-2025",
+  "src": "https://padelusa.com/cdn/shop/files/Bullpadel-XPLO_Comfort_2025_Padel_Racket_PadelUSA_store_1.webp?v=1732115029",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "dunlop-fx-lite-2026": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/dunlop-fx-lite-padelschlaeger-p0000002700501",
+  "src": "https://www.padel-point.de/cdn/shop/files/P000000270050100.jpg?v=1774919179",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "dunlop-galactica-os-nisse-ltd-2026": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/dunlop-galactica-os-by-nisse-ltd-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/DP26_10376501_GALACTICA_OS_NISSE_FRONT.png?v=1775574961",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "dunlop-galactica-pro-nisse-ltd-2026": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/dunlop-galactica-pro-by-nisse-ltd-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/DP26_10376500_GALACTICA_PRO_NISSE_FRONT_6dfdfca8-2cfb-45cc-b612-4b2d58d4b455.png?v=1775574921",
+  "size": [
+   1200,
+   1200
+  ],
+  "source": "shop"
+ },
+ "dunlop-megamax-black-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/dunlop-racket-megamax-black-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/10359950_DP25_MEGAMAXBLACK_1.webp?v=1761030040",
+  "size": [
+   600,
+   700
+  ],
+  "source": "shop"
+ },
+ "head-coello-team-2025": {
+  "ok": true,
+  "url": "https://padelusa.com/products/head-coello-team-2025-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Head-Coello_TEAM_2025_Padel_Racket_PadelUSA_store_1.webp?v=1738941555",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "shop"
+ },
+ "head-coello-vibe-2026": {
+  "ok": true,
+  "url": "https://pdhsports.com/products/head-coello-vibe-2026-padel-racket",
+  "src": "https://pdhsports.com/cdn/shop/files/226156CoelloVibe2026_2.png?v=1770813017",
+  "size": [
+   2400,
+   3200
+  ],
+  "source": "shop"
+ },
+ "head-extreme-elite-2024": {
+  "ok": true,
+  "url": "https://padelusa.com/products/head-extreme-elite-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Head-Extreme_Elite_Padel_Racket_PadelUSA_store_1.webp?v=1711742233",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "head-extreme-pro-ltd-2024": {
+  "ok": false,
+  "url": "https://padelproshop.com/products/head-padel-racket-arturo-coello-extreme-pro-ltd",
+  "err": "timeout"
+ },
+ "head-gravity-motion-2024": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/head-gravity-motion-2024-padelschlaeger-00606804469000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0060680446900000.jpg?v=1774929733",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "head-gravity-team-light-2024": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/head-gravity-team-light-2024-padelschlaeger-00606804472000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0060680447200000.jpg?v=1774878375",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "head-radical-elite-2024": {
+  "ok": true,
+  "url": "https://padelusa.com/products/head-radical-elite-2024-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Head-Radical_Elite_Padel_Racket_PadelUSA_store_1.webp?v=1711739534",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "head-radical-motion-2024": {
+  "ok": true,
+  "url": "https://padelusa.com/products/head-radical-motion-2024-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Head-Radical_Motion_Padel_Racket_PadelUSA_store_1.webp?v=1711737789",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "head-radical-pro-2024": {
+  "ok": true,
+  "url": "https://padelusa.com/products/head-radical-pro-2024-padel-racket",
+  "src": "https://padelusa.com/cdn/shop/files/Head-Radical_Pro_Padel_Racket_PadelUSA_store_1.webp?v=1711740248",
+  "size": [
+   1600,
+   2000
+  ],
+  "source": "shop"
+ },
+ "head-speed-motion-2025": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/head-speed-motion-00606204229000",
+  "src": "https://www.padel-point.de/cdn/shop/files/0060620422900000.jpg?v=1774883625",
+  "size": [
+   2500,
+   2500
+  ],
+  "source": "shop"
+ },
+ "head-speed-motion-ltd-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/head-padel-racket-speed-motion-ltd-alfonso-hohenlohe",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaHeadSpeedMotionLTDAlfonsoHohenlohe.webp?v=1774430751",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "joma-tournament-pro-iconic-2026": {
+  "ok": false,
+  "url": "https://padelproshop.com/products/joma-padel-racket-tournament-pro-iconic-black-red-2026",
+  "err": "all rejected"
+ },
+ "lok-be-flow-2024": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/pala-lok-be-flow",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Lok_Be_Flow_2025.webp?v=1774527395",
+  "size": [
+   1024,
+   1024
+  ],
+  "source": "shop"
+ },
+ "alkemia-ignis-2026": {
+  "ok": true,
+  "url": "https://www.alkemiapadel.com/products/alkemia-ignis",
+  "src": "https://alkemiapadel.com/cdn/shop/files/4.png?v=1772968714",
+  "size": [
+   4032,
+   4032
+  ],
+  "source": "brand"
+ },
+ "alkemia-tenebris-2026": {
+  "ok": true,
+  "url": "https://www.alkemiapadel.com/products/alkemia-tenebris",
+  "src": "https://alkemiapadel.com/cdn/shop/files/1_458e65fb-cb8e-44cb-b6cf-fb5b5813c5ed.png?v=1772968667",
+  "size": [
+   4032,
+   4032
+  ],
+  "source": "brand"
+ },
+ "alkemia-terra-2026": {
+  "ok": true,
+  "url": "https://www.alkemiapadel.com/products/alkemia-terra",
+  "src": "https://alkemiapadel.com/cdn/shop/files/4_9874c3f1-5846-4a0c-9e1b-51a90416300c.png?v=1768312279",
+  "size": [
+   4032,
+   4032
+  ],
+  "source": "brand"
+ },
+ "alkemia-thunder-2025": {
+  "ok": true,
+  "url": "https://www.alkemiapadel.com/products/alkemia-thunder",
+  "src": "https://alkemiapadel.com/cdn/shop/files/1_3f02ebe5-9e46-4d05-9e6e-53d3a611c528.png?v=1774032052",
+  "size": [
+   4032,
+   4032
+  ],
+  "source": "brand"
+ },
+ "alkemia-vento-2026": {
+  "ok": true,
+  "url": "https://www.alkemiapadel.com/products/alkemia-vento",
+  "src": "https://alkemiapadel.com/cdn/shop/files/3_a718c660-f5d8-4140-9033-23ed248a059d.png?v=1772968596",
+  "size": [
+   4032,
+   4032
+  ],
+  "source": "brand"
+ },
+ "siux-electra-pro-st3": {
+  "ok": true,
+  "url": "https://www.siuxpadel.com/en/products/siux-electra-stupa-pro-st3",
+  "src": "https://www.siuxpadel.com/cdn/shop/files/aa78ccacf0d5c614341d030cb5f90b8e.jpg?v=1781699164&width=2048",
+  "size": [
+   1000,
+   1000
+  ],
+  "source": "brand"
+ },
+ "black-crown-hurricane-comfort-4-0-2026": {
+  "ok": true,
+  "url": "https://blackcrown.es/product/pala-pdel-black-crown-hurricane-comfort-4-0/",
+  "src": "https://blackcrown.es/wp-content/uploads/2026/08/jimsports_pala_pdel_black_crown_hurricane_comfort_40.jpg",
+  "size": [
+   1920,
+   1920
+  ],
+  "source": "brand"
+ },
+ "black-crown-hurricane-pro-4-0-2026": {
+  "ok": true,
+  "url": "https://blackcrown.es/product/pala-pdel-black-crown-hurricane-pro-4-0/",
+  "src": "https://blackcrown.es/wp-content/uploads/2026/08/jimsports_pala_pdel_black_crown_hurricane_pro_40.jpg",
+  "size": [
+   1920,
+   1920
+  ],
+  "source": "brand"
+ },
+ "black-crown-piton-white-2026": {
+  "ok": true,
+  "url": "https://blackcrown.es/product/pala-pdel-black-crown-piton-white/",
+  "src": "https://blackcrown.es/wp-content/uploads/2025/08/jimsports_pala_pdel_black_crown_piton_white.jpg",
+  "size": [
+   1920,
+   1920
+  ],
+  "source": "brand"
+ },
+ "kombat-arenal-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-arenal-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3762_ff0a1bae-e733-4ba8-830a-6085ece3a6ff.jpg?v=1781683349",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-delta-force-mkiii-2024": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-delta-force-mkiii",
+  "src": "https://kombatpadel.com/cdn/shop/files/2884_208de8ab-5491-4696-9580-129e0cd3f1c1.jpg?v=1781683227",
+  "size": [
+   2400,
+   2400
+  ],
+  "source": "brand"
+ },
+ "kombat-fuji-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-fuji-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3755_37ecbbfc-d0cc-495e-9936-265d66fddfa0.jpg?v=1781683346",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-galeras-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-galeras-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3774_dc916740-4cf5-42c4-b957-94573c1d0e6c.jpg?v=1781683351",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-green-beret-2024": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-green-beret",
+  "src": "https://kombatpadel.com/cdn/shop/files/2872_ee6828ce-34b3-4333-b3a6-43cc590d9248.jpg?v=1781683229",
+  "size": [
+   2400,
+   2400
+  ],
+  "source": "brand"
+ },
+ "kombat-krakatoa-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-krakatoa-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3780_082beb5a-ce04-4f2e-a171-dbdb0e52fd8a.jpg?v=1781683349",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-legend-hunter-2026": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-legend-hunter",
+  "src": "https://kombatpadel.com/cdn/shop/files/KombatHUNTERMay2026-01_1.jpg?v=1789650801",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-onyx-pro-2026": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-onyx-pro",
+  "src": "https://kombatpadel.com/cdn/shop/files/4132_a06fbe5c-0048-4695-828c-1d89b9c6ae98.jpg?v=1781683413",
+  "size": [
+   1600,
+   1600
+  ],
+  "source": "brand"
+ },
+ "kombat-osorno-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-osorno-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3786_3d3e1042-9010-46a6-b152-fdffdccb8ae4.jpg?v=1781683347",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-sas-2024": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-sas",
+  "src": "https://kombatpadel.com/cdn/shop/files/2894_67b4f8f8-21e1-4864-8f7a-38fb998bf0d0.jpg?v=1781683233",
+  "size": [
+   2400,
+   2400
+  ],
+  "source": "brand"
+ },
+ "kombat-teide-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-teide-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3792_7ebe5b34-642b-4eb2-8c75-4bf6319567d8.jpg?v=1781683343",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-vesubio-2025": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-vesubio-25",
+  "src": "https://kombatpadel.com/cdn/shop/files/3798_90a51701-c8e4-4e66-8c5f-34ce363bb484.jpg?v=1781683342",
+  "size": [
+   3000,
+   3000
+  ],
+  "source": "brand"
+ },
+ "kombat-geo": {
+  "ok": true,
+  "url": "https://kombatpadel.com/en/products/kombat-geo",
+  "src": "https://kombatpadel.com/cdn/shop/files/2183_8d5aacae-d257-4cd0-9f50-4d55801565ca.jpg?v=1781683079",
+  "size": [
+   2000,
+   2000
+  ],
+  "source": "brand"
  }
 }
