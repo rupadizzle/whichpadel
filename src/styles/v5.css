@@ -81,12 +81,12 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 .shoe-cmp .chead{width:100%;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
 .shoe-cmp .hc{display:block;position:relative;min-width:0;max-width:100%;padding:0;container-type:inline-size}
 .shoe-cmp .hcin{display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;column-gap:10px;padding:8px 8px 8px 10px}
-.shoe-cmp .hcin img,.shoe-cmp .hcin .noimg{width:72px;height:72px;min-width:0;max-width:none;object-fit:contain}
+.shoe-cmp .hcin img,.shoe-cmp .hcin .noimg{grid-area:auto;grid-column:1;grid-row:1;width:72px;height:72px;min-width:0;max-width:none;object-fit:contain}
 .shoe-cmp .noimg{display:grid;place-items:center;font-size:1.25rem}
-.shoe-cmp .hbody{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
-.shoe-cmp .hn{width:auto;min-height:0;max-height:2.4em;font-size:1rem;font-weight:750;line-height:1.2;text-align:left}
-.shoe-cmp .hp{font-size:.85rem;line-height:1.2;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.shoe-cmp .hact{width:auto;margin:0;gap:4px;flex:none;flex-direction:column;align-self:center;justify-self:end}
+.shoe-cmp .hbody{grid-area:auto;grid-column:2;grid-row:1;display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+.shoe-cmp .hn{grid-area:auto;width:auto;min-height:0;max-height:2.4em;font-size:1rem;font-weight:750;line-height:1.2;text-align:left}
+.shoe-cmp .hp{grid-area:auto;font-size:.85rem;line-height:1.2;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shoe-cmp .hact{grid-area:auto;grid-column:3;grid-row:1;width:auto;margin:0;gap:4px;flex:none;flex-direction:column;align-self:center;justify-self:end}
 .shoe-cmp .hact .mini{flex:none;width:28px;height:28px;min-width:28px;min-height:28px;padding:0;border-radius:8px;display:inline-grid;place-items:center;color:var(--mut)}
 .shoe-cmp .hact .mini svg{width:14px;height:14px}
 .shoe-cmp .hact .mini:hover{color:var(--ink)}
