@@ -12,10 +12,10 @@ const jsonld={'@context':'https://schema.org','@graph':[
 const BUD=['100','150','200','300','any'];
 const money=s=>String(s).replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧/g,(_,k,n,f,d0)=>{k=k.toLowerCase();f=f.toUpperCase();d0=d0.toUpperCase();return k==='s'?`<span class="mzs" data-mc="${d0}">${SYMS[d0]}</span>`:`<span class="mz" data-k="${k}" data-m="${n}" data-mc="${f}">${fmtM(val(FX.rates,k,+n,f,d0),d0,lang)}</span>`;});
 const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]].map(money);
-const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['style',Z.q[1],['control','all','power'],Z.st],['prio',Z.q[2],['comfort','light','durable','latest'],Z.pr],
- ['budget',Z.q[3],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
+const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['side',Z.q[1],['right','left','either'],Z.sd],['style',Z.q[2],['control','all','power'],Z.st],['prio',Z.q[3],['comfort','light','durable','latest'],Z.pr],
+ ['budget',Z.q[4],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
 const ZC={...Z,sub:null,w:null,cmpShops:Z.cmpShops('§'),buyAt:Z.buyAt('§'),
- W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1')}};
+ W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1'),right:Z.w.right,left:Z.w.left}};
 const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate'),lang};
 ---
 <Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
@@ -28,7 +28,7 @@ const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate
  <p class="fz-trust">✓ {Z.trust}</p>
 </section>
 <section class="fz-scr fz-q" data-scr="q" hidden>
- <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/4</span></div>
+ <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax={Q.length} aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/{Q.length}</span></div>
  <form id="fq" onsubmit="return false">
  {Q.map(([n,lab,vals,opts],i)=><fieldset class="fz-step" data-i={i} hidden={i>0}><legend class="fz-qh">{lab}</legend>
  <div class="fz-opts">{vals.map((v,j)=><label class="fz-o"><input type="radio" name={n} value={v} data-t={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{opts[j][0]}</span><span class="fz-ot">{n==='budget'?<b set:html={opts[j][1]}/>:<b>{opts[j][1]}</b>}<small>{opts[j][2]}</small></span></span></label>)}</div></fieldset>)}
@@ -64,23 +64,26 @@ load();
 const bq=r=>(window.WP&&r.o&&r.o.length)?WP.best(r.o):null; const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
 const W={beginner:{forgiveness:3,comfort:2,handling:1,control:1},intermediate:{control:2,power:1,forgiveness:1,handling:1},advanced:{power:1.5,control:1.5,handling:1}};
 const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3}};
+const SIDEW={right:{control:2,forgiveness:1},left:{power:2},either:{}};
 const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest:{}};
 const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&d.c!=='hard'&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
 const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
 const sn=d=>esc((SN[d]||[d])[0]); const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
-function rank(A){const L=A.level,S=A.style,P=A.prio; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
+function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;
- const w={...W[L]}; for(const o of [SW[S],PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
+ const w={...W[L]}; for(const o of [SW[S],SIDEW[Sd]||{},PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
  const want=L==='beginner'?'round':SHP[S]; const ov=d=>(d.power+d.control+d.forgiveness+d.comfort+d.handling)/5;
  const tier=d=>{const p=gp(d); if(L==='advanced') return Math.min(p,250)/250*10-(S==='power'&&/\b(team|light|lite|control)\b/i.test(d.m)?4:0); if(L==='intermediate') return p>=70&&p<=220?5:0; return 0;};
  const pri=d=>P==='light'?(d.w1&&d.w1<=360?6:d.w0>=370?-4:0):P==='durable'?((d.c==='hard'?5:d.c==='medium'?3:0)+(gp(d)>=120?2:0)):P==='latest'?(d.y>=2026?8:d.y>=2025?3:-3):P==='comfort'?(d.c==='soft'?3:0):0;
- const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:0)+(d.i?1:0)+tier(d)+pri(d);};
+ const sideN=d=>Sd==='right'?(d.sh==='round'?4:(d.sh==='teardrop'||d.sh==='hybrid')?2:0):Sd==='left'?(d.sh==='diamond'?4:(d.sh==='teardrop'||d.sh==='hybrid')?2:0):0;
+ const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+sideN(d)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:0)+(d.i?1:0)+tier(d)+pri(d);};
  const pool=all.filter(d=>pn(d)!=null&&(!B||pn(d)<=B)&&OK[L](d)&&(P!=='comfort'||d.c!=='hard')&&!/\b(jr|junior|kids?)\b/i.test(d.m)).map(d=>({d,s:sc(d)})).sort((a,b)=>b.s-a.s);
  const top=[],br=new Set(); for(const x of pool){const bb=x.d.b.toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;}
  const why=d=>{const out=[]; const sh=Z.shape[d.sh]||'';
   if(L==='beginner'&&d.forgiveness>=60&&sh) out.push(R(Z.W.forg,sh));
   out.push(S==='control'?R(Z.W.ctl,d.control):S==='power'?R(Z.W.pow,d.power):R(Z.W.bal,d.power,d.control));
+  if(Sd==='right') out.push(Z.W.right); else if(Sd==='left') out.push(Z.W.left);
   if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0){const span=R(Z.W.light,d.w0,d.w1&&d.w1!==d.w0?d.w1:d.w0); out.push(!d.w1||d.w1===d.w0?span.replace(/(\d+)\s*[–-]\s*\1/,'$1'):span);} else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
   const ss=shopsOf(d); if(out.length<3&&ss.length) out.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt)); return out.slice(0,3);};
  return top.map(x=>({...x,why:why(x.d)}));}
@@ -91,7 +94,7 @@ function render(A){const top=rank(A); const out=$('fz-out');
  $('fz-alert').hidden=false; const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
  const rows=ss.slice(0,4).map((o,i)=>`<li class="fz-sr${i===0?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${o.s===0?Z.oos:Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join('');
  const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${U.rk}${x.d.s}/">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${U.rk}${x.d.s}/">${esc(x.d.m)}</a><span class="fz-am">${esc(x.why[0]||'')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`}).join('');
- const picks=['level','style','prio','budget'].map((n,i)=>{const t=choiceLabel(n); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(Z.path[i]+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
+ const picks=['level','side','style','prio','budget'].map((n,i)=>{const t=choiceLabel(n); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(Z.path[i]+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
  out.innerHTML=`<div class="fz-picks">${picks}</div><p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${U.rk}${d.s}/" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a></div>
  <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
@@ -106,7 +109,7 @@ function advance(i){ if(i<N-1&&steps.slice(i+1).every(st=>st.querySelector('inpu
 function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
  document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);});
  const sh=$('fz-share'); if(sh) sh.onclick=async()=>{const t=document.title; try{ if(navigator.share){await navigator.share({title:t,url:location.href}); return;} await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(e){ if(e&&e.name==='AbortError') return; try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(_){prompt('',location.href)}}};}
-const ans=()=>({level:rv('level'),style:rv('style'),prio:rv('prio'),budget:(document.querySelector('#fq input[name="budget"]:checked')||{dataset:{}}).dataset.t||'any'});
+const ans=()=>({level:rv('level'),side:rv('side')||'either',style:rv('style'),prio:rv('prio'),budget:(document.querySelector('#fq input[name="budget"]:checked')||{dataset:{}}).dataset.t||'any'});
 async function finish(){const A=ans(); history.replaceState(null,'','?'+new URLSearchParams(A)); scr('load'); const t0=Date.now(); await load().then(a=>all=a); await new Promise(r=>setTimeout(r,Math.max(0,(RM?250:650)-(Date.now()-t0)))); render(A); scr('res');}
 // alert form
 $('fz-alert').addEventListener('submit',async e=>{e.preventDefault(); const f=e.target, em=f.querySelector('[type=email]'), cb=f.querySelector('[type=checkbox]'), m=f.querySelector('.fz-msg');
@@ -117,7 +120,8 @@ $('fz-alert').addEventListener('submit',async e=>{e.preventDefault(); const f=e.
 const p=new URLSearchParams(location.search); const set=(n,v)=>{const i=document.querySelector(`#fq input[name="${n}"][data-t="${v}"]`); if(i){i.checked=true; return true;} return false;};
 if(p.get('style')==='arm'){p.set('style','all'); if(!p.get('prio')) p.set('prio','comfort');}
 if(!p.get('prio')&&p.get('level')) p.set('prio','latest');
-if(['level','style','prio','budget'].every(n=>p.get(n)&&set(n,p.get(n)))){ load().then(a=>{all=a; render(ans()); scr('res');}); }
+if(p.get('level')&&!p.get('side')) p.set('side','either');
+if(['level','side','style','prio','budget'].every(n=>p.get(n)&&set(n,p.get(n)))){ load().then(a=>{all=a; render(ans()); scr('res');}); }
 document.addEventListener('wp:region',()=>{ if(Array.isArray(all)&&fz.dataset.state==='res') render(ans()); });
 </script>
 </Base>

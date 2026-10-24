@@ -162,7 +162,7 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-f{top:108px;max-height:calc(100vh - 120px);min-height:0;overflow:hidden}
  .cat .hub-fb{flex:1 1 auto;min-height:0;min-width:0;gap:12px;padding:0 2px 8px 0;overflow:auto}
  .cat .hub-g{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0;max-width:100%}
- .cat .hub-g legend{width:100%;margin:0;font-size:.6875rem}
+ .cat .hub-g legend{width:100%;margin:0 0 6px;font-size:.6875rem}
  .cat .hub-chips{gap:5px;width:100%;min-width:0}
  .cat .hub-chips label{display:inline-flex;max-width:100%}
  .cat .hub-chips label[hidden]{display:none}
