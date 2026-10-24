@@ -8,7 +8,7 @@ const TX={FM,c:{...c,addN:c.addN('§'),search:c.search('§')},u:{checkPrice:u.ch
 <Base lang={d.locale} preload="/compare-data.json" title={d.copy.cmpTitle(rackets.length)+d.copy.titleSuffix} description={d.copy.cmpDesc(rackets.length)}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.compare}</span></nav>
 <div class="cmp-intro"><h1>{c.h1}</h1><p class="muted">{c.lead}</p></div>
-<div id="cmp" class="cmp" data-popular={popular.join(',')}><p class="panel empty">{c.loading}</p></div>
+<div id="cmp" class="cmp cmp-cards" data-popular={popular.join(',')}><p class="panel empty">{c.loading}</p></div>
 <p class="muted small trust">{c.trust}</p>
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-h"><div class="sheet-in"><div class="sheet-top"><h2 id="sheet-h" class="h3">{c.add}</h2><button class="x" type="button" data-close aria-label={u.close}>✕</button></div>
 <input id="sheet-q" type="search" placeholder={c.search(rackets.length)} aria-label={c.searchLabel} autocomplete="off"/>
@@ -24,7 +24,9 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const SCORES=['Power','Control','Handling','Forgiveness','Comfort','Value'];
 const SPECS=['Shape','Weight','Balance','Hardness','Core','Face','Thickness','Year'];
 const img=(x,w,h)=>x.i?`<img src="${x.i}" alt="${esc(x.m)}" width="${w}" height="${h}" decoding="async">`:`<span class="noimg" style="width:${w}px;height:${h}px" aria-hidden="true">${esc((x.sh||'?')[0].toUpperCase())}</span>`;
-const short=x=>x.m.replace(x.b+' ','');
+const icoSwap='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 8h12m0 0-3-3m3 3-3 3M20 16H8m0 0 3-3m-3 3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const icoX='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const short=x=>x.m.replace(new RegExp('^'+String(x.b||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),'');
 function save(){history.replaceState(null,'',sel.length?'?r='+sel.join(','):location.pathname);}
 function winner(vals,hi=true){const n=vals.filter(v=>typeof v==='number'); if(n.length<2) return null; const m=hi?Math.max(...n):Math.min(...n); return n.filter(v=>v===m).length===n.length?null:m;}
 function verdict(xs){const pick=(f,lab)=>{const b=[...xs].sort((a,c)=>f(c)-f(a)); if(f(b[0])===f(b[1])) return ''; return `<li><span>${lab}</span><b>${esc(short(b[0]))}</b></li>`;};
@@ -42,7 +44,7 @@ function draw(){save(); const xs=sel.map(s=>by[s]); const slots=xs.length<2?2:xs
  h+=grp(C.ratings,SCORES,true,true)+grp(C.specsH,SPECS,true,false);
  h+=`<div class="buyrow" style="--n:${slots}">${xs.map(x=>`<a class="btn" href="${UU.rk.replace('§',x.s)}"><span class="bn">${esc(short(x))}</span><span>${x.g!=null?esc(x.p)+' · '+UU.cmpP:UU.seeSpecs}</span></a>`).join('')}<p class="disc">${UU.adNoteShort} <a href="${UU.aff}">${UU.disclosure}</a></p></div>`;
  root.innerHTML=h;}
-function headCell(x,i){return `<div class="hc">${img(x,48,58)}<a class="hn" href="${UU.rk.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.p)}</span><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${C.swap}: ${esc(x.m)}">${C.swap}</button><button type="button" class="mini" data-rm="${i}" aria-label="${C.remove}: ${esc(x.m)}">✕</button></div></div>`;}
+function headCell(x,i){return `<div class="hc"><div class="hcin">${x.i?`<img src="${x.i}" alt="" width="80" height="80" decoding="async">`:`<span class="noimg" aria-hidden="true">${esc((x.sh||'?')[0].toUpperCase())}</span>`}<div class="hbody"><a class="hn" href="${UU.rk.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.p)}</span></div><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${C.swap}: ${esc(x.m)}">${icoSwap}</button><button type="button" class="mini" data-rm="${i}" aria-label="${C.remove}: ${esc(x.m)}">${icoX}</button></div></div></div>`;}
 function list(){const q=$('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||x.m.toLowerCase().includes(q))).slice(0,40);
  $('sheet-list').innerHTML=r.length?r.map(x=>`<li><button type="button" data-pick="${x.s}">${img(x,32,38)}<span><b>${esc(x.m)}</b><small>${esc(x.Shape)} · ${esc(x.p)}</small></span></button></li>`).join(''):'<li class="muted">'+C.noMatch+'</li>';}
 function open(i){slot=i; $('sheet-q').value=''; list(); $('sheet').showModal(); if(matchMedia('(min-width:700px)').matches) $('sheet-q').focus();}

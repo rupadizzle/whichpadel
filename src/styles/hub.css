@@ -230,7 +230,7 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-grid .rk:has(.rk-x)>.rk-a{grid-column:1 / -1;grid-row:1 / -1;align-items:stretch;column-gap:8px;row-gap:0}
  .cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:72px;height:72px;margin:0;align-self:center;justify-self:center;min-width:0}
  .cat .hub-grid .rk:has(.rk-x) .rk-t{grid-column:2 / -1;grid-row:1 / -1;align-content:stretch;column-gap:10px;row-gap:0}
- .cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1;grid-row:1;align-self:start}
+ .cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1;align-self:start}
  .cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:1;grid-row:2;align-self:center;font-size:.875rem;line-height:1.15}
  .cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:1;grid-row:3;align-self:end;line-height:1.15}
  .cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:3;align-self:end;font-size:.875rem;line-height:1}

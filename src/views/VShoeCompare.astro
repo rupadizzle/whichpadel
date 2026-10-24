@@ -20,7 +20,7 @@ const DATA={slim,popular,C,L:{price:C.price,specs:C.specs,fit:T.spec.gender,sole
 <script is:inline>if(location.search){const m=document.createElement('meta');m.name='robots';m.content='noindex,follow';document.head.appendChild(m);}</script>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{C.h1}</span></nav>
 <div class="cmp-intro"><h1>{C.h1}</h1><p class="muted">{C.lead}</p></div>
-<div id="cmp" class="cmp shoe-cmp" data-popular={popular.join(',')}><p class="panel empty">{C.loading}</p></div>
+<div id="cmp" class="cmp cmp-cards" data-popular={popular.join(',')}><p class="panel empty">{C.loading}</p></div>
 <p class="muted small trust">{C.trust}</p>
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-h"><div class="sheet-in"><div class="sheet-top"><h2 id="sheet-h" class="h3">{C.add}</h2><button class="x" type="button" data-close aria-label={u.close}>✕</button></div>
 <input id="sheet-q" type="search" placeholder={C.searchPh} aria-label={C.search} autocomplete="off"/>
