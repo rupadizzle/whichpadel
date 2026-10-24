@@ -2,8 +2,8 @@
 // US money pages (English, USD). Lists only items with a live US-dollar price from a shop that delivers in the US (data/us.json snapshot;
 // cards then refresh from /api/prices). Country defaults to US on these pages unless the visitor saved another choice.
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import ShoeCard from '../components/ShoeCard.astro'; import '../styles/hub.css';
-import { US_PAGES, US_KEYS, US_CHECKED } from '../lib/us.js'; import { url, SITE } from '../i18n/index.js';
-const { k } = Astro.props; const P=US_PAGES[k]; const list=P.list(); const n=list.length; const isS=P.kind==='s';
+import { US_PAGES, US_KEYS, US_CHECKED } from '../lib/us.js'; import { url, SITE, D } from '../i18n/index.js';
+const { k } = Astro.props; const P=US_PAGES[k]; const list=P.list(); const n=list.length; const isS=P.kind==='s'; const u=D('en').ui;
 const C={
  'best-padel-rackets':[`Best padel rackets in the USA`,`The ${n} best padel rackets (paddles) you can buy from US shops today, ranked by our ratings, with live prices in US dollars.`],
  'padel-rackets-for-beginners':[`Best padel rackets for beginners in the USA`,`${n} forgiving, easy-to-play padel rackets for new players, all sold by shops that deliver in the US, priced in dollars.`],
@@ -26,12 +26,12 @@ const others=US_KEYS.filter(x=>x!==k);
 ---
 <Base lang="en-US" title={title} description={desc} jsonld={jsonld} region="US" usPage>
 <section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>{h1}</span></nav><h1>{head}</h1><Byline lang="en" headline={head} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
-<p class="rulebox"><b>How this list is built:</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p>
+<p class="rulebox"><b>{u.howBuilt}</b> only {isS?'shoes':'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p>
 <div class="hub us">
 {isS?<ul class="hub-grid">{list.map((s,i)=><ShoeCard s={s} lang="en" rank={i+1} eager={i<4} region="US"/>)}</ul>
  :<div class="rlist">{list.map((r,i)=><CardL r={r} rank={i+1} lang="en" eager={i===0} region="US"/>)}</div>}
 <p><a class="btn btn-line" href={isS?url('shoes','en'):url('rackets','en',1)}>{isS?'Compare all padel shoes →':'Compare all padel rackets →'}</a></p>
-<section class="panel"><h2 class="h3">FAQ</h2>{faq.map(([q,a])=><details><summary><b>{q}</b></summary><p>{a}</p></details>)}</section>
+<section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
 {others.length>0&&<section class="hub-pre"><h2 class="h3">More for US players</h2><p>{others.map(x=><a href={url('us','en',x)}>{label(x)}</a>)}</p></section>}
 </div>
 </Base>

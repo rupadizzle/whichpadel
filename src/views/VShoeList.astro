@@ -15,11 +15,11 @@ const others=SHOE_LIST_KEYS.filter(x=>x!==k&&!x.startsWith('u'));
 ---
 <Base lang={d.locale} title={T.t(h1,list.length)} description={intro} jsonld={jsonld}>
 <section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{h1}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
-<p class="rulebox">{T.method}</p>
+<p class="rulebox"><b>{u.howBuilt}</b> {T.method}</p>
 <div class="hub">
 <ul class="hub-grid">{list.map((s,i)=><ShoeCard s={s} lang={lang} rank={i+1} eager={i<4}/>)}</ul>
 <p><a class="btn btn-line" href={url('shoes',lang)}>{T.hubLink}</a></p>
-<section class="panel"><h2 class="h3">{T.faqH}</h2>{T.faq.map(([q,a])=><details><summary><b>{q}</b></summary><p>{a}</p></details>)}</section>
+<section class="panel"><h2>{u.faq}</h2>{T.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
 <section class="hub-pre"><h2 class="h3">{T.guides}</h2><p>{others.map(x=><a href={url('shoeList',lang,x)}>{T.lists[x][0]}</a>)}</p><p><b>{T.byBrand}</b>{shoeBrands.map(x=><a href={url('shoeBrand',lang,x.slug)}>{x.name}</a>)}</p></section>
 </div>
 </Base>
