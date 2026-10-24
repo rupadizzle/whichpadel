@@ -36,4 +36,5 @@ jobs:
             IFS='|' read -r n p c <<<"$j"; node $c > $n.log 2>&1 || true
             if grep -qE "$p" $n.log; then echo "- ✅ $n" >> $GITHUB_STEP_SUMMARY; else bad=1; echo "- ❌ $n" >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY; grep -iE 'fail|issue|/' $n.log | head -15 >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY; fi
           done
+          [ $bad = 0 ] || echo "::warning title=Site checks failed::See the run summary (non-blocking)"
           exit $bad
