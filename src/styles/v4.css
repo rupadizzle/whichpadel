@@ -7,7 +7,7 @@ body{overflow-x:hidden}
 .trustbar{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);font-size:var(--fs-s);color:var(--mut);margin:var(--s2) 0 0;padding:0;list-style:none}
 .trustbar li::before{content:"✓ ";color:var(--green2);font-weight:800}
 /* compare */
-.cmp-intro h1{font-size:clamp(1.5rem,5vw,2.4rem);margin-bottom:var(--s1)}.cmp-intro p{margin-bottom:var(--s4)}
+.cmp-intro h1{font-size:var(--title);margin-bottom:var(--s1)}.cmp-intro p{margin-bottom:var(--s4)}
 .cmp{--n:2}
 .chead{position:sticky;top:62px;z-index:15;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s2);background:rgb(245,247,248,.97);backdrop-filter:blur(6px);padding:var(--s2) 0;padding-inline:var(--s4);border-bottom:1px solid var(--line)}
 .hc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--s2);display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"i n" "i p" "a a";column-gap:var(--s2);align-items:center;min-width:0}
@@ -203,7 +203,7 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 
  .detail .dhero:not(#_){display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center;padding:0;border:0;background:none;box-shadow:none}
  .detail .dhero .art{width:88px;height:104px;padding:0;border-radius:12px;overflow:hidden;background:#fff}.detail .dhero .art img{width:100%;height:100%;object-fit:contain}
- .detail .dhero h1{font-size:24px!important;line-height:1.2;margin:4px 0 8px;text-wrap:balance}.detail .dhero .brand{font-size:13px;margin:0}
+ .detail .dhero h1{font-size:var(--title)!important;line-height:1.2;margin:4px 0 8px;text-wrap:balance}.detail .dhero .brand{font-size:13px;margin:0}
  .detail .dhero .chips{gap:8px}
 }
 

@@ -24,7 +24,7 @@
 .gzx{position:fixed;top:8px;right:8px;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;z-index:2;cursor:pointer}
 /* header */
 .rph .brand{margin:0 0 8px;font-size:14px;font-weight:600}.rph .brand a{color:var(--mut,#5b6670)}
-.rph h1{font-size:clamp(1.75rem,3.2vw,2.25rem);line-height:1.15;margin:0 0 8px;letter-spacing:-.01em}
+.rph h1{font-size:var(--title);line-height:1.15;margin:0 0 8px;letter-spacing:-.01em}
 .rph .rpply{margin:0 0 8px}
 .kchips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:16px 0 0;padding:0}
 .kchips li{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:99px;background:#eef4f1;color:#0d5c45;font-size:14px;font-weight:600;white-space:nowrap}
@@ -56,7 +56,7 @@
  .rpg .gnone{aspect-ratio:auto;height:240px}
  .rpg .garr,.rpg .gthumbs{display:none}
  .rpg .gdots{display:flex;justify-content:center;gap:8px;margin-top:12px}.rpg .gdots i{width:8px;height:8px;border-radius:50%;background:#c9d4da;transition:background .2s,width .2s}.rpg .gdots i.on{background:#13795c;width:20px;border-radius:4px}
- .rph h1{font-size:1.625rem}
+ .rph h1{font-size:var(--title)}
  .kchips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:16px -16px 0;padding:0 16px}.kchips::-webkit-scrollbar{display:none}
  .rpbody .pc{grid-template-columns:1fr}
  .rpsim{grid-template-columns:1fr}

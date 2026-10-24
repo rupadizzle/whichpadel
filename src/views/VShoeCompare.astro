@@ -1,0 +1,64 @@
+---
+// Shoe comparison: up to 3 models, reached from the shoes catalog tray (?s=a,b).
+import Base from '../layouts/Base.astro';
+import { shoes, rankShoes, shoeImg } from '../lib/shoes.js';
+import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
+import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
+import { D, url, SITE } from '../i18n/index.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang];
+const from=T.from1.split('{p}')[0];
+const slim=shoes.map(s=>{const q=pick(s,DEFAULT_REGION(lang));
+ const sole=s.sole.map(k=>T.soles[k]).filter(Boolean).join(', ');
+ const sz=s.sizesEU.length?s.sizesEU.join(' · '):(s.sizesUK.length?s.sizesUK.join(' · ')+' UK':null);
+ return {s:s.slug,n:s.name,b:s.brand,y:s.year||null,g:T.genders[s.gender]||null,so:sole||null,cu:s.cushion.length?s.cushion.map(c=>c.toUpperCase()).join(', '):null,wide:s.wide?1:0,vib:s.vibram?1:0,cols:s.colours,shops:s.shops,sz,i:shoeImg(s),p:q.none?null:q.v,pt:q.none?null:from+fmt(q.v,q.cur,lang)};});
+const popular=rankShoes(shoes,lang).slice(0,6).map(s=>s.slug);
+const U=SITE+url('shoeCompare',lang);
+const jsonld={'@context':'https://schema.org','@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':T.crumb,'item':SITE+url('shoes',lang)},{'@type':'ListItem','position':3,'name':C.h1,'item':U}]};
+const DATA={slim,popular,C,L:{price:C.price,specs:C.specs,fit:T.spec.gender,sole:T.spec.sole,cushion:T.spec.cushion,wide:T.wide,vibram:T.vibram,season:T.spec.year,sizes:C.sizes,cols:T.spec.cols,shops:T.spec.shops},shoe:url('shoe',lang,'§'),aff:url('affiliate',lang),note:u.adNoteShort,disc:u.disclosure,none:u.checkPrice};
+---
+<Base lang={d.locale} title={C.h1+' | WhichPadel'} description={C.lead} jsonld={jsonld}>
+<script is:inline>if(location.search){const m=document.createElement('meta');m.name='robots';m.content='noindex,follow';document.head.appendChild(m);}</script>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › <span>{C.h1}</span></nav>
+<div class="cmp-intro"><h1>{C.h1}</h1><p class="muted">{C.lead}</p></div>
+<div id="cmp" class="cmp" data-popular={popular.join(',')}><p class="panel empty">{C.loading}</p></div>
+<p class="muted small trust">{C.trust}</p>
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h"><div class="sheet-in"><div class="sheet-top"><h2 id="sheet-h" class="h3">{C.add}</h2><button class="x" type="button" data-close aria-label={u.close}>✕</button></div>
+<input id="sheet-q" type="search" placeholder={C.searchPh} aria-label={C.search} autocomplete="off"/>
+<ul class="pick-list" id="sheet-list"></ul></div></dialog>
+<script type="application/json" id="sc-data" set:html={JSON.stringify(DATA).replace(/</g,'\\u003c')}></script>
+<script is:inline>
+(()=>{const {slim,popular,C,L,shoe,aff,note,disc,none}=JSON.parse(document.getElementById('sc-data').textContent);
+const by=Object.fromEntries(slim.map(x=>[x.s,x])); const $=id=>document.getElementById(id); const root=$('cmp');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ROWS=[['g','fit'],['so','sole'],['cu','cushion'],['wide','wide','yn'],['vib','vibram','yn'],['y','season'],['sz','sizes'],['cols','cols'],['shops','shops']];
+let sel=(new URLSearchParams(location.search).get('s')||'').split(',').filter(s=>by[s]).slice(0,3);
+if(sel.length<2){try{const mem=(sessionStorage.wp_shoe_cmp||'').split(',').filter(s=>by[s]).slice(0,3); if(mem.length>=2) sel=mem;}catch(e){}}
+let slot=-1;
+const img=x=>x.i?`<img src="${esc(x.i)}" alt="" width="48" height="48" decoding="async">`:`<span class="noimg" style="width:48px;height:48px" aria-hidden="true">${esc((x.b||'?')[0])}</span>`;
+const short=x=>x.n.replace(new RegExp('^'+x.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),'');
+const cell=(x,k,kind)=>{const v=x[k]; if(kind==='yn') return L[k]&& (v?C.yes:C.no); return v==null||v===''?'—':esc(v);};
+function save(){const q=sel.length?'?s='+sel.join(','):''; history.replaceState(null,'',location.pathname+q); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){}}
+function winner(vals){const n=vals.filter(v=>typeof v==='number'); if(n.length<2) return null; const m=Math.min(...n); return n.filter(v=>v===m).length===n.length?null:m;}
+function headCell(x,i){return `<div class="hc">${img(x)}<a class="hn" href="${shoe.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.pt||none)}</span><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${esc(C.swap)}: ${esc(x.n)}">${esc(C.swap)}</button><button type="button" class="mini" data-rm="${i}" aria-label="${esc(C.remove)}: ${esc(x.n)}">✕</button></div></div>`;}
+function draw(){save(); const xs=sel.map(s=>by[s]); root.style.setProperty('--n',Math.max(xs.length,2));
+ if(xs.length<2){const pop=popular.filter(s=>!sel.includes(s)).slice(0,4);
+  root.innerHTML=`<div class="slots">${[0,1].map(i=>xs[i]?headCell(xs[i],i):`<button class="slot-add" type="button" data-add="${i}"><span>+</span>${esc(C.addN.replace('§',i+1))}</button>`).join('')}</div>
+  <section class="panel"><h2 class="h3">${esc(C.popular)}</h2><div class="pop">${pop.map(s=>`<button type="button" class="popb" data-quick="${s}">${img(by[s])}<span>${esc(by[s].n)}</span></button>`).join('')}</div></section>`; return;}
+ let h=`<div class="chead" style="--n:${xs.length+(xs.length<3?1:0)}">${xs.map(headCell).join('')}${xs.length<3?`<button class="slot-add sm" type="button" data-add="${xs.length}"><span>+</span>${esc(C.addShort)}</button>`:''}</div>`;
+ const pr=xs.map(x=>x.p); const pw=winner(pr);
+ h+=`<details class="cgroup" open><summary>${esc(C.price)}</summary><div class="crow"><div class="clab">${esc(L.price)}</div><div class="cvals" style="--n:${xs.length}">${xs.map(x=>`<div class="cv${pw!==null&&x.p===pw?' win':''}"><b>${esc(x.pt||none)}</b></div>`).join('')}</div></div></details>`;
+ const body=ROWS.map(([k,lab,kind])=>{const vals=xs.map(x=>x[k]); if(kind!=='yn'&&vals.every(v=>v==null||v==='')) return '';
+  return `<div class="crow"><div class="clab">${esc(L[lab])}</div><div class="cvals" style="--n:${xs.length}">${xs.map(x=>`<div class="cv">${cell(x,k,kind)}</div>`).join('')}</div></div>`;}).join('');
+ if(body) h+=`<details class="cgroup" open><summary>${esc(C.specs)}</summary>${body}</details>`;
+ h+=`<div class="buyrow" style="--n:${xs.length}">${xs.map(x=>`<a class="btn" href="${shoe.replace('§',x.s)}"><span class="bn">${esc(short(x))}</span><span>${esc(x.pt||C.see)}</span></a>`).join('')}<p class="disc">${esc(note)} <a href="${aff}">${esc(disc)}</a></p></div>`;
+ root.innerHTML=h;}
+function list(){const q=$('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||(x.n+' '+x.b).toLowerCase().includes(q))).slice(0,40);
+ $('sheet-list').innerHTML=r.length?r.map(x=>`<li><button type="button" data-pick="${x.s}">${img(x)}<span><b>${esc(x.n)}</b><small>${esc(x.g||'')} · ${esc(x.pt||none)}</small></span></button></li>`).join(''):'<li class="muted">'+esc(C.noMatch)+'</li>';}
+function open(i){slot=i; $('sheet-q').value=''; list(); $('sheet').showModal(); if(matchMedia('(min-width:700px)').matches) $('sheet-q').focus();}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-add],[data-rm],[data-pick],[data-close],[data-quick]'); if(!t){ if(e.target===$('sheet')) $('sheet').close(); return;}
+ const d=t.dataset; if(d.add!=null) open(+d.add); else if(d.rm!=null){sel.splice(+d.rm,1);draw();} else if(d.quick){if(sel.length<3) sel.push(d.quick); draw();}
+ else if(d.pick){ if(slot<sel.length) sel[slot]=d.pick; else if(sel.length<3) sel.push(d.pick); $('sheet').close(); draw(); window.scrollTo({top:0}); } else if(d.close!=null) $('sheet').close();});
+let tm; $('sheet-q').addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(list,80)}); draw();
+})();
+</script>
+</Base>

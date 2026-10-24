@@ -3,22 +3,22 @@
 // Filtered URLs (?brand=…) are never separate pages: they keep the canonical of /rackets/; the indexable presets are the existing brand, year and shape pages.
 import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RacketIcon from '../components/RacketIcon.astro';
 import { rackets, brandList } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
-import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
+import { pick, fmt, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
 const { p=1, lang } = Astro.props; const d=D(lang), u=d.ui, H=HUB[lang], t=d.terms; const N=rackets.length; const P=hubPages();
 const order=hubOrder(); const rs=order.slice((p-1)*PER,p*PER);
 const brands=[...brandList].sort((a,b)=>a.name.localeCompare(b.name)); const topB=[...brandList].sort((a,b)=>b.count-a.count).slice(0,10);
 const years=[...new Set(rackets.map(r=>r.year).filter(Boolean))].sort((a,b)=>b-a);
-const reg=DEFAULT_REGION(lang); import SHOPSJ from '../../data/shops.json'; const NM={'babolat.com':'Babolat','bullpadel.com':'Bullpadel','corkpadel.com':'Cork Padel','dunlopsports.com':'Dunlop','es.dropshotstore.com':'Drop Shot','head.com':'HEAD','joma-sport.com':'Joma','noxsport.com':'NOX','oxdog.net':'Oxdog','oxdogpadel.com':'Oxdog','royalpadel.com':'Royal Padel','shooterpadel.com':'Shooter Padel','siuxpadel.com':'Siux','starvie.com':'StarVie','tecnifibre.com':'Tecnifibre','varlion.com':'Varlion','viborapadel.com':'Vibora','wilson.com':'Wilson'};
-const SN=Object.fromEntries(Object.entries(SHOPSJ.shops).map(([k,v])=>[k,NM[k]||v.name])); const nice=d=>{const b=d.replace(/^www\./,'').split('.')[0]; return b.charAt(0).toUpperCase()+b.slice(1);}; for(const r of rackets) for(const o of offersOf(r)) SN[o.d]??=nice(o.d);
+const reg=DEFAULT_REGION(lang);
 const AUD=['men','women','junior']; const audN=Object.fromEntries(AUD.map(k=>[k,rackets.filter(r=>r.audience===k).length]));
 const audL=k=>H.auds[['men','women','junior','unisex'].indexOf(k)];
 const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
-const shopTxt=r=>{const os=offersOf(r); return os.length?(SN[os[0].d]||os[0].d)+(os.length>1?' '+H.plusN.replace('{n}',os.length-1):''):'';};
-const spec=r=>[r.audience!=='unisex'&&audL(r.audience),r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''} g`].filter(Boolean).join(' · ');
+const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe(r.brand)+'\\s+','i'),''); if(r.year) s=s.replace(new RegExp('\\s+'+r.year+'\\s*$'),''); return s.trim()||r.model;};
+const spec=r=>[r.audience!=='unisex'&&audL(r.audience),r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''}\u00a0g`].filter(Boolean).join(' · ');
 const pu=i=>url('rackets',lang,i); const U=SITE+pu(p);
 const title=p>1?`${H.h1(N)} · ${H.pageL} ${p} | WhichPadel`:H.title(N);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':H.h1(N),'url':U,'description':H.desc(N)},{'@type':'ItemList','name':H.h1(N),'numberOfItems':N,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':(p-1)*PER+i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':H.crumb,'item':SITE+pu(1)}]}]};
-const HT={...H,SN,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),brands:Object.fromEntries(brandList.map(b=>[b.slug,b.name])),PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
+const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),brands:Object.fromEntries(brandList.map(b=>[b.slug,b.name])),PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
 const hasNext=p<P; const PAGES=Array.from({length:P},(_,i)=>i+1);
 const chip=(name,vals,labels)=>[['',H.any],...vals.map((v,i)=>[v,labels[i]])];
 const groupsA=[['shape',H.shape,chip('shape',['round','teardrop','diamond','hybrid'],H.shapes)],['bal',H.balance,chip('bal',['low','medium','high'],H.lmh)],['wt',H.weight,chip('wt',['l','m','h'],H.wts)],['hard',H.hard,chip('hard',['soft','medium','hard'],H.smh)],['level',H.level,chip('level',['b','i','a'],H.lvls)]];
@@ -26,13 +26,15 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 ---
 <Base lang={d.locale} title={title} description={p>1?`${H.desc(N)} ${H.pageL} ${p}/${P}.`:H.desc(N)} jsonld={jsonld}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{H.crumb}</span></nav>
-<div class="hub" id="hub" data-p={p}>
+<div class="hub cat" id="hub" data-p={p}>
 <header class="hub-hd"><h1>{H.h1(N)}</h1><p>{H.intro}</p></header>
+<div class="hub-bar">
 <div class="hub-seg" role="radiogroup" aria-label={H.aud}>{[['',H.allA,N],...AUD.map(k=>[k,audL(k),audN[k]])].map(o=><label><input type="radio" name="h-aud" value={o[0]} checked={o[0]===''}/><span>{o[1]} <small>{o[2]}</small></span></label>)}</div>
 <div class="hub-tb">
- <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
- <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
+ <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
+ <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
  <label class="hub-sort"><span class="sr">{H.sort}</span><select id="h-sort">{[3,0,1,2].map(i=><option value={['best','price','new','pop'][i]} selected={i===3}>{H.sorts[i]}</option>)}</select></label>
+</div>
 </div>
 <div class="hub-ac" id="h-ac" aria-label={H.activeF} hidden></div>
 <div class="hub-l">
@@ -54,7 +56,7 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 </aside>
 <section class="hub-main">
  <p class="hub-cnt"><b id="h-count" aria-live="polite">{H.results.replace('§',String(N))}</b></p>
- <ul class="hub-grid" id="h-grid">{rs.map((r,i)=><li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b">{r.brand}{r.year&&` · ${r.year}`}</span><span class="rk-m">{r.model}</span><span class="rk-c">{spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{priceTxt(r)}</span><small class="rk-s">{shopTxt(r)}</small></span></span></a><label class="rk-x" title={H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}: {r.model}</span></span></label></li>)}</ul>
+ <ul class="hub-grid" id="h-grid">{rs.map((r,i)=><li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b">{[r.brand,r.year].filter(Boolean).join(' · ')}</span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{priceTxt(r)}</span></span></span></a><label class="rk-x" title={H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}: {r.model}</span></span></label></li>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{H.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{H.clear}</button></p>
  <nav class="hub-pg" id="h-pg" aria-label={H.pageL}>
   {hasNext?<a class="btn btn-line hub-more" id="h-more" rel="next" href={pu(p+1)}>{H.more}</a>:<a class="btn btn-line hub-more" id="h-more" href={pu(1)} hidden>{H.more}</a>}
@@ -89,11 +91,11 @@ const priceV=r=>{const q=best(r); return q&&q.v!=null?q.v:null;};
 const near=r=>window.WP?offers(r).some(o=>WP.shop(o.d,o.c)==='y'&&o.s!==0):offers(r).length>0;
 const saving=r=>{const os=reach(r); if(os.length<2) return (r.drop||0); const v=os.map(o=>o.p); return Math.max(r.drop||0,(Math.max(...v)-Math.min(...v))/Math.max(...v));};
 const ptxt=r=>{const q=best(r); return (!q||q.v==null)?T.none:T.fromP.replace('{p}',q.txt);};
-const stxt=r=>{const q=best(r); const os=reach(r); if(!q||q.v==null||!os.length) return ''; const o=os.find(o=>o.u===q.u)||os[0]; return (T.SN[o.d]||(b=>b.charAt(0).toUpperCase()+b.slice(1))(o.d.replace(/^www\./,"").split(".")[0]))+(os.length>1?' '+T.plusN.replace('{n}',os.length-1):'');};
+const shortM=r=>{let s=r.m||''; if(r.b) s=s.replace(new RegExp('^'+r.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return s.trim()||r.m;};
+const spec=r=>[r.a&&r.a!=='unisex'&&T.auds[['men','women','junior'].indexOf(r.a)],r.sh&&T.shapeCap[r.sh],r.w0&&`${r.w0}${r.w1&&r.w1!==r.w0?'–'+r.w1:''}\u00a0g`].filter(Boolean).join(' · ');
 const card=(r,i)=>{const img=r.i?`<img src="${r.i}" alt="${esc(r.m)} ${esc(T.alt)}" width="96" height="112" loading="${i<4?'eager':'lazy'}" decoding="async">`:($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
- const spec=[r.a&&r.a!=='unisex'&&T.auds[['men','women','junior'].indexOf(r.a)],r.sh&&T.shapeCap[r.sh],r.w0&&`${r.w0}${r.w1&&r.w1!==r.w0?'–'+r.w1:''} g`].filter(Boolean).join(' · ');
  const on=sel.includes(r.s);
- return `<li class="rk${on?' sel':''}" data-s="${r.s}"><a class="rk-a" href="${T.rk}${r.s}/"><span class="rk-i">${img}</span><span class="rk-t"><span class="rk-b">${esc(r.b)}${r.y?' · '+r.y:''}</span><span class="rk-m">${esc(r.m)}</span><span class="rk-c">${esc(spec)}</span><span class="rk-p"><span class="pz rk-pv">${esc(ptxt(r))}</span><small class="rk-s">${esc(stxt(r))}</small></span></span></a><label class="rk-x" title="${esc(T.compare)}"><input type="checkbox" class="rk-cb" value="${r.s}"${on?' checked':''}><span><span class="sr">${esc(T.compare)}: ${esc(r.m)}</span></span></label></li>`;};
+ return `<li class="rk${on?' sel':''}" data-s="${r.s}"><a class="rk-a" href="${T.rk}${r.s}/"><span class="rk-i">${img}</span><span class="rk-t"><span class="rk-b">${esc([r.b,r.y].filter(Boolean).join(' · '))}</span><span class="rk-m">${esc(shortM(r))}</span><span class="rk-c">${esc(spec(r))}</span><span class="rk-p"><span class="pz rk-pv">${esc(ptxt(r))}</span></span></span></a><label class="rk-x" title="${esc(T.compare)}"><input type="checkbox" class="rk-cb" value="${r.s}"${on?' checked':''}><span><span class="sr">${esc(T.compare)}: ${esc(r.m)}</span></span></label></li>`;};
 const OI=Object.fromEntries(T.order.map((s,i)=>[s,i])); const pop=r=>-(OI[r.s]??1e6);
 function filt(s){const q=s.q.toLowerCase(), bn=T.brands[s.brand], mn=parseFloat(s.min), mx=parseFloat(s.max);
  return all.filter(r=>(!q||(r.m+' '+r.b).toLowerCase().includes(q))&&(!bn||r.b===bn)&&(!s.year||String(r.y)===s.year)&&(!s.aud||r.a===s.aud)&&(!s.shape||r.sh===s.shape)&&(!s.bal||r.bn===s.bal)&&(!s.wt||r.wn===s.wt)&&(!s.hard||r.cn===s.hard)&&(!s.level||r.lv===s.level)&&(!s.stock||near(r))&&((isNaN(mn)&&isNaN(mx))||((v=>v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx))(priceV(r)))));}
@@ -107,7 +109,7 @@ async function apply(push=true){ await load(); const s=get(); const act=active(s
  view=sortv(filt(s),s.sort); setCount(view.length); if(push) syncURL(s);
  if(!act&&!hub.dataset.dirty){ shown=T.PER*T.p; refreshPrices(); const m=$('h-more'); if(m) m.hidden=shown>=view.length; return; }
  hub.dataset.dirty=1; if(!act) shown=T.PER; render(true); }
-function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&&all.find(x=>x.s===li.dataset.s); if(r) li.querySelector('.rk-pv').textContent=ptxt(r); li.querySelector('.rk-s').textContent=stxt(r);}); }
+function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&&all.find(x=>x.s===li.dataset.s); if(r) li.querySelector('.rk-pv').textContent=ptxt(r);}); }
 let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const L=p&&p.r||{}; a.forEach(r=>{const e=L[r.s]; if(e){const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s})); if(os.length) r.live=os; r.drop=e.drop||0;}}); all=a; return a;}));
 // active filter chips
 const LBL=k=>({aud:T.aud,shape:T.shape,bal:T.balance,wt:T.weight,hard:T.hard,level:T.level,brand:T.brand,year:T.year})[k];

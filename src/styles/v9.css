@@ -48,7 +48,7 @@ main.wrap{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
 @media(prefers-reduced-motion:reduce){.fz-scr.in,.fz-step.in{animation:none}.fz-prog i{transition:none}}
 .fz-intro{text-align:center;padding:var(--s6) 0 var(--s4)}
 .fz-eb{display:inline-block;font-size:var(--fs-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin:0 0 var(--s2)}
-.fz-intro h1{font-size:clamp(1.9rem,6vw,2.75rem);line-height:1.1;margin:0 0 var(--s3);letter-spacing:-.02em}
+.fz-intro h1{font-size:var(--title);line-height:1.15;margin:0 0 var(--s3);letter-spacing:-.02em}
 .fz-sub{color:var(--mut);font-size:1.05rem;margin:0 0 var(--s5)}
 .fz-start{width:100%;max-width:360px;min-height:56px;font-size:1.1rem;font-weight:800;border-radius:14px}
 .fz-trust{font-size:var(--fs-s);color:var(--mut);margin:var(--s3) 0 var(--s7)}

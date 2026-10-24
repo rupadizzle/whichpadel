@@ -1,8 +1,8 @@
 ---
 // /shoes/ hub: every shoe rendered statically (crawlable), client-side filters (brand, fit, sole, size, price) and sort, state in the URL.
 import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro';
-import { shoes, rankShoes, shoeBrands, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang]; const N=shoes.length;
+import { shoes, rankShoes, shoeBrands, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE, SHOE_CMP } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang]; const N=shoes.length;
 const list=rankShoes(shoes,lang); const brands=[...new Set(shoes.map(s=>s.brand))].filter(b=>b!=='Unknown').sort();
 const sizes=[...new Set(shoes.flatMap(s=>s.sizesEU))].filter(x=>Number.isInteger(x)).sort((a,b)=>a-b);
 const pv=Object.fromEntries(shoes.map(s=>[s.slug,priceIn(s,lang)]));
@@ -12,14 +12,19 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 ---
 <Base lang={d.locale} title={T.title(N)} description={T.desc(N)} jsonld={jsonld}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
-<div class="hub" id="hub">
-<header class="hub-hd"><h1>{T.h1(N)}</h1><p class="lead-sm">{T.intro}</p></header>
+<div class="hub cat" id="hub">
+<header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
+<div class="hub-bar"><div class="hub-tb">
+ <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
+ <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
+ <label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
+</div></div>
 <div class="hub-l">
 <div class="hub-shade" id="h-shade" hidden></div>
 <aside class="hub-f" id="h-f" aria-label={T.filters}>
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
-  <label class="hub-fl">{T.search}<input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
+  <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
   <label class="hub-fl">{T.brand}<select id="h-brand"><option value="">{T.allBrands}</option>{brands.map(b=><option value={b}>{b}</option>)}</select></label>
   <fieldset class="hub-g"><legend>{T.gender}</legend><div class="hub-chips">{chips('g',T.genders).map(o=><label><input type="radio" name="h-g" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.sole}</legend><div class="hub-chips">{chips('so',T.soles).map(o=><label><input type="radio" name="h-so" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
@@ -29,8 +34,8 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{T.clear}</button><button type="button" class="btn btn-accent" id="h-apply">{T.apply.replace('§',String(N))}</button></div>
 </aside>
 <section class="hub-main">
- <div class="hub-tb"><button type="button" class="btn btn-line hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false">{T.filters} <span id="h-fn"></span></button><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b><label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label></div>
- <ul class="hub-grid" id="h-grid">{list.map((s,i)=><ShoeCard s={s} lang={lang} eager={i<4}/>)}</ul>
+ <p class="hub-cnt"><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p>
+ <ul class="hub-grid" id="h-grid">{list.map((s,i)=><ShoeCard s={s} lang={lang} eager={i<4} compare/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{T.clear}</button></p>
  <section class="hub-pre"><h2 class="h3">{T.guides}</h2>
   <p>{SHOE_LIST_KEYS.filter(k=>!k.startsWith('u')).map(k=><a href={url('shoeList',lang,k)}>{T.lists[k][0]}</a>)}</p>
@@ -38,14 +43,16 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  </section>
 </section>
 </div>
+<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.cmpGo} <span id="h-seln"></span></button></div>
 </div>
-<script type="application/json" id="h-data" set:html={JSON.stringify({pv,T:{results:T.results,apply:T.apply}}).replace(/</g,'\\u003c')}></script>
+<script type="application/json" id="h-data" set:html={JSON.stringify({pv,cmp:url('shoeCompare',lang),T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
-(()=>{const {pv,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
+(()=>{const {pv,cmp,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rv=n=>(document.querySelector(`input[name="h-${n}"]:checked`)||{}).value||''; const setR=(n,v)=>{const i=document.querySelector(`input[name="h-${n}"][value="${v}"]`); if(i) i.checked=true;};
 const KEYS=['q','brand','g','so','sz','min','max','sort'];
 const get=()=>({q:$('h-q').value.trim(),brand:$('h-brand').value,g:rv('g'),so:rv('so'),sz:$('h-sz').value,min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
-const put=s=>{$('h-q').value=s.q||'';$('h-brand').value=s.brand||'';setR('g',s.g||'');setR('so',s.so||'');$('h-sz').value=s.sz||'';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';};
+const put=s=>{$('h-q').value=s.q||'';$('h-brand').value=s.brand||'';setR('g',s.g||'');setR('so',s.so||'');$('h-sz').value=s.sz||'';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec';};
 function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max); let n=0;
  const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!s.brand||d.b===s.brand)&&(!s.g||d.g===s.g)&&(!s.so||d.so.split(' ').includes(s.so))&&(!s.sz||d.sz.split(' ').some(x=>Math.floor(+x)===+s.sz))&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
  const P=li=>pv[li.dataset.s]??1e9; const f={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),new:(a,b)=>b.dataset.y-a.dataset.y||a.dataset.o-b.dataset.o,shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}[s.sort];
@@ -57,8 +64,17 @@ const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
 let tm; ['h-q','h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
-['h-brand','h-sz','h-sort'].forEach(i=>$(i).addEventListener('change',apply)); document.querySelectorAll('.hub-chips input').forEach(i=>i.addEventListener('change',apply));
+['h-brand','h-sz','h-sort'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();})); $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();}); document.querySelectorAll('.hub-chips input').forEach(i=>i.addEventListener('change',apply));
 const clear=()=>{put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+const sel=[];
+function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); $('h-sel').innerHTML=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li>${esc(t)}<button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;}).join('');
+ $('h-seln').textContent=`${sel.length}/3`; $('h-go').disabled=sel.length<2;
+ grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector('.rk-cb'); if(c) c.checked=on;}); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){} }
+grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
+$('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
+$('h-go').onclick=()=>{ if(sel.length>=2) location.href=cmp+'?s='+sel.join(','); };
+try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
+if(sel.length) tray();
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
 })();
 </script>
