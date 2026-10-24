@@ -19,13 +19,13 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
+ <label class="hub-so"><span class="sr">{T.sort}</span><select id="h-sort2">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
 </div></div>
 <div class="hub-l">
 <div class="hub-shade" id="h-shade" hidden></div>
 <aside class="hub-f" id="h-f" aria-label={T.filters}>
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
-  <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
   <label class="hub-bq hub-mq"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
   <fieldset class="hub-g"><legend>{T.gender}</legend><div class="hub-chips">{GENDER.map(k=><label><input type="checkbox" name="h-g" value={k}/><span>{T.genders[k]} <small>{gN[k]}</small></span></label>)}</div></fieldset>
   <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><label class="hub-bq"><span class="sr">{T.brandPh}</span><input id="h-bq" type="search" placeholder={T.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{T.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
@@ -57,9 +57,10 @@ const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.queryS
 function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','brand','g','so','sz','min','max','sort'];
-const get=()=>({q:$('h-q').value.trim(),brand:rv('brand'),g:rv('g'),so:rv('so'),sz:rv('sz'),min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
-const setQ=v=>{if($('h-q').value!==v)$('h-q').value=v;if($('h-q2').value!==v)$('h-q2').value=v;};
-const put=s=>{setQ(s.q||'');setR('brand',s.brand||'');setR('g',s.g||'');setR('so',s.so||'');setR('sz',s.sz||'');$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
+let qv='';
+const setQ=v=>{qv=v; if($('h-q').value!==v)$('h-q').value=v; if($('h-q2').value!==v)$('h-q2').value=v;};
+const get=()=>({q:qv.trim(),brand:rv('brand'),g:rv('g'),so:rv('so'),sz:rv('sz'),min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
+const put=s=>{setQ((s.q||'').trim());setR('brand',s.brand||'');setR('g',s.g||'');setR('so',s.so||'');setR('sz',s.sz||'');$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
 function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max), bn=parts(s.brand), g=parts(s.g), so=parts(s.so), sz=parts(s.sz).map(Number); let n=0;
  const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!bn.length||bn.includes(d.b))&&(!g.length||g.includes(d.g))&&(!so.length||so.some(x=>(d.so||'').split(' ').includes(x)))&&(!sz.length||(d.sz||'').split(' ').some(x=>sz.includes(Math.floor(+x))))&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
  const P=li=>pv[li.dataset.s]??1e9; const map={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===1e9)-(P(a)===1e9)||P(b)-P(a),new:(a,b)=>b.dataset.y-a.dataset.y||a.dataset.o-b.dataset.o,old:(a,b)=>(+a.dataset.y||9999)-(+b.dataset.y||9999)||a.dataset.o-b.dataset.o,shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}; const f=map[s.sort]||map[''];

@@ -33,15 +33,15 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
+ <label class="hub-so"><span class="sr">{H.sort}</span><select id="h-sort2">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k}>{H.sorts[i]}</option>)}</select></label>
 </div>
 </div>
 <div class="hub-ac" id="h-ac" aria-label={H.activeF} hidden></div>
 <div class="hub-l">
 <div class="hub-shade" id="h-shade" hidden></div>
 <aside class="hub-f" id="h-f" aria-label={H.filters}>
- <div class="hub-fh"><h2>{H.fsT}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
+ <div class="hub-fh"><h2>{H.filters}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
  <div class="hub-fb">
-  <label class="hub-fl hub-msort">{H.sort}<select id="h-sort2">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k}>{H.sorts[i]}</option>)}</select></label>
   <label class="hub-bq hub-mq"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
   <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips">{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)} <small>{audN[k]}</small></span></label>)}</div></fieldset>
   {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div></fieldset>)}
@@ -84,11 +84,12 @@ const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.queryS
 function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','aud','brand','year','shape','bal','wt','hard','level','min','max','stock','sort'];
-const get=()=>({q:$('h-q').value.trim(),aud:rv('aud'),brand:rv('brand'),year:rv('year'),shape:rv('shape'),bal:rv('bal'),wt:rv('wt'),hard:rv('hard'),level:rv('level'),min:$('h-min').value,max:$('h-max').value,stock:$('h-stock').checked?'1':'',sort:$('h-sort').value==='pop'?'':$('h-sort').value});
-const setQ=v=>{if($('h-q').value!==v)$('h-q').value=v;if($('h-q2').value!==v)$('h-q2').value=v;};
-const put=s=>{setQ(s.q||'');setR('brand',parts(s.brand).filter(v=>T.brands[v]).join(','));setR('year',s.year||'');['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['brand','year','bal','wt','hard'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop'; paintBrands();};
+let qv='';
+const setQ=v=>{qv=v; if($('h-q').value!==v)$('h-q').value=v; if($('h-q2').value!==v)$('h-q2').value=v;};
+const get=()=>({q:qv.trim(),aud:rv('aud'),brand:rv('brand'),year:rv('year'),shape:rv('shape'),bal:rv('bal'),wt:rv('wt'),hard:rv('hard'),level:rv('level'),min:$('h-min').value,max:$('h-max').value,stock:$('h-stock').checked?'1':'',sort:$('h-sort').value==='pop'?'':$('h-sort').value});
+const put=s=>{setQ((s.q||'').trim());setR('brand',parts(s.brand).filter(v=>T.brands[v]).join(','));setR('year',s.year||'');['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['brand','year','bal','wt','hard'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop'; paintBrands();};
 const active=s=>KEYS.some(k=>s[k]);
-const nf=s=>['aud','brand','year','shape','bal','wt','hard','level'].reduce((n,k)=>n+parts(s[k]).length,0)+(s.stock?1:0)+((s.min||s.max)?1:0);
+const nf=s=>['aud','brand','year','shape','bal','wt','hard','level'].reduce((n,k)=>n+parts(s[k]).length,0)+(s.q?1:0)+(s.stock?1:0)+((s.min||s.max)?1:0);
 const hit=(sel,v)=>!sel.length||sel.includes(String(v??''));
 // offers: static card offer, replaced by the live price engine when it answers
 const offers=r=>(r.live||r.o||[]).filter(o=>o.p>0);

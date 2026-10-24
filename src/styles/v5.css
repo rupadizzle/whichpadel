@@ -55,6 +55,21 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
  .chead::before,.buyrow::before{content:""}
  .cvals{display:contents}
 }
+@media(width<=899px){
+ main.wrap>.crumbs:has(+.cmp-intro){margin-top:8px;margin-bottom:8px}
+ main.wrap>.cmp-intro{margin-top:0}
+ main.wrap>.cmp-intro p{margin-bottom:0}
+ main.wrap>.cmp{margin-top:16px}
+ main.wrap>.trust{margin-top:16px}
+ .cmp{min-height:0}
+ .chead,.buyrow{padding-inline:0}
+ .chead{margin-bottom:12px;padding-block:0}
+ .hc{padding:10px}
+ .hact{margin-top:0}
+ .buyrow{margin-top:12px;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+ .crow{padding-inline:0}
+ .clab{padding-inline:var(--s4)}
+}
 .cgroup{border-radius:var(--r);box-shadow:none}
 /* sticky bars never cover content */
 @media(width <= 899px){body:has(.stickycta){padding-bottom:var(--bar)}body.has-sticky .ftr{padding-bottom:var(--sp-4)}}
