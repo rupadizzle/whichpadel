@@ -5,6 +5,7 @@ import { shoes, rankShoes, shoeBrands, SHOE_LIST_KEYS, priceIn } from '../lib/sh
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang]; const N=shoes.length;
 const list=rankShoes(shoes,lang); const brands=[...new Set(shoes.map(s=>s.brand))].filter(b=>b!=='Unknown').sort();
 const sizes=[...new Set(shoes.flatMap(s=>s.sizesEU))].filter(x=>Number.isInteger(x)).sort((a,b)=>a-b);
+const GENDER=['m','w','k']; const gN=Object.fromEntries(GENDER.map(k=>[k,shoes.filter(s=>s.gender===k).length]));
 const pv=Object.fromEntries(shoes.map(s=>[s.slug,priceIn(s,lang)]));
 const chips=(n,obj)=>[['',T.any],...Object.entries(obj)];
 const U=SITE+url('shoes',lang);
@@ -14,7 +15,9 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
 <div class="hub cat" id="hub">
 <header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
-<div class="hub-bar"><div class="hub-tb">
+<div class="hub-bar">
+<div class="hub-seg" role="radiogroup" aria-label={T.gender}>{[['',T.allA,N],...GENDER.map(k=>[k,T.genders[k],gN[k]])].map(o=><label><input type="radio" name="h-g" value={o[0]} checked={o[0]===''}/><span>{o[1]} <small>{o[2]}</small></span></label>)}</div>
+<div class="hub-tb">
  <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
  <label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
@@ -26,7 +29,6 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-fb">
   <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{T.sorts.map((x,i)=><option value={['rec','price','new','shops'][i]}>{x}</option>)}</select></label>
   <label class="hub-fl">{T.brand}<select id="h-brand"><option value="">{T.allBrands}</option>{brands.map(b=><option value={b}>{b}</option>)}</select></label>
-  <fieldset class="hub-g"><legend>{T.gender}</legend><div class="hub-chips">{chips('g',T.genders).map(o=><label><input type="radio" name="h-g" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.sole}</legend><div class="hub-chips">{chips('so',T.soles).map(o=><label><input type="radio" name="h-so" value={o[0]} checked={o[0]===''}/><span>{o[1]}</span></label>)}</div></fieldset>
   <label class="hub-fl">{T.size}<select id="h-sz"><option value="">{T.any}</option>{sizes.map(x=><option value={x}>{x}</option>)}</select></label>
   <fieldset class="hub-g"><legend>{T.price}</legend><div class="hub-pr"><label><span class="sr">{T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={T.max}/></label></div></fieldset>
@@ -58,13 +60,13 @@ function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=pa
  const P=li=>pv[li.dataset.s]??1e9; const f={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),new:(a,b)=>b.dataset.y-a.dataset.y||a.dataset.o-b.dataset.o,shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}[s.sort];
  [...items].sort(f).forEach(li=>{const on=ok(li); li.hidden=!on; if(on) n++; grid.appendChild(li);});
  $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n); $('h-empty').hidden=n>0;
- const c=['q','brand','g','so','sz'].filter(k=>s[k]).length+((s.min||s.max)?1:0); $('h-fn').textContent=c?`(${c})`:'';
+ const c=['q','brand','so','sz'].filter(k=>s[k]).length+((s.min||s.max)?1:0); $('h-fn').textContent=c?`(${c})`:'';
  const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); history.replaceState(null,'',location.pathname+(qs.toString()?'?'+qs:''));}
 const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':'';};
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
 let tm; ['h-q','h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
-['h-brand','h-sz','h-sort'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();})); $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();}); document.querySelectorAll('.hub-chips input').forEach(i=>i.addEventListener('change',apply));
+['h-brand','h-sz','h-sort'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();})); $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();}); document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',apply));
 const clear=()=>{put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const sel=[];
 function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); $('h-sel').innerHTML=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li>${esc(t)}<button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;}).join('');
