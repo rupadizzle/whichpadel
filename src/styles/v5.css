@@ -84,16 +84,17 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 .shoe-cmp .hcin img,.shoe-cmp .hcin .noimg{grid-area:auto;grid-column:1;grid-row:1;width:72px;height:72px;min-width:0;max-width:none;object-fit:contain}
 .shoe-cmp .noimg{display:grid;place-items:center;font-size:1.25rem}
 .shoe-cmp .hbody{grid-area:auto;grid-column:2;grid-row:1;display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
-.shoe-cmp .hn{grid-area:auto;width:auto;min-height:0;max-height:2.4em;font-size:1rem;font-weight:750;line-height:1.2;text-align:left}
+.shoe-cmp .hn{grid-area:auto;width:auto;min-height:0;max-height:2.4em;font-size:1rem;font-weight:750;line-height:1.2;text-align:left;overflow-wrap:normal;word-break:normal}
 .shoe-cmp .hp{grid-area:auto;font-size:.85rem;line-height:1.2;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .shoe-cmp .hact{grid-area:auto;grid-column:3;grid-row:1;width:auto;margin:0;gap:4px;flex:none;flex-direction:column;align-self:center;justify-self:end}
 .shoe-cmp .hact .mini{flex:none;width:28px;height:28px;min-width:28px;min-height:28px;padding:0;border-radius:8px;display:inline-grid;place-items:center;color:var(--mut)}
 .shoe-cmp .hact .mini svg{width:14px;height:14px}
 .shoe-cmp .hact .mini:hover{color:var(--ink)}
 @container(max-width:200px){
- .shoe-cmp .hcin{grid-template-columns:52px minmax(0,1fr) auto;column-gap:8px;padding:6px}
- .shoe-cmp .hcin img,.shoe-cmp .hcin .noimg{width:52px;height:52px}
- .shoe-cmp .hn{font-size:.85rem}
+ .shoe-cmp .hcin{grid-template-columns:48px minmax(0,1fr) auto;column-gap:6px;padding:6px}
+ .shoe-cmp .hcin img,.shoe-cmp .hcin .noimg{width:48px;height:48px}
+ .shoe-cmp .hn{font-size:.8rem}
+ .shoe-cmp .hact .mini{width:26px;height:26px;min-width:26px;min-height:26px}
 }
 @container(max-width:130px){
  .shoe-cmp .hcin{grid-template-columns:1fr auto;grid-template-rows:auto auto;padding:6px 4px 8px 6px}
