@@ -13,7 +13,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 ---
 <Base lang={d.locale} title={T.title(N)} description={T.desc(N)} jsonld={jsonld}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
-<div class="hub cat" id="hub">
+<div class="hub cat shoes" id="hub">
 <header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
 <div class="hub-bar">
 <div class="hub-seg" role="radiogroup" aria-label={T.gender}>{[['',T.allA,N],...GENDER.map(k=>[k,T.genders[k],gN[k]])].map(o=><label><input type="radio" name="h-g" value={o[0]} checked={o[0]===''}/><span>{o[1]} <small>{o[2]}</small></span></label>)}</div>

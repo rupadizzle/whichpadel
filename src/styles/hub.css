@@ -2,7 +2,7 @@
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* audience segmented control */
 .hub-seg{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;scrollbar-width:none}.hub-seg::-webkit-scrollbar{display:none}
-.hub-seg label{position:relative;flex:0 0 auto}.hub-seg input{position:absolute;opacity:0;inset:0;pointer-events:none}
+.hub-seg label{position:relative;flex:0 0 auto;min-width:max-content}.hub-seg input{position:absolute;opacity:0;inset:0;width:100%;height:100%;min-width:0;min-height:0;pointer-events:none}
 .hub-seg span{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:99px;background:#fff;font-weight:600;font-size:.9375rem;cursor:pointer;white-space:nowrap}
 .hub-seg small{font-weight:400;color:var(--mut);font-size:.8125rem}
 .hub-seg input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}.hub-seg input:checked+span small{color:rgb(255 255 255/.75)}
@@ -197,9 +197,19 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-pg ol{display:none}
  .cat .hub-f .hub-chips span{min-height:40px}
 }
+/* Shoe fit pills are wider than the racket ones, so they take their own row
+   instead of sharing the search row and getting clipped. */
+.shoes .hub-seg{flex:1 0 100%;max-width:100%;overflow:visible;flex-wrap:wrap;row-gap:6px}
+.shoes .hub-tb{flex:1 1 100%;width:100%;min-width:0}
+@media(min-width:861px){
+ .shoes .hub-f{top:150px;max-height:calc(100vh - 162px)}
+}
 @media(min-width:640px) and (max-width:860px){
  .cat .hub-bar{flex-direction:row;align-items:center}
  .cat .hub-tb{flex:1 1 180px;width:auto}
+ .shoes .hub-bar{flex-direction:column;align-items:stretch}
+ .shoes .hub-seg{flex:none;width:100%}
+ .shoes .hub-tb{flex:none;width:100%}
  .cat .hub-grid{grid-template-columns:1fr 1fr;gap:8px}
  .cat .hub-grid .rk:not(:has(.rk-x)) .rk-a{grid-template-columns:72px minmax(0,1fr);padding:0}
  .cat .hub-grid .rk-m{font-size:.8125rem}

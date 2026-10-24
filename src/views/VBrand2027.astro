@@ -5,8 +5,7 @@ const rowsL=(o,n)=>[[t.spec.shape,t.shapeCap[o.shape],t.shapeCap[n.shape]],[t.sp
 const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1(b.name),'url':U,'numberOfItems':b.models.length,'itemListElement':b.models.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))};
 ---
 <Base lang={d.locale} title={C.title(b.name,b.models.length)+d.copy.titleSuffix} description={C.desc(b.name,b.models.length,b.pairs.length)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <a href={url('brand',lang,b.slug)}>{b.name}</a> › <span>2027</span></nav>
-<h1>{C.h1(b.name)}</h1><p class="lead-sm">{C.lead(b.name,b.models.length,b.pairs.length)}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <a href={url('brand',lang,b.slug)}>{b.name}</a> › <span>2027</span></nav><h1>{C.h1(b.name)}</h1><div class="seo"><p>{C.lead(b.name,b.models.length,b.pairs.length)}</p></div></div></section>
 <div class="grid">{b.models.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>
 {b.pairs.length>0&&<section class="panel"><h2>{C.changed}</h2><p class="muted small">{C.note}</p>
 {b.pairs.map(({o,n})=><div class="y-pair"><h3>{sh(o)} → {sh(n)}</h3><div class="tscroll"><table class="spec"><tbody><tr><th></th><th>2026</th><th>2027</th></tr>{rowsL(o,n).map(x=><tr><th>{x.k}</th><td>{x.same?x.a:<b>{x.a}</b>}</td><td>{x.same?x.b:<b>{x.b}</b>}</td></tr>)}</tbody></table></div><p class="small" style="margin:8px 0 0"><a href={url('racket',lang,o.slug)}>{sh(o)}</a> · <a href={url('racket',lang,n.slug)}>{sh(n)}</a> · <a href={url('compare',lang)+`?r=${o.slug},${n.slug}`}>{C.side}</a></p></div>)}</section>}

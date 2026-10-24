@@ -6,8 +6,7 @@ const L=BEST_KEYS.map(k=>({k,t:B.titles[k],rs:pickL(k,lang).slice(0,3)}));
 const jsonld={'@context':'https://schema.org','@type':'ItemList','name':B.indexH1,'itemListElement':L.map((l,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('best',lang,l.k),'name':l.t[0]}))};
 ---
 <Base lang={d.locale} title={B.indexTitle+d.copy.titleSuffix} description={B.indexDesc(rackets.length)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bestLists}</span></nav>
-<h1>{B.indexH1}</h1><p class="lead-sm">{B.indexLead(rackets.length)}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bestLists}</span></nav><h1>{B.indexH1}</h1><div class="seo"><p>{B.indexLead(rackets.length)}</p></div></div></section>
 <section class="panel vs">{L.map(l=><a href={url('best',lang,l.k)}><span>{l.t[0]}</span><span>→</span></a>)}<a href={url('years',lang)}><span>{YC[lang].hub}</span><span>→</span></a></section>
 {L.slice(0,4).map(l=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{l.t[0]}</h2><a href={url('best',lang,l.k)}>{u.seeAll}</a></div><div class="grid">{l.rs.map((r,i)=><CardL r={r} rank={i+1} lang={lang}/>)}</div></section>)}
 </Base>

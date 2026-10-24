@@ -7,8 +7,7 @@ const summary=C.summary(p.name,x,t); const faq=C.faq(p.name,x);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':C.h1(p.name),'url':U,'numberOfItems':rs.length,'itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.players,'item':SITE+url('players',lang)},{'@type':'ListItem','position':3,'name':p.name,'item':U}]}]};
 ---
 <Base lang={d.locale} title={C.title(p.name,rs.length)+d.copy.titleSuffix} description={summary.slice(0,158).replace(/\s\S*$/,'')} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('players',lang)}>{u.players}</a> › <span>{p.name}</span></nav>
-<h1>{C.h1(p.name)}</h1><p class="lead-sm">{summary}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('players',lang)}>{u.players}</a> › <span>{p.name}</span></nav><h1>{C.h1(p.name)}</h1><div class="seo"><p>{summary}</p></div></div></section>
 {rs.length>1&&<p><a class="btn" href={url('compare',lang)+`?r=${rs.slice(0,3).map(r=>r.slug).join(',')}`}>{C.compare(p.name)}</a></p>}
 <div class="grid">{rs.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>
 <section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>

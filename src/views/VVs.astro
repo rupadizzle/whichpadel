@@ -16,8 +16,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','main
 const others=vsPairs.filter(o=>o.slug!==p.slug).slice(0,6);
 ---
 <Base lang={d.locale} title={C.title(A.model,B.model)+d.copy.titleSuffix} description={C.desc(a,b).slice(0,158)} jsonld={jsonld} ogImage={A.image?`${SITE}${A.image}`:undefined}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('compare',lang)}>{u.compare}</a> › <span>{a} vs {b}</span></nav>
-<div class="cmp-intro"><h1>{a} vs {b}</h1><p class="muted">{intro}</p></div>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('compare',lang)}>{u.compare}</a> › <span>{a} vs {b}</span></nav><h1>{a} vs {b}</h1><div class="seo"><p>{intro}</p></div></div></section>
 <div class="cmp" style="--n:2">
 <div class="chead" style="--n:2">{xs.map(r=><div class="hc"><RacketImage lang={lang} r={r} size={48}/><a class="hn" href={url('racket',lang,r.slug)}>{sh(r)}</a><Price r={r} lang={lang} cls="hp"/></div>)}</div>
 <section class="verdict" aria-label={c.ourVerdict}><h2 class="h3">{c.ourVerdict}</h2><p style="margin:0">{verdict}</p></section>

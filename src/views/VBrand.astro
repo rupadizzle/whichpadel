@@ -9,9 +9,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','nam
 const others=brandList.filter(o=>o.slug!==b.slug); const has27=y27.some(y=>y.slug===b.slug);
 ---
 <Base lang={d.locale} title={C.title(b.name,rs.length)+d.copy.titleSuffix} description={C.desc(b.name,x)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav>
-<h1>{C.h1(b.name)}</h1>
-<p class="lead-sm">{intro}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{C.h1(b.name)}</h1><div class="seo"><p>{intro}</p></div></div></section>
 {has27&&<p><a class="btn btn-sm" href={url('brand2027',lang,b.slug)}>{C.see2027(b.name)}</a></p>}
 {x.shapes.length>1&&<div class="bfilter"><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div><p class="muted small" id="bcount" aria-live="polite" style="margin:8px 0 0">{C.showing(rs.length)}</p></div>}
 <div class="grid" id="bgrid">{rs.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>

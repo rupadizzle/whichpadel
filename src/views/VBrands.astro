@@ -5,7 +5,6 @@ const sorted=[...brandList].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.
 const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1,'numberOfItems':brandList.length,'itemListElement':sorted.map((b,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('brand',lang,b.slug),'name':b.name}))};
 ---
 <Base lang={d.locale} title={C.title(brandList.length,rackets.length)+d.copy.titleSuffix} description={C.desc(brandList.length,rackets.length)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.brands}</span></nav>
-<h1>{C.h1}</h1><p class="muted lead-sm">{C.lead(brandList.length,rackets.length)}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.brands}</span></nav><h1>{C.h1}</h1><div class="seo"><p>{C.lead(brandList.length,rackets.length)}</p></div></div></section>
 <div class="bgrid">{sorted.map(b=>{const pic=b.rackets.find(r=>r.image)||b.rackets[0]; return <a class="bcard" href={url('brand',lang,b.slug)}><RacketImage lang={lang} r={pic} size={44} label={false}/><span><b>{b.name}</b><span class="muted small">{C.count(b.count)}</span></span></a>;})}</div>
 </Base>

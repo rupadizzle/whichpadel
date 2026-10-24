@@ -4,7 +4,6 @@ const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.players; const n
 const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1,'url':SITE+url('players',lang),'numberOfItems':players.length,'itemListElement':players.map((p,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('player',lang,p.slug),'name':p.name}))};
 ---
 <Base lang={d.locale} title={C.title(players.length,n)+d.copy.titleSuffix} description={C.desc(players.length,n)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.players}</span></nav>
-<h1>{C.h1}</h1><p class="lead-sm">{C.lead(n,rackets.length)}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.players}</span></nav><h1>{C.h1}</h1><div class="seo"><p>{C.lead(n,rackets.length)}</p></div></div></section>
 <section class="panel vs">{players.map(p=><a href={url('player',lang,p.slug)}><span>{p.name}</span><span class="muted small">{C.count(p.rackets.length)}</span></a>)}</section>
 </Base>

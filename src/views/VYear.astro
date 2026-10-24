@@ -9,11 +9,9 @@ const T=C.t(y);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':T,'url':U,'numberOfItems':rs.length,'itemListElement':rs.slice(0,30).map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':C.hub,'item':SITE+url('years',lang)},{'@type':'ListItem','position':3,'name':C.h(y),'item':U}]}]};
 ---
 <Base lang={d.locale} title={T+d.copy.titleSuffix} description={C.d(y,rs.length,rs[0]?.model)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('years',lang)}>{C.hub}</a> › <span>{y}</span></nav>
-<h1>{C.h(y)}</h1><p class="lead-sm">{C.i(y,rs.length,CUR)}</p>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('years',lang)}>{C.hub}</a> › <span>{y}</span></nav><h1>{C.h(y)}</h1><div class="seo"><p>{C.i(y,rs.length,CUR)}</p><p><b>{u.howBuilt}</b> {C.rule}</p></div></div></section>
 <nav class="ynav" aria-label={C.hub}>{newer&&<a class="btn btn-sm" href={url('year',lang,newer)}>← {C.newer(newer)}</a>}{older&&<a class="btn btn-sm" href={url('year',lang,older)}>{C.older(older)} →</a>}{y===2026&&<a class="btn btn-sm" href={url('best',lang,'best-padel-racket-2026')}>{C.best26} →</a>}</nav>
 {repl.length>0&&<section class="panel vs"><h2>{C.repl}</h2>{repl.map(([a,b])=><a href={url('racket',lang,b.slug)}><span>{C.replTo(a.model,b.model)}</span><span>→</span></a>)}</section>}
-<div class="rulebox"><b>{u.howBuilt}</b> {C.rule}</div>
 {brands.length>1&&<div class="yfil" role="group" aria-label={u.byBrand}><button type="button" class="on" data-b="" aria-pressed="true">{C.all}</button>{brands.map(b=><button type="button" data-b={b} aria-pressed="false">{b}</button>)}</div>}
 <div class="rlist" id="yl">{rs.map((r,i)=><div data-brand={r.brand}><CardL r={r} rank={i+1} lang={lang} eager={i===0}/></div>)}</div>
 <section class="panel fcard" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:24px 0"><div><h2 class="h3" style="margin:0 0 8px">{FC[0]}</h2><p class="muted" style="margin:0">{FC[1]}</p></div><a class="btn" style="min-height:44px;display:inline-flex;align-items:center" href={url('finder',lang)}>{FC[2]} →</a></section>
