@@ -20,7 +20,6 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{['rec','price','hi','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
 </div></div>
 <div class="hub-l">
 <div class="hub-shade" id="h-shade" hidden></div>
@@ -28,6 +27,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
   <label class="hub-fl hub-msort">{T.sort}<select id="h-sort2">{['rec','price','hi','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
+  <label class="hub-bq hub-mq"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
   <fieldset class="hub-g"><legend>{T.speed}</legend><div class="hub-chips"><label><input type="checkbox" name="h-sp" value="" checked/><span>{T.allA} <small>{N}</small></span></label>{SPEEDS.map(k=><label><input type="checkbox" name="h-sp" value={k}/><span>{T.speeds[k]} <small>{spN[k]}</small></span></label>)}</div></fieldset>
   <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><label class="hub-bq"><span class="sr">{T.brandPh}</span><input id="h-bq" type="search" placeholder={T.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{T.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
   <fieldset class="hub-g"><legend>{T.tourF}</legend><div class="hub-chips">{Object.entries(T.tours).map(([k,v])=><label><input type="checkbox" name="h-tour" value={k}/><span>{v}</span></label>)}</div></fieldset>
@@ -38,7 +38,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{T.clear}</button><button type="button" class="btn btn-accent" id="h-apply">{T.apply.replace('§',String(N))}</button></div>
 </aside>
 <section class="hub-main">
- <p class="hub-cnt"><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p>
+ <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p><label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{['rec','price','hi','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label></div>
  <ul class="hub-grid" id="h-grid">{list.map((b,i)=><li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour||''} data-eco={b.eco?'1':'0'} data-n={b.inStock}><a class="rk-a" href={url('ball',lang,b.slug)}><span class="rk-i">{ballImg(b)&&<img src={ballImg(b)} alt={T.alt(b.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b">{b.brand}</span><span class="rk-m">{b.model}</span><span class="rk-c">{spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{pr(b)}</span></span></span></a></li>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{T.clear}</button></p>
 </section>
@@ -54,7 +54,8 @@ function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','brand','sp','tour','eco','stock','min','max','sort'];
 const get=()=>({q:$('h-q').value.trim(),brand:rv('brand'),sp:rv('sp'),tour:rv('tour'),eco:$('h-eco').checked?'1':'',stock:$('h-stock').checked?'1':'',min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
-const put=s=>{$('h-q').value=s.q||'';setR('brand',s.brand||'');setR('sp',s.sp||'');setR('tour',s.tour||'');$('h-eco').checked=s.eco==='1';$('h-stock').checked=s.stock==='1';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
+const setQ=v=>{if($('h-q').value!==v)$('h-q').value=v;if($('h-q2').value!==v)$('h-q2').value=v;};
+const put=s=>{setQ(s.q||'');setR('brand',s.brand||'');setR('sp',s.sp||'');setR('tour',s.tour||'');$('h-eco').checked=s.eco==='1';$('h-stock').checked=s.stock==='1';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
 function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max), bn=parts(s.brand), sp=parts(s.sp), tour=parts(s.tour); let n=0;
  const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!bn.length||bn.includes(d.b))&&(!sp.length||sp.includes(d.sp))&&(!tour.length||tour.includes(d.tour))&&(!s.eco||d.eco==='1')&&(!s.stock||+d.n>0)&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
  const P=li=>pv[li.dataset.s]??1e9; const map={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===1e9)-(P(a)===1e9)||P(b)-P(a),shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}; const f=map[s.sort]||map[''];
@@ -65,7 +66,7 @@ function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=pa
 const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':'';};
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
-let tm; ['h-q','h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
+let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).value);clearTimeout(tm); tm=setTimeout(apply,200);})); ['h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
 ['h-sort','h-eco','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
 $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
 document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
