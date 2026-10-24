@@ -10,7 +10,8 @@ const pub=r=>[r.shape,r.weightMin,r.balance,r.coreHardness,r.faceMaterial,r.thic
 // one canonical spelling per brand (case-insensitive, most common casing wins)
 const BC={}; for(const r of raw.rackets){const k=String(r.brand||'').trim().toLowerCase(); (BC[k]=BC[k]||{})[String(r.brand||'').trim()]=(BC[k][String(r.brand||'').trim()]||0)+1;}
 const canonB=b=>{const c=BC[String(b||'').trim().toLowerCase()]; return c?Object.entries(c).sort((a,b)=>b[1]-a[1]||(/^[A-Z]/.test(b[0])-/^[A-Z]/.test(a[0])))[0][0]:b;};
-const base = raw.rackets.map(r=>({...r,brand:canonB(r.brand)})).map(r => ({...(imgs[r.slug]?.ok ? { ...r, image: `/rackets/${r.slug}.webp` } : r), player: PL[r.slug]||null, published: pub(r)}));
+const NOR={power:null,control:null,handling:null,forgiveness:null,comfort:null,value:null};
+const base = raw.rackets.map(r=>({...r,brand:canonB(r.brand),rated:!!r.ratings,ratings:r.ratings||{...NOR}})).map(r => ({...(imgs[r.slug]?.ok ? { ...r, image: `/rackets/${r.slug}.webp` } : r), player: PL[r.slug]||null, published: pub(r)}));
 // Audience (men | women | junior | unisex), derived strictly from the official model name.
 // junior: JR/Jr/Junior/Kids/Girl/Boy/Niño; women: W/Woman/Women/Mujer/Lady; men: only when the brand sells a W version of the exact same model; otherwise unisex.
 const JR_RE=/\b(JR|Jr|Junior|Kids?|Girl|Boy|Niñ[oa]s?|Infantil)\b/; const W_RE=/\s*\b(W|Woman|Women|Mujer|Lady|Ladies)\b/;
@@ -18,11 +19,13 @@ const normM=s=>s.replace(new RegExp(W_RE.source,'g'),'').replace(/\s+/g,' ').tri
 const WSET=new Set(base.filter(r=>!JR_RE.test(r.model)&&W_RE.test(r.model)).map(r=>r.brand.toLowerCase()+'|'+normM(r.model)));
 for (const r of base) r.audience = JR_RE.test(r.model)?'junior':W_RE.test(r.model)?'women':WSET.has(r.brand.toLowerCase()+'|'+r.model.toLowerCase().replace(/\s+/g,' ').trim())?'men':'unisex';
 export const AUDIENCES=['men','women','junior','unisex'];
-const rawV = r => r.priceGBPApprox ? top2(r)/r.priceGBPApprox : null;
+const rawV = r => r.rated && r.priceGBPApprox ? top2(r)/r.priceGBPApprox : null;
 const maxV = Math.max(...base.map(rawV).filter(Boolean));
 export const VALUE_FORMULA = 'Value score = (average of the racket’s two highest calculated ratings, excluding the existing value rating) ÷ recorded price in GBP, then scaled so the best racket in the database scores 100. Rackets without a recorded price get no value score.';
-export const rackets = base.map(r => ({...r, valueScore: rawV(r)==null?null:Math.max(1,Math.round(rawV(r)/maxV*100))}));
-export const bySlug = Object.fromEntries(rackets.map(r => [r.slug, r]));
+// allRackets: every racket (pages, hub, sitemap). rackets: only those with spec-based ratings (lists, rankings, stats, brand pages).
+export const allRackets = base.map(r => ({...r, valueScore: rawV(r)==null?null:Math.max(1,Math.round(rawV(r)/maxV*100))}));
+export const rackets = allRackets.filter(r=>r.rated);
+export const bySlug = Object.fromEntries(allRackets.map(r => [r.slug, r]));
 import { priceText } from './price.js';
 export const fmtPrice = r => priceText(r,'GB','en') || 'Check price';
 export const cap = s => s ? s[0].toUpperCase() + s.slice(1) : '—';

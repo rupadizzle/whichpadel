@@ -2,7 +2,7 @@
 // /rackets/ hub: the full racket database as a focused comparison tool. Static pages 1..N (crawlable), client-side filters/sort with state in the URL.
 // Filtered URLs (?brand=…) are never separate pages: they keep the canonical of /rackets/; the indexable presets are the existing brand, year and shape pages.
 import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RacketIcon from '../components/RacketIcon.astro';
-import { rackets, brandList } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
+import { allRackets as rackets, brandList } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
 const { p=1, lang } = Astro.props; const d=D(lang), u=d.ui, H=HUB[lang], t=d.terms; const N=rackets.length; const P=hubPages();
 const order=hubOrder(); const rs=order.slice((p-1)*PER,p*PER);

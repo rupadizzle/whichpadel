@@ -1,5 +1,5 @@
 import { offersOf } from '../lib/price.js';
-import { rackets, fmtPrice } from '../lib/data.js'; import { balN, coreN, wtN, lvN } from '../lib/hub.js';
+import { allRackets as rackets, fmtPrice } from '../lib/data.js'; import { balN, coreN, wtN, lvN } from '../lib/hub.js';
 export function GET(){
   const out=rackets.map(r=>{let h=0; for (const c of r.brand) h=(h*31+c.charCodeAt(0))%360;
     return {s:r.slug,b:r.brand,m:r.model,y:r.year,sh:r.shape||'',bl:r.balance||'',c:r.coreHardness||'',w0:r.weightMin??'',w1:r.weightMax??'',g:r.priceGBPApprox??'',p:fmtPrice(r),i:r.image||'',h,
