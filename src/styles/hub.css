@@ -44,7 +44,7 @@
 .hub-pr{display:flex;align-items:center;gap:8px}.hub-pr label{flex:1}.hub-pr input{width:100%}.hub-sym{flex:none;font-size:.8125rem;font-weight:700}
 .hub-note{margin:6px 0 0;color:var(--mut);font-size:.75rem;line-height:1.35}
 .hub-note[hidden]{display:none}
-.hub-tg{display:flex;gap:12px;align-items:flex-start;min-height:44px;cursor:pointer}.hub-tg input{width:24px;height:24px;margin:2px 0 0;accent-color:var(--green);flex:none}.hub-tg span{display:flex;flex-direction:column;font-size:.875rem}.hub-tg small{color:var(--mut)}
+.hub-tg{display:flex;gap:12px;align-items:center;min-height:44px;cursor:pointer}.hub-tg input{width:24px;height:24px;min-height:24px;max-height:24px;margin:0;padding:0;border-radius:4px;accent-color:var(--green);flex:none}.hub-tg span{display:flex;flex-direction:column;justify-content:center;font-size:.875rem;line-height:1.25}.hub-tg small{color:var(--mut)}
 .hub-ff{display:flex;gap:8px;padding:8px 0}.hub-ff .btn{min-height:44px;flex:1}.hub-ff #h-apply{display:none}
 .hub-cnt{margin:0 0 8px;font-size:.875rem;color:var(--mut)}
 /* results */
@@ -204,8 +204,8 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-f .hub-fl select,.cat .hub-f .hub-pr input,.cat .hub-f .hub-sort select{width:100%;min-width:0;max-width:100%;height:auto;min-height:32px;max-height:none;border-radius:8px;font-size:.8125rem;line-height:normal}
  .cat .hub-pr{min-width:0;max-width:100%}
  .cat .hub-pr label{min-width:0}
- .cat .hub-tg{gap:8px}
- .cat .hub-tg input{width:18px;height:18px}
+ .cat .hub-tg{gap:8px;min-height:0}
+ .cat .hub-tg input{width:18px;height:18px;min-height:18px;max-height:18px}
  .cat .hub-ff{flex:none;padding:8px 0 0}
  .cat .hub-ff .btn{min-height:32px;font-size:.8125rem}
 }
