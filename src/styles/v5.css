@@ -60,6 +60,7 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
  main.wrap>.cmp-intro{margin-top:0}
  main.wrap>.cmp-intro p{margin-bottom:0}
  main.wrap>.cmp{margin-top:16px}
+ main.wrap>.cmp:first-child{margin-top:0}
  main.wrap>.trust{margin-top:16px}
  .cmp{min-height:0}
  .chead{padding-inline:0}

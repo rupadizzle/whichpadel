@@ -6,7 +6,7 @@ import { shoes, rankShoes } from '../lib/shoes.js';
 import { balls, rankBalls, ballImg } from '../lib/balls.js';
 import { D, url, SITE, money } from '../i18n/index.js'; import { brandStats, brandFaq } from '../i18n/stats.js';
 import { HUB } from '../i18n/hub.js'; import { SHOE } from '../i18n/shoes.js'; import { BALL } from '../i18n/balls.js'; import { PANEL } from '../i18n/brandPanels.js';
-import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
+import { pick, fmt, DEFAULT_REGION, offersOf } from '../lib/price.js';
 const { b, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brand, t=d.terms, H=HUB[lang];
 const rs=[...b.rackets].sort((x,y)=>(y.year||0)-(x.year||0)||x.model.localeCompare(y.model)); const x=brandStats(b,lang); const faq=brandFaq(b,lang,d);
 const brandShoes=rankShoes(shoes.filter(s=>slugify(s.brand)===b.slug),lang);
@@ -30,7 +30,8 @@ const pb=brandBalls.map(v=>{const q=pick(v,reg); return q.none||!v.balls?null:q.
 const ballX={n:brandBalls.length,name:brandBalls.length===1?brandBalls[0].name:'',per:brandBalls.length&&brandBalls.every(v=>v.balls===brandBalls[0].balls)?brandBalls[0].balls:0,fast:fastN,med:medN,tourN:tourBalls.length,tourBalls,tourLabel:tourKeys.length===1?TB.tour[tourKeys[0]]:tourKeys.map(k=>TB.tours[k]).join(', '),...moneyRange(moneyVals(brandBalls)),bmin:pb.length?money(Math.min(...pb),lang):'',bmax:pb.length?money(Math.max(...pb),lang):''};
 const showBallSpeed=fastN>0&&medN>0; const showBallTour=tourKeys.length>1||(tourKeys.length===1&&tourBalls.length<brandBalls.length);
 const shoeFaq=brandShoes.length?P.shoeFaq(b.name,shoeX):[]; const ballFaq=brandBalls.length?P.ballFaq(b.name,ballX):[];
-const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
+const priceTxt=r=>{const q=pick(r,reg); if(q.none) return H.none; const n=offersOf(r).length; return (n>1?H.fromN.replace('{n}',String(n)):H.from1).replace('{p}',fmt(q.v,q.cur,lang));};
+const ballBits=v=>{const q=pick(v,reg); if(q.none||!v.balls) return {none:true}; const each=Math.round(q.v/v.balls*100)/100; const tube=offersOf(v); return {none:false,tube:fmt(q.v,q.cur,lang),each:fmt(each,q.cur,lang),o:JSON.stringify(tube),oe:JSON.stringify(tube.map(o=>({...o,p:Math.round(o.p/v.balls*100)/100})))};};
 const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe(r.brand)+'\\s+','i'),''); if(r.year) s=s.replace(new RegExp('\\s+'+r.year+'\\s*$'),''); return s.trim()||r.model;};
 const AUD={men:0,women:1,junior:2};
@@ -58,7 +59,7 @@ const others=brandList.filter(o=>o.slug!==b.slug); const years=[...new Set(b.rac
 {x.shapes.length>1&&<div class="bfil"><span class="bfil-l">{H.shape}</span><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div></div>}
 {(years.length>1||x.shapes.length>1)&&<p class="muted small" id="bcount" aria-live="polite">{C.showing(rs.length)}</p>}
 </div>
-<ul class="hub-grid" id="rgrid">{rs.map((r,i)=><li class="rk" data-y={r.year||''} data-shape={r.shape||''}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{specR(r)}</span><span class="rk-p"><span class="rk-pv">{priceTxt(r)}</span></span></span></a></li>)}</ul>
+<ul class="hub-grid" id="rgrid">{rs.map((r,i)=><li class="rk" data-y={r.year||''} data-shape={r.shape||''}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{specR(r)}</span><span class="rk-p"><span class="pz rk-pv" data-o={JSON.stringify(offersOf(r))} data-f1={H.from1} data-fn={H.fromN} data-none={H.none}>{priceTxt(r)}</span></span></span></a></li>)}</ul>
 <div class="brand-faq"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>
 </section>
 {brandShoes.length>0&&<section class="brand-cat cat" id="shoes" data-panel="shoes" aria-label={TS.nav} hidden>
@@ -79,7 +80,7 @@ const others=brandList.filter(o=>o.slug!==b.slug); const years=[...new Set(b.rac
 {showBallTour&&<div class="bfil"><span class="bfil-l">{TB.tourF}</span><div class="chipset" role="group" aria-label={TB.tourF}><label><input type="radio" name="bt" value="" checked/><span>{TB.any} ({brandBalls.length})</span></label>{tourKeys.map(k=><label><input type="radio" name="bt" value={k}/><span>{TB.tours[k]} ({tourGroups[k].length})</span></label>)}</div></div>}
 <p class="muted small" id="ncount" aria-live="polite">{P.ballShowing(brandBalls.length)}</p>
 </div>}
-<ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=><li class="rk" data-speed={v.speed||''} data-tour={v.tour||''}><a class="rk-a" href={url('ball',lang,v.slug)}><span class="rk-i">{ballImg(v)&&<img src={ballImg(v)} alt={TB.alt(v.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{v.brand}</span><SaveHeart slug={v.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{v.model}</span><span class="rk-c">{ballSpec(v)}</span><span class="rk-p"><span class="rk-pv">{ballPr(v)}</span></span></span></a></li>)}</ul>
+<ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=>{const bp=ballBits(v); return <li class="rk" data-speed={v.speed||''} data-tour={v.tour||''}><a class="rk-a" href={url('ball',lang,v.slug)}><span class="rk-i">{ballImg(v)&&<img src={ballImg(v)} alt={TB.alt(v.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{v.brand}</span><SaveHeart slug={v.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{v.model}</span><span class="rk-c">{ballSpec(v)}</span><span class="rk-p"><span class="rk-pv">{bp.none?ballPr(v):<><span class="pz" data-o={bp.o}>{bp.tube}</span>{' · '}<span class="pz" data-o={bp.oe}>{bp.each}</span>{' '}{TB.perBall}</>}</span></span></span></a></li>;})}</ul>
 {ballFaq.length>0&&<div class="brand-faq"><h2>{P.ballFaqH(b.name)}</h2>{ballFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
 </section>}
 <noscript><style>.brand-cat[hidden]{display:block !important}</style></noscript>

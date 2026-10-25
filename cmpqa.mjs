@@ -20,7 +20,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(!x.rows[0]?.[3]||x.rows.filter(r=>r[3]).length!==1) F(tag+' highlight');
  if(!x.rows.every(r=>/£/.test(r[1]))) F(tag+' currency '+x.rows.map(r=>r[1]));
  if(x.other!==0) F(tag+' collapse should be gone '+x.other);
- if(x.rows.some(r=>r[5]<44)) F(tag+' tap target');
+ if(x.rows.some(r=>r[5]<44)) F(tag+' tap target '+x.rows.map(r=>Math.round(r[5]*10)/10).join(','));
  if(x.sw>x.vw) F(tag+' overflow '+x.sw);
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
  const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs):not(.pxag)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
@@ -35,7 +35,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  const pg=await page('/rackets/'+S+'/',360,{wp_region:'GB',wp_cur:'GBP'},{updated:'x',r:{[S]:{...many[0],min90:1,since:T,drop:0,h:[],o:many}}});
  const x=await info(pg); if(x.rows.length!==4||x.other!==0||!/7/.test(x.all||'')) F('top4 + all-N '+x.rows.length+'/'+x.all);
  // sheet from All-N link: opens full, 7 rows, Esc closes, focus returns
- await pg.click('#pxall'); await pg.waitForTimeout(400); let sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden&&D.classList.contains('open'),n:D.querySelectorAll('.pxr').length,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,role:D.querySelector('[role=dialog]')?.getAttribute('aria-modal'),lock:getComputedStyle(document.body).overflow}});
+ await pg.locator('#pxall').evaluate(el=>el.scrollIntoView({block:'center'})); await pg.click('#pxall'); await pg.waitForTimeout(400); let sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden&&D.classList.contains('open'),n:D.querySelectorAll('.pxr').length,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,role:D.querySelector('[role=dialog]')?.getAttribute('aria-modal'),lock:getComputedStyle(document.body).overflow}});
  if(!sh.open||sh.vis!==7||sh.role!=='true'||sh.lock!=='hidden') F('sheet full '+JSON.stringify(sh));
  for(let i=0;i<12;i++) await pg.keyboard.press('Tab'); if(!await pg.evaluate(()=>document.getElementById('pxsheet').contains(document.activeElement))) F('focus trap');
  await pg.keyboard.press('Escape'); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden&&document.activeElement.id==='pxall')) F('esc/focus return');

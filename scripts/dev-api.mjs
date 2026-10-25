@@ -3,19 +3,25 @@
 const ORIGIN = 'https://whichpadel.com';
 const PATHS = new Set(['/api/all-prices', '/api/shoe-prices', '/api/geo']);
 const REDIR = new Map([
-  ['/compare', '/rackets/compare/'],
-  ['/es/comparador-palas-padel', '/es/palas/comparar/'],
-  ['/fr/comparateur-raquettes-padel', '/fr/raquettes/comparer/'],
-  ['/pt/comparador-raquetes-padel', '/pt/raquetes/comparar/'],
-  ['/it/confronto-racchette-padel', '/it/racchette/confronta/'],
-  ['/de/padelschlaeger-vergleich', '/de/schlaeger/vergleich/'],
+  ['/compare', '/rackets/'],
+  ['/rackets/compare', '/rackets/'],
+  ['/es/comparador-palas-padel', '/es/palas/'],
+  ['/es/palas/comparar', '/es/palas/'],
+  ['/fr/comparateur-raquettes-padel', '/fr/raquettes/'],
+  ['/fr/raquettes/comparer', '/fr/raquettes/'],
+  ['/pt/comparador-raquetes-padel', '/pt/raquetes/'],
+  ['/pt/raquetes/comparar', '/pt/raquetes/'],
+  ['/it/confronto-racchette-padel', '/it/racchette/'],
+  ['/it/racchette/confronta', '/it/racchette/'],
+  ['/de/padelschlaeger-vergleich', '/de/schlaeger/'],
+  ['/de/schlaeger/vergleich', '/de/schlaeger/'],
 ]);
 const TTL = 10 * 60 * 1000;
 
 export function localApi() {
   const cache = new Map();
   const handle = async (req, res, next) => {
-    const raw = req.url || '';
+    const raw = req.originalUrl || req.url || '';
     const path = raw.split('?')[0].replace(/\/$/, '') || '/';
     const to = REDIR.get(path);
     if (to && (req.method === 'GET' || req.method === 'HEAD')) {

@@ -18,7 +18,7 @@ const gname=k=>DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,'');
 const L=(t,id)=>url(t,lang,id);
 const SITE='https://whichpadel.com';
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
-const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('compare'),aff:L('affiliate')};
+const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
 const baseProps={lang:DICTS[lang].locale};
 import { BALL } from '../i18n/balls.js'
@@ -29,8 +29,8 @@ import { BALL } from '../i18n/balls.js'
 <h1>{H.h1a}</h1>
 <p class="lead">{typeof H.lead==="function"?H.lead(allRackets.length):H.lead}</p>
 <a class="quizcta" href={L('finder')}>🎯<span>{H.qcta}<small>{H.qctaS}</small></span><span class="arr" aria-hidden="true">→</span></a>
-<form class="search" style="margin-top:16px" action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
-<div class="hero-ctas"><a class="btn btn-ghost" href={L('compare')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
+<form class="search" data-gs style="margin-top:16px" action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
+<div class="hero-ctas"><a class="btn btn-ghost" href={L('rackets')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
 <div class="stats"><div><b>{allRackets.length}</b><span>{H.stats[0]}</span></div><div><b>{brands.length}</b><span>{H.stats[1]}</span></div><div><b>0</b><span>{H.stats[2]}</span></div></div>
 </div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
 

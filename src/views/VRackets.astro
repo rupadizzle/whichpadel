@@ -19,7 +19,7 @@ const spec=r=>[r.audience!=='unisex'&&audL(r.audience),r.shape&&t.shapeCap[r.sha
 const pu=i=>url('rackets',lang,i); const U=SITE+pu(p);
 const title=p>1?`${H.h1(N)} · ${H.pageL} ${p} | WhichPadel`:H.title(N);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':H.h1(N),'url':U,'description':H.desc(N)},{'@type':'ItemList','name':H.h1(N),'numberOfItems':N,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':(p-1)*PER+i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':H.crumb,'item':SITE+pu(1)}]}]};
-const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),save:u.save,saved:u.saved,brands:Object.fromEntries(brandPick.map(b=>[b.slug,b.name])),sym:SYM,cur:cur0,PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
+const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('rackets',lang),save:u.save,saved:u.saved,brands:Object.fromEntries(brandPick.map(b=>[b.slug,b.name])),sym:SYM,cur:cur0,PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
 const hasNext=p<P; const PAGES=Array.from({length:P},(_,i)=>i+1);
 const chip=(vals,labels)=>vals.map((v,i)=>[v,labels[i]]);
 const groupsA=[['shape',H.shape,chip(['round','teardrop','diamond','hybrid'],H.shapes)],['bal',H.balance,chip(['low','medium','high'],H.lmh)],['wt',H.weight,chip(['l','m','h'],H.wts)],['hard',H.hard,chip(['soft','medium','hard'],H.smh)],['level',H.level,chip(['b','i','a'],H.lvls)]];
@@ -164,12 +164,16 @@ addEventListener('popstate',()=>{const dlg=$('cmp-take'); if(history.state&&hist
 document.addEventListener('wp:cmp',e=>{const next=e.detail||[]; if(next.join()===sel.join()) return; sel.splice(0,sel.length,...next); tray();});
 $('h-go').onclick=()=>{ if(sel.length>=2) openTake(); };
 try{(sessionStorage.wp_hub_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>sel.push(s));}catch(e){}
-// init from URL
-const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); put(s0); paintCur();
+// A shared or "compare this" link arrives as ?r=a,b. Open that comparison here, then drop r from the address.
+const qs=new URLSearchParams(location.search);
+const linked=(qs.get('r')||'').split(',').map(s=>s.trim()).filter(Boolean).slice(0,3);
+if(linked.length>=2){sel.splice(0,sel.length,...linked); qs.delete('r'); const q=qs.toString(); history.replaceState(history.state,'',location.pathname+(q?'?'+q:'')+location.hash);}
+const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); put(s0); paintCur();
 document.addEventListener('wp:region',()=>{ paintCur(); if(all){ view=sortv(filt(get()),get().sort); setCount(view.length); if(hub.dataset.dirty) render(false); else refreshPrices(); } });
 if(sel.length) load().then(tray);
 if(active(s0)) apply(false); else load().then(()=>apply(false));
-if(history.state&&history.state.wpCmp&&sel.length>=2) openTake(true);
+if(linked.length>=2) openTake();
+else if(history.state&&history.state.wpCmp&&sel.length>=2) openTake(true);
 })();
 </script>
 </Base>

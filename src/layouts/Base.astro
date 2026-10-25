@@ -9,7 +9,8 @@ import '../styles/v8.css';
 import '../styles/v9.css';
 import '../styles/v10.css';
 import '../styles/shoes.css';
-import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
+import '../styles/search.css';
+import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import SearchL from '../components/SearchL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
 const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true } = Astro.props;
@@ -34,6 +35,7 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <main class="fz-main"><slot/></main>
 </Fragment> : <Fragment><header class="hdr"><div class="wrap">
 <a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
+<SearchL lang={L2}/>
 <Region lang={L2} switcher={switcher} region={region}/>
 <button class="burger" aria-label={D(L2).ui.menu} aria-expanded="false" aria-controls="nav" onclick="const n=document.getElementById('nav');this.setAttribute('aria-expanded',n.classList.toggle('open'))">☰</button>
 <NavL lang={L2} switcher={switcher} cta={navCta}/>

@@ -15,7 +15,7 @@ const ballBase=url('ball',lang,'X').replace(/X\/$/,'');
 <p id="saved-empty" class="empty" hidden>{u.savedEmpty}</p>
 <p id="saved-go" hidden><a class="btn" href={url('rackets',lang)}>{u.rackets}</a></p>
 <div class="saved-grid" id="saved-list"></div>
-<p id="saved-cmp-wrap" hidden><a class="btn" id="saved-cmp" href={url('compare',lang)}>{u.savedCompare}</a></p>
+<p id="saved-cmp-wrap" hidden><a class="btn" id="saved-cmp" href={url('rackets',lang)}>{u.savedCompare}</a></p>
 <section class="panel" id="saved-keep">
  <h2 class="h3">{u.keepH}</h2>
  <p class="muted">{u.keepP} <a href={url('privacy',lang)}>{u.privacy}</a></p>
@@ -30,7 +30,7 @@ const ballBase=url('ball',lang,'X').replace(/X\/$/,'');
  <p><b>{u.savedAs}</b> <span id="saved-email"></span></p>
  <p class="hero-ctas"><button type="button" class="btn btn-line" id="saved-out">{u.signOut}</button><button type="button" class="btn btn-line" id="saved-del">{u.deleteAccount}</button></p>
 </section>
-<script is:inline define:vars={{TX, MORE, CMP:url('compare',lang), RK:url('racket',lang,'X').replace(/X\/$/,''), SK:url('shoe',lang,'X').replace(/X\/$/,''), BK:ballBase}}>
+<script is:inline define:vars={{TX, MORE, CMP:url('rackets',lang), RK:url('racket',lang,'X').replace(/X\/$/,''), SK:url('shoe',lang,'X').replace(/X\/$/,''), BK:ballBase}}>
 document.addEventListener('DOMContentLoaded',async()=>{
  const S=window.wpSaved; if(!S) return;
  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

@@ -2,7 +2,7 @@
 // Every page of every language is generated here from the route map (src/i18n/routes.js). One view per page type; no per-language page files.
 import { pages, url, LANGS } from '../i18n/routes.js';
 import { rackets, brandList, players, bySlug } from '../lib/data.js'; import { brandYears } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
-import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VCompare from '../views/VCompare.astro'; import VBestIndex from '../views/VBestIndex.astro'; import VBest from '../views/VBest.astro';
+import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VBestIndex from '../views/VBestIndex.astro'; import VBest from '../views/VBest.astro';
 import VRacket from '../views/VRacket.astro'; import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrandYear from '../views/VBrandYear.astro';
 import VPlayers from '../views/VPlayers.astro'; import VPlayer from '../views/VPlayer.astro'; import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import VFinder from '../views/VFinder.astro'; import V404 from '../views/V404.astro'; import VYears from '../views/VYears.astro'; import VYear from '../views/VYear.astro'; import VShoes from '../views/VShoes.astro'; import VShoe from '../views/VShoe.astro'; import VShoeCompare from '../views/VShoeCompare.astro'; import VShoeList from '../views/VShoeList.astro'; import { shoeBySlug, shoeOnlyBrands } from '../lib/shoes.js'; import VRackets from '../views/VRackets.astro';
 export function getStaticPaths(){ const out=[];
@@ -15,7 +15,6 @@ const brand=s=>brandList.find(b=>b.slug===s);
 ---
 {type==='home'&&<VHome lang={lang}/>}
 {type==='guide'&&<VGuide lang={lang}/>}
-{type==='compare'&&<VCompare lang={lang}/>}
 {type==='bestIndex'&&<VBestIndex lang={lang}/>}
 {type==='best'&&<VBest k={id} lang={lang}/>}
 {type==='racket'&&<VRacket r={bySlug[id]} lang={lang}/>}

@@ -3,5 +3,5 @@ import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.
 const { lang } = Astro.props; const d=D(lang), u=d.ui;
 ---
 <Base lang={d.locale} title={u.nf.title+d.copy.titleSuffix} description={u.nf.p} noindex>
-<section class="panel empty404"><h1>{u.nf.title}</h1><p class="muted">{u.nf.p}</p><p class="hero-ctas" style="justify-content:center"><a class="btn" href={url('home',lang)}>{u.nf.all}</a><a class="btn btn-line" href={url('brands',lang)}>{u.brands}</a><a class="btn btn-line" href={url('compare',lang)}>{u.compare}</a></p></section>
+<section class="panel empty404"><h1>{u.nf.title}</h1><p class="muted">{u.nf.p}</p><p class="hero-ctas" style="justify-content:center"><a class="btn" href={url('home',lang)}>{u.nf.all}</a><a class="btn btn-line" href={url('brands',lang)}>{u.brands}</a><a class="btn btn-line" href={url('rackets',lang)}>{u.compare}</a></p></section>
 </Base>

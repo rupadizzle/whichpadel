@@ -13,7 +13,7 @@ const others=BEST_KEYS.filter(x=>x!==k);
 <div class="rulebox"><b>{u.howBuilt}</b> {rule} {u.topShown(top.length)}</div>
 <div class="rlist" id="best">{top.map((r,i)=><CardL r={r} rank={i+1} lang={lang} eager={i===0} keys={KS}/>)}</div>
 <section class="panel fcard" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:24px 0"><div><h2 class="h3" style="margin:0 0 8px">{FC[0]}</h2><p class="muted" style="margin:0">{FC[1]}</p></div><a class="btn" style="min-height:44px;display:inline-flex;align-items:center" href={url('finder',lang)}>{FC[2]} →</a></section>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('compare',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
+<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
 {method(k)&&<section class="panel" id="methodology"><h2>{u.methodology}</h2><p>{B.valueFormula}</p><p class="muted small">{B.valueNote}</p></section>}
 <NewsL lang={lang} src="ranking"/>
 <section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>

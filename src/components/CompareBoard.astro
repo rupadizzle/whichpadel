@@ -1,6 +1,5 @@
 ---
-// Side-by-side racket comparison. Page mode writes ?r= on /rackets/compare/.
-// Embed mode is the full-screen takeover on the racket list: it never touches that page's URL.
+// Side-by-side racket comparison. Embed mode is the full-screen takeover on the racket list.
 import { rackets } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js';
 const { lang, embed = false } = Astro.props;
 const d = D(lang), u = d.ui, c = u.cmp, t = d.terms;

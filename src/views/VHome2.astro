@@ -67,7 +67,7 @@ const doors = [
 <h1>Compare padel rackets, shoes and balls.</h1>
 <p class="h2-lead">Specs and live prices. No paid placements.</p>
 </div>
-<form class="h2-q" action={L('rackets')} method="get"><label for="h2q">Know the racket?</label><div><input id="h2q" name="q" type="search" placeholder="Bullpadel Vertex" autocomplete="off" enterkeyhint="search"/><button type="submit">Search</button></div></form>
+<form class="h2-q" data-gs action={L('rackets')} method="get"><label for="h2q">Search</label><div><input id="h2q" name="q" type="search" placeholder="Racket, shoe or ball" autocomplete="off" enterkeyhint="search"/><button type="submit">Search</button></div></form>
 </div>
 <ul class="h2-doors">{doors.map(p => <li>
 <a class="h2-door" href={p.href}><span class={`h2-pic h2-pic-${p.kind}`}><img src={p.img} alt="" width={p.w} height={p.h} fetchpriority={p.kind === 'rk' ? 'high' : 'auto'} decoding="async"/></span><span class="h2-name">{p.name}</span><span class="h2-n">{p.n}</span><span class="h2-line">{p.line}</span><span class="h2-go">{p.go}</span></a>
@@ -96,7 +96,7 @@ const doors = [
 </section>}
 
 <nav class="h2-else" aria-label="More on WhichPadel">
-<a href={L('compare')}>Compare two rackets</a>
+<a href={L('rackets')}>Compare two rackets</a>
 <a href={L('shoeCompare')}>Compare two shoes</a>
 <a href={L('guide')}>How to choose a racket</a>
 </nav>

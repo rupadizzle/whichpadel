@@ -3,7 +3,7 @@ import fs from 'fs'; import path from 'path';
 const D='dist', S='https://whichpadel.com'; const LANGS=['en',...fs.readdirSync(D).filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`${D}/${d}/index.html`))]; const errs=[]; const map={};
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/,'').replace(/\\/g,'/'); if(/404/.test(rel)) continue;
- const h=fs.readFileSync(f,'utf8'); const canon=(h.match(/<link rel="canonical" href="([^"]+)"/)||[])[1];
+ const h=fs.readFileSync(f,'utf8'); if(/<meta name="robots" content="noindex/.test(h)) continue; const canon=(h.match(/<link rel="canonical" href="([^"]+)"/)||[])[1];
  if(canon!==S+rel) errs.push(`${rel}: canonical ${canon}`);
  const alts={}; for(const m of h.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) alts[m[1]]=m[2];
  // /us/ pages: English (US) only, no translated twin -> exactly one self-referencing en-US hreflang

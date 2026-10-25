@@ -52,16 +52,17 @@ const L = (type, id) => url(type, lang, id);
 <div class="keep">
 <p class="keep-kicker">Reference</p>
 <h1>Four shells to keep</h1>
-<p class="keep-lead">Rackets, shoes and balls share the product card. Compare, brands and the homepage promo each keep one shell, because each is a different job.</p>
+<p class="keep-lead">Rackets, shoes and balls share the product card. Compare, brands and the homepage promo each keep one shell, because each is a different job. Each example has a code. Use the code when you want a change.</p>
 
 <section class="keep-block" id="product">
 <p class="keep-kicker">1 · Product card</p>
 <h2>One card for rackets, shoes and balls</h2>
 <p class="keep-lead">A tile in a grid, a row on a phone or in a tight list. Save is always on. Compare is on for rackets and shoes, off for balls. Rank and rating bars turn on for a best list. That card stays a row on a wide screen, and stacks on a phone so the photo and the ratings have the width.</p>
 
-<p class="keep-label">Tile</p>
-<div class="hub cat">
-<ul class="hub-grid keep-tiles">
+<div class="keep-tile-specs">
+<div id="a1">
+<p class="keep-id"><b>A1</b> Product tile, racket</p>
+<div class="hub cat"><ul class="hub-grid keep-tiles">
 <li class="rk">
 <a class="rk-a" href={L('racket', racket.slug)}>
 <span class="rk-i">{racket.image ? <img src={racket.image} alt="" width="96" height="112"/> : <RacketIcon shape={racket.shape || 'hybrid'} size={48}/>}</span>
@@ -69,19 +70,28 @@ const L = (type, id) => url(type, lang, id);
 </a>
 <label class="rk-x"><input type="checkbox" class="rk-cb" value={racket.slug}/><span><span class="sr">{H.compare}</span></span></label>
 </li>
-<ShoeCard s={shoe} lang={lang} eager compare/>
+</ul></div>
+</div>
+<div id="a2">
+<p class="keep-id"><b>A2</b> Product tile, shoe</p>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><ShoeCard s={shoe} lang={lang} eager compare/></ul></div>
+</div>
+<div id="a3">
+<p class="keep-id"><b>A3</b> Product tile, ball</p>
+<div class="hub cat"><ul class="hub-grid keep-tiles">
 <li class="rk">
 <a class="rk-a" href={L('ball', ball.slug)}>
 <span class="rk-i">{ball.imgs && <img src={`/balls/g/${ball.slug}-400.webp`} alt="" width="96" height="96"/>}</span>
 <span class="rk-t"><span class="rk-b"><span>{ball.brand}</span><SaveHeart slug={ball.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{ball.model}</span><span class="rk-c">{specB(ball)}</span><span class="rk-p"><span class="rk-pv">{fromP(ball)}</span></span></span>
 </a>
 </li>
-</ul>
+</ul></div>
+</div>
 </div>
 
-<p class="keep-label">Same card, as a row</p>
-<div class="hub cat keep-rows">
-<ul class="hub-grid">
+<div id="b1">
+<p class="keep-id"><b>B1</b> Product row, racket</p>
+<div class="hub cat keep-rows"><ul class="hub-grid">
 <li class="rk">
 <a class="rk-a" href={L('racket', racket.slug)}>
 <span class="rk-i">{racket.image ? <img src={racket.image} alt="" width="72" height="72"/> : <RacketIcon shape={racket.shape || 'hybrid'} size={40}/>}</span>
@@ -89,17 +99,26 @@ const L = (type, id) => url(type, lang, id);
 </a>
 <label class="rk-x"><input type="checkbox" class="rk-cb" value={racket.slug}/><span><span class="sr">{H.compare}</span></span></label>
 </li>
-<ShoeCard s={shoe} lang={lang} compare/>
+</ul></div>
+</div>
+<div id="b2">
+<p class="keep-id"><b>B2</b> Product row, shoe</p>
+<div class="hub cat keep-rows"><ul class="hub-grid"><ShoeCard s={shoe} lang={lang} compare/></ul></div>
+</div>
+<div id="b3">
+<p class="keep-id"><b>B3</b> Product row, ball</p>
+<div class="hub cat keep-rows"><ul class="hub-grid">
 <li class="rk">
 <a class="rk-a" href={L('ball', ball.slug)}>
 <span class="rk-i">{ball.imgs && <img src={`/balls/g/${ball.slug}-400.webp`} alt="" width="72" height="72"/>}</span>
 <span class="rk-t"><span class="rk-b"><span>{ball.brand}</span><SaveHeart slug={ball.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{ball.model}</span><span class="rk-c">{specB(ball)}</span><span class="rk-p"><span class="rk-pv">{fromP(ball)}</span></span></span>
 </a>
 </li>
-</ul>
+</ul></div>
 </div>
 
-<p class="keep-label">Same card, best-list slots on</p>
+<div id="c1">
+<p class="keep-id"><b>C1</b> Best list, wide</p>
 <div class="hub cat keep-rows keep-best">
 <ul class="hub-grid">
 {[racketB, racket].map((r, i) => <li class="rk">
@@ -118,7 +137,7 @@ const L = (type, id) => url(type, lang, id);
 </ul>
 </div>
 <div class="keep-phone-block">
-<p class="keep-label">On a phone</p>
+<p class="keep-id" id="c2"><b>C2</b> Best list, phone</p>
 <div class="keep-phone"><div class="hub cat keep-rows keep-best">
 <ul class="hub-grid">
 {[racketB, racket].map((r, i) => <li class="rk">
@@ -139,9 +158,10 @@ const L = (type, id) => url(type, lang, id);
 </div>
 </section>
 
-<section class="keep-block" id="compare">
+<section class="keep-block" id="d">
 <p class="keep-kicker">2 · Compare header</p>
 <h2>The short card above a comparison</h2>
+<p class="keep-id"><b>D</b> Compare header</p>
 <p class="keep-lead">Rackets and shoes already share this. Photo, name and price, with swap above remove. The dashed “add” control stays a button in this row, not a fifth card.</p>
 <div class="cmp cmp-cards keep-cmp">
 <div class="chead" style="--n:2">
@@ -151,9 +171,10 @@ const L = (type, id) => url(type, lang, id);
 </div>
 </section>
 
-<section class="keep-block" id="brand">
+<section class="keep-block" id="e">
 <p class="keep-kicker">3 · Brand tile</p>
 <h2>A brand is not a product</h2>
+<p class="keep-id"><b>E</b> Brand tile</p>
 <p class="keep-lead">Name, a racket from the range, and how many rackets, shoes and balls we list.</p>
 <div class="bgrid keep-brands">{brands.map(b => {
   const pic = b.rackets.find(r => r.image) || b.rackets[0];
@@ -161,9 +182,10 @@ const L = (type, id) => url(type, lang, id);
 })}</div>
 </section>
 
-<section class="keep-block" id="promo">
+<section class="keep-block" id="f">
 <p class="keep-kicker">4 · Promo</p>
 <h2>One homepage promo</h2>
+<p class="keep-id"><b>F</b> Promo</p>
 <p class="keep-lead">Shoes, balls and the racket finder use this. The lime quiz button on the homepage folds into it.</p>
 <a class="fcta-card keep-promo" href={L('finder')}><span class="fcta-ic" aria-hidden="true">🎯</span><span class="fcta-t"><b>{F.cta}</b><span>{F.ctaS}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a>
 </section>
@@ -178,6 +200,10 @@ const L = (type, id) => url(type, lang, id);
 .keep-block{margin:0 0 40px}
 .keep-block:first-of-type{margin-top:28px}
 .keep-label{margin:18px 0 8px;font-size:.8125rem;font-weight:700}
+.keep-id{display:flex;align-items:center;gap:8px;margin:18px 0 8px;font-size:.8125rem;font-weight:700}
+.keep-id b{display:inline-grid;place-items:center;min-width:1.75rem;height:1.25rem;padding:0 6px;border-radius:4px;background:var(--navy);color:var(--lime);font-size:.6875rem;letter-spacing:.04em}
+.keep-tile-specs{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:8px 16px;max-width:720px;align-items:start}
+.keep .hub.cat .keep-tile-specs .keep-tiles{grid-template-columns:minmax(0,220px);max-width:none}
 .keep .hub.cat .keep-tiles{grid-template-columns:repeat(3,minmax(0,220px));max-width:700px}
 .keep-rows .hub-grid{max-width:40rem}
 .keep-cmp{max-width:40rem;margin-top:12px}
@@ -257,10 +283,11 @@ const L = (type, id) => url(type, lang, id);
  .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end;align-self:end;white-space:nowrap}
  .keep .hub.cat .keep-tiles .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:1;grid-row:5;width:28px;height:28px;justify-self:start;align-self:end}
  .keep .hub.cat .keep-tiles .rk-pv::after{content:none}
+ .keep-tile-specs{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));max-width:none}
  .keep-brands{grid-template-columns:1fr}
 }
 @media(max-width:640px){
- .keep .hub.cat .keep-tiles{grid-template-columns:1fr 1fr}
+ .keep-tile-specs{grid-template-columns:1fr 1fr}
  .keep .keep-cmp.cmp-cards .chead{grid-template-columns:1fr}
  .keep-brands{grid-template-columns:1fr 1fr}
 }

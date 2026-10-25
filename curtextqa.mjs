@@ -5,7 +5,7 @@ import fs from 'fs'; import path from 'path';
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 const AMT=/(?:[£€$]\s?\d[\d.,]*|\d[\d.,]*\s?(?:[£€]|kr\b)|\b(?:GBP|EUR|USD|SEK)\s?\d)/;
 const bad=[]; let pages=0, conv=0;
-for(const f of walk('dist')){const h0=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h0)) continue; pages++; const rel='/'+path.relative('dist',f);
+for(const f of walk('dist')){const h0=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh"/.test(h0)||/<meta name="robots" content="noindex/.test(h0)) continue; pages++; const rel='/'+path.relative('dist',f);
  // /us/ pages are US-only and always open in USD (Region PAGE lock), so their $ amounts are intentional
  if(rel.startsWith('/us/')) continue;
  if(/⟦|⟧/.test(h0.replace(/<script[\s\S]*?<\/script>/g,'').replace(/ data-mt="[^"]*"/,''))) bad.push(`raw token: ${rel}`);

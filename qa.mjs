@@ -3,7 +3,8 @@ import { chromium } from 'playwright-core';
 import fs from 'fs';
 import { layoutQA } from './layoutqa.mjs';
 const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const CMP3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]).join(','); const issues=[]; const log=(...a)=>{console.log(...a)};
-const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
+const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']});
 // 1. link crawl from dist files
 const files=[]; (function w(d){for(const f of fs.readdirSync(d,{withFileTypes:true})){const p=d+'/'+f.name; f.isDirectory()?w(p):p.endsWith('.html')&&files.push(p);}})('dist');
 const exists=u=>{u=u.split('#')[0].split('?')[0]; if(u==='') return true; const p='dist'+decodeURI(u); return fs.existsSync(p)&&(fs.statSync(p).isFile()||fs.existsSync(p+'/index.html'));};
@@ -48,17 +49,18 @@ await t('hub filters',async()=>{await p.click('#h-adv summary'); await p.check('
 await t('hub sort',async()=>{for(const v of ['best','price','new','pop']){await p.selectOption('#h-sort',v); await p.waitForTimeout(250);} await p.selectOption('#h-sort','price'); await p.waitForTimeout(300); log(' cheapest',await p.textContent('#h-grid .rk-p'));});
 await t('hub more',async()=>{await p.click('#h-more'); await p.waitForTimeout(300); const n=await p.locator('#h-grid .rk').count(); if(n!==48) throw Error('cards '+n);});
 await p.goto(B+'/rackets/'); await p.waitForTimeout(500);
-await t('compare tick',async()=>{const cb=p.locator('#h-grid .rk-cb'); await cb.nth(0).check(); await cb.nth(1).check(); if(!await p.isVisible('#h-tray')) throw Error('tray'); await p.click('#h-go'); await p.waitForURL(/compare\/\?r=/); await p.waitForSelector('.cvals'); });
-await t('compare add via sheet',async()=>{await p.click('.slot-add'); await p.fill('#sheet-q','vertex'); await p.waitForTimeout(200); await p.click('#sheet-list button >> nth=0'); const n=await p.locator('.chead .hc').count(); if(n!==3) throw Error('hc '+n); if(!/r=.*,.*,/.test(p.url())) throw Error('url');});
-await t('compare swap+remove',async()=>{await p.click('.hc [data-add] >> nth=0'); await p.click('#sheet-list button >> nth=3'); await p.click('.hc [data-rm] >> nth=2'); if(await p.locator('.chead .hc').count()!==2) throw Error('rm');});
+await t('compare tick',async()=>{const cb=p.locator('#h-grid .rk-cb'); await cb.nth(0).check(); await cb.nth(1).check(); if(!await p.isVisible('#h-tray')) throw Error('tray'); await p.click('#h-go'); await p.waitForSelector('#cmp-take[open] .cvals',{timeout:8000}); });
+await t('compare add via sheet',async()=>{await p.locator('#cmp-take input[name=cmpn][value="3"]').check(); await p.fill('#sheet-q','vertex'); await p.waitForTimeout(200); await p.click('#sheet-list button >> nth=0'); const n=await p.locator('#cmp-take .chead .hc').count(); if(n!==3) throw Error('hc '+n);});
+await t('compare swap+remove',async()=>{await p.click('#cmp-take .hc [data-add] >> nth=0'); await p.click('#sheet-list button >> nth=3'); await p.click('#cmp-take .hc [data-rm] >> nth=2'); if(await p.locator('#cmp-take .chead .hc').count()!==2) throw Error('rm');});
+if(await p.locator('#cmp-take[open]').count()) await p.click('#cmp-take-x');
 await t('newsletter',async()=>{await p.fill('.news input[type=email]','a@b.co'); await p.click('.news button'); await p.waitForSelector('.news .ok',{state:'visible',timeout:8000}).catch(()=>{throw Error('no ok')}); /* static server: shows localized error; real success checked by subqa on preview */});
 await p.goto(B+'/rackets/adidas-2026-world-cup-argentina/');
 await t('price alert',async()=>{await p.fill('.alert-panel input[type=email]','a@b.co'); await p.click('.alert-panel button'); await p.waitForSelector('.alert-panel .ok',{state:'visible',timeout:8000}).catch(()=>{throw Error('no ok')}); /* static server: shows localized error; real success checked by subqa on preview */});
 await t('racket compare link',async()=>{await p.click('.buybox .btn-sm'); await p.waitForURL(/compare/);});
 await p.goto(B+'/best/best-padel-rackets-for-beginners/');
-await t('best compare',async()=>{const cb=p.locator('.cmp'); await cb.nth(0).check(); await cb.nth(1).check(); await p.click('.toolbar button'); await p.waitForURL(/compare/);});
+await t('best compare',async()=>{const cb=p.locator('.cmp'); await cb.nth(0).check(); await cb.nth(1).check(); await p.click('.toolbar button'); await p.waitForSelector('#cmp-take[open] .cvals',{timeout:8000});});
 await p.goto(B+'/brands/'); await t('brand click',async()=>{await p.click('.bcard >> nth=0'); await p.waitForURL(/brands\/.+/);});
-await t('brand compare',async()=>{const cb=p.locator('.cmp'); await cb.nth(0).check(); await cb.nth(1).check(); await p.click('.toolbar button'); await p.waitForURL(/compare/);});
+await t('brand cards',async()=>{const n=await p.locator('#rgrid .rk').count(); if(n<1) throw Error('cards '+n);});
 // mobile menu + finder from another page
 const m=await (await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true})).newPage(); m.setDefaultTimeout(8000);
 await m.goto(B+'/brands/');
