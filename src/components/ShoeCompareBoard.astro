@@ -56,7 +56,8 @@ function draw(){save(); const xs=sel.slice(0,cap).map(s=>by[s]); const slots=Mat
  const body=ROWS.map(([k,lab,kind])=>{const vals=xs.map(x=>x[k]); if(kind!=='yn'&&vals.every(v=>v==null||v==='')) return '';
   return `<div class="crow"><div class="clab">${esc(L[lab])}</div><div class="cvals" style="--n:${xs.length}">${xs.map(x=>`<div class="cv">${cell(x,k,kind)}</div>`).join('')}</div></div>`;}).join('');
  if(body) h+=`<details class="cgroup" open><summary>${esc(C.specs)}</summary>${body}</details>`;
- h+=`<div class="buyrow" style="--n:${xs.length}">${xs.map(x=>`<a class="btn" href="${shoe.replace('§',x.s)}"><span class="bsub">${x.pt?`<span class="bp">${esc(x.pt)}</span>${icoGo}`:`<span class="ba">${esc(C.see)}</span>${icoGo}`}</span></a>`).join('')}<p class="disc">${esc(note)} <a href="${aff}">${esc(disc)}</a></p></div>`;
+ const btn=x=>embed?`<span class="bsub">${x.pt?`<span class="bp">${esc(x.pt)}</span>${icoGo}`:`<span class="ba">${esc(C.see)}</span>${icoGo}`}</span>`:`<span class="bn">${esc(short(x))}</span><span>${esc(x.pt||C.see)}</span>`;
+ h+=`<div class="buyrow" style="--n:${xs.length}">${xs.map(x=>`<a class="btn" href="${shoe.replace('§',x.s)}">${btn(x)}</a>`).join('')}<p class="disc">${esc(note)} <a href="${aff}">${esc(disc)}</a></p></div>`;
  root.innerHTML=h;}
 function list(){const q=$('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||(x.n+' '+x.b).toLowerCase().includes(q))).slice(0,40);
  $('sheet-list').innerHTML=r.length?r.map(x=>`<li><button type="button" data-pick="${x.s}">${img(x)}<span><b>${esc(x.n)}</b><small>${esc(x.g||'')} · ${esc(x.pt||none)}</small></span></button></li>`).join(''):'<li class="muted">'+esc(C.noMatch)+'</li>';}

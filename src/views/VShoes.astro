@@ -45,15 +45,15 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  </section>
 </section>
 </div>
-<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.compare} <span id="h-seln"></span></button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+<div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{C.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
 </div>
 <dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
  <div class="cmp-take-bar"><h2 id="cmp-take-h">{C.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
  <div class="cmp-take-body"><ShoeCompareBoard lang={lang} embed/></div>
 </dialog>
-<script type="application/json" id="h-data" set:html={JSON.stringify({pv,cmp:url('shoeCompare',lang),T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove}}).replace(/</g,'\\u003c')}></script>
+<script type="application/json" id="h-data" set:html={JSON.stringify({pv,T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove,compare:C.compare,cmpPick:C.cmpPick}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
-(()=>{const {pv,cmp,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
+(()=>{const {pv,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
 const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
@@ -80,8 +80,9 @@ let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).v
 const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
 const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const sel=[];
-function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); $('h-sel').innerHTML=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li>${esc(t)}<button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;}).join('');
- $('h-seln').textContent=`${sel.length}/3`; $('h-go').disabled=sel.length<2;
+function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); const slots=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li><span>${esc(t)}</span><button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;});
+ for(let i=sel.length;i<3;i++) slots.push(sel.length<2&&i===sel.length?`<li class="hub-slot hub-slot-ask">${esc(T.cmpPick)}</li>`:`<li class="hub-slot" aria-hidden="true">+</li>`);
+ $('h-sel').innerHTML=slots.join(''); const go=$('h-go'), ready=sel.length>=2; go.hidden=!ready; go.disabled=!ready; go.textContent=ready?`${T.compare} ${sel.length}`:T.compare; document.body.classList.toggle('has-tray-go',ready);
  grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector('.rk-cb'); if(c) c.checked=on;}); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){} }
 grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
