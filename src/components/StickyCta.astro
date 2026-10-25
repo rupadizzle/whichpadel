@@ -1,0 +1,5 @@
+---
+import Price from './Price.astro';
+const { r, lang, shop, openLabel, buyLabel } = Astro.props;
+---
+<div class="stickycta" id="stickycta" aria-hidden="true"><button type="button" class="sp" id="stickyopen" tabindex="-1" aria-haspopup="dialog" aria-label={openLabel}><b><Price r={r} lang={lang}/><svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>{shop}</span></button><button type="button" class="btn" id="stickybuy" tabindex="-1" aria-haspopup="dialog">{buyLabel}</button></div>

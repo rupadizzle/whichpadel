@@ -22,7 +22,7 @@
 .hub-chip span{font-size:.75rem;opacity:.7}.hub-chip-x{background:none;text-decoration:underline;padding:0 8px}
 /* layout */
 .hub-l{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
-.hub-f{position:sticky;top:72px;display:flex;flex-direction:column;max-height:calc(100vh - 88px)}
+.hub-f{position:sticky;top:calc(72px + var(--bf));display:flex;flex-direction:column;max-height:calc(100vh - 88px - var(--bf))}
 .hub-fh{display:none}.hub-fb{overflow:auto;display:flex;flex-direction:column;gap:24px;padding:0 8px 16px 0}
 .hub-fl.hub-msort{display:none}
 .hub-fl{display:flex;flex-direction:column;gap:8px;font-size:.875rem;font-weight:600}.hub-fl select{font-weight:400;width:100%}
@@ -131,7 +131,7 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
 .cat .hub-hd{margin:0 0 8px}
 .cat .hub-hd h1{margin:0 0 2px;font-size:var(--title);line-height:1.15}
 .cat .hub-hd p{margin:0;font-size:.875rem;line-height:1.35}
-.cat .hub-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;position:sticky;top:62px;z-index:15;background:var(--bg);padding:4px 0 8px;margin:0 0 4px}
+.cat .hub-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;position:sticky;top:calc(62px + var(--bf));z-index:15;background:var(--bg);padding:4px 0 8px;margin:0 0 4px}
 .cat .hub-seg{margin:0;flex:0 0 auto;gap:6px}
 .cat .hub-seg span{min-height:34px;padding:0 11px;gap:5px;font-size:.8125rem}
 .cat .hub-seg small{font-size:.75rem}
@@ -191,7 +191,7 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end;align-self:end;width:auto;max-width:none;margin:0;padding:0;background:none}
  .cat .hub-grid .rk:has(.rk-x)>.rk-x{grid-column:1;grid-row:5;width:28px;height:28px;margin:0;justify-self:start;justify-content:flex-start;align-items:flex-end;align-self:end}
  .cat .hub-l{grid-template-columns:216px 1fr;gap:16px}
- .cat .hub-f{top:72px;max-height:var(--f-max,calc(100vh - 84px));min-height:0;overflow:hidden}
+ .cat .hub-f{top:calc(72px + var(--bf));max-height:var(--f-max,calc(100vh - 84px - var(--bf)));min-height:0;overflow:hidden}
  .cat .hub-bar{display:none}
  .cat .hub-mq{display:flex}
  .cat .hub-ac{display:none}

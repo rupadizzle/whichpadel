@@ -100,7 +100,7 @@ facet('#ngrid',[{name:'bv',attr:'speed',mode:'eq'},{name:'bt',attr:'tour',mode:'
 <section class="panel"><h2>{u.otherBrands}</h2><p class="brandlinks">{others.map(o=><a href={url('brand',lang,o.slug)}>{o.name}</a>)}</p></section>
 </Base>
 <style>
-.brand-switch{display:flex;gap:0;position:sticky;top:62px;z-index:15;margin:0 0 18px;padding-top:8px;border-bottom:1px solid var(--line);background:var(--bg);overflow-x:auto;scrollbar-width:none}
+.brand-switch{display:flex;gap:0;position:sticky;top:calc(62px + var(--bf));z-index:15;margin:0 0 18px;padding-top:8px;border-bottom:1px solid var(--line);background:var(--bg);overflow-x:auto;scrollbar-width:none}
 .brand-switch::-webkit-scrollbar{display:none}
 .brand-switch label{position:relative;flex:1 1 0;min-width:max-content}
 .brand-switch input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}

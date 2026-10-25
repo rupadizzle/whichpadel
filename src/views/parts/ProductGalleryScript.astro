@@ -1,0 +1,12 @@
+<script is:inline>
+(()=>{const g=document.querySelector('.rpg'); if(!g) return; const sp=document.getElementById('rpspec'); if(sp&&matchMedia('(max-width:899px)').matches) sp.open=false;
+const tr=g.querySelector('.gtrack'), n=+g.dataset.n; if(!n||!tr.querySelector('.gslide')) return; const cnt=g.querySelector('.gcount b'), dots=[...g.querySelectorAll('.gdots i')], th=[...g.querySelectorAll('.gthumbs button')]; let cur=0;
+const go=i=>{i=(i+n)%n; tr.scrollTo({left:i*tr.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+const set=i=>{if(i===cur) return; cur=i; if(cnt) cnt.textContent=i+1; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); th.forEach((b,k)=>b.toggleAttribute('aria-current',k===i));};
+tr.addEventListener('scroll',()=>set(Math.round(tr.scrollLeft/tr.clientWidth)),{passive:true});
+th.forEach(b=>b.onclick=()=>go(+b.dataset.i)); const P=g.querySelector('.gprev'),N=g.querySelector('.gnext'); if(P){P.onclick=()=>go(cur-1); N.onclick=()=>go(cur+1);}
+tr.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(cur+1);} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}});
+const z=g.querySelector('.gzoom'); if(!z||!z.showModal) return; const zt=z.querySelector('.gztrack');
+tr.querySelectorAll('.gslide').forEach(b=>b.onclick=()=>{zt.querySelectorAll('img[data-src]').forEach(im=>{im.src=im.dataset.src; im.removeAttribute('data-src');}); z.showModal(); document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>{zt.scrollLeft=(+b.dataset.i)*zt.clientWidth;});});
+const zc=()=>{z.close();}; z.querySelector('.gzx').onclick=zc; z.addEventListener('close',()=>document.documentElement.classList.remove('pxlock')); z.addEventListener('click',e=>{if(e.target===z||e.target===zt) zc();});})();
+</script>

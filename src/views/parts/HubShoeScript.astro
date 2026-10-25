@@ -1,56 +1,6 @@
 ---
-// /shoes/ hub: every shoe rendered statically (crawlable), client-side filters (brand, fit, sole, size, price) and sort, state in the URL.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro'; import ShoeCompareBoard from '../components/ShoeCompareBoard.astro';
-import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE, SHOE_CMP } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang]; const N=shoes.length;
-const list=rankShoes(shoes,lang); const brands=[...new Set(shoes.map(s=>s.brand))].filter(b=>b!=='Unknown').sort();
-const brandPick=brands.map(b=>({name:b,n:shoes.filter(s=>s.brand===b).length})).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
-const sizes=[...new Set(shoes.flatMap(s=>s.sizesEU))].filter(x=>Number.isInteger(x)).sort((a,b)=>a-b);
-const GENDER=['m','w','k'];
-const pv=Object.fromEntries(shoes.map(s=>[s.slug,priceIn(s,lang)]));
-const U=SITE+url('shoes',lang);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':T.h1(N),'url':U,'description':T.desc(N)},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':T.crumb,'item':U}]}]};
+const { pv, T, C } = Astro.props;
 ---
-<Base lang={d.locale} title={T.title(N)} description={T.desc(N)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
-<div class="hub cat shoes" id="hub">
-<header class="hub-hd"><h1>{T.h1(N)}</h1><p>{T.intro}</p></header>
-<div class="hub-bar">
-<div class="hub-tb">
- <label class="hub-q"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
- <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{T.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-so"><span class="sr">{T.sort}</span><select id="h-sort2">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label>
-</div></div>
-<div class="hub-l">
-<div class="hub-shade" id="h-shade" hidden></div>
-<aside class="hub-f" id="h-f" aria-label={T.filters}>
- <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
- <div class="hub-fb">
-  <label class="hub-bq hub-mq"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
-  <fieldset class="hub-g"><legend>{T.gender}</legend><div class="hub-chips">{GENDER.map(k=><label><input type="checkbox" name="h-g" value={k}/><span>{T.genders[k]}</span></label>)}</div></fieldset>
-  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB} data-less={T.lessB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
-  <fieldset class="hub-g"><legend>{T.sole}</legend><div class="hub-chips">{Object.entries(T.soles).map(([k,v])=><label><input type="checkbox" name="h-so" value={k}/><span>{v}</span></label>)}</div></fieldset>
-  <fieldset class="hub-g"><legend>{T.size}</legend><div class="hub-chips">{sizes.map(x=><label><input type="checkbox" name="h-sz" value={x}/><span>{x}</span></label>)}</div></fieldset>
-  <fieldset class="hub-g"><legend>{T.price}</legend><div class="hub-pr"><label><span class="sr">{T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={T.max}/></label></div></fieldset>
- </div>
- <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{T.clear}</button><button type="button" class="btn btn-accent" id="h-apply">{T.apply.replace('§',String(N))}</button></div>
-</aside>
-<section class="hub-main">
- <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{T.results.replace('§',String(N))}</b></p><label class="hub-sort"><span class="sr">{T.sort}</span><select id="h-sort">{['rec','price','hi','new','old','shops'].map((k,i)=><option value={k}>{T.sorts[i]}</option>)}</select></label></div>
- <ul class="hub-grid" id="h-grid">{list.map((s,i)=><ShoeCard s={s} lang={lang} eager={i<4} compare/>)}</ul>
- <p class="hub-empty" id="h-empty" hidden>{T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{T.clear}</button></p>
- <section class="hub-pre"><h2 class="h3">{T.guides}</h2>
-  <p>{SHOE_LIST_KEYS.filter(k=>!k.startsWith('u')).map(k=><a href={url('shoeList',lang,k)}>{T.lists[k][0]}</a>)}</p>
-  <p><b>{T.byBrand}</b>{shoeBrands.map(b=>{const t=shoeBrandTarget(b.slug); return <a href={url(t.type,lang,t.id)+(t.hash?'#'+t.hash:'')}>{b.name}</a>;})}</p>
- </section>
-</section>
-</div>
-<div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{C.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
-</div>
-<dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
- <div class="cmp-take-bar"><h2 id="cmp-take-h">{C.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
- <div class="cmp-take-body"><ShoeCompareBoard lang={lang} embed/></div>
-</dialog>
 <script type="application/json" id="h-data" set:html={JSON.stringify({pv,T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove,compare:C.compare,cmpPick:C.cmpPick}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
 (()=>{const {pv,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
@@ -101,4 +51,3 @@ if(sel.length) tray();
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
 })();
 </script>
-</Base>

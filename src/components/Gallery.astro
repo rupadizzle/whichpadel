@@ -1,0 +1,13 @@
+---
+// Shared product gallery (racket and shoe). Slide size comes from the caller.
+const { slides, alt, zoom, photo, prev, next, close, ih, th, zh } = Astro.props;
+const n = slides.length;
+---
+<section class="rpg" aria-label={alt} data-n={n}>
+<div class="gtrack" tabindex="0">{slides.map((g,i)=><button type="button" class="gslide" data-i={i} aria-label={`${zoom}: ${photo(i+1,n)}`}><img src={g.l} srcset={g.one?undefined:`${g.s} 400w, ${g.l} 800w`} sizes="(max-width: 899px) 100vw, 480px" alt={i===0?alt:`${alt} – ${photo(i+1,n)}`} width="480" height={ih} loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':undefined} decoding={i===0?'sync':'async'}/></button>)}</div>
+{n>1&&<><span class="gcount" aria-live="polite"><b>1</b> / {n}</span>
+<button type="button" class="garr gprev" aria-label={prev}>‹</button><button type="button" class="garr gnext" aria-label={next}>›</button>
+<div class="gdots" aria-hidden="true">{slides.map((_,i)=><i class={i===0?'on':''}></i>)}</div>
+<div class="gthumbs">{slides.map((g,i)=><button type="button" data-i={i} aria-label={photo(i+1,n)} aria-current={i===0?'true':undefined}><img src={g.s} alt="" width="64" height={th} loading="lazy" decoding="async"/></button>)}</div>
+<dialog class="gzoom" aria-label={alt}><button type="button" class="gzx" aria-label={close}>✕</button><div class="gztrack">{slides.map(g=><img data-src={g.l} alt="" width="960" height={zh}/>)}</div></dialog></>}
+</section>

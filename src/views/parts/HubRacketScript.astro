@@ -1,82 +1,6 @@
 ---
-// /rackets/ hub: the full racket database as a focused comparison tool. Static pages 1..N (crawlable), client-side filters/sort with state in the URL.
-// Filtered URLs (?brand=…) are never separate pages: they keep the canonical of /rackets/; the indexable presets are the existing brand, year and shape pages.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RacketIcon from '../components/RacketIcon.astro'; import CompareBoard from '../components/CompareBoard.astro';
-import { allRackets as rackets, brandList, slugify } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
-import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
-const { p=1, lang } = Astro.props; const d=D(lang), u=d.ui, H=HUB[lang], t=d.terms; const N=rackets.length; const P=hubPages();
-const order=hubOrder(); const rs=order.slice((p-1)*PER,p*PER);
-const topB=[...brandList].sort((a,b)=>b.count-a.count).slice(0,10);
-const brandPick=[...new Set(rackets.map(r=>r.brand))].map(name=>({name,slug:slugify(name),count:rackets.filter(r=>r.brand===name).length})).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
-const years=[...new Set(rackets.map(r=>r.year).filter(Boolean))].sort((a,b)=>b-a);
-const reg=DEFAULT_REGION(lang); const cur0=REGIONS[reg][2];
-const AUD=['men','women','junior','unisex'];
-const audL=k=>H.auds[['men','women','junior','unisex'].indexOf(k)];
-const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
-const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe(r.brand)+'\\s+','i'),''); if(r.year) s=s.replace(new RegExp('\\s+'+r.year+'\\s*$'),''); return s.trim()||r.model;};
-const spec=r=>[r.audience!=='unisex'&&audL(r.audience),r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''}\u00a0g`].filter(Boolean).join(' · ');
-const pu=i=>url('rackets',lang,i); const U=SITE+pu(p);
-const title=p>1?`${H.h1(N)} · ${H.pageL} ${p} | WhichPadel`:H.title(N);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':H.h1(N),'url':U,'description':H.desc(N)},{'@type':'ItemList','name':H.h1(N),'numberOfItems':N,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':(p-1)*PER+i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':H.crumb,'item':SITE+pu(1)}]}]};
-const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('rackets',lang),save:u.save,saved:u.saved,brands:Object.fromEntries(brandPick.map(b=>[b.slug,b.name])),sym:SYM,cur:cur0,PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
-const hasNext=p<P; const PAGES=Array.from({length:P},(_,i)=>i+1);
-const chip=(vals,labels)=>vals.map((v,i)=>[v,labels[i]]);
-const groupsA=[['shape',H.shape,chip(['round','teardrop','diamond','hybrid'],H.shapes),''],['bal',H.balance,chip(['low','medium','high'],H.lmh),H.noBal],['wt',H.weight,chip(['l','m','h'],H.wts),''],['hard',H.hard,chip(['soft','medium','hard'],H.smh),''],['level',H.level,chip(['b','i','a'],H.lvls),H.noLevel]];
-const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.bal,G.wt,G.hard,G.level];
+const { HT } = Astro.props;
 ---
-<Base lang={d.locale} title={title} description={p>1?`${H.desc(N)} ${H.pageL} ${p}/${P}.`:H.desc(N)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{H.crumb}</span></nav>
-<div class="hub cat" id="hub" data-p={p}>
-<header class="hub-hd"><h1>{H.h1(N)}</h1><p>{H.intro}</p></header>
-<div class="hub-bar">
-<div class="hub-tb">
- <label class="hub-q"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
- <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{H.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-so"><span class="sr">{H.sort}</span><select id="h-sort2">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k}>{H.sorts[i]}</option>)}</select></label>
-</div>
-</div>
-<div class="hub-ac" id="h-ac" aria-label={H.activeF} hidden></div>
-<div class="hub-l">
-<div class="hub-shade" id="h-shade" hidden></div>
-<aside class="hub-f" id="h-f" aria-label={H.filters}>
- <div class="hub-fh"><h2>{H.filters}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
- <div class="hub-fb">
-  <label class="hub-bq hub-mq"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
-  <fieldset class="hub-g hub-brands"><legend>{H.brand}</legend><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.slug}/><span>{b.name}</span></label>)}</div>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={H.moreB} data-less={H.lessB}>{H.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
-  {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div>{g[3]&&<p class="hub-note" data-k={g[0]} hidden>{g[3]}</p>}</fieldset>)}
-  <fieldset class="hub-g"><legend>{H.year}</legend><div class="hub-chips">{years.map(y=><label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div><p class="hub-note" data-k="year" hidden>{H.noYear}</p></fieldset>
-  <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><span class="hub-sym" id="h-sym" aria-hidden="true">{SYM[cur0]}</span><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div><p class="hub-note" data-k="price" hidden>{H.noPrice}</p></fieldset>
-  <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips">{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)}</span></label>)}</div></fieldset>
-  <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b></span></label>
- </div>
- <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{H.clr}</button><button type="button" class="btn btn-accent" id="h-apply">{H.apply.replace('§',String(N))}</button></div>
-</aside>
-<section class="hub-main">
- <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{H.results.replace('§',String(N))}</b></p><label class="hub-sort"><span class="sr">{H.sort}</span><select id="h-sort">{['pop','price','hi','new','old','best'].map((k,i)=><option value={k} selected={k==='pop'}>{H.sorts[i]}</option>)}</select></label></div>
- <div class="hub-stage">
- <ul class="hub-grid" id="h-grid">{rs.map((r,i)=><li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{priceTxt(r)}</span></span></span></a><label class="rk-x" title={H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}: {r.model}</span></span></label></li>)}</ul>
- <p class="hub-empty" id="h-empty" hidden>{H.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{H.clear}</button></p>
- <div class="hub-stick"><div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{H.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={H.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div></div>
- </div>
- <nav class="hub-pg" id="h-pg" aria-label={H.pageL}>
-  {hasNext?<a class="btn btn-line hub-more" id="h-more" rel="next" href={pu(p+1)}>{H.more}</a>:<a class="btn btn-line hub-more" id="h-more" href={pu(1)} hidden>{H.more}</a>}
-  <ol>{PAGES.map(i=><li><a href={pu(i)} aria-current={i===p?'page':undefined}>{i}</a></li>)}</ol>
- </nav>
- <section class="hub-pre"><h2 class="h3">{H.presets}</h2>
-  <p><b>{H.byBrand}</b>{topB.map(b=><a href={url('brand',lang,b.slug)}>{b.name}</a>)}<a href={url('brands',lang)}>{u.brands} →</a></p>
-  <p><b>{H.byYear}</b>{years.map(y=><a href={url('year',lang,y)}>{y}</a>)}</p>
-  <p><b>{H.byShape}</b>{SHAPE_KEYS.map((k,i)=><a href={url('best',lang,k)}>{H.shapes[i]}</a>)}</p>
- </section>
-</section>
-</div>
-{['round','teardrop','diamond','hybrid'].map(sh=><template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
-</div>
-<dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
- <div class="cmp-take-bar"><h2 id="cmp-take-h">{u.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
- <div class="cmp-take-body"><CompareBoard lang={lang} embed/></div>
-</dialog>
-
 <script type="application/json" id="h-data" set:html={JSON.stringify(HT).replace(/</g,'\\u003c')}></script>
 <script is:inline>
 (()=>{const T=JSON.parse(document.getElementById('h-data').textContent);const $=id=>document.getElementById(id), hub=$('hub'), grid=$('h-grid'); let all=null, view=[], shown=0; const sel=[];
@@ -180,4 +104,3 @@ if(linked.length>=2) openTake();
 else if(history.state&&history.state.wpCmp&&sel.length>=2) openTake(true);
 })();
 </script>
-</Base>

@@ -1,18 +1,106 @@
 ---
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import PriceAlertL from '../components/PriceAlertL.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, Pnum } from '../i18n/index.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.bf;
-const dates=rackets.map(r=>r.priceChecked).filter(Boolean).sort(); const from=dates[0], to=dates.at(-1);
-const ok=rackets.filter(r=>r.valueScore!=null&&r.image&&Pnum(r,lang)!=null);
-const tiers=[[0,100],[100,200],[200,1e9]].map(([a,b],i)=>({h:C.tiers[i],rs:ok.filter(r=>{const p=Pnum(r,lang);return p>a&&p<=b}).sort((x,y)=>y.valueScore-x.valueScore).slice(0,4)}));
-const faq=C.faq(from,to);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':C.h1,'item':SITE+url('bf',lang)}]}]};
+import '../styles/bf.css';
+import Base from '../layouts/Base.astro';
+import Byline from '../components/Byline.astro';
+import PriceAlertL from '../components/PriceAlertL.astro';
+import { rackets } from '../lib/data.js';
+import { bfDeals, loadPriceMap } from '../lib/bf.js';
+import { D, url, SITE, CURL } from '../i18n/index.js';
+import { render, tk } from '../lib/money.js';
+import { FX } from '../lib/price.js';
+
+const { lang } = Astro.props;
+const d = D(lang), u = d.ui, C = d.copy.bf, t = d.terms;
+const cur = CURL(lang);
+const M = s => render(String(s ?? ''), lang, FX.rates);
+const prices = await loadPriceMap();
+const deals = bfDeals(prices.map, rackets, cur);
+const money = (n, from) => M(tk(n, from, cur));
+const hero = deals.find(x => x.n >= 3) || deals[0];
+const iso = (prices.updated || new Date().toISOString()).slice(0, 10);
+const checked = new Intl.DateTimeFormat(d.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T12:00:00Z'));
+const h1plain = C.h1.replace(/<[^>]+>/g, '');
+const faq = C.faq(checked, String(deals.length));
+const END = Date.parse('2026-11-27T00:00:00Z');
+const left = Math.max(0, END - Date.now());
+const parts = [Math.floor(left / 864e5), Math.floor(left / 36e5) % 24, Math.floor(left / 6e4) % 60, Math.floor(left / 1e3) % 60];
+const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const short = r => (r.model || '').replace(new RegExp('^' + esc(r.brand) + '\\s+', 'i'), '');
+const wt = r => r.weightMin ? `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''} g` : '';
+const meta = (r, n) => [r.shape && t.shapeCap[r.shape], wt(r), C.shops(n)].filter(Boolean).join(' · ');
+const jsonld = {'@context':'https://schema.org','@graph':[
+  {'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},
+  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':h1plain,'item':SITE+url('bf',lang)}]},
+  deals.length ? {'@type':'ItemList','itemListElement':deals.map((x,i)=>({'@type':'ListItem','position':i+1,'name':x.r.model,'url':SITE+url('racket',lang,x.r.slug)}))} : null,
+].filter(Boolean)};
 ---
-<Base lang={d.locale} title={C.title+d.copy.titleSuffix} description={C.desc(to)} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bf}</span></nav><h1>{C.h1}</h1><Byline lang={lang} headline={C.h1} pageUrl={SITE+url('bf',lang)}/><div class="seo"><p>{C.lead}</p></div></div></section>
-<p class="rulebox"><Fragment set:html={C.stamp(from,to)}/> <a href={url('best',lang,'best-value-padel-rackets')+'#methodology'}>{u.methodology}</a>.</p>
-{tiers.filter(x=>x.rs.length).map(x=><section><h2>{x.h}</h2><div class="grid">{x.rs.map(r=><CardL r={r} lang={lang}/>)}</div></section>)}
-<p><a href={url('best',lang,'best-value-padel-rackets')}>{C.full}</a></p>
-<section class="panel"><h2>{C.tipsH}</h2>{C.tips.map(([h,p])=><div class="faq"><h3>{h}</h3><p>{p}</p></div>)}</section>
+<Base lang={d.locale} title={C.title+d.copy.titleSuffix} description={C.desc(checked)} jsonld={jsonld}>
+<section class="bf-hero" slot="hero"><div class="wrap">
+<div class="bf-copy">
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.bf}</span></nav>
+<p class="bf-kicker">{C.kicker}</p>
+<h1 set:html={C.h1}/>
+<p class="bf-lead">{C.lead}</p>
+<p class="bf-count" data-bf-count>{parts.map((n,i)=><span><b>{i ? String(n).padStart(2,'0') : n}</b><i>{C.units[i]}</i></span>)}</p>
+<a class="btn btn-accent" href="#cuts">{C.cta}</a>
+<Byline lang={lang} headline={h1plain} pageUrl={SITE+url('bf',lang)}/>
+</div>
+{hero && <a class="bf-stage" href={url('racket',lang,hero.r.slug)}>
+<img src={hero.r.image} alt="" width="320" height="400" fetchpriority="high" decoding="async"/>
+<span class="bf-stamp"><b>−{hero.cut}%</b><span class="bf-ticket">
+<span class="bf-brand">{hero.r.brand}{hero.r.year && <> · {hero.r.year}</>}</span>
+<span class="bf-name">{short(hero.r)}</span>
+<span class="bf-hero-px"><strong set:html={money(hero.lo, hero.c)}/><s set:html={money(hero.hi, hero.c)}/></span>
+<span class="bf-who">{C.gap(hero.loName, hero.hiName, hero.cut)}</span>
+</span></span>
+</a>}
+</div></section>
+
+<section class="bf-board" id="cuts">
+<header class="bf-head"><h2>{C.board}</h2><p>{C.boardP}</p></header>
+<div class="bf-bands" role="group" aria-label={C.board}>
+<button type="button" aria-pressed="true" data-band="all">{C.bandAll}</button>
+{C.tiers.map((label,i)=><button type="button" aria-pressed="false" data-band={String(i)} set:html={M(label)}/>)}
+</div>
+<ol class="bf-cuts">
+{deals.map((x,i)=><li class="bf-row" data-band={x.band}>
+<a href={url('racket',lang,x.r.slug)}>
+<img src={x.r.image} alt="" width="96" height="116" loading={i<3?'eager':'lazy'} decoding="async"/>
+<span class="bf-id"><span class="bf-brand">{x.r.brand}{x.r.year && <> · {x.r.year}</>}</span><span class="bf-name">{short(x.r)}</span><span class="bf-meta">{meta(x.r, x.n)}</span></span>
+<span class="bf-cut"><b>−{x.cut}%</b><small>{C.below}</small></span>
+<span class="bf-px"><span class="bf-now"><b set:html={money(x.lo, x.c)}/><small>{x.loName}</small></span><span class="bf-was"><s set:html={money(x.hi, x.c)}/><small>{x.hiName}</small></span></span>
+</a>
+</li>)}
+</ol>
+<p class="bf-empty" id="bf-empty" hidden>{C.empty}</p>
+<p class="bf-note"><Fragment set:html={M(C.stamp(checked))}/></p>
+<p class="bf-more"><a href={url('rackets',lang)}>{C.full}</a></p>
+</section>
+
+<section class="bf-quiet"><h2>{C.tipsH}</h2>{C.tips.map(([h,p])=><div class="bf-tip"><h3>{h}</h3><p>{p}</p></div>)}</section>
 <PriceAlertL lang={lang}/>
-<section class="panel"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<section class="bf-quiet"><h2>{u.faq}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<script is:inline>
+(()=>{
+  const root=document.querySelector('[data-bf-count]');
+  if(root){
+    const bits=[...root.querySelectorAll(':scope > span > b')];
+    const end=Date.parse('2026-11-27T00:00:00Z');
+    const tick=()=>{const left=Math.max(0,end-Date.now()); const v=[Math.floor(left/864e5),Math.floor(left/36e5)%24,Math.floor(left/6e4)%60,Math.floor(left/1e3)%60]; bits.forEach((b,i)=>{b.textContent=i?String(v[i]).padStart(2,'0'):String(v[i]);});};
+    tick();
+    setInterval(tick, matchMedia('(prefers-reduced-motion: reduce)').matches?60000:1000);
+  }
+  const bar=document.querySelector('.bf-bands');
+  if(!bar) return;
+  const rows=[...document.querySelectorAll('.bf-row')];
+  const empty=document.getElementById('bf-empty');
+  bar.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b||!bar.contains(b)) return;
+    bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+    const band=b.dataset.band; let n=0;
+    rows.forEach(li=>{const on=band==='all'||li.dataset.band===band; li.hidden=!on; if(on) n++;});
+    if(empty) empty.hidden=n>0;
+  });
+})();
+</script>
 </Base>

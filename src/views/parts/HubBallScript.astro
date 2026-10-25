@@ -1,0 +1,35 @@
+---
+const { pv, T } = Astro.props;
+---
+<script type="application/json" id="h-data" set:html={JSON.stringify({pv,T:{results:T.results,apply:T.apply}}).replace(/</g,'\\u003c')}></script>
+<script is:inline>
+(()=>{const {pv,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
+const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
+const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
+const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let hide=0; labs.forEach((lab,i)=>{const on=lab.querySelector('input').checked, keep=on||open||i<8; lab.hidden=!keep; if(!keep) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!open&&!hide; if(!more.hidden) more.textContent=open?more.dataset.less:more.dataset.t.replace('§',hide);}}
+const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
+const KEYS=['q','brand','sp','tour','eco','stock','min','max','sort'];
+let qv='';
+const setQ=v=>{qv=v; if($('h-q').value!==v)$('h-q').value=v; if($('h-q2').value!==v)$('h-q2').value=v;};
+const get=()=>({q:qv.trim(),brand:rv('brand'),sp:rv('sp'),tour:rv('tour'),eco:$('h-eco').checked?'1':'',stock:$('h-stock').checked?'1':'',min:$('h-min').value,max:$('h-max').value,sort:$('h-sort').value==='rec'?'':$('h-sort').value});
+const put=s=>{setQ((s.q||'').trim());setR('brand',s.brand||'');setR('sp',s.sp||'');setR('tour',s.tour||'');$('h-eco').checked=s.eco==='1';$('h-stock').checked=s.stock==='1';$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-sort').value=s.sort||'rec';$('h-sort2').value=s.sort||'rec'; paintBrands();};
+function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=parseFloat(s.max), bn=parts(s.brand), sp=parts(s.sp), tour=parts(s.tour); let n=0;
+ const ok=li=>{const d=li.dataset, v=pv[d.s]; return (!q||li.textContent.toLowerCase().includes(q))&&(!bn.length||bn.includes(d.b))&&(!sp.length||sp.includes(d.sp))&&(!tour.length||tour.includes(d.tour))&&(!s.eco||d.eco==='1')&&(!s.stock||+d.n>0)&&((isNaN(mn)&&isNaN(mx))||(v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx)));};
+ const P=li=>pv[li.dataset.s]??1e9; const map={'':(a,b)=>a.dataset.o-b.dataset.o,price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===1e9)-(P(a)===1e9)||P(b)-P(a),shops:(a,b)=>b.dataset.n-a.dataset.n||P(a)-P(b)}; const f=map[s.sort]||map[''];
+ [...items].sort(f).forEach(li=>{const on=ok(li); li.hidden=!on; if(on) n++; grid.appendChild(li);});
+ $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n); $('h-empty').hidden=n>0;
+ const c=(s.q?1:0)+sp.length+bn.length+tour.length+(s.eco?1:0)+(s.stock?1:0)+((s.min||s.max)?1:0); $('h-fn').textContent=c?String(c):'';
+ const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); history.replaceState(null,'',location.pathname+(qs.toString()?'?'+qs:''));}
+const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':'';};
+$('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
+document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
+let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).value);clearTimeout(tm); tm=setTimeout(apply,200);})); ['h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
+['h-sort','h-eco','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
+$('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
+document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
+const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
+const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
+})();
+</script>

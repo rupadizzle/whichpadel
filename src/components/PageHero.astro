@@ -1,0 +1,5 @@
+---
+import Byline from './Byline.astro';
+const { lang, label, crumbs, h1, pageUrl, lead, eyebrow } = Astro.props;
+---
+<section class="phero"><div class="wrap"><nav class="crumbs" aria-label={label}>{crumbs.map((c,i)=><>{i>0&&' › '}{c.href?<a href={c.href}>{c.label}</a>:<span>{c.label}</span>}</>)}</nav>{eyebrow&&<span class="eyebrow">{eyebrow}</span>}<h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={pageUrl}/>{lead&&<div class="seo"><p>{lead}</p></div>}</div></section>

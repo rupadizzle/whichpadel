@@ -1,0 +1,4 @@
+---
+const { heading, items } = Astro.props;
+---
+<section class="panel"><h2>{heading}</h2>{items.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>

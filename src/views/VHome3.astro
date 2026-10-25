@@ -1,0 +1,128 @@
+---
+// Test homepage at /homepage-3. The live home is unchanged.
+import '../styles/home3.css';
+import Base from '../layouts/Base.astro';
+import Price from '../components/Price.astro';
+import RacketIcon from '../components/RacketIcon.astro';
+import { allRackets, rackets, lists as L0, brandList } from '../lib/data.js';
+import { extraLists } from '../lib/seo-content.js';
+import { shoes, shoeImg, SHOE_LISTS } from '../lib/shoes.js';
+import { balls, ballImg, rankBalls, ballPrice } from '../lib/balls.js';
+import { SHOE } from '../i18n/shoes.js';
+import { BALL } from '../i18n/balls.js';
+import { url } from '../i18n/routes.js';
+const lang = 'en';
+const L = (t, id) => url(t, lang, id);
+const lists = { ...L0, ...extraLists };
+const S = SHOE.en;
+const Bb = BALL.en;
+const SH = { round: 'Round', teardrop: 'Teardrop', diamond: 'Diamond', hybrid: 'Hybrid' };
+const nameOf = r => (r.model || r.name || '').replace(new RegExp('^' + r.brand + '\\s+', 'i'), '');
+const fact = r => [SH[r.shape], r.weightMin ? (r.weightMax && r.weightMax !== r.weightMin ? `${r.weightMin}–${r.weightMax} g` : `${r.weightMin} g`) : ''].filter(Boolean).join(' · ');
+const shown = rackets.filter(r => r.image && r.audience !== 'junior' && r.published >= 4);
+const score = r => r.ratings.power + r.ratings.control + r.ratings.forgiveness + r.ratings.comfort;
+const heroRacket = shown.filter(x => x.shape === 'teardrop' && (x.year || 0) >= 2026).sort((a, b) => score(b) - score(a))[0] || shown.find(x => x.image);
+const heroShoe = shoes.filter(s => s.imgs && s.inStock && s.gender !== 'k').sort((a, b) => (b.year || 0) - (a.year || 0) || b.inStock - a.inStock)[0];
+const heroBall = balls.find(b => b.slug === 'wilson-premier-padel' && b.imgs) || balls.find(b => b.imgs);
+const used = new Set();
+const take = (key, pred = () => true) => {
+  const pool = shown.filter(r => !used.has(r.slug) && pred(r));
+  const r = lists[key].pick(pool)[0] || lists[key].pick(shown.filter(r => !used.has(r.slug)))[0];
+  if (r) used.add(r.slug);
+  return r;
+};
+const paths = [
+  { h: 'Beginners', d: 'Round shape, ranked on forgiveness.', k: 'best-padel-rackets-for-beginners', stat: r => `Forgiveness ${r.ratings.forgiveness}` },
+  { h: 'Intermediate', d: 'Teardrop and hybrid, ranked on power and control.', k: 'best-intermediate-padel-rackets', stat: r => `Power ${r.ratings.power}` },
+  { h: 'Power', d: 'Ranked on the power score.', k: 'best-power-padel-rackets', stat: r => `Power ${r.ratings.power}` },
+  { h: 'Control', d: 'Ranked on the control score.', k: 'best-control-padel-rackets', stat: r => `Control ${r.ratings.control}` },
+  { h: 'Sore arm', d: 'Soft core, round, and 365 g or under.', k: 'best-padel-racket-for-tennis-elbow', stat: r => `Comfort ${r.ratings.comfort}`, pred: r => r.audience !== 'women' },
+  { h: 'Value', d: 'The most rating for the price.', k: 'best-value-padel-rackets', stat: r => `Value ${r.valueScore}`, pred: r => r.audience !== 'women' },
+  { h: "Women's", d: 'Lighter rackets, ranked on handling and comfort.', k: 'best-womens-padel-rackets', stat: r => `Comfort ${r.ratings.comfort}` },
+  { h: 'Under £150', d: 'Recorded price at or below £150, ranked on value.', k: 'best-padel-rackets-under-150', stat: r => `Value ${r.ratings.value}` },
+].map(p => ({ ...p, r: take(p.k, p.pred) })).filter(p => p.r);
+const BRANDS = ['adidas', 'babolat', 'nox', 'head', 'bullpadel', 'wilson'];
+const brands = BRANDS.map(s => brandList.find(b => b.slug === s)).filter(Boolean);
+const SOLE_ORDER = ['clay', 'herringbone', 'omni', 'padel', 'allcourt'];
+const soleLine = s => {
+  const soles = SOLE_ORDER.filter(k => (s.sole || []).includes(k)).slice(0, 2).map(k => S.soles[k]).filter(Boolean);
+  return [soles.join(' · '), s.wide ? S.wide : ''].filter(Boolean).join(' · ') || S.genders[s.gender];
+};
+const seenShoes = new Set();
+const shoeRows = [
+  { h: 'Clay court', d: 'Herringbone and clay soles, for sand-filled artificial grass.', k: 'clay' },
+  { h: "Men's", d: "Men's fit.", k: 'mens' },
+  { h: "Women's", d: "Women's fit.", k: 'womens' },
+].map(row => {
+  const s = SHOE_LISTS[row.k](lang).find(x => x.imgs && !seenShoes.has(x.slug));
+  if (s) seenShoes.add(s.slug);
+  return s && { ...row, href: L('shoeList', row.k), s, img: shoeImg(s), name: nameOf(s), meta: s.brand, fact: soleLine(s), to: L('shoe', s.slug) };
+}).filter(Boolean);
+const rankedBalls = rankBalls(balls.filter(b => b.imgs), lang);
+const tourBall = rankedBalls.find(b => b.tour === 'premier') || rankedBalls.find(b => b.tour);
+const fastBall = rankedBalls.find(b => b.speed === 'fast' && !b.tour) || rankedBalls.find(b => b.speed === 'fast' && b.slug !== tourBall?.slug);
+const cheapBall = rankedBalls.filter(b => b.inStock && ballPrice(b, lang) != null && b.slug !== tourBall?.slug && b.slug !== fastBall?.slug).sort((a, b) => ballPrice(a, lang) - ballPrice(b, lang))[0];
+const tubes = [tourBall, fastBall, cheapBall].filter(Boolean).map(b => ({ b, img: ballImg(b), name: nameOf(b), meta: [b.brand, Bb.speeds[b.speed], b.tour && Bb.tours[b.tour]].filter(Boolean).join(' · '), to: L('ball', b.slug) }));
+const doors = [
+  heroRacket && { href: L('rackets'), img: heroRacket.image, kind: 'rk', name: 'Rackets', n: `${allRackets.length} rackets`, line: 'Specs, scores and the price.', go: 'All rackets' },
+  heroShoe && { href: L('shoes'), img: shoeImg(heroShoe), kind: 's', name: 'Shoes', n: `${shoes.length} shoes`, line: 'Sole and fit, then the price.', go: 'All shoes' },
+  heroBall && { href: L('balls'), img: ballImg(heroBall), kind: 'b', name: 'Balls', n: `${balls.length} tubes`, line: 'Speed, tour and the tube price.', go: 'All tubes' },
+].filter(Boolean);
+const stats = [
+  [allRackets.length, 'rackets'],
+  [shoes.length, 'shoes'],
+  [balls.length, 'balls'],
+  [0, 'paid placements'],
+];
+---
+<Base lang="en-GB" noindex title="Compare padel rackets, shoes and balls | WhichPadel" description={`Compare ${allRackets.length} padel rackets, ${shoes.length} shoes and ${balls.length} ball tubes. Specs and live prices. No paid placements.`}>
+<section class="hero h3-hero" slot="hero"><div class="wrap"><div>
+<h1>Compare padel rackets.</h1>
+<p class="lead">Specs and live prices. No paid placements.</p>
+<a class="h3-cta" href={L('rackets')}>Compare rackets <span aria-hidden="true">→</span></a>
+<div class="stats">{stats.map(([n, label]) => <div><b>{n}</b><span>{label}</span></div>)}</div>
+</div><div class="hero-art" aria-hidden="true"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
+
+<section class="h3-sec h3-find">
+<div><h2>Find your racket in 30 seconds</h2><p>Three questions, then your top 3 with prices.</p></div>
+<a href={L('finder')}>Start the finder</a>
+</section>
+
+<section class="h3-sec h3-w">
+<ul class="h3-doors">{doors.map(p => <li>
+<a class="h3-door" href={p.href}><span class={`h3-pic h3-pic-${p.kind}`}><img src={p.img} alt="" width="160" height="148" decoding="async"/></span><span class="h3-name">{p.name}</span><span class="h3-n">{p.n}</span><span class="h3-line">{p.line}</span><span class="h3-go">{p.go}</span></a>
+</li>)}</ul>
+</section>
+
+<section class="h3-sec h3-green">
+<header class="h3-head"><div><h2>Start from how you play</h2><p>A top racket from each list.</p></div><a class="h3-all" href={L('bestIndex')}>All lists</a></header>
+<ul class="h3-list">{paths.map(p => <li class="h3-row">
+<div><a class="h3-cat" href={L('best', p.k)}>{p.h}</a><p class="h3-d">{p.d}</p></div>
+<a class="h3-rk" href={L('racket', p.r.slug)}><img src={p.r.image} alt="" width="76" height="92" loading="lazy" decoding="async"/><span class="h3-meta"><b>{nameOf(p.r)}</b><small>{p.r.brand}{p.stat(p.r) ? ` · ${p.stat(p.r)}` : ''}</small>{fact(p.r) && <small>{fact(p.r)}</small>}</span><Price r={p.r} lang={lang} cls="h3-price"/></a>
+</li>)}</ul>
+</section>
+
+{brands.length > 0 && <section class="h3-sec h3-navy">
+<header class="h3-head"><div><h2>Brands</h2><p>The ranges people compare most.</p></div><a class="h3-all" href={L('brands')}>All brands</a></header>
+<ul class="h3-brands">{brands.map(b => <li><a class="h3-brand" href={L('brand', b.slug)}>{b.name}<small>{b.count}</small></a></li>)}</ul>
+</section>}
+
+{shoeRows.length > 0 && <section class="h3-sec h3-w">
+<header class="h3-head"><div><h2>Sole and fit</h2><p>One shoe from each list.</p></div><a class="h3-all" href={L('shoes')}>All {shoes.length} shoes</a></header>
+<ul class="h3-list">{shoeRows.map(p => <li class="h3-row">
+<div><a class="h3-cat" href={p.href}>{p.h}</a><p class="h3-d">{p.d}</p></div>
+<a class="h3-rk" href={p.to}><img src={p.img} alt="" width="76" height="76" loading="lazy" decoding="async"/><span class="h3-meta"><b>{p.name}</b><small>{p.meta}</small>{p.fact && <small>{p.fact}</small>}</span><Price r={p.s} lang={lang} cls="h3-price"/></a>
+</li>)}</ul>
+</section>}
+
+{tubes.length > 0 && <section class="h3-sec h3-w">
+<header class="h3-head"><div><h2>Tubes</h2><p>A tour ball, a fast ball, and the cheapest tube in stock.</p></div><a class="h3-all" href={L('balls')}>All {balls.length} tubes</a></header>
+<ul class="h3-tubes">{tubes.map(p => <li><a class="h3-tube" href={p.to}><img src={p.img} alt="" width="64" height="80" loading="lazy" decoding="async"/><span class="h3-meta"><b>{p.name}</b><small>{p.meta}</small></span><Price r={p.b} lang={lang} cls="h3-price"/></a></li>)}</ul>
+</section>}
+
+<nav class="h3-sec h3-else" aria-label="More on WhichPadel">
+<a href={L('rackets')}>Compare two rackets</a>
+<a href={L('shoeCompare')}>Compare two shoes</a>
+<a href={L('guide')}>How to choose a racket</a>
+</nav>
+</Base>

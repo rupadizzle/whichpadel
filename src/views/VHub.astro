@@ -1,0 +1,185 @@
+---
+// Catalog hubs: rackets, shoes, balls. Shared search, filter drawer and sort. Each kind keeps its own filters and client script.
+import Base from '../layouts/Base.astro';
+import '../styles/hub.css';
+import RacketIcon from '../components/RacketIcon.astro';
+import CompareBoard from '../components/CompareBoard.astro';
+import ShoeCard from '../components/ShoeCard.astro';
+import ShoeCompareBoard from '../components/ShoeCompareBoard.astro';
+import SaveHeart from '../components/SaveHeart.astro';
+import HubRacketScript from './parts/HubRacketScript.astro';
+import HubShoeScript from './parts/HubShoeScript.astro';
+import HubBallScript from './parts/HubBallScript.astro';
+import { allRackets as rackets, brandList, slugify } from '../lib/data.js';
+import { D, url, SITE } from '../i18n/index.js';
+import { SHAPE_KEYS } from '../i18n/routes.js';
+import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js';
+import { HUB } from '../i18n/hub.js';
+import { PER, hubOrder, hubPages } from '../lib/hub.js';
+import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js';
+import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
+import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js';
+import { BALL } from '../i18n/balls.js';
+const { kind, lang } = Astro.props;
+const p = Astro.props.p ?? 1;
+const d = D(lang), u = d.ui;
+const searchSvg = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+const hub = (() => {
+  if (kind === 'rackets') {
+    const H = HUB[lang], t = d.terms;
+    const N = rackets.length;
+    const P = hubPages();
+    const order = hubOrder();
+    const rs = order.slice((p - 1) * PER, p * PER);
+    const topB = [...brandList].sort((a, b) => b.count - a.count).slice(0, 10);
+    const brandPick = [...new Set(rackets.map(r => r.brand))].map(name => ({ name, slug: slugify(name), value: slugify(name), count: rackets.filter(r => r.brand === name).length })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+    const years = [...new Set(rackets.map(r => r.year).filter(Boolean))].sort((a, b) => b - a);
+    const reg = DEFAULT_REGION(lang);
+    const cur0 = REGIONS[reg][2];
+    const AUD = ['men', 'women', 'junior', 'unisex'];
+    const audL = k => H.auds[['men', 'women', 'junior', 'unisex'].indexOf(k)];
+    const priceTxt = r => { const q = pick(r, reg); return q.none ? H.none : H.fromP.replace('{p}', fmt(q.v, q.cur, lang)); };
+    const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const shortM = r => { let s = r.model || ''; if (r.brand) s = s.replace(new RegExp('^' + escRe(r.brand) + '\\s+', 'i'), ''); if (r.year) s = s.replace(new RegExp('\\s+' + r.year + '\\s*$'), ''); return s.trim() || r.model; };
+    const spec = r => [r.audience !== 'unisex' && audL(r.audience), r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`].filter(Boolean).join(' · ');
+    const pu = i => url('rackets', lang, i);
+    const U = SITE + pu(p);
+    const chip = (vals, labels) => vals.map((v, i) => [v, labels[i]]);
+    const groupsA = [['shape', H.shape, chip(['round', 'teardrop', 'diamond', 'hybrid'], H.shapes), ''], ['bal', H.balance, chip(['low', 'medium', 'high'], H.lmh), H.noBal], ['wt', H.weight, chip(['l', 'm', 'h'], H.wts), ''], ['hard', H.hard, chip(['soft', 'medium', 'hard'], H.smh), ''], ['level', H.level, chip(['b', 'i', 'a'], H.lvls), H.noLevel]];
+    const G = Object.fromEntries(groupsA.map(g => [g[0], g]));
+    const HT = { ...H, title: null, h1: null, desc: null, all: null, shapeCap: t.shapeCap, rk: url('racket', lang, 'X').replace(/X\/$/, ''), cmp: url('rackets', lang), save: u.save, saved: u.saved, brands: Object.fromEntries(brandPick.map(b => [b.slug, b.name])), sym: SYM, cur: cur0, PER, P, p, base: pu(1), pfx: pu(2).replace(/2\/$/, ''), lang, order: order.map(r => r.slug) };
+    return {
+      locale: d.locale, title: p > 1 ? `${H.h1(N)} · ${H.pageL} ${p} | WhichPadel` : H.title(N), description: p > 1 ? `${H.desc(N)} ${H.pageL} ${p}/${P}.` : H.desc(N),
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', name: H.h1(N), url: U, description: H.desc(N) }, { '@type': 'ItemList', name: H.h1(N), numberOfItems: N, itemListOrder: 'https://schema.org/ItemListUnordered', itemListElement: rs.map((r, i) => ({ '@type': 'ListItem', position: (p - 1) * PER + i + 1, url: SITE + url('racket', lang, r.slug), name: r.model })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: H.crumb, item: SITE + pu(1) }] }] },
+      h1: H.h1(N), intro: H.intro, crumb: H.crumb, search: H.search, searchPh: H.searchPh, filters: H.filters, close: H.close,
+      sorts: H.sorts, sortKeys: ['pop', 'price', 'hi', 'new', 'old', 'best'], clear: H.clr, clear2: H.clear, apply: H.apply.replace('§', String(N)), results: H.results.replace('§', String(N)),
+      h3: false, page: p, selectPop: true, cat: '',
+      rk: { H, t, N, rs, brandPick, years, main: [G.shape, G.bal, G.wt, G.hard, G.level], AUD, audL, shortM, spec, priceTxt, pu, hasNext: p < P, PAGES: Array.from({ length: P }, (_, i) => i + 1), topB, HT, cur0 },
+    };
+  }
+  if (kind === 'shoes') {
+    const T = SHOE[lang], C = SHOE_CMP[lang];
+    const N = shoes.length;
+    const list = rankShoes(shoes, lang);
+    const brands = [...new Set(shoes.map(s => s.brand))].filter(b => b !== 'Unknown').sort();
+    const brandPick = brands.map(b => ({ name: b, value: b, n: shoes.filter(s => s.brand === b).length })).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+    const sizes = [...new Set(shoes.flatMap(s => s.sizesEU))].filter(x => Number.isInteger(x)).sort((a, b) => a - b);
+    const U = SITE + url('shoes', lang);
+    return {
+      locale: d.locale, title: T.title(N), description: T.desc(N),
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', name: T.h1(N), url: U, description: T.desc(N) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: U }] }] },
+      h1: T.h1(N), intro: T.intro, crumb: T.crumb, search: T.search, searchPh: T.searchPh, filters: T.filters, close: T.close,
+      sorts: T.sorts, sortKeys: ['rec', 'price', 'hi', 'new', 'old', 'shops'], clear: T.clear, clear2: T.clear, apply: T.apply.replace('§', String(N)), results: T.results.replace('§', String(N)),
+      h3: true, selectPop: false, cat: 'shoes',
+      sh: { T, C, N, list, brandPick, sizes, GENDER: ['m', 'w', 'k'], pv: Object.fromEntries(shoes.map(s => [s.slug, priceIn(s, lang)])) },
+    };
+  }
+  const T = BALL[lang];
+  const N = balls.length;
+  const list = rankBalls(balls, lang);
+  const brands = [...new Set(balls.map(b => b.brand))].sort();
+  const brandPick = brands.map(b => ({ name: b, value: b, n: balls.filter(x => x.brand === b).length })).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  const U = SITE + url('balls', lang);
+  const pr = b => { const q = pick(b, DEFAULT_REGION(lang)); return q.none ? u.checkPrice : `${fmt(q.v, q.cur, lang)} · ${fmt(Math.round(q.v / b.balls * 100) / 100, q.cur, lang)} ${T.perBall}`; };
+  const spec = b => [T.speeds[b.speed], b.tour && T.tours[b.tour], b.eco && T.eco].filter(Boolean).join(' · ');
+  return {
+    locale: d.locale, title: T.title(N), description: T.desc(N),
+    jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', name: T.h1(N), url: U, description: T.desc(N) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: U }] }] },
+    h1: T.h1(N), intro: T.intro, crumb: T.crumb, search: T.search, searchPh: T.searchPh, filters: T.filters, close: T.close,
+    sorts: T.sorts, sortKeys: ['rec', 'price', 'hi', 'shops'], clear: T.clear, clear2: T.clear, apply: T.apply.replace('§', String(N)), results: T.results.replace('§', String(N)),
+    h3: true, selectPop: false, cat: 'balls',
+    ba: { T, N, list, brandPick, SPEEDS: ['fast', 'medium'], pv: Object.fromEntries(balls.map(b => [b.slug, ballPrice(b, lang)])), pr, spec },
+  };
+})();
+---
+<Base lang={hub.locale} title={hub.title} description={hub.description} jsonld={hub.jsonld}>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{hub.crumb}</span></nav>
+<div class:list={['hub', 'cat', hub.cat]} id="hub" data-p={hub.page}>
+<header class="hub-hd"><h1>{hub.h1}</h1><p>{hub.intro}</p></header>
+<div class="hub-bar">
+<div class="hub-tb">
+ <label class="hub-q"><span class="sr">{hub.search}</span><Fragment set:html={searchSvg}/><input id="h-q" type="search" placeholder={hub.searchPh} autocomplete="off"/></label>
+ <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{hub.filters}<span id="h-fn" class="hub-n"></span></button>
+ <label class="hub-so"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : hub.ba.T.sort}</span><select id="h-sort2">{hub.sortKeys.map((k, i) => <option value={k}>{hub.sorts[i]}</option>)}</select></label>
+</div>
+</div>
+{hub.rk && <div class="hub-ac" id="h-ac" aria-label={hub.rk.H.activeF} hidden></div>}
+<div class="hub-l">
+<div class="hub-shade" id="h-shade" hidden></div>
+<aside class="hub-f" id="h-f" aria-label={hub.filters}>
+ <div class="hub-fh"><h2 class={hub.h3 ? 'h3' : undefined}>{hub.filters}</h2><button type="button" class="x" id="h-x" aria-label={hub.close}>✕</button></div>
+ <div class="hub-fb">
+  <label class="hub-bq hub-mq"><span class="sr">{hub.search}</span><Fragment set:html={searchSvg}/><input id="h-q2" type="search" placeholder={hub.searchPh} autocomplete="off"/></label>
+  {hub.rk && <>
+  <fieldset class="hub-g hub-brands"><legend>{hub.rk.H.brand}</legend><div class="hub-chips">{hub.rk.brandPick.map((b, i) => <label hidden={i >= 8}><input type="checkbox" name="h-brand" value={b.value}/><span>{b.name}</span></label>)}</div>{hub.rk.brandPick.length > 8 && <button type="button" class="hub-bmore" id="h-bmore" data-t={hub.rk.H.moreB} data-less={hub.rk.H.lessB}>{hub.rk.H.moreB.replace('§', String(hub.rk.brandPick.length - 8))}</button>}</fieldset>
+  {hub.rk.main.map(g => <fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o => <label><input type="checkbox" name={'h-' + g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div>{g[3] && <p class="hub-note" data-k={g[0]} hidden>{g[3]}</p>}</fieldset>)}
+  <fieldset class="hub-g"><legend>{hub.rk.H.year}</legend><div class="hub-chips">{hub.rk.years.map(y => <label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div><p class="hub-note" data-k="year" hidden>{hub.rk.H.noYear}</p></fieldset>
+  <fieldset class="hub-g"><legend>{hub.rk.H.price}</legend><div class="hub-pr"><span class="hub-sym" id="h-sym" aria-hidden="true">{SYM[hub.rk.cur0]}</span><label><span class="sr">{hub.rk.H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={hub.rk.H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{hub.rk.H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={hub.rk.H.max}/></label></div><p class="hub-note" data-k="price" hidden>{hub.rk.H.noPrice}</p></fieldset>
+  <fieldset class="hub-g"><legend>{hub.rk.H.aud}</legend><div class="hub-chips">{hub.rk.AUD.map(k => <label><input type="checkbox" name="h-aud" value={k}/><span>{hub.rk.audL(k)}</span></label>)}</div></fieldset>
+  <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{hub.rk.H.stock}</b></span></label>
+  </>}
+  {hub.sh && <>
+  <fieldset class="hub-g"><legend>{hub.sh.T.gender}</legend><div class="hub-chips">{hub.sh.GENDER.map(k => <label><input type="checkbox" name="h-g" value={k}/><span>{hub.sh.T.genders[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{hub.sh.T.brand}</legend><div class="hub-chips">{hub.sh.brandPick.map((b, i) => <label hidden={i >= 8}><input type="checkbox" name="h-brand" value={b.value}/><span>{b.name}</span></label>)}</div>{hub.sh.brandPick.length > 8 && <button type="button" class="hub-bmore" id="h-bmore" data-t={hub.sh.T.moreB} data-less={hub.sh.T.lessB}>{hub.sh.T.moreB.replace('§', String(hub.sh.brandPick.length - 8))}</button>}</fieldset>
+  <fieldset class="hub-g"><legend>{hub.sh.T.sole}</legend><div class="hub-chips">{Object.entries(hub.sh.T.soles).map(([k, v]) => <label><input type="checkbox" name="h-so" value={k}/><span>{v}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{hub.sh.T.size}</legend><div class="hub-chips">{hub.sh.sizes.map(x => <label><input type="checkbox" name="h-sz" value={x}/><span>{x}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{hub.sh.T.price}</legend><div class="hub-pr"><label><span class="sr">{hub.sh.T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={hub.sh.T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{hub.sh.T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={hub.sh.T.max}/></label></div></fieldset>
+  </>}
+  {hub.ba && <>
+  <fieldset class="hub-g"><legend>{hub.ba.T.speed}</legend><div class="hub-chips">{hub.ba.SPEEDS.map(k => <label><input type="checkbox" name="h-sp" value={k}/><span>{hub.ba.T.speeds[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{hub.ba.T.brand}</legend><div class="hub-chips">{hub.ba.brandPick.map((b, i) => <label hidden={i >= 8}><input type="checkbox" name="h-brand" value={b.value}/><span>{b.name}</span></label>)}</div>{hub.ba.brandPick.length > 8 && <button type="button" class="hub-bmore" id="h-bmore" data-t={hub.ba.T.moreB} data-less={hub.ba.T.lessB}>{hub.ba.T.moreB.replace('§', String(hub.ba.brandPick.length - 8))}</button>}</fieldset>
+  <fieldset class="hub-g"><legend>{hub.ba.T.tourF}</legend><div class="hub-chips">{Object.entries(hub.ba.T.tours).map(([k, v]) => <label><input type="checkbox" name="h-tour" value={k}/><span>{v}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{hub.ba.T.price}</legend><div class="hub-pr"><label><span class="sr">{hub.ba.T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={hub.ba.T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{hub.ba.T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={hub.ba.T.max}/></label></div></fieldset>
+  <label class="hub-tg"><input type="checkbox" id="h-eco"/><span><b>{hub.ba.T.ecoF}</b><small>{hub.ba.T.ecoS}</small></span></label>
+  <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{hub.ba.T.stock}</b><small>{hub.ba.T.stockS}</small></span></label>
+  </>}
+ </div>
+ <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{hub.clear}</button><button type="button" class="btn btn-accent" id="h-apply">{hub.apply}</button></div>
+</aside>
+<section class="hub-main">
+ <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{hub.results}</b></p><label class="hub-sort"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : hub.ba.T.sort}</span><select id="h-sort">{hub.sortKeys.map((k, i) => <option value={k} selected={hub.selectPop && k === 'pop'}>{hub.sorts[i]}</option>)}</select></label></div>
+ {hub.rk && <>
+ <div class="hub-stage">
+ <ul class="hub-grid" id="h-grid">{hub.rk.rs.map((r, i) => <li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket', lang, r.slug)}><span class="rk-i">{r.image ? <img src={r.image} alt={`${r.model} ${hub.rk.H.alt}`} width="96" height="112" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></span><span class="rk-m">{hub.rk.shortM(r)}</span><span class="rk-c">{hub.rk.spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{hub.rk.priceTxt(r)}</span></span></span></a><label class="rk-x" title={hub.rk.H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{hub.rk.H.compare}: {r.model}</span></span></label></li>)}</ul>
+ <p class="hub-empty" id="h-empty" hidden>{hub.rk.H.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
+ <div class="hub-stick"><div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{hub.rk.H.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={hub.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div></div>
+ </div>
+ <nav class="hub-pg" id="h-pg" aria-label={hub.rk.H.pageL}>
+  {hub.rk.hasNext ? <a class="btn btn-line hub-more" id="h-more" rel="next" href={hub.rk.pu(p + 1)}>{hub.rk.H.more}</a> : <a class="btn btn-line hub-more" id="h-more" href={hub.rk.pu(1)} hidden>{hub.rk.H.more}</a>}
+  <ol>{hub.rk.PAGES.map(i => <li><a href={hub.rk.pu(i)} aria-current={i === p ? 'page' : undefined}>{i}</a></li>)}</ol>
+ </nav>
+ <section class="hub-pre"><h2 class="h3">{hub.rk.H.presets}</h2>
+  <p><b>{hub.rk.H.byBrand}</b>{hub.rk.topB.map(b => <a href={url('brand', lang, b.slug)}>{b.name}</a>)}<a href={url('brands', lang)}>{u.brands} →</a></p>
+  <p><b>{hub.rk.H.byYear}</b>{hub.rk.years.map(y => <a href={url('year', lang, y)}>{y}</a>)}</p>
+  <p><b>{hub.rk.H.byShape}</b>{SHAPE_KEYS.map((k, i) => <a href={url('best', lang, k)}>{hub.rk.H.shapes[i]}</a>)}</p>
+ </section>
+ </>}
+ {hub.sh && <>
+ <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
+ <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
+ <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
+  <p>{SHOE_LIST_KEYS.filter(k => !k.startsWith('u')).map(k => <a href={url('shoeList', lang, k)}>{hub.sh.T.lists[k][0]}</a>)}</p>
+  <p><b>{hub.sh.T.byBrand}</b>{shoeBrands.map(b => { const t = shoeBrandTarget(b.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{b.name}</a>; })}</p>
+ </section>
+ </>}
+ {hub.ba && <>
+ <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour || ''} data-eco={b.eco ? '1' : '0'} data-n={b.inStock}><a class="rk-a" href={url('ball', lang, b.slug)}><span class="rk-i">{ballImg(b) && <img src={ballImg(b)} alt={hub.ba.T.alt(b.name)} width="96" height="96" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{b.model}</span><span class="rk-c">{hub.ba.spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{hub.ba.pr(b)}</span></span></span></a></li>)}</ul>
+ <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
+ </>}
+</section>
+</div>
+{hub.rk && ['round', 'teardrop', 'diamond', 'hybrid'].map(sh => <template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
+{hub.sh && <div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{hub.sh.C.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={hub.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>}
+</div>
+{hub.rk && <dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
+ <div class="cmp-take-bar"><h2 id="cmp-take-h">{u.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+ <div class="cmp-take-body"><CompareBoard lang={lang} embed/></div>
+</dialog>}
+{hub.sh && <dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
+ <div class="cmp-take-bar"><h2 id="cmp-take-h">{hub.sh.C.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+ <div class="cmp-take-body"><ShoeCompareBoard lang={lang} embed/></div>
+</dialog>}
+{hub.rk && <HubRacketScript HT={hub.rk.HT}/>}
+{hub.sh && <HubShoeScript pv={hub.sh.pv} T={hub.sh.T} C={hub.sh.C}/>}
+{hub.ba && <HubBallScript pv={hub.ba.pv} T={hub.ba.T}/>}
+</Base>

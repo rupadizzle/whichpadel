@@ -1,7 +1,7 @@
 /* racket page v2: gallery + 2-col desktop / ordered single column mobile. 8px scale, 16px gutters, 44px targets */
 .detail.rp2:not(#_){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);grid-template-areas:"head buy" "gal buy" "body buy";grid-template-rows:auto auto 1fr;gap:0 32px;align-items:start}
 .rp2 .rpg{grid-area:gal;position:relative;margin:0 0 24px}.rp2 .rph{grid-area:head;margin:0 0 24px}.rp2 .rpbody{grid-area:body;min-width:0}
-.rp2 #buybox{grid-area:buy;position:sticky;top:80px;margin:0}
+.rp2 #buybox{grid-area:buy;position:sticky;top:calc(80px + var(--bf));margin:0}
 .rp2 .rpbody>*{margin:0 0 24px!important}.rp2 .rpbody>section+section,.rp2 .rpbody>*+*{border-top:0;padding-top:24px}
 /* gallery */
 .rpg .gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:12px;background:#fff;border:1px solid var(--line);height:440px;outline-offset:2px}

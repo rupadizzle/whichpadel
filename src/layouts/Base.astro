@@ -19,6 +19,8 @@ const alts = alternates(Astro.url.pathname);
 const LN=LANG_NAME;
 const switcher = alts ? Object.entries(alts).filter(([l])=>l!==L2) : [];
 const canon = new URL(Astro.url.pathname, Astro.site).href;
+const bfHref = url('bf', L2);
+const showBf = !focus && Astro.url.pathname !== bfHref;
 const short = t => t.replace('Best padel rackets ','').replace('Best padel racket ','').replace('Best ','').replace(/ \(.*\)$/,'').replace(/^for /,'For ').replace(/^of (\d+)/,'Top picks $1').replace(/^./,c=>c.toUpperCase());
 ---
 <html lang={lang}><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -29,11 +31,12 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <slot name="head"/>{preload&&<link rel="preload" href={preload} as="fetch" crossorigin="anonymous"/>}<meta name="theme-color" content="#0b2a3c"/>{usPage?<link rel="alternate" hreflang="en-US" href={canon}/>:alts&&<>{Object.entries(alts).map(([l,u])=><link rel="alternate" hreflang={l} href={"https://whichpadel.com"+u}/>)}{alts.en&&<link rel="alternate" hreflang="x-default" href={"https://whichpadel.com"+alts.en}/>}</>}<meta property="og:locale" content={usPage?'en_US':OG_LOCALE[L2]}/>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "cf3636dc954245fca45c0fa20ca789bf"}'></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23d4ff3a'/%3E%3C/svg%3E"/>
+{showBf && <script is:inline>try{if(localStorage.wp_bf==='1')document.documentElement.classList.add('bf-off')}catch(e){}</script>}
 </head><body>
 {focus ? <Fragment><header class="hdr fz-hdr"><div class="wrap"><a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
 <a class="fz-x" href={closeHref||url("home",L2)} aria-label={D(L2).ui.close}>✕</a><div hidden><Region lang={L2} switcher={switcher} region={region}/></div></div></header>
 <main class="fz-main"><slot/></main>
-</Fragment> : <Fragment><header class="hdr"><div class="wrap">
+</Fragment> : <Fragment>{showBf && <><div class="bfbar"><a href={bfHref}><b>Black Friday</b><span class="bf-l">{D(L2).ui.bfBar}</span><span class="bf-s">{D(L2).ui.bfBarShort}</span><i aria-hidden="true">→</i></a><button type="button" id="bf-x" aria-label={D(L2).ui.close}>✕</button></div><script is:inline>document.getElementById('bf-x').onclick=()=>{try{localStorage.wp_bf='1'}catch(e){}document.documentElement.classList.add('bf-off')}</script></>}<header class="hdr"><div class="wrap">
 <a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
 <SearchL lang={L2}/>
 <Region lang={L2} switcher={switcher} region={region}/>

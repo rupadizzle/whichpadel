@@ -1,0 +1,215 @@
+---
+// Product pages: racket, shoe, ball. Shared gallery, buy box chrome, sticky price bar and live-price script.
+import Base from '../layouts/Base.astro';
+import Price from '../components/Price.astro';
+import Gallery from '../components/Gallery.astro';
+import StickyCta from '../components/StickyCta.astro';
+import NewsL from '../components/NewsL.astro';
+import PriceAlertL from '../components/PriceAlertL.astro';
+import RacketIcon from '../components/RacketIcon.astro';
+import SaveHeart from '../components/SaveHeart.astro';
+import ProductPriceScript from './parts/ProductPriceScript.astro';
+import ProductGalleryScript from './parts/ProductGalleryScript.astro';
+import ProductBallScript from './parts/ProductBallScript.astro';
+import { YC, FCARD } from '../lib/years.js';
+import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
+import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify } from '../lib/data.js';
+import { extraLists, isWomens } from '../lib/seo-content.js';
+import { vsFor } from '../lib/vs.js';
+import { offersOf, SHOPS, domainOf } from '../lib/price.js';
+import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
+import { HUB as HUBA } from '../i18n/hub.js';
+import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrandTarget, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js';
+import { SHOE } from '../i18n/shoes.js';
+import { balls, ballImg, rankBalls, BALL_CHECKED } from '../lib/balls.js';
+import { BALL } from '../i18n/balls.js';
+const { kind, lang, r, s, b } = Astro.props;
+const d = D(lang), u = d.ui;
+const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
+const page = (() => {
+  if (kind === 'racket') {
+    const SN = shopNames(/\.(com|net|co\.uk)$/);
+    const audLbl = HUBA[lang].aud + ': ' + HUBA[lang].auds[['men', 'women', 'junior', 'unisex'].indexOf(r.audience)];
+    const audLD = { '@type': 'PeopleAudience', ...(r.audience === 'men' ? { suggestedGender: 'male' } : r.audience === 'women' ? { suggestedGender: 'female' } : r.audience === 'junior' ? { audienceType: 'Junior' } : { suggestedGender: 'unisex' }) };
+    const t = d.terms, C = d.copy.racket, x = racketX(r, lang);
+    const rows = [[t.spec.brand, r.brand], [t.spec.year, r.year], [t.spec.shape, t.shapeCap[r.shape]], [t.spec.weight, wt(r)], [t.spec.balance, x.bal], [t.spec.core, mat(r.coreMaterial, lang)], [t.spec.hardness, t.core[r.coreHardness]], [t.spec.face, x.face], [t.spec.frame, mat(r.frame, lang)], [t.spec.thickness, r.thicknessMm ? r.thicknessMm + ' mm' : null], ...(r.player ? [[t.spec.player, r.player]] : []), [t.spec.value, r.valueScore != null ? `${r.valueScore}/100` : null]];
+    const similar = rackets.filter(y => y.slug !== r.slug && y.shape === r.shape && y.priceGBPApprox && r.priceGBPApprox && Math.abs(y.priceGBPApprox - r.priceGBPApprox) < 40).slice(0, 3);
+    const bs = brandSlug(r.brand);
+    const hasB = brandList.some(b => b.slug === bs);
+    const bHref = hasB ? url('brand', lang, bs) : url('brands', lang);
+    const sameBrand = rackets.filter(y => y.brand === r.brand && y.slug !== r.slug).slice(0, 6);
+    const ALL = { ...lists, ...extraLists };
+    const inLists = Object.entries(ALL).filter(([k, v]) => d.copy.best.titles[k] && v.pick(rackets).slice(0, 15).some(y => y.slug === r.slug));
+    const lvl = isWomens(r) ? 'best-womens-padel-rackets' : r.shape === 'round' ? 'best-padel-rackets-for-beginners' : r.shape === 'diamond' ? 'best-advanced-padel-rackets' : 'best-intermediate-padel-rackets';
+    const U = SITE + url('racket', lang, r.slug);
+    const intro0 = C.intro(r, t, x);
+    const intro = r.rated ? intro0 : intro0.split(/(?<=[.!?])\s+/).filter(z => !z.includes('/100')).join(' ');
+    const avg = Math.round(Object.values(r.ratings).reduce((a, b) => a + b, 0) / 6);
+    const G = gallery(r), R2 = RP(lang), lv = levelOf(r), ins = r.rated ? insight(r, lang) : { suits: [], pros: [], cons: [] }, FC = FCARD[lang] || FCARD.en;
+    const alt = t.imgAlt(r.model);
+    const srows = rows.filter(([, v]) => v != null && v !== '' && v !== false);
+    const kchips = [r.audience && audLbl, r.shape && t.shapeCap[r.shape], x.bal && t.fBal(x.bal), wt(r), r.coreHardness && t.fCore(t.core[r.coreHardness]), lv && R2.lvl[lv]].filter(Boolean);
+    const more = [...new Map([...similar, ...rackets.filter(y => y.slug !== r.slug && y.shape === r.shape && y.brand !== r.brand && y.image)].map(y => [y.slug, y])).values()].slice(0, 4);
+    const oj = JSON.stringify(offersOf(r));
+    const BD = domainOf(r.productUrl || '');
+    const BN = (SN[BD] || [BD || r.brand])[0];
+    const vs = vsFor(r.slug);
+    const cmpU = url('rackets', lang) + `?r=${r.slug}${similar[0] ? ',' + similar[0].slug : ''}`;
+    return {
+      locale: d.locale, title: C.title(r.model) + d.copy.titleSuffix, description: C.desc(r, t, x.price), ogImage: absImg(r),
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: r.model, url: U, brand: { '@type': 'Brand', name: r.brand }, ...(r.image ? { image: absImg(r) } : {}), description: intro, category: t.racketFull, audience: audLD, ...(r.price != null ? { offers: { '@type': 'Offer', price: String(r.price), priceCurrency: r.currency, url: r.productUrl } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.brands, item: SITE + url('brands', lang) }, { '@type': 'ListItem', position: 3, name: r.brand, item: SITE + bHref }, { '@type': 'ListItem', position: 4, name: r.model, item: U }] }] },
+      crumbs: [{ href: url('home', lang), label: u.home }, { href: url('brands', lang), label: u.brands }, { href: bHref, label: r.brand }, { label: r.model.replace(r.brand + ' ', '') }],
+      preload: G[0] ? { href: G[0].l, srcset: G[0].one ? undefined : `${G[0].s} 400w, ${G[0].l} 800w` } : null,
+      G, R2, alt, bHref, kchips, ins, lvl, inLists, avg, srows, more, vs, similar, sameBrand, cmpU, FC, BN, oj, intro, C, t, x, SN, YC: YC[lang],
+      recent: { cur: { s: r.slug, m: r.model, i: r.image || '' }, rk: url('racket', lang, 'X').replace(/X\/$/, ''), cmp: url('rackets', lang), cw: u.compareWith('§'), link: true },
+      api: '/api/all-prices', slug: r.slug, name: r.model,
+    };
+  }
+  if (kind === 'shoe') {
+    const SN = shopNames(/\.(com|net|co\.uk|de|es)$/);
+    const T = SHOE[lang], R2 = RP(lang);
+    const G = shoeGallery(s);
+    const alt = T.alt(s.name);
+    const bs = slugify(s.brand);
+    const bt = shoeBrandTarget(bs);
+    const bHref = bt ? url(bt.type, lang, bt.id) + (bt.hash ? '#' + bt.hash : '') : null;
+    const soleT = s.sole.map(k => T.soles[k]);
+    const usSz = lang === 'en' && s.sizesUK.length && s.gender !== 'k' ? s.sizesUK.map(x => String(x + (s.gender === 'w' ? 2 : 1))).join(' · ') : null;
+    const sz = a => a.map(x => String(x).replace('.', lang === 'en' ? '.' : ',')).join(' · ');
+    const fmtD = n => String(n).replace('.', lang === 'en' ? '.' : ',') + ' mm';
+    const rows = [[T.spec.brand, s.brand], [T.spec.year, s.year], [T.spec.gender, T.genders[s.gender]], [T.spec.sole, soleT.join(', ') || null], [T.spec.outsole, s.vibram ? T.vibram : null], [T.spec.cushion, s.cushion.length ? s.cushion.map(c => c.toUpperCase()).join(', ') : null], [T.spec.weight, s.weight ? s.weight + ' g' : null], [T.spec.drop, s.drop != null ? fmtD(s.drop) : null], [T.spec.width, s.wide ? T.wide : null], [T.spec.sizesEU, s.sizesEU.length ? sz(s.sizesEU) : null], [T.spec.sizesUK, s.sizesUK.length ? sz(s.sizesUK) : null], [T.spec.cols, s.colours], [T.spec.shops, s.shops]].filter(([, v]) => v != null && v !== '');
+    const miss = [!s.weight && T.mk.weight, s.drop == null && T.mk.drop].filter(Boolean);
+    const kchips = [T.genders[s.gender], ...soleT, s.wide && T.wide, s.vibram && T.vibram, s.weight && s.weight + ' g', T.cols(s.colours)].filter(Boolean);
+    const intro = T.introS({ name: s.name, g: T.gl[s.gender], sole: soleT.length ? soleT.join('/').toLowerCase() : '', cush: s.cushion.length ? s.cushion.map(c => c.toUpperCase()).join(' + ') : '', n: s.shops, cols: s.colours });
+    const similar = rankShoes(shoes.filter(x => x.slug !== s.slug && x.gender === s.gender && (x.sole.some(k => s.sole.includes(k)) || !s.sole.length)), lang).slice(0, 4);
+    const sameBrand = rankShoes(shoes.filter(x => x.brand === s.brand && x.slug !== s.slug), lang).slice(0, 6);
+    const best0 = [...s.offs].sort((a, b) => b.s - a.s || a.p - b.p)[0];
+    const BN = (SN[best0.d] || [best0.d])[0];
+    const oj = JSON.stringify(s.offs.filter(o => o.s || !s.offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
+    const U = SITE + url('shoe', lang, s.slug);
+    const lk = { m: 'mens', w: 'womens', k: 'junior' }[s.gender];
+    const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('shoes', lang), label: T.crumb }];
+    if (bHref) crumbs.push({ href: bHref, label: s.brand });
+    crumbs.push({ label: s.model });
+    return {
+      locale: d.locale, title: `${s.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: G[0] ? SITE + G[0].l : undefined,
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...s.offs.map(o => o.p))), highPrice: String(Math.max(...s.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: s.offs.length } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] },
+      crumbs, preload: G[0] ? { href: G[0].l, srcset: `${G[0].s} 400w, ${G[0].l} 800w` } : null,
+      shoe: { T, R2, G, alt, bHref, soleT, usSz, rows, miss, kchips, intro, similar, sameBrand, BN, oj, lk, bestUrl: best0.u },
+      SN, recent: { cur: { s: s.slug, m: s.name, i: shoeImg(s) || '' }, rk: url('shoe', lang, 'X').replace(/X\/$/, ''), cmp: url('shoes', lang), cw: '', link: false },
+      api: '/api/shoe-prices', slug: s.slug, name: s.name, sizeNote: T.sizeNote,
+    };
+  }
+  const SN = shopNames(/\.(com|net|co\.uk|de|es)$/);
+  const T = BALL[lang];
+  const img = ballImg(b);
+  const bs = slugify(b.brand);
+  const bHref = brandList.some(x => x.slug === bs) ? url('brand', lang, bs) + '#balls' : null;
+  const intro = T.intro1(b) + (b.tour ? ' ' + T.tour[b.tour] + '.' : '');
+  const rows = [[T.spec.brand, b.brand], [T.spec.balls, b.balls], [T.spec.speed, T.speeds[b.speed]], [T.spec.tour, b.tour ? T.tour[b.tour] : null], [T.spec.shops, b.shops]].filter(([, v]) => v != null);
+  const best0 = [...b.offs].sort((x, y) => y.s - x.s || x.p - y.p)[0];
+  const BN = (SN[best0.d] || [best0.d])[0];
+  const oj = JSON.stringify(b.offs.filter(o => o.s || !b.offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
+  const similar = rankBalls(balls.filter(x => x.slug !== b.slug && x.speed === b.speed), lang).slice(0, 6);
+  const U = SITE + url('ball', lang, b.slug);
+  return {
+    locale: d.locale, title: `${b.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
+    jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: b.name + ' (3)', url: U, brand: { '@type': 'Brand', name: b.brand }, ...(img ? { image: SITE + img } : {}), description: intro, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...b.offs.map(o => o.p))), highPrice: String(Math.max(...b.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: b.offs.length } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('balls', lang) }, { '@type': 'ListItem', position: 3, name: b.name, item: U }] }] },
+    crumbs: [{ href: url('home', lang), label: u.home }, { href: url('balls', lang), label: T.crumb }, { label: b.name }],
+    ball: { T, img, bHref, intro, rows, BN, oj, similar, bestUrl: best0.u }, SN,
+  };
+})();
+const crumb = page.crumbs;
+---
+<Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage}>
+{page.preload && <Fragment slot="head"><link rel="preload" as="image" href={page.preload.href} imagesrcset={page.preload.srcset} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/></Fragment>}
+<nav class="crumbs" aria-label={u.breadcrumb}>{crumb.map((c, i) => <>{i > 0 && ' › '}{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}</nav>
+{kind === 'racket' && <div class="detail rp2">
+{page.G.length > 0 ? <Gallery slides={page.G} alt={page.alt} zoom={page.R2.zoom} photo={page.R2.photo} prev={page.R2.prev} next={page.R2.next} close={page.R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={page.alt} data-n={page.G.length}><div class="gtrack gnone"><RacketIcon shape={r.shape} size={120}/></div></section>}
+<header class="rph">
+<p class="brand"><span><a href={page.bHref}>{r.brand}</a>{r.year && <> · <a href={url('year', lang, r.year)}>{r.year}</a></>}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></p><h1>{r.model}</h1>
+{r.player && <p class="small rpply">{u.usedBy} <a href={url('player', lang, playerSlug(r.player))}>{r.player}</a></p>}
+{page.kchips.length > 0 && <ul class="kchips">{page.kchips.map(c => <li>{c}</li>)}</ul>}
+</header>
+<aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked && <p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
+<div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
+{r.productUrl && r.price != null && <a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.oj}>{u.px.cmp.buy.replace('{s}', page.BN)} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+<a class="btn btn-sm" style="width:100%" href={page.cmpU}>{u.compareThis}</a></aside>
+<div class="rpbody">
+<section class="panel"><h2>{u.overview}</h2><p class="intro">{page.intro}</p>
+{(page.ins.suits.length > 0) && <><h3>{page.R2.suits}</h3><ul class="suits">{page.ins.suits.map(s => <li>{s}</li>)}</ul></>}
+{(page.ins.pros.length > 0 || page.ins.cons.length > 0) && <div class="pc">{page.ins.pros.length > 0 && <div><h3>{page.R2.pros}</h3><ul class="pros">{page.ins.pros.map(s => <li>{s}</li>)}</ul></div>}{page.ins.cons.length > 0 && <div><h3>{page.R2.cons}</h3><ul class="cons">{page.ins.cons.map(s => <li>{s}</li>)}</ul></div>}</div>}
+<p class="small rpguide">{page.C.notSure} <a href={url('guide', lang)}>{page.C.howChoose}</a> {page.C.orSee} <a href={url('best', lang, page.lvl)}>{d.copy.best.titles[page.lvl][0].toLowerCase()}</a>.</p>{page.inLists.length > 0 && <p class="muted small" style="margin:0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}</section>
+{r.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${page.avg * 3.6}deg,#e8edf0 0)`}><span>{page.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
+<div class="scores">{Object.entries(r.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
+<p class="muted small">{u.ratingsNote}</p></section>}
+<details class="panel rpspec" id="rpspec" open><summary><h2>{page.R2.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{page.srows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{r.price != null && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}</tbody></table></div>
+{r.inputsMissing.length > 0 && <p class="muted small" style="margin-top:12px">{u.missing(page.x.missing.join(', '))}</p>}</details>
+{page.more.length > 0 && <section class="panel"><h2>{page.R2.more}</h2><div class="rpsim">{page.more.map(item => <a href={url('racket', lang, item.slug)}><span class="rpsi">{item.image ? <img src={item.image} alt="" width="72" height="90" loading="lazy" decoding="async"/> : <RacketIcon shape={item.shape} size={40}/>}</span><span><b>{item.model}</b><small>{item.shape && page.t.shapeCap[item.shape]}{item.price != null && <> · <Price r={item} lang={lang}/></>}</small></span></a>)}</div>
+<a class="btn btn-sm rpcmp" href={page.cmpU}>{page.R2.cmp} →</a></section>}
+{(page.vs.length > 0 || page.similar.length > 0) && <section class="panel vs"><h2>{u.headToHead}</h2>{page.vs.map(v => <a href={url('vs', lang, v.slug)}><span>{v.A.model} vs {v.B.model}</span><span>→</span></a>)}{page.similar.filter(item => !page.vs.some(v => v.A.slug === item.slug || v.B.slug === item.slug)).map(item => <a href={url('rackets', lang) + `?r=${r.slug},${item.slug}`}><span>{r.model} vs {item.model}</span><span>→</span></a>)}</section>}
+{page.sameBrand.length > 0 && <section class="panel vs"><h2>{u.moreFrom(r.brand)}</h2>{page.sameBrand.map(item => <a href={url('racket', lang, item.slug)}><span>{item.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={page.bHref}>{u.allBrand(r.brand)}</a>{r.year && <> · <a href={url('year', lang, r.year)}>{page.YC.more(r.year)}</a></>}</p></section>}
+<section class="panel fcard"><div><h2 class="h3">{page.FC[0]}</h2><p class="muted">{page.FC[1]}</p></div><a class="btn" href={url('finder', lang)}>{page.FC[2]} →</a></section>
+</div>
+</div>}
+{kind === 'shoe' && <div class="detail rp2 shoe">
+<header class="rph">
+<p class="brand"><span>{page.shoe.bHref ? <a href={page.shoe.bHref}>{s.brand}</a> : s.brand}{s.year && <> · {s.year}</>}</span><SaveHeart slug={s.slug} kind="s" off={u.save} on={u.saved}/></p><h1>{s.name}</h1>
+{page.shoe.kchips.length > 0 && <ul class="kchips">{page.shoe.kchips.map(c => <li>{c}</li>)}</ul>}
+</header>
+<Gallery slides={page.shoe.G} alt={page.shoe.alt} zoom={page.shoe.R2.zoom} photo={page.shoe.R2.photo} prev={page.shoe.R2.prev} next={page.shoe.R2.next} close={page.shoe.R2.close} ih={480} th={64} zh={960}/>
+<aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={s} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p><p class="muted small" id="pxstatic">{u.checkedOn(SHOE_CHECKED)}</p><ul class="pxlive muted small" id="pxlive" hidden></ul>
+<div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
+<a class="btn aff btn-lg" id="buymain" href={page.shoe.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.shoe.oj}>{u.px.cmp.buy.replace('{s}', page.shoe.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+<p class="muted small" style="margin:8px 0 0">{page.shoe.T.sizeNote}</p></aside>
+<div class="rpbody">
+<section class="panel"><h2>{page.shoe.T.overview}</h2><p class="intro">{page.shoe.intro}</p>
+{s.sole.length > 0 && <ul class="suits">{s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => <li>{page.shoe.T.soleTip[k]}</li>)}</ul>}
+{page.shoe.lk && SHOE_LIST_KEYS.includes(page.shoe.lk) && <p class="small rpguide"><a href={url('shoeList', lang, page.shoe.lk)}>{page.shoe.T.lists[page.shoe.lk][0]}</a> · <a href={url('shoeList', lang, 'best')}>{page.shoe.T.lists.best[0]}</a></p>}</section>
+<details class="panel rpspec" id="rpspec" open><summary><h2>{page.shoe.T.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{page.shoe.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{page.shoe.usSz && <tr data-usrow hidden><th>Sizes in stock (US)</th><td>{page.shoe.usSz}</td></tr>}</tbody></table></div>
+{page.shoe.miss.length > 0 && <p class="muted small" style="margin-top:12px">{page.shoe.T.missing(page.shoe.miss.join(', '))}</p>}</details>
+{page.shoe.similar.length > 0 && <section class="panel"><h2>{page.shoe.T.similar}</h2><div class="rpsim">{page.shoe.similar.map(x => <a href={url('shoe', lang, x.slug)}><span class="rpsi">{shoeImg(x) && <img src={shoeImg(x)} alt="" width="72" height="72" loading="lazy" decoding="async"/>}</span><span><b>{x.name}</b><small>{x.sole.map(k => page.shoe.T.soles[k]).join(', ')}{x.sole.length > 0 && ' · '}<Price r={x} lang={lang}/></small></span></a>)}</div></section>}
+{page.shoe.sameBrand.length > 0 && <section class="panel vs"><h2>{page.shoe.T.moreFrom(s.brand)}</h2>{page.shoe.sameBrand.map(x => <a href={url('shoe', lang, x.slug)}><span>{x.name}</span><span>→</span></a>)}{page.shoe.bHref && <p style="margin:12px 0 0"><a href={page.shoe.bHref}>{page.shoe.T.allFrom(s.brand)}</a></p>}</section>}
+</div>
+</div>}
+{kind === 'ball' && <div class="detail rp2 shoe ball">
+<header class="rph"><p class="brand"><span>{page.ball.bHref ? <a href={page.ball.bHref}>{b.brand}</a> : b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></p><h1>{b.name}</h1>
+<ul class="kchips">{[page.ball.T.speeds[b.speed], b.tour && page.ball.T.tour[b.tour], b.eco && page.ball.T.eco, page.ball.T.tube].filter(Boolean).map(c => <li>{c}</li>)}</ul></header>
+{page.ball.img && <section class="rpg" aria-label={page.ball.T.alt(b.name)}><div class="gtrack"><div class="gslide"><img src={page.ball.img} alt={page.ball.T.alt(b.name)} width="400" height="400" fetchpriority="high" decoding="sync"/></div></div></section>}
+<aside class="panel buybox" id="buybox"><p class="price-big"><Price r={b} lang={lang}/> <small class="muted">({page.ball.T.tube})</small></p><p class="muted small" id="pxstatic">{u.checkedOn(BALL_CHECKED)}</p>
+<ul class="pxl" id="bxl" hidden></ul><div class="pxhist" id="pxhist" hidden></div><p class="pxnous" id="bxnous" hidden>{page.ball.T.noUS}</p>
+<a class="btn aff btn-lg" id="buymain" href={page.ball.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.ball.oj}>{page.ball.T.buy.replace('{s}', page.ball.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span></aside>
+<div class="rpbody">
+<section class="panel"><p class="intro">{page.ball.intro}</p></section>
+<section class="panel"><h2>{page.ball.T.specs}</h2><table class="spec"><tbody>{page.ball.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table></section>
+{page.ball.similar.length > 0 && <section class="panel vs"><h2>{page.ball.T.similar}</h2>{page.ball.similar.map(x => <a href={url('ball', lang, x.slug)}><span>{x.name}</span><span>→</span></a>)}</section>}
+</div></div>}
+{kind === 'racket' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
+<PriceAlertL lang={lang} racket={r.model}/>
+<NewsL lang={lang} src="racket"/>
+<StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
+{kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
+<NewsL lang={lang} src="shoe"/>
+<StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
+{kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
+{kind !== 'ball' && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
+{kind !== 'ball' && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
+document.body.classList.add('has-sticky');
+const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox'),mq=matchMedia('(max-width:899px)');
+if(mq.matches&&window.__pxLive) document.body.classList.add('px-live');
+let io;
+function syncBar(){
+ const live=mq.matches&&document.body.classList.contains('px-live');
+ if(live){if(io){io.disconnect();io=null;} sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0); return;}
+ if(!mq.matches){if(io){io.disconnect();io=null;} sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
+ sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
+ if(!io&&bb){io=new IntersectionObserver(([e])=>{if(document.body.classList.contains('px-live')) return; const show=!e.isIntersecting; sc.classList.toggle('show',show); sc.setAttribute('aria-hidden',show?'false':'true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);}); io.observe(bb);}
+}
+syncBar(); mq.addEventListener('change',syncBar); document.addEventListener('px-live',syncBar);
+try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
+if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
+localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
+</script>}
+{kind !== 'ball' && <ProductGalleryScript/>}
+{kind === 'ball' && <ProductBallScript b={b} u={u} SN={page.SN} lang={lang} T={page.ball.T}/>}
+</Base>
