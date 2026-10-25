@@ -21,7 +21,7 @@
 .hub-chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 16px;border:0;border-radius:99px;background:#e6f2ec;color:var(--navy);font:inherit;font-size:.875rem;font-weight:600;cursor:pointer}
 .hub-chip span{font-size:.75rem;opacity:.7}.hub-chip-x{background:none;text-decoration:underline;padding:0 8px}
 /* layout */
-.hub-l{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
+.hub-l{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
 .hub-f{position:sticky;top:72px;display:flex;flex-direction:column;max-height:calc(100vh - 88px)}
 .hub-fh{display:none}.hub-fb{overflow:auto;display:flex;flex-direction:column;gap:24px;padding:0 8px 16px 0}
 .hub-fl.hub-msort{display:none}
@@ -76,14 +76,16 @@
  .cat.shoes .hub-tray{left:anchor(--hub-cards left);right:anchor(--hub-cards right);width:auto;max-width:none;transform:none}
 }
 /* Rackets: the bar rides the bottom edge of the card grid and scrolls away with it. */
-.cat:not(.shoes) .hub-stick{position:sticky;bottom:calc(28px + env(safe-area-inset-bottom));z-index:12;margin-top:36px}
+.cat:not(.shoes) .hub-stick{position:sticky;bottom:calc(28px + env(safe-area-inset-bottom));z-index:12;margin-top:36px;min-width:0}
 .cat:not(.shoes) .hub-stick:has(.hub-tray[hidden]){display:none}
-.cat:not(.shoes) .hub-stick .hub-tray{position:relative;left:auto;right:auto;bottom:auto;width:auto;max-width:none;transform:none}
+.cat:not(.shoes) .hub-stick .hub-tray{position:relative;left:auto;right:auto;bottom:auto;width:auto;max-width:100%;min-width:0;transform:none}
 .hub-tray ul,.hub-tray>.btn{position:relative;z-index:1}
 .hub-tray ul{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex:1;min-width:0;overflow:auto;scrollbar-width:none}
 .hub-tray li{display:flex;align-items:center;background:rgb(255 255 255/.12);border-radius:99px;padding:0 0 0 12px;font-size:.8125rem;white-space:nowrap}
-.hub-tray li.hub-slot{justify-content:center;flex:0 0 44px;width:44px;min-height:44px;padding:0;background:transparent;border:1.5px dashed rgb(255 255 255/.4);color:rgb(255 255 255/.72);font-size:1.25rem;font-weight:500}
-.hub-tray li.hub-slot-ask{flex:0 1 auto;width:auto;padding:0 14px;border-color:var(--lime);color:#fff;font-size:.8125rem;font-weight:650}
+.cat:not(.shoes) .hub-tray li:not(.hub-slot){min-width:0;flex:0 1 auto}
+.cat:not(.shoes) .hub-tray li:not(.hub-slot)>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.hub-tray li.hub-slot{justify-content:center;flex:0 0 44px;width:44px;min-height:44px;padding:0;background:transparent;border:1.5px dashed rgb(255 255 255/.45);color:rgb(255 255 255/.8);font-size:1.25rem;font-weight:500}
+.hub-tray li.hub-slot-ask{flex:0 1 auto;width:auto;min-width:7.5rem;max-width:14rem;padding:6px 12px;border-color:var(--lime);color:#fff;font-size:.8125rem;font-weight:650;white-space:normal;text-align:center;line-height:1.15}
 .hub-tray li button{min-width:44px;min-height:44px;border:0;background:none;color:#fff;cursor:pointer}
 .hub-tray .btn{min-height:44px;flex:none;white-space:nowrap}
 .hub-tray-x{--lump:var(--navy);position:absolute;top:-24px;right:0;z-index:-1;width:48px;height:40px;padding:0 0 16px;border:0;border-radius:24px 24px 0 0;background:var(--lump);color:#fff;display:grid;place-items:center;cursor:pointer}
@@ -91,8 +93,9 @@
 .hub-tray-x:hover{--lump:#164056}
 .hub-tray-x:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 body.has-tray{padding-bottom:120px}
+.hub-main{min-width:0}
 @media(max-width:860px){
- .hub-l{grid-template-columns:1fr}
+ .hub-l{grid-template-columns:minmax(0,1fr)}
  .hub-q{display:none}.hub-mq{display:flex}
  .hub-fo{display:inline-flex;flex:1 1 0;justify-content:center}.hub-sort,.hub-dd{display:none}
  .hub-so{display:flex;flex:1 1 0;min-width:0}
@@ -111,7 +114,9 @@ body.has-tray{padding-bottom:120px}
  .hub-grid .rk-x{top:50%;transform:translateY(-50%);right:4px}
  .hub-tray{bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100% - 16px)}
  .cat:not(.shoes) .hub-stick{bottom:calc(16px + env(safe-area-inset-bottom))}
- .cat:not(.shoes) .hub-stick .hub-tray{width:auto}
+ .cat:not(.shoes) .hub-stick .hub-tray{width:auto;flex-wrap:wrap;row-gap:8px}
+ .cat:not(.shoes) .hub-tray ul{flex:1 0 100%}
+ .cat:not(.shoes) .hub-tray>.btn{flex:1 1 auto}
 }
 .tp-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;list-style:none;margin:0;padding:0}@media(max-width:860px){.tp-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 8px}.tp-row .rk{flex:0 0 160px;scroll-snap-align:start}}
 .tp-cta{display:flex;justify-content:center;margin:24px 0 0}.tp-cta .btn{min-height:44px;display:inline-flex;align-items:center}
@@ -282,13 +287,25 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
 .cmp-take-body .cmp{width:min(75rem,100%);margin-inline:auto;padding:0 var(--take-r) 24px var(--take-l)}
 .cmp-take .cmp-n{margin-top:16px}
 .cmp-take-body .trust{width:min(75rem,100%);margin-inline:auto;padding-inline:var(--take-l);box-sizing:border-box}
-/* Keep the compare page's column inset. Full-bleed padding here is what pulled the cards off the spec columns. */
-.cmp-take .chead{top:0;z-index:4;width:auto;margin-inline:0;background:var(--bg)}
-.cmp-take .buyrow{position:static;left:auto;right:auto;bottom:auto;width:auto;margin-left:0;margin-right:0;z-index:auto;background:#fff}
+/* The header is the card row only. No label track, and no bar behind the cards, so they sit on the value columns and float as the rows scroll under them. */
+.cmp-take .cmp-cards .chead{top:0;z-index:4;width:auto;margin:0;padding:16px var(--cmp-inset,17px) 8px;background:linear-gradient(var(--bg),var(--bg)) top / 100% 16px no-repeat;backdrop-filter:none;-webkit-backdrop-filter:none;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.cmp-take .cmp-cards .chead::before{content:none}
+.cmp-take .hc{box-shadow:0 6px 16px rgb(15 28 36 / .12)}
+.cmp-take .crow{display:block;padding:12px var(--s4)}
+.cmp-take .cvals{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));column-gap:var(--s2)}
+.cmp-take .clab{margin:0 0 6px}
+.cmp-take .buyrow{position:static;left:auto;right:auto;bottom:auto;width:auto;margin:16px 0 0;padding-inline:var(--cmp-inset,17px);grid-template-columns:repeat(var(--n),minmax(0,1fr));z-index:auto;background:transparent;box-shadow:none;border-radius:0}
+.cmp-take .buyrow::before{content:none}
+.cmp-take .buyrow .btn{flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;padding:10px 12px;text-align:center;white-space:normal;line-height:1.15}
+.cmp-take .buyrow .bsub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;max-width:100%;overflow:visible;white-space:normal}
+.cmp-take .buyrow .bp{font-size:1.05rem;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+.cmp-take .buyrow .bp::after{content:none}
+.cmp-take .buyrow .ba{font-size:.8125rem;font-weight:650;line-height:1.2}
 body:has(.cmp-take .buyrow){padding-bottom:0}
 @media(width<=899px){
- .cmp-take .chead{margin-bottom:0;padding-bottom:12px}
- .cmp-take .buyrow{position:static;left:auto;right:auto;bottom:auto;width:auto;margin:16px 0 0;padding-left:0;padding-right:0}
+ .cmp-take .cmp-cards .chead{margin-bottom:0;padding:16px 0 8px}
+ .cmp-take .crow{padding:12px 0}
+ .cmp-take .buyrow{position:static;left:auto;right:auto;bottom:auto;width:auto;margin:16px 0 0;padding-inline:0}
  .cmp-take-body:has(.buyrow){padding-bottom:0}
 }
 main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(--sp-4);padding-bottom:var(--sp-4)}

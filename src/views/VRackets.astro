@@ -151,9 +151,9 @@ const more=$('h-more'); if(more) more.addEventListener('click',async e=>{e.preve
  grid.insertAdjacentHTML('beforeend',view.slice(shown,shown+T.PER).map(card).join('')); shown+=T.PER; more.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint();
  const np=Math.floor(shown/T.PER)+1; if(np<=T.P) more.href=T.pfx+np+'/'; });
 // compare tray (max 3)
-function tray(){ $('h-tray').hidden=!sel.length; const slots=sel.map(s=>{const r=all&&all.find(x=>x.s===s); const m=r?r.m:s; return `<li>${esc(m.length>22?m.slice(0,21)+'…':m)}<button type="button" data-rm="${s}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;});
+function tray(){ $('h-tray').hidden=!sel.length; const slots=sel.map(s=>{const r=all&&all.find(x=>x.s===s); const m=r?r.m:s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li><span>${esc(t)}</span><button type="button" data-rm="${s}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;});
  for(let i=sel.length;i<3;i++) slots.push(sel.length<2&&i===sel.length?`<li class="hub-slot hub-slot-ask">${esc(T.cmpPick)}</li>`:`<li class="hub-slot" aria-hidden="true">+</li>`);
- $('h-sel').innerHTML=slots.join(''); const go=$('h-go'), ready=sel.length>=2; go.hidden=!ready; go.disabled=!ready; if(ready) go.textContent=`${T.compare} ${sel.length}`;
+ $('h-sel').innerHTML=slots.join(''); const go=$('h-go'), ready=sel.length>=2; go.hidden=!ready; go.disabled=!ready; go.textContent=ready?`${T.compare} ${sel.length}`:T.compare;
  grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector(".rk-cb"); if(c) c.checked=on;}); try{sessionStorage.wp_hub_cmp=sel.join(',')}catch(e){} }
 grid.addEventListener('change',e=>{const c=e.target.closest(".rk-cb"); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); load().then(tray); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
