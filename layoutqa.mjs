@@ -70,4 +70,4 @@ export async function layoutQA(b){
     await p.keyboard.press('Escape'); if(await p.isVisible('.burger')){ await p.click('.burger'); await p.waitForTimeout(150); for(const s of [...new Set(await p.evaluate(check))]) issues.push(`[layout ${w} ${u} menu-open] ${s}`); await p.click('.burger'); } } } await c.close(); }
  return issues;
 }
-if(process.argv[1].endsWith('layoutqa.mjs')){ const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const i=await layoutQA(b); await b.close(); console.log(i.join('\n')); console.log('LAYOUT VIOLATIONS',i.length); process.exit(i.length?1:0);}
+if(process.argv[1].endsWith('layoutqa.mjs')){ const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const i=await layoutQA(b); await b.close(); console.log(i.join('\n')); console.log('LAYOUT VIOLATIONS',i.length); process.exit(i.length?1:0);}

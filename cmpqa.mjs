@@ -22,7 +22,9 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(!x.rows[0]?.[3]||x.rows.filter(r=>r[3]).length!==1) F(tag+' highlight');
  if(!x.rows.every(r=>/£/.test(r[1]))) F(tag+' currency '+x.rows.map(r=>r[1]));
  if(x.other!==0) F(tag+' collapse should be gone '+x.other);
- if(x.rows.some(r=>r[5]<44)) F(tag+' tap target '+x.rows.map(r=>Math.round(r[5]*10)/10).join(','));
+ const boxGone=await pg.evaluate(()=>getComputedStyle(document.getElementById('buybox')).display==='none');
+ if(boxGone){const taps=await pg.evaluate(()=>[...document.querySelectorAll('#stickycta button')].map(b=>Math.round(b.getBoundingClientRect().height))); if(!taps.length||taps.some(h=>h<44)) F(tag+' sticky tap '+taps.join(','));}
+ else if(x.rows.some(r=>r[5]<44)) F(tag+' tap target '+x.rows.map(r=>Math.round(r[5]*10)/10).join(','));
  if(x.sw>x.vw) F(tag+' overflow '+x.sw);
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
  const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs):not(.pxag)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
@@ -36,17 +38,32 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
 {const many=Array.from({length:7},(_,i)=>of('padelnuestro.com',100+i,'EUR')).map((o,i)=>({...o,d:i<3?'padelnuestro.com':'decathlon.co.uk',u:o.u+i}));
  const pg=await page('/rackets/'+S+'/',360,{wp_region:'GB',wp_cur:'GBP'},{updated:'x',r:{[S]:{...many[0],min90:1,since:T,drop:0,h:[],o:many}}});
  const x=await info(pg); if(x.rows.length!==4||x.other!==0||!/7/.test(x.all||'')) F('top4 + all-N '+x.rows.length+'/'+x.all);
- // sheet from All-N link: opens full, 7 rows, Esc closes, focus returns
- await pg.locator('#pxall').evaluate(el=>el.scrollIntoView({block:'center'})); await pg.click('#pxall'); await pg.waitForTimeout(400); let sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden&&D.classList.contains('open'),n:D.querySelectorAll('.pxr').length,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,role:D.querySelector('[role=dialog]')?.getAttribute('aria-modal'),lock:getComputedStyle(document.body).overflow}});
- if(!sh.open||sh.vis!==7||sh.role!=='true'||sh.lock!=='hidden') F('sheet full '+JSON.stringify(sh));
- for(let i=0;i<12;i++) await pg.keyboard.press('Tab'); if(!await pg.evaluate(()=>document.getElementById('pxsheet').contains(document.activeElement))) F('focus trap');
- await pg.keyboard.press('Escape'); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden&&document.activeElement.id==='pxall')) F('esc/focus return');
- // sticky bar: hidden while box in view; tap bar opens compact sheet; show all expands; backdrop closes; Buy goes direct
- await pg.evaluate(()=>scrollTo(0,0)); await pg.waitForTimeout(300); if(await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar visible while box in view');
- await pg.evaluate(()=>scrollTo(0,document.body.scrollHeight/2)); await pg.waitForTimeout(400); if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar not shown after scroll');
- await pg.click('#stickyopen'); await pg.waitForTimeout(400); sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!D.querySelector('.pxsbest')&&[...D.querySelectorAll('.pxr.best')].every(r=>r.querySelector('.pxb.pri[href^="https://"]'))}});
- if(!sh.open||sh.vis!==4||!sh.best) F('bar->sheet '+JSON.stringify(sh));
- await pg.click('.pxsall'); await pg.waitForTimeout(200); if(await pg.evaluate(()=>[...document.querySelectorAll('#pxsheet .pxr')].filter(r=>r.offsetParent).length)!==7) F('show all');
+ // On a phone the live price card is hidden and the sticky bar opens the sheet. On a wide screen, All prices opens it.
+ const boxGone=await pg.evaluate(()=>getComputedStyle(document.getElementById('buybox')).display==='none');
+ let sh;
+ if(!boxGone){
+  await pg.locator('#pxall').evaluate(el=>el.scrollIntoView({block:'center'})); await pg.click('#pxall'); await pg.waitForTimeout(400);
+  sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden&&D.classList.contains('open'),vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,role:D.querySelector('[role=dialog]')?.getAttribute('aria-modal'),lock:getComputedStyle(document.body).overflow}});
+  if(!sh.open||sh.vis!==7||sh.role!=='true'||sh.lock!=='hidden') F('sheet full '+JSON.stringify(sh));
+  for(let i=0;i<12;i++) await pg.keyboard.press('Tab'); if(!await pg.evaluate(()=>document.getElementById('pxsheet').contains(document.activeElement))) F('focus trap');
+  await pg.keyboard.press('Escape'); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden&&document.activeElement.id==='pxall')) F('esc/focus return');
+  await pg.evaluate(()=>scrollTo(0,0)); await pg.waitForTimeout(300); if(await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar visible while box in view');
+  await pg.evaluate(()=>scrollTo(0,document.body.scrollHeight/2)); await pg.waitForTimeout(400); if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar not shown after scroll');
+  await pg.click('#stickyopen'); await pg.waitForTimeout(400);
+  sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden,vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,best:!D.querySelector('.pxsbest')&&[...D.querySelectorAll('.pxr.best')].every(r=>r.querySelector('.pxb.pri[href^="https://"]'))}});
+  if(!sh.open||sh.vis!==4||!sh.best) F('bar->sheet '+JSON.stringify(sh));
+  await pg.click('.pxsall'); await pg.waitForTimeout(200); if(await pg.evaluate(()=>[...document.querySelectorAll('#pxsheet .pxr')].filter(r=>r.offsetParent).length)!==7) F('show all');
+ } else {
+  if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show'))) F('bar hidden while live prices replace the card');
+  await pg.click('#stickyopen'); await pg.waitForTimeout(400);
+  sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet');return {open:!D.hidden&&D.classList.contains('open'),vis:[...D.querySelectorAll('.pxr')].filter(r=>r.offsetParent).length,role:D.querySelector('[role=dialog]')?.getAttribute('aria-modal'),lock:getComputedStyle(document.body).overflow,best:!D.querySelector('.pxsbest')&&[...D.querySelectorAll('.pxr.best')].every(r=>r.querySelector('.pxb.pri[href^="https://"]')),taps:[...D.querySelectorAll('.pxb')].filter(a=>a.offsetParent).map(a=>a.getBoundingClientRect().height)}});
+  if(!sh.open||sh.vis!==4||!sh.best||sh.role!=='true'||sh.lock!=='hidden') F('bar->sheet '+JSON.stringify(sh));
+  if(sh.taps.some(h=>h<44)) F('sheet tap '+sh.taps.map(h=>Math.round(h)).join(','));
+  await pg.click('.pxsall'); await pg.waitForTimeout(200); if(await pg.evaluate(()=>[...document.querySelectorAll('#pxsheet .pxr')].filter(r=>r.offsetParent).length)!==7) F('show all');
+  for(let i=0;i<12;i++) await pg.keyboard.press('Tab'); if(!await pg.evaluate(()=>document.getElementById('pxsheet').contains(document.activeElement))) F('focus trap');
+  await pg.keyboard.press('Escape'); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden&&document.activeElement.id==='stickyopen')) F('esc/focus return');
+  await pg.click('#stickyopen'); await pg.waitForTimeout(300);
+ }
  await pg.mouse.click(195,20); await pg.waitForTimeout(350); if(!await pg.evaluate(()=>document.getElementById('pxsheet').hidden)) F('backdrop close');
  if(await pg.getAttribute('#stickybuy','href')) F('bar must not link out');
  await pg.close();}

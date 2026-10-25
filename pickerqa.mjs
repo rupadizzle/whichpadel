@@ -17,7 +17,8 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh
  const seg=rel.split('/')[1]; const lang=['es','fr','pt','it','de'].includes(seg)?seg:'en'; const depth=rel.split('/').filter(Boolean).length; const k=lang+':'+(rel.split('/')[lang==='en'?1:2]||'home')+':'+Math.min(depth,4);
  if(!types.has(k)) types.set(k,rel);}
 console.log(`pickerqa: ${n} pages checked statically, ${types.size} sampled for geometry`);
-const br=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); 
+const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const br=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); 
 for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1024,1181,1280,1440])){const pg=await br.newPage({viewport:{width:w,height:800}});
  for(const rel of types.values()){ await pg.goto(B+rel,{waitUntil:'domcontentloaded'});
   const r=await pg.evaluate(()=>{const o=[]; const hd=document.querySelector('.hdr .wrap'); const R=e=>e.getBoundingClientRect();

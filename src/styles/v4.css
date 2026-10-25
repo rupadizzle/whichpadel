@@ -80,6 +80,7 @@ body{overflow-x:hidden}
 .quizcta small{display:block;font-weight:500;font-size:var(--fs-s)}.quizcta .arr{margin-left:auto;font-size:1.4rem}
 
 @media(max-width:860px){.hero{padding:var(--s5) 0 var(--s6)}.hero h1{font-size:1.65rem}.hero p.lead{font-size:1rem;margin-bottom:var(--s3)}.stats{margin-top:var(--s4);gap:var(--s5)}.stats b{font-size:1.2rem}.hero-ctas .btn-accent{display:none}}
+@media(max-width:360px){.hero p.lead{min-height:4.65em}.quizcta{min-height:119px}}
 /* stepped quiz */
 .qsteps{display:grid;gap:var(--s4)}
 .qstep fieldset{border:0;padding:0;margin:0}.qstep legend{font-weight:750;margin-bottom:var(--s2);padding:0}
