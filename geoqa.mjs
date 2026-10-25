@@ -1,5 +1,6 @@
 // Geo banner QA: country-confirm shown to every first-time visitor; Confirm (same/different language), Choose (picker), Close; hidden after saved choice/dismiss/bot; overlay, CLS, 44px taps, fit at 360/390/1280.
 import { chromium } from 'playwright-core';
+import fs from 'fs';
 const B=process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const bad=[]; const ok=(c,m)=>{if(!c) bad.push(m)};
 const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const br=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']});

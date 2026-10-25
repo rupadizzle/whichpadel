@@ -1,12 +1,13 @@
 // Vertical rhythm QA: gap header(/hero)->first content and last content->footer, one page per type per language, at 360/390/1280.
 import { chromium } from 'playwright-core'; import fs from 'fs';
+const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const B=process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'';
 const urls=[...fs.readFileSync('dist/sitemap.xml','utf8').matchAll(/<loc>https:\/\/whichpadel\.com([^<]*)<\/loc>/g)].map(m=>m[1]);
 const L=['es','fr','pt','it','de']; const seen=new Map();
 for(const u of urls){const s=u.split('/').filter(Boolean);const lang=L.includes(s[0])?s.shift():'en';const key=lang+':'+(s[0]||'')+':'+s.length+(s[0]&&s[1]&&s[1].includes('-vs-')?':vs':'');if(!seen.has(key))seen.set(key,u)}
 for(const l of ['en',...L]) seen.set(l+':404',(l==='en'?'':'/'+l)+'/404.html');
 const pages=[...seen.entries()].filter(([k])=>!process.env.QA_FAST||/^(en|es|de):/.test(k)).map(([,v])=>v); const W=(process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280]);
-const br=await chromium.launch(); const pg=await br.newPage(); const res=[]; let bad=0;
+const br=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const pg=await br.newPage(); const res=[]; let bad=0;
 for(const w of W){ await pg.setViewportSize({width:w,height:900});
  for(const p of pages){ await pg.goto(B+p,{waitUntil:process.env.QA_FAST?'load':'networkidle'}); if(process.env.QA_FAST) await pg.waitForTimeout(200);
   if(await pg.$('.fz-hdr')) continue; if(await pg.$('main>.crumbs+.cat, .cmp-intro')) continue; /* hubs + compare pages: compact header rhythm by design (Rupert, 24 Oct commit e03cd78), exempt from the shared gap */ /* focused finder shell: no footer */

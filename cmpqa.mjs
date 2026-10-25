@@ -1,5 +1,7 @@
 // Compare-prices list QA (local preview :4987, mocked /api/prices): sorting, currency, country filter, expander, fallback, mobile, 6 langs.
-import {chromium} from 'playwright-core'; const b=await chromium.launch(); let bad=0; const F=(m)=>{bad++;console.log('FAIL',m);};
+import {chromium} from 'playwright-core'; import fs from 'fs';
+const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); let bad=0; const F=(m)=>{bad++;console.log('FAIL',m);};
 const S='head-evo-speed-2025', T=new Date().toISOString().slice(0,10), Y=new Date(Date.now()-3*864e5).toISOString().slice(0,10);
 const of=(d,p,c,s=1,t=T)=>({d,p,c,u:`https://${d}/p/${S}`,s,t,min30:p-5});
 const O=[of('padelnuestro.com',90,'EUR'),of('allforpadel.com',80,'EUR',1,Y),of('decathlon.co.uk',70,'GBP'),of('padelsmith.co.uk',60,'GBP',0),of('tennis-warehouse.com',100,'USD'),of('mantissport.com',85,'EUR')];
