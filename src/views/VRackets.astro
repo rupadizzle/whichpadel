@@ -47,7 +47,7 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.bal,
   {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div>{g[3]&&<p class="hub-note" data-k={g[0]} hidden>{g[3]}</p>}</fieldset>)}
   <fieldset class="hub-g"><legend>{H.year}</legend><div class="hub-chips">{years.map(y=><label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div><p class="hub-note" data-k="year" hidden>{H.noYear}</p></fieldset>
   <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><span class="hub-sym" id="h-sym" aria-hidden="true">{SYM[cur0]}</span><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div><p class="hub-note" data-k="price" hidden>{H.noPrice}</p></fieldset>
-  <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b><small>{H.stockS}</small></span></label>
+  <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b></span></label>
   <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips">{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)}</span></label>)}</div></fieldset>
  </div>
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{H.clr}</button><button type="button" class="btn btn-accent" id="h-apply">{H.apply.replace('§',String(N))}</button></div>
