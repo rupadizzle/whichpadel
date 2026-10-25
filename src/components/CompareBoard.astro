@@ -1,11 +1,12 @@
 ---
 // Side-by-side racket comparison. Embed mode is the full-screen takeover on the racket list.
 import { rackets } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js';
+import { HUB } from '../i18n/hub.js';
 const { lang, embed = false } = Astro.props;
-const d = D(lang), u = d.ui, c = u.cmp, t = d.terms;
+const d = D(lang), u = d.ui, c = u.cmp, t = d.terms, H = HUB[lang];
 const popular = ['bullpadel','nox','adidas','babolat','head','siux'].map(b => rackets.find(r => r.brand.toLowerCase().includes(b) && r.image)).filter(Boolean).slice(0, 6).map(r => r.slug);
 const FM = Object.fromEntries([...new Set(rackets.flatMap(r => [r.faceMaterial, r.coreMaterial]).filter(Boolean))].map(v => [v, mat(v, lang)]).filter(([a, b]) => a !== b));
-const TX = { FM, c: { ...c, addN: c.addN('§'), search: c.search('§') }, u: { checkPrice: u.checkPrice, cmpP: u.px.cmp.title, seeSpecs: u.seeSpecs, checked: u.checked, adNoteShort: u.adNoteShort, disclosure: u.disclosure, recordedPrice: u.recordedPrice, aff: url('affiliate', lang), rk: url('racket', lang, '§') }, TR: { Power: t.rt.power, Control: t.rt.control, Handling: t.rt.handling, Forgiveness: t.rt.forgiveness, Comfort: t.rt.comfort, Value: t.rt.value, Shape: t.spec.shape, Weight: t.spec.weight, Balance: t.spec.balance, Hardness: t.spec.hardness, Core: t.spec.core, Face: t.spec.face, Thickness: t.spec.thickness, Year: t.spec.year }, VT: { Round: t.shapeCap.round, Teardrop: t.shapeCap.teardrop, Diamond: t.shapeCap.diamond, Hybrid: t.shapeCap.hybrid, Low: t.bal.low, Medium: t.bal.medium, High: t.bal.high, Soft: t.core.soft, 'Medium-soft': t.core['medium-soft'], 'Medium-hard': t.core['medium-hard'], Hard: t.core.hard } };
+const TX = { FM, c: { ...c, addN: c.addN('§'), search: c.search('§') }, u: { checkPrice: u.checkPrice, fromP: H.fromP, seeSpecs: u.seeSpecs, checked: u.checked, adNoteShort: u.adNoteShort, disclosure: u.disclosure, recordedPrice: u.recordedPrice, aff: url('affiliate', lang), rk: url('racket', lang, '§') }, TR: { Power: t.rt.power, Control: t.rt.control, Handling: t.rt.handling, Forgiveness: t.rt.forgiveness, Comfort: t.rt.comfort, Value: t.rt.value, Shape: t.spec.shape, Weight: t.spec.weight, Balance: t.spec.balance, Hardness: t.spec.hardness, Core: t.spec.core, Face: t.spec.face, Thickness: t.spec.thickness, Year: t.spec.year }, VT: { Round: t.shapeCap.round, Teardrop: t.shapeCap.teardrop, Diamond: t.shapeCap.diamond, Hybrid: t.shapeCap.hybrid, Low: t.bal.low, Medium: t.bal.medium, High: t.bal.high, Soft: t.core.soft, 'Medium-soft': t.core['medium-soft'], 'Medium-hard': t.core['medium-hard'], Hard: t.core.hard } };
 ---
 <div id="cmp" class="cmp cmp-cards" data-popular={popular.join(',')} data-embed={embed ? '1' : undefined}><p class="panel empty">{c.loading}</p></div>
 <p class="muted small trust">{c.trust}</p>
@@ -27,6 +28,7 @@ const boot=()=>started||(started=(async()=>{
  const SPECS=['Shape','Weight','Balance','Hardness','Core','Face','Thickness','Year'];
  const img=(x,w,h)=>x.i?`<img src="${x.i}" alt="${esc(x.m)}" width="${w}" height="${h}" decoding="async">`:`<span class="noimg" style="width:${w}px;height:${h}px" aria-hidden="true">${esc((x.sh||'?')[0].toUpperCase())}</span>`;
  const icoSwap='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 8h12m0 0-3-3m3 3-3 3M20 16H8m0 0 3-3m-3 3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ const icoGo='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 17 17 7M17 7H9M17 7v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
  const icoX='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
  const short=x=>x.m.replace(new RegExp('^'+String(x.b||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),'');
  function save(){try{sessionStorage.wp_cmp=sel.join(','); sessionStorage.wp_cmp_held=held.join(',')}catch(e){}
@@ -48,7 +50,7 @@ const boot=()=>started||(started=(async()=>{
   const pr=xs.map(x=>x.g); const pw=winner(pr.map(g=>g??Infinity),false);
   h+=`<details class="cgroup" open><summary>${C.price}</summary><div class="crow"><div class="clab">${UU.recordedPrice}</div><div class="cvals" style="--n:${n}">${xs.map(x=>`<div class="cv${pw!==null&&x.g===pw?' win':''}"><b>${esc(x.p)}</b>${x.pc?`<span class="tiny">${UU.checked} ${x.pc}</span>`:''}</div>`).join('')}</div></div></details>`;
   h+=grp(C.ratings,SCORES,true,true)+grp(C.specsH,SPECS,true,false);
-  h+=`<div class="buyrow" style="--n:${n}">${xs.map(x=>`<a class="btn" href="${UU.rk.replace('§',x.s)}"><span class="bsub">${x.g!=null?`<span class="bp">${esc(x.p)}</span><span class="ba">${esc(UU.cmpP)}</span>`:`<span class="ba">${esc(UU.seeSpecs)}</span>`}</span></a>`).join('')}<p class="disc">${UU.adNoteShort} <a href="${UU.aff}">${UU.disclosure}</a></p></div>`;
+  h+=`<div class="buyrow" style="--n:${n}">${xs.map(x=>`<a class="btn" href="${UU.rk.replace('§',x.s)}"><span class="bsub">${x.g!=null?`<span class="bp">${UU.fromP.replace('{p}',esc(x.p))}</span>${icoGo}`:`<span class="ba">${esc(UU.seeSpecs)}</span>${icoGo}`}</span></a>`).join('')}<p class="disc">${UU.adNoteShort} <a href="${UU.aff}">${UU.disclosure}</a></p></div>`;
   root.innerHTML=h;}
  function headCell(x,i){return `<div class="hc"><div class="hcin">${x.i?`<img src="${x.i}" alt="" width="80" height="80" decoding="async">`:`<span class="noimg" aria-hidden="true">${esc((x.sh||'?')[0].toUpperCase())}</span>`}<div class="hbody"><a class="hn" href="${UU.rk.replace('§',x.s)}">${esc(short(x))}</a><span class="hp">${esc(x.p)}</span></div><div class="hact"><button type="button" class="mini" data-add="${i}" aria-label="${C.swap}: ${esc(x.m)}">${icoSwap}</button><button type="button" class="mini" data-rm="${i}" aria-label="${C.remove}: ${esc(x.m)}">${icoX}</button></div></div></div>`;}
  function list(){const q=document.getElementById('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||x.m.toLowerCase().includes(q))).slice(0,40);
