@@ -23,7 +23,7 @@ const rawV = r => r.rated && r.priceGBPApprox ? top2(r)/r.priceGBPApprox : null;
 const maxV = Math.max(...base.map(rawV).filter(Boolean));
 export const VALUE_FORMULA = 'Value score = (average of the racket’s two highest calculated ratings, excluding the existing value rating) ÷ recorded price in GBP, then scaled so the best racket in the database scores 100. Rackets without a recorded price get no value score.';
 // allRackets: every racket (pages, hub, sitemap). rackets: only those with spec-based ratings (lists, rankings, stats, brand pages).
-export const allRackets = base.map(r => ({...r, valueScore: rawV(r)==null?null:Math.max(1,Math.round(rawV(r)/maxV*100))}));
+export const allRackets = base.map(r => {const v=rawV(r)==null?null:Math.max(1,Math.round(rawV(r)/maxV*100)); return {...r, valueScore:v, ratings: r.rated&&v!=null?{...r.ratings,value:v}:r.ratings};});
 export const rackets = allRackets.filter(r=>r.rated);
 export const bySlug = Object.fromEntries(allRackets.map(r => [r.slug, r]));
 import { priceText } from './price.js';

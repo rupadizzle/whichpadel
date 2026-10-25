@@ -1,6 +1,7 @@
 ---
 import RacketImage from './RacketImage.astro'; import Price from './Price.astro'; import { D, url } from '../i18n/index.js';
-const { r, rank, lang, eager=false, region=null } = Astro.props; const d=D(lang); const t=d.terms; const keys=['power','control','forgiveness'];
+const { r, rank, lang, eager=false, region=null, keys=['power','control','forgiveness'] } = Astro.props; const d=D(lang); const t=d.terms;
+const GL={en:['Guide score','Value score'],es:['Nota de la guía','Nota de valor'],pt:['Nota do guia','Nota de valor'],fr:['Score du guide','Score valeur'],it:['Punteggio guida','Punteggio valore'],de:['Guide-Wert','Preis-Leistungs-Wert']}[lang]||['Guide score','Value score'];
 const href=url('racket',lang,r.slug);
 const bal=t.bal[r.balance];
 ---
@@ -10,7 +11,7 @@ const bal=t.bal[r.balance];
   <div class="rbody">
     <p class="brand"><span>{r.brand}{r.year&&<> · {r.year}</>}</span><button type="button" class="save-heart" data-save={r.slug} data-off={d.ui.save} data-on={d.ui.saved} aria-pressed="false" aria-label={d.ui.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></p>
     <h3><a href={href}>{r.model}</a></h3>
-    <div class="chips">{r.shape&&<span class="chip">{t.shapeCap[r.shape]}</span>}{bal&&<span class="chip">{t.fBal(bal)}</span>}{r.coreHardness&&<span class="chip">{t.fCore(t.core[r.coreHardness])}</span>}{r.valueScore!=null&&<span class="chip">{t.rt.value} {r.valueScore}</span>}{r.weightMin&&<span class="chip">{r.weightMin}{r.weightMax&&r.weightMax!==r.weightMin?`–${r.weightMax}`:''} g</span>}</div>
+    <div class="chips">{r.shape&&<span class="chip">{t.shapeCap[r.shape]}</span>}{bal&&<span class="chip">{t.fBal(bal)}</span>}{r.coreHardness&&<span class="chip">{t.fCore(t.core[r.coreHardness])}</span>}{r.gs!=null&&<span class="chip"><b>{GL[0]} {r.gs}/100</b></span>}{r.valueScore!=null&&<span class="chip">{GL[1]} {r.valueScore}/100</span>}{r.weightMin&&<span class="chip">{r.weightMin}{r.weightMax&&r.weightMax!==r.weightMin?`–${r.weightMax}`:''} g</span>}</div>
     <div class="minibars">{keys.map(k=><div class="mb"><span>{t.rt[k]}</span><div class="bar"><i style={`width:${r.ratings[k]}%`}></i></div><b>{r.ratings[k]}</b></div>)}</div>
     <label class="cmpbox"><input type="checkbox" class="cmp" value={r.slug} aria-label={`${d.ui.addToCompare}: ${r.model}`}/> {d.ui.addToCompare}</label>
     <div class="rfoot"><Price r={r} lang={lang} cls="price" from region={region}/><a class="btn btn-sm" href={href} aria-label={`${d.ui.details}: ${r.model}`}>{d.ui.details}</a></div>

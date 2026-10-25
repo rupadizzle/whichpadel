@@ -5,9 +5,9 @@ import Base from '../layouts/Base.astro'; import Byline from '../components/Byli
 import { US_PAGES, US_KEYS, US_CHECKED } from '../lib/us.js'; import { url, SITE, D } from '../i18n/index.js';
 const { k } = Astro.props; const P=US_PAGES[k]; const list=P.list(); const n=list.length; const isS=P.kind==='s'; const u=D('en').ui;
 const C={
- 'best-padel-rackets':[`Best padel rackets in the USA`,`The ${n} best padel rackets (paddles) you can buy from US shops today, ranked by our ratings, with live prices in US dollars.`],
+ 'best-padel-rackets':[`Best padel rackets in the USA`,`The ${n} best padel rackets (paddles) you can buy from US shops today, ranked by our ratings, with recent prices in US dollars.`],
  'padel-rackets-for-beginners':[`Best padel rackets for beginners in the USA`,`${n} forgiving, easy-to-play padel rackets for new players, all sold by shops that deliver in the US, priced in dollars.`],
- 'padel-shoes':[`Padel shoes in the USA`,`${n} padel shoes in stock at shops that deliver in the US, with live prices in dollars. Padel shoes have a padel or clay outsole built for sideways movement on sand-filled turf.`],
+ 'padel-shoes':[`Padel shoes in the USA`,`${n} padel shoes in stock at shops that deliver in the US, with recent prices in dollars. Padel shoes have a padel or clay outsole built for sideways movement on sand-filled turf.`],
 };
 const [h1,intro]=C[k]||(isS?[`Padel shoes under $${P.cap} in the USA`,`${n} padel shoes at $${P.cap} or less from shops that deliver in the US, ranked by availability and season.`]:[`Best padel rackets under $${P.cap} in the USA`,`${n} padel rackets at $${P.cap} or less from US-delivering shops, ranked by power, control and comfort.`]); const head=`${h1} (2026)`;
 const U=SITE+url('us','en',k); const title=`${h1} (2026): ${n} picks, $ prices | WhichPadel`;
