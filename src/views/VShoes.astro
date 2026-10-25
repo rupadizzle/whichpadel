@@ -1,6 +1,6 @@
 ---
 // /shoes/ hub: every shoe rendered statically (crawlable), client-side filters (brand, fit, sole, size, price) and sort, state in the URL.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro';
+import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro'; import ShoeCompareBoard from '../components/ShoeCompareBoard.astro';
 import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE, SHOE_CMP } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang]; const N=shoes.length;
 const list=rankShoes(shoes,lang); const brands=[...new Set(shoes.map(s=>s.brand))].filter(b=>b!=='Unknown').sort();
@@ -45,8 +45,12 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  </section>
 </section>
 </div>
-<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.cmpGo} <span id="h-seln"></span></button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.compare} <span id="h-seln"></span></button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
 </div>
+<dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
+ <div class="cmp-take-bar"><h2 id="cmp-take-h">{C.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+ <div class="cmp-take-body"><ShoeCompareBoard lang={lang} embed/></div>
+</dialog>
 <script type="application/json" id="h-data" set:html={JSON.stringify({pv,cmp:url('shoeCompare',lang),T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
 (()=>{const {pv,cmp,T}=JSON.parse(document.getElementById('h-data').textContent); const $=id=>document.getElementById(id), grid=$('h-grid'); const items=[...grid.children]; items.forEach((li,i)=>li.dataset.o=i);
@@ -70,7 +74,7 @@ function apply(){const s=get(), q=s.q.toLowerCase(), mn=parseFloat(s.min), mx=pa
  const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); history.replaceState(null,'',location.pathname+(qs.toString()?'?'+qs:''));}
 const sheet=o=>{$('h-f').classList.toggle('open',o); $('h-shade').hidden=!o; $('h-open').setAttribute('aria-expanded',o); document.body.style.overflow=o?'hidden':'';};
 $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>sheet(false); $('h-apply').onclick=()=>{sheet(false); $('hub').scrollIntoView({block:'start'});};
-document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('cmp-take').open) sheet(false);});
 let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).value);clearTimeout(tm); tm=setTimeout(apply,200);})); ['h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
 ['h-sort'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();})); $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();}); document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
 const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
@@ -82,7 +86,15 @@ function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle(
 grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
 $('h-tray-x').onclick=()=>{sel.splice(0,sel.length); tray();};
-$('h-go').onclick=()=>{ if(sel.length>=2) location.href=cmp+'?s='+sel.join(','); };
+function openTake(fromHist){const dlg=$('cmp-take'); if(!dlg.open) dlg.showModal(); const sc=dlg.querySelector('.cmp-take-body'); if(sc) sc.scrollTop=0; window.wpCompare&&window.wpCompare.set(sel.slice()); if(!fromHist&&!(history.state&&history.state.wpCmp)) history.pushState({wpCmp:1},'');}
+let skipPop=false;
+$('cmp-take').addEventListener('close',()=>{const next=window.wpCompare?window.wpCompare.get():sel.slice(); if(next.join()!==sel.join()){sel.splice(0,sel.length,...next); tray();} if(skipPop){skipPop=false; return;} if(history.state&&history.state.wpCmp) history.back();});
+function shutTake(){const back=!!(history.state&&history.state.wpCmp); if($('cmp-take').open){skipPop=true; $('cmp-take').close();} if(back) history.back();}
+$('cmp-take-x').onclick=shutTake;
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!$('cmp-take').open||($('sheet')&&$('sheet').open)) return; e.preventDefault(); shutTake();});
+addEventListener('popstate',()=>{const dlg=$('cmp-take'); if(history.state&&history.state.wpCmp){ if(!dlg.open&&sel.length>=2) openTake(true); } else if(dlg.open){ skipPop=true; dlg.close(); }});
+document.addEventListener('wp:cmp',e=>{const next=e.detail||[]; if(next.join()===sel.join()) return; sel.splice(0,sel.length,...next); tray();});
+$('h-go').onclick=()=>{ if(sel.length>=2) openTake(); };
 try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
 if(sel.length) tray();
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
