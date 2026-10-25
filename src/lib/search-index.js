@@ -1,6 +1,6 @@
 // Compact catalogue for /search-index.json. Labels that depend on language (guides, page names) stay on the page.
 import { allRackets, brandList, players } from './data.js';
-import { shoes, shoeBrands, shoeBrandTarget } from './shoes.js';
+import { shoes, shoeBrands } from './shoes.js';
 import { balls } from './balls.js';
 
 export function searchIndex() {
@@ -12,10 +12,8 @@ export function searchIndex() {
   }
   for (const b of shoeBrands) {
     if (seen.has(b.slug)) continue;
-    const t = shoeBrandTarget(b.slug);
-    if (!t) continue;
     seen.add(b.slug);
-    brands.push([b.slug, b.name, t.type === 'shoeBrand' ? 1 : 0]);
+    brands.push([b.slug, b.name, 0]);
   }
   const pseen = new Set();
   const pls = [];

@@ -10,11 +10,10 @@ export const priceIn=(s,lang)=>{const p=pick(s,DEFAULT_REGION(lang)); return p.n
 export const rankShoes=(list,lang='en')=>[...list].sort((a,b)=>b.inStock-a.inStock||(b.year||0)-(a.year||0)||(priceIn(a,lang)??1e9)-(priceIn(b,lang)??1e9)||a.name.localeCompare(b.name));
 export const shoeBrands=[...new Set(shoes.map(s=>s.brand))].sort().map(b=>({name:b,slug:slugify(b),count:shoes.filter(s=>s.brand===b).length})).filter(b=>b.count>=3&&b.name!=='Unknown');
 const racketSlugs=new Set(brandList.map(b=>b.slug));
-// A brand with rackets lives on /brands/:slug/. Shoe-only brands (Asics, Munich…) keep /shoes/brand/:slug/.
+// One page per brand: /brands/:slug/, whether the brand sells rackets, shoes, or both.
 export const shoeOnlyBrands=shoeBrands.filter(b=>!racketSlugs.has(b.slug));
 export function shoeBrandTarget(slug){
-  if(racketSlugs.has(slug)) return {type:'brand',id:slug,hash:'shoes'};
-  if(shoeBrands.some(b=>b.slug===slug)) return {type:'shoeBrand',id:slug,hash:''};
+  if(racketSlugs.has(slug)||shoeBrands.some(b=>b.slug===slug)) return {type:'brand',id:slug,hash:''};
   return null;
 }
 export const LIST_MIN=3;

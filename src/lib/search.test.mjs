@@ -6,7 +6,7 @@ const idx = {
   r: [['bullpadel-vertex-04', 'Bullpadel', 'Vertex 04', 2026, 1, ''], ['nox-at10', 'Nox', 'AT10', 2025, 0, '']],
   s: [['joma-spin-26', 'Joma', 'Joma Spin 26', 1]],
   b: [['head-padel-pro', 'Head', 'Head Padel Pro', 1]],
-  m: [['bullpadel', 'Bullpadel', 0], ['asics', 'Asics', 1]],
+  m: [['bullpadel', 'Bullpadel', 0], ['asics', 'Asics', 0]],
   p: [['ale-galan', 'Ale Galán']],
 };
 
@@ -25,7 +25,7 @@ assert.equal(brand[0].h, '/brands/bullpadel/');
 assert.ok(brand.some(h => h.h === '/rackets/bullpadel-vertex-04/'));
 
 const shoeBrand = querySearch({ idx, pages: [], guides: [], q: 'asics', U });
-assert.equal(shoeBrand[0].h, '/shoes/brand/asics/');
+assert.equal(shoeBrand[0].h, '/brands/asics/');
 
 const player = querySearch({ idx, pages: [], guides: [], q: 'galán', U });
 assert.equal(player[0].h, '/players/ale-galan/');
