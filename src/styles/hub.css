@@ -82,6 +82,8 @@
 .hub-tray ul,.hub-tray>.btn{position:relative;z-index:1}
 .hub-tray ul{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex:1;min-width:0;overflow:auto;scrollbar-width:none}
 .hub-tray li{display:flex;align-items:center;background:rgb(255 255 255/.12);border-radius:99px;padding:0 0 0 12px;font-size:.8125rem;white-space:nowrap}
+.hub-tray li.hub-slot{justify-content:center;flex:0 0 44px;width:44px;min-height:44px;padding:0;background:transparent;border:1.5px dashed rgb(255 255 255/.4);color:rgb(255 255 255/.72);font-size:1.25rem;font-weight:500}
+.hub-tray li.hub-slot-ask{flex:0 1 auto;width:auto;padding:0 14px;border-color:var(--lime);color:#fff;font-size:.8125rem;font-weight:650}
 .hub-tray li button{min-width:44px;min-height:44px;border:0;background:none;color:#fff;cursor:pointer}
 .hub-tray .btn{min-height:44px;flex:none;white-space:nowrap}
 .hub-tray-x{--lump:var(--navy);position:absolute;top:-24px;right:0;z-index:-1;width:48px;height:40px;padding:0 0 16px;border:0;border-radius:24px 24px 0 0;background:var(--lump);color:#fff;display:grid;place-items:center;cursor:pointer}
