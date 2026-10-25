@@ -124,13 +124,11 @@ const L = (type, id) => url(type, lang, id);
 {[racketB, racket].map((r, i) => <li class="rk">
 <a class="rk-a" href={L('racket', r.slug)}>
 <span class="rk-i">{r.image ? <img src={r.image} alt="" width="72" height="72"/> : <RacketIcon shape={r.shape || 'hybrid'} size={40}/>}</span>
-<span class="rk-t">
 <span class="rk-b"><span><span class="rk-rank">{i + 1}</span><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span></span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
 <span class="rk-m">{shortM(r)}</span>
 <span class="rk-c">{specR(r)}</span>
-<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
-</span>
 <span class="rk-bars minibars">{bars.map(k => <span class="mb"><span>{t.rt[k]}</span><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span><b>{r.ratings[k]}</b></span>)}</span>
+<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
 </a>
 <label class="rk-x"><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}</span></span></label>
 </li>)}
@@ -143,13 +141,11 @@ const L = (type, id) => url(type, lang, id);
 {[racketB, racket].map((r, i) => <li class="rk">
 <a class="rk-a" href={L('racket', r.slug)}>
 <span class="rk-i">{r.image ? <img src={r.image} alt="" width="96" height="96"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}</span>
-<span class="rk-t">
 <span class="rk-b"><span><span class="rk-rank">{i + 1}</span><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span></span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
 <span class="rk-m">{shortM(r)}</span>
 <span class="rk-c">{specR(r)}</span>
-<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
-</span>
 <span class="rk-bars minibars">{bars.map(k => <span class="mb"><span>{t.rt[k]}</span><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span><b>{r.ratings[k]}</b></span>)}</span>
+<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
 </a>
 <label class="rk-x"><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}</span></span></label>
 </li>)}
@@ -211,9 +207,6 @@ const L = (type, id) => url(type, lang, id);
 .keep .keep-cmp.cmp-cards .chead::before{content:none}
 .keep-brands{grid-template-columns:repeat(3,minmax(0,240px));max-width:760px;margin-top:12px}
 .keep-promo{max-width:40rem;margin-top:12px}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-row:1 / 4;align-self:center}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-row:1 / 4}
-.keep-best .rk-bars{grid-column:1 / -1;grid-row:4;align-self:end;margin:0;padding-top:10px;gap:5px}
 .keep-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
 .keep-best .rk-b>span:first-child{display:flex;align-items:center;gap:6px}
 .keep-best .rk-rank{flex:none;display:grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:4px;background:var(--navy);color:var(--lime);font-weight:800;font-size:.625rem;letter-spacing:0;line-height:1}
@@ -243,23 +236,30 @@ const L = (type, id) => url(type, lang, id);
 .keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:contents}
 .keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:3;justify-self:end;white-space:nowrap;font-size:.875rem}
 .keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;grid-column:3;grid-row:2;top:auto;right:auto;width:28px;height:28px;align-self:center;justify-self:end}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){grid-template-rows:auto auto auto auto}
+/* Same rows on both best-list cards. Wide: the photo sits beside brand, name, and shape. Compare is on the shape row, right. Bars, then price on the right. */
+.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){display:grid;grid-template-columns:72px minmax(0,1fr) auto;grid-template-rows:auto auto auto auto auto;grid-template-areas:"photo brand brand" "photo name name" "photo spec compare" "bars bars bars" "price price price";column-gap:8px;row-gap:0;align-items:center;padding:8px}
+.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:8px;row-gap:0}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-i{grid-area:photo;width:72px;height:72px;aspect-ratio:auto;margin:0;align-self:center}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-b{grid-area:brand;align-self:start}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-m{grid-area:name;align-self:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-c{grid-area:spec;align-self:center;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-bars{grid-area:bars;align-self:end;width:auto;margin:0;padding-top:10px;gap:5px}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-p{grid-area:price;display:flex;justify-content:flex-end;justify-self:end;align-self:end;margin:0;padding:0;width:auto}
+.keep-best.keep-rows.cat .hub-grid .rk .rk-pv{white-space:nowrap;text-align:right}
+.keep-best.keep-rows.cat .hub-grid .rk>.rk-x{grid-area:compare;position:relative;top:auto;right:auto;transform:none;width:28px;height:28px;margin:0;justify-self:end;align-self:center;z-index:2}
+.keep-best.keep-rows.cat .hub-grid .rk-pv::after{content:none}
 .keep-best{container-type:inline-size}
 .keep-phone{max-width:22.5rem}
+/* C2. Same pieces, stacked: photo, brand, name, shape and weight with compare on the right, bars, then price on the right. */
 @container (max-width: 520px){
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto auto auto auto;column-gap:10px;row-gap:0;align-items:center;align-content:start;padding:10px}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:10px;row-gap:0}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px;align-self:stretch}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{width:100%;height:100%;max-height:none;object-fit:contain}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{display:grid;grid-column:1 / -1;grid-row:2 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:4px;align-items:start;height:auto;width:auto}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1;align-self:start}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:1 / -1;grid-row:2;align-self:start;font-size:.9375rem;white-space:normal}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:1;grid-row:3;align-self:center;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:contents}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:5;justify-self:end;align-self:end;margin:0;white-space:nowrap;text-align:right}
- .keep-best .rk-bars{grid-column:1 / -1;grid-row:5;width:auto;align-self:stretch;padding:10px 0 8px}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:2;grid-row:4;width:28px;height:28px;justify-self:end;align-self:center}
- .keep-best.keep-rows.cat .hub-grid .rk-pv::after{content:none}
+ .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto auto auto auto;grid-template-areas:"photo photo" "brand brand" "name name" "spec compare" "bars bars" "price price";column-gap:10px;row-gap:4px;align-items:center;align-content:start;padding:10px}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-i{width:100%;height:auto;aspect-ratio:1;margin:0 0 6px;align-self:stretch}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-i img{width:100%;height:100%;max-height:none;object-fit:contain}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-b{align-self:start}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-m{align-self:start;font-size:.9375rem;white-space:normal}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-c{align-self:center}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-bars{align-self:stretch;padding:10px 0 8px}
+ .keep-best.keep-rows.cat .hub-grid .rk .rk-p{justify-self:end;align-self:end}
 }
 @media(max-width:568px){
  .keep-phone-block{display:none}
