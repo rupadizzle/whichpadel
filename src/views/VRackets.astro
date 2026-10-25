@@ -1,16 +1,16 @@
 ---
 // /rackets/ hub: the full racket database as a focused comparison tool. Static pages 1..N (crawlable), client-side filters/sort with state in the URL.
 // Filtered URLs (?brand=…) are never separate pages: they keep the canonical of /rackets/; the indexable presets are the existing brand, year and shape pages.
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RacketIcon from '../components/RacketIcon.astro';
-import { allRackets as rackets, brandList } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
-import { pick, fmt, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
+import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RacketIcon from '../components/RacketIcon.astro'; import CompareBoard from '../components/CompareBoard.astro';
+import { allRackets as rackets, brandList, slugify } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js'; import { SHAPE_KEYS } from '../i18n/routes.js';
+import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { PER, hubOrder, hubPages, wtN } from '../lib/hub.js';
 const { p=1, lang } = Astro.props; const d=D(lang), u=d.ui, H=HUB[lang], t=d.terms; const N=rackets.length; const P=hubPages();
 const order=hubOrder(); const rs=order.slice((p-1)*PER,p*PER);
 const topB=[...brandList].sort((a,b)=>b.count-a.count).slice(0,10);
-const brandPick=[...brandList].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
+const brandPick=[...new Set(rackets.map(r=>r.brand))].map(name=>({name,slug:slugify(name),count:rackets.filter(r=>r.brand===name).length})).sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 const years=[...new Set(rackets.map(r=>r.year).filter(Boolean))].sort((a,b)=>b-a);
-const reg=DEFAULT_REGION(lang);
-const AUD=['unisex','men','women','junior']; const audN=Object.fromEntries(AUD.map(k=>[k,rackets.filter(r=>r.audience===k).length]));
+const reg=DEFAULT_REGION(lang); const cur0=REGIONS[reg][2];
+const AUD=['men','women','junior','unisex'];
 const audL=k=>H.auds[['men','women','junior','unisex'].indexOf(k)];
 const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
 const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -19,11 +19,11 @@ const spec=r=>[r.audience!=='unisex'&&audL(r.audience),r.shape&&t.shapeCap[r.sha
 const pu=i=>url('rackets',lang,i); const U=SITE+pu(p);
 const title=p>1?`${H.h1(N)} · ${H.pageL} ${p} | WhichPadel`:H.title(N);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage','name':H.h1(N),'url':U,'description':H.desc(N)},{'@type':'ItemList','name':H.h1(N),'numberOfItems':N,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':(p-1)*PER+i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':H.crumb,'item':SITE+pu(1)}]}]};
-const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),save:u.save,saved:u.saved,brands:Object.fromEntries(brandList.map(b=>[b.slug,b.name])),PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
+const HT={...H,title:null,h1:null,desc:null,all:null,shapeCap:t.shapeCap,rk:url('racket',lang,'X').replace(/X\/$/,''),cmp:url('compare',lang),save:u.save,saved:u.saved,brands:Object.fromEntries(brandPick.map(b=>[b.slug,b.name])),sym:SYM,cur:cur0,PER,P,p,base:pu(1),pfx:pu(2).replace(/2\/$/,''),lang,order:order.map(r=>r.slug)};
 const hasNext=p<P; const PAGES=Array.from({length:P},(_,i)=>i+1);
 const chip=(vals,labels)=>vals.map((v,i)=>[v,labels[i]]);
 const groupsA=[['shape',H.shape,chip(['round','teardrop','diamond','hybrid'],H.shapes)],['bal',H.balance,chip(['low','medium','high'],H.lmh)],['wt',H.weight,chip(['l','m','h'],H.wts)],['hard',H.hard,chip(['soft','medium','hard'],H.smh)],['level',H.level,chip(['b','i','a'],H.lvls)]];
-const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.level]; const adv=[G.bal,G.wt,G.hard];
+const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.wt,G.hard];
 ---
 <Base lang={d.locale} title={title} description={p>1?`${H.desc(N)} ${H.pageL} ${p}/${P}.`:H.desc(N)} jsonld={jsonld}>
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{H.crumb}</span></nav>
@@ -43,14 +43,15 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
  <div class="hub-fh"><h2>{H.filters}</h2><button type="button" class="x" id="h-x" aria-label={H.close}>✕</button></div>
  <div class="hub-fb">
   <label class="hub-bq hub-mq"><span class="sr">{H.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={H.searchPh} autocomplete="off"/></label>
-  <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips">{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)} <small>{audN[k]}</small></span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{H.brand}</legend><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.slug}/><span>{b.name}</span></label>)}</div>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={H.moreB} data-less={H.lessB}>{H.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
   {main.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div></fieldset>)}
-  <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div></fieldset>
+  <fieldset class="hub-g"><legend>{H.year}</legend><div class="hub-chips">{years.map(y=><label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div><p class="hub-note">{H.noYear}</p></fieldset>
+  <fieldset class="hub-g"><legend>{H.price}</legend><div class="hub-pr"><span class="hub-sym" id="h-sym" aria-hidden="true">{SYM[cur0]}</span><label><span class="sr">{H.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={H.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{H.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={H.max}/></label></div><p class="hub-note">{H.noPrice}</p></fieldset>
   <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{H.stock}</b><small>{H.stockS}</small></span></label>
-  <details class="hub-adv" id="h-adv"><summary>{H.moreF}</summary><div class="hub-advb">
-   <fieldset class="hub-g hub-brands"><legend>{H.brand}</legend><label class="hub-bq"><span class="sr">{H.brandPh}</span><input id="h-bq" type="search" placeholder={H.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.slug}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{H.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={H.moreB}>{H.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
-   <fieldset class="hub-g"><legend>{H.year}</legend><div class="hub-chips">{years.map(y=><label><input type="checkbox" name="h-year" value={y}/><span>{y}</span></label>)}</div></fieldset>
-   {adv.map(g=><fieldset class="hub-g"><legend>{g[1]}</legend><div class="hub-chips">{g[2].map(o=><label><input type="checkbox" name={'h-'+g[0]} value={o[0]}/><span>{o[1]}</span></label>)}</div></fieldset>)}
+  <details class="hub-adv" id="h-adv"><summary>{H.moreF}<span id="h-advn" class="hub-n"></span></summary><div class="hub-advb">
+   <fieldset class="hub-g"><legend>{H.aud}</legend><div class="hub-chips">{AUD.map(k=><label><input type="checkbox" name="h-aud" value={k}/><span>{audL(k)}</span></label>)}</div></fieldset>
+   <fieldset class="hub-g"><legend>{G.level[1]}</legend><div class="hub-chips">{G.level[2].map(o=><label><input type="checkbox" name="h-level" value={o[0]}/><span>{o[1]}</span></label>)}</div><p class="hub-note">{H.noLevel}</p></fieldset>
+   <fieldset class="hub-g"><legend>{G.bal[1]}</legend><div class="hub-chips">{G.bal[2].map(o=><label><input type="checkbox" name="h-bal" value={o[0]}/><span>{o[1]}</span></label>)}</div><p class="hub-note">{H.noBal}</p></fieldset>
   </div></details>
  </div>
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{H.clr}</button><button type="button" class="btn btn-accent" id="h-apply">{H.apply.replace('§',String(N))}</button></div>
@@ -70,9 +71,13 @@ const G=Object.fromEntries(groupsA.map(g=>[g[0],g])); const main=[G.shape,G.leve
  </section>
 </section>
 </div>
-<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{H.cmpGo} <span id="h-seln"></span></button></div>
+<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{H.compare} <span id="h-seln"></span></button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={H.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
 {['round','teardrop','diamond','hybrid'].map(sh=><template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
 </div>
+<dialog class="cmp-take" id="cmp-take" aria-labelledby="cmp-take-h">
+ <div class="cmp-take-bar"><h2 id="cmp-take-h">{u.compare}</h2><button type="button" class="cmp-take-x" id="cmp-take-x" aria-label={u.close}><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+ <div class="cmp-take-body"><CompareBoard lang={lang} embed/></div>
+</dialog>
 
 <script type="application/json" id="h-data" set:html={JSON.stringify(HT).replace(/</g,'\\u003c')}></script>
 <script is:inline>
@@ -81,13 +86,13 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
 const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
 const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
-function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let hide=0; labs.forEach((lab,i)=>{const on=lab.querySelector('input').checked, keep=on||open||i<8; lab.hidden=!keep; if(!keep) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!open&&!hide; if(!more.hidden) more.textContent=open?more.dataset.less:more.dataset.t.replace('§',hide);}}
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','aud','brand','year','shape','bal','wt','hard','level','min','max','stock','sort'];
 let qv='';
 const setQ=v=>{qv=v; if($('h-q').value!==v)$('h-q').value=v; if($('h-q2').value!==v)$('h-q2').value=v;};
 const get=()=>({q:qv.trim(),aud:rv('aud'),brand:rv('brand'),year:rv('year'),shape:rv('shape'),bal:rv('bal'),wt:rv('wt'),hard:rv('hard'),level:rv('level'),min:$('h-min').value,max:$('h-max').value,stock:$('h-stock').checked?'1':'',sort:$('h-sort').value==='pop'?'':$('h-sort').value});
-const put=s=>{setQ((s.q||'').trim());setR('brand',parts(s.brand).filter(v=>T.brands[v]).join(','));setR('year',s.year||'');['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['brand','year','bal','wt','hard'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop'; paintBrands();};
+const put=s=>{setQ((s.q||'').trim());setR('brand',parts(s.brand).filter(v=>T.brands[v]).join(','));setR('year',s.year||'');['aud','shape','bal','wt','hard','level'].forEach(k=>setR(k,s[k]||''));$('h-sort2').value=s.sort||'pop';if(['aud','level','bal'].some(k=>s[k]))$('h-adv').open=true;$('h-min').value=s.min||'';$('h-max').value=s.max||'';$('h-stock').checked=s.stock==='1';$('h-sort').value=s.sort||'pop'; paintBrands();};
 const active=s=>KEYS.some(k=>s[k]);
 const nf=s=>['aud','brand','year','shape','bal','wt','hard','level'].reduce((n,k)=>n+parts(s[k]).length,0)+(s.q?1:0)+(s.stock?1:0)+((s.min||s.max)?1:0);
 const hit=(sel,v)=>!sel.length||sel.includes(String(v??''));
@@ -111,7 +116,9 @@ function sortv(v,k){const P=r=>{const x=priceV(r); return x==null?Infinity:x;};
  const map={best:(a,b)=>(P(a)===Infinity)-(P(b)===Infinity)||saving(b)-saving(a)||P(a)-P(b),price:(a,b)=>P(a)-P(b),hi:(a,b)=>(P(b)===Infinity)-(P(a)===Infinity)||P(b)-P(a),new:(a,b)=>(b.y||0)-(a.y||0)||P(a)-P(b),old:(a,b)=>(a.y||9999)-(b.y||9999)||P(a)-P(b),pop:(a,b)=>pop(b)-pop(a)}; const f=map[k]||map.pop;
  return [...v].sort(f);}
 const syncURL=s=>{const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.set(k,s[k]);}); const q=qs.toString(); history.replaceState(null,'',(q?T.base:location.pathname)+(q?'?'+q:'')+location.hash);};
-const setCount=n=>{chips();$('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n);};
+const money=n=>{const c=(window.WP&&WP.currency)||T.cur; const v=Math.round(+n); if(c==='SEK') return v+' kr'; return T.lang!=='en'?v+' '+(T.sym[c]||''):(T.sym[c]||'')+v;};
+const paintCur=()=>{const c=(window.WP&&WP.currency)||T.cur; const el=$('h-sym'); if(el) el.textContent=T.sym[c]||'';};
+const setCount=n=>{chips(); const mn=['aud','level','bal'].reduce((k,x)=>k+parts(get()[x]).length,0); const b=$('h-advn'); if(b) b.textContent=mn?String(mn):''; $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n);};
 function render(reset){ if(reset) shown=T.PER; grid.innerHTML=view.slice(0,shown).map(card).join(''); $('h-empty').hidden=view.length>0; const m=$('h-more'); if(m) m.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint(); }
 async function apply(push=true){ await load(); const s=get(); const act=active(s); hub.classList.toggle('js-f',act); $('h-fn').textContent=nf(s)?String(nf(s)):'';
  view=sortv(filt(s),s.sort); setCount(view.length); if(push) syncURL(s);
@@ -122,8 +129,8 @@ let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then
 // active filter chips
 const LBL=k=>({aud:T.aud,shape:T.shape,bal:T.balance,wt:T.weight,hard:T.hard,level:T.level,brand:T.brand,year:T.year})[k];
 function chips(){const s=get(); const out=[]; const lab=(n,v)=>{const i=[...document.querySelectorAll(`input[name="h-${n}"]`)].find(el=>el.value===v); const t=i&&i.nextElementSibling; return t?(t.childNodes[0].textContent||'').trim():v;};
- ['aud','shape','level','bal','wt','hard','year'].forEach(k=>parts(s[k]).forEach(v=>out.push([k,v,lab(k,v)]))); parts(s.brand).forEach(v=>out.push(['brand',v,T.brands[v]||v]));
- if(s.min||s.max) out.push(['price','',T.price+': '+(s.min||'0')+'–'+(s.max||'∞')]); if(s.stock) out.push(['stock','',T.stock]); if(s.q) out.push(['q','','“'+s.q+'”']);
+ parts(s.brand).forEach(v=>out.push(['brand',v,T.brands[v]||v])); ['shape','wt','hard','year','aud','level','bal'].forEach(k=>parts(s[k]).forEach(v=>out.push([k,v,lab(k,v)])));
+ if(s.min||s.max){const a=s.min?money(s.min):'', b=s.max?money(s.max):''; out.push(['price','',!s.max?T.fromP.replace('{p}',a):!s.min?T.toP.replace('{p}',b):T.fromP.replace('{p}',a)+' – '+b]);} if(s.stock) out.push(['stock','',T.stock]); if(s.q) out.push(['q','','“'+s.q+'”']);
  const ac=$('h-ac'); ac.hidden=!out.length; ac.innerHTML=out.map(([k,v,label])=>`<button type="button" class="hub-chip" data-k="${esc(k)}" data-v="${esc(v)}">${esc(label)}<span aria-hidden="true">✕</span></button>`).join('')+(out.length>1?`<button type="button" class="hub-chip hub-chip-x" data-k="*">${esc(T.clr)}</button>`:'');}
 $('h-ac').addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(!b) return; const k=b.dataset.k; if(k==='*') return clear(); const s=get(); if(k==='price'){s.min='';s.max='';} else if(b.dataset.v) s[k]=parts(s[k]).filter(v=>v!==b.dataset.v).join(','); else s[k]=''; put(s); hub.dataset.dirty=1; apply();});
 // sheet (mobile)
@@ -134,8 +141,8 @@ let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).v
 ['h-sort','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
 $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
 document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
-$('h-bq').addEventListener('input',paintBrands); const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{document.querySelector('.hub-brands .hub-chips').dataset.open='1'; paintBrands();});
-const clear=()=>{$('h-bq').value=''; const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); hub.dataset.dirty=1; apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
+const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); hub.dataset.dirty=1; apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 // load more: crawlable link to the next static page, enhanced to append in place
 const more=$('h-more'); if(more) more.addEventListener('click',async e=>{e.preventDefault(); if(!all) await apply(false);
  grid.insertAdjacentHTML('beforeend',view.slice(shown,shown+T.PER).map(card).join('')); shown+=T.PER; more.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint();
@@ -146,13 +153,23 @@ function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle(
  grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector(".rk-cb"); if(c) c.checked=on;}); try{sessionStorage.wp_hub_cmp=sel.join(',')}catch(e){} }
 grid.addEventListener('change',e=>{const c=e.target.closest(".rk-cb"); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); load().then(tray); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
-$('h-go').onclick=()=>{ if(sel.length>=2) location.href=T.cmp+'?r='+sel.join(','); };
+$('h-tray-x').onclick=()=>{sel.splice(0,sel.length); tray();};
+function openTake(fromHist){const dlg=$('cmp-take'); if(!dlg.open) dlg.showModal(); const sc=dlg.querySelector('.cmp-take-body'); if(sc) sc.scrollTop=0; window.wpCompare&&window.wpCompare.set(sel.slice()); if(!fromHist&&!(history.state&&history.state.wpCmp)) history.pushState({wpCmp:1},'');}
+let skipPop=false;
+$('cmp-take').addEventListener('close',()=>{const next=window.wpCompare?window.wpCompare.get():sel.slice(); if(next.join()!==sel.join()){sel.splice(0,sel.length,...next); tray();} if(skipPop){skipPop=false; return;} if(history.state&&history.state.wpCmp) history.back();});
+function shutTake(){const back=!!(history.state&&history.state.wpCmp); if($('cmp-take').open){skipPop=true; $('cmp-take').close();} if(back) history.back();}
+$('cmp-take-x').onclick=shutTake;
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!$('cmp-take').open||$('sheet').open) return; e.preventDefault(); shutTake();});
+addEventListener('popstate',()=>{const dlg=$('cmp-take'); if(history.state&&history.state.wpCmp){ if(!dlg.open&&sel.length>=2) openTake(true); } else if(dlg.open){ skipPop=true; dlg.close(); }});
+document.addEventListener('wp:cmp',e=>{const next=e.detail||[]; if(next.join()===sel.join()) return; sel.splice(0,sel.length,...next); tray();});
+$('h-go').onclick=()=>{ if(sel.length>=2) openTake(); };
 try{(sessionStorage.wp_hub_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>sel.push(s));}catch(e){}
 // init from URL
-const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); put(s0);
-document.addEventListener('wp:region',()=>{ if(all){ view=sortv(filt(get()),get().sort); setCount(view.length); if(hub.dataset.dirty) render(false); else refreshPrices(); } });
+const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); put(s0); paintCur();
+document.addEventListener('wp:region',()=>{ paintCur(); if(all){ view=sortv(filt(get()),get().sort); setCount(view.length); if(hub.dataset.dirty) render(false); else refreshPrices(); } });
 if(sel.length) load().then(tray);
 if(active(s0)) apply(false); else load().then(()=>apply(false));
+if(history.state&&history.state.wpCmp&&sel.length>=2) openTake(true);
 })();
 </script>
 </Base>

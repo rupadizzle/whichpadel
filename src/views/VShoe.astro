@@ -2,12 +2,12 @@
 // Shoe detail page: racket page v2 template (title + chips above the gallery, price card alone in the right column, mobile "Show prices" sheet).
 import NewsL from '../components/NewsL.astro'; import Base from '../layouts/Base.astro'; import Price from '../components/Price.astro';
 import { SHOPS, FX } from '../lib/price.js'; import { RP } from '../lib/rp2.js';
-import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrands, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js'; import { slugify } from '../lib/data.js';
+import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrandTarget, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js'; import { slugify } from '../lib/data.js';
 import { SHOE } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
 import SaveHeart from '../components/SaveHeart.astro';
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,v])=>[k,[v.name&&v.name!==k?v.name:k.replace(/\.(com|net|co\.uk|de|es)$/,''),typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?v.affiliate:'']]));
 const { s, lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], R2=RP(lang);
-const G=shoeGallery(s); const alt=T.alt(s.name); const bs=slugify(s.brand); const hasB=shoeBrands.some(b=>b.slug===bs);
+const G=shoeGallery(s); const alt=T.alt(s.name); const bs=slugify(s.brand); const bt=shoeBrandTarget(bs); const bHref=bt?url(bt.type,lang,bt.id)+(bt.hash?'#'+bt.hash:''):null;
 const soleT=s.sole.map(k=>T.soles[k]);
 // US sizes (English pages, shown when the country is US): men's US = UK + 1, women's US = UK + 2; junior sizes are not converted
 const usSz=lang==='en'&&s.sizesUK.length&&s.gender!=='k'?s.sizesUK.map(x=>String(x+(s.gender==='w'?2:1))).join(' · '):null; const sz=a=>a.map(x=>String(x).replace('.',lang==='en'?'.':',')).join(' · ');
@@ -26,10 +26,10 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 ---
 <Base lang={d.locale} title={`${s.name} | ${T.crumb} | WhichPadel`} description={intro} jsonld={jsonld} ogImage={G[0]?SITE+G[0].l:undefined}>
 <Fragment slot="head">{G[0]&&<link rel="preload" as="image" href={G[0].l} imagesrcset={`${G[0].s} 400w, ${G[0].l} 800w`} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/>}</Fragment>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › {hasB?<><a href={url('shoeBrand',lang,bs)}>{s.brand}</a> › </>:null}<span>{s.model}</span></nav>
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('shoes',lang)}>{T.crumb}</a> › {bHref?<><a href={bHref}>{s.brand}</a> › </>:null}<span>{s.model}</span></nav>
 <div class="detail rp2 shoe">
 <header class="rph">
-<p class="brand"><span>{hasB?<a href={url('shoeBrand',lang,bs)}>{s.brand}</a>:s.brand}{s.year&&<> · {s.year}</>}</span><SaveHeart slug={s.slug} kind="s" off={u.save} on={u.saved}/></p><h1>{s.name}</h1>
+<p class="brand"><span>{bHref?<a href={bHref}>{s.brand}</a>:s.brand}{s.year&&<> · {s.year}</>}</span><SaveHeart slug={s.slug} kind="s" off={u.save} on={u.saved}/></p><h1>{s.name}</h1>
 {kchips.length>0&&<ul class="kchips">{kchips.map(c=><li>{c}</li>)}</ul>}
 </header>
 <section class="rpg" aria-label={alt} data-n={G.length}>
@@ -51,16 +51,17 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'Product','name
 <details class="panel rpspec" id="rpspec" open><summary><h2>{T.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{rows.map(([k,v])=><tr><th>{k}</th><td>{v}</td></tr>)}{usSz&&<tr data-usrow hidden><th>Sizes in stock (US)</th><td>{usSz}</td></tr>}</tbody></table></div>
 {miss.length>0&&<p class="muted small" style="margin-top:12px">{T.missing(miss.join(', '))}</p>}</details>
 {similar.length>0&&<section class="panel"><h2>{T.similar}</h2><div class="rpsim">{similar.map(x=><a href={url('shoe',lang,x.slug)}><span class="rpsi">{shoeImg(x)&&<img src={shoeImg(x)} alt="" width="72" height="72" loading="lazy" decoding="async"/>}</span><span><b>{x.name}</b><small>{x.sole.map(k=>T.soles[k]).join(', ')}{x.sole.length>0&&' · '}<Price r={x} lang={lang}/></small></span></a>)}</div></section>}
-{sameBrand.length>0&&<section class="panel vs"><h2>{T.moreFrom(s.brand)}</h2>{sameBrand.map(x=><a href={url('shoe',lang,x.slug)}><span>{x.name}</span><span>→</span></a>)}{hasB&&<p style="margin:12px 0 0"><a href={url('shoeBrand',lang,bs)}>{T.allFrom(s.brand)}</a></p>}</section>}
+{sameBrand.length>0&&<section class="panel vs"><h2>{T.moreFrom(s.brand)}</h2>{sameBrand.map(x=><a href={url('shoe',lang,x.slug)}><span>{x.name}</span><span>→</span></a>)}{bHref&&<p style="margin:12px 0 0"><a href={bHref}>{T.allFrom(s.brand)}</a></p>}</section>}
 </div>
 </div>
 <section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <NewsL lang={lang} src="shoe"/>
 <div class="stickycta" id="stickycta" aria-hidden="true"><button type="button" class="sp" id="stickyopen" tabindex="-1" aria-haspopup="dialog" aria-label={u.px.cmp.openS}><b><Price r={s} lang={lang}/><svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>{BN}</span></button><button type="button" class="btn" id="stickybuy" tabindex="-1" aria-haspopup="dialog">{u.px.cmp.showP}</button></div>
-<script is:inline define:vars={{PS:s.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:s.name}}>
+<script is:inline define:vars={{PS:s.slug,PX:u.px,SN,RATES:FX.rates,LG:lang,RM:s.name,AD:u.ad,ADN:u.adNote,DISC:u.disclosure,DISCU:url('affiliate',lang),SZ:T.sizeNote}}>
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
 const okHost=location.hostname==='whichpadel.com'||location.hostname==='localhost'||location.hostname==='127.0.0.1'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
-if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e) return;
+const pxOn=on=>{document.body.classList.toggle('px-live',!!on); document.dispatchEvent(new CustomEvent('px-live'));};
+if(okHost){ window.__pxLive=1; fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e){pxOn(0); return;}
  const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
  const oj=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}))); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=oj);
  const L=document.getElementById('pxlive'); const C=PX.cmp, esc=s=>String(s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
@@ -75,7 +76,7 @@ if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.time
   const vis=os.filter(o=>!window.WP||!WP.shop||WP.shop(o.d,o.c)!=='n'); const low=Math.min(...vis.map(o=>cv(o.min30||o.p,o.c)));
   L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
-  if(!rows.length){if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false;return;}
+  if(!rows.length){pxOn(0); if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false;return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
@@ -85,11 +86,12 @@ if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.time
   const b=all[0], bi=b.s!==0; const ul=(L,o0)=>`<ul class="pxl">${L.map((o,i)=>row(o,o0&&i===0&&bi)).join('')}</ul>`;
   let h=`<p class="pxsub pxcnt">${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`+ul(top,true);
   if(all.length>4) h+=`<button type="button" class="pxall" id="pxall" aria-haspopup="dialog">${C.allN.replace('{n}',all.length)}</button>`;
-  P.innerHTML=h; P.hidden=false; M.hidden=true; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
+  P.innerHTML=h; P.hidden=false; M.hidden=true; pxOn(1); const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
   const S=document.getElementById('stickybuy'); if(S){const SP=document.querySelector('#stickycta .sp'); const FR={en:'from',es:'desde',fr:'dès',de:'ab',it:'da',pt:'desde'}[LG]||'from'; if(SP) SP.innerHTML=`<b><small>${FR}</small> ${fb(b)}<svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>${sn(b)}</span>`;}
   // bottom sheet
   let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
-  D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc">${ul(top,true)}${all.length>4?`<div class="pxsmore" hidden>${ul(all.slice(4),false)}</div><button type="button" class="pxall pxsall">${C.showAll.replace('{n}',all.length)}</button>`:''}</div></div>`;
+  const foot=`<div class="pxshist" id="pxshist" hidden></div><p class="disc">${esc(AD)}: ${esc(ADN)} <a href="${esc(DISCU)}">${esc(DISC)}</a></p><p class="pxsize">${esc(SZ)}</p>`;
+  D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc">${ul(top,true)}${all.length>4?`<div class="pxsmore" hidden>${ul(all.slice(4),false)}</div><button type="button" class="pxall pxsall">${C.showAll.replace('{n}',all.length)}</button>`:''}${foot}</div></div>`;
   sheetWire(D);
   hist(cv,f);}
  let opener=null;
@@ -109,23 +111,33 @@ if(okHost) fetch('/api/shoe-prices',{signal:AbortSignal.timeout?AbortSignal.time
    if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});
  const SC=document.getElementById('stickycta'); if(SC) SC.addEventListener('click',()=>sheetOpen(false));
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
- function hist(cv,f){const B=document.getElementById('pxhist'); if(!B||!H.length) return; const W=window.WP||{currency:'GBP'};
-  const dd=new Set(H.map(x=>x[0])).size; if(dd<3){const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}
+ function hist(cv,f){const B=document.getElementById('pxhist'),S=document.getElementById('pxshist'); if(!H.length) return;
+  const dd=new Set(H.map(x=>x[0])).size; if(dd<3){if(S){S.hidden=true;S.innerHTML='';} if(!B) return; const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}
   const cut=new Date(Date.now()-HD*864e5).toISOString().slice(0,10); const pts=H.filter(x=>x[0]>=cut).map(x=>[x[0],cv(x[1],e.c)]); if(!pts.length) return;
   const vs=pts.map(p=>p[1]), lo=Math.min(...vs), hi=Math.max(...vs), rg=(hi-lo)||1, n=pts.length;
   const xy=pts.map((p,i)=>[(n===1?150:i/(n-1)*300).toFixed(1),(58-(p[1]-lo)/rg*52).toFixed(1)]);
   const svg=`<svg viewBox="0 0 300 64" preserveAspectRatio="none" role="img" aria-label="${C.hist}"><polyline fill="none" stroke="#13795c" stroke-width="2" vector-effect="non-scaling-stroke" points="${xy.map(p=>p.join(',')).join(' ')}"/>${n<4?xy.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#13795c"/>`).join(''):''}</svg>`;
   const note=H.length<7&&HD===90?C.since.replace('{d}',H[0][0]):C.lowN.replace('{n}',HD).replace('{p}',f(lo));
-  B.innerHTML=`${svg}<p class="muted small">${note}</p>`; B.hidden=false;
-  B.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{HD=+x.dataset.d; hist(cv,f);});}
+  const html=`${svg}<p class="muted small">${note}</p>`;
+  if(B){B.innerHTML=html; B.hidden=false; B.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{HD=+x.dataset.d; hist(cv,f);});}
+  if(S){S.innerHTML=html; S.hidden=false;}}
  render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
- window.wpApply&&window.wpApply();}).catch(()=>{});
+ window.wpApply&&window.wpApply();}).catch(()=>pxOn(0)); }
 </script>
 <script is:inline define:vars={{cur:{s:s.slug,m:s.name,i:shoeImg(s)||''},RK:url('shoe',lang,'X').replace(/X\/$/,''),CMP:url('shoes',lang),CW:'§'}}>
 document.body.classList.add('has-sticky');
-const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox');
-new IntersectionObserver(([e])=>{const show=!e.isIntersecting;sc.classList.toggle('show',show);sc.setAttribute('aria-hidden',!show);}).observe(bb);
+const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox'),mq=matchMedia('(max-width:899px)');
+if(mq.matches&&window.__pxLive) document.body.classList.add('px-live');
+let io;
+function syncBar(){
+ const live=mq.matches&&document.body.classList.contains('px-live');
+ if(live){if(io){io.disconnect();io=null;} sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0); return;}
+ if(!mq.matches){if(io){io.disconnect();io=null;} sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
+ sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
+ if(!io&&bb){io=new IntersectionObserver(([e])=>{if(document.body.classList.contains('px-live')) return; const show=!e.isIntersecting; sc.classList.toggle('show',show); sc.setAttribute('aria-hidden',show?'false':'true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);}); io.observe(bb);}
+}
+syncBar(); mq.addEventListener('change',syncBar); document.addEventListener('px-live',syncBar);
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}

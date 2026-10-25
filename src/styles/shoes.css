@@ -1,5 +1,13 @@
 /* Padel shoes section. 8px scale, 44px taps. */
 main.wrap>.crumbs:has(+.rp2.shoe):not(#_){margin-top:0!important}
+@media(max-width:899px){body.px-live .detail.rp2>#buybox{display:none}}
+#pxsheet .pxshist[hidden]{display:none}
+#pxsheet .pxshist{margin:16px 0 0}#pxsheet .pxshist svg{width:100%;height:64px;display:block;background:#fafbfc;border-radius:8px}#pxsheet .pxshist p{margin:8px 0 0;font-size:13px;line-height:1.4;color:#5b6670}
+#pxsheet .disc{display:block;margin:16px 0 0;font-size:13px;line-height:1.4;color:#5b6670}
+#pxsheet .pxsize{margin:8px 0 0;font-size:13px;line-height:1.4;color:#5b6670}
 .shoe .rpg img,.sk .rk-i img{object-fit:contain;aspect-ratio:1/1;background:#fff}
+.ball .rpg .gslide{padding:0;cursor:default}
+.ball .rpg .gslide img{width:100%;height:100%;max-width:none;aspect-ratio:auto;object-fit:contain}
+@media(min-width:900px){.ball .rpg .gtrack{width:min(100%,440px);height:auto;aspect-ratio:1/1}}
 .sk .rk-a{min-height:44px}
 .hub-fl label,.hub-chips button{min-height:44px}

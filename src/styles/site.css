@@ -148,7 +148,10 @@ select,input{width:100%;max-width:100%;min-width:0}.search input,.cmpbox input{w
 .more{display:flex;flex-direction:column;align-items:center;gap:var(--s2);margin-top:var(--s5)}
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:var(--s4)}
 .bcard{display:flex;align-items:center;gap:var(--s4);background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);box-shadow:var(--sh);text-decoration:none;color:var(--ink);min-height:44px}
-.bcard:hover{border-color:var(--green2)}.bcard>span{display:flex;flex-direction:column}.bcard .rslot img{--w:70px;--h:84px}
+.bcard:hover{border-color:var(--green2)}.bcard>span:not(.bmark){display:flex;flex-direction:column;min-width:0}
+.bcard .bmark{flex:0 0 72px;width:72px;height:28px}
+.bcard .bmark.on{background:var(--ink);-webkit-mask:var(--mark) center/contain no-repeat;mask:var(--mark) center/contain no-repeat;mask-mode:alpha}
+.bmeta{display:flex;flex-direction:column;gap:1px;line-height:1.35}
 .brandlinks{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}.brandlinks a{display:inline-flex;align-items:center;min-height:44px;padding:0 var(--s3);border:1px solid var(--line);border-radius:99px;text-decoration:none}
 .faq h3{margin:var(--s4) 0 var(--s1)}.faq p{margin:0}
 .h3{font-size:1.1rem}

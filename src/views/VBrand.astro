@@ -1,20 +1,116 @@
 ---
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro';
-import { brandList } from '../lib/data.js';
-import { D, url, SITE } from '../i18n/index.js'; import { brandStats, brandFaq } from '../i18n/stats.js';
-const { b, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brand, t=d.terms;
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RacketIcon from '../components/RacketIcon.astro';
+import ShoeCard from '../components/ShoeCard.astro'; import SaveHeart from '../components/SaveHeart.astro'; import '../styles/hub.css';
+import { brandList, slugify } from '../lib/data.js';
+import { shoes, rankShoes } from '../lib/shoes.js';
+import { balls, rankBalls, ballImg } from '../lib/balls.js';
+import { D, url, SITE, money } from '../i18n/index.js'; import { brandStats, brandFaq } from '../i18n/stats.js';
+import { HUB } from '../i18n/hub.js'; import { SHOE } from '../i18n/shoes.js'; import { BALL } from '../i18n/balls.js'; import { PANEL } from '../i18n/brandPanels.js';
+import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
+const { b, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brand, t=d.terms, H=HUB[lang];
 const rs=[...b.rackets].sort((x,y)=>(y.year||0)-(x.year||0)||x.model.localeCompare(y.model)); const x=brandStats(b,lang); const faq=brandFaq(b,lang,d);
-const intro=(C.blurb[b.slug]||C.generic(b.name))+' '+C.intro(b.name,x,t); const U=SITE+url('brand',lang,b.slug);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':C.h1(b.name),'url':U,'numberOfItems':rs.length,'itemListElement':rs.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('racket',lang,r.slug),'name':r.model}))},{'@type':'FAQPage','mainEntity':faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
+const brandShoes=rankShoes(shoes.filter(s=>slugify(s.brand)===b.slug),lang);
+const TB=BALL[lang]; const brandBalls=TB?rankBalls(balls.filter(v=>slugify(v.brand)===b.slug),lang):[];
+const wide=brandShoes.length>0||brandBalls.length>0;
+const ballPr=v=>{if(!TB) return ''; const q=pick(v,DEFAULT_REGION(lang)); if(q.none) return u.checkPrice; return `${fmt(q.v,q.cur,lang)} · ${fmt(Math.round(q.v/v.balls*100)/100,q.cur,lang)} ${TB.perBall}`;};
+const ballSpec=v=>!TB?'':[TB.speeds[v.speed],v.tour&&TB.tours[v.tour],v.eco&&TB.eco].filter(Boolean).join(' · ');
+const reg=DEFAULT_REGION(lang); const P=PANEL[lang], TS=SHOE[lang];
+const moneyVals=list=>list.map(v=>{const q=pick(v,reg); return q.none?null:q.v}).filter(v=>v!=null);
+const moneyRange=vs=>vs.length?{np:vs.length,pmin:money(Math.min(...vs),lang),pmax:money(Math.max(...vs),lang)}:{np:0,pmin:'',pmax:''};
+const g={m:0,w:0,k:0}; const soleC={}; let grip=0; const syears=[];
+brandShoes.forEach(s=>{ if(s.gender in g) g[s.gender]++; (s.sole||[]).forEach(k=>{soleC[k]=(soleC[k]||0)+1}); if((s.sole||[]).some(k=>k==='clay'||k==='herringbone'||k==='omni')) grip++; if(s.year) syears.push(s.year); });
+const soleEntries=Object.entries(soleC).sort((a,c)=>c[1]-a[1]||a[0].localeCompare(c[0]));
+const shoeX={n:brandShoes.length,y0:syears.length?Math.min(...syears):0,y1:syears.length?Math.max(...syears):0,g,grip,soleName:soleEntries[0]?TS.soles[soleEntries[0][0]]:'',soleN:soleEntries[0]?.[1]||0,soleKinds:soleEntries.length,...moneyRange(moneyVals(brandShoes))};
+const shoeYears=[...new Set(syears)].sort((a,c)=>c-a); const shoeGenders=['m','w','k'].filter(k=>g[k]);
+const showShoeGender=shoeGenders.length>1; const showShoeSole=soleEntries.length>1||(soleEntries.length===1&&soleEntries[0][1]<brandShoes.length); const showShoeYear=shoeYears.length>1;
+const fastN=brandBalls.filter(v=>v.speed==='fast').length; const medN=brandBalls.length-fastN; const tourGroups={};
+brandBalls.forEach(v=>{ if(v.tour) (tourGroups[v.tour]||=[]).push(v.name); });
+const tourKeys=Object.keys(tourGroups); const tourBalls=tourKeys.flatMap(k=>tourGroups[k]);
+const pb=brandBalls.map(v=>{const q=pick(v,reg); return q.none||!v.balls?null:q.v/v.balls}).filter(v=>v!=null);
+const ballX={n:brandBalls.length,name:brandBalls.length===1?brandBalls[0].name:'',per:brandBalls.length&&brandBalls.every(v=>v.balls===brandBalls[0].balls)?brandBalls[0].balls:0,fast:fastN,med:medN,tourN:tourBalls.length,tourBalls,tourLabel:tourKeys.length===1?TB.tour[tourKeys[0]]:tourKeys.map(k=>TB.tours[k]).join(', '),...moneyRange(moneyVals(brandBalls)),bmin:pb.length?money(Math.min(...pb),lang):'',bmax:pb.length?money(Math.max(...pb),lang):''};
+const showBallSpeed=fastN>0&&medN>0; const showBallTour=tourKeys.length>1||(tourKeys.length===1&&tourBalls.length<brandBalls.length);
+const shoeFaq=brandShoes.length?P.shoeFaq(b.name,shoeX):[]; const ballFaq=brandBalls.length?P.ballFaq(b.name,ballX):[];
+const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
+const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe(r.brand)+'\\s+','i'),''); if(r.year) s=s.replace(new RegExp('\\s+'+r.year+'\\s*$'),''); return s.trim()||r.model;};
+const AUD={men:0,women:1,junior:2};
+const specR=r=>[AUD[r.audience]!=null&&H.auds[AUD[r.audience]],r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''}\u00a0g`].filter(Boolean).join(' · ');
+const h1=wide?b.name:C.h1(b.name);
+const title=(wide?C.wideTitle(b.name,rs.length,brandShoes.length,brandBalls.length):C.title(b.name,rs.length))+d.copy.titleSuffix;
+const desc=wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length):C.desc(b.name,x);
+const lead=C.blurb[b.slug]||(wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length):C.generic(b.name));
+const U=SITE+url('brand',lang,b.slug);
+const items=[...rs.map(r=>({url:SITE+url('racket',lang,r.slug),name:r.model})),...brandShoes.map(s=>({url:SITE+url('shoe',lang,s.slug),name:s.name})),...brandBalls.map(v=>({url:SITE+url('ball',lang,v.slug),name:v.name}))];
+const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':h1,'url':U,'numberOfItems':items.length,'itemListElement':items.map((it,i)=>({'@type':'ListItem','position':i+1,'url':it.url,'name':it.name}))},{'@type':'FAQPage','mainEntity':[...faq,...shoeFaq,...ballFaq].map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
 const others=brandList.filter(o=>o.slug!==b.slug); const years=[...new Set(b.rackets.map(r=>r.year).filter(Boolean))].sort((a,c)=>c-a);
 ---
-<Base lang={d.locale} title={C.title(b.name,rs.length)+d.copy.titleSuffix} description={C.desc(b.name,x)} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{C.h1(b.name)}</h1><Byline lang={lang} headline={C.h1(b.name)} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
-{years.length>0&&<nav aria-label={C.years} style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px">{years.map(y=><a class="btn btn-sm" href={url('brandYear',lang,`${b.slug}/${y}`)}>{y}</a>)}</nav>}
-{x.shapes.length>1&&<div class="bfilter"><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div><p class="muted small" id="bcount" aria-live="polite" style="margin:8px 0 0">{C.showing(rs.length)}</p></div>}
-<div class="grid" id="bgrid">{rs.map((r,i)=><CardL r={r} lang={lang} eager={i<2}/>)}</div>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('compare',lang)} data-msg={u.tickAlert} onclick="const s=[...document.querySelectorAll('.cmp:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div>
-<script is:inline define:vars={{SH:C.showing(0)}}>document.querySelectorAll('input[name=bs]').forEach(i=>i.onchange=()=>{let n=0;document.querySelectorAll('#bgrid .rcard').forEach(c=>{const ok=!i.value||c.dataset.shape===i.value;c.hidden=!ok;n+=ok});document.getElementById('bcount').textContent=SH.replace('0',n)});</script>
-<section class="panel"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
+<Base lang={d.locale} title={title} description={desc} jsonld={jsonld}>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{lead}</p></div></div></section>
+{wide&&<div class="brand-switch" role="radiogroup" aria-label={C.range}>
+ <label><input type="radio" name="brandcat" value="rackets" checked/><span>{H.nav} <small>{rs.length}</small></span></label>
+ {brandShoes.length>0&&<label><input type="radio" name="brandcat" value="shoes"/><span>{SHOE[lang].nav} <small>{brandShoes.length}</small></span></label>}
+ {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls"/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
+</div>}
+<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
+<p class="brand-note">{C.intro(b.name,x,t)}</p>
+<div class="bfilter">
+{years.length>1&&<div class="bfil"><span class="bfil-l">{H.year}</span><div class="chipset" role="group" aria-label={H.year}><label><input type="radio" name="by" value="" checked/><span>{C.all}</span></label>{years.map(y=><label><input type="radio" name="by" value={y}/><span>{y}</span></label>)}{years.map(y=><a class="brand-yl" data-yp={y} href={url('brandYear',lang,`${b.slug}/${y}`)} hidden>{y} →</a>)}</div></div>}
+{x.shapes.length>1&&<div class="bfil"><span class="bfil-l">{H.shape}</span><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div></div>}
+{(years.length>1||x.shapes.length>1)&&<p class="muted small" id="bcount" aria-live="polite">{C.showing(rs.length)}</p>}
+</div>
+<ul class="hub-grid" id="rgrid">{rs.map((r,i)=><li class="rk" data-y={r.year||''} data-shape={r.shape||''}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{specR(r)}</span><span class="rk-p"><span class="rk-pv">{priceTxt(r)}</span></span></span></a></li>)}</ul>
+<div class="brand-faq"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>
+</section>
+{brandShoes.length>0&&<section class="brand-cat cat" id="shoes" data-panel="shoes" aria-label={TS.nav} hidden>
+<p class="brand-note">{P.shoeIntro(b.name,shoeX)}</p>
+{(showShoeGender||showShoeSole||showShoeYear)&&<div class="bfilter">
+{showShoeYear&&<div class="bfil"><span class="bfil-l">{H.year}</span><div class="chipset" role="group" aria-label={H.year}><label><input type="radio" name="sy" value="" checked/><span>{C.all} ({brandShoes.length})</span></label>{shoeYears.map(y=><label><input type="radio" name="sy" value={y}/><span>{y} ({syears.filter(v=>v===y).length})</span></label>)}</div></div>}
+{showShoeGender&&<div class="bfil"><span class="bfil-l">{TS.gender}</span><div class="chipset" role="group" aria-label={TS.gender}><label><input type="radio" name="sg" value="" checked/><span>{TS.allA} ({brandShoes.length})</span></label>{shoeGenders.map(k=><label><input type="radio" name="sg" value={k}/><span>{TS.genders[k]} ({g[k]})</span></label>)}</div></div>}
+{showShoeSole&&<div class="bfil"><span class="bfil-l">{TS.sole}</span><div class="chipset" role="group" aria-label={TS.sole}><label><input type="radio" name="ss" value="" checked/><span>{TS.allA} ({brandShoes.length})</span></label>{soleEntries.map(([k,n])=><label><input type="radio" name="ss" value={k}/><span>{TS.soles[k]} ({n})</span></label>)}</div></div>}
+<p class="muted small" id="scount" aria-live="polite">{P.shoeShowing(brandShoes.length)}</p>
+</div>}
+<ul class="hub-grid" id="sgrid">{brandShoes.map((s,i)=><ShoeCard s={s} lang={lang} eager={i<4}/>)}</ul>
+{shoeFaq.length>0&&<div class="brand-faq"><h2>{P.shoeFaqH(b.name)}</h2>{shoeFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
+</section>}
+{brandBalls.length>0&&<section class="brand-cat cat balls" id="balls" data-panel="balls" aria-label={TB.nav} hidden>
+<p class="brand-note">{P.ballIntro(b.name,ballX)}</p>
+{(showBallSpeed||showBallTour)&&<div class="bfilter">
+{showBallSpeed&&<div class="bfil"><span class="bfil-l">{TB.speed}</span><div class="chipset" role="group" aria-label={TB.speed}><label><input type="radio" name="bv" value="" checked/><span>{TB.any} ({brandBalls.length})</span></label>{fastN>0&&<label><input type="radio" name="bv" value="fast"/><span>{TB.speeds.fast} ({fastN})</span></label>}{medN>0&&<label><input type="radio" name="bv" value="medium"/><span>{TB.speeds.medium} ({medN})</span></label>}</div></div>}
+{showBallTour&&<div class="bfil"><span class="bfil-l">{TB.tourF}</span><div class="chipset" role="group" aria-label={TB.tourF}><label><input type="radio" name="bt" value="" checked/><span>{TB.any} ({brandBalls.length})</span></label>{tourKeys.map(k=><label><input type="radio" name="bt" value={k}/><span>{TB.tours[k]} ({tourGroups[k].length})</span></label>)}</div></div>}
+<p class="muted small" id="ncount" aria-live="polite">{P.ballShowing(brandBalls.length)}</p>
+</div>}
+<ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=><li class="rk" data-speed={v.speed||''} data-tour={v.tour||''}><a class="rk-a" href={url('ball',lang,v.slug)}><span class="rk-i">{ballImg(v)&&<img src={ballImg(v)} alt={TB.alt(v.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{v.brand}</span><SaveHeart slug={v.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{v.model}</span><span class="rk-c">{ballSpec(v)}</span><span class="rk-p"><span class="rk-pv">{ballPr(v)}</span></span></span></a></li>)}</ul>
+{ballFaq.length>0&&<div class="brand-faq"><h2>{P.ballFaqH(b.name)}</h2>{ballFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
+</section>}
+<noscript><style>.brand-cat[hidden]{display:block !important}</style></noscript>
+<script is:inline define:vars={{SH:C.showing(0),SS:P.shoeShowing(0),BS:P.ballShowing(0)}}>
+function show(v){document.querySelectorAll('[data-panel]').forEach(p=>{p.hidden=p.dataset.panel!==v}); document.querySelectorAll('input[name=brandcat]').forEach(r=>{r.checked=r.value===v})}
+document.querySelectorAll('input[name=brandcat]').forEach(i=>i.addEventListener('change',()=>{show(i.value); const next='#'+i.value; if(location.hash!==next) history.replaceState(null,'',next)}));
+function fromHash(){const h=location.hash.slice(1); const p=document.getElementById(h); if(!(p&&p.dataset.panel===h)) return; show(h); p.scrollIntoView()}
+fromHash(); window.addEventListener('hashchange',fromHash);
+function apply(){const y=(document.querySelector('input[name=by]:checked')||{}).value||'', s=(document.querySelector('input[name=bs]:checked')||{}).value||'', cards=[...document.querySelectorAll('#rgrid .rk')]; let n=0; cards.forEach(li=>{const ok=(!y||li.dataset.y===y)&&(!s||li.dataset.shape===s); li.hidden=!ok; n+=ok}); const el=document.getElementById('bcount'); if(el) el.textContent=SH.replace('0',n); document.querySelectorAll('[data-yp]').forEach(a=>{a.hidden=a.dataset.yp!==y}); document.querySelectorAll('input[name=bs]').forEach(i=>{const span=i.nextElementSibling; if(!span.dataset.base) span.dataset.base=span.textContent.replace(/\s*\(\d+\)\s*$/,''); const c=cards.filter(li=>(!y||li.dataset.y===y)&&(!i.value||li.dataset.shape===i.value)).length; span.textContent=span.dataset.base+' ('+c+')'; i.parentElement.hidden=c===0&&!i.checked}); document.querySelectorAll('input[name=by]').forEach(i=>{if(!i.value) return; const c=cards.filter(li=>(!s||li.dataset.shape===s)&&li.dataset.y===i.value).length; i.parentElement.hidden=c===0&&!i.checked})};
+document.querySelectorAll('input[name=by],input[name=bs]').forEach(i=>i.addEventListener('change',apply));
+function facet(grid,spec,countId,zero){const box=document.querySelector(grid); if(!box) return; const inputs=[...document.querySelectorAll(spec.map(g=>'input[name="'+g.name+'"]').join(','))]; if(!inputs.length) return; const val=name=>(document.querySelector('input[name="'+name+'"]:checked')||{}).value||''; const hit=(li,name,v)=>{if(!v) return true; const g=spec.find(x=>x.name===name); const raw=li.dataset[g.attr]||''; return g.mode==='has'?raw.split(' ').includes(v):raw===v}; const run=()=>{const cards=[...box.querySelectorAll('.rk')]; let n=0; cards.forEach(li=>{const ok=spec.every(g=>hit(li,g.name,val(g.name))); li.hidden=!ok; n+=ok}); const el=document.getElementById(countId); if(el) el.textContent=zero.replace('0',n); spec.forEach(g=>{document.querySelectorAll('input[name="'+g.name+'"]').forEach(i=>{const span=i.nextElementSibling; if(span&&!span.dataset.base) span.dataset.base=span.textContent.replace(/\s*\(\d+\)\s*$/,''); const c=cards.filter(li=>spec.every(g2=>hit(li,g2.name,g2.name===g.name?i.value:val(g2.name)))).length; if(span&&span.dataset.base) span.textContent=span.dataset.base+' ('+c+')'; if(i.value) i.parentElement.hidden=c===0&&!i.checked})})}; inputs.forEach(i=>i.addEventListener('change',run))};
+facet('#sgrid',[{name:'sg',attr:'g',mode:'eq'},{name:'ss',attr:'so',mode:'has'},{name:'sy',attr:'y',mode:'eq'}],'scount',SS);
+facet('#ngrid',[{name:'bv',attr:'speed',mode:'eq'},{name:'bt',attr:'tour',mode:'eq'}],'ncount',BS);
+</script>
 <section class="panel"><h2>{u.otherBrands}</h2><p class="brandlinks">{others.map(o=><a href={url('brand',lang,o.slug)}>{o.name}</a>)}</p></section>
 </Base>
+<style>
+.brand-switch{display:flex;gap:0;position:sticky;top:62px;z-index:15;margin:0 0 18px;padding-top:8px;border-bottom:1px solid var(--line);background:var(--bg);overflow-x:auto;scrollbar-width:none}
+.brand-switch::-webkit-scrollbar{display:none}
+.brand-switch label{position:relative;flex:1 1 0;min-width:max-content}
+.brand-switch input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}
+.brand-switch span{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 12px;font-weight:700;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.brand-switch small{font-weight:600}
+.brand-switch input:checked+span{color:var(--navy);border-bottom-color:var(--green)}
+.brand-switch input:focus-visible+span{outline:2px solid var(--green2);outline-offset:-2px}
+.brand-note{max-width:68ch;margin:0 0 16px;color:var(--mut)}
+.bfilter{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 20px;margin:0 0 16px}
+.bfil{display:flex;flex-direction:column;gap:6px;min-width:0}
+.bfil-l{font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut)}
+#bcount{flex-basis:100%;margin:0}
+.brand-yl{font-weight:700;min-height:44px;display:inline-flex;align-items:center}
+.brand-cat{scroll-margin-top:128px}
+.brand-faq{margin-top:48px}.brand-faq h2{margin:0 0 8px}.brand-faq .faq:first-of-type h3{margin-top:12px}
+</style>

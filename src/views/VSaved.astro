@@ -6,7 +6,7 @@ const { lang } = Astro.props; const d=D(lang), u=d.ui;
 const TX={empty:u.savedEmpty,remove:u.remove,details:u.details,save:u.save,saved:u.saved,compare:u.savedCompare,keepOk:u.keepOk,keepErr:u.keepErr,keepMail:u.keepMail,deleteAsk:u.deleteAsk};
 const money=x=>{const q=pick(x,DEFAULT_REGION(lang)); return q.none?'':fmt(q.v,q.cur,lang);};
 const MORE=[...shoes.map(s=>({t:'s',s:s.slug,b:s.brand,m:s.name,y:s.year||'',i:shoeImg(s)||'',p:money(s)})),...balls.map(b=>({t:'b',s:b.slug,b:b.brand,m:b.name,y:'',i:ballImg(b)||'',p:money(b)}))];
-const ballBase=(lang==='en'||lang==='es'||lang==='pt'?url('ball',lang,'X'):url('ball','en','X')).replace(/X\/$/,'');
+const ballBase=url('ball',lang,'X').replace(/X\/$/,'');
 ---
 <Base lang={d.locale} title={u.savedH+d.copy.titleSuffix} description={u.savedDesc} noindex preload="/cards.json">
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.savedNav}</span></nav>

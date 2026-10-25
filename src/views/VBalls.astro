@@ -5,7 +5,7 @@ import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js'; import {
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=BALL[lang]; const N=balls.length;
 const list=rankBalls(balls,lang); const brands=[...new Set(balls.map(b=>b.brand))].sort();
 const brandPick=brands.map(b=>({name:b,n:balls.filter(x=>x.brand===b).length})).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
-const SPEEDS=['fast','medium']; const spN=Object.fromEntries(SPEEDS.map(k=>[k,balls.filter(b=>b.speed===k).length]));
+const SPEEDS=['fast','medium'];
 const pv=Object.fromEntries(balls.map(b=>[b.slug,ballPrice(b,lang)]));
 const pr=b=>{const q=pick(b,DEFAULT_REGION(lang)); return q.none?u.checkPrice:`${fmt(q.v,q.cur,lang)} · ${fmt(Math.round(q.v/b.balls*100)/100,q.cur,lang)} ${T.perBall}`;};
 const spec=b=>[T.speeds[b.speed],b.tour&&T.tours[b.tour],b.eco&&T.eco].filter(Boolean).join(' · ');
@@ -28,8 +28,8 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-fh"><h2 class="h3">{T.filters}</h2><button type="button" class="x" id="h-x" aria-label={T.close}>✕</button></div>
  <div class="hub-fb">
   <label class="hub-bq hub-mq"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
-  <fieldset class="hub-g"><legend>{T.speed}</legend><div class="hub-chips"><label><input type="checkbox" name="h-sp" value="" checked/><span>{T.allA} <small>{N}</small></span></label>{SPEEDS.map(k=><label><input type="checkbox" name="h-sp" value={k}/><span>{T.speeds[k]} <small>{spN[k]}</small></span></label>)}</div></fieldset>
-  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><label class="hub-bq"><span class="sr">{T.brandPh}</span><input id="h-bq" type="search" placeholder={T.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{T.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
+  <fieldset class="hub-g"><legend>{T.speed}</legend><div class="hub-chips">{SPEEDS.map(k=><label><input type="checkbox" name="h-sp" value={k}/><span>{T.speeds[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB} data-less={T.lessB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
   <fieldset class="hub-g"><legend>{T.tourF}</legend><div class="hub-chips">{Object.entries(T.tours).map(([k,v])=><label><input type="checkbox" name="h-tour" value={k}/><span>{v}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.price}</legend><div class="hub-pr"><label><span class="sr">{T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={T.max}/></label></div></fieldset>
   <label class="hub-tg"><input type="checkbox" id="h-eco"/><span><b>{T.ecoF}</b><small>{T.ecoS}</small></span></label>
@@ -50,7 +50,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
 const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
 const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
 const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
-function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let hide=0; labs.forEach((lab,i)=>{const on=lab.querySelector('input').checked, keep=on||open||i<8; lab.hidden=!keep; if(!keep) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!open&&!hide; if(!more.hidden) more.textContent=open?more.dataset.less:more.dataset.t.replace('§',hide);}}
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','brand','sp','tour','eco','stock','min','max','sort'];
 let qv='';
@@ -71,8 +71,8 @@ let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).v
 ['h-sort','h-eco','h-stock'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();}));
 $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();});
 document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
-$('h-bq').addEventListener('input',paintBrands); const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{document.querySelector('.hub-brands .hub-chips').dataset.open='1'; paintBrands();});
-const clear=()=>{$('h-bq').value=''; const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
+const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
 })();
 </script>

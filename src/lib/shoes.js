@@ -1,5 +1,5 @@
 // Padel shoe catalogue (data/shoes.json, built from shop product pages) + facets, ranking and money-page pickers.
-import raw from '../../data/shoes.json'; import { pick, DEFAULT_REGION, conv } from './price.js'; import { slugify } from './data.js';
+import raw from '../../data/shoes.json'; import { pick, DEFAULT_REGION, conv } from './price.js'; import { slugify, brandList } from './data.js';
 export const SHOE_CHECKED=raw.checked;
 export const shoes=raw.shoes.map(s=>({...s,shops:s.offs.length,inStock:s.offs.filter(o=>o.s).length}));
 export const shoeBySlug=Object.fromEntries(shoes.map(s=>[s.slug,s]));
@@ -9,6 +9,14 @@ export const priceIn=(s,lang)=>{const p=pick(s,DEFAULT_REGION(lang)); return p.n
 // recommended: in stock at more shops first, then newer season, then lower price
 export const rankShoes=(list,lang='en')=>[...list].sort((a,b)=>b.inStock-a.inStock||(b.year||0)-(a.year||0)||(priceIn(a,lang)??1e9)-(priceIn(b,lang)??1e9)||a.name.localeCompare(b.name));
 export const shoeBrands=[...new Set(shoes.map(s=>s.brand))].sort().map(b=>({name:b,slug:slugify(b),count:shoes.filter(s=>s.brand===b).length})).filter(b=>b.count>=3&&b.name!=='Unknown');
+const racketSlugs=new Set(brandList.map(b=>b.slug));
+// A brand with rackets lives on /brands/:slug/. Shoe-only brands (Asics, Munich…) keep /shoes/brand/:slug/.
+export const shoeOnlyBrands=shoeBrands.filter(b=>!racketSlugs.has(b.slug));
+export function shoeBrandTarget(slug){
+  if(racketSlugs.has(slug)) return {type:'brand',id:slug,hash:'shoes'};
+  if(shoeBrands.some(b=>b.slug===slug)) return {type:'shoeBrand',id:slug,hash:''};
+  return null;
+}
 export const LIST_MIN=3;
 export const UNDER={u60:60,u100:100};
 export const listCur=lang=>lang==='en'?'GBP':'EUR';

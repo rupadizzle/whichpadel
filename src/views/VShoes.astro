@@ -1,7 +1,7 @@
 ---
 // /shoes/ hub: every shoe rendered statically (crawlable), client-side filters (brand, fit, sole, size, price) and sort, state in the URL.
 import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import ShoeCard from '../components/ShoeCard.astro';
-import { shoes, rankShoes, shoeBrands, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE, SHOE_CMP } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
+import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js'; import { SHOE, SHOE_CMP } from '../i18n/shoes.js'; import { D, url, SITE } from '../i18n/index.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, T=SHOE[lang], C=SHOE_CMP[lang]; const N=shoes.length;
 const list=rankShoes(shoes,lang); const brands=[...new Set(shoes.map(s=>s.brand))].filter(b=>b!=='Unknown').sort();
 const brandPick=brands.map(b=>({name:b,n:shoes.filter(s=>s.brand===b).length})).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
@@ -28,7 +28,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <div class="hub-fb">
   <label class="hub-bq hub-mq"><span class="sr">{T.search}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="h-q2" type="search" placeholder={T.searchPh} autocomplete="off"/></label>
   <fieldset class="hub-g"><legend>{T.gender}</legend><div class="hub-chips">{GENDER.map(k=><label><input type="checkbox" name="h-g" value={k}/><span>{T.genders[k]}</span></label>)}</div></fieldset>
-  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><label class="hub-bq"><span class="sr">{T.brandPh}</span><input id="h-bq" type="search" placeholder={T.brandPh} autocomplete="off"/></label><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div><p class="hub-bnone" id="h-bnone" hidden>{T.brandNone}</p>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{T.brand}</legend><div class="hub-chips">{brandPick.map((b,i)=><label hidden={i>=8}><input type="checkbox" name="h-brand" value={b.name}/><span>{b.name}</span></label>)}</div>{brandPick.length>8&&<button type="button" class="hub-bmore" id="h-bmore" data-t={T.moreB} data-less={T.lessB}>{T.moreB.replace('§',String(brandPick.length-8))}</button>}</fieldset>
   <fieldset class="hub-g"><legend>{T.sole}</legend><div class="hub-chips">{Object.entries(T.soles).map(([k,v])=><label><input type="checkbox" name="h-so" value={k}/><span>{v}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.size}</legend><div class="hub-chips">{sizes.map(x=><label><input type="checkbox" name="h-sz" value={x}/><span>{x}</span></label>)}</div></fieldset>
   <fieldset class="hub-g"><legend>{T.price}</legend><div class="hub-pr"><label><span class="sr">{T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={T.max}/></label></div></fieldset>
@@ -41,11 +41,11 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage
  <p class="hub-empty" id="h-empty" hidden>{T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{T.clear}</button></p>
  <section class="hub-pre"><h2 class="h3">{T.guides}</h2>
   <p>{SHOE_LIST_KEYS.filter(k=>!k.startsWith('u')).map(k=><a href={url('shoeList',lang,k)}>{T.lists[k][0]}</a>)}</p>
-  <p><b>{T.byBrand}</b>{shoeBrands.map(b=><a href={url('shoeBrand',lang,b.slug)}>{b.name}</a>)}</p>
+  <p><b>{T.byBrand}</b>{shoeBrands.map(b=>{const t=shoeBrandTarget(b.slug); return <a href={url(t.type,lang,t.id)+(t.hash?'#'+t.hash:'')}>{b.name}</a>;})}</p>
  </section>
 </section>
 </div>
-<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.cmpGo} <span id="h-seln"></span></button></div>
+<div class="hub-tray" id="h-tray" hidden><ul id="h-sel"></ul><button type="button" class="btn btn-accent" id="h-go" disabled>{C.cmpGo} <span id="h-seln"></span></button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={T.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
 </div>
 <script type="application/json" id="h-data" set:html={JSON.stringify({pv,cmp:url('shoeCompare',lang),T:{results:T.results,apply:T.apply,max3:C.max3,remove:C.remove}}).replace(/</g,'\\u003c')}></script>
 <script is:inline>
@@ -54,7 +54,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const parts=v=>String(v||'').split(',').map(s=>s.trim()).filter(Boolean);
 const rv=n=>[...document.querySelectorAll(`input[name="h-${n}"]:checked`)].map(i=>i.value).filter(Boolean).join(',');
 const setR=(n,v)=>{const want=new Set(parts(v)); const boxes=[...document.querySelectorAll(`input[name="h-${n}"]`)]; boxes.forEach(i=>{if(i.value) i.checked=want.has(i.value);}); const all=boxes.find(i=>!i.value); if(all) all.checked=!boxes.some(i=>i.value&&i.checked);};
-function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const q=($('h-bq').value||'').trim().toLowerCase(), open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let n=0, hide=0; labs.forEach((lab,i)=>{const name=(lab.textContent||'').trim().toLowerCase(), on=lab.querySelector('input').checked, match=!q||name.includes(q), keep=on||(match&&(!!q||open||i<8)); lab.hidden=!keep; if(keep) n++; else if(!q) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!!q||open||!hide; if(!more.hidden) more.textContent=more.dataset.t.replace('§',hide);} const none=$('h-bnone'); if(none) none.hidden=n>0;}
+function paintBrands(){const box=document.querySelector('.hub-brands .hub-chips'); if(!box) return; const open=box.dataset.open==='1', labs=[...box.querySelectorAll('label')]; let hide=0; labs.forEach((lab,i)=>{const on=lab.querySelector('input').checked, keep=on||open||i<8; lab.hidden=!keep; if(!keep) hide++;}); const more=$('h-bmore'); if(more){more.hidden=!open&&!hide; if(!more.hidden) more.textContent=open?more.dataset.less:more.dataset.t.replace('§',hide);}}
 const syncAll=box=>{const seg=box.closest('.hub-seg')||box.closest('.hub-g'); if(!seg) return; const boxes=[...seg.querySelectorAll('input[type="checkbox"]')]; const all=boxes.find(i=>!i.value); const rest=boxes.filter(i=>i.value); if(!all) return; if(!box.value){rest.forEach(i=>i.checked=false); all.checked=true;} else all.checked=!rest.some(i=>i.checked);};
 const KEYS=['q','brand','g','so','sz','min','max','sort'];
 let qv='';
@@ -73,14 +73,15 @@ $('h-open').onclick=()=>sheet(true); $('h-x').onclick=$('h-shade').onclick=()=>s
 document.addEventListener('keydown',e=>{if(e.key==='Escape') sheet(false);});
 let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).value);clearTimeout(tm); tm=setTimeout(apply,200);})); ['h-min','h-max'].forEach(i=>$(i).addEventListener('input',()=>{clearTimeout(tm); tm=setTimeout(apply,200);}));
 ['h-sort'].forEach(i=>$(i).addEventListener('change',()=>{$('h-sort2').value=$('h-sort').value;apply();})); $('h-sort2').addEventListener('change',()=>{$('h-sort').value=$('h-sort2').value;apply();}); document.querySelectorAll('.hub-seg input,.hub-chips input').forEach(i=>i.addEventListener('change',e=>{syncAll(e.target); if(e.target.name==='h-brand') paintBrands(); apply();}));
-$('h-bq').addEventListener('input',paintBrands); const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{document.querySelector('.hub-brands .hub-chips').dataset.open='1'; paintBrands();});
-const clear=()=>{$('h-bq').value=''; const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
+const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
+const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const sel=[];
 function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); $('h-sel').innerHTML=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li>${esc(t)}<button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;}).join('');
  $('h-seln').textContent=`${sel.length}/3`; $('h-go').disabled=sel.length<2;
  grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector('.rk-cb'); if(c) c.checked=on;}); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){} }
 grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
+$('h-tray-x').onclick=()=>{sel.splice(0,sel.length); tray();};
 $('h-go').onclick=()=>{ if(sel.length>=2) location.href=cmp+'?s='+sel.join(','); };
 try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
 if(sel.length) tray();

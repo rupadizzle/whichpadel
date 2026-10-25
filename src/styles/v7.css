@@ -7,6 +7,15 @@
 /* compare buy row: single-line labels, equal buttons */
 .buyrow .btn{white-space:nowrap;font-size:.9rem;min-width:0}
 .buyrow .btn span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+@media(width<=899px){
+ .buyrow .btn{white-space:normal;text-align:center;align-items:center;justify-content:center;gap:1px;padding:8px 8px;min-height:48px;font-size:.8125rem;line-height:1.15}
+ .buyrow .btn .bn{display:block;width:100%;min-width:0;font-size:.6875rem;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .buyrow .btn span{white-space:normal;overflow:visible;text-overflow:clip}
+ .buyrow .bsub{display:flex;flex-direction:column;align-items:center;overflow:visible;white-space:normal}
+ .buyrow .bp::after{content:none}
+ .buyrow .bp{font-weight:800;font-size:.875rem;line-height:1.2}
+ .buyrow .ba{font-size:.75rem;font-weight:650;line-height:1.2}
+}
 /* racket hero: real-size photo on mobile, no gap */
 @media(max-width:900px){
  .dhero{grid-template-columns:1fr;gap:var(--s3)}
@@ -37,9 +46,7 @@
 @media(width <= 640px){
  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
  .bcard{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s3);min-height:72px}
- .bcard .rslot{flex:0 0 40px;width:40px;height:52px;display:flex;align-items:center;justify-content:center}
- .bcard .rslot img{width:40px!important;height:52px!important;object-fit:contain}
- .bcard .rslot svg{width:34px;height:auto}
+ .bcard .bmark{flex-basis:52px;width:52px;height:22px}
 }
 /* guide tables: no mid-word breaks */
 @media(max-width:600px){.tw table{font-size:.7rem}.tw th,.tw td{overflow-wrap:normal;hyphens:manual;word-break:normal;padding-inline:2px}}
