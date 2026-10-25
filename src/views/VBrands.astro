@@ -1,15 +1,16 @@
 ---
 import fs from 'node:fs'; import path from 'node:path';
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { brandList, rackets, slugify } from '../lib/data.js'; import { shoes } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { D, url, SITE } from '../i18n/index.js';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { brandList, rackets, slugify } from '../lib/data.js'; import { shoes, shoeOnlyBrands } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { D, url, SITE } from '../i18n/index.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brands;
 const tally=list=>{const m={}; for(const x of list){const k=slugify(x.brand); m[k]=(m[k]||0)+1;} return m;};
 const shoeN=tally(shoes), ballN=tally(balls);
-const sorted=[...brandList].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
+const all=[...brandList, ...shoeOnlyBrands.map(b=>({name:b.name,slug:b.slug,count:0}))];
+const sorted=all.sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name));
 const markDir=path.join(process.cwd(),'public/brand-marks');
 const mark=slug=>{for (const ext of ['svg','png']) if (fs.existsSync(path.join(markDir,`${slug}.${ext}`))) return `/brand-marks/${slug}.${ext}`; return '';};
-const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1,'numberOfItems':brandList.length,'itemListElement':sorted.map((b,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('brand',lang,b.slug),'name':b.name}))};
+const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1,'numberOfItems':all.length,'itemListElement':sorted.map((b,i)=>({'@type':'ListItem','position':i+1,'url':SITE+url('brand',lang,b.slug),'name':b.name}))};
 ---
-<Base lang={d.locale} title={C.title(brandList.length,rackets.length)+d.copy.titleSuffix} description={C.desc(brandList.length,rackets.length)} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.brands}</span></nav><h1>{C.h1}</h1><Byline lang={lang} headline={C.h1} pageUrl={SITE+url('brands',lang)}/><div class="seo"><p>{C.lead(brandList.length,rackets.length)}</p></div></div></section>
-<div class="bgrid">{sorted.map(b=>{const m=mark(b.slug); return <a class="bcard" href={url('brand',lang,b.slug)}><span class:list={['bmark',m&&'on']} style={m?`--mark:url(${m})`:undefined} aria-hidden="true"></span><span><b>{b.name}</b><span class="bmeta muted small"><span>{C.count(b.count)}</span><span>{C.shoes(shoeN[b.slug]||0)}</span><span>{C.balls(ballN[b.slug]||0)}</span></span></span></a>;})}</div>
+<Base lang={d.locale} title={C.title(all.length,rackets.length)+d.copy.titleSuffix} description={C.desc(all.length,rackets.length)} jsonld={jsonld}>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.brands}</span></nav><h1>{C.h1}</h1><Byline lang={lang} headline={C.h1} pageUrl={SITE+url('brands',lang)}/><div class="seo"><p>{C.lead(all.length,rackets.length)}</p></div></div></section>
+<div class="bgrid">{sorted.map(b=>{const m=mark(b.slug); return <a class="bcard" href={url('brand',lang,b.slug)}><span class:list={['bmark',m&&'on']} style={m?`--mark:url(${m})`:undefined} aria-hidden="true"></span><span><b>{b.name}</b><span class="bmeta muted small">{b.count>0&&<span>{C.count(b.count)}</span>}<span>{C.shoes(shoeN[b.slug]||0)}</span><span>{C.balls(ballN[b.slug]||0)}</span></span></span></a>;})}</div>
 </Base>

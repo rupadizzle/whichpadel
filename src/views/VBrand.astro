@@ -49,12 +49,12 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 ---
 <Base lang={d.locale} title={title} description={desc} jsonld={jsonld}>
 <section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{lead}</p></div></div></section>
-{wide&&<div class="brand-switch" role="radiogroup" aria-label={C.range}>
- <label><input type="radio" name="brandcat" value="rackets" checked/><span>{H.nav} <small>{rs.length}</small></span></label>
- {brandShoes.length>0&&<label><input type="radio" name="brandcat" value="shoes"/><span>{SHOE[lang].nav} <small>{brandShoes.length}</small></span></label>}
- {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls"/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
+{cats.length>1&&<div class="brand-switch" role="radiogroup" aria-label={C.range}>
+ {rs.length>0&&<label><input type="radio" name="brandcat" value="rackets" checked={first==='rackets'}/><span>{H.nav} <small>{rs.length}</small></span></label>}
+ {brandShoes.length>0&&<label><input type="radio" name="brandcat" value="shoes" checked={first==='shoes'}/><span>{SHOE[lang].nav} <small>{brandShoes.length}</small></span></label>}
+ {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls" checked={first==='balls'}/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
 </div>}
-<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
+{rs.length>0&&<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
 <p class="brand-note">{C.intro(b.name,x,t)}</p>
 <div class="bfilter">
 {years.length>1&&<div class="bfil"><span class="bfil-l">{H.year}</span><div class="chipset" role="group" aria-label={H.year}><label><input type="radio" name="by" value="" checked/><span>{C.all}</span></label>{years.map(y=><label><input type="radio" name="by" value={y}/><span>{y}</span></label>)}{years.map(y=><a class="brand-yl" data-yp={y} href={url('brandYear',lang,`${b.slug}/${y}`)} hidden>{y} →</a>)}</div></div>}
@@ -63,8 +63,8 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 </div>
 <ul class="hub-grid" id="rgrid">{rs.map((r,i)=><li class="rk" data-y={r.year||''} data-shape={r.shape||''}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{specR(r)}</span><span class="rk-p"><span class="pz rk-pv" data-o={JSON.stringify(offersOf(r))} data-f1={H.fromP} data-fn={H.fromP} data-none={H.none}>{priceTxt(r)}</span></span></span></a></li>)}</ul>
 <div class="brand-faq"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>
-</section>
-{brandShoes.length>0&&<section class="brand-cat cat" id="shoes" data-panel="shoes" aria-label={TS.nav} hidden>
+</section>}
+{brandShoes.length>0&&<section class="brand-cat cat" id="shoes" data-panel="shoes" aria-label={TS.nav} hidden={first!=='shoes'}>
 <p class="brand-note">{P.shoeIntro(b.name,shoeX)}</p>
 {(showShoeGender||showShoeSole||showShoeYear)&&<div class="bfilter">
 {showShoeYear&&<div class="bfil"><span class="bfil-l">{H.year}</span><div class="chipset" role="group" aria-label={H.year}><label><input type="radio" name="sy" value="" checked/><span>{C.all} ({brandShoes.length})</span></label>{shoeYears.map(y=><label><input type="radio" name="sy" value={y}/><span>{y} ({syears.filter(v=>v===y).length})</span></label>)}</div></div>}
@@ -75,7 +75,7 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 <ul class="hub-grid" id="sgrid">{brandShoes.map((s,i)=><ShoeCard s={s} lang={lang} eager={i<4}/>)}</ul>
 {shoeFaq.length>0&&<div class="brand-faq"><h2>{P.shoeFaqH(b.name)}</h2>{shoeFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
 </section>}
-{brandBalls.length>0&&<section class="brand-cat cat balls" id="balls" data-panel="balls" aria-label={TB.nav} hidden>
+{brandBalls.length>0&&<section class="brand-cat cat balls" id="balls" data-panel="balls" aria-label={TB.nav} hidden={first!=='balls'}>
 <p class="brand-note">{P.ballIntro(b.name,ballX)}</p>
 {(showBallSpeed||showBallTour)&&<div class="bfilter">
 {showBallSpeed&&<div class="bfil"><span class="bfil-l">{TB.speed}</span><div class="chipset" role="group" aria-label={TB.speed}><label><input type="radio" name="bv" value="" checked/><span>{TB.any} ({brandBalls.length})</span></label>{fastN>0&&<label><input type="radio" name="bv" value="fast"/><span>{TB.speeds.fast} ({fastN})</span></label>}{medN>0&&<label><input type="radio" name="bv" value="medium"/><span>{TB.speeds.medium} ({medN})</span></label>}</div></div>}
