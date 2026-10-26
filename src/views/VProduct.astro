@@ -136,6 +136,7 @@ const crumb = page.crumbs;
 {r.productUrl && r.price != null && <a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.oj}>{u.px.cmp.buy.replace('{s}', page.BN)} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 <a class="btn btn-sm" style="width:100%" href={page.cmpU}>{u.compareThis}</a></aside>
 <div class="rpbody">
+{lang === 'en' && <section class="panel dcheck" hidden data-dc={r.slug} data-api="/api/all-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><h2>{u.overview}</h2><p class="intro">{page.intro}</p>
 {(page.ins.suits.length > 0) && <><h3>{page.R2.suits}</h3><ul class="suits">{page.ins.suits.map(s => <li>{s}</li>)}</ul></>}
 {(page.ins.pros.length > 0 || page.ins.cons.length > 0) && <div class="pc">{page.ins.pros.length > 0 && <div><h3>{page.R2.pros}</h3><ul class="pros">{page.ins.pros.map(s => <li>{s}</li>)}</ul></div>}{page.ins.cons.length > 0 && <div><h3>{page.R2.cons}</h3><ul class="cons">{page.ins.cons.map(s => <li>{s}</li>)}</ul></div>}</div>}
@@ -163,6 +164,7 @@ const crumb = page.crumbs;
 <a class="btn aff btn-lg" id="buymain" href={page.shoe.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.shoe.oj}>{u.px.cmp.buy.replace('{s}', page.shoe.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 <p class="muted small" style="margin:8px 0 0">{page.shoe.T.sizeNote}</p></aside>
 <div class="rpbody">
+{lang === 'en' && <section class="panel dcheck" hidden data-dc={s.slug} data-api="/api/shoe-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><h2>{page.shoe.T.overview}</h2><p class="intro">{page.shoe.intro}</p>
 {s.sole.length > 0 && <ul class="suits">{s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => <li>{page.shoe.T.soleTip[k]}</li>)}</ul>}
 {page.shoe.lk && SHOE_LIST_KEYS.includes(page.shoe.lk) && <p class="small rpguide"><a href={url('shoeList', lang, page.shoe.lk)}>{page.shoe.T.lists[page.shoe.lk][0]}</a> · <a href={url('shoeList', lang, 'best')}>{page.shoe.T.lists.best[0]}</a></p>}</section>
@@ -180,6 +182,7 @@ const crumb = page.crumbs;
 <ul class="pxl" id="bxl" hidden></ul><div class="pxhist" id="pxhist" hidden></div><p class="pxnous" id="bxnous" hidden>{page.ball.T.noUS}</p>
 <a class="btn aff btn-lg" id="buymain" href={page.ball.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.ball.oj}>{page.ball.T.buy.replace('{s}', page.ball.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span></aside>
 <div class="rpbody">
+{lang === 'en' && <section class="panel dcheck" hidden data-dc={'ball-'+b.slug} data-api="/api/shoe-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><p class="intro">{page.ball.intro}</p></section>
 <section class="panel"><h2>{page.ball.T.specs}</h2><table class="spec"><tbody>{page.ball.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table></section>
 {page.ball.similar.length > 0 && <section class="panel vs"><h2>{page.ball.T.similar}</h2>{page.ball.similar.map(x => <a href={url('ball', lang, x.slug)}><span>{x.name}</span><span>→</span></a>)}</section>}
@@ -212,4 +215,5 @@ localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
 {kind !== 'ball' && <ProductGalleryScript/>}
 {kind === 'ball' && <ProductBallScript b={b} u={u} SN={page.SN} lang={lang} T={page.ball.T}/>}
+{lang === 'en' && <script is:inline src="/deal-check.js" defer></script>}
 </Base>
