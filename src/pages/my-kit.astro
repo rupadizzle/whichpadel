@@ -1,0 +1,37 @@
+---
+// "My kit": the racket, shoes and balls you use now. Stored only in this browser (localStorage 'wp_kit'). Deal hints come from the existing read-only price APIs.
+import Base from '../layouts/Base.astro';
+import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js'; import { url } from '../i18n/routes.js';
+const SH=shoes.map(s=>[s.slug,s.name,shoeImg(s)||'',url('shoe','en',s.slug)]);
+const BA=balls.map(b=>['ball-'+b.slug,b.name,ballImg(b)||'',url('ball','en',b.slug)]);
+const RK=url('racket','en','__');
+const title='My kit: get told when what you use is cheaper';
+---
+<Base lang="en-GB" title={title+' | WhichPadel'} description="Save the padel racket, shoes and balls you use now. We show today's best price, whether it's a real deal, and when to reorder.">
+<article class="panel prose"><h1>{title}</h1>
+<p>Add the racket, shoes and balls you use now. We show today's best price and whether it's a genuine deal, so you can reorder at the right time. Your kit is saved only in this browser.</p>
+<form id="kf" autocomplete="off"><p><label for="kq"><b>Add an item</b></label><br/><input id="kq" list="kl" placeholder="Start typing a racket, shoe or ball…" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid #cdd6db"/><datalist id="kl"></datalist></p>
+<p><button class="btn" type="submit">Add to my kit</button> <small class="muted" id="kmsg"></small></p></form>
+</article>
+<section class="panel"><h2 class="h3">My kit</h2><ul id="kit" style="list-style:none;padding:0;margin:0"></ul><p class="muted small" id="kempty">Nothing saved yet.</p></section>
+<section class="panel"><h2 class="h3">Want something better?</h2><p>Describe how you play and we'll suggest alternatives: <a href="/describe/">racket finder</a> · <a href="/describe/?for=shoes">shoe finder</a> · <a href="/deals/">today's deals</a>.</p></section>
+<script is:inline src="/deal-check.js"></script>
+<script is:inline define:vars={{SH,BA,RK}}>
+const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const K='wp_kit'; const read=()=>{try{return JSON.parse(localStorage[K]||'[]')}catch(e){return []}}; const write=a=>{try{localStorage[K]=JSON.stringify(a)}catch(e){}};
+let CAT=null; const cat=()=>CAT||(CAT=fetch('/cards.json').then(r=>r.json()).then(a=>{const m=new Map(); a.forEach(c=>m.set(c.m,{k:c.s,n:c.m,i:c.i,u:RK.replace('__',c.s),t:'Racket',api:'/api/all-prices'}));
+ SH.forEach(([k,n,i,u])=>m.set(n,{k,n,i,u,t:'Shoes',api:'/api/shoe-prices'})); BA.forEach(([k,n,i,u])=>m.set(n,{k,n,i,u,t:'Balls',api:'/api/shoe-prices'}));
+ $('kl').innerHTML=[...m.keys()].map(n=>`<option value="${esc(n)}">`).join(''); return m;}));
+$('kq').addEventListener('focus',cat,{once:true});
+$('kf').onsubmit=async e=>{e.preventDefault(); const m=await cat(); const v=$('kq').value.trim(); const it=m.get(v)||[...m.values()].find(x=>x.n.toLowerCase()===v.toLowerCase());
+ if(!it){$('kmsg').textContent='Pick an item from the list.'; return;} const a=read().filter(x=>x.k!==it.k); a.unshift({...it,at:new Date().toISOString().slice(0,10)}); write(a); $('kq').value=''; $('kmsg').textContent='Added.'; render();};
+const F=(p,c)=>WPDeal.fmt(p,c);
+async function render(){const a=read(); $('kempty').hidden=a.length>0; const UL=$('kit');
+ const rows=await Promise.all(a.map(async x=>{const j=await WPDeal.get(x.api); const e=j&&j.r&&j.r[x.k]; let hint='No shop price right now.';
+  if(e&&e.p>0){const v=WPDeal.verdict(e); hint=`Best price today: ${F(e.p,e.c)} at ${esc(e.n||e.d)}${e.s===0?' (out of stock)':''}. `;
+   hint+=v?esc(v.t):e.drop>=5?`Down ${e.drop}% on its previous price. Good time to reorder.`:(e.min30&&e.p<=e.min30)?'Lowest price in the last 30 days.':'No price drop right now.';}
+  return `<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" style="object-fit:contain">`:''}<span style="flex:1"><small class="muted">${esc(x.t)}</small><br/><a href="${esc(x.u)}"><b>${esc(x.n)}</b></a><small style="display:block">${hint}</small></span><a class="btn btn-line btn-sm" href="${esc(x.u)}">Reorder</a> <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}" aria-label="Remove ${esc(x.n)}">✕</button></li>`;}));
+ UL.innerHTML=rows.join(''); UL.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{write(read().filter(x=>x.k!==b.dataset.rm)); render();});}
+render();
+</script>
+</Base>

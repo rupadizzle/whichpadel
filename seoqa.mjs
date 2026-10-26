@@ -9,7 +9,7 @@ for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/
  // /us/ pages: English (US) only, no translated twin -> exactly one self-referencing en-US hreflang
  if(rel.startsWith('/us/')){ if(Object.keys(alts).join()!=='en-US'||alts['en-US']!==S+rel) errs.push(`${rel}: want only self en-US hreflang`); continue; }
  // English-only pages with no translations: canonical only, no hreflang set
- if(['/deals/','/black-friday/'].includes(rel)){ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
+ if(['/deals/','/black-friday/','/describe/','/my-kit/'].includes(rel)){ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
  for(const l of [...LANGS,'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
  if(alts['x-default']&&alts['x-default']!==alts.en) errs.push(`${rel}: x-default != en`);
  if(!Object.values(alts).includes(S+rel)) errs.push(`${rel}: hreflang set lacks self`);
