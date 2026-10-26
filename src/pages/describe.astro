@@ -1,89 +1,30 @@
 ---
-// English "describe your game" finders. Rule-based keyword parsing only (no AI calls). Rackets reuse the racket finder's scoring via its URL answers.
-import Base from '../layouts/Base.astro';
-import { shoes, shoeImg } from '../lib/shoes.js'; import { url } from '../i18n/routes.js';
-const SH=shoes.map(s=>({s:s.slug,n:s.name,b:s.brand,g:s.gender,y:s.year||0,so:s.sole,cu:s.cushion,wd:!!s.wide,w:s.weight,i:shoeImg(s),u:url('shoe','en',s.slug),o:(s.offs||[]).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s}))}));
+// "Find your best racket with AI": one voice button. Browser speech-to-text + keyword rules (no paid AI); results use the racket finder's scoring.
+import Base from '../layouts/Base.astro'; import { url } from '../i18n/routes.js';
 const FINDER=url('finder','en');
-const title='Describe your game: racket and shoe finder';
 ---
-<Base lang="en-GB" title={title+' | WhichPadel'} description="Type or say a few sentences about how you play and get padel racket or shoe picks with the reasons, prices and shops.">
-<article class="panel prose"><h1>{title}</h1>
-<p>Tell us how you play in your own words: your level, how often you play, which side, control or power, any injuries, the courts you play on and your feet. We read it with simple keyword rules (nothing is sent anywhere) and match you to rackets or shoes.</p>
-<p role="tablist"><button type="button" class="btn" data-tab="r" aria-pressed="true">Rackets</button> <button type="button" class="btn btn-line" data-tab="s" aria-pressed="false">Shoes</button></p>
-<label for="dg-t"><b data-lab>Describe your game</b></label>
-<textarea id="dg-t" rows="5" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid #cdd6db" placeholder="e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200."></textarea>
-<p><button type="button" class="btn" id="dg-go">Find my matches</button> <button type="button" class="btn btn-line" id="dg-mic" hidden>🎤 Speak</button> <small class="muted" id="dg-ms"></small></p>
-</article>
-<section class="panel" id="dg-read" hidden><h2 class="h3">What we understood</h2><ul id="dg-chips"></ul><p class="muted small">Not right? Add a few words above (e.g. "beginner", "left side", "wide feet", "clay courts") and try again.</p></section>
-<section class="panel" id="dg-out" hidden></section>
-<p class="muted small" style="margin:12px 4px">Shop links may earn us a commission; it never changes the order. Save what you use now in <a href="/my-kit/">My kit</a> to hear about deals on it.</p>
-<script is:inline define:vars={{SH,FINDER}}>
-const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-let tab=(new URLSearchParams(location.search).get('for')==='shoes')?'s':'r';
-const setTab=t=>{tab=t; document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===t; b.setAttribute('aria-pressed',on); b.className='btn'+(on?'':' btn-line');}); $('dg-t').placeholder=t==='r'?"e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200.":"e.g. I play twice a week on outdoor clay-sand courts, I have wide feet and sore knees, women's shoes under £100."; $('dg-read').hidden=$('dg-out').hidden=true;};
-document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab)); setTab(tab);
-// --- shared keyword rules ---
-const has=(t,re)=>re.test(t);
-function parse(raw){const W={one:1,two:2,three:3,four:4,five:5,six:6,seven:7}; const t=' '+raw.toLowerCase().replace(/[’']/g,"'").replace(/\b(one|two|three|four|five|six|seven)\b/g,w=>W[w])+' ', A={}, why=[];
- // budget: first money amount or "under N"
- const m=t.match(/(?:£|€|\$|under|below|up to|max(?:imum)?|budget(?: of| is| about| around)?|around|about)\s*(\d{2,4})|(\d{2,4})\s*(?:£|€|\$|pounds|euros?|quid|dollars)/); if(m){A.money=+(m[1]||m[2]); why.push('Budget about '+A.money);}
- // frequency
- const f=t.match(/(\d)\s*(?:or\s*\d\s*)?(?:times|x|days|sessions)\s*(?:a|per|each)\s*week/)||(/every day|daily/.test(t)?['',7]:null)||(/twice a week/.test(t)?['',2]:null)||(/once a week/.test(t)?['',1]:null);
- const tf=t.match(/(\d)\s*or\s*(\d)\s*(?:times|x|days)/); A.freq=tf?+tf[2]:f?+f[1]:null; if(A.freq) why.push('Plays about '+A.freq+'× a week');
- // level
- A.level=has(t,/\b(advanced|competitive|tournaments?|expert|high level|very good|pro level|league|5\.0|4\.5)\b/)?'advanced':has(t,/\b(beginner|new to|just started|starting out|first racket|learning|casual|never played|novice|newbie)\b/)?'beginner':has(t,/\b(intermediate|improver|decent|club player|average)\b/)?'intermediate':null;
- if(!A.level) A.level=A.freq>=3?'intermediate':'intermediate'; else why.push('Level: '+A.level);
- if(A.level==='beginner'&&A.freq>=4){A.level='intermediate'; why.push('Plays a lot, so treated as intermediate');}
- // injuries
- A.injury=[...new Set((t.match(/\b(tennis elbow|elbow|wrist|shoulder|forearm|knees?|ankles?|heels?|plantar|back|achilles|shin)\b/g)||[]).map(x=>x.replace(/s$/,'').replace('tennis ','')))]; if(A.injury.length) why.push('Injury: '+A.injury.join(', '));
- A.headHeavyBad=has(t,/head[- ]heavy[^.]*\b(worse|hurt|pain|bad|aggravat)/); if(A.headHeavyBad) why.push('Head-heavy rackets made it worse');
- // side
- A.side=has(t,/\b(right side|drive side|derecha|on the right|forehand side)\b/)?'right':has(t,/\b(left side|reves|revés|backhand side|on the left)\b/)?'left':'either'; if(A.side!=='either') why.push('Plays on the '+A.side);
- // control vs power ("X more than Y" wins)
- const mt=t.match(/\b(control|power)\b[^.]{0,20}\b(more than|over|rather than|instead of)\b[^.]{0,15}\b(control|power)\b/);
- A.style=mt?mt[1]:has(t,/\b(all[- ]?round|balanced|bit of both|both)\b/)?'all':has(t,/\b(control|precis|placement|consistent|defen[cs]|touch|lob)/)&&!has(t,/\b(power|smash|attack|aggressive|hit hard|x3|x4|vibora|bandeja)\b/)?'control':has(t,/\b(power|smash|attack|aggressive|hit hard|x3|x4)\b/)&&!has(t,/\bcontrol\b/)?'power':'all';
- why.push('Wants '+(A.style==='all'?'a balance of control and power':A.style));
- // shoes
- A.surface=has(t,/\b(clay|sand|sandy|outdoor|artificial grass|turf|carpet|slippy|slippery)\b/)?'clay':has(t,/\b(indoor|hard court|concrete|cement|hard floor)\b/)?'hard':null; if(A.surface) why.push('Courts: '+(A.surface==='clay'?'sandy/outdoor artificial grass':'indoor/hard'));
- A.wide=has(t,/\b(wide|broad|wider) (feet|foot|fit)|\bwide\b/); if(A.wide) why.push('Wide feet');
- A.narrow=has(t,/\bnarrow (feet|foot)\b/); if(A.narrow) why.push('Narrow feet');
- A.gender=has(t,/\b(women'?s|woman|female|ladies|lady|girl)\b/)?'w':has(t,/\b(men'?s|man|male|guy)\b/)?'m':null; if(A.gender) why.push(A.gender==='w'?"Women's fit":"Men's fit");
- A.light=has(t,/\b(light|lightweight|fast|quick|nimble)\b/); A.dur=has(t,/\b(durable|last longer|wear out|wore out|breaks?)\b/); A.latest=has(t,/\b(newest|latest|2026|2027|new model)\b/);
- return {A,why};}
-function racket({A}){const prio=(A.injury.some(x=>/elbow|wrist|shoulder|forearm/.test(x))||A.headHeavyBad)?'comfort':A.light?'light':A.dur?'durable':A.latest?'latest':A.level==='beginner'?'comfort':'latest';
- const budget=!A.money?'any':A.money<=100?'100':A.money<=150?'150':A.money<=200?'200':A.money<=300?'300':'any';
- return {level:A.level,side:A.side,style:A.style,prio,budget};}
-const cushion=s=>(s.cu||[]).some(c=>/gel|boost|wave|flytefoam|ff blast|bounce|dynawall/.test(c));
-function shoeRank({A}){const knee=A.injury.some(x=>/knee|heel|plantar|back|achilles|shin|ankle/.test(x));
- const live=window.__shoeLive||{};
- const P=s=>{const e=live[s.s]; const os=(e&&e.o&&e.o.length?e.o:s.o).filter(o=>o.p>0&&o.s!==0); if(!os.length) return null; const g=o=>o.c==='GBP'?o.p:o.c==='EUR'?o.p*0.84:o.c==='USD'?o.p*0.75:o.p/13; return os.map(o=>({...o,g:g(o)})).sort((a,b)=>a.g-b.g)[0];};
- return SH.map(s=>{const b=P(s); if(!b) return null; if(A.money&&b.g>A.money) return null; if(A.gender&&s.g!==A.gender&&s.g!=='u') return null; if(s.g==='k') return null;
-  let sc=0; const r=[];
-  if(A.surface==='clay'){ if(s.so.includes('clay')||s.so.includes('omni')){sc+=6; r.push('Clay/omni sole grips on sandy artificial grass');} else if(s.so.includes('herringbone')){sc+=3; r.push('Herringbone sole: good all-round grip');} }
-  else if(A.surface==='hard'){ if(s.so.includes('allcourt')||s.so.includes('herringbone')){sc+=5; r.push('Herringbone/all-court sole suits indoor courts');} }
-  else if(s.so.includes('herringbone')){sc+=2; r.push('Herringbone sole: works on most courts');}
-  if(knee&&cushion(s)){sc+=5; r.push('Extra cushioning ('+s.cu.join(', ')+') for '+A.injury.join('/'));}
-  if(A.wide&&s.wd){sc+=6; r.push('Wide fit');}
-  if(A.light&&s.w&&s.w<=360){sc+=3; r.push('Light: '+s.w+' g');}
-  if(A.dur&&s.so.includes('clay')){sc+=1;}
-  sc+=(s.y>=2026?3:s.y>=2025?1:0); if(A.money) sc+=b.g/A.money*3;
-  if(!r.length) r.push('Good match for your budget');
-  return {s,b,sc,r};}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,6);}
-const F=(p,c)=>{try{return new Intl.NumberFormat('en-GB',{style:'currency',currency:c,maximumFractionDigits:p%1?2:0}).format(p)}catch(e){return p+' '+c}};
-async function go(){const raw=$('dg-t').value.trim(); if(raw.length<8){$('dg-t').focus(); return;}
- const P=parse(raw); $('dg-chips').innerHTML=P.why.map(w=>`<li>${esc(w)}</li>`).join(''); $('dg-read').hidden=false; const O=$('dg-out'); O.hidden=false;
- if(tab==='r'){const a=racket(P); const q=new URLSearchParams(a).toString();
-  const extra=[]; if(a.prio==='comfort'&&P.A.injury.length) extra.push('Because of your '+P.A.injury.join('/')+', we only show soft or medium-soft rackets that are not head-heavy and weigh 365 g or less.'); if(P.A.side==='right') extra.push('Right side: rounder, control-friendly shapes rank higher.'); if(P.A.side==='left') extra.push('Left side: diamond and teardrop shapes rank higher.');
-  O.innerHTML=`<h2 class="h3">Your racket matches</h2><p>${extra.map(esc).join(' ')}</p><p>We score every racket with the same rules as our racket finder (level ${esc(a.level)}, ${esc(a.style)}, ${esc(a.prio)}, budget ${a.budget==='any'?'any':'£'+a.budget}).</p><p><a class="btn" href="${FINDER}?${q}">See my 3 matches with prices →</a></p>`;}
- else{ if(!window.__shoeLive){try{const j=await (await fetch('/api/shoe-prices')).json(); window.__shoeLive=j&&j.r||{};}catch(e){window.__shoeLive={};}}
-  const L=shoeRank(P); O.innerHTML=`<h2 class="h3">Your shoe matches</h2>`+(L.length?`<ol class="dl" style="list-style:none;padding:0">${L.map(x=>`<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.s.i?`<img src="${esc(x.s.i)}" alt="" width="64" height="64" loading="lazy" style="object-fit:contain">`:''}<span><a href="${esc(x.s.u)}"><b>${esc(x.s.n)}</b></a><small style="display:block">${x.r.map(esc).join(' · ')}</small><small style="display:block">From ${F(x.b.p,x.b.c)} at ${esc(x.b.d)} · <a href="${esc(x.b.u)}" rel="sponsored nofollow" target="_blank">Shop</a> · <a href="${esc(x.s.u)}">All prices</a></small></span></li>`).join('')}</ol>`:'<p>No in-stock shoes match all of that. Try a higher budget or fewer must-haves.</p>');}
- O.scrollIntoView({behavior:'smooth',block:'start'});}
-$('dg-go').onclick=go;
+<Base lang="en-GB" focus title="Find your best racket with AI | WhichPadel" description="Describe your padel game out loud and get your best racket matches with the reasons, prices and shops.">
+<div class="fz"><section class="fz-scr fz-intro">
+ <h1>Find your best racket with AI</h1>
+ <button type="button" class="btn btn-accent fz-start" id="dg-rec">🎤 Describe your game in as many words as you can</button>
+ <p class="fz-sub" id="dg-live" aria-live="polite" hidden></p>
+ <p class="fz-trust" id="dg-note" hidden>Voice works in Chrome, Edge or Safari. <a href={FINDER}>Use the racket finder instead →</a></p>
+</section></div>
+<script is:inline src="/describe-parse.js"></script>
+<script is:inline define:vars={{FINDER}}>
+if(new URLSearchParams(location.search).get('for')==='shoes') location.replace('/describe-shoes/');
+const $=id=>document.getElementById(id), B=$('dg-rec'), L=$('dg-live');
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(SR){const b=$('dg-mic'); b.hidden=false; let rec=null; b.onclick=()=>{if(rec){rec.stop();return;} rec=new SR(); rec.lang='en-GB'; rec.interimResults=false; rec.continuous=true; const base=$('dg-t').value; let txt='';
- rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++) if(e.results[i].isFinal) txt+=e.results[i][0].transcript+' '; $('dg-t').value=(base?base+' ':'')+txt;};
- rec.onend=()=>{rec=null; b.textContent='🎤 Speak'; $('dg-ms').textContent='';}; rec.onerror=e=>{$('dg-ms').textContent='Microphone not available: '+e.error;};
- rec.start(); b.textContent='■ Stop'; $('dg-ms').textContent='Listening… (your browser turns speech into text)';};}
-window.__dgParse=parse; window.__dgRacket=racket;
+if(!SR){B.hidden=true; $('dg-note').hidden=false;}
+else{let rec=null, fin='';
+ const done=()=>{const t=fin.trim(); if(t.length<8){B.textContent='🎤 Try again: describe your game'; L.textContent=t?'We didn\'t catch enough. Say your level, side, control or power, injuries and budget.':''; return;}
+  const p=window.DG.parse(t), a=window.DG.racket(p); B.disabled=true; B.textContent='Finding your rackets…';
+  L.textContent='We heard: '+p.why.join(' · ');
+  setTimeout(()=>location.href=FINDER+'?'+new URLSearchParams(a),1200);};
+ B.onclick=()=>{if(rec){rec.stop();return;} fin=''; rec=new SR(); rec.lang='en-GB'; rec.interimResults=true; rec.continuous=true;
+  rec.onresult=e=>{let interim=''; for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i]; if(r.isFinal) fin+=r[0].transcript+' '; else interim+=r[0].transcript;} L.hidden=false; L.textContent='“'+(fin+interim).trim()+'”';};
+  rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){B.hidden=true; $('dg-note').hidden=false;}};
+  rec.onend=()=>{rec=null; done();};
+  rec.start(); B.textContent='■ Done'; L.hidden=false; L.textContent='Listening… your level, how often you play, which side, control or power, injuries, budget.';};}
 </script>
 </Base>

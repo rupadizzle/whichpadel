@@ -1,0 +1,59 @@
+---
+// English "describe your game" finders. Rule-based keyword parsing only (no AI calls). Rackets reuse the racket finder's scoring via its URL answers.
+import Base from '../layouts/Base.astro';
+import { shoes, shoeImg } from '../lib/shoes.js'; import { url } from '../i18n/routes.js';
+const SH=shoes.map(s=>({s:s.slug,n:s.name,b:s.brand,g:s.gender,y:s.year||0,so:s.sole,cu:s.cushion,wd:!!s.wide,w:s.weight,i:shoeImg(s),u:url('shoe','en',s.slug),o:(s.offs||[]).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s}))}));
+const FINDER=url('finder','en');
+const title='Describe your game: shoe finder';
+---
+<Base lang="en-GB" title={title+' | WhichPadel'} description="Type or say a few sentences about how you play and get padel racket or shoe picks with the reasons, prices and shops.">
+<article class="panel prose"><h1>{title}</h1>
+<p>Tell us how you play in your own words: your level, how often you play, which side, control or power, any injuries, the courts you play on and your feet. We read it with simple keyword rules (nothing is sent anywhere) and match you to rackets or shoes.</p>
+<p class="muted small">Looking for a racket? <a href="/describe/">Find your best racket with AI</a>.</p>
+<label for="dg-t"><b data-lab>Describe your game</b></label>
+<textarea id="dg-t" rows="5" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid #cdd6db" placeholder="e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200."></textarea>
+<p><button type="button" class="btn" id="dg-go">Find my matches</button> <button type="button" class="btn btn-line" id="dg-mic" hidden>🎤 Speak</button> <small class="muted" id="dg-ms"></small></p>
+</article>
+<section class="panel" id="dg-read" hidden><h2 class="h3">What we understood</h2><ul id="dg-chips"></ul><p class="muted small">Not right? Add a few words above (e.g. "beginner", "left side", "wide feet", "clay courts") and try again.</p></section>
+<section class="panel" id="dg-out" hidden></section>
+<p class="muted small" style="margin:12px 4px">Shop links may earn us a commission; it never changes the order. Save what you use now in <a href="/my-kit/">My kit</a> to hear about deals on it.</p>
+<script is:inline src="/describe-parse.js"></script>
+<script is:inline define:vars={{SH,FINDER}}>
+const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+let tab='s';
+const setTab=t=>{tab=t; document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===t; b.setAttribute('aria-pressed',on); b.className='btn'+(on?'':' btn-line');}); $('dg-t').placeholder=t==='r'?"e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200.":"e.g. I play twice a week on outdoor clay-sand courts, I have wide feet and sore knees, women's shoes under £100."; $('dg-read').hidden=$('dg-out').hidden=true;};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab)); setTab(tab);
+const {parse,racket}=window.DG;
+const cushion=s=>(s.cu||[]).some(c=>/gel|boost|wave|flytefoam|ff blast|bounce|dynawall/.test(c));
+function shoeRank({A}){const knee=A.injury.some(x=>/knee|heel|plantar|back|achilles|shin|ankle/.test(x));
+ const live=window.__shoeLive||{};
+ const P=s=>{const e=live[s.s]; const os=(e&&e.o&&e.o.length?e.o:s.o).filter(o=>o.p>0&&o.s!==0); if(!os.length) return null; const g=o=>o.c==='GBP'?o.p:o.c==='EUR'?o.p*0.84:o.c==='USD'?o.p*0.75:o.p/13; return os.map(o=>({...o,g:g(o)})).sort((a,b)=>a.g-b.g)[0];};
+ return SH.map(s=>{const b=P(s); if(!b) return null; if(A.money&&b.g>A.money) return null; if(A.gender&&s.g!==A.gender&&s.g!=='u') return null; if(s.g==='k') return null;
+  let sc=0; const r=[];
+  if(A.surface==='clay'){ if(s.so.includes('clay')||s.so.includes('omni')){sc+=6; r.push('Clay/omni sole grips on sandy artificial grass');} else if(s.so.includes('herringbone')){sc+=3; r.push('Herringbone sole: good all-round grip');} }
+  else if(A.surface==='hard'){ if(s.so.includes('allcourt')||s.so.includes('herringbone')){sc+=5; r.push('Herringbone/all-court sole suits indoor courts');} }
+  else if(s.so.includes('herringbone')){sc+=2; r.push('Herringbone sole: works on most courts');}
+  if(knee&&cushion(s)){sc+=5; r.push('Extra cushioning ('+s.cu.join(', ')+') for '+A.injury.join('/'));}
+  if(A.wide&&s.wd){sc+=6; r.push('Wide fit');}
+  if(A.light&&s.w&&s.w<=360){sc+=3; r.push('Light: '+s.w+' g');}
+  if(A.dur&&s.so.includes('clay')){sc+=1;}
+  sc+=(s.y>=2026?3:s.y>=2025?1:0); if(A.money) sc+=b.g/A.money*3;
+  if(!r.length) r.push('Good match for your budget');
+  return {s,b,sc,r};}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,6);}
+const F=(p,c)=>{try{return new Intl.NumberFormat('en-GB',{style:'currency',currency:c,maximumFractionDigits:p%1?2:0}).format(p)}catch(e){return p+' '+c}};
+async function go(){const raw=$('dg-t').value.trim(); if(raw.length<8){$('dg-t').focus(); return;}
+ const P=parse(raw); $('dg-chips').innerHTML=P.why.map(w=>`<li>${esc(w)}</li>`).join(''); $('dg-read').hidden=false; const O=$('dg-out'); O.hidden=false;
+ if(tab==='r'){const a=racket(P); const q=new URLSearchParams(a).toString();
+  const extra=[]; if(a.prio==='comfort'&&P.A.injury.length) extra.push('Because of your '+P.A.injury.join('/')+', we only show soft or medium-soft rackets that are not head-heavy and weigh 365 g or less.'); if(P.A.side==='right') extra.push('Right side: rounder, control-friendly shapes rank higher.'); if(P.A.side==='left') extra.push('Left side: diamond and teardrop shapes rank higher.');
+  O.innerHTML=`<h2 class="h3">Your racket matches</h2><p>${extra.map(esc).join(' ')}</p><p>We score every racket with the same rules as our racket finder (level ${esc(a.level)}, ${esc(a.style)}, ${esc(a.prio)}, budget ${a.budget==='any'?'any':'£'+a.budget}).</p><p><a class="btn" href="${FINDER}?${q}">See my 3 matches with prices →</a></p>`;}
+ else{ if(!window.__shoeLive){try{const j=await (await fetch('/api/shoe-prices')).json(); window.__shoeLive=j&&j.r||{};}catch(e){window.__shoeLive={};}}
+  const L=shoeRank(P); O.innerHTML=`<h2 class="h3">Your shoe matches</h2>`+(L.length?`<ol class="dl" style="list-style:none;padding:0">${L.map(x=>`<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.s.i?`<img src="${esc(x.s.i)}" alt="" width="64" height="64" loading="lazy" style="object-fit:contain">`:''}<span><a href="${esc(x.s.u)}"><b>${esc(x.s.n)}</b></a><small style="display:block">${x.r.map(esc).join(' · ')}</small><small style="display:block">From ${F(x.b.p,x.b.c)} at ${esc(x.b.d)} · <a href="${esc(x.b.u)}" rel="sponsored nofollow" target="_blank">Shop</a> · <a href="${esc(x.s.u)}">All prices</a></small></span></li>`).join('')}</ol>`:'<p>No in-stock shoes match all of that. Try a higher budget or fewer must-haves.</p>');}
+ O.scrollIntoView({behavior:'smooth',block:'start'});}
+$('dg-go').onclick=go;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SR){const b=$('dg-mic'); b.hidden=false; let rec=null; b.onclick=()=>{if(rec){rec.stop();return;} rec=new SR(); rec.lang='en-GB'; rec.interimResults=false; rec.continuous=true; const base=$('dg-t').value; let txt='';
+ rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++) if(e.results[i].isFinal) txt+=e.results[i][0].transcript+' '; $('dg-t').value=(base?base+' ':'')+txt;};
+ rec.onend=()=>{rec=null; b.textContent='🎤 Speak'; $('dg-ms').textContent='';}; rec.onerror=e=>{$('dg-ms').textContent='Microphone not available: '+e.error;};
+ rec.start(); b.textContent='■ Stop'; $('dg-ms').textContent='Listening… (your browser turns speech into text)';};}
+</script>
+</Base>

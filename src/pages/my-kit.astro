@@ -14,7 +14,7 @@ const title='My kit: get told when what you use is cheaper';
 <p><button class="btn" type="submit">Add to my kit</button> <small class="muted" id="kmsg"></small></p></form>
 </article>
 <section class="panel"><h2 class="h3">My kit</h2><ul id="kit" style="list-style:none;padding:0;margin:0"></ul><p class="muted small" id="kempty">Nothing saved yet.</p></section>
-<section class="panel"><h2 class="h3">Want something better?</h2><p>Describe how you play and we'll suggest alternatives: <a href="/describe/">racket finder</a> · <a href="/describe/?for=shoes">shoe finder</a> · <a href="/deals/">today's deals</a>.</p></section>
+<section class="panel"><h2 class="h3">Want something better?</h2><p>Describe how you play and we'll suggest alternatives: <a href="/describe/">racket finder</a> · <a href="/describe-shoes/">shoe finder</a> · <a href="/deals/">today's deals</a>.</p></section>
 <script is:inline src="/deal-check.js"></script>
 <script is:inline define:vars={{SH,BA,RK}}>
 const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -29,7 +29,7 @@ const F=(p,c)=>WPDeal.fmt(p,c);
 async function render(){const a=read(); $('kempty').hidden=a.length>0; const UL=$('kit');
  const rows=await Promise.all(a.map(async x=>{const j=await WPDeal.get(x.api); const e=j&&j.r&&j.r[x.k]; let hint='No shop price right now.';
   if(e&&e.p>0){const v=WPDeal.verdict(e); hint=`Best price today: ${F(e.p,e.c)} at ${esc(e.n||e.d)}${e.s===0?' (out of stock)':''}. `;
-   hint+=v?esc(v.t):e.drop>=5?`Down ${e.drop}% on its previous price. Good time to reorder.`:(e.min30&&e.p<=e.min30)?'Lowest price in the last 30 days.':'No price drop right now.';}
+   hint+=v?esc(v.t):e.drop>=5?`Down ${e.drop}% on its previous price. Good time to reorder.`:'No price drop right now.';}
   return `<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" style="object-fit:contain">`:''}<span style="flex:1"><small class="muted">${esc(x.t)}</small><br/><a href="${esc(x.u)}"><b>${esc(x.n)}</b></a><small style="display:block">${hint}</small></span><a class="btn btn-line btn-sm" href="${esc(x.u)}">Reorder</a> <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}" aria-label="Remove ${esc(x.n)}">✕</button></li>`;}));
  UL.innerHTML=rows.join(''); UL.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{write(read().filter(x=>x.k!==b.dataset.rm)); render();});}
 render();
