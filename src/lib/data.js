@@ -18,6 +18,11 @@ const JR_RE=/\b(JR|Jr|Junior|Kids?|Girl|Boy|Niñ[oa]s?|Infantil)\b/; const W_RE=
 const normM=s=>s.replace(new RegExp(W_RE.source,'g'),'').replace(/\s+/g,' ').trim().toLowerCase();
 const WSET=new Set(base.filter(r=>!JR_RE.test(r.model)&&W_RE.test(r.model)).map(r=>r.brand.toLowerCase()+'|'+normM(r.model)));
 for (const r of base) r.audience = JR_RE.test(r.model)?'junior':W_RE.test(r.model)?'women':WSET.has(r.brand.toLowerCase()+'|'+r.model.toLowerCase().replace(/\s+/g,' ').trim())?'men':'unisex';
+// Carbon type (3K, 12K, 18K…): from the published face material, else a C18/K12 code there, else the official model name.
+const carbonOf=r=>{const f=r.faceMaterial||'';let m=f.match(/\b(\d{1,2})\s?k\b/i)||f.match(/\bC(\d{1,2})\b/)||(r.model||'').match(/\b(\d{1,2})K\b/);return m?(+m[1])+'K':null;};
+for (const r of base) r.carbon=carbonOf(r);
+export const CK_L={en:['Carbon type','Not listed'],es:['Tipo de carbono','No indicado'],fr:['Type de carbone','Non indiqué'],pt:['Tipo de carbono','Não indicado'],it:['Tipo di carbonio','Non indicato'],de:['Carbon-Typ','Nicht angegeben']};
+export const ckTxt=(r,lang='en')=>r.carbon||(CK_L[lang]||CK_L.en)[1];
 export const AUDIENCES=['men','women','junior','unisex'];
 const rawV = r => r.rated && r.priceGBPApprox ? top2(r)/r.priceGBPApprox : null;
 const maxV = Math.max(...base.map(rawV).filter(Boolean));

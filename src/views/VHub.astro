@@ -10,7 +10,7 @@ import SaveHeart from '../components/SaveHeart.astro';
 import HubRacketScript from './parts/HubRacketScript.astro';
 import HubShoeScript from './parts/HubShoeScript.astro';
 import HubBallScript from './parts/HubBallScript.astro';
-import { allRackets as rackets, brandList, slugify } from '../lib/data.js';
+import { allRackets as rackets, brandList, slugify, CK_L } from '../lib/data.js';
 import { D, url, SITE } from '../i18n/index.js';
 import { SHAPE_KEYS } from '../i18n/routes.js';
 import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js';
@@ -41,20 +41,23 @@ const hub = (() => {
     const priceTxt = r => { const q = pick(r, reg); return q.none ? H.none : H.fromP.replace('{p}', fmt(q.v, q.cur, lang)); };
     const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const shortM = r => { let s = r.model || ''; if (r.brand) s = s.replace(new RegExp('^' + escRe(r.brand) + '\\s+', 'i'), ''); if (r.year) s = s.replace(new RegExp('\\s+' + r.year + '\\s*$'), ''); return s.trim() || r.model; };
-    const spec = r => [r.audience !== 'unisex' && audL(r.audience), r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`].filter(Boolean).join(' · ');
+    const CKL = CK_L[lang] || CK_L.en;
+    const spec = r => [r.audience !== 'unisex' && audL(r.audience), r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`, r.carbon || `${CKL[0]}: ${CKL[1].toLowerCase()}`].filter(Boolean).join(' · ');
+    const ckV = [...new Set(rackets.map(r => r.carbon).filter(Boolean))].sort((a, b) => parseInt(a) - parseInt(b));
     const pu = i => url('rackets', lang, i);
     const U = SITE + pu(p);
     const chip = (vals, labels) => vals.map((v, i) => [v, labels[i]]);
     const groupsA = [['shape', H.shape, chip(['round', 'teardrop', 'diamond', 'hybrid'], H.shapes), ''], ['bal', H.balance, chip(['low', 'medium', 'high'], H.lmh), H.noBal], ['wt', H.weight, chip(['l', 'm', 'h'], H.wts), ''], ['hard', H.hard, chip(['soft', 'medium', 'hard'], H.smh), ''], ['level', H.level, chip(['b', 'i', 'a'], H.lvls), H.noLevel]];
+    groupsA.push(['ck', CKL[0], [...ckV.map(v => [v, v]), ['none', CKL[1]]], '']);
     const G = Object.fromEntries(groupsA.map(g => [g[0], g]));
-    const HT = { ...H, title: null, h1: null, desc: null, all: null, shapeCap: t.shapeCap, rk: url('racket', lang, 'X').replace(/X\/$/, ''), cmp: url('rackets', lang), save: u.save, saved: u.saved, brands: Object.fromEntries(brandPick.map(b => [b.slug, b.name])), sym: SYM, cur: cur0, PER, P, p, base: pu(1), pfx: pu(2).replace(/2\/$/, ''), lang, order: order.map(r => r.slug) };
+    const HT = { ...H, title: null, h1: null, desc: null, all: null, shapeCap: t.shapeCap, rk: url('racket', lang, 'X').replace(/X\/$/, ''), cmp: url('rackets', lang), save: u.save, saved: u.saved, brands: Object.fromEntries(brandPick.map(b => [b.slug, b.name])), sym: SYM, ckT: CKL, cur: cur0, PER, P, p, base: pu(1), pfx: pu(2).replace(/2\/$/, ''), lang, order: order.map(r => r.slug) };
     return {
       locale: d.locale, title: p > 1 ? `${H.h1(N)} · ${H.pageL} ${p} | WhichPadel` : H.title(N), description: p > 1 ? `${H.desc(N)} ${H.pageL} ${p}/${P}.` : H.desc(N),
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', name: H.h1(N), url: U, description: H.desc(N) }, { '@type': 'ItemList', name: H.h1(N), numberOfItems: N, itemListOrder: 'https://schema.org/ItemListUnordered', itemListElement: rs.map((r, i) => ({ '@type': 'ListItem', position: (p - 1) * PER + i + 1, url: SITE + url('racket', lang, r.slug), name: r.model })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: H.crumb, item: SITE + pu(1) }] }] },
       h1: H.h1(N), intro: H.intro, crumb: H.crumb, search: H.search, searchPh: H.searchPh, filters: H.filters, close: H.close,
       sorts: H.sorts, sortKeys: ['pop', 'price', 'hi', 'new', 'old', 'best'], clear: H.clr, clear2: H.clear, apply: H.apply.replace('§', String(N)), results: H.results.replace('§', String(N)),
       h3: false, page: p, selectPop: true, cat: '',
-      rk: { H, t, N, rs, brandPick, years, main: [G.shape, G.bal, G.wt, G.hard, G.level], AUD, audL, shortM, spec, priceTxt, pu, hasNext: p < P, PAGES: Array.from({ length: P }, (_, i) => i + 1), topB, HT, cur0 },
+      rk: { H, t, N, rs, brandPick, years, main: [G.shape, G.bal, G.wt, G.hard, G.ck, G.level], AUD, audL, shortM, spec, priceTxt, pu, hasNext: p < P, PAGES: Array.from({ length: P }, (_, i) => i + 1), topB, HT, cur0 },
     };
   }
   if (kind === 'shoes') {

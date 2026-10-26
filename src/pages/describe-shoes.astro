@@ -11,7 +11,7 @@ const title='Describe your game: shoe finder';
 <p>Tell us how you play in your own words: your level, how often you play, which side, control or power, any injuries, the courts you play on and your feet. We read it with simple keyword rules (nothing is sent anywhere) and match you to rackets or shoes.</p>
 <p class="muted small">Looking for a racket? <a href="/describe/">Find your best racket with AI</a>.</p>
 <label for="dg-t"><b data-lab>Describe your game</b></label>
-<textarea id="dg-t" rows="5" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid #cdd6db" placeholder="e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200."></textarea>
+<textarea id="dg-t" rows="5" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border-radius:10px;border:1px solid #cdd6db" placeholder="e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about 200 pounds."></textarea>
 <p><button type="button" class="btn" id="dg-go">Find my matches</button> <button type="button" class="btn btn-line" id="dg-mic" hidden>🎤 Speak</button> <small class="muted" id="dg-ms"></small></p>
 </article>
 <section class="panel" id="dg-read" hidden><h2 class="h3">What we understood</h2><ul id="dg-chips"></ul><p class="muted small">Not right? Add a few words above (e.g. "beginner", "left side", "wide feet", "clay courts") and try again.</p></section>
@@ -21,7 +21,7 @@ const title='Describe your game: shoe finder';
 <script is:inline define:vars={{SH,FINDER}}>
 const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 let tab='s';
-const setTab=t=>{tab=t; document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===t; b.setAttribute('aria-pressed',on); b.className='btn'+(on?'':' btn-line');}); $('dg-t').placeholder=t==='r'?"e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about £200.":"e.g. I play twice a week on outdoor clay-sand courts, I have wide feet and sore knees, women's shoes under £100."; $('dg-read').hidden=$('dg-out').hidden=true;};
+const setTab=t=>{tab=t; document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===t; b.setAttribute('aria-pressed',on); b.className='btn'+(on?'':' btn-line');}); $('dg-t').placeholder=t==='r'?"e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about 200 pounds.":"e.g. I play twice a week on outdoor clay-sand courts, I have wide feet and sore knees, women's shoes under £100."; $('dg-read').hidden=$('dg-out').hidden=true;};
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab)); setTab(tab);
 const {parse,racket}=window.DG;
 const cushion=s=>(s.cu||[]).some(c=>/gel|boost|wave|flytefoam|ff blast|bounce|dynawall/.test(c));

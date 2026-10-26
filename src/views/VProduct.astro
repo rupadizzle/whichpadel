@@ -13,7 +13,7 @@ import ProductGalleryScript from './parts/ProductGalleryScript.astro';
 import ProductBallScript from './parts/ProductBallScript.astro';
 import { YC, FCARD } from '../lib/years.js';
 import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
-import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify } from '../lib/data.js';
+import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L, ckTxt } from '../lib/data.js';
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
 import { offersOf, SHOPS, domainOf } from '../lib/price.js';
@@ -32,7 +32,7 @@ const page = (() => {
     const audLbl = HUBA[lang].aud + ': ' + HUBA[lang].auds[['men', 'women', 'junior', 'unisex'].indexOf(r.audience)];
     const audLD = { '@type': 'PeopleAudience', ...(r.audience === 'men' ? { suggestedGender: 'male' } : r.audience === 'women' ? { suggestedGender: 'female' } : r.audience === 'junior' ? { audienceType: 'Junior' } : { suggestedGender: 'unisex' }) };
     const t = d.terms, C = d.copy.racket, x = racketX(r, lang);
-    const rows = [[t.spec.brand, r.brand], [t.spec.year, r.year], [t.spec.shape, t.shapeCap[r.shape]], [t.spec.weight, wt(r)], [t.spec.balance, x.bal], [t.spec.core, mat(r.coreMaterial, lang)], [t.spec.hardness, t.core[r.coreHardness]], [t.spec.face, x.face], [t.spec.frame, mat(r.frame, lang)], [t.spec.thickness, r.thicknessMm ? r.thicknessMm + ' mm' : null], ...(r.player ? [[t.spec.player, r.player]] : []), [t.spec.value, r.valueScore != null ? `${r.valueScore}/100` : null]];
+    const rows = [[t.spec.brand, r.brand], [t.spec.year, r.year], [t.spec.shape, t.shapeCap[r.shape]], [t.spec.weight, wt(r)], [t.spec.balance, x.bal], [t.spec.core, mat(r.coreMaterial, lang)], [t.spec.hardness, t.core[r.coreHardness]], [t.spec.face, x.face], [(CK_L[lang]||CK_L.en)[0], ckTxt(r, lang)], [t.spec.frame, mat(r.frame, lang)], [t.spec.thickness, r.thicknessMm ? r.thicknessMm + ' mm' : null], ...(r.player ? [[t.spec.player, r.player]] : []), [t.spec.value, r.valueScore != null ? `${r.valueScore}/100` : null]];
     const similar = rackets.filter(y => y.slug !== r.slug && y.shape === r.shape && y.priceGBPApprox && r.priceGBPApprox && Math.abs(y.priceGBPApprox - r.priceGBPApprox) < 40).slice(0, 3);
     const bs = brandSlug(r.brand);
     const hasB = brandList.some(b => b.slug === bs);

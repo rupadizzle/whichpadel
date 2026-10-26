@@ -1,12 +1,12 @@
 ---
 // Side-by-side racket comparison. Embed mode is the full-screen takeover on the racket list.
-import { rackets } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js';
+import { rackets, CK_L } from '../lib/data.js'; import { D, url, mat } from '../i18n/index.js';
 import { HUB } from '../i18n/hub.js';
 const { lang, embed = false } = Astro.props;
 const d = D(lang), u = d.ui, c = u.cmp, t = d.terms, H = HUB[lang];
 const popular = ['bullpadel','nox','adidas','babolat','head','siux'].map(b => rackets.find(r => r.brand.toLowerCase().includes(b) && r.image)).filter(Boolean).slice(0, 6).map(r => r.slug);
 const FM = Object.fromEntries([...new Set(rackets.flatMap(r => [r.faceMaterial, r.coreMaterial]).filter(Boolean))].map(v => [v, mat(v, lang)]).filter(([a, b]) => a !== b));
-const TX = { FM, c: { ...c, addN: c.addN('§'), search: c.search('§') }, u: { checkPrice: u.checkPrice, fromP: H.fromP, seeSpecs: u.seeSpecs, checked: u.checked, adNoteShort: u.adNoteShort, disclosure: u.disclosure, recordedPrice: u.recordedPrice, aff: url('affiliate', lang), rk: url('racket', lang, '§') }, TR: { Power: t.rt.power, Control: t.rt.control, Handling: t.rt.handling, Forgiveness: t.rt.forgiveness, Comfort: t.rt.comfort, Value: t.rt.value, Shape: t.spec.shape, Weight: t.spec.weight, Balance: t.spec.balance, Hardness: t.spec.hardness, Core: t.spec.core, Face: t.spec.face, Thickness: t.spec.thickness, Year: t.spec.year }, VT: { Round: t.shapeCap.round, Teardrop: t.shapeCap.teardrop, Diamond: t.shapeCap.diamond, Hybrid: t.shapeCap.hybrid, Low: t.bal.low, Medium: t.bal.medium, High: t.bal.high, Soft: t.core.soft, 'Medium-soft': t.core['medium-soft'], 'Medium-hard': t.core['medium-hard'], Hard: t.core.hard } };
+const TX = { ckN: (CK_L[lang]||CK_L.en)[1], FM, c: { ...c, addN: c.addN('§'), search: c.search('§') }, u: { checkPrice: u.checkPrice, fromP: H.fromP, seeSpecs: u.seeSpecs, checked: u.checked, adNoteShort: u.adNoteShort, disclosure: u.disclosure, recordedPrice: u.recordedPrice, aff: url('affiliate', lang), rk: url('racket', lang, '§') }, TR: { Power: t.rt.power, Control: t.rt.control, Handling: t.rt.handling, Forgiveness: t.rt.forgiveness, Comfort: t.rt.comfort, Value: t.rt.value, Shape: t.spec.shape, Weight: t.spec.weight, Balance: t.spec.balance, Hardness: t.spec.hardness, Core: t.spec.core, Face: t.spec.face, Carbon: (CK_L[lang]||CK_L.en)[0], Thickness: t.spec.thickness, Year: t.spec.year }, VT: { Round: t.shapeCap.round, Teardrop: t.shapeCap.teardrop, Diamond: t.shapeCap.diamond, Hybrid: t.shapeCap.hybrid, Low: t.bal.low, Medium: t.bal.medium, High: t.bal.high, Soft: t.core.soft, 'Medium-soft': t.core['medium-soft'], 'Medium-hard': t.core['medium-hard'], Hard: t.core.hard } };
 ---
 <div id="cmp" class="cmp cmp-cards" data-popular={popular.join(',')} data-embed={embed ? '1' : undefined}><p class="panel empty">{c.loading}</p></div>
 <p class="muted small trust">{c.trust}</p>
@@ -20,12 +20,12 @@ let queued=null, slim=null, by=null, started=null, sel=[], held=[], cap=2, slot=
 window.wpCompare={set(ids){queued=ids; boot();}, get(){return sel.slice();}};
 const boot=()=>started||(started=(async()=>{
  slim=await (await fetch('/compare-data.json')).json(); const C=TX.c,UU=TX.u,TR=TX.TR,VT=TX.VT;
- slim.forEach(x=>{['Shape','Balance','Hardness'].forEach(k=>{if(VT[x[k]])x[k]=VT[x[k]]});['Face','Core'].forEach(k=>{if(TX.FM[x[k]])x[k]=TX.FM[x[k]]});x.Weight=x.Weight&&x.Weight.replace(/ \(.*\)/,'').replace(' to ','–');});
+ slim.forEach(x=>{x.Carbon=x.Carbon||TX.ckN;['Shape','Balance','Hardness'].forEach(k=>{if(VT[x[k]])x[k]=VT[x[k]]});['Face','Core'].forEach(k=>{if(TX.FM[x[k]])x[k]=TX.FM[x[k]]});x.Weight=x.Weight&&x.Weight.replace(/ \(.*\)/,'').replace(' to ','–');});
  const rp=()=>slim.forEach(x=>{const q=WP.best(x.o);x.p=q.txt;x.g=q.v;x.u=q.u||x.u;});rp();
  by=Object.fromEntries(slim.map(x=>[x.s,x]));
  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const SCORES=['Power','Control','Handling','Forgiveness','Comfort','Value'];
- const SPECS=['Shape','Weight','Balance','Hardness','Core','Face','Thickness','Year'];
+ const SPECS=['Shape','Weight','Balance','Hardness','Core','Face','Carbon','Thickness','Year'];
  const img=(x,w,h)=>x.i?`<img src="${x.i}" alt="${esc(x.m)}" width="${w}" height="${h}" decoding="async">`:`<span class="noimg" style="width:${w}px;height:${h}px" aria-hidden="true">${esc((x.sh||'?')[0].toUpperCase())}</span>`;
  const icoSwap='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 8h12m0 0-3-3m3 3-3 3M20 16H8m0 0 3-3m-3 3 3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
  const icoGo='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 17 17 7M17 7H9M17 7v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
