@@ -5,6 +5,9 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 // Per-shop request headers (e.g. pin the shop's own currency instead of geo-IP pricing).
 const SHOP_HEADERS={'esprit-padel-shop.com':{cookie:'cart_currency=EUR; localization=FR'}};
+// Shopify shops that geo-price the HTML (a US worker IP gets USD): read the product .json, which carries the shop's own currency, and refuse anything else.
+const SHOP_JSON={'esprit-padel-shop.com':'EUR'};
+async function shopJson(res,cur){try{const v=(await res.json()).product.variants.filter(x=>+x.price>0); if(!v.length) return {error:'json:noprice'}; const c=v[0].price_currency||cur; if(c!==cur) return {error:'currency:'+c}; return {price:Math.min(...v.map(x=>+x.price)),currency:c,inStock:null,method:'shopify-json'};}catch(e){return {error:'json:'+e.message};}}
 export function robotsAllows(txt,path){if(!txt) return true; let on=false,rules=[]; for(const raw of txt.split(/\r?\n/)){const l=raw.replace(/#.*/,'').trim(); const m=l.match(/^([\w-]+)\s*:\s*(.*)$/); if(!m) continue; const k=m[1].toLowerCase(), v=m[2].trim();
   if(k==='user-agent'){on=v==='*'||/whichpadel/i.test(v);} else if(on&&(k==='disallow'||k==='allow')&&v) rules.push([k,v]);}
  let best=null; for(const [k,v] of rules){const re=new RegExp('^'+v.replace(/[.+?^{}()|[\]\\]/g,'\\$&').replace(/\*/g,'.*').replace(/\\\$$|\$$/,'$')); if(re.test(path)&&(!best||v.length>best[1].length||(v.length===best[1].length&&k==='allow'))) best=[k,v];}
@@ -15,10 +18,11 @@ async function robots(env,shop){const now=Date.now(); if(shop.robots_at&&now-sho
 async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.url);
  const fail=async(status,err)=>{await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,status,err),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now,err,o.id)]); return {id:o.id,err};};
  if(!robotsAllows(rtxt,u.pathname+u.search)) return fail(0,'robots');
- let res; try{res=await fetch(o.url,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en',...(SHOP_HEADERS[o.shop]||{})},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
+ const fu=SHOP_JSON[o.shop]?o.url.split(/[?#]/)[0]+'.json':o.url;
+ let res; try{res=await fetch(fu,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en',...(SHOP_HEADERS[o.shop]||{})},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
  if(res.status===429||res.status===403||res.status===405||res.status>=500){await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,res.status,'blocked-retry'),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now-RECHECK+RETRY,'http'+res.status,o.id)]); return {id:o.id,err:'retry'};}
  if(!res.ok) return fail(res.status,'http'+res.status);
- const p=parse(await res.text(),o.shop,/^(shoe:)?ball-/.test(o.racket_id||'')?2:15); if(p.error) return fail(res.status,p.error);
+ const p=SHOP_JSON[o.shop]?await shopJson(res,SHOP_JSON[o.shop]):parse(await res.text(),o.shop,/^(shoe:)?ball-/.test(o.racket_id||'')?2:15); if(p.error) return fail(res.status,p.error);
  const {results:hist}=await env.DB.prepare('SELECT price,currency FROM price_observations WHERE offer_id=? ORDER BY ts DESC LIMIT 5').bind(o.id).all();
  if(!sane(p.price,hist.filter(h=>h.currency===p.currency).map(h=>h.price))) return fail(res.status,'outlier:'+p.price);
  const st=[env.DB.prepare('INSERT INTO price_observations VALUES(?,?,?,?,?,?)').bind(o.id,now,p.price,p.currency,p.inStock==null?null:+p.inStock,p.method),
