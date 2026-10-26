@@ -1,0 +1,30 @@
+---
+// "Find your best racket with AI": one voice button. Browser speech-to-text + keyword rules (no paid AI); results use the racket finder's scoring.
+import Base from '../layouts/Base.astro'; import { url } from '../i18n/routes.js';
+const FINDER=url('finder','en');
+---
+<Base lang="en-GB" focus title="Find your best racket with AI | WhichPadel" description="Describe your padel game out loud and get your best racket matches with the reasons, prices and shops.">
+<div class="fz"><section class="fz-scr fz-intro">
+ <h1>Find your best racket with AI</h1>
+ <button type="button" class="btn btn-accent fz-start" id="dg-rec">🎤 Describe your game in as many words as you can</button>
+ <p class="fz-sub" id="dg-live" aria-live="polite" hidden></p>
+ <p class="fz-trust" id="dg-note" hidden>Voice works in Chrome, Edge or Safari. <a href={FINDER}>Use the racket finder instead →</a></p>
+</section></div>
+<script is:inline src="/describe-parse.js"></script>
+<script is:inline define:vars={{FINDER}}>
+if(new URLSearchParams(location.search).get('for')==='shoes') location.replace('/describe-shoes/');
+const $=id=>document.getElementById(id), B=$('dg-rec'), L=$('dg-live');
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){B.hidden=true; $('dg-note').hidden=false;}
+else{let rec=null, fin='';
+ const done=()=>{const t=fin.trim(); if(t.length<8){B.textContent='🎤 Try again: describe your game'; L.textContent=t?'We didn\'t catch enough. Say your level, side, control or power, injuries and budget.':''; return;}
+  const p=window.DG.parse(t), a=window.DG.racket(p); B.disabled=true; B.textContent='Finding your rackets…';
+  L.textContent='We heard: '+p.why.join(' · ');
+  setTimeout(()=>location.href=FINDER+'?'+new URLSearchParams(a),1200);};
+ B.onclick=()=>{if(rec){rec.stop();return;} fin=''; rec=new SR(); rec.lang='en-GB'; rec.interimResults=true; rec.continuous=true;
+  rec.onresult=e=>{let interim=''; for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i]; if(r.isFinal) fin+=r[0].transcript+' '; else interim+=r[0].transcript;} L.hidden=false; L.textContent='“'+(fin+interim).trim()+'”';};
+  rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){B.hidden=true; $('dg-note').hidden=false;}};
+  rec.onend=()=>{rec=null; done();};
+  rec.start(); B.textContent='■ Done'; L.hidden=false; L.textContent='Listening… your level, how often you play, which side, control or power, injuries, budget.';};}
+</script>
+</Base>

@@ -3,6 +3,8 @@ const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpad
 const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=8*3600e3, MAX_AGE=48*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
+// Per-shop request headers (e.g. pin the shop's own currency instead of geo-IP pricing).
+const SHOP_HEADERS={'esprit-padel-shop.com':{cookie:'cart_currency=EUR; localization=FR'}};
 export function robotsAllows(txt,path){if(!txt) return true; let on=false,rules=[]; for(const raw of txt.split(/\r?\n/)){const l=raw.replace(/#.*/,'').trim(); const m=l.match(/^([\w-]+)\s*:\s*(.*)$/); if(!m) continue; const k=m[1].toLowerCase(), v=m[2].trim();
   if(k==='user-agent'){on=v==='*'||/whichpadel/i.test(v);} else if(on&&(k==='disallow'||k==='allow')&&v) rules.push([k,v]);}
  let best=null; for(const [k,v] of rules){const re=new RegExp('^'+v.replace(/[.+?^{}()|[\]\\]/g,'\\$&').replace(/\*/g,'.*').replace(/\\\$$|\$$/,'$')); if(re.test(path)&&(!best||v.length>best[1].length||(v.length===best[1].length&&k==='allow'))) best=[k,v];}
@@ -13,7 +15,7 @@ async function robots(env,shop){const now=Date.now(); if(shop.robots_at&&now-sho
 async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.url);
  const fail=async(status,err)=>{await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,status,err),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now,err,o.id)]); return {id:o.id,err};};
  if(!robotsAllows(rtxt,u.pathname+u.search)) return fail(0,'robots');
- let res; try{res=await fetch(o.url,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en'},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
+ let res; try{res=await fetch(o.url,{headers:{'user-agent':UA,accept:'text/html,application/xhtml+xml','accept-language':'en',...(SHOP_HEADERS[o.shop]||{})},redirect:'follow'});}catch(e){return fail(0,'fetch:'+e.message);}
  if(res.status===429||res.status===403||res.status===405||res.status>=500){await env.DB.batch([env.DB.prepare('INSERT INTO parse_failures VALUES(?,?,?,?)').bind(o.id,now,res.status,'blocked-retry'),env.DB.prepare('UPDATE offers SET last_checked=?,last_error=?,fails=fails+1 WHERE id=?').bind(now-RECHECK+RETRY,'http'+res.status,o.id)]); return {id:o.id,err:'retry'};}
  if(!res.ok) return fail(res.status,'http'+res.status);
  const p=parse(await res.text(),o.shop,/^(shoe:)?ball-/.test(o.racket_id||'')?2:15); if(p.error) return fail(res.status,p.error);

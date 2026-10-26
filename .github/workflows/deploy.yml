@@ -1,9 +1,9 @@
 name: Deploy
 on:
   push:
-    branches: [main]
+    branches: ['**']
   workflow_dispatch:
-concurrency: { group: deploy, cancel-in-progress: false }
+concurrency: { group: "${{ github.ref_name == 'main' && 'deploy' || format('preview-{0}', github.ref_name) }}", cancel-in-progress: false }
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,8 +19,9 @@ jobs:
       - run: node scripts/translate-missing.mjs || true
       - run: npm run build
       - name: Deploy to Cloudflare Pages
-        run: npx -y wrangler@latest pages deploy dist --project-name whichpadel --branch main --commit-hash "$GITHUB_SHA"
+        run: npx -y wrangler@latest pages deploy dist --project-name whichpadel --branch "$GITHUB_REF_NAME" --commit-hash "$GITHUB_SHA"
       - name: Live check
+        if: github.ref_name == 'main'
         run: |
           sleep 10
           for p in / /rackets/ /balls/; do c=$(curl -s -o /dev/null -w '%{http_code}' "https://whichpadel.com$p"); echo "$p $c"; [ "$c" = 200 ]; done
@@ -32,7 +33,7 @@ jobs:
           export QA_FAST=1 QA_WIDTHS=390,1280 QA_PAGES=$(node scripts/smoke-pages.mjs)
           echo "## Site checks (non-blocking)" >> $GITHUB_STEP_SUMMARY
           bad=0
-          for j in "curtext|CURTEXT PASS|curtextqa.mjs" "mix|^0 issues|mixqa.mjs" "px|PXQA PASS|pxqa.mjs" "seo|0 issues|seoqa.mjs" "qa|QA PASS|qa.mjs" "layout|LAYOUT VIOLATIONS 0|layoutqa.mjs" "pad|PASS|padqa.mjs" "geo|GEOQA PASS|geoqa.mjs" "cmp|CMPQA PASS|cmpqa.mjs" "picker|PICKERQA PASS|pickerqa.mjs"; do
+          for j in "curtext|CURTEXT PASS|curtextqa.mjs" "mix|^0 issues|mixqa.mjs" "px|PXQA PASS|pxqa.mjs" "seo|, 0 issues$|seoqa.mjs" "qa|^QA PASS|qa.mjs" "layout|LAYOUT VIOLATIONS 0|layoutqa.mjs" "pad|^PAD .*, PASS$|padqa.mjs" "geo|GEOQA PASS|geoqa.mjs" "cmp|CMPQA PASS|cmpqa.mjs" "picker|PICKERQA PASS|pickerqa.mjs"; do
             IFS='|' read -r n p c <<<"$j"; node $c > $n.log 2>&1 || true
             if grep -qE "$p" $n.log; then echo "- ✅ $n" >> $GITHUB_STEP_SUMMARY; else bad=1; echo "- ❌ $n" >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY; grep -iE 'fail|issue|/' $n.log | head -15 >> $GITHUB_STEP_SUMMARY; echo '```' >> $GITHUB_STEP_SUMMARY; fi
           done
