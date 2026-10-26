@@ -665,6 +665,48 @@
    ],
    "source": "https://padelproshop.com/en-us/ (US market store in USD; checkout ships only to the chosen country; checked 2026-10-23)",
    "affiliate": "PLACEHOLDER"
+  },
+  "padelreference.com": {
+   "name": "Padel Reference",
+   "delivers": [
+    "FR"
+   ],
+   "unknown": [
+    "GB",
+    "IE",
+    "PT",
+    "ES",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-26)"
+  },
+  "esprit-padel-shop.com": {
+   "name": "Esprit Padel Shop",
+   "delivers": [
+    "FR"
+   ],
+   "unknown": [
+    "GB",
+    "IE",
+    "PT",
+    "ES",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "SE",
+    "US",
+    "EU",
+    "ROW"
+   ],
+   "source": "home market only; other countries not verified (2026-10-26)"
   }
  }
 }
