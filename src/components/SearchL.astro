@@ -185,7 +185,7 @@ list.addEventListener('mousemove', e => {
 document.addEventListener('pointerdown', e => {
   if (performance.now() - blockHero < 500) return;
   const form = e.target.closest?.('form[data-gs]');
-  if (!form || !e.target.closest('input, button')) return;
+  if (!form || !e.target.closest('input, button') || e.target.closest('[data-ai]')) return;
   e.preventDefault();
   open(form.querySelector('input')?.value || '');
 });

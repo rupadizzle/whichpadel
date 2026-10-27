@@ -186,7 +186,7 @@ const view = (() => {
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
 {view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 {view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
-{view.sizeNote && <p class="muted small" style="margin:8px 0 0">{view.sizeNote}</p>}
+{view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
 </aside>
 <div class="rpbody">
 {lang === 'en' && <section class="panel dcheck" hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
@@ -219,22 +219,45 @@ const view = (() => {
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
 {kind !== 'ball' && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
 {kind !== 'ball' && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
-document.body.classList.add('has-sticky');
-const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox'),mq=matchMedia('(max-width:899px)');
-if(mq.matches&&window.__pxLive) document.body.classList.add('px-live');
-let io;
-function syncBar(){
- const live=mq.matches&&document.body.classList.contains('px-live');
- if(live){if(io){io.disconnect();io=null;} sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0); return;}
- if(!mq.matches){if(io){io.disconnect();io=null;} sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
- sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
- if(!io&&bb){io=new IntersectionObserver(([e])=>{if(document.body.classList.contains('px-live')) return; const show=!e.isIntersecting; sc.classList.toggle('show',show); sc.setAttribute('aria-hidden',show?'false':'true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);}); io.observe(bb);}
-}
-syncBar(); mq.addEventListener('change',syncBar); document.addEventListener('px-live',syncBar);
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
+<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1 }}>
+document.body.classList.add('has-sticky');
+const sc=document.getElementById('stickycta'), mq=matchMedia('(max-width:899px)');
+function syncBar(){
+ if(!sc) return;
+ if(!mq.matches){sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
+ sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0);
+}
+syncBar(); mq.addEventListener('change',syncBar);
+const esc=s=>String(s==null?'':s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
+let opener=null;
+function sheetOpen(){const D=document.getElementById('pxsheet'); if(!D) return; opener=document.activeElement; D.hidden=false; document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>requestAnimationFrame(()=>D.classList.add('open'))); setTimeout(()=>{const p=D.querySelector('.pxsp'); if(p) p.focus();},30);}
+function sheetClose(){const D=document.getElementById('pxsheet'); if(!D||D.hidden||D.dataset.live==='1') return; D.classList.remove('open'); const p=D.querySelector('.pxsp'); if(p) p.style.transform=''; document.documentElement.classList.remove('pxlock'); setTimeout(()=>{D.hidden=true;},matchMedia('(prefers-reduced-motion: reduce)').matches?0:250); if(opener&&opener.focus) opener.focus();}
+function arm(){
+ if(document.body.classList.contains('px-live')) return;
+ const M=document.getElementById('buymain'), big=document.getElementById('pxbig'), note=document.getElementById('pxstatic'), nous=document.getElementById('bxnous'), cmpNous=document.querySelector('#pxcmp .pxnous'), size=document.getElementById('pxsize'), disc=document.querySelector('#buybox .disc');
+ const shop=(sc&&sc.querySelector('.sp>span')||{}).textContent.trim()||'', priceEl=sc&&sc.querySelector('.sp b .pz'), price=(priceEl?priceEl.textContent:big?big.textContent:'').replace(/\s+/g,' ').trim();
+ const why=nous&&!nous.hidden?nous:(cmpNous||null);
+ const title=(document.querySelector('.rph h1')||{}).textContent||'';
+ let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
+ const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(M&&!M.hidden?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b>${note&&!note.hidden?`<small class="pxm">${esc(note.textContent.trim())}</small>`:''}</span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li></ul>`:`<p class="pxbigp">${esc(price)}</p>`);
+ D.dataset.live='0';
+ D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(title)}</h2><button type="button" class="pxsx" data-x aria-label="${esc(CLOSE)}">✕</button></div><div class="pxsc">${row}${size?`<p class="pxsize">${esc(size.textContent.trim())}</p>`:''}${disc?`<p class="disc">${disc.innerHTML}</p>`:''}</div></div>`;
+ D.querySelectorAll('[data-x]').forEach(x=>x.onclick=sheetClose);
+ const p=D.querySelector('.pxsp'), box=D.querySelector('.pxsc'); let y0=null, dy=0;
+ p.addEventListener('touchstart',e=>{if(box.scrollTop>0&&box.contains(e.target)){y0=null;return;} y0=e.touches[0].clientY; dy=0; p.style.transition='none';},{passive:true});
+ p.addEventListener('touchmove',e=>{if(y0==null) return; dy=Math.max(0,e.touches[0].clientY-y0); p.style.transform=`translateY(${dy}px)`;},{passive:true});
+ p.addEventListener('touchend',()=>{if(y0==null) return; p.style.transition=''; if(dy>80) sheetClose(); else p.style.transform=''; y0=null;});
+ if(sc&&!sc.dataset.wired){sc.dataset.wired='1'; sc.addEventListener('click',sheetOpen);}
+}
+if(!window.__pxStaticKeys){window.__pxStaticKeys=1; document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden||D.dataset.live==='1') return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
+ if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];
+  if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});}
+document.addEventListener('px-static',arm); document.addEventListener('wp:region',()=>{if(window.__pxStatic&&!document.body.classList.contains('px-live')) arm();}); if(window.__pxStatic) arm();
+</script>
 <ProductGalleryScript/>
 {kind === 'ball' && <ProductBallScript b={b} u={u} SN={page.SN} lang={lang} T={page.ball.T}/>}
 {lang === 'en' && <script is:inline src="/deal-check.js" defer></script>}

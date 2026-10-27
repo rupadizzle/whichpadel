@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded',async()=>{
  const key=x=>x.t+'\0'+x.s;
  const prune=list=>{const known=new Set(cat.map(key)); return list.filter(x=>known.has(key(x)));};
  const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
- function showIn(email){ try{localStorage.wp_acct='1'}catch(e){} $('saved-keep').hidden=true; $('saved-acct').hidden=false; $('saved-email').textContent=email||''; $('saved-device').hidden=true; }
- function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=false; $('saved-acct').hidden=true; $('saved-device').hidden=false; }
+ let acctQuiet=false;
+ function showIn(email){ try{localStorage.wp_acct='1'}catch(e){} $('saved-keep').hidden=true; $('saved-acct').hidden=false; $('saved-email').textContent=email||''; $('saved-device').hidden=true; if(!acctQuiet) document.dispatchEvent(new CustomEvent('wp:acct',{detail:{on:true,email:email||''}})); }
+ function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=false; $('saved-acct').hidden=true; $('saved-device').hidden=false; if(!acctQuiet) document.dispatchEvent(new CustomEvent('wp:acct',{detail:null})); }
+ document.addEventListener('wp:acct',e=>{acctQuiet=true; if(e.detail&&e.detail.on) showIn(e.detail.email); else showOut(); acctQuiet=false;});
  function render(){
   const by=Object.fromEntries(cat.map(r=>[key(r),r]));
   const rows=S.read().map(x=>by[key(x)]).filter(Boolean);

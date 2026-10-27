@@ -7,7 +7,8 @@ const { slug, name, u, SN, lang, api, sizeNote = '' } = Astro.props;
 // live prices from the price engine (/api/prices). Compare list: one row per shop (e.o), filtered to the visitor's country, cheapest in-stock first.
 const okHost=location.hostname==='whichpadel.com'||location.hostname==='localhost'||location.hostname==='127.0.0.1'||/\.whichpadel\.pages\.dev$/.test(location.hostname)||/[?&]px=1/.test(location.search);
 const pxOn=on=>{document.body.classList.toggle('px-live',!!on); document.dispatchEvent(new CustomEvent('px-live'));};
-if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e){pxOn(0); return;}
+const pxFail=()=>{pxOn(0); window.__pxStatic=1; document.dispatchEvent(new CustomEvent('px-static'));};
+if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal.timeout(5000):undefined}).then(x=>x.ok?x.json():null).then(j=>{const e=j&&j.r&&j.r[PS]; if(!e){pxFail(); return;}
  const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0&&/^https:\/\//.test(o.u));
  const oj=JSON.stringify(os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u}))); document.querySelectorAll('.pz[data-o],a.aff[data-o]').forEach(n=>n.dataset.o=oj);
  const L=document.getElementById('pxlive'); const C=PX.cmp, esc=s=>String(s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
@@ -22,7 +23,7 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
   const vis=os.filter(o=>!window.WP||!WP.shop||WP.shop(o.d,o.c)!=='n'); const low=Math.min(...vis.map(o=>cv(o.min30||o.p,o.c)));
   L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
-  if(!rows.length){pxOn(0); if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false;return;}
+  if(!rows.length){ if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; pxFail(); return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false; pxFail(); return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const COMM={en:'We earn commission',es:'Ganamos comisión',fr:'Nous touchons une commission',pt:'Ganhamos comissão',it:'Guadagniamo una commissione',de:'Wir erhalten Provision'}[LG]||'We earn commission';
@@ -33,12 +34,12 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
   const b=all[0], bi=b.s!==0; const ul=(L,o0)=>`<ul class="pxl">${L.map((o,i)=>row(o,o0&&i===0&&bi)).join('')}</ul>`;
   let h=`<p class="pxsub pxcnt">${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`+ul(top,true);
   if(all.length>4) h+=`<button type="button" class="pxall" id="pxall" aria-haspopup="dialog">${C.allN.replace('{n}',all.length)}</button>`;
-  P.innerHTML=h; P.hidden=false; M.hidden=true; pxOn(1); const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
+  P.innerHTML=h; P.hidden=false; M.hidden=true; pxOn(1); window.__pxStatic=0; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
   const S=document.getElementById('stickybuy'); if(S){const SP=document.querySelector('#stickycta .sp'); const FR={en:'from',es:'desde',fr:'dès',de:'ab',it:'da',pt:'desde'}[LG]||'from'; if(SP) SP.innerHTML=`<b><small>${FR}</small> ${fb(b)}<svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>${sn(b)}</span>`;}
   // bottom sheet
   let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
   const foot=`<div class="pxshist" id="pxshist" hidden></div><p class="disc">${esc(AD)}: ${esc(ADN)} <a href="${esc(DISCU)}">${esc(DISC)}</a></p>`+(SZ?`<p class="pxsize">${esc(SZ)}</p>`:'');
-  D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc">${ul(top,true)}${all.length>4?`<div class="pxsmore" hidden>${ul(all.slice(4),false)}</div><button type="button" class="pxall pxsall">${C.showAll.replace('{n}',all.length)}</button>`:''}${foot}</div></div>`;
+  D.dataset.live='1'; D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc">${ul(top,true)}${all.length>4?`<div class="pxsmore" hidden>${ul(all.slice(4),false)}</div><button type="button" class="pxall pxsall">${C.showAll.replace('{n}',all.length)}</button>`:''}${foot}</div></div>`;
   sheetWire(D);
   hist(cv,f);}
  let opener=null;
@@ -56,7 +57,7 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
  document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden) return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
   if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];
    if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});
- const SC=document.getElementById('stickycta'); if(SC) SC.addEventListener('click',()=>sheetOpen(false));
+ const SC=document.getElementById('stickycta'); if(SC&&!SC.dataset.wired){SC.dataset.wired='1'; SC.addEventListener('click',()=>sheetOpen(false));}
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
  function hist(cv,f){const B=document.getElementById('pxhist'),S=document.getElementById('pxshist'); if(!H.length) return;
   const dd=new Set(H.map(x=>x[0])).size; if(dd<3){if(S){S.hidden=true;S.innerHTML='';} if(!B) return; const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}
@@ -70,5 +71,5 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
   if(S){S.innerHTML=html; S.hidden=false;}}
  render(); document.addEventListener('wp:region',render);
  if(e.drop>0){const b=document.getElementById('pxdrop'); b.textContent=PX.drop.replace('{n}',e.drop); b.hidden=false;}
- window.wpApply&&window.wpApply();}).catch(()=>pxOn(0)); }
+ window.wpApply&&window.wpApply();}).catch(()=>pxFail()); } else { window.__pxStatic=1; document.dispatchEvent(new CustomEvent('px-static')); }
 </script>
