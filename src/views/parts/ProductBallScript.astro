@@ -15,15 +15,15 @@ if(okHost){ window.__pxLive=1; fetch('/api/shoe-prices',{signal:AbortSignal.time
   const fn=(n,c)=>{const v=Number.isInteger(n)?String(n):n.toFixed(2); const sy={GBP:'£',EUR:'€',USD:'$'}[c]; return c==='SEK'?v+' kr':LG!=='en'?v.replace('.',',')+' '+sy:sy+v;};
   const AX=(window.WP&&WP.approx)||'approx.'; const fb=o=>o.c===cur?fn(o.p,o.c):AX+' '+f(o.v);
   const rows=os.filter(o=>!W.shop||W.shop(o.d,o.c)!=='n').map(o=>({...o,v:cv(o.p,o.c),st:W.shop?W.shop(o.d,o.c):'u'})).sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
-  const L=document.getElementById('bxl'), M=document.getElementById('buymain'), NU=document.getElementById('bxnous');
-  if(!rows.length){pxOn(0); if(W.strict&&W.strict()){NU.hidden=false; M.hidden=true; L.hidden=true;} return;}
-  NU.hidden=true; M.hidden=true; pxOn(1); const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
+  const L=document.getElementById('bxl'), P=document.getElementById('pxcmp'), M=document.getElementById('buymain'), NU=document.getElementById('bxnous');
+  if(!rows.length){pxOn(0); if(W.strict&&W.strict()){NU.hidden=false; if(M) M.hidden=true; if(L) L.hidden=true; if(P){P.hidden=true; P.innerHTML='';}} return;}
+  NU.hidden=true; if(M) M.hidden=true; if(L) L.hidden=true; pxOn(1); const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true; const PBIG=document.getElementById('pxbig'); if(PBIG) PBIG.hidden=true;
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{if(!t) return ''; const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
-  L.innerHTML=rows.map(o=>`<li class="pxr${o.s===0?' oos':''}"><span class="pxs"><b>${sn(o)}</b> <small>${f(o.v)} · ${f(o.v/N)} ${esc(PB)}</small></span> <a class="btn aff btn-sm" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank">${esc(BUY.replace('{s}',''))}→</a></li>`).join(''); L.hidden=false;
   const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}${o.st!=='y'?' nc':''}"><span class="pxs"><b>${sn(o)}</b><small class="pxm">${best?`<span class="pxbd">${C.bestDeal}</span>`:''}<i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}<span class="pxag">${o.st!=='y'?`<span class="pxnc" title="${C.nc}" aria-label="${C.nc}">${C.ncS}</span>`:ag(o.t)}</span></small></span><span class="pxp">${fn(o.p,o.c)}<small class="pxcv">${o.c!==cur?AX+' '+f(o.v)+' · ':''}${f(o.v/N)} ${esc(PB)}</small></span><a class="btn pxb${best?' pri':''}" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${BUY.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
-  const b=rows[0]; const ul=`<ul class="pxl">${rows.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
+  const b=rows[0], top=rows.slice(0,4); const ul=`<ul class="pxl">${rows.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`;
+  if(P){let h=`<p class="pxsub pxcnt">${rows.length===1?C.n1:C.nN.replace('{n}',rows.length)}</p><ul class="pxl">${top.map((o,i)=>row(o,i===0&&o.s!==0)).join('')}</ul>`; if(rows.length>4) h+=`<button type="button" class="pxall" id="pxall" aria-haspopup="dialog">${C.allN.replace('{n}',rows.length)}</button>`; P.innerHTML=h; P.hidden=false;}
   const S=document.getElementById('stickybuy'); if(S){const SP=document.querySelector('#stickycta .sp'); const FR={en:'from',es:'desde',fr:'dès',de:'ab',it:'da',pt:'desde'}[LG]||'from'; if(SP) SP.innerHTML=`<b><small>${FR}</small> ${fb(b)}<svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>${sn(b)}</span>`;}
   let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
   const foot=`<div class="pxshist" id="pxshist" hidden></div><p class="disc">${esc(AD)}: ${esc(ADN)} <a href="${esc(DISCU)}">${esc(DISC)}</a></p>`;

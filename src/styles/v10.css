@@ -7,6 +7,7 @@
 .rpg .gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:12px;background:#fff;border:1px solid var(--line);height:440px;outline-offset:2px}
 .rpg .gtrack::-webkit-scrollbar{display:none}
 .rpg .gslide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:16px;margin:0;background:none;border:0;cursor:zoom-in;min-height:0;border-radius:0}
+.rpg[data-n="1"] .gslide{cursor:default}
 .rpg .gslide img{width:auto;height:100%;max-width:100%;object-fit:contain;aspect-ratio:4/5}
 .rpg .gnone{align-items:center;justify-content:center;height:320px;background:linear-gradient(160deg,#eef4f1,#fff)}
 .rpg .gcount{position:absolute;top:12px;right:12px;background:rgb(15,28,36,.72);color:#fff;font-size:13px;line-height:1;padding:6px 10px;border-radius:99px;font-variant-numeric:tabular-nums;pointer-events:none}
