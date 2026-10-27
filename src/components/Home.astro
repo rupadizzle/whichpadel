@@ -1,5 +1,4 @@
 ---
-import NewsL from './NewsL.astro';
 import Price from './Price.astro'; import RkCard from './RkCard.astro'; import ShoeCard from './ShoeCard.astro'; import RacketIcon from './RacketIcon.astro';
 import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
 import { rackets, allRackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
@@ -61,7 +60,5 @@ const baseProps={lang:DICTS[lang].locale};
 {rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><div class="hub cat" data-rk><ul class="hub-grid rk-strip">{x.rs.map((r,i)=><RkCard r={r} lang={lang} rank={i+1} compare line={`${x.l} ${x.f(r)}`}/>)}</ul><div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={L('rackets')} data-msg={u.tickAlert} onclick="const q=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(q.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+q.join(',');">{u.compareSelected}</button></div></div></section>)}
 <section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
 <ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brandYear',b.id)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
-
-<NewsL lang={lang} src="home"/>
 
 </Base>

@@ -13,7 +13,7 @@ import '../styles/search.css';
 import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import SearchL from '../components/SearchL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
-const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true } = Astro.props;
+const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true, newsletter = true } = Astro.props;
 const L2 = LANGS.find(l=>l!=='en'&&lang.toLowerCase().startsWith(l))||'en';
 const alts = alternates(Astro.url.pathname);
 const LN=LANG_NAME;
@@ -43,29 +43,31 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <NavL lang={L2} switcher={switcher} cta={navCta}/>
 <script is:inline>function placeRegion(){const btn=document.getElementById('rgn-btn'),home=document.getElementById('ftr-rgn'),slot=document.getElementById('nav-rgn'),bar=document.getElementById('ubar-rgn'),nav=document.getElementById('nav');if(!btn||!home||!slot||!nav)return;const desktop=innerWidth>1180,open=nav.classList.contains('open');(!desktop&&open?slot:desktop&&bar?bar:home).appendChild(btn);nav.style.top=open?document.querySelector('.hdr').getBoundingClientRect().bottom+'px':''}document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"));placeRegion()}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});function placeSearch(){const btn=document.getElementById("gs-open"),home=document.getElementById("hdr-search"),bar=document.getElementById("ubar-search");if(!btn||!home||!bar)return;(innerWidth>1180?bar:home).appendChild(btn)}function placeUtil(){const box=document.getElementById("site-util"),bar=document.getElementById("ubar-util"),nav=document.getElementById("nav");if(!box||!bar||!nav)return;if(innerWidth>1180)bar.appendChild(box);else{const dd=nav.querySelector(".dd");if(dd)dd.parentNode.insertBefore(box,dd);else nav.appendChild(box)}}placeSearch();placeUtil();document.addEventListener("DOMContentLoaded",()=>{placeRegion();placeSearch();placeUtil()});addEventListener("resize",()=>{placeRegion();placeSearch();placeUtil()});</script>
 </div></header>
-{L2==='en' && <div class="ai-bar" id="ai-bar" hidden>
-<div class="wrap ai-bar-in">
-<button type="button" class="ai-mic" id="ai-mic" aria-pressed="true" aria-label="Listening. Tap when you are done"><span class="ring" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
-<div class="ai-field"><label class="ai-sr" for="ai-t">Describe your game</label><input id="ai-t" type="text" enterkeyhint="go" autocomplete="off" placeholder="Describe your game"/><p id="ai-status" aria-live="polite">Listening. Just start talking.</p></div>
+{L2==='en' && <dialog class="ai-dlg" id="ai-dlg" aria-labelledby="ai-h">
 <button type="button" class="ai-x" data-ai-close aria-label="Close">✕</button>
-</div>
-</div>}
+<button type="button" class="ai-mic" id="ai-mic" aria-pressed="true" aria-label="Listening. Tap when you are done"><span class="ring" aria-hidden="true"></span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<h2 id="ai-h">Describe your game</h2>
+<label class="ai-sr" for="ai-t">What you said</label>
+<input id="ai-t" type="text" enterkeyhint="go" autocomplete="off" placeholder=""/>
+<p id="ai-status" aria-live="polite">Listening</p>
+</dialog>}
 <GeoBanner lang={L2}/>
 <slot name="hero"/>
 <main class="wrap"><slot/>
-<FooterL lang={L2} news/>
+{newsletter && <FooterL lang={L2} news/>}
 </main>
 <FooterL lang={L2} switcher={switcher} region={region}/>
 <script is:inline>placeRegion();placeSearch();placeUtil()</script>
 {L2==='en' && <script is:inline src="/describe-parse.js"></script>}
 {L2==='en' && <script is:inline define:vars={{FINDER: url('finder', L2)}}>
-const btns=[...document.querySelectorAll('[data-ai]')], bar=document.getElementById('ai-bar'), ta=document.getElementById('ai-t'), status=document.getElementById('ai-status'), mic=document.getElementById('ai-mic');
+const btns=[...document.querySelectorAll('[data-ai]')], dlg=document.getElementById('ai-dlg'), ta=document.getElementById('ai-t'), status=document.getElementById('ai-status'), mic=document.getElementById('ai-mic');
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 let rec=null, fin='', gen=0, open=false, leaving=false, arm=0, denied=false;
 const setOn=on=>btns.forEach(b=>{b.classList.toggle('on',on); b.setAttribute('aria-expanded',on?'true':'false');});
 const live=on=>{mic.setAttribute('aria-pressed',on?'true':'false'); mic.classList.toggle('on',on);};
 function kill(){gen++; clearTimeout(arm); const r=rec; rec=null; if(r){try{r.onresult=r.onerror=r.onend=null; r.stop();}catch(e){}} live(false);}
-function shut(){leaving=true; open=false; kill(); bar.hidden=true; setOn(false);}
+function end(){leaving=true; open=false; kill(); setOn(false);}
+function shut(){end(); if(dlg.open) dlg.close();}
 function go(){clearTimeout(arm); const t=(ta.value||fin).trim(); if(t.length<8){status.textContent='Keep going. Your level, which side, control or power, and a budget.'; if(SR&&!denied&&!rec) listen(); return;} if(!window.DG){status.textContent='One moment, then say it again.'; return;} leaving=true; kill(); const p=window.DG.parse(t); status.textContent=p.why.join(' · '); setTimeout(()=>{location.href=FINDER+'?'+new URLSearchParams(window.DG.racket(p));},800);}
 function schedule(){clearTimeout(arm); if((ta.value||'').trim().length>=8) arm=setTimeout(go,1500);}
 function listen(){if(!SR||denied||!open||leaving||rec) return; const mine=gen; const r=rec=new SR(); r.lang='en-GB'; r.interimResults=true; r.continuous=true;
@@ -74,13 +76,14 @@ function listen(){if(!SR||denied||!open||leaving||rec) return; const mine=gen; c
  r.onend=()=>{if(rec===r) rec=null; if(mine!==gen||!open||leaving||denied) return; setTimeout(()=>{if(mine===gen&&open&&!leaving&&!rec) listen();},250);};
  try{r.start();}catch(e){rec=null; denied=true; live(false); status.textContent='Type how you play, then press enter.'; ta.focus(); return;}
  live(true);}
-function show(){if(open){shut(); return;} open=true; leaving=false; denied=false; fin=''; ta.value=''; status.textContent=SR?'Listening. Just start talking.':'Type how you play, then press enter.'; const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');} if(typeof placeRegion==='function') placeRegion(); bar.hidden=false; setOn(true); if(SR){listen(); mic.focus();} else{live(false); ta.focus();}}
+function show(){if(dlg.open){shut(); return;} open=true; leaving=false; denied=false; fin=''; ta.value=''; status.textContent=SR?'Listening. Just start talking.':'Type how you play, then press enter.'; const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');} if(typeof placeRegion==='function') placeRegion(); dlg.showModal(); setOn(true); if(SR){listen(); mic.focus();} else{live(false); ta.focus();}}
 btns.forEach(b=>b.addEventListener('click',show));
 mic.addEventListener('click',()=>{if(!open||leaving) return; if((ta.value||'').trim().length>=8) go(); else if(SR&&!denied&&!rec) listen(); else status.textContent='Keep going. Your level, which side, control or power, and a budget.';});
 ta.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); go();}});
 ta.addEventListener('input',()=>{if(rec){const r=rec; rec=null; gen++; try{r.onend=null; r.stop();}catch(e){} live(false);} fin=ta.value.trim()+(ta.value.trim()?' ':''); schedule();});
-bar.querySelector('[data-ai-close]').addEventListener('click',shut);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open) shut();});
+dlg.querySelector('[data-ai-close]').addEventListener('click',shut);
+dlg.addEventListener('close',()=>{if(open) end();});
+dlg.addEventListener('click',e=>{if(e.target===dlg) shut();});
 </script>}
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>

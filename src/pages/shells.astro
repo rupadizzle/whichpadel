@@ -2,9 +2,8 @@
 // Reference only: the four card shells to keep. Not in the sitemap route map.
 import Base from '../layouts/Base.astro';
 import '../styles/hub.css';
-import RacketIcon from '../components/RacketIcon.astro';
 import RacketImage from '../components/RacketImage.astro';
-import SaveHeart from '../components/SaveHeart.astro';
+import RkCard from '../components/RkCard.astro';
 import ShoeCard from '../components/ShoeCard.astro';
 import { rackets, brandList, slugify } from '../lib/data.js';
 import { shoes } from '../lib/shoes.js';
@@ -16,7 +15,7 @@ import { BALL } from '../i18n/balls.js';
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
 
 const lang = 'en';
-const d = D(lang), u = d.ui, H = HUB[lang], t = d.terms, B = BALL[lang], F = FINDER[lang];
+const d = D(lang), u = d.ui, H = HUB[lang], B = BALL[lang], F = FINDER[lang];
 const reg = DEFAULT_REGION(lang);
 const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const shortM = r => {
@@ -29,7 +28,6 @@ const fromP = item => {
   const q = pick(item, reg);
   return q.none ? H.none : H.fromP.replace('{p}', fmt(q.v, q.cur, lang));
 };
-const specR = r => [r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`].filter(Boolean).join(' · ');
 const ballEach = b => {
   const q = pick(b, reg);
   return q.none ? '' : `${fmt(Math.round(q.v / b.balls * 100) / 100, q.cur, lang)} ${B.perBall}`;
@@ -63,20 +61,12 @@ const use = {
 <section class="keep-block" id="product">
 <p class="keep-kicker">1 · Product card</p>
 <h2>One card for rackets, shoes and balls</h2>
-<p class="keep-lead">A tile in a grid, a row on a phone or in a tight list. Save is always on. Compare is on for rackets and shoes, off for balls. Rank and rating bars turn on for a best list. That card stays a row on a wide screen, and stacks on a phone so the photo and the ratings have the width.</p>
+<p class="keep-lead">A tile in a grid, a row on a phone or in a tight list. Save is always on. Compare is on for rackets and shoes, off for balls. Rank and rating bars turn on for a best list. There the racket fills the height of the card, and the name, price and ratings sit beside it. On a phone the price drops under the spec.</p>
 
 <div class="keep-tile-specs">
 <div id="a1">
 <p class="keep-id"><b>A1</b> Product tile, racket <a href={use.a1}>{use.a1}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles">
-<li class="rk">
-<a class="rk-a" href={L('racket', racket.slug)}>
-<span class="rk-i">{racket.image ? <img src={racket.image} alt="" width="96" height="112"/> : <RacketIcon shape={racket.shape || 'hybrid'} size={48}/>}</span>
-<span class="rk-t"><span class="rk-b"><span>{[racket.brand, racket.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={racket.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(racket)}</span><span class="rk-c">{specR(racket)}</span><span class="rk-p"><span class="rk-pv">{fromP(racket)}</span></span></span>
-</a>
-<label class="rk-x"><input type="checkbox" class="rk-cb" value={racket.slug}/><span><span class="sr">{H.compare}</span></span></label>
-</li>
-</ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard r={racket} lang={lang} compare eager/></ul></div>
 </div>
 <div id="a2">
 <p class="keep-id"><b>A2</b> Product tile, shoe <a href={use.a2}>{use.a2}</a></p>
@@ -84,81 +74,35 @@ const use = {
 </div>
 <div id="a3">
 <p class="keep-id"><b>A3</b> Product tile, ball <a href={use.a3}>{use.a3}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles">
-<li class="rk">
-<a class="rk-a" href={L('ball', ball.slug)}>
-<span class="rk-i">{ball.imgs && <img src={`/balls/g/${ball.slug}-400.webp`} alt="" width="96" height="96"/>}</span>
-<span class="rk-t"><span class="rk-b"><span>{ball.brand}</span><SaveHeart slug={ball.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{ball.model}</span><span class="rk-c">{specB(ball)}</span><span class="rk-p"><span class="rk-pv">{fromP(ball)}</span></span></span>
-</a>
-</li>
-</ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug} eager>{fromP(ball)}</RkCard></ul></div>
 </div>
 </div>
 
 <div id="b1">
 <p class="keep-id"><b>B1</b> Product row, racket <a href={use.b1}>{use.b1}</a></p>
-<div class="hub cat keep-rows"><ul class="hub-grid">
-<li class="rk">
-<a class="rk-a" href={L('racket', racket.slug)}>
-<span class="rk-i">{racket.image ? <img src={racket.image} alt="" width="72" height="72"/> : <RacketIcon shape={racket.shape || 'hybrid'} size={40}/>}</span>
-<span class="rk-t"><span class="rk-b"><span>{[racket.brand, racket.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={racket.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(racket)}</span><span class="rk-c">{specR(racket)}</span><span class="rk-p"><span class="rk-pv">{fromP(racket)}</span></span></span>
-</a>
-<label class="rk-x"><input type="checkbox" class="rk-cb" value={racket.slug}/><span><span class="sr">{H.compare}</span></span></label>
-</li>
-</ul></div>
+<div class="hub cat rk-rows"><ul class="hub-grid"><RkCard r={racket} lang={lang} compare/></ul></div>
 </div>
 <div id="b2">
 <p class="keep-id"><b>B2</b> Product row, shoe <a href={use.b2}>{use.b2}</a></p>
-<div class="hub cat keep-rows"><ul class="hub-grid"><ShoeCard s={shoe} lang={lang} compare/></ul></div>
+<div class="hub cat rk-rows"><ul class="hub-grid"><ShoeCard s={shoe} lang={lang} compare/></ul></div>
 </div>
 <div id="b3">
 <p class="keep-id"><b>B3</b> Product row, ball <a href={use.b3}>{use.b3}</a></p>
-<div class="hub cat keep-rows"><ul class="hub-grid">
-<li class="rk">
-<a class="rk-a" href={L('ball', ball.slug)}>
-<span class="rk-i">{ball.imgs && <img src={`/balls/g/${ball.slug}-400.webp`} alt="" width="72" height="72"/>}</span>
-<span class="rk-t"><span class="rk-b"><span>{ball.brand}</span><SaveHeart slug={ball.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{ball.model}</span><span class="rk-c">{specB(ball)}</span><span class="rk-p"><span class="rk-pv">{fromP(ball)}</span></span></span>
-</a>
-</li>
-</ul></div>
+<div class="hub cat rk-rows"><ul class="hub-grid"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug}>{fromP(ball)}</RkCard></ul></div>
 </div>
 
 <div id="c1">
 <p class="keep-id"><b>C1</b> Best list, wide <a href={use.c}>{use.c}</a></p>
-<div class="hub cat keep-rows keep-best">
+<div class="hub cat rk-rows rk-best keep-wide">
 <ul class="hub-grid">
-{[racketB, racket].map((r, i) => <li class="rk">
-<a class="rk-a" href={L('racket', r.slug)}>
-<span class="rk-i">{r.image ? <img src={r.image} alt="" width="72" height="72"/> : <RacketIcon shape={r.shape || 'hybrid'} size={40}/>}<span class="rank">#{i + 1}</span></span>
-<span class="rk-t">
-<span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
-<span class="rk-m">{shortM(r)}</span>
-<span class="rk-c">{specR(r)}</span>
-<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
-</span>
-<span class="rk-bars minibars">{bars.map(k => <span class="mb"><span>{t.rt[k]}</span><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span><b>{r.ratings[k]}</b></span>)}</span>
-</a>
-<label class="rk-x"><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}</span></span></label>
-</li>)}
+{[racketB, racket].map((r, i) => <RkCard r={r} lang={lang} rank={i + 1} keys={bars} compare eager={i === 0}/>)}
 </ul>
 </div>
 <div class="keep-phone-block">
 <p class="keep-id" id="c2"><b>C2</b> Best list, phone <a href={use.c}>{use.c}</a></p>
-<div class="keep-phone"><div class="hub cat keep-rows keep-best">
+<div class="keep-phone"><div class="hub cat rk-rows rk-best">
 <ul class="hub-grid">
-{[racketB, racket].map((r, i) => <li class="rk">
-<a class="rk-a" href={L('racket', r.slug)}>
-<span class="rk-i">{r.image ? <img src={r.image} alt="" width="96" height="96"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}<span class="rank">#{i + 1}</span></span>
-<span class="rk-t">
-<span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
-<span class="rk-m">{shortM(r)}</span>
-<span class="rk-c">{specR(r)}</span>
-<span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
-</span>
-<span class="rk-bars minibars">{bars.map(k => <span class="mb"><span>{t.rt[k]}</span><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span><b>{r.ratings[k]}</b></span>)}</span>
-</a>
-<label class="rk-x"><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{H.compare}</span></span></label>
-</li>)}
+{[racketB, racket].map((r, i) => <RkCard r={r} lang={lang} rank={i + 1} keys={bars} compare/>)}
 </ul>
 </div></div>
 </div>
@@ -211,61 +155,18 @@ const use = {
 .keep-id a{margin-left:auto;font-size:.75rem;font-weight:600}
 .keep-tile-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 24px;align-items:start}
 .keep .keep-tile-specs .hub.cat .keep-tiles{grid-template-columns:minmax(0,1fr);max-width:none}
-.keep-rows .hub-grid{max-width:40rem}
+.keep .rk-rows:not(.rk-best) .hub-grid{max-width:40rem}
+.keep-wide{max-width:46rem}
+.keep-phone{max-width:22.5rem}
 .keep-cmp{max-width:40rem;margin-top:12px}
 .keep .keep-cmp.cmp-cards .chead{position:static;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:transparent;border:0;padding:0;backdrop-filter:none;width:auto}
 .keep .keep-cmp.cmp-cards .chead::before{content:none}
 .keep-brands{grid-template-columns:repeat(3,minmax(0,240px));max-width:760px;margin-top:12px}
 .keep-promo{max-width:40rem;margin-top:12px}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-row:1 / 4;align-self:center}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-row:1 / 4}
-.keep-best .rk-bars{grid-column:1 / -1;grid-row:4;align-self:end;margin:0;padding-top:10px;gap:5px}
-.keep-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
-.keep-best .rk-i{position:relative}
-.keep-best .rk-i .rank{top:6px;left:6px}
-.keep-rows.cat .hub-grid{grid-template-columns:1fr;gap:6px}
-.keep-rows.cat .hub-grid .rk{padding:8px}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)){display:grid;grid-template-columns:72px minmax(0,1fr) auto;grid-template-rows:auto minmax(28px,auto) auto;column-gap:8px;row-gap:0;align-items:stretch;padding:8px}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x))>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:8px;row-gap:0}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-i{grid-column:1;grid-row:1 / -1;width:72px;height:72px;aspect-ratio:auto;margin:0;align-self:center}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-t{display:grid;grid-column:2 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:0;height:auto;align-self:stretch}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-b{grid-column:1 / -1;grid-row:1;align-self:start}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-m{grid-column:1;grid-row:2;align-self:center;font-size:.875rem;line-height:1.15}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-c{grid-column:1;grid-row:3;align-self:end;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.15}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-p{display:contents}
-.keep-rows.cat .hub-grid .rk:not(:has(.rk-x)) .rk-pv{grid-column:2;grid-row:3;justify-self:end;align-self:end;white-space:nowrap;font-size:.875rem;line-height:1}
 .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)){padding:10px}
 .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x))>.rk-a{padding:0}
 .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-p{display:flex;justify-content:flex-end;margin-top:auto;padding-top:8px}
 .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-pv{display:block;width:max-content;margin-left:auto;text-align:right;white-space:nowrap}
-.keep-rows.cat .hub-grid .rk:has(.rk-x){display:grid;grid-template-columns:72px minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:8px;row-gap:0;align-items:stretch;padding:8px}
-.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:8px;row-gap:0}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:72px;height:72px;aspect-ratio:auto;margin:0;align-self:center}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{display:grid;grid-column:2 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:0}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:1;grid-row:2;font-size:.875rem}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:1;grid-row:3;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:contents}
-.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:3;justify-self:end;white-space:nowrap;font-size:.875rem}
-.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;grid-column:3;grid-row:2;top:auto;right:auto;width:28px;height:28px;align-self:center;justify-self:end}
-.keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){grid-template-rows:auto auto auto auto}
-.keep-best{container-type:inline-size}
-.keep-phone{max-width:22.5rem}
-@container (max-width: 520px){
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto auto auto auto;column-gap:10px;row-gap:0;align-items:center;align-content:start;padding:10px}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:10px;row-gap:0}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px;align-self:stretch}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{width:100%;height:100%;max-height:none;object-fit:contain}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{display:grid;grid-column:1 / -1;grid-row:2 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:4px;align-items:start;height:auto;width:auto}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1;align-self:start}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:1 / -1;grid-row:2;align-self:start;font-size:.9375rem;white-space:normal}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:1 / -1;grid-row:3;align-self:start;margin:0;min-width:0;white-space:normal}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:contents}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:5;justify-self:end;align-self:end;margin:0;white-space:nowrap;text-align:right}
- .keep-best .rk-bars{grid-column:1 / -1;grid-row:5;width:auto;align-self:stretch;padding:10px 0 8px}
- .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:1;grid-row:6;width:28px;height:28px;justify-self:start;align-self:end;justify-content:flex-start;align-items:flex-end}
- .keep-best.keep-rows.cat .hub-grid .rk-pv::after{content:none}
-}
 @media(max-width:568px){
  .keep-phone-block{display:none}
 }

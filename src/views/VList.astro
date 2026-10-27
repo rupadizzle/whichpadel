@@ -5,7 +5,6 @@ import PageHero from '../components/PageHero.astro';
 import FaqList from '../components/FaqList.astro';
 import FinderCard from '../components/FinderCard.astro';
 import RkCard from '../components/RkCard.astro';
-import NewsL from '../components/NewsL.astro';
 import HubCss from '../components/HubCss.astro';
 import ShoeCard from '../components/ShoeCard.astro';
 import { rackets } from '../lib/data.js';
@@ -28,7 +27,7 @@ const page = (() => {
     const [T, rule0, intro] = B.titles[k];
     const rule = ruleL(k, lang, rule0);
     const title = /2026/.test(T) ? T : `${T} (2026)`;
-    const top = pickL(k, lang).slice(0, 15);
+    const top = pickL(k, lang).slice(0, 10);
     const U = SITE + url('best', lang, k);
     const faq = B.faq(T, rule, top.length, top[0]?.model);
     const FC = { en: ['Not sure which one fits you?', 'Answer 4 quick questions and get your best match with recent prices.', 'Find my racket'], es: ['¿No sabes cuál te va mejor?', 'Responde 4 preguntas rápidas y recibe tu pala ideal con precios recientes.', 'Encontrar mi pala'], fr: ['Vous hésitez ?', 'Répondez à 4 questions rapides et obtenez votre raquette idéale avec les prix récents.', 'Trouver ma raquette'], pt: ['Não sabe qual escolher?', 'Responda a 4 perguntas rápidas e receba a sua raquete ideal com preços recentes.', 'Encontrar a minha raquete'], it: ['Non sai quale fa per te?', 'Rispondi a 4 domande veloci e trova la racchetta giusta con i prezzi aggiornati.', 'Trova la mia racchetta'], de: ['Unsicher, welcher passt?', 'Beantworte 4 kurze Fragen und erhalte deinen passenden Schläger mit aktuellen Preisen.', 'Meinen Schläger finden'] }[lang] || [];
@@ -131,7 +130,6 @@ const page = (() => {
 <section class="panel vs"><h2>{u.otherLists}</h2>{page.others.map(o => <a href={url('best', lang, o)}><span>{page.B.titles[o][0]}</span><span>→</span></a>)}<p><a href={url('guide', lang)}>{u.howToChoose}</a> · <a href={url('brands', lang)}>{u.byBrand}</a></p></section>
 </aside>
 </div>
-<NewsL lang={lang} src="ranking"/>
 <FaqList heading={u.faq} items={page.faq}/>
 </>}
 {kind === 'year' && <>

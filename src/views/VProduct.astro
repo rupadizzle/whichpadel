@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import Price from '../components/Price.astro';
 import Gallery from '../components/Gallery.astro';
 import StickyCta from '../components/StickyCta.astro';
-import NewsL from '../components/NewsL.astro';
 import PriceAlertL from '../components/PriceAlertL.astro';
 import RacketIcon from '../components/RacketIcon.astro';
 import SaveHeart from '../components/SaveHeart.astro';
@@ -211,10 +210,8 @@ const view = (() => {
 </div>
 {kind === 'racket' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
-<NewsL lang={lang} src="racket"/>
 <StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
-<NewsL lang={lang} src="shoe"/>
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
 {kind !== 'ball' && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}

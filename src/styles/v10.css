@@ -6,19 +6,18 @@
 .hero .search button:not(#_):hover{background:var(--lime2)}
 .nav .ai{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;border:0;background:transparent;color:var(--lime);box-shadow:inset 0 0 0 1.5px var(--lime);font:inherit;font-size:.93rem;font-weight:800;cursor:pointer}
 .nav .ai:hover,.nav .ai.on{background:var(--lime);color:var(--navy)}
-.ai-bar{position:sticky;top:calc(62px + var(--bf));z-index:20;background:#071c28;color:#fff;box-shadow:inset 0 -2px 0 var(--lime)}
-.ai-bar[hidden]{display:none}
-.ai-bar-in{display:flex;align-items:center;gap:14px;min-height:76px;padding-block:12px}
-.ai-mic{position:relative;width:52px;height:52px;border:0;border-radius:50%;background:var(--lime);color:var(--navy);cursor:pointer;display:grid;place-items:center;flex:0 0 auto}
-.ai-mic .ring{position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--lime);opacity:0;pointer-events:none}
+.ai-dlg{width:min(420px,calc(100vw - 32px));height:fit-content;max-height:calc(100dvh - 48px);margin:auto;padding:28px 28px 32px;border:0;border-radius:20px;background:#071c28;color:#fff;box-shadow:0 24px 80px rgb(0 0 0 / 40%);text-align:center;overflow:visible}
+.ai-dlg::backdrop{background:rgb(7 28 40 / .62)}
+.ai-dlg h2{margin:18px 0 8px;font-size:1.7rem;line-height:1.15;letter-spacing:-.02em}
+.ai-dlg input{width:100%;box-sizing:border-box;border:0;border-bottom:1px solid rgb(255 255 255 / .22);background:transparent;color:#fff;font:inherit;font-size:1.05rem;font-weight:650;line-height:1.4;text-align:center;padding:8px 4px;min-height:44px;border-radius:0}
+.ai-dlg input:focus{outline:none;border-bottom-color:var(--lime)}
+.ai-dlg input::placeholder{color:#9fb6c0;font-weight:500}
+.ai-status{margin:12px 0 0;color:#9fb6c0;font-size:.95rem;min-height:1.3em}
+.ai-mic{position:relative;width:76px;height:76px;margin:8px auto 0;border:0;border-radius:50%;background:var(--lime);color:var(--navy);cursor:pointer;display:grid;place-items:center}
+.ai-mic .ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--lime);opacity:0;pointer-events:none}
 .ai-mic.on .ring{opacity:.85;animation:ai-ping 1.5s ease-out infinite}
-@keyframes ai-ping{70%,100%{transform:scale(1.35);opacity:0}}
-.ai-field{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
-.ai-field input{width:100%;border:0;background:transparent;color:#fff;font:inherit;font-size:1.25rem;font-weight:700;line-height:1.3;padding:0;min-height:32px;border-radius:0}
-.ai-field input:focus{outline:none}
-.ai-field input::placeholder{color:#e7eef2}
-.ai-status{margin:2px 0 0;color:#9fb6c0;font-size:.9rem;min-height:1.2em}
-.ai-x{width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#fff;font-size:1.15rem;cursor:pointer;flex:0 0 auto}
+@keyframes ai-ping{70%,100%{transform:scale(1.28);opacity:0}}
+.ai-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#fff;font-size:1.15rem;cursor:pointer}
 .ai-x:hover{background:rgb(255 255 255 / .08)}
 .ai-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media(width <= 1180px){.nav .ai{order:-1;margin-bottom:8px;justify-content:center}}
@@ -132,3 +131,15 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 #saved-n:not([hidden]){display:inline-block}
 .saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:16px;margin:16px 0}
 #saved-keep,#saved-acct{margin-top:16px}
+/* one deals signup: copy takes the spare width, the form stays a fixed row */
+main.wrap>.news{grid-template-columns:minmax(0,1fr) minmax(18rem,24rem);gap:32px;align-items:center;padding:24px 32px;border-top:0}
+.news h2{margin:0 0 6px}
+.news p{margin:0;max-width:42rem}
+.news .inline-form{flex-wrap:nowrap;align-items:center;gap:8px}
+.news .inline-form input[type=email]{flex:1;min-width:0;min-height:44px}
+.news .inline-form .btn{flex:none}
+@media(max-width:760px){
+ main.wrap>.news{grid-template-columns:1fr;gap:16px;padding:20px}
+ .news .inline-form{flex-wrap:wrap}
+ .news .inline-form .btn{min-height:44px}
+}
