@@ -1,6 +1,6 @@
 import {parse,sane} from './parse.js'; import {FEEDS} from './feeds.js';
 const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpadel.com)';
-const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=23*3600e3, MAX_AGE=72*3600e3;
+const PER_DOMAIN=120, GAP_MS=3000, RETRY=6*3600e3, DAY=86400e3, RECHECK=23*3600e3, MAX_AGE=72*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 // Per-shop request headers (e.g. pin the shop's own currency instead of geo-IP pricing).
@@ -31,7 +31,7 @@ async function checkOffer(env,o,rtxt){const now=Date.now(); const u=new URL(o.ur
  await env.DB.batch(st); return {id:o.id,price:p.price};}
 export async function run(env){const {results:shops}=await env.DB.prepare("SELECT * FROM shops WHERE active=1 AND mode='page'").all();
  for(const f of FEEDS) if(f.enabled(env)) await f.fetchOffers(env); // inactive until credentials exist
- const out=await Promise.all(shops.map(async s=>{const {results:due}=await env.DB.prepare('SELECT * FROM offers WHERE shop=? AND last_checked<? ORDER BY last_checked LIMIT ?').bind(s.domain,Date.now()-RECHECK,PER_RUN[s.domain]||PER_DOMAIN).all();
+ const out=await Promise.all(shops.map(async s=>{const {results:due}=await env.DB.prepare('SELECT * FROM offers WHERE shop=? AND last_checked<? ORDER BY last_checked LIMIT ?').bind(s.domain,Date.now()-RECHECK,PER_DOMAIN).all();
   if(!due.length) return []; const rt=await robots(env,s); const r=[]; for(const [i,o] of due.entries()){if(i) await sleep(GAP_MS); r.push(await checkOffer(env,o,rt));} return r;}));
  return out.flat();}
 // public read API: best current offer per racket + 30/90-day lows + short history + drop flag
