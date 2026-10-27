@@ -61,6 +61,7 @@ const P={
  rackets:{en:p=>p>1?`/rackets/page/${p}/`:'/rackets/',es:p=>p>1?`/es/palas/pagina/${p}/`:'/es/palas/',fr:p=>p>1?`/fr/raquettes/page/${p}/`:'/fr/raquettes/',pt:p=>p>1?`/pt/raquetes/pagina/${p}/`:'/pt/raquetes/',it:p=>p>1?`/it/racchette/pagina/${p}/`:'/it/racchette/',de:p=>p>1?`/de/schlaeger/seite/${p}/`:'/de/schlaeger/'},
  years:{en:()=>'/rackets/year/',es:()=>'/es/palas/ano/',fr:()=>'/fr/raquettes/annee/',pt:()=>'/pt/raquetes/ano/',it:()=>'/it/racchette/anno/',de:()=>'/de/schlaeger/jahr/'},
  year:{en:y=>`/rackets/year/${y}/`,es:y=>`/es/palas/ano/${y}/`,fr:y=>`/fr/raquettes/annee/${y}/`,pt:y=>`/pt/raquetes/ano/${y}/`,it:y=>`/it/racchette/anno/${y}/`,de:y=>`/de/schlaeger/jahr/${y}/`},
+ bags:{en:()=>'/padel-bags/',es:()=>'/es/paleteros-mochilas-padel/'},
  shoes:{en:()=>'/shoes/',es:()=>'/es/zapatillas/',fr:()=>'/fr/chaussures/',pt:()=>'/pt/sapatilhas/',it:()=>'/it/scarpe/',de:()=>'/de/schuhe/'},
  shoeCompare:{en:()=>'/shoes/compare/',es:()=>'/es/zapatillas/comparar/',fr:()=>'/fr/chaussures/comparer/',pt:()=>'/pt/sapatilhas/comparar/',it:()=>'/it/scarpe/confronta/',de:()=>'/de/schuhe/vergleich/'},
  shoe:{en:s=>`/shoes/${s}/`,es:s=>`/es/zapatillas/${s}/`,fr:s=>`/fr/chaussures/${s}/`,pt:s=>`/pt/sapatilhas/${s}/`,it:s=>`/it/scarpe/${s}/`,de:s=>`/de/schuhe/${s}/`},
@@ -78,7 +79,7 @@ export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','years','saved'].forEach(t=>add(t));
  allRackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(allRackets.length/24);i++) add('rackets',i);
- add('shoes'); add('shoeCompare'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); return out;};
+ add('shoes'); add('shoeCompare'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); return out;};
 // reverse map for hreflang on any page
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}

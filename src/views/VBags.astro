@@ -1,0 +1,62 @@
+---
+// Padel bags (racket bags, backpacks, holdalls): one view for /padel-bags/ and /es/paleteros-mochilas-padel/. Copy lives in src/i18n/bags.js, data in data/bags.json via src/lib/bags.js.
+// Lists only confirmed 2025-27 models. Shop buttons go straight to the shop (rel="sponsored nofollow"); shop names are never shown.
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, url, SITE, money } from '../i18n/index.js'; import { tk } from '../lib/money.js';
+import { bagGroups, bagStats, bagBrand, bagImg, bagOffer, bagHref } from '../lib/bags.js'; import { BAG, BAG_BRANDS, BAG_DATE } from '../i18n/bags.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui; const T=BAG[lang]; const reg=d.region; const U=SITE+url('bags',lang);
+const g=bagGroups(reg); const s=bagStats(reg); const m=n=>n==null?'–':money(n,lang); const date=BAG_DATE[lang];
+const brands=BAG_BRANDS.map(n=>bagBrand(n,reg)).filter(b=>b.n);
+const yn=v=>v==='yes'?T.yes:v==='no'?T.no:T.ns;
+const rows=l=>l.map(b=>({b,o:bagOffer(b,reg)}));
+const lists=[['bags',T.bagsH,rows(g.bags)],['packs',T.packsH,rows(g.packs)]];
+const all=[...g.bags,...g.packs];
+const jsonld={'@context':'https://schema.org','@graph':[
+ {'@type':'CollectionPage','name':T.h1,'url':U,'description':T.desc,'inLanguage':d.locale},
+ {'@type':'ItemList','name':T.h1,'numberOfItems':all.length,'itemListOrder':'https://schema.org/ItemListUnordered','itemListElement':all.map((b,i)=>({'@type':'ListItem','position':i+1,'name':b.name,...(bagImg(b)?{'image':SITE+bagImg(b)}:{})}))},
+ {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':T.crumb,'item':U}]},
+ {'@type':'FAQPage','mainEntity':T.faq(s,date).map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+---
+<Base lang={d.locale} title={T.title+d.copy.titleSuffix} description={T.desc} jsonld={jsonld}>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav><span class="eyebrow">{T.eyebrow(s)}</span><h1>{T.h1}</h1><Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{T.lead}</p></div><span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></div></section>
+<article class="prose pg bagpg">
+<div class="tldr"><h2>{T.tldrH}</h2><ul>{T.tldr(s,m).map(x=><li set:html={x}/>)}</ul></div>
+<nav class="toc" aria-label={T.tocH}><b>{T.tocH}</b><ol>{Object.entries(T.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>
+<h2 id="choose">{T.chooseH}</h2><p>{T.chooseP}</p>
+<div class="tw"><table><thead><tr>{T.cmpCol.map(c=><th>{c}</th>)}</tr></thead><tbody>{T.cmpRows(s,m).map(r=><tr><td><b>{r[0]}</b></td><td set:html={r[1]}/><td set:html={r[2]}/></tr>)}</tbody></table></div>
+<p>{T.chooseP2}</p>
+{lists.map(([id,h,l])=><><h2 id={id}>{h}</h2><p class="muted small">{T.listNote(date)}</p>
+<div class="tw bagt"><table><thead><tr><th>{T.col.bag}</th><th>{T.col.rackets}</th><th>{T.col.thermal}</th><th>{T.col.shoe}</th><th>{T.col.price}</th></tr></thead><tbody>{l.map(({b,o})=><tr>
+<td><span class="bagn">{bagImg(b)&&<img src={bagImg(b)} alt={b.name} width={b.img[0]} height={b.img[1]} loading="lazy" decoding="async"/>}<span><b>{b.name}</b><small>{[b.type==='holdall'&&T.holdall,b.year,b.dims&&`${T.size}: ${b.dims} cm`].filter(Boolean).join(' · ')}</small></span></span></td>
+<td data-l={T.col.rackets}>{b.rackets??T.ns}</td><td data-l={T.col.thermal}>{yn(b.thermal)}</td><td data-l={T.col.shoe}>{yn(b.shoe)}</td>
+<td class="bagp">{o?<><b set:html={tk(o.o.p,o.o.c,o.cur)}/><br/><a class="btn btn-sm aff" href={bagHref(o.o)} rel="sponsored nofollow" target="_blank" data-ev="buy">{T.cta}</a></>:<span class="muted">{T.noPrice}</span>}</td></tr>)}</tbody></table></div></>)}
+<h2 id="brands">{T.brandsH}</h2><p>{T.brandsP}</p>
+{brands.map(b=><><h3>{b.name}</h3><p><Fragment set:html={T.brandLine(b,m)}/>{b.slug&&<> <a href={url('brand',lang,b.slug)}>{T.brandLink(b.name)}</a></>}</p></>)}
+<h2 id="gender">{T.genderH}</h2><p>{T.genderP}</p>
+<h2 id="look">{T.lookH}</h2><ul>{T.look(s).map(x=><li set:html={x}/>)}</ul><p class="muted small">{T.lookNote}</p>
+<h2 id="faq">{T.faqH}</h2>
+{T.faq(s,date).map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
+<p set:html={T.more(k=>url(k,lang))}/></article>
+<style>
+.hero-disc{color:rgba(255,255,255,.75)}
+.hero-disc a{color:inherit}
+.bagt td{vertical-align:middle}
+.bagt th:first-child{width:42%}
+.bagn{display:flex;gap:.625rem;align-items:center;min-width:0}
+.bagn > span{min-width:0}
+.bagn img{width:56px;height:56px;object-fit:contain;flex:none;border-radius:6px;background:#fff}
+.bagn small{display:block;color:var(--mut);font-size:.75rem;line-height:1.3}
+.bagt .btn{margin-top:.25rem;white-space:nowrap}
+@media (max-width:640px){
+ .bagt thead{display:none}
+ .bagt table,.bagt tbody{display:block}
+ .bagt tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.375rem .5rem;padding:.75rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+ .bagt td{display:block;border:0;padding:0;font-size:.85rem}
+ .bagt td:first-child,.bagt td.bagp{grid-column:1/-1}
+ .bagt td[data-l]::before{content:attr(data-l);display:block;color:var(--mut);font-size:.7rem}
+ .bagt td.bagp{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+ .bagt td.bagp br{display:none}
+ .bagt .btn{margin-top:0}
+ .bagn img{width:48px;height:48px}
+}
+</style>
+</Base>

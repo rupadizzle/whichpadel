@@ -11,7 +11,7 @@ export function getStaticPaths(){ const out=[];
  for(const lang of LANGS){ for(const p of pages()){ const u=url(p.type,lang,p.id); if(!u) continue; out.push({params:{path:u.replace(/^\/|\/$/g,'')||undefined},props:{type:p.type,id:p.id,lang}}); }
   if(lang!=='en') out.push({params:{path:`${lang}/404`},props:{type:'404',lang}}); }
  return out; }
-import { ballBySlug } from '../lib/balls.js'; import VSaved from '../views/VSaved.astro';
+import { ballBySlug } from '../lib/balls.js'; import VSaved from '../views/VSaved.astro'; import VBags from '../views/VBags.astro';
 const { type, id, lang } = Astro.props;
 const brand=s=>brandList.find(b=>b.slug===s)||shoeBrandPage[s];
 ---
@@ -41,6 +41,7 @@ const brand=s=>brandList.find(b=>b.slug===s)||shoeBrandPage[s];
 {type==='shoeList'&&<VList kind="shoe" k={id} lang={lang}/>}
 {type==='shoeBrand'&&<VList kind="shoe" k="brand" b={shoeOnlyBrands.find(b=>b.slug===id)} lang={lang}/>}
 {type==='balls'&&<VHub kind="balls" lang={lang}/>}
+{type==='bags'&&<VBags lang={lang}/>}
 {type==='ball'&&<VProduct kind="ball" b={ballBySlug[id]} lang={lang}/>}
 {type==='us'&&<VList kind="us" k={id}/>}
 {type==='404'&&<V404 lang={lang}/>}
