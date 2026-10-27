@@ -3,9 +3,11 @@ main = "src/worker.js"
 compatibility_date = "2026-10-20"
 workers_dev = false
 routes = [{ pattern = "whichpadel.com/api/prices", zone_id = "22909f5f157e34289fcb68d1da681583" }]
+# Free plan: max 5 cron triggers per account. One expression, every 2 minutes, processes a small slice.
 [triggers]
-crons = ["0 12 * * *", "15 12 * * *", "30 12 * * *"]
+crons = ["*/2 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "whichpadel-prices"
 database_id = "61cc4611-5325-4c84-9b8b-8858aaf40510"
+migrations_dir = "migrations"
