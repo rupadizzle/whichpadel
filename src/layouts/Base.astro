@@ -36,19 +36,20 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 {focus ? <Fragment><header class="hdr fz-hdr"><div class="wrap"><a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
 <a class="fz-x" href={closeHref||url("home",L2)} aria-label={D(L2).ui.close}>✕</a><div hidden><Region lang={L2} switcher={switcher} region={region}/></div></div></header>
 <main class="fz-main"><slot/></main>
-</Fragment> : <Fragment><div class="ubar"><div class="wrap"><Region lang={L2} switcher={switcher} region={region}/>{showBf && <><a class="ubar-msg" href={bfHref}><b>Black Friday</b><span class="bf-l">{D(L2).ui.bfBar}</span><span class="bf-s">{D(L2).ui.bfBarShort}</span><i aria-hidden="true">→</i></a><button type="button" class="ubar-x" id="bf-x" aria-label={D(L2).ui.close}>✕</button><script is:inline>document.getElementById('bf-x').onclick=()=>{try{localStorage.wp_bf='1'}catch(e){}document.documentElement.classList.add('bf-off')}</script></>}</div></div><header class="hdr"><div class="wrap">
+</Fragment> : <Fragment><div class="ubar"><div class="wrap"><div id="ubar-rgn"></div>{showBf && <a class="ubar-msg" href={bfHref}><b>Black Friday</b><span class="bf-l">{D(L2).ui.bfBar}</span><span class="bf-s">{D(L2).ui.bfBarShort}</span><i aria-hidden="true">→</i></a>}<div class="ubar-end"><div id="ubar-search"></div>{showBf && <button type="button" class="ubar-x" id="bf-x" aria-label={D(L2).ui.close}>✕</button>}</div></div></div>{showBf && <script is:inline>document.getElementById('bf-x').onclick=()=>{try{localStorage.wp_bf='1'}catch(e){}document.documentElement.classList.add('bf-off')}</script>}<header class="hdr"><div class="wrap">
 <a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
 <SearchL lang={L2}/>
-<button class="burger" aria-label={D(L2).ui.menu} aria-expanded="false" aria-controls="nav" onclick="const n=document.getElementById('nav');this.setAttribute('aria-expanded',n.classList.toggle('open'))">☰</button>
+<button class="burger" aria-label={D(L2).ui.menu} aria-expanded="false" aria-controls="nav" onclick="const n=document.getElementById('nav');this.setAttribute('aria-expanded',n.classList.toggle('open'));placeRegion()">☰</button>
 <NavL lang={L2} switcher={switcher} cta={navCta}/>
-<script is:inline>document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"))}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});</script>
+<script is:inline>function placeRegion(){const btn=document.getElementById('rgn-btn'),home=document.getElementById('ftr-rgn'),slot=document.getElementById('nav-rgn'),bar=document.getElementById('ubar-rgn'),nav=document.getElementById('nav');if(!btn||!home||!slot||!nav)return;const desktop=innerWidth>1180,open=nav.classList.contains('open');(!desktop&&open?slot:desktop&&bar?bar:home).appendChild(btn);nav.style.top=open?document.querySelector('.hdr').getBoundingClientRect().bottom+'px':''}document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"));placeRegion()}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});function placeSearch(){const btn=document.getElementById("gs-open"),home=document.getElementById("hdr-search"),bar=document.getElementById("ubar-search");if(!btn||!home||!bar)return;(innerWidth>1180?bar:home).appendChild(btn)}placeSearch();document.addEventListener("DOMContentLoaded",()=>{placeRegion();placeSearch()});addEventListener("resize",()=>{placeRegion();placeSearch()});</script>
 </div></header>
 <GeoBanner lang={L2}/>
 <slot name="hero"/>
 <main class="wrap"><slot/>
 <FooterL lang={L2} news/>
 </main>
-<FooterL lang={L2} switcher={switcher}/>
+<FooterL lang={L2} switcher={switcher} region={region}/>
+<script is:inline>placeRegion();placeSearch()</script>
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
 (()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
