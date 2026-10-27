@@ -1,4 +1,4 @@
-// Padel bag copy for hub (/bags/, /es/paleteros/) and product pages (/bags/<slug>/). EN+ES only — same languages as the bag dataset.
+// Padel bag copy for hub (/padel-bags/, /es/paleteros-mochilas-padel/) and product pages (/padel-bags/<slug>/). EN+ES only — same languages as the bag dataset.
 // Hub chrome matches shoes/balls. Guide/FAQ copy stays on the hub below the grid.
 export const BAG = {
  en: {
