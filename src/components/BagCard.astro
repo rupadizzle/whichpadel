@@ -1,0 +1,14 @@
+---
+import { bagImg, bagTypeKey, bagComp } from '../lib/bags.js'; import { BAG } from '../i18n/bags.js'; import { D, url } from '../i18n/index.js';
+import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
+import SaveHeart from './SaveHeart.astro';
+const { b, lang, eager = false } = Astro.props; const T = BAG[lang]; const u = D(lang).ui; const img = bagImg(b);
+const escRe = x => String(x).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const shortN = () => { let n = b.name || ''; if (b.brand) n = n.replace(new RegExp('^' + escRe(b.brand) + '\\s+', 'i'), ''); if (b.year) { n = n.replace(new RegExp('\\s+' + b.year + '\\s*$'), ''); const yy = String(b.year).slice(-2); if (yy.length === 2) n = n.replace(new RegExp('\\s+' + yy + '\\s*$'), ''); } return n.trim() || b.name; };
+const typeK = bagTypeKey(b);
+const spec = [T.types[typeK], b.rackets != null && T.racketsN(b.rackets), b.year && String(b.year)].filter(Boolean).join(' · ');
+const q = pick(b, DEFAULT_REGION(lang));
+const price = q.none ? u.checkPrice : T.from1.split('{p}')[0] + fmt(q.v, q.cur, lang);
+const th = bagComp(b.thermal); const sh = bagComp(b.shoe);
+---
+<li class="rk" data-s={b.slug} data-m={shortN()} data-b={b.brand} data-type={typeK} data-th={th} data-shoe={sh} data-y={b.year || 0} data-n={b.offs?.filter(o => o.s).length || 0}><a class="rk-a" href={url('bag', lang, b.slug)}><span class="rk-i">{img && <img src={img} alt={T.alt(b.name)} width="96" height="96" loading={eager ? 'eager' : 'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{[b.brand, b.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={b.slug} kind="g" off={u.save} on={u.saved}/></span><span class="rk-m">{shortN()}</span><span class="rk-c">{spec}</span><span class="rk-p"><span class="pz rk-pv">{price}</span></span></span></a></li>

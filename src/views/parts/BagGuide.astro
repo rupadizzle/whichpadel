@@ -1,0 +1,29 @@
+---
+// SEO guide + FAQ under the bags hub grid. Keeps the brief's racket-bag-vs-backpack comparison table; product tables are replaced by the hub grid above.
+import { bagGroups, bagStats, bagBrand } from '../../lib/bags.js';
+import { BAG, BAG_BRANDS, BAG_DATE } from '../../i18n/bags.js';
+import { D, url, money } from '../../i18n/index.js';
+const { lang } = Astro.props;
+const d = D(lang), T = BAG[lang], reg = d.region;
+const s = bagStats(reg); const m = n => n == null ? '–' : money(n, lang); const date = BAG_DATE[lang];
+const brands = BAG_BRANDS.map(n => bagBrand(n, reg)).filter(b => b.n);
+---
+<article class="prose pg bag-guide" id="guide">
+<nav class="toc" aria-label={T.tocH}><b>{T.tocH}</b><ol>{Object.entries(T.toc).map(([id, l]) => <li><a href={'#' + id}>{l}</a></li>)}</ol></nav>
+<div class="tldr"><h2>{T.tldrH}</h2><ul>{T.tldr(s, m).map(x => <li set:html={x}/>)}</ul></div>
+<h2 id="choose">{T.chooseH}</h2>
+<p>{T.chooseP}</p>
+<div class="tw"><table><thead><tr>{T.cmpCol.map(c => <th>{c}</th>)}</tr></thead><tbody>{T.cmpRows(s, m).map(r => <tr><td><b>{r[0]}</b></td><td set:html={r[1]}/><td set:html={r[2]}/></tr>)}</tbody></table></div>
+<p>{T.chooseP2}</p>
+<h2 id="brands">{T.brandsH}</h2>
+<p>{T.brandsP}</p>
+{brands.map(b => <><h3>{b.name}</h3><p><Fragment set:html={T.brandLine(b, m)}/>{b.slug && <> <a href={url('brand', lang, b.slug)}>{T.brandLink(b.name)}</a></>}</p></>)}
+<h2 id="gender">{T.genderH}</h2>
+<p>{T.genderP}</p>
+<h2 id="look">{T.lookH}</h2>
+<ul>{T.look(s).map(x => <li set:html={x}/>)}</ul>
+<p class="muted small">{T.lookNote}</p>
+<h2 id="faq">{T.faqH}</h2>
+{T.faq(s, date).map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
+<p set:html={T.more(k => url(k, lang))}/>
+</article>
