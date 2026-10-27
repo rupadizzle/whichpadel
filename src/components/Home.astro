@@ -1,52 +1,64 @@
 ---
-import NewsL from './NewsL.astro';
-import Price from './Price.astro'; import CardL from './CardL.astro'; import RacketIcon from './RacketIcon.astro';
+import Price from './Price.astro'; import RkCard from './RkCard.astro'; import ShoeCard from './ShoeCard.astro'; import RacketIcon from './RacketIcon.astro';
 import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
 import { rackets, allRackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
-import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { SHOE } from '../i18n/shoes.js';
-const { lang='en' } = Astro.props; const H=HOME[lang]; const F=FINDER[lang]; const CUR0=CURL(lang);
+import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
+import { shoes, shoeImg, SHOE_LISTS } from '../lib/shoes.js';
+import { balls, ballImg, rankBalls } from '../lib/balls.js';
+import { SHOE } from '../i18n/shoes.js';
+import { BALL } from '../i18n/balls.js';
+const { lang='en' } = Astro.props; const H=HOME[lang]; const CUR0=CURL(lang);
 const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
-const ptxt=r=>{const q=pick(r,DEFAULT_REGION(lang)); return q.none?HB.none:HB.from1.replace('{p}',fmt(q.v,q.cur,lang));};
-const FIRST=8; const HB=HUB[lang];
+const HB=HUB[lang];
+const priceOf=x=>{const p=pick(x,DEFAULT_REGION(lang)); return p.none?1e9:p.v;};
+const cheap=list=>[...list].sort((a,b)=>priceOf(a)-priceOf(b));
+const oneBrand=(list,n)=>{const seen=new Set(),o=[]; for(const x of list){ if(!x.brand||seen.has(x.brand)) continue; seen.add(x.brand); o.push(x); if(o.length===n) break;} return o;};
 const picks=(()=>{const seen=new Set(),o=[]; for(const r of hubOrder().filter(r=>r.image&&r.price!=null&&r.year>=2026).sort((a,b)=>(b.valueScore||0)-(a.valueScore||0))){ if(seen.has(r.brand)) continue; seen.add(r.brand); o.push(r); if(o.length===8) break;} return o;})();
+const C={
+ en:{rp:'Shape, weight and price, side by side.',round:'Control, and a bigger sweet spot.',tear:'The middle ground between control and power.',dia:'More power on the smash.',sp:'Sole and fit, then the price.',clay:'Herringbone and clay soles for artificial grass.',men:"Men's fit.",women:"Women's fit.",bp:'A tour tube, a fast tube, and the cheapest in stock.',tour:'Used on the Premier padel tour.',fast:'A faster ball.',cheap:'Cheapest',cheapD:'The lowest tube price in stock.',dp:'The lowest prices we are showing right now.',rk:'Lowest racket price.',sh:'Lowest shoe price.',bl:'Lowest tube price.'},
+ es:{rp:'Forma, peso y precio, lado a lado.',round:'Control y un punto dulce más grande.',tear:'El punto medio entre control y potencia.',dia:'Más potencia en el remate.',sp:'Suela y horma, y después el precio.',clay:'Suela clay o de espiga, para césped artificial.',men:'Horma de hombre.',women:'Horma de mujer.',bp:'Un bote de torneo, uno rápido y el más barato en stock.',tour:'La pelota del circuito Premier.',fast:'Una pelota más rápida.',cheap:'Más barato',cheapD:'El bote más barato en stock.',dp:'Los precios más bajos que estamos mostrando ahora.',rk:'La pala más barata.',sh:'La zapatilla más barata.',bl:'El bote más barato.'},
+ fr:{rp:'Forme, poids et prix, côte à côte.',round:'Du contrôle, et un sweet spot plus large.',tear:'Le milieu entre contrôle et puissance.',dia:'Plus de puissance au smash.',sp:'Semelle et coupe, puis le prix.',clay:'Semelle clay ou chevron, pour gazon synthétique.',men:'Coupe homme.',women:'Coupe femme.',bp:'Un tube de tournoi, un tube rapide, et le moins cher en stock.',tour:'La balle du circuit Premier.',fast:'Une balle plus rapide.',cheap:'Le moins cher',cheapD:'Le tube le moins cher en stock.',dp:'Les prix les plus bas affichés en ce moment.',rk:'La raquette la moins chère.',sh:'La chaussure la moins chère.',bl:'Le tube le moins cher.'},
+ pt:{rp:'Formato, peso e preço, lado a lado.',round:'Controlo e um sweet spot maior.',tear:'O meio-termo entre controlo e potência.',dia:'Mais potência no smash.',sp:'Sola e forma, e depois o preço.',clay:'Sola clay ou espinha, para relva artificial.',men:'Forma de homem.',women:'Forma de mulher.',bp:'Um tubo de torneio, um rápido e o mais barato em stock.',tour:'A bola do circuito Premier.',fast:'Uma bola mais rápida.',cheap:'Mais barato',cheapD:'O tubo mais barato em stock.',dp:'Os preços mais baixos que estamos a mostrar agora.',rk:'A raquete mais barata.',sh:'A sapatilha mais barata.',bl:'O tubo mais barato.'},
+ it:{rp:'Forma, peso e prezzo, fianco a fianco.',round:'Controllo e uno sweet spot più ampio.',tear:'Il punto di mezzo tra controllo e potenza.',dia:'Più potenza sulla smash.',sp:'Suola e calzata, poi il prezzo.',clay:'Suola clay o a spina di pesce, per erba sintetica.',men:'Calzata uomo.',women:'Calzata donna.',bp:'Un tubo da torneo, uno veloce e il più economico disponibile.',tour:'La pallina del circuito Premier.',fast:'Una pallina più veloce.',cheap:'La più economica',cheapD:'Il tubo più economico disponibile.',dp:'I prezzi più bassi che stiamo mostrando ora.',rk:'La racchetta più economica.',sh:'La scarpa più economica.',bl:'Il tubo più economico.'},
+ de:{rp:'Form, Gewicht und Preis, nebeneinander.',round:'Kontrolle und ein größerer Sweet Spot.',tear:'Die Mitte zwischen Kontrolle und Kraft.',dia:'Mehr Kraft beim Schmetterball.',sp:'Sohle und Passform, dann der Preis.',clay:'Clay- oder Fischgrätsohle, für Kunstrasen.',men:'Herrenpassform.',women:'Damenpassform.',bp:'Eine Turnierröhre, eine schnelle und die günstigste auf Lager.',tour:'Der Ball der Premier-Tour.',fast:'Ein schnellerer Ball.',cheap:'Günstigste',cheapD:'Die günstigste Röhre auf Lager.',dp:'Die niedrigsten Preise, die wir gerade zeigen.',rk:'Der günstigste Schläger.',sh:'Der günstigste Schuh.',bl:'Die günstigste Röhre.'},
+}[lang];
 const ok=rackets.filter(r=>r.image&&r.published>=4);
 const rows=[['best-value-padel-rackets',r=>r.valueScore,'value'],['most-comfortable-padel-rackets',r=>r.ratings.comfort,'comfort'],['most-powerful-padel-rackets',r=>r.ratings.power,'power']].map(([k,f,l],i)=>({h:H.rows[i],k,l:H.js.rt[l],f,rs:L0[k].pick(ok).slice(0,10)}));
 const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
 const gkeys=Object.keys(lists).slice(0,6).filter(k=>BEST_KEYS.includes(k));
 const gname=k=>DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,'');
 const L=(t,id)=>url(t,lang,id);
+const rk=r=>({kind:'r',item:r});
+const sh=s=>({kind:'s',item:s});
+const bl=b=>({kind:'b',item:b});
+const homeRows=[
+ {id:'rackets',h:H.secR,href:L('rackets'),cmp:'r',items:picks.map(rk)},
+ {id:'shoes',h:H.secS,href:L('shoes'),cmp:'s',items:SHOE_LISTS.best(lang).filter(shoeImg).slice(0,8).map(sh)},
+ {id:'balls',h:H.secB,href:L('balls'),items:rankBalls(balls.filter(ballImg),lang).slice(0,8).map(bl)},
+ {id:'deals',h:H.secD,href:lang==='en'?'/deals/':L('bf'),items:[
+  ...oneBrand(cheap(rackets.filter(r=>r.image)),4).map(rk),
+  ...oneBrand(cheap(shoes.filter(shoeImg)),2).map(sh),
+  ...oneBrand(cheap(balls.filter(ballImg)),2).map(bl),
+ ]},
+];
+const u=DICTS[lang].ui;
 const SITE='https://whichpadel.com';
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
 const baseProps={lang:DICTS[lang].locale};
-import { BALL } from '../i18n/balls.js'
 ---
 <Base {...baseProps} title={H.title(allRackets.length)} description={H.desc(allRackets.length,brands.length)} jsonld={jsonld}>
 <section class="hero" slot="hero"><div class="wrap"><div>
-<span class="eyebrow">{H.eyebrow(allRackets.length,brands.length)}</span>
 <h1>{H.h1a}</h1>
-<p class="lead">{typeof H.lead==="function"?H.lead(allRackets.length):H.lead}</p>
-<a class="quizcta" href={L('finder')}>🎯<span>{H.qcta}<small>{H.qctaS}</small></span><span class="arr" aria-hidden="true">→</span></a>
-<form class="search" data-gs style="margin-top:16px" action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
-<div class="hero-ctas"><a class="btn btn-ghost" href={L('rackets')}>{H.cmpCta}</a><a class="btn btn-ghost" href={L('guide')}>{H.howCta}</a></div>
-<div class="stats"><div><b>{allRackets.length}</b><span>{H.stats[0]}</span></div><div><b>{brands.length}</b><span>{H.stats[1]}</span></div><div><b>0</b><span>{H.stats[2]}</span></div></div>
+<form class="search" data-gs action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
+<div class="stats"><div><b>{allRackets.length}</b><span>{H.stats[0]}</span></div><div><b>{shoes.length}</b><span>{H.stats[1]}</span></div><div><b>{balls.length}</b><span>{H.stats[2]}</span></div><div><b>{brands.length}</b><span>{H.stats[3]}</span></div><div><b>0</b><span>{H.stats[4]}</span></div></div>
 </div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
 
-<section class="section fcta"><a class="fcta-card" href={L('shoes')}><span class="fcta-ic" aria-hidden="true">👟</span><span class="fcta-t"><b>{SHOE[lang].home.t}</b><span>{SHOE[lang].home.s}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a></section>
-{BALL[lang]&&<section class="section fcta"><a class="fcta-card" href={url('balls',lang)}><span class="fcta-ic" aria-hidden="true">🎾</span><span class="fcta-t"><b>{BALL[lang].home.t}</b><span>{BALL[lang].home.s}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a></section>}
-<section class="section fcta"><a class="fcta-card" href={L('finder')}><span class="fcta-ic" aria-hidden="true">🎯</span><span class="fcta-t"><b>{F.cta}</b><span>{F.ctaS}</span></span><span class="fcta-arr" aria-hidden="true">→</span></a></section>
-
-{rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><ul class="hrow">{x.rs.map(r=><li><a class="hc2" href={L('racket',r.slug)}><img src={r.image} alt={`${r.model} ${H.js.alt}`} width="126" height="120" loading="lazy" decoding="async"/><span class="m">{r.model}</span><span class="s">{x.l} <b>{x.f(r)}</b> · <Price r={r} lang={lang}/></span></a></li>)}</ul></section>)}
+{homeRows.map(s=><section class="hrow-wrap" id={s.id}><div class="hrow-head"><h2 class="h3">{s.h}</h2><a href={s.href}>{H.seeAll}</a></div><div class="hub cat" data-rk><ul class="hub-grid rk-strip">{s.items.map(it=>it.kind==='s'?<ShoeCard s={it.item} lang={lang} compare={s.cmp==='s'}/>:it.kind==='b'?<RkCard lang={lang} href={L('ball',it.item.slug)} img={ballImg(it.item)} alt={it.item.name} brand={it.item.brand} name={it.item.model} save={it.item.slug} kind="b"><Price r={it.item} lang={lang}/></RkCard>:<RkCard r={it.item} lang={lang} compare={s.cmp==='r'}/>)}</ul>{s.cmp&&<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={s.cmp==='s'?L('shoeCompare'):L('rackets')} data-k={s.cmp==='s'?'s':'r'} data-msg={u.tickAlert} onclick="const q=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(q.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?'+this.dataset.k+'='+q.join(',');">{u.compareSelected}</button></div>}</div></section>)}
+{rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><div class="hub cat" data-rk><ul class="hub-grid rk-strip">{x.rs.map((r,i)=><RkCard r={r} lang={lang} rank={i+1} compare line={`${x.l} ${x.f(r)}`}/>)}</ul><div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={L('rackets')} data-msg={u.tickAlert} onclick="const q=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(q.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+q.join(',');">{u.compareSelected}</button></div></div></section>)}
 <section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
 <ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brandYear',b.id)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
-
-<section class="section" id="rackets"><div class="sec-head hrow-head"><h2>{HB.top}</h2><a href={L('rackets')}>{HB.all(allRackets.length)}</a></div>
-<ul class="tp-row">{picks.map((r,i)=><li class="rk"><a class="rk-a" href={L('racket',r.slug)}><span class="rk-i"><img src={r.image} alt={`${r.model} ${HB.alt}`} width="96" height="112" loading={i<4?"eager":"lazy"} decoding="async"/></span><span class="rk-t"><span class="rk-b">{r.brand}{r.year&&` · ${r.year}`}</span><span class="rk-m">{r.model}</span><span class="rk-p pz" data-s={r.slug} data-o={JSON.stringify(offersOf(r))} data-f1={HB.from1} data-fn={HB.fromN} data-none={HB.none}>{ptxt(r)}</span></span></a></li>)}</ul>
-<div class="tp-cta"><a class="btn btn-accent" href={L('rackets')}>{HB.all(allRackets.length)} →</a></div>
-<script is:inline define:vars={{RU:L('rackets')}}>if(location.hash==='#rackets') location.replace(RU);</script>
-</section>
-<NewsL lang={lang} src="home"/>
 
 </Base>

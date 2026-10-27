@@ -68,6 +68,10 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(await pg.getAttribute('#stickybuy','href')) F('bar must not link out');
  await pg.close();}
 // fallback: no live offer
-{const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); if(!x.hidden||!x.main) F('fallback'); await pg.close();}
+{const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); if(!x.hidden||!x.main) F('fallback');
+ if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show')&&getComputedStyle(document.getElementById('buybox')).display==='none')) F('fallback bar');
+ await pg.click('#stickyopen'); await pg.waitForTimeout(400);
+ const sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet'); return {open:!!D&&!D.hidden&&D.classList.contains('open'),buy:!!D?.querySelector('a.pxb[href]')};});
+ if(!sh.open||!sh.buy) F('fallback sheet '+JSON.stringify(sh)); await pg.close();}
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'GB'},{updated:'x',r:{[S]:{...of('noxsport.com',90,'EUR'),min90:1,since:T,drop:0,h:[],o:[of('noxsport.com',90,'EUR')]}}}); const x=await info(pg); if(x.rows.length!==1||x.nc!==1) F('only-unknown '+x.rows.length+'/'+x.nc); await pg.close();}
 await b.close(); console.log(bad?'CMPQA FAIL '+bad:'CMPQA PASS');

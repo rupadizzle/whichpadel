@@ -1,0 +1,27 @@
+---
+// The product card from /shells/. Rackets pass `r`. Shoes use ShoeCard. Balls pass the fields.
+import '../styles/hub.css';
+import SaveHeart from './SaveHeart.astro';
+import Price from './Price.astro';
+import RacketIcon from './RacketIcon.astro';
+import { D, url } from '../i18n/index.js';
+const { r, lang, rank, keys, compare=false, eager=false, region=null, line, href, img, alt='', brand, name, spec, save, kind='r', dataBrand } = Astro.props;
+const d = D(lang), t = d.terms, u = d.ui;
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const shortM = x => {
+  let s = x.model || '';
+  if (x.brand) s = s.replace(new RegExp('^' + escRe(x.brand) + '\\s+', 'i'), '');
+  if (x.year) s = s.replace(new RegExp('\\s+' + x.year + '\\s*$'), '');
+  return s.trim() || x.model;
+};
+const specR = x => [x.shape && t.shapeCap[x.shape], x.weightMin && `${x.weightMin}${x.weightMax && x.weightMax !== x.weightMin ? '–' + x.weightMax : ''}\u00a0g`].filter(Boolean).join(' · ');
+const href0 = r ? url('racket', lang, r.slug) : href;
+const img0 = r ? r.image : img;
+const alt0 = r ? r.model : alt;
+const brand0 = r ? [r.brand, r.year].filter(Boolean).join(' · ') : brand;
+const name0 = r ? shortM(r) : name;
+const spec0 = line ?? (r ? specR(r) : spec);
+const save0 = r ? r.slug : save;
+const bars = r && keys ? keys.filter(k => r.ratings && r.ratings[k] != null) : [];
+---
+<li class="rk" data-s={save0} data-brand={dataBrand}><a class="rk-a" href={href0}><span class="rk-i">{img0 ? <img src={img0} alt={alt0} width="96" height="112" loading={eager ? 'eager' : 'lazy'} decoding="async"/> : r && <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}{rank && <span class="rank">#{rank}</span>}</span><span class="rk-t"><span class="rk-b"><span>{brand0}</span>{save0 && <SaveHeart slug={save0} kind={kind} off={u.save} on={u.saved}/>}</span><span class="rk-m">{name0}</span>{spec0 && <span class="rk-c">{spec0}</span>}<span class="rk-p"><span class="rk-pv">{r ? <Price r={r} lang={lang} from region={region}/> : <slot/>}</span></span></span>{bars.length > 0 && <span class="rk-bars minibars">{bars.map(k => <span class="mb"><span>{t.rt[k]}</span><span class="bar"><i style={`width:${r.ratings[k]}%`}></i></span><b>{r.ratings[k]}</b></span>)}</span>}</a>{compare && <label class="rk-x"><input type="checkbox" class="rk-cb" value={save0}/><span><span class="sr">{u.addToCompare}: {name0}</span></span></label>}</li>

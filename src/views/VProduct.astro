@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import Price from '../components/Price.astro';
 import Gallery from '../components/Gallery.astro';
 import StickyCta from '../components/StickyCta.astro';
-import NewsL from '../components/NewsL.astro';
 import PriceAlertL from '../components/PriceAlertL.astro';
 import RacketIcon from '../components/RacketIcon.astro';
 import SaveHeart from '../components/SaveHeart.astro';
@@ -20,7 +19,7 @@ import { offersOf, SHOPS, domainOf } from '../lib/price.js';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
 import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrandTarget, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js';
-import { SHOE } from '../i18n/shoes.js';
+import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
 import { balls, ballImg, rankBalls, BALL_CHECKED } from '../lib/balls.js';
 import { BALL } from '../i18n/balls.js';
 const { kind, lang, r, s, b } = Astro.props;
@@ -120,100 +119,143 @@ const page = (() => {
   };
 })();
 const crumb = page.crumbs;
+const R2 = kind === 'racket' ? page.R2 : kind === 'shoe' ? page.shoe.R2 : RP(lang);
+const view = (() => {
+  if (kind === 'racket') {
+    const h2h = [...page.vs.map(row => ({ href: url('vs', lang, row.slug), label: `${row.A.model} vs ${row.B.model}` })), ...page.similar.filter(item => !page.vs.some(row => row.A.slug === item.slug || row.B.slug === item.slug)).map(item => ({ href: url('rackets', lang) + `?r=${r.slug},${item.slug}`, label: `${r.model} vs ${item.model}` }))];
+    return {
+      brand: r.brand, brandHref: page.bHref, year: r.year, yearHref: r.year ? url('year', lang, r.year) : null, name: r.model, save: r.slug, saveKind: 'r',
+      player: r.player ? { href: url('player', lang, playerSlug(r.player)), name: r.player } : null, chips: page.kchips, slides: page.G, alt: page.alt, shape: r.shape,
+      price: r, tube: null, checked: r.priceChecked || null, buyHref: r.productUrl && r.price != null ? r.productUrl : null, buyLabel: u.px.cmp.buy.replace('{s}', page.BN), offers: page.oj,
+      compareHref: page.cmpU, compareLabel: u.compareThis, sizeNote: null, noUS: null, dc: r.slug, dcApi: '/api/all-prices',
+      overview: u.overview, intro: page.intro, suitsH: page.R2.suits, suits: page.ins.suits, prosH: page.R2.pros, pros: page.ins.pros, consH: page.R2.cons, cons: page.ins.cons, shoeLinks: null,
+      rated: !!r.rated, avg: page.avg, ratings: r.rated ? r.ratings : null, specH: page.R2.specs, rows: page.srows, specPrice: r.price != null, usRow: null,
+      missing: r.inputsMissing.length ? u.missing(page.x.missing.join(', ')) : null, similarH: page.R2.more,
+      similar: page.more.map(item => ({ href: url('racket', lang, item.slug), img: item.image || null, shape: item.shape, title: item.model, lead: item.shape ? page.t.shapeCap[item.shape] : '', item: item.price != null ? item : null })),
+      similarCmp: page.more.length ? { href: page.cmpU, label: page.R2.cmp } : null, h2hH: u.headToHead, h2h,
+      moreH: u.moreFrom(r.brand), more: page.sameBrand.map(item => ({ href: url('racket', lang, item.slug), name: item.model })), allHref: page.bHref, allLabel: u.allBrand(r.brand),
+      yearMore: r.year ? { href: url('year', lang, r.year), label: page.YC.more(r.year) } : null, finder: { h: page.FC[0], p: page.FC[1], cta: page.FC[2], href: url('finder', lang) },
+    };
+  }
+  if (kind === 'shoe') {
+    const sh = page.shoe, other = sh.similar[0];
+    return {
+      brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
+      price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
+      compareHref: url('shoeCompare', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, dc: s.slug, dcApi: '/api/shoe-prices',
+      overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
+      shoeLinks: sh.lk && SHOE_LIST_KEYS.includes(sh.lk) ? [{ href: url('shoeList', lang, sh.lk), label: sh.T.lists[sh.lk][0] }, { href: url('shoeList', lang, 'best'), label: sh.T.lists.best[0] }] : null,
+      rated: false, avg: null, ratings: null, specH: sh.T.specs, rows: sh.rows, specPrice: false, usRow: sh.usSz ? { label: 'Sizes in stock (US)', value: sh.usSz } : null,
+      missing: sh.miss.length ? sh.T.missing(sh.miss.join(', ')) : null, similarH: sh.T.similar,
+      similar: sh.similar.map(x => ({ href: url('shoe', lang, x.slug), img: shoeImg(x), shape: null, title: x.name, lead: x.sole.map(k => sh.T.soles[k]).join(', '), item: x })),
+      similarCmp: null, h2hH: null, h2h: [], moreH: sh.T.moreFrom(s.brand), more: sh.sameBrand.map(x => ({ href: url('shoe', lang, x.slug), name: x.name })), allHref: sh.bHref, allLabel: sh.T.allFrom(s.brand), yearMore: null, finder: null,
+    };
+  }
+  const T = page.ball.T, img = page.ball.img, same = rankBalls(balls.filter(x => x.brand === b.brand && x.slug !== b.slug), lang).slice(0, 6);
+  return {
+    brand: b.brand, brandHref: page.ball.bHref, year: null, yearHref: null, name: b.name, save: b.slug, saveKind: 'b', player: null,
+    chips: [T.speeds[b.speed], b.tour && T.tour[b.tour], b.eco && T.eco, T.tube].filter(Boolean), slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(b.name), shape: null,
+    price: b, tube: T.tube, checked: BALL_CHECKED, buyHref: page.ball.bestUrl, buyLabel: T.buy.replace('{s}', page.ball.BN), offers: page.ball.oj,
+    compareHref: null, compareLabel: null, sizeNote: null, noUS: T.noUS, dc: 'ball-' + b.slug, dcApi: '/api/shoe-prices',
+    overview: u.overview, intro: page.ball.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
+    rated: false, avg: null, ratings: null, specH: T.specs, rows: page.ball.rows, specPrice: false, usRow: null, missing: null, similarH: T.similar,
+    similar: page.ball.similar.map(x => ({ href: url('ball', lang, x.slug), img: ballImg(x), shape: null, title: x.name, lead: T.speeds[x.speed], item: x })),
+    similarCmp: null, h2hH: null, h2h: [], moreH: T.moreFrom(b.brand), more: same.map(x => ({ href: url('ball', lang, x.slug), name: x.name })), allHref: page.ball.bHref, allLabel: T.allFrom(b.brand), yearMore: null, finder: null,
+  };
+})();
 ---
 <Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage}>
 {page.preload && <Fragment slot="head"><link rel="preload" as="image" href={page.preload.href} imagesrcset={page.preload.srcset} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/></Fragment>}
 <nav class="crumbs" aria-label={u.breadcrumb}>{crumb.map((c, i) => <>{i > 0 && ' › '}{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}</nav>
-{kind === 'racket' && <div class="detail rp2">
-{page.G.length > 0 ? <Gallery slides={page.G} alt={page.alt} zoom={page.R2.zoom} photo={page.R2.photo} prev={page.R2.prev} next={page.R2.next} close={page.R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={page.alt} data-n={page.G.length}><div class="gtrack gnone"><RacketIcon shape={r.shape} size={120}/></div></section>}
+<div class="detail rp2">
 <header class="rph">
-<p class="brand"><span><a href={page.bHref}>{r.brand}</a>{r.year && <> · <a href={url('year', lang, r.year)}>{r.year}</a></>}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></p><h1>{r.model}</h1>
-{r.player && <p class="small rpply">{u.usedBy} <a href={url('player', lang, playerSlug(r.player))}>{r.player}</a></p>}
-{page.kchips.length > 0 && <ul class="kchips">{page.kchips.map(c => <li>{c}</li>)}</ul>}
+<p class="brand"><span>{view.brandHref ? <a href={view.brandHref}>{view.brand}</a> : view.brand}{view.year && <> · {view.yearHref ? <a href={view.yearHref}>{view.year}</a> : view.year}</>}</span><SaveHeart slug={view.save} kind={view.saveKind} off={u.save} on={u.saved}/></p>
+<h1>{view.name}</h1>
+{view.player && <p class="small rpply">{u.usedBy} <a href={view.player.href}>{view.player.name}</a></p>}
+{view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
 </header>
-<aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={r} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p>{r.priceChecked && <p class="muted small" id="pxstatic">{u.checkedOn(r.priceChecked)}</p>}<ul class="pxlive muted small" id="pxlive" hidden></ul>
-<div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
-{r.productUrl && r.price != null && <a class="btn aff btn-lg" id="buymain" href={r.productUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.oj}>{u.px.cmp.buy.replace('{s}', page.BN)} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
-<a class="btn btn-sm" style="width:100%" href={page.cmpU}>{u.compareThis}</a></aside>
+{view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
+<aside class="panel buybox" id="buybox">
+<p class="price-big" id="pxbig"><Price r={view.price} lang={lang}/>{view.tube && <> <small class="muted">({view.tube})</small></>} <span class="pxdrop" id="pxdrop" hidden></span></p>
+{view.checked && <p class="muted small" id="pxstatic">{u.checkedOn(view.checked)}</p>}
+<ul class="pxlive muted small" id="pxlive" hidden></ul>
+<div class="pxcmp" id="pxcmp" hidden></div>
+<ul class="pxl" id="bxl" hidden></ul>
+<div class="pxhist" id="pxhist" hidden></div>
+<p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
+{view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+{view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
+{view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
+</aside>
 <div class="rpbody">
-{lang === 'en' && <section class="panel dcheck" hidden data-dc={r.slug} data-api="/api/all-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
-<section class="panel"><h2>{u.overview}</h2><p class="intro">{page.intro}</p>
-{(page.ins.suits.length > 0) && <><h3>{page.R2.suits}</h3><ul class="suits">{page.ins.suits.map(s => <li>{s}</li>)}</ul></>}
-{(page.ins.pros.length > 0 || page.ins.cons.length > 0) && <div class="pc">{page.ins.pros.length > 0 && <div><h3>{page.R2.pros}</h3><ul class="pros">{page.ins.pros.map(s => <li>{s}</li>)}</ul></div>}{page.ins.cons.length > 0 && <div><h3>{page.R2.cons}</h3><ul class="cons">{page.ins.cons.map(s => <li>{s}</li>)}</ul></div>}</div>}
-<p class="small rpguide">{page.C.notSure} <a href={url('guide', lang)}>{page.C.howChoose}</a> {page.C.orSee} <a href={url('best', lang, page.lvl)}>{d.copy.best.titles[page.lvl][0].toLowerCase()}</a>.</p>{page.inLists.length > 0 && <p class="muted small" style="margin:0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}</section>
-{r.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${page.avg * 3.6}deg,#e8edf0 0)`}><span>{page.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
-<div class="scores">{Object.entries(r.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
+{lang === 'en' && <section class="panel dcheck" hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
+<section class="panel"><h2>{view.overview}</h2><p class="intro">{view.intro}</p>
+{view.suits.length > 0 && <>{view.suitsH && <h3>{view.suitsH}</h3>}<ul class="suits">{view.suits.map(line => <li>{line}</li>)}</ul></>}
+{(view.pros.length > 0 || view.cons.length > 0) && <div class="pc">{view.pros.length > 0 && <div><h3>{view.prosH}</h3><ul class="pros">{view.pros.map(line => <li>{line}</li>)}</ul></div>}{view.cons.length > 0 && <div><h3>{view.consH}</h3><ul class="cons">{view.cons.map(line => <li>{line}</li>)}</ul></div>}</div>}
+{kind === 'racket' && <p class="small rpguide">{page.C.notSure} <a href={url('guide', lang)}>{page.C.howChoose}</a> {page.C.orSee} <a href={url('best', lang, page.lvl)}>{d.copy.best.titles[page.lvl][0].toLowerCase()}</a>.</p>}
+{kind === 'racket' && page.inLists.length > 0 && <p class="muted small" style="margin:0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}
+{view.shoeLinks && <p class="small rpguide">{view.shoeLinks.map((link, i) => <>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>)}</p>}
+</section>
+{view.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${view.avg * 3.6}deg,#e8edf0 0)`}><span>{view.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
+<div class="scores">{Object.entries(view.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
 <p class="muted small">{u.ratingsNote}</p></section>}
-<details class="panel rpspec" id="rpspec" open><summary><h2>{page.R2.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{page.srows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{r.price != null && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}</tbody></table></div>
-{r.inputsMissing.length > 0 && <p class="muted small" style="margin-top:12px">{u.missing(page.x.missing.join(', '))}</p>}</details>
-{page.more.length > 0 && <section class="panel"><h2>{page.R2.more}</h2><div class="rpsim">{page.more.map(item => <a href={url('racket', lang, item.slug)}><span class="rpsi">{item.image ? <img src={item.image} alt="" width="72" height="90" loading="lazy" decoding="async"/> : <RacketIcon shape={item.shape} size={40}/>}</span><span><b>{item.model}</b><small>{item.shape && page.t.shapeCap[item.shape]}{item.price != null && <> · <Price r={item} lang={lang}/></>}</small></span></a>)}</div>
-<a class="btn btn-sm rpcmp" href={page.cmpU}>{page.R2.cmp} →</a></section>}
-{(page.vs.length > 0 || page.similar.length > 0) && <section class="panel vs"><h2>{u.headToHead}</h2>{page.vs.map(v => <a href={url('vs', lang, v.slug)}><span>{v.A.model} vs {v.B.model}</span><span>→</span></a>)}{page.similar.filter(item => !page.vs.some(v => v.A.slug === item.slug || v.B.slug === item.slug)).map(item => <a href={url('rackets', lang) + `?r=${r.slug},${item.slug}`}><span>{r.model} vs {item.model}</span><span>→</span></a>)}</section>}
-{page.sameBrand.length > 0 && <section class="panel vs"><h2>{u.moreFrom(r.brand)}</h2>{page.sameBrand.map(item => <a href={url('racket', lang, item.slug)}><span>{item.model}</span><span>→</span></a>)}<p style="margin:12px 0 0"><a href={page.bHref}>{u.allBrand(r.brand)}</a>{r.year && <> · <a href={url('year', lang, r.year)}>{page.YC.more(r.year)}</a></>}</p></section>}
-<section class="panel fcard"><div><h2 class="h3">{page.FC[0]}</h2><p class="muted">{page.FC[1]}</p></div><a class="btn" href={url('finder', lang)}>{page.FC[2]} →</a></section>
+<details class="panel rpspec" id="rpspec" open><summary><h2>{view.specH}</h2></summary><div class="tscroll"><table class="spec"><tbody>{view.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{view.specPrice && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}{view.usRow && <tr data-usrow hidden><th>{view.usRow.label}</th><td>{view.usRow.value}</td></tr>}</tbody></table></div>
+{view.missing && <p class="muted small" style="margin-top:12px">{view.missing}</p>}</details>
+{view.similar.length > 0 && <section class="panel"><h2>{view.similarH}</h2><div class="rpsim">{view.similar.map(item => <a href={item.href}><span class="rpsi">{item.img ? <img src={item.img} alt="" width="72" height="90" loading="lazy" decoding="async"/> : item.shape ? <RacketIcon shape={item.shape} size={40}/> : null}</span><span><b>{item.title}</b><small>{item.lead}{item.lead && item.item ? ' · ' : ''}{item.item && <Price r={item.item} lang={lang}/>}</small></span></a>)}</div>
+{view.similarCmp && <a class="btn btn-sm rpcmp" href={view.similarCmp.href}>{view.similarCmp.label} →</a>}</section>}
+{view.h2h.length > 0 && <section class="panel vs"><h2>{view.h2hH}</h2>{view.h2h.map(item => <a href={item.href}><span>{item.label}</span><span>→</span></a>)}</section>}
+{view.more.length > 0 && <section class="panel vs"><h2>{view.moreH}</h2>{view.more.map(item => <a href={item.href}><span>{item.name}</span><span>→</span></a>)}{(view.allHref || view.yearMore) && <p style="margin:12px 0 0">{view.allHref && <a href={view.allHref}>{view.allLabel}</a>}{view.yearMore && <>{view.allHref && ' · '}<a href={view.yearMore.href}>{view.yearMore.label}</a></>}</p>}</section>}
+{view.finder && <section class="panel fcard"><div><h2 class="h3">{view.finder.h}</h2><p class="muted">{view.finder.p}</p></div><a class="btn" href={view.finder.href}>{view.finder.cta} →</a></section>}
 </div>
-</div>}
-{kind === 'shoe' && <div class="detail rp2 shoe">
-<header class="rph">
-<p class="brand"><span>{page.shoe.bHref ? <a href={page.shoe.bHref}>{s.brand}</a> : s.brand}{s.year && <> · {s.year}</>}</span><SaveHeart slug={s.slug} kind="s" off={u.save} on={u.saved}/></p><h1>{s.name}</h1>
-{page.shoe.kchips.length > 0 && <ul class="kchips">{page.shoe.kchips.map(c => <li>{c}</li>)}</ul>}
-</header>
-<Gallery slides={page.shoe.G} alt={page.shoe.alt} zoom={page.shoe.R2.zoom} photo={page.shoe.R2.photo} prev={page.shoe.R2.prev} next={page.shoe.R2.next} close={page.shoe.R2.close} ih={480} th={64} zh={960}/>
-<aside class="panel buybox" id="buybox"><p class="price-big" id="pxbig"><Price r={s} lang={lang}/> <span class="pxdrop" id="pxdrop" hidden></span></p><p class="muted small" id="pxstatic">{u.checkedOn(SHOE_CHECKED)}</p><ul class="pxlive muted small" id="pxlive" hidden></ul>
-<div class="pxcmp" id="pxcmp" hidden></div><div class="pxhist" id="pxhist" hidden></div>
-<a class="btn aff btn-lg" id="buymain" href={page.shoe.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.shoe.oj}>{u.px.cmp.buy.replace('{s}', page.shoe.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
-<p class="muted small" style="margin:8px 0 0">{page.shoe.T.sizeNote}</p></aside>
-<div class="rpbody">
-{lang === 'en' && <section class="panel dcheck" hidden data-dc={s.slug} data-api="/api/shoe-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
-<section class="panel"><h2>{page.shoe.T.overview}</h2><p class="intro">{page.shoe.intro}</p>
-{s.sole.length > 0 && <ul class="suits">{s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => <li>{page.shoe.T.soleTip[k]}</li>)}</ul>}
-{page.shoe.lk && SHOE_LIST_KEYS.includes(page.shoe.lk) && <p class="small rpguide"><a href={url('shoeList', lang, page.shoe.lk)}>{page.shoe.T.lists[page.shoe.lk][0]}</a> · <a href={url('shoeList', lang, 'best')}>{page.shoe.T.lists.best[0]}</a></p>}</section>
-<details class="panel rpspec" id="rpspec" open><summary><h2>{page.shoe.T.specs}</h2></summary><div class="tscroll"><table class="spec"><tbody>{page.shoe.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{page.shoe.usSz && <tr data-usrow hidden><th>Sizes in stock (US)</th><td>{page.shoe.usSz}</td></tr>}</tbody></table></div>
-{page.shoe.miss.length > 0 && <p class="muted small" style="margin-top:12px">{page.shoe.T.missing(page.shoe.miss.join(', '))}</p>}</details>
-{page.shoe.similar.length > 0 && <section class="panel"><h2>{page.shoe.T.similar}</h2><div class="rpsim">{page.shoe.similar.map(x => <a href={url('shoe', lang, x.slug)}><span class="rpsi">{shoeImg(x) && <img src={shoeImg(x)} alt="" width="72" height="72" loading="lazy" decoding="async"/>}</span><span><b>{x.name}</b><small>{x.sole.map(k => page.shoe.T.soles[k]).join(', ')}{x.sole.length > 0 && ' · '}<Price r={x} lang={lang}/></small></span></a>)}</div></section>}
-{page.shoe.sameBrand.length > 0 && <section class="panel vs"><h2>{page.shoe.T.moreFrom(s.brand)}</h2>{page.shoe.sameBrand.map(x => <a href={url('shoe', lang, x.slug)}><span>{x.name}</span><span>→</span></a>)}{page.shoe.bHref && <p style="margin:12px 0 0"><a href={page.shoe.bHref}>{page.shoe.T.allFrom(s.brand)}</a></p>}</section>}
 </div>
-</div>}
-{kind === 'ball' && <div class="detail rp2 shoe ball">
-<header class="rph"><p class="brand"><span>{page.ball.bHref ? <a href={page.ball.bHref}>{b.brand}</a> : b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></p><h1>{b.name}</h1>
-<ul class="kchips">{[page.ball.T.speeds[b.speed], b.tour && page.ball.T.tour[b.tour], b.eco && page.ball.T.eco, page.ball.T.tube].filter(Boolean).map(c => <li>{c}</li>)}</ul></header>
-{page.ball.img && <section class="rpg" aria-label={page.ball.T.alt(b.name)}><div class="gtrack"><div class="gslide"><img src={page.ball.img} alt={page.ball.T.alt(b.name)} width="400" height="400" fetchpriority="high" decoding="sync"/></div></div></section>}
-<aside class="panel buybox" id="buybox"><p class="price-big"><Price r={b} lang={lang}/> <small class="muted">({page.ball.T.tube})</small></p><p class="muted small" id="pxstatic">{u.checkedOn(BALL_CHECKED)}</p>
-<ul class="pxl" id="bxl" hidden></ul><div class="pxhist" id="pxhist" hidden></div><p class="pxnous" id="bxnous" hidden>{page.ball.T.noUS}</p>
-<a class="btn aff btn-lg" id="buymain" href={page.ball.bestUrl} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={page.ball.oj}>{page.ball.T.buy.replace('{s}', page.ball.BN)} →</a> <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span></aside>
-<div class="rpbody">
-{lang === 'en' && <section class="panel dcheck" hidden data-dc={'ball-'+b.slug} data-api="/api/shoe-prices"><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
-<section class="panel"><p class="intro">{page.ball.intro}</p></section>
-<section class="panel"><h2>{page.ball.T.specs}</h2><table class="spec"><tbody>{page.ball.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table></section>
-{page.ball.similar.length > 0 && <section class="panel vs"><h2>{page.ball.T.similar}</h2>{page.ball.similar.map(x => <a href={url('ball', lang, x.slug)}><span>{x.name}</span><span>→</span></a>)}</section>}
-</div></div>}
 {kind === 'racket' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <PriceAlertL lang={lang} racket={r.model}/>
-<NewsL lang={lang} src="racket"/>
 <StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
-<NewsL lang={lang} src="shoe"/>
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
 {kind !== 'ball' && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
 {kind !== 'ball' && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
-document.body.classList.add('has-sticky');
-const sc=document.getElementById('stickycta'),bb=document.getElementById('buybox'),mq=matchMedia('(max-width:899px)');
-if(mq.matches&&window.__pxLive) document.body.classList.add('px-live');
-let io;
-function syncBar(){
- const live=mq.matches&&document.body.classList.contains('px-live');
- if(live){if(io){io.disconnect();io=null;} sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0); return;}
- if(!mq.matches){if(io){io.disconnect();io=null;} sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
- sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
- if(!io&&bb){io=new IntersectionObserver(([e])=>{if(document.body.classList.contains('px-live')) return; const show=!e.isIntersecting; sc.classList.toggle('show',show); sc.setAttribute('aria-hidden',show?'false':'true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);}); io.observe(bb);}
-}
-syncBar(); mq.addEventListener('change',syncBar); document.addEventListener('px-live',syncBar);
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
-{kind !== 'ball' && <ProductGalleryScript/>}
+<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1 }}>
+document.body.classList.add('has-sticky');
+const sc=document.getElementById('stickycta'), mq=matchMedia('(max-width:899px)');
+function syncBar(){
+ if(!sc) return;
+ if(!mq.matches){sc.classList.remove('show'); sc.setAttribute('aria-hidden','true'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=-1); return;}
+ sc.classList.add('show'); sc.setAttribute('aria-hidden','false'); sc.querySelectorAll('button').forEach(b=>b.tabIndex=0);
+}
+syncBar(); mq.addEventListener('change',syncBar);
+const esc=s=>String(s==null?'':s).replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';');
+let opener=null;
+function sheetOpen(){const D=document.getElementById('pxsheet'); if(!D) return; opener=document.activeElement; D.hidden=false; document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>requestAnimationFrame(()=>D.classList.add('open'))); setTimeout(()=>{const p=D.querySelector('.pxsp'); if(p) p.focus();},30);}
+function sheetClose(){const D=document.getElementById('pxsheet'); if(!D||D.hidden||D.dataset.live==='1') return; D.classList.remove('open'); const p=D.querySelector('.pxsp'); if(p) p.style.transform=''; document.documentElement.classList.remove('pxlock'); setTimeout(()=>{D.hidden=true;},matchMedia('(prefers-reduced-motion: reduce)').matches?0:250); if(opener&&opener.focus) opener.focus();}
+function arm(){
+ if(document.body.classList.contains('px-live')) return;
+ const M=document.getElementById('buymain'), big=document.getElementById('pxbig'), note=document.getElementById('pxstatic'), nous=document.getElementById('bxnous'), cmpNous=document.querySelector('#pxcmp .pxnous'), size=document.getElementById('pxsize'), disc=document.querySelector('#buybox .disc');
+ const shop=(sc&&sc.querySelector('.sp>span')||{}).textContent.trim()||'', priceEl=sc&&sc.querySelector('.sp b .pz'), price=(priceEl?priceEl.textContent:big?big.textContent:'').replace(/\s+/g,' ').trim();
+ const why=nous&&!nous.hidden?nous:(cmpNous||null);
+ const title=(document.querySelector('.rph h1')||{}).textContent||'';
+ let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
+ const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(M&&!M.hidden?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b>${note&&!note.hidden?`<small class="pxm">${esc(note.textContent.trim())}</small>`:''}</span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li></ul>`:`<p class="pxbigp">${esc(price)}</p>`);
+ D.dataset.live='0';
+ D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(title)}</h2><button type="button" class="pxsx" data-x aria-label="${esc(CLOSE)}">✕</button></div><div class="pxsc">${row}${size?`<p class="pxsize">${esc(size.textContent.trim())}</p>`:''}${disc?`<p class="disc">${disc.innerHTML}</p>`:''}</div></div>`;
+ D.querySelectorAll('[data-x]').forEach(x=>x.onclick=sheetClose);
+ const p=D.querySelector('.pxsp'), box=D.querySelector('.pxsc'); let y0=null, dy=0;
+ p.addEventListener('touchstart',e=>{if(box.scrollTop>0&&box.contains(e.target)){y0=null;return;} y0=e.touches[0].clientY; dy=0; p.style.transition='none';},{passive:true});
+ p.addEventListener('touchmove',e=>{if(y0==null) return; dy=Math.max(0,e.touches[0].clientY-y0); p.style.transform=`translateY(${dy}px)`;},{passive:true});
+ p.addEventListener('touchend',()=>{if(y0==null) return; p.style.transition=''; if(dy>80) sheetClose(); else p.style.transform=''; y0=null;});
+ if(sc&&!sc.dataset.wired){sc.dataset.wired='1'; sc.addEventListener('click',sheetOpen);}
+}
+if(!window.__pxStaticKeys){window.__pxStaticKeys=1; document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden||D.dataset.live==='1') return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
+ if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];
+  if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});}
+document.addEventListener('px-static',arm); document.addEventListener('wp:region',()=>{if(window.__pxStatic&&!document.body.classList.contains('px-live')) arm();}); if(window.__pxStatic) arm();
+</script>
+<ProductGalleryScript/>
 {kind === 'ball' && <ProductBallScript b={b} u={u} SN={page.SN} lang={lang} T={page.ball.T}/>}
 {lang === 'en' && <script is:inline src="/deal-check.js" defer></script>}
 </Base>

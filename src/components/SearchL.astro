@@ -53,7 +53,7 @@ const cfg = {
 };
 const cfgJson = JSON.stringify(cfg).replace(/</g, '\\u003c');
 ---
-<button type="button" class="gs-open" id="gs-open" aria-label={S.label} aria-haspopup="dialog" aria-controls="gs" aria-keyshortcuts="Control+K Meta+K"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+<span id="hdr-search"><button type="button" class="gs-open" id="gs-open" aria-label={S.label} aria-haspopup="dialog" aria-controls="gs" aria-keyshortcuts="Control+K Meta+K"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></span>
 <dialog class="gs" id="gs" aria-labelledby="gs-label">
 <form id="gs-form" class="gs-bar" role="search" autocomplete="off">
 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -185,7 +185,7 @@ list.addEventListener('mousemove', e => {
 document.addEventListener('pointerdown', e => {
   if (performance.now() - blockHero < 500) return;
   const form = e.target.closest?.('form[data-gs]');
-  if (!form || !e.target.closest('input, button')) return;
+  if (!form || !e.target.closest('input, button') || e.target.closest('[data-ai]')) return;
   e.preventDefault();
   open(form.querySelector('input')?.value || '');
 });
