@@ -1,10 +1,11 @@
-# Shoe price engine, PREVIEW ONLY: same code as ../prices (strict offers, 8h recheck, 48h freshness), separate D1, workers.dev URL, no whichpadel.com route.
+# Shoe/ball/bag price engine (preview): same code as ../prices, separate D1.
+# Free plan: one cron expression (account-wide cron budget is 5).
 name = "whichpadel-shoe-prices-preview"
 main = "worker.js"
 compatibility_date = "2026-10-20"
 workers_dev = true
 [triggers]
-crons = ["*/10 * * * *"]
+crons = ["1-59/2 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "whichpadel-shoes-preview"
