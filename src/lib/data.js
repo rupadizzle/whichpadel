@@ -3,7 +3,7 @@ import raw from '../../data/rackets.normalised.json';
 import imgs from '../../data/images.json';
 export const meta = raw.meta;
 import src from '../../data/rackets.json';
-const ALIAS={'Alejandro Galán':'Ale Galán','Federico Chingotto':'Fede Chingotto','Martin di Nenno':'Martín Di Nenno','Martin Di Nenno':'Martín Di Nenno','Beatriz González':'Bea González','Franco Stupa':'Franco Stupaczuk'};
+const ALIAS={'Alejandro Galán':'Ale Galán','Federico Chingotto':'Fede Chingotto','Martin di Nenno':'Martín Di Nenno','Martin Di Nenno':'Martín Di Nenno','Beatriz González':'Bea González','Franco Stupa':'Franco Stupaczuk','Marta Ortega':'Martita Ortega'};
 const PL=Object.fromEntries(src.rackets.filter(x=>x.player).map(x=>[x.slug,ALIAS[x.player.trim()]||x.player.trim()]));
 const top2=r=>{const v=Object.entries(r.ratings).filter(([k])=>k!=='value').map(([,v])=>v).sort((a,b)=>b-a); return (v[0]+v[1])/2;};
 const pub=r=>[r.shape,r.weightMin,r.balance,r.coreHardness,r.faceMaterial,r.thicknessMm].filter(x=>x!=null&&x!=='').length;

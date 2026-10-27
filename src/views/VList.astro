@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 // Ranked list pages: best rackets, a release year, a player, shoe lists and brands, and US money pages.
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
@@ -69,6 +70,7 @@ const page = (() => {
       crumbs: [{ href: url('home', lang), label: u.home }, { href: url('players', lang), label: u.players }, { label: p.name }],
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'ItemList', name: C.h1(p.name), url: U, numberOfItems: rs.length, itemListElement: rs.map((r, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('racket', lang, r.slug), name: r.model })) }, { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.players, item: SITE + url('players', lang) }, { '@type': 'ListItem', position: 3, name: p.name, item: U }] }] },
       C, rs, faq, name: p.name, note: C.note,
+      photo: existsSync(new URL(`../../public/players/${p.slug}.webp`, import.meta.url)) ? { src: `/players/${p.slug}.webp`, alt: p.name } : null,
     };
   }
   if (kind === 'shoe') {
@@ -116,7 +118,7 @@ const page = (() => {
 })();
 ---
 <Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} region={page.region} usPage={page.usPage}>
-<PageHero slot="hero" lang={lang} label={page.crumbLabel || u.breadcrumb} crumbs={page.crumbs} h1={page.h1} pageUrl={page.pageUrl} lead={page.lead} eyebrow={page.eyebrow}/>
+<PageHero slot="hero" lang={lang} label={page.crumbLabel || u.breadcrumb} crumbs={page.crumbs} h1={page.h1} pageUrl={page.pageUrl} lead={page.lead} eyebrow={page.eyebrow} photo={page.photo}/>
 {kind === 'best' && <>
 <div class="best-split">
 <div class="best-main">
