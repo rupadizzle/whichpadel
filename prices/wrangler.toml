@@ -4,7 +4,7 @@ compatibility_date = "2026-10-20"
 workers_dev = false
 routes = [{ pattern = "whichpadel.com/api/prices", zone_id = "22909f5f157e34289fcb68d1da681583" }]
 [triggers]
-crons = ["*/10 * * * *"]
+crons = ["*/30 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "whichpadel-prices"
