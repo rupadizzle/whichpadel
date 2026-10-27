@@ -2,7 +2,7 @@
 // s = bag stats from src/lib/bags.js, m(n) = money token in the page currency, u(key) = url builder for this language.
 export const BAG={
  en:{
-  nav:'Padel bags', crumb:'Padel bags',
+  nav:'Padel bags', hdr:'Bags', crumb:'Padel bags',
   title:'Best padel bags 2026: racket bags & backpacks compared',
   desc:'Compare padel racket bags and backpacks from Adidas, Nox, Bullpadel and Head, with current UK prices, capacity and compartments side by side.',
   eyebrow:s=>`Updated October 2026 · ${s.n} bags compared`,
@@ -36,7 +36,7 @@ export const BAG={
   more:u=>`Keep reading: <a href="${u('guide')}">Padel racket buying guide</a> · <a href="${u('shoes')}">Padel shoes</a> · <a href="/deals/">Padel deals</a> · <a href="${u('bf')}">Black Friday padel rackets</a>`,
  },
  es:{
-  nav:'Paleteros y mochilas', crumb:'Paleteros y mochilas',
+  nav:'Paleteros y mochilas', hdr:'Paleteros', crumb:'Paleteros y mochilas',
   title:'Paleteros y mochilas de pádel 2026: los mejores comparados',
   desc:'Compara paleteros y mochilas de pádel de Bullpadel, Nox, Adidas y Head: capacidad, compartimento térmico, zapatillero y precio actual.',
   eyebrow:s=>`Actualizado en octubre de 2026 · ${s.n} modelos comparados`,
@@ -69,6 +69,10 @@ export const BAG={
   faq:(s,d)=>[['¿Qué tamaño de paletero necesito?','Cuenta lo que llevas. Una pala, pelotas y toalla caben en una mochila. Dos palas, zapatillas y ropa de cambio necesitan un paletero.'],['¿Necesito compartimento térmico?','Ayuda si dejas la bolsa en el coche o juegas al aire libre con calor o frío, porque las temperaturas extremas pueden afectar a la pala. Si juegas en interior y llevas la bolsa contigo, importa menos.'],['¿Paletero o mochila: qué es mejor para el pádel?','Un paletero si llevas dos palas, zapatillas y ropa. Una mochila si llevas una pala y quieres algo ligero para ir a pie o en bici.'],['¿Por qué algunos modelos dicen «no indicado»?','Solo marcamos un compartimento con sí o no cuando la ficha del producto lo dice. «No indicado» significa que no pudimos confirmarlo.'],['¿Están actualizados los precios?',`Los precios de esta página se revisaron el ${d}. Los precios de las tiendas cambian: el precio final es siempre el de la tienda.`]],
   more:u=>`Sigue leyendo: <a href="${u('guide')}">Guía para elegir pala de pádel</a> · <a href="${u('shoes')}">Zapatillas de pádel</a> · <a href="${u('bf')}">Palas de pádel en Black Friday</a>`,
  },
+ pt:{hdr:'Raqueteiras', nav:'Raqueteiras'},
+ it:{hdr:'Borse', nav:'Borse'},
+ fr:{hdr:'Sacs', nav:'Sacs'},
+ de:{hdr:'Taschen', nav:'Taschen'},
 };
 export const BAG_BRANDS=['Bullpadel','Adidas','Head','Nox'];
 export const BAG_DATE={en:'27 October 2026',es:'27 de octubre de 2026'};
