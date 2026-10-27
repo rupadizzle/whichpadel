@@ -29,7 +29,7 @@ if(okHost){ window.__pxLive=1; fetch('/api/shoe-prices',{signal:AbortSignal.time
   const foot=`<div class="pxshist" id="pxshist" hidden></div><p class="disc">${esc(AD)}: ${esc(ADN)} <a href="${esc(DISCU)}">${esc(DISC)}</a></p>`;
   const cnt=rows.length===1?C.n1:C.nN.replace('{n}',rows.length);
   D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(RM)}</h2><button type="button" class="pxsx" data-x aria-label="${C.close}">✕</button></div><div class="pxsc"><p class="pxsub pxcnt">${cnt}</p>${ul}${foot}</div></div>`;
-  sheetWire(D); hist(cv,f);}
+  sheetWire(D); const pa=document.getElementById('pxall'); if(pa) pa.onclick=()=>sheetOpen(); hist(cv,f);}
  let opener=null;
  function sheetOpen(){const D=document.getElementById('pxsheet'); if(!D) return; opener=document.activeElement; D.hidden=false; document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>requestAnimationFrame(()=>D.classList.add('open'))); setTimeout(()=>D.querySelector('.pxsp').focus(),30);}
  function sheetClose(){const D=document.getElementById('pxsheet'); if(!D||D.hidden) return; D.classList.remove('open'); const p=D.querySelector('.pxsp'); p.style.transform=''; document.documentElement.classList.remove('pxlock');
