@@ -348,11 +348,19 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
 .rk-best.rk-rows.cat .hub-grid .rk .rk-m{grid-column:1 / -1}
 .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{grid-column:3;grid-row:2}
 .rk-best .rk-bars{grid-column:2;grid-row:4;align-self:end;margin:0;padding:12px 0 14px;gap:6px}
-@container rk (max-width: 480px){
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:96px minmax(0,1fr) 28px;column-gap:12px;padding:8px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:12px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto}
- .rk-best.rk-rows.cat .hub-grid .rk .rk-pv{grid-column:1;grid-row:4;justify-self:end}
+@container rk (max-width: 520px){
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){display:flex;flex-direction:column;align-items:stretch;padding:8px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:flex;flex-direction:column;width:100%;padding:0}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{display:flex;flex-direction:column;align-items:stretch;gap:4px;width:100%;padding:0}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-b,
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-m,
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{align-self:stretch;width:auto;white-space:normal;overflow:visible;text-overflow:clip}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:flex;justify-content:flex-end;width:100%;margin-top:4px}
+ .rk-best .rk-bars{width:100%;margin:0;padding:10px 0 8px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;align-self:flex-start;width:28px;height:28px}
+ .rk-best.cat .hub-grid .rk-pv::after{content:none}
 }
 .rk-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
 /* Homepage strips keep the section and scroll the same tile the catalog uses. */

@@ -6,7 +6,9 @@
 .hero .search button:not(#_):hover{background:var(--lime2)}
 .nav .ai{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;border:0;background:transparent;color:var(--lime);box-shadow:inset 0 0 0 1.5px var(--lime);font:inherit;font-size:.93rem;font-weight:800;cursor:pointer}
 .nav .ai:hover,.nav .ai.on{background:var(--lime);color:var(--navy)}
-.ai-dlg{width:min(420px,calc(100vw - 32px));height:fit-content;max-height:calc(100dvh - 48px);margin:auto;padding:28px 28px 32px;border:0;border-radius:20px;background:#071c28;color:#fff;box-shadow:0 24px 80px rgb(0 0 0 / 40%);text-align:center;overflow:visible}
+.ai-dlg{position:fixed;inset:0;width:min(420px,calc(100vw - 32px));height:fit-content;max-height:calc(100dvh - 48px);margin:auto;padding:28px 28px 32px;border:0;border-radius:20px;background:#071c28;color:#fff;box-shadow:0 24px 80px rgb(0 0 0 / 40%);text-align:center;overflow:visible}
+.ai-dlg:not([open]){display:none}
+.ai-dlg[open]{display:block}
 .ai-dlg::backdrop{background:rgb(7 28 40 / .62)}
 .ai-dlg h2{margin:18px 0 8px;font-size:1.7rem;line-height:1.15;letter-spacing:-.02em}
 .ai-dlg input{width:100%;box-sizing:border-box;border:0;border-bottom:1px solid rgb(255 255 255 / .22);background:transparent;color:#fff;font:inherit;font-size:1.05rem;font-weight:650;line-height:1.4;text-align:center;padding:8px 4px;min-height:44px;border-radius:0}
@@ -14,6 +16,7 @@
 .ai-dlg input::placeholder{color:#9fb6c0;font-weight:500}
 .ai-status{margin:12px 0 0;color:#9fb6c0;font-size:.95rem;min-height:1.3em}
 .ai-mic{position:relative;width:76px;height:76px;margin:8px auto 0;border:0;border-radius:50%;background:var(--lime);color:var(--navy);cursor:pointer;display:grid;place-items:center}
+.ai-mic.dead,.ai-mic.wait{background:transparent;color:var(--lime);box-shadow:inset 0 0 0 2px var(--lime)}
 .ai-mic .ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--lime);opacity:0;pointer-events:none}
 .ai-mic.on .ring{opacity:.85;animation:ai-ping 1.5s ease-out infinite}
 @keyframes ai-ping{70%,100%{transform:scale(1.28);opacity:0}}

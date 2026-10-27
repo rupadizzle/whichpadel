@@ -30,11 +30,12 @@ let tm; ['h-q','h-q2'].forEach(i=>$(i).addEventListener('input',()=>{setQ($(i).v
 const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box.dataset.open==='1') delete box.dataset.open; else box.dataset.open='1'; paintBrands();});
 const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 const sel=[];
+const maxN=()=>matchMedia('(min-width:900px)').matches?3:2;
 function tray(){ $('h-tray').hidden=!sel.length; document.body.classList.toggle('has-tray',sel.length>0); const slots=sel.map(s=>{const li=grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]'); const m=li&&li.dataset.m||s; const t=m.length>22?m.slice(0,21)+'…':m; return `<li><span>${esc(t)}</span><button type="button" data-rm="${esc(s)}" aria-label="${esc(T.remove)}: ${esc(m)}">✕</button></li>`;});
- for(let i=sel.length;i<3;i++) slots.push(sel.length<2&&i===sel.length?`<li class="hub-slot hub-slot-ask">${esc(T.cmpPick)}</li>`:`<li class="hub-slot" aria-hidden="true">+</li>`);
+ for(let i=sel.length;i<maxN();i++) slots.push(sel.length<2&&i===sel.length?`<li class="hub-slot hub-slot-ask">${esc(T.cmpPick)}</li>`:`<li class="hub-slot" aria-hidden="true">+</li>`);
  $('h-sel').innerHTML=slots.join(''); const go=$('h-go'), ready=sel.length>=2; go.hidden=!ready; go.disabled=!ready; go.textContent=ready?`${T.compare} ${sel.length}`:T.compare; document.body.classList.toggle('has-tray-go',ready);
  grid.querySelectorAll('.rk').forEach(li=>{const on=sel.includes(li.dataset.s); li.classList.toggle('sel',on); const c=li.querySelector('.rk-cb'); if(c) c.checked=on;}); try{sessionStorage.wp_shoe_cmp=sel.join(',')}catch(e){} }
-grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=3){c.checked=false; alert(T.max3); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
+grid.addEventListener('change',e=>{const c=e.target.closest('.rk-cb'); if(!c) return; const i=sel.indexOf(c.value); if(c.checked){ if(sel.length>=maxN()){c.checked=false; alert(T.max3.replace('3',String(maxN()))); return;} if(i<0) sel.push(c.value);} else if(i>=0) sel.splice(i,1); tray();});
 $('h-sel').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(!b) return; sel.splice(sel.indexOf(b.dataset.rm),1); tray();});
 $('h-tray-x').onclick=()=>{sel.splice(0,sel.length); tray();};
 function openTake(fromHist){const dlg=$('cmp-take'); if(!dlg.open) dlg.showModal(); const sc=dlg.querySelector('.cmp-take-body'); if(sc) sc.scrollTop=0; window.wpCompare&&window.wpCompare.set(sel.slice()); if(!fromHist&&!(history.state&&history.state.wpCmp)) history.pushState({wpCmp:1},'');}
@@ -46,7 +47,8 @@ document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!$('cmp-take').open
 addEventListener('popstate',()=>{const dlg=$('cmp-take'); if(history.state&&history.state.wpCmp){ if(!dlg.open&&sel.length>=2) openTake(true); } else if(dlg.open){ skipPop=true; dlg.close(); }});
 document.addEventListener('wp:cmp',e=>{const next=e.detail||[]; if(next.join()===sel.join()) return; sel.splice(0,sel.length,...next); tray();});
 $('h-go').onclick=()=>{ if(sel.length>=2) openTake(); };
-try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,3).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
+try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,maxN()).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
+matchMedia('(min-width:900px)').addEventListener('change',()=>{const m=maxN(); if(sel.length>m) sel.splice(m); if(sel.length) tray();});
 if(sel.length) tray();
 const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
 })();
