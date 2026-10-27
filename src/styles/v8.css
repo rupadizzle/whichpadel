@@ -12,7 +12,7 @@
 .hrow .s{font-size:.8rem;color:var(--mut)}
 .hrow .s b{color:var(--green)}
 .gchips{contain:inline-size;min-width:0}
-@media(width <= 1180px){.nav{max-height:calc(100dvh - 62px);overflow-y:auto;overscroll-behavior:contain}.nav .cta{order:-1;margin-bottom:var(--s2)}}
+@media(width <= 1180px){.nav{max-height:calc(100dvh - 62px - var(--bf));overflow-y:auto;overscroll-behavior:contain}.nav .cta{order:-1;margin-bottom:var(--s2)}}
 .rw-pick{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .rw-pick label{display:flex;flex-direction:column;gap:var(--s1);min-width:0}
 .rw-pick select{min-height:44px;width:100%;max-width:100%;padding:0 var(--s3);border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit}

@@ -1,7 +1,11 @@
 /* Site search: header button + dialog */
 .hdr .gs-open{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:auto;padding:0;border:1px solid rgb(255 255 255 / 25%);border-radius:99px;background:transparent;color:#fff;cursor:pointer}
 .hdr .gs-open:hover{background:rgb(255 255 255 / .08)}
-.hdr .rgn{margin-left:0}
+@media(width > 1180px){
+ .hdr .logo{order:1}
+ .hdr .nav{order:2}
+ .hdr .gs-open{order:3}
+}
 .gs{width:min(640px,calc(100vw - 32px));max-height:min(640px,calc(100dvh - 48px));margin:8vh auto auto;padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 24px 80px rgb(0 0 0 / 28%)}
 .gs::backdrop{background:rgb(11 42 60 / 55%)}
 .gs[open]{display:flex;flex-direction:column}
