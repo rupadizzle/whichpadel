@@ -1,6 +1,6 @@
 import {parse,sane} from './parse.js'; import {FEEDS} from './feeds.js';
 const UA='WhichPadelPriceBot/1.0 (+https://whichpadel.com/about/; hello@whichpadel.com)';
-const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=DAY, MAX_AGE=48*3600e3;
+const PER_RUN={'noxsport.com':1}, PER_DOMAIN=4, GAP_MS=6000, RETRY=6*3600e3, DAY=86400e3, RECHECK=8*3600e3, MAX_AGE=48*3600e3;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // minimal robots.txt: groups for "*" or our bot name, longest-match Disallow/Allow, supports * and $
 // Per-shop request headers (e.g. pin the shop's own currency instead of geo-IP pricing).
