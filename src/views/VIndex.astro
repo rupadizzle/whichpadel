@@ -3,7 +3,7 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import FinderCard from '../components/FinderCard.astro';
-import CardL from '../components/CardL.astro';
+import RkCard from '../components/RkCard.astro';
 import { rackets, players } from '../lib/data.js';
 import { D, url, SITE } from '../i18n/index.js';
 import { BEST_KEYS } from '../i18n/routes.js';
@@ -53,6 +53,6 @@ const page = (() => {
 <Base lang={d.locale} title={page.title} description={page.description} jsonld={page.jsonld}>
 <PageHero slot="hero" lang={lang} label={u.breadcrumb} crumbs={page.crumbs} h1={page.h1} pageUrl={page.pageUrl} lead={page.lead}/>
 <section class="panel vs">{page.links.map(l => <a href={l.href}><span>{l.label}</span>{l.metaClass ? <span class={l.metaClass}>{l.meta}</span> : <span>{l.meta}</span>}</a>)}</section>
-{page.rows.map(l => <section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{l.title}</h2><a href={l.href}>{u.seeAll}</a></div><div class="grid">{l.rs.map((r, i) => <CardL r={r} rank={i + 1} lang={lang}/>)}</div></section>)}
+{page.rows.map(l => <section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{l.title}</h2><a href={l.href}>{u.seeAll}</a></div><div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid">{l.rs.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} keys={['power','control','forgiveness']} compare/>)}</ul></div></section>)}
 {page.finder && <FinderCard fc={page.finder} href={url('finder', lang)}/>}
 </Base>

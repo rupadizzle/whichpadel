@@ -1,6 +1,6 @@
 ---
 // Buying guide: one component for every language. Copy lives in src/i18n/guide-<lang>.js.
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import CardL from '../components/CardL.astro'; import { D, url, SITE } from '../i18n/index.js'; import { guideData } from '../i18n/guide-data.js'; import { pickL } from '../i18n/lists.js';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RkCard from '../components/RkCard.astro'; import { D, url, SITE } from '../i18n/index.js'; import { guideData } from '../i18n/guide-data.js'; import { pickL } from '../i18n/lists.js';
 import gEN from '../i18n/guide-en.js'; import gES from '../i18n/guide-es.js'; import gFR from '../i18n/guide-fr.js'; import gPT from '../i18n/guide-pt.js'; import gDE from '../i18n/guide-de.js'; import gIT from '../i18n/guide-it.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, t=d.terms; const g=guideData(lang); const G=({en:gEN,es:gES,fr:gFR,pt:gPT,it:gIT,de:gDE})[lang](g,t); const U=SITE+url('guide',lang);
 const picks=['best-padel-rackets-for-beginners','best-intermediate-padel-rackets','best-advanced-padel-rackets'].map(k=>pickL(k,lang)[0]).filter(Boolean);
@@ -27,7 +27,8 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList
 <h2 id="level">{S.level[0]}</h2>
 <div class="tw"><table><thead><tr><th>{c.level}</th><th>{c.shape}</th><th>{c.balance}</th><th>{c.core}</th><th>{c.weight}</th><th>{c.list}</th></tr></thead><tbody>{G.levels.map(([l,a,b,co,w,k,lab])=><tr><td><b>{l}</b></td><td>{a}</td><td>{b}</td><td>{co}</td><td>{w}</td><td><a href={url('best',lang,k)}>{lab}</a></td></tr>)}</tbody></table></div>
 <Fragment set:html={S.level[1]}/>
-<div class="rlist">{picks.map((r,i)=><CardL r={r} lang={lang} eager={i===0}/>)}</div>
+<div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid">{picks.map((r,i)=><RkCard r={r} lang={lang} eager={i===0} keys={['power','control','forgiveness']} compare/>)}</ul>
+<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>
 <h2 id="price">{S.price[0]}</h2><Fragment set:html={S.price[1]}/>
 <div class="tw"><table><thead><tr><th>{c.band}</th><th>{c.rackets}</th><th>{c.typical}</th></tr></thead><tbody>{g.P.tiers.map((x,i)=><tr><td>{G.tierLabel(x.a,x.b)}</td><td>{x.n}</td><td set:html={G.tiers[i]}/></tr>)}</tbody></table></div>
 <Fragment set:html={S.price[2]}/>

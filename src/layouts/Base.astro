@@ -43,8 +43,13 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <NavL lang={L2} switcher={switcher} cta={navCta}/>
 <script is:inline>function placeRegion(){const btn=document.getElementById('rgn-btn'),home=document.getElementById('ftr-rgn'),slot=document.getElementById('nav-rgn'),bar=document.getElementById('ubar-rgn'),nav=document.getElementById('nav');if(!btn||!home||!slot||!nav)return;const desktop=innerWidth>1180,open=nav.classList.contains('open');(!desktop&&open?slot:desktop&&bar?bar:home).appendChild(btn);nav.style.top=open?document.querySelector('.hdr').getBoundingClientRect().bottom+'px':''}document.getElementById("nav").addEventListener("click",e=>{if(e.target.closest("a")){const n=document.getElementById("nav");n.classList.remove("open");document.querySelector(".burger").setAttribute("aria-expanded","false");n.querySelectorAll(".dd").forEach(d=>d.classList.remove("open"));placeRegion()}});document.addEventListener("click",e=>{if(!e.target.closest(".dd"))document.querySelectorAll(".dd.open").forEach(d=>d.classList.remove("open"))});function placeSearch(){const btn=document.getElementById("gs-open"),home=document.getElementById("hdr-search"),bar=document.getElementById("ubar-search");if(!btn||!home||!bar)return;(innerWidth>1180?bar:home).appendChild(btn)}function placeUtil(){const box=document.getElementById("site-util"),bar=document.getElementById("ubar-util"),nav=document.getElementById("nav");if(!box||!bar||!nav)return;if(innerWidth>1180)bar.appendChild(box);else{const dd=nav.querySelector(".dd");if(dd)dd.parentNode.insertBefore(box,dd);else nav.appendChild(box)}}placeSearch();placeUtil();document.addEventListener("DOMContentLoaded",()=>{placeRegion();placeSearch();placeUtil()});addEventListener("resize",()=>{placeRegion();placeSearch();placeUtil()});</script>
 </div></header>
-{L2==='en' && <p class="ai-live" id="dg-live" aria-live="polite" hidden></p>}
-{L2==='en' && <p class="ai-live" id="dg-note" hidden>Voice works in Chrome, Edge or Safari. <a href={url('finder', L2)}>Use the racket finder instead →</a></p>}
+{L2==='en' && <div class="ai-bar" id="ai-bar" hidden>
+<div class="wrap ai-bar-in">
+<button type="button" class="ai-mic" id="ai-mic" aria-pressed="true" aria-label="Listening. Tap when you are done"><span class="ring" aria-hidden="true"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<div class="ai-field"><label class="ai-sr" for="ai-t">Describe your game</label><input id="ai-t" type="text" enterkeyhint="go" autocomplete="off" placeholder="Describe your game"/><p id="ai-status" aria-live="polite">Listening. Just start talking.</p></div>
+<button type="button" class="ai-x" data-ai-close aria-label="Close">✕</button>
+</div>
+</div>}
 <GeoBanner lang={L2}/>
 <slot name="hero"/>
 <main class="wrap"><slot/>
@@ -54,21 +59,28 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <script is:inline>placeRegion();placeSearch();placeUtil()</script>
 {L2==='en' && <script is:inline src="/describe-parse.js"></script>}
 {L2==='en' && <script is:inline define:vars={{FINDER: url('finder', L2)}}>
-const btns=[...document.querySelectorAll('[data-ai]')], live=document.getElementById('dg-live'), note=document.getElementById('dg-note');
+const btns=[...document.querySelectorAll('[data-ai]')], bar=document.getElementById('ai-bar'), ta=document.getElementById('ai-t'), status=document.getElementById('ai-status'), mic=document.getElementById('ai-mic');
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-const paint=(on,text)=>{btns.forEach(b=>{b.classList.toggle('on',on); b.textContent=on?'■ Stop':'AI'; b.disabled=false;}); if(live){live.hidden=!text; live.textContent=text||'';}};
-if(!SR){btns.forEach(b=>b.hidden=true); if(note) note.hidden=false;}
-else{let rec=null, fin='';
- const done=()=>{const t=fin.trim(); if(t.length<8){paint(false, t?'We didn\'t catch enough. Say your level, side, control or power, injuries and budget.':''); return;}
-  const p=window.DG.parse(t), a=window.DG.racket(p); btns.forEach(b=>{b.disabled=true; b.textContent='…';});
-  if(live){live.hidden=false; live.textContent='We heard: '+p.why.join(' · ');}
-  setTimeout(()=>location.href=FINDER+'?'+new URLSearchParams(a),1200);};
- btns.forEach(B=>B.onclick=()=>{if(rec){rec.stop();return;} fin=''; rec=new SR(); rec.lang='en-GB'; rec.interimResults=true; rec.continuous=true;
-  rec.onresult=e=>{let interim=''; for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i]; if(r.isFinal) fin+=r[0].transcript+' '; else interim+=r[0].transcript;} if(live){live.hidden=false; live.textContent='“'+(fin+interim).trim()+'”';}};
-  rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){btns.forEach(b=>b.hidden=true); if(note) note.hidden=false;}};
-  rec.onend=()=>{rec=null; done();};
-  const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');}
-  rec.start(); paint(true,'Listening… your level, how often you play, which side, control or power, injuries, budget.');});}
+let rec=null, fin='', gen=0, open=false, leaving=false, arm=0, denied=false;
+const setOn=on=>btns.forEach(b=>{b.classList.toggle('on',on); b.setAttribute('aria-expanded',on?'true':'false');});
+const live=on=>{mic.setAttribute('aria-pressed',on?'true':'false'); mic.classList.toggle('on',on);};
+function kill(){gen++; clearTimeout(arm); const r=rec; rec=null; if(r){try{r.onresult=r.onerror=r.onend=null; r.stop();}catch(e){}} live(false);}
+function shut(){leaving=true; open=false; kill(); bar.hidden=true; setOn(false);}
+function go(){clearTimeout(arm); const t=(ta.value||fin).trim(); if(t.length<8){status.textContent='Keep going. Your level, which side, control or power, and a budget.'; if(SR&&!denied&&!rec) listen(); return;} if(!window.DG){status.textContent='One moment, then say it again.'; return;} leaving=true; kill(); const p=window.DG.parse(t); status.textContent=p.why.join(' · '); setTimeout(()=>{location.href=FINDER+'?'+new URLSearchParams(window.DG.racket(p));},800);}
+function schedule(){clearTimeout(arm); if((ta.value||'').trim().length>=8) arm=setTimeout(go,1500);}
+function listen(){if(!SR||denied||!open||leaving||rec) return; const mine=gen; const r=rec=new SR(); r.lang='en-GB'; r.interimResults=true; r.continuous=true;
+ r.onresult=e=>{if(mine!==gen) return; let interim=''; for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i]; if(x.isFinal) fin+=x[0].transcript+' '; else interim+=x[0].transcript;} ta.value=(fin+interim).trim(); status.textContent='Listening'; schedule();};
+ r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){denied=true; live(false); status.textContent='Type how you play, then press enter.'; ta.focus();}};
+ r.onend=()=>{if(rec===r) rec=null; if(mine!==gen||!open||leaving||denied) return; setTimeout(()=>{if(mine===gen&&open&&!leaving&&!rec) listen();},250);};
+ try{r.start();}catch(e){rec=null; denied=true; live(false); status.textContent='Type how you play, then press enter.'; ta.focus(); return;}
+ live(true);}
+function show(){if(open){shut(); return;} open=true; leaving=false; denied=false; fin=''; ta.value=''; status.textContent=SR?'Listening. Just start talking.':'Type how you play, then press enter.'; const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');} if(typeof placeRegion==='function') placeRegion(); bar.hidden=false; setOn(true); if(SR){listen(); mic.focus();} else{live(false); ta.focus();}}
+btns.forEach(b=>b.addEventListener('click',show));
+mic.addEventListener('click',()=>{if(!open||leaving) return; if((ta.value||'').trim().length>=8) go(); else if(SR&&!denied&&!rec) listen(); else status.textContent='Keep going. Your level, which side, control or power, and a budget.';});
+ta.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); go();}});
+ta.addEventListener('input',()=>{if(rec){const r=rec; rec=null; gen++; try{r.onend=null; r.stop();}catch(e){} live(false);} fin=ta.value.trim()+(ta.value.trim()?' ':''); schedule();});
+bar.querySelector('[data-ai-close]').addEventListener('click',shut);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open) shut();});
 </script>}
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>

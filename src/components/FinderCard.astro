@@ -1,4 +1,4 @@
 ---
 const { fc, href } = Astro.props;
 ---
-<section class="panel fcard" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:24px 0"><div><h2 class="h3" style="margin:0 0 8px">{fc[0]}</h2><p class="muted" style="margin:0">{fc[1]}</p></div><a class="btn" style="min-height:44px;display:inline-flex;align-items:center" href={href}>{fc[2]} →</a></section>
+<section class="panel fcard"><div><h2 class="h3">{fc[0]}</h2><p class="muted">{fc[1]}</p></div><a class="btn" href={href}>{fc[2]} →</a></section>

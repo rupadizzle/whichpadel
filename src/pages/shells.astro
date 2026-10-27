@@ -209,9 +209,8 @@ const use = {
 .keep-id{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:18px 0 8px;font-size:.8125rem;font-weight:700}
 .keep-id b{display:inline-grid;place-items:center;min-width:1.75rem;height:1.25rem;padding:0 6px;border-radius:4px;background:var(--navy);color:var(--lime);font-size:.6875rem;letter-spacing:.04em}
 .keep-id a{margin-left:auto;font-size:.75rem;font-weight:600}
-.keep-tile-specs{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:8px 16px;max-width:720px;align-items:start}
-.keep .hub.cat .keep-tile-specs .keep-tiles{grid-template-columns:minmax(0,220px);max-width:none}
-.keep .hub.cat .keep-tiles{grid-template-columns:repeat(3,minmax(0,220px));max-width:700px}
+.keep-tile-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 24px;align-items:start}
+.keep .keep-tile-specs .hub.cat .keep-tiles{grid-template-columns:minmax(0,1fr);max-width:none}
 .keep-rows .hub-grid{max-width:40rem}
 .keep-cmp{max-width:40rem;margin-top:12px}
 .keep .keep-cmp.cmp-cards .chead{position:static;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:transparent;border:0;padding:0;backdrop-filter:none;width:auto}

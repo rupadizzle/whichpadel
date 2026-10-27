@@ -321,3 +321,54 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
  .cat .hub-grid .rk:not(:has(.rk-x)) .rk-a{grid-template-columns:72px minmax(0,1fr);padding:0}
  .cat .hub-grid .rk-m{font-size:.8125rem}
 }
+/* Ranked lists use the shells row (B) and, with bars, the best-list row (C). Catalog grids do not. */
+.rk-rows.cat .hub-grid{grid-template-columns:1fr;gap:6px}
+.rk-i:has(.rank),.rk-rows .rk-i{position:relative}
+.rk-rows .rk-i .rank{top:6px;left:6px}
+.rk-rows.cat .hub-grid .rk:not(:has(.rk-x)),
+.rk-rows.cat .hub-grid .rk:has(.rk-x){display:grid;grid-template-columns:72px minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:8px;row-gap:0;align-items:stretch;padding:8px}
+.rk-rows.cat .hub-grid .rk:not(:has(.rk-x))>.rk-a,
+.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:8px;row-gap:0}
+.rk-rows.cat .hub-grid .rk .rk-i{grid-column:1;grid-row:1 / -1;width:72px;height:72px;aspect-ratio:auto;margin:0;align-self:center}
+.rk-rows.cat .hub-grid .rk .rk-t{display:grid;grid-column:2 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:0}
+.rk-rows.cat .hub-grid .rk .rk-b{grid-column:1 / -1;grid-row:1}
+.rk-rows.cat .hub-grid .rk .rk-m{grid-column:1;grid-row:2;font-size:.875rem;white-space:normal}
+.rk-rows.cat .hub-grid .rk .rk-c{grid-column:1;grid-row:3;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-rows.cat .hub-grid .rk .rk-p{display:contents}
+.rk-rows.cat .hub-grid .rk .rk-pv{grid-column:2;grid-row:3;justify-self:end;white-space:nowrap;font-size:.875rem}
+.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;grid-column:3;grid-row:2;top:auto;right:auto;transform:none;width:28px;height:28px;align-self:center;justify-self:end}
+.rk-rows .rk-pv::after{content:none}
+.best-split .rk-best.rk-rows.cat .hub-grid{gap:14px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:128px minmax(0,1fr) 28px;grid-template-rows:auto auto auto auto;column-gap:16px;padding:0 16px 0 0;overflow:hidden}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:16px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:100%;height:100%;aspect-ratio:auto;margin:0;align-self:stretch;justify-self:stretch;min-width:0;min-height:0;overflow:hidden;border-radius:0}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:center}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-column:2;grid-row:1 / 4;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;padding:14px 0 0 0;column-gap:12px}
+.rk-best.rk-rows.cat .hub-grid .rk .rk-m{grid-column:1 / -1}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{grid-column:3;grid-row:2}
+.rk-best .rk-bars{grid-column:2;grid-row:4;align-self:end;margin:0;padding:12px 0 14px;gap:6px}
+@media(max-width:480px){
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:96px minmax(0,1fr) 28px;column-gap:12px;padding-right:10px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:12px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto}
+ .rk-best.rk-rows.cat .hub-grid .rk .rk-pv{grid-column:1;grid-row:4;justify-self:end}
+}
+.rk-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
+/* Homepage strips keep the section and scroll the same tile the catalog uses. */
+.cat ul.rk-strip{display:flex;overflow-x:auto;gap:10px;padding:0 0 8px;scroll-snap-type:x mandatory;grid-template-columns:none}
+.cat ul.rk-strip>.rk{flex:0 0 200px;scroll-snap-align:start}
+.cat ul.rk-strip .rk:not(:has(.rk-x)){display:flex;flex-direction:column;padding:0}
+.cat ul.rk-strip .rk:not(:has(.rk-x))>.rk-a{display:flex;flex-direction:column;grid-template-columns:none;padding:8px 8px 10px}
+.cat ul.rk-strip .rk:not(:has(.rk-x)) .rk-i{grid-column:auto;grid-row:auto;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
+.cat ul.rk-strip .rk:not(:has(.rk-x)) .rk-t{display:flex;flex-direction:column;grid-column:auto;grid-row:auto;gap:2px}
+.cat ul.rk-strip .rk:has(.rk-x){display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto auto auto 28px;column-gap:10px;row-gap:0;align-items:center;align-content:start;padding:10px}
+.cat ul.rk-strip .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:10px;row-gap:0}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-t{display:grid;grid-column:1 / -1;grid-row:2 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:4px}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-m{grid-column:1 / -1;grid-row:2;white-space:normal}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-c{grid-column:1 / -1;grid-row:3;white-space:normal}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-p{display:contents}
+.cat ul.rk-strip .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end;white-space:nowrap}
+.cat ul.rk-strip .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:1;grid-row:5;width:28px;height:28px;justify-self:start;align-self:end}
+.cat ul.rk-strip .rk-pv::after{content:none}
