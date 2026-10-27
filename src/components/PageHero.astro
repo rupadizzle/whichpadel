@@ -1,5 +1,6 @@
 ---
 import Byline from './Byline.astro';
-const { lang, label, crumbs, h1, pageUrl, lead, eyebrow } = Astro.props;
+const { lang, label, crumbs, h1, pageUrl, lead, eyebrow, photo } = Astro.props;
 ---
-<section class="phero"><div class="wrap"><nav class="crumbs" aria-label={label}>{crumbs.map((c,i)=><>{i>0&&' › '}{c.href?<a href={c.href}>{c.label}</a>:<span>{c.label}</span>}</>)}</nav>{eyebrow&&<span class="eyebrow">{eyebrow}</span>}<h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={pageUrl}/>{lead&&<div class="seo"><p>{lead}</p></div>}</div></section>
+<section class={photo?"phero phero--photo":"phero"}><div class="wrap"><div class="phero__text"><nav class="crumbs" aria-label={label}>{crumbs.map((c,i)=><>{i>0&&' › '}{c.href?<a href={c.href}>{c.label}</a>:<span>{c.label}</span>}</>)}</nav>{eyebrow&&<span class="eyebrow">{eyebrow}</span>}<h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={pageUrl}/>{lead&&<div class="seo"><p>{lead}</p></div>}</div>{photo&&<img class="phero__photo" src={photo.src} alt={photo.alt} width="622" height="800" decoding="async"/>}</div></section>
+<style is:global>.phero--photo .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:end}.phero--photo .phero__text{align-self:center}.phero__photo{display:block;width:auto;height:clamp(170px,17vw,220px);max-width:100%;object-fit:contain;margin-bottom:-2rem}@media(max-width:640px){.phero--photo .wrap{display:block}.phero--photo .phero__text{margin-bottom:.75rem}.phero__photo{height:auto;width:auto;max-height:220px;margin:0 0 -2rem auto}}</style>
