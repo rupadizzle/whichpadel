@@ -123,9 +123,9 @@ const L = (type, id) => url(type, lang, id);
 <ul class="hub-grid">
 {[racketB, racket].map((r, i) => <li class="rk">
 <a class="rk-a" href={L('racket', r.slug)}>
-<span class="rk-i">{r.image ? <img src={r.image} alt="" width="72" height="72"/> : <RacketIcon shape={r.shape || 'hybrid'} size={40}/>}</span>
+<span class="rk-i">{r.image ? <img src={r.image} alt="" width="72" height="72"/> : <RacketIcon shape={r.shape || 'hybrid'} size={40}/>}<span class="rank">#{i + 1}</span></span>
 <span class="rk-t">
-<span class="rk-b"><span><span class="rk-rank">{i + 1}</span><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span></span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
+<span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
 <span class="rk-m">{shortM(r)}</span>
 <span class="rk-c">{specR(r)}</span>
 <span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
@@ -142,9 +142,9 @@ const L = (type, id) => url(type, lang, id);
 <ul class="hub-grid">
 {[racketB, racket].map((r, i) => <li class="rk">
 <a class="rk-a" href={L('racket', r.slug)}>
-<span class="rk-i">{r.image ? <img src={r.image} alt="" width="96" height="96"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}</span>
+<span class="rk-i">{r.image ? <img src={r.image} alt="" width="96" height="96"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}<span class="rank">#{i + 1}</span></span>
 <span class="rk-t">
-<span class="rk-b"><span><span class="rk-rank">{i + 1}</span><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span></span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
+<span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span>
 <span class="rk-m">{shortM(r)}</span>
 <span class="rk-c">{specR(r)}</span>
 <span class="rk-p"><span class="rk-pv">{fromP(r)}</span></span>
@@ -215,9 +215,8 @@ const L = (type, id) => url(type, lang, id);
 .keep-best.keep-rows.cat .hub-grid .rk:has(.rk-x) .rk-t{grid-row:1 / 4}
 .keep-best .rk-bars{grid-column:1 / -1;grid-row:4;align-self:end;margin:0;padding-top:10px;gap:5px}
 .keep-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
-.keep-best .rk-b>span:first-child{display:flex;align-items:center;gap:6px}
-.keep-best .rk-rank{flex:none;display:grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:4px;background:var(--navy);color:var(--lime);font-weight:800;font-size:.625rem;letter-spacing:0;line-height:1}
-.keep-best .rk-b>span:first-child>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.keep-best .rk-i{position:relative}
+.keep-best .rk-i .rank{top:6px;left:6px}
 .keep-rows.cat .hub-grid{grid-template-columns:1fr;gap:6px}
 .keep-rows.cat .hub-grid .rk{padding:8px}
 .keep-rows.cat .hub-grid .rk:not(:has(.rk-x)){display:grid;grid-template-columns:72px minmax(0,1fr) auto;grid-template-rows:auto minmax(28px,auto) auto;column-gap:8px;row-gap:0;align-items:stretch;padding:8px}
