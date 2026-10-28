@@ -37,6 +37,7 @@ const card=(r,i)=>{const li=document.getElementById('rk-card').content.firstElem
  else ph.innerHTML=($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
  li.querySelector('.rk-b span').textContent=[r.b,r.y].filter(Boolean).join(' · ');
  const name=li.querySelector('.rk-m'); name.id=id; name.textContent=shortM(r);
+ const bell=li.querySelector('.rk-bell'); if(bell) bell.setAttribute('aria-label', bell.getAttribute('aria-label').replace(/:\s*$/, ': '+name.textContent));
  const specEl=li.querySelector('.rk-c'); const sp=spec(r); if(sp) specEl.textContent=sp; else specEl.remove();
  li.querySelector('.rk-pv').textContent=ptxt(r);
  const heart=li.querySelector('.save-heart'); heart.dataset.save=r.s; heart.dataset.off=T.save; heart.dataset.on=T.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',T.save);

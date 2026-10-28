@@ -63,6 +63,7 @@ const fill = (x, shopName, pct, id) => {
   if (c.i) { const img = document.createElement('img'); img.src = c.i; img.alt = ''; img.width = 96; img.height = 112; img.loading = 'lazy'; img.decoding = 'async'; ph.replaceChildren(img); }
   li.querySelector('.rk-b span').textContent = [c.b, c.y].filter(Boolean).join(' · ');
   const name = li.querySelector('.rk-m'); name.id = id; name.textContent = c.m;
+  const bell = li.querySelector('.rk-bell'); if (bell) bell.setAttribute('aria-label', bell.getAttribute('aria-label').replace(/:\s*$/, ': ' + c.m));
   const spec = li.querySelector('.rk-c'); if (spec) { if (shopName) spec.textContent = shopName; else spec.remove(); }
   li.querySelector('.rk-pv').textContent = F(x.e.p, x.e.c);
   const off = li.querySelector('.rk-off');
