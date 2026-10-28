@@ -109,7 +109,7 @@ const page = (() => {
     const typeK = bagTypeKey(g);
     const typeL = T.types[typeK] || g.type;
     const bs = slugify(g.brand);
-    const bHref = brandList.some(x => x.slug === bs) ? url('brand', lang, bs) : null;
+    const bHref = brandList.some(x => x.slug === bs) ? url('brand', lang, bs) + '#bags' : null;
     const yn = v => v === 'yes' ? T.yes : v === 'no' ? T.no : T.ns;
     const shops = new Set((g.offs || []).map(o => o.d)).size;
     const rows = [
@@ -132,13 +132,14 @@ const page = (() => {
     const best0 = [...offs].sort((a, b) => (b.s || 0) - (a.s || 0) || a.p - b.p)[0] || { d: '', p: 0, c: 'EUR', u: '#', s: 0 };
     const BN = (SN[best0.d] || [best0.d || ''])[0];
     const oj = JSON.stringify(offs.filter(o => o.s || !offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
+    const localPx = JSON.stringify(offs.filter(o => o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(BAG_CHECKED ? { t: BAG_CHECKED } : {}) })));
     const U = SITE + url('bag', lang, g.slug);
     const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('bags', lang), label: T.crumb }, { label: g.name }];
     return {
       locale: d.locale, title: `${g.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...(offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...offs.map(o => o.p))), highPrice: String(Math.max(...offs.map(o => o.p))), priceCurrency: best0.c, offerCount: offs.length } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: g.name, item: U }] }] },
       crumbs, preload: img ? { href: img, srcset: `${img} 800w` } : null,
-      bag: { T, img, bHref, intro, rows, kchips, BN, oj, similar, sameBrand, bestUrl: best0.u ? bagHref(best0) : null }, SN,
+      bag: { T, img, bHref, intro, rows, kchips, BN, oj, localPx, similar, sameBrand, bestUrl: best0.u ? bagHref(best0) : null }, SN,
       api: '/api/shoe-prices', slug: g.id || ('bag-' + g.slug), name: g.name, sizeNote: null,
     };
   }
@@ -202,7 +203,7 @@ const view = (() => {
       brand: g.brand, brandHref: bg.bHref, year: g.year, yearHref: null, name: g.name, save: g.slug, saveKind: 'g', player: null,
       chips: bg.kchips, slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(g.name), shape: null,
       price: g, tube: null, checked: BAG_CHECKED, buyHref: bg.bestUrl, buyLabel: T.buy.replace('{s}', bg.BN), offers: bg.oj,
-      compareHref: null, compareLabel: null, sizeNote: null, noUS: null, dc: g.id || ('bag-' + g.slug), dcApi: '/api/shoe-prices',
+      compareHref: null, compareLabel: null, sizeNote: null, noUS: null, localPx: bg.localPx, dc: g.id || ('bag-' + g.slug), dcApi: '/api/shoe-prices',
       overview: T.overview, intro: bg.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
       rated: false, avg: null, ratings: null, specH: T.specs, rows: bg.rows, specPrice: false, usRow: null, missing: null, similarH: T.similar,
       similar: bg.similar.map(x => ({ href: url('bag', lang, x.slug), img: bagImg(x), shape: null, title: x.name, lead: T.types[bagTypeKey(x)], item: x })),
@@ -233,7 +234,7 @@ const view = (() => {
 {view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
 </header>
 {view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
-<aside class="panel buybox" id="buybox">
+<aside class="panel buybox" id="buybox" data-px={view.localPx}>
 <p class="price-big" id="pxbig"><Price r={view.price} lang={lang}/>{view.tube && <> <small class="muted">({view.tube})</small></>} <span class="pxdrop" id="pxdrop" hidden></span></p>
 {view.checked && <p class="muted small" id="pxstatic">{u.checkedOn(view.checked)}</p>}
 <ul class="pxlive muted small" id="pxlive" hidden></ul>

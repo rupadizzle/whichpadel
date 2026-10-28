@@ -29,6 +29,16 @@ en:{
   if(x.tourN) f.push([`Which ${b} ball is used in tournaments?`,x.tourN===1?`${x.tourBalls[0]} is listed as: ${x.tourLabel}.`:`${j(x.tourBalls,'and')} are listed as: ${x.tourLabel}.`]);
   if(x.np) f.push([`How much do ${b} balls cost?`,(x.np>1?`Recorded prices for the ${x.np} ${b} tubes run from ${x.pmin} to ${x.pmax}`:`We have one recorded ${b} tube price: ${x.pmin}`)+per(x,(a,c)=>`, ${a} to ${c} per ball. Prices change often: check the shop before you buy.`,a=>`, ${a} per ball. Prices change often: check the shop before you buy.`)]);
   return f;},
+ bagShowing:n=>`Showing ${n} bags`, bagFaqH:b=>`${b} padel bag FAQ`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` from ${x.y0} to ${x.y1}`:` from ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'and')}.`:'';
+  return `We list ${x.n} ${b} ${x.n===1?'padel bag':'padel bags'}${years}.${types}`+price(x,(a,c)=>` Recorded prices run from ${a} to ${c}.`,a=>` The recorded price is ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`What kind of ${b} bags are there?`,`The ${x.n} ${b} bags we list split into ${j(x.types,'and')}.`]);
+  if(x.np) f.push([`How much do ${b} padel bags cost?`,x.np>1?`Recorded prices for the ${x.np} priced ${b} padel bags run from ${x.pmin} to ${x.pmax}. Prices change often: check the shop before you buy.`:`We have one recorded ${b} bag price: ${x.pmin}. Prices change often: check the shop.`]);
+  return f;},
 },
 es:{
  shoeShowing:n=>`Mostrando ${n} zapatillas`, ballShowing:n=>`Mostrando ${n} botes`,
@@ -54,6 +64,16 @@ es:{
   f.push([`¿Las pelotas ${b} son rápidas o medias?`,x.n===1?`La ${x.name} es una pelota ${x.fast?'rápida':'de velocidad media'}${x.per?`, en bote de ${x.per}`:''}.`:x.fast&&x.med?`${x.fast} de los ${x.n} botes son rápidos y ${x.med} de velocidad media.`:`Los ${x.n} botes que tenemos son ${x.fast?'rápidos':'de velocidad media'}.`]);
   if(x.tourN) f.push([`¿Qué pelota ${b} se usa en torneos?`,x.tourN===1?`${x.tourBalls[0]} figura como: ${x.tourLabel}.`:`${j(x.tourBalls,'y')} figuran como: ${x.tourLabel}.`]);
   if(x.np) f.push([`¿Cuánto cuestan las pelotas ${b}?`,(x.np>1?`Los precios registrados de los ${x.np} botes ${b} van de ${x.pmin} a ${x.pmax}`:`Tenemos un precio registrado del bote ${b}: ${x.pmin}`)+per(x,(a,c)=>`, entre ${a} y ${c} por pelota. Los precios cambian a menudo: míralo en la tienda antes de comprar.`,a=>`, ${a} por pelota. Los precios cambian a menudo: míralo en la tienda.`)]);
+  return f;},
+ bagShowing:n=>`Mostrando ${n} bolsas`, bagFaqH:b=>`Preguntas frecuentes sobre bolsas ${b}`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` de ${x.y0} a ${x.y1}`:` de ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'y')}.`:'';
+  return `Listamos ${x.n} ${x.n===1?'bolsa':'bolsas'} de pádel ${b}${years}.${types}`+price(x,(a,c)=>` Los precios registrados van de ${a} a ${c}.`,a=>` El precio registrado es de ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`¿Qué bolsas ${b} hay?`,`Las ${x.n} bolsas ${b} que listamos se reparten en ${j(x.types,'y')}.`]);
+  if(x.np) f.push([`¿Cuánto cuestan las bolsas ${b}?`,x.np>1?`Los precios registrados de las ${x.np} bolsas ${b} con precio van de ${x.pmin} a ${x.pmax}. Los precios cambian a menudo: míralo en la tienda antes de comprar.`:`Tenemos un precio registrado de una bolsa ${b}: ${x.pmin}. Los precios cambian a menudo: míralo en la tienda.`]);
   return f;},
 },
 fr:{

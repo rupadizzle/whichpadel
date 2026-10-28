@@ -1,17 +1,19 @@
 ---
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RacketIcon from '../components/RacketIcon.astro';
-import ShoeCard from '../components/ShoeCard.astro'; import SaveHeart from '../components/SaveHeart.astro'; import '../styles/hub.css';
+import ShoeCard from '../components/ShoeCard.astro'; import BagCard from '../components/BagCard.astro'; import SaveHeart from '../components/SaveHeart.astro'; import '../styles/hub.css';
 import { brandList, slugify } from '../lib/data.js';
 import { shoes, rankShoes, shoeOnlyBrands } from '../lib/shoes.js';
 import { balls, rankBalls, ballImg } from '../lib/balls.js';
+import { bags, rankBags, bagTypeKey } from '../lib/bags.js';
 import { D, url, SITE, money } from '../i18n/index.js'; import { brandStats, brandFaq } from '../i18n/stats.js';
-import { HUB } from '../i18n/hub.js'; import { SHOE } from '../i18n/shoes.js'; import { BALL } from '../i18n/balls.js'; import { PANEL } from '../i18n/brandPanels.js';
+import { HUB } from '../i18n/hub.js'; import { SHOE } from '../i18n/shoes.js'; import { BALL } from '../i18n/balls.js'; import { BAG } from '../i18n/bags.js'; import { PANEL } from '../i18n/brandPanels.js';
 import { pick, fmt, DEFAULT_REGION, offersOf } from '../lib/price.js';
 const { b, lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.brand, t=d.terms, H=HUB[lang];
 const rs=[...b.rackets].sort((x,y)=>(y.year||0)-(x.year||0)||x.model.localeCompare(y.model)); const x=rs.length?brandStats(b,lang):null; const faq=rs.length?brandFaq(b,lang,d):[];
 const brandShoes=rankShoes(shoes.filter(s=>slugify(s.brand)===b.slug),lang);
 const TB=BALL[lang]; const brandBalls=TB?rankBalls(balls.filter(v=>slugify(v.brand)===b.slug),lang):[];
-const wide=brandShoes.length>0||brandBalls.length>0;
+const TG=BAG[lang]; const brandBags=TG&&url('bags',lang)?rankBags(bags.filter(v=>slugify(v.brand)===b.slug),lang):[];
+const wide=brandShoes.length>0||brandBalls.length>0||brandBags.length>0;
 const ballPr=v=>{if(!TB) return ''; const q=pick(v,DEFAULT_REGION(lang)); if(q.none) return u.checkPrice; return `${fmt(q.v,q.cur,lang)} · ${fmt(Math.round(q.v/v.balls*100)/100,q.cur,lang)} ${TB.perBall}`;};
 const ballSpec=v=>!TB?'':[TB.speeds[v.speed],v.tour&&TB.tours[v.tour],v.eco&&TB.eco].filter(Boolean).join(' · ');
 const reg=DEFAULT_REGION(lang); const P=PANEL[lang], TS=SHOE[lang];
@@ -29,7 +31,13 @@ const tourKeys=Object.keys(tourGroups); const tourBalls=tourKeys.flatMap(k=>tour
 const pb=brandBalls.map(v=>{const q=pick(v,reg); return q.none||!v.balls?null:q.v/v.balls}).filter(v=>v!=null);
 const ballX={n:brandBalls.length,name:brandBalls.length===1?brandBalls[0].name:'',per:brandBalls.length&&brandBalls.every(v=>v.balls===brandBalls[0].balls)?brandBalls[0].balls:0,fast:fastN,med:medN,tourN:tourBalls.length,tourBalls,tourLabel:tourKeys.length===1?TB.tour[tourKeys[0]]:tourKeys.map(k=>TB.tours[k]).join(', '),...moneyRange(moneyVals(brandBalls)),bmin:pb.length?money(Math.min(...pb),lang):'',bmax:pb.length?money(Math.max(...pb),lang):''};
 const showBallSpeed=fastN>0&&medN>0; const showBallTour=tourKeys.length>1||(tourKeys.length===1&&tourBalls.length<brandBalls.length);
-const shoeFaq=brandShoes.length?P.shoeFaq(b.name,shoeX):[]; const ballFaq=brandBalls.length?P.ballFaq(b.name,ballX):[];
+const typeOrder=['racket-bag','backpack','holdall']; const typeC={}; const byears=[];
+brandBags.forEach(g=>{const k=bagTypeKey(g); typeC[k]=(typeC[k]||0)+1; if(g.year) byears.push(g.year);});
+const typeEntries=[...typeOrder.filter(k=>typeC[k]),...Object.keys(typeC).filter(k=>!typeOrder.includes(k))].map(k=>[k,typeC[k]]);
+const typePhrase=(k,n)=>{const label=(TG.types[k]||k).toLowerCase(); const es={ 'racket-bag':['paletero','paleteros'],backpack:['mochila','mochilas'],holdall:['bolsa','bolsas'] }; if(lang==='es'&&es[k]) return `${n} ${n===1?es[k][0]:es[k][1]}`; return `${n} ${n===1?label:label+'s'}`;};
+const bagYears=[...new Set(byears)].sort((a,c)=>c-a); const showBagYear=bagYears.length>1; const showBagType=typeEntries.length>1;
+const bagX={n:brandBags.length,y0:byears.length?Math.min(...byears):0,y1:byears.length?Math.max(...byears):0,types:typeEntries.map(([k,n])=>typePhrase(k,n)),...moneyRange(moneyVals(brandBags))};
+const shoeFaq=brandShoes.length?P.shoeFaq(b.name,shoeX):[]; const ballFaq=brandBalls.length?P.ballFaq(b.name,ballX):[]; const bagFaq=brandBags.length&&P.bagFaq?P.bagFaq(b.name,bagX):[];
 const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
 const ballBits=v=>{const q=pick(v,reg); if(q.none||!v.balls) return {none:true}; const each=Math.round(q.v/v.balls*100)/100; const tube=offersOf(v); return {none:false,tube:fmt(q.v,q.cur,lang),each:fmt(each,q.cur,lang),o:JSON.stringify(tube),oe:JSON.stringify(tube.map(o=>({...o,p:Math.round(o.p/v.balls*100)/100})))};};
 const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -37,15 +45,15 @@ const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe
 const AUD={men:0,women:1,junior:2};
 const specR=r=>[AUD[r.audience]!=null&&H.auds[AUD[r.audience]],r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''}\u00a0g`].filter(Boolean).join(' · ');
 const h1=wide?b.name:C.h1(b.name);
-const title=(wide?C.wideTitle(b.name,rs.length,brandShoes.length,brandBalls.length):C.title(b.name,rs.length))+d.copy.titleSuffix;
-const desc=wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length):C.desc(b.name,x);
-const lead=C.blurb[b.slug]||(wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length):C.generic(b.name));
+const title=(wide?C.wideTitle(b.name,rs.length,brandShoes.length,brandBalls.length,brandBags.length):C.title(b.name,rs.length))+d.copy.titleSuffix;
+const desc=wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length,brandBags.length):C.desc(b.name,x);
+const lead=C.blurb[b.slug]||(wide?C.wideDesc(b.name,rs.length,brandShoes.length,brandBalls.length,brandBags.length):C.generic(b.name));
 const U=SITE+url('brand',lang,b.slug);
-const items=[...rs.map(r=>({url:SITE+url('racket',lang,r.slug),name:r.model})),...brandShoes.map(s=>({url:SITE+url('shoe',lang,s.slug),name:s.name})),...brandBalls.map(v=>({url:SITE+url('ball',lang,v.slug),name:v.name}))];
-const faqs=[...faq,...shoeFaq,...ballFaq];
+const items=[...rs.map(r=>({url:SITE+url('racket',lang,r.slug),name:r.model})),...brandShoes.map(s=>({url:SITE+url('shoe',lang,s.slug),name:s.name})),...brandBalls.map(v=>({url:SITE+url('ball',lang,v.slug),name:v.name})),...brandBags.map(g=>({url:SITE+url('bag',lang,g.slug),name:g.name}))];
+const faqs=[...faq,...shoeFaq,...ballFaq,...bagFaq];
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'ItemList','name':h1,'url':U,'numberOfItems':items.length,'itemListElement':items.map((it,i)=>({'@type':'ListItem','position':i+1,'url':it.url,'name':it.name}))},...(faqs.length?[{'@type':'FAQPage','mainEntity':faqs.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]:[]),{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.brands,'item':SITE+url('brands',lang)},{'@type':'ListItem','position':3,'name':b.name,'item':U}]}]};
 const others=[...brandList, ...shoeOnlyBrands.map(s=>({name:s.name,slug:s.slug}))].filter(o=>o.slug!==b.slug).sort((a,c)=>a.name.localeCompare(c.name)); const years=[...new Set(b.rackets.map(r=>r.year).filter(Boolean))].sort((a,c)=>c-a);
-const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.length>0&&'balls'].filter(Boolean); const first=cats[0]||'rackets';
+const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.length>0&&'balls',brandBags.length>0&&'bags'].filter(Boolean); const first=cats[0]||'rackets';
 ---
 <Base lang={d.locale} title={title} description={desc} jsonld={jsonld}>
 <section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{lead}</p></div></div></section>
@@ -53,6 +61,7 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
  {rs.length>0&&<label><input type="radio" name="brandcat" value="rackets" checked={first==='rackets'}/><span>{H.nav} <small>{rs.length}</small></span></label>}
  {brandShoes.length>0&&<label><input type="radio" name="brandcat" value="shoes" checked={first==='shoes'}/><span>{SHOE[lang].nav} <small>{brandShoes.length}</small></span></label>}
  {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls" checked={first==='balls'}/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
+ {brandBags.length>0&&<label><input type="radio" name="brandcat" value="bags" checked={first==='bags'}/><span>{TG.nav} <small>{brandBags.length}</small></span></label>}
 </div>}
 {rs.length>0&&<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
 <p class="brand-note">{C.intro(b.name,x,t)}</p>
@@ -85,8 +94,18 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 <ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=>{const bp=ballBits(v); return <li class="rk" data-speed={v.speed||''} data-tour={v.tour||''}><a class="rk-a" href={url('ball',lang,v.slug)}><span class="rk-i">{ballImg(v)&&<img src={ballImg(v)} alt={TB.alt(v.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{v.brand}</span><SaveHeart slug={v.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{v.model}</span><span class="rk-c">{ballSpec(v)}</span><span class="rk-p"><span class="rk-pv">{bp.none?ballPr(v):<><span class="pz" data-o={bp.o}>{bp.tube}</span>{' · '}<span class="pz" data-o={bp.oe}>{bp.each}</span>{' '}{TB.perBall}</>}</span></span></span></a></li>;})}</ul>
 {ballFaq.length>0&&<div class="brand-faq"><h2>{P.ballFaqH(b.name)}</h2>{ballFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
 </section>}
+{brandBags.length>0&&<section class="brand-cat cat" id="bags" data-panel="bags" aria-label={TG.nav} hidden={first!=='bags'}>
+<p class="brand-note">{P.bagIntro(b.name,bagX)}</p>
+{(showBagType||showBagYear)&&<div class="bfilter">
+{showBagYear&&<div class="bfil"><span class="bfil-l">{H.year}</span><div class="chipset" role="group" aria-label={H.year}><label><input type="radio" name="gy" value="" checked/><span>{C.all} ({brandBags.length})</span></label>{bagYears.map(y=><label><input type="radio" name="gy" value={y}/><span>{y} ({byears.filter(v=>v===y).length})</span></label>)}</div></div>}
+{showBagType&&<div class="bfil"><span class="bfil-l">{TG.typeF}</span><div class="chipset" role="group" aria-label={TG.typeF}><label><input type="radio" name="gt" value="" checked/><span>{C.all} ({brandBags.length})</span></label>{typeEntries.map(([k,n])=><label><input type="radio" name="gt" value={k}/><span>{TG.types[k]} ({n})</span></label>)}</div></div>}
+<p class="muted small" id="gcount" aria-live="polite">{P.bagShowing(brandBags.length)}</p>
+</div>}
+<ul class="hub-grid" id="ggrid">{brandBags.map((g,i)=><BagCard b={g} lang={lang} eager={i<4}/>)}</ul>
+{bagFaq.length>0&&<div class="brand-faq"><h2>{P.bagFaqH(b.name)}</h2>{bagFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
+</section>}
 <noscript><style>.brand-cat[hidden]{display:block !important}</style></noscript>
-<script is:inline define:vars={{SH:C.showing(0),SS:P.shoeShowing(0),BS:P.ballShowing(0)}}>
+<script is:inline define:vars={{SH:C.showing(0),SS:P.shoeShowing(0),BS:P.ballShowing(0),GS:(P.bagShowing||(n=>String(n)))(0)}}>
 function show(v){document.querySelectorAll('[data-panel]').forEach(p=>{p.hidden=p.dataset.panel!==v}); document.querySelectorAll('input[name=brandcat]').forEach(r=>{r.checked=r.value===v})}
 document.querySelectorAll('input[name=brandcat]').forEach(i=>i.addEventListener('change',()=>{show(i.value); const next='#'+i.value; if(location.hash!==next) history.replaceState(null,'',next)}));
 function fromHash(){const h=location.hash.slice(1); const p=document.getElementById(h); if(!(p&&p.dataset.panel===h)) return; show(h); p.scrollIntoView()}
@@ -96,6 +115,7 @@ document.querySelectorAll('input[name=by],input[name=bs]').forEach(i=>i.addEvent
 function facet(grid,spec,countId,zero){const box=document.querySelector(grid); if(!box) return; const inputs=[...document.querySelectorAll(spec.map(g=>'input[name="'+g.name+'"]').join(','))]; if(!inputs.length) return; const val=name=>(document.querySelector('input[name="'+name+'"]:checked')||{}).value||''; const hit=(li,name,v)=>{if(!v) return true; const g=spec.find(x=>x.name===name); const raw=li.dataset[g.attr]||''; return g.mode==='has'?raw.split(' ').includes(v):raw===v}; const run=()=>{const cards=[...box.querySelectorAll('.rk')]; let n=0; cards.forEach(li=>{const ok=spec.every(g=>hit(li,g.name,val(g.name))); li.hidden=!ok; n+=ok}); const el=document.getElementById(countId); if(el) el.textContent=zero.replace('0',n); spec.forEach(g=>{document.querySelectorAll('input[name="'+g.name+'"]').forEach(i=>{const span=i.nextElementSibling; if(span&&!span.dataset.base) span.dataset.base=span.textContent.replace(/\s*\(\d+\)\s*$/,''); const c=cards.filter(li=>spec.every(g2=>hit(li,g2.name,g2.name===g.name?i.value:val(g2.name)))).length; if(span&&span.dataset.base) span.textContent=span.dataset.base+' ('+c+')'; if(i.value) i.parentElement.hidden=c===0&&!i.checked})})}; inputs.forEach(i=>i.addEventListener('change',run))};
 facet('#sgrid',[{name:'sg',attr:'g',mode:'eq'},{name:'ss',attr:'so',mode:'has'},{name:'sy',attr:'y',mode:'eq'}],'scount',SS);
 facet('#ngrid',[{name:'bv',attr:'speed',mode:'eq'},{name:'bt',attr:'tour',mode:'eq'}],'ncount',BS);
+facet('#ggrid',[{name:'gt',attr:'type',mode:'eq'},{name:'gy',attr:'y',mode:'eq'}],'gcount',GS);
 </script>
 <section class="panel"><h2>{u.otherBrands}</h2><p class="brandlinks">{others.map(o=><a href={url('brand',lang,o.slug)}>{o.name}</a>)}</p></section>
 </Base>
