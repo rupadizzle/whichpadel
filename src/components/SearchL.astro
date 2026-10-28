@@ -5,6 +5,7 @@ import { GS } from '../i18n/search.js';
 import { HUB } from '../i18n/hub.js';
 import { SHOE } from '../i18n/shoes.js';
 import { BALL } from '../i18n/balls.js';
+import { BAG } from '../i18n/bags.js';
 import { YC } from '../lib/years.js';
 import { SHOE_LIST_KEYS, UNDER, listCur } from '../lib/shoes.js';
 import { bud, val, fmtM, SYMS } from '../lib/money.js';
@@ -35,6 +36,7 @@ const pages = [
   [url('rackets', lang), HUB[lang].nav],
   [url('shoes', lang), SHOE[lang].nav],
   BALL[lang] && [url('balls', lang), BALL[lang].nav],
+  BAG[lang] && url('bags', lang) && [url('bags', lang), BAG[lang].nav],
   [url('brands', lang), ui.brands],
   [url('players', lang), ui.players],
   [url('finder', lang), ui.finder],

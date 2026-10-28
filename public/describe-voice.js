@@ -38,7 +38,7 @@ function rms(b){let s=0; for(let i=0;i<b.length;i++) s+=b[i]*b[i]; return Math.s
 function clean(text){
  const t=(text||'').replace(/\s+/g,' ').trim().replace(/^[\s.,!?]+|[\s.,!?]+$/g,'');
  if(!t||/^(thanks for watching|thank you for watching|thank you|you|subtitles? by.*|please subscribe|\[.*\]|\(.*\)|music|applause|foreign|silence|bye)$/i.test(t)) return '';
- if(/(.{1,12}?)\1{8,}/i.test(t.replace(/\s+/g,''))) return '';
+ t=t.replace(/(.{2,12}?)\1{3,}/gi,'').replace(/\s+/g,' ').trim();
  return t;
 }
 function join(prev, next){
@@ -58,7 +58,7 @@ function start(hooks){
  if(!audioCtx){hooks.onFail('Voice didn’t start. Type how you play, then press enter.'); return;}
  report=function(s){if(mine===seq) hooks.onStatus(s);};
  report('Downloading voice…');
- let modelReady=false, said='', busy=false, queued=null;
+ let modelReady=false, said='', hyp='', busy=false, queued=null, epoch=0;
  const model=load().then(function(asr){if(mine===seq){modelReady=true; hooks.onReady(); hooks.onStatus('Listening. Just start talking.');} return asr;}).catch(function(){if(mine===seq) hooks.onFail('Voice couldn’t download. Type how you play, then press enter.');});
  mic().then(function(stream){
   if(mine!==seq){stream.getTracks().forEach(function(t){t.stop();}); return;}
@@ -67,19 +67,20 @@ function start(hooks){
   gain.gain.value=0; src.connect(proc); proc.connect(gain); gain.connect(audioCtx.destination);
   live={stream:stream, src:src, gain:gain, proc:proc};
   const rate=audioCtx.sampleRate;
-  let parts=[], n=0, noise=0.008, speaking=false, quiet=0;
-  function run(audio){
+  let parts=[], n=0, noise=0.008, speaking=false, quiet=0, lastKick=0;
+  function run(audio, final){
    if(mine!==seq) return;
-   if(busy){queued=queued?cat([queued, audio]):audio; return;}
+   if(busy){if(!queued||final||!queued.final) queued={audio:audio, final:!!final}; return;}
    busy=true;
-   if(modelReady) hooks.onStatus('Working out what you said…');
+   const epochNow=epoch;
    model.then(function(asr){return asr?asr(audio):null;}).then(function(out){
     busy=false; if(mine!==seq) return;
     const bit=clean(out&&out.text);
-    if(bit){said=join(said, bit); hooks.onText(said);}
-    if(queued){const q=queued; queued=null; run(q);}
-    else hooks.onStatus(speaking?'Hearing you…':'Listening. Just start talking.');
-   }).catch(function(){busy=false; if(mine===seq) hooks.onStatus('Listening. Just start talking.');});
+    if(final){epoch++; const next=bit||hyp; if(next) said=join(said, next); hyp=''; if(said) hooks.onText(said);}
+    else if(epochNow===epoch&&bit){hyp=bit; const live=(said+' '+hyp).replace(/\s+/g,' ').trim(); (hooks.onPartial||hooks.onText)(live);}
+    if(queued){const q=queued; queued=null; run(q.audio, q.final);}
+    else if(final) hooks.onStatus('Listening. Just start talking.');
+   }).catch(function(){busy=false; queued=null; if(mine===seq) hooks.onStatus('Listening. Just start talking.');});
   }
   proc.onaudioprocess=function(e){
    if(mine!==seq) return;
@@ -89,10 +90,8 @@ function start(hooks){
    if(hot){speaking=true; quiet=0; parts.push(copy); n+=copy.length; if(!busy) hooks.onStatus(modelReady?'Hearing you…':'Hearing you. Downloading voice…');}
    else if(speaking){quiet+=ms; parts.push(copy); n+=copy.length;}
    const pause=speaking&&quiet>650&&n>SR*0.45, long=n>SR*20;
-   if(!pause&&!long) return;
-   const audio=cat(parts);
-   parts=[]; n=0; speaking=false; quiet=0;
-   run(audio);
+   if(pause||long){const audio=cat(parts); parts=[]; n=0; lastKick=0; speaking=false; quiet=0; run(audio, true); return;}
+   if(speaking&&quiet<250&&n>SR*0.55&&n-lastKick>SR*0.7){lastKick=n; run(cat(parts), false);}
   };
  }).catch(function(e){
   if(mine!==seq) return;

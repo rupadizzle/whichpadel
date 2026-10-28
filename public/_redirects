@@ -1,3 +1,6 @@
+/padel-bags /bags/ 301
+/padel-bags/ /bags/ 301
+/padel-bags/* /bags/:splat 301
 /compare /rackets/ 301
 /compare/ /rackets/ 301
 /rackets/compare /rackets/ 301
