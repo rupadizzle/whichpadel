@@ -1,5 +1,5 @@
 // Shared helpers for magic-link accounts and saved rackets. Tables live in the existing D1 binding (DB).
-const KINDS=new Set(['r','s','b']);
+const KINDS=new Set(['r','s','b','g']);
 const SLUG=/^[a-z0-9-]{1,80}$/;
 export const CAP=40;
 export const J=(o,s=200)=>new Response(JSON.stringify(o),{status:s,headers:{'content-type':'application/json','cache-control':'no-store'}});

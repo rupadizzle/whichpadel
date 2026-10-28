@@ -22,7 +22,9 @@ import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrandTarget, SHOE_CHECKED, 
 import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
 import { balls, ballImg, rankBalls, BALL_CHECKED } from '../lib/balls.js';
 import { BALL } from '../i18n/balls.js';
-const { kind, lang, r, s, b } = Astro.props;
+import { bags, bagImg, bagTypeKey, bagHref, rankBags, BAG_CHECKED } from '../lib/bags.js';
+import { BAG } from '../i18n/bags.js';
+const { kind, lang, r, s, b, g } = Astro.props;
 const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
 const page = (() => {
@@ -99,6 +101,47 @@ const page = (() => {
       api: '/api/shoe-prices', slug: s.slug, name: s.name, sizeNote: T.sizeNote,
     };
   }
+
+  if (kind === 'bag') {
+    const SN = shopNames(/\.(com|net|co\.uk|de|es)$/);
+    const T = BAG[lang];
+    const img = bagImg(g);
+    const typeK = bagTypeKey(g);
+    const typeL = T.types[typeK] || g.type;
+    const bs = slugify(g.brand);
+    const bHref = brandList.some(x => x.slug === bs) ? url('brand', lang, bs) : null;
+    const yn = v => v === 'yes' ? T.yes : v === 'no' ? T.no : T.ns;
+    const shops = new Set((g.offs || []).map(o => o.d)).size;
+    const rows = [
+      [T.spec.brand, g.brand],
+      [T.spec.year, g.year],
+      [T.spec.type, typeL],
+      [T.spec.rackets, g.rackets != null ? String(g.rackets) : T.ns],
+      [T.spec.thermal, yn(g.thermal)],
+      [T.spec.shoe, yn(g.shoe)],
+      [T.spec.dims, g.dims || null],
+      [T.spec.litres, g.litres != null ? String(g.litres) : null],
+      [T.spec.colours, g.colours?.length ? String(g.colours.length) : null],
+      [T.spec.shops, shops || null],
+    ].filter(([, v]) => v != null && v !== '');
+    const kchips = [typeL, g.rackets != null && T.racketsN(g.rackets), g.thermal === 'yes' && T.comps.yes + ': ' + T.thermalF, g.shoe === 'yes' && T.comps.yes + ': ' + T.shoeF, g.year && String(g.year)].filter(Boolean);
+    const intro = T.introS({ name: g.name, type: typeL.toLowerCase(), rackets: g.rackets, thermal: g.thermal, shoe: g.shoe, n: shops || 1 });
+    const similar = rankBags(bags.filter(x => x.slug !== g.slug && bagTypeKey(x) === typeK), lang).slice(0, 6);
+    const sameBrand = rankBags(bags.filter(x => x.brand === g.brand && x.slug !== g.slug), lang).slice(0, 6);
+    const offs = g.offs || [];
+    const best0 = [...offs].sort((a, b) => (b.s || 0) - (a.s || 0) || a.p - b.p)[0] || { d: '', p: 0, c: 'EUR', u: '#', s: 0 };
+    const BN = (SN[best0.d] || [best0.d || ''])[0];
+    const oj = JSON.stringify(offs.filter(o => o.s || !offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
+    const U = SITE + url('bag', lang, g.slug);
+    const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('bags', lang), label: T.crumb }, { label: g.name }];
+    return {
+      locale: d.locale, title: `${g.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...(offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...offs.map(o => o.p))), highPrice: String(Math.max(...offs.map(o => o.p))), priceCurrency: best0.c, offerCount: offs.length } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: g.name, item: U }] }] },
+      crumbs, preload: img ? { href: img, srcset: `${img} 800w` } : null,
+      bag: { T, img, bHref, intro, rows, kchips, BN, oj, similar, sameBrand, bestUrl: best0.u ? bagHref(best0) : null }, SN,
+      api: '/api/shoe-prices', slug: g.id || ('bag-' + g.slug), name: g.name, sizeNote: null,
+    };
+  }
   const SN = shopNames(/\.(com|net|co\.uk|de|es)$/);
   const T = BALL[lang];
   const img = ballImg(b);
@@ -119,7 +162,7 @@ const page = (() => {
   };
 })();
 const crumb = page.crumbs;
-const R2 = kind === 'racket' ? page.R2 : kind === 'shoe' ? page.shoe.R2 : RP(lang);
+const R2 = kind === 'racket' ? page.R2 : kind === 'shoe' ? page.shoe.R2 : RP(lang); // bag/ball reuse RP labels only where needed
 const view = (() => {
   if (kind === 'racket') {
     const h2h = [...page.vs.map(row => ({ href: url('vs', lang, row.slug), label: `${row.A.model} vs ${row.B.model}` })), ...page.similar.filter(item => !page.vs.some(row => row.A.slug === item.slug || row.B.slug === item.slug)).map(item => ({ href: url('rackets', lang) + `?r=${r.slug},${item.slug}`, label: `${r.model} vs ${item.model}` }))];
@@ -149,6 +192,21 @@ const view = (() => {
       missing: sh.miss.length ? sh.T.missing(sh.miss.join(', ')) : null, similarH: sh.T.similar,
       similar: sh.similar.map(x => ({ href: url('shoe', lang, x.slug), img: shoeImg(x), shape: null, title: x.name, lead: x.sole.map(k => sh.T.soles[k]).join(', '), item: x })),
       similarCmp: null, h2hH: null, h2h: [], moreH: sh.T.moreFrom(s.brand), more: sh.sameBrand.map(x => ({ href: url('shoe', lang, x.slug), name: x.name })), allHref: sh.bHref, allLabel: sh.T.allFrom(s.brand), yearMore: null, finder: null,
+    };
+  }
+
+  if (kind === 'bag') {
+    const bg = page.bag, T = bg.T, img = bg.img;
+    const same = bg.sameBrand;
+    return {
+      brand: g.brand, brandHref: bg.bHref, year: g.year, yearHref: null, name: g.name, save: g.slug, saveKind: 'g', player: null,
+      chips: bg.kchips, slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(g.name), shape: null,
+      price: g, tube: null, checked: BAG_CHECKED, buyHref: bg.bestUrl, buyLabel: T.buy.replace('{s}', bg.BN), offers: bg.oj,
+      compareHref: null, compareLabel: null, sizeNote: null, noUS: null, dc: g.id || ('bag-' + g.slug), dcApi: '/api/shoe-prices',
+      overview: T.overview, intro: bg.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
+      rated: false, avg: null, ratings: null, specH: T.specs, rows: bg.rows, specPrice: false, usRow: null, missing: null, similarH: T.similar,
+      similar: bg.similar.map(x => ({ href: url('bag', lang, x.slug), img: bagImg(x), shape: null, title: x.name, lead: T.types[bagTypeKey(x)], item: x })),
+      similarCmp: null, h2hH: null, h2h: [], moreH: T.moreFrom(g.brand), more: same.map(x => ({ href: url('bag', lang, x.slug), name: x.name })), allHref: bg.bHref, allLabel: bg.bHref ? T.allFrom(g.brand) : null, yearMore: null, finder: null,
     };
   }
   const T = page.ball.T, img = page.ball.img, same = rankBalls(balls.filter(x => x.brand === b.brand && x.slug !== b.slug), lang).slice(0, 6);
@@ -214,8 +272,9 @@ const view = (() => {
 {kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
-{kind !== 'ball' && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
-{kind !== 'ball' && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
+{kind === 'bag' && <StickyCta r={g} lang={lang} shop={page.bag.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
+{(kind === 'racket' || kind === 'shoe' || kind === 'bag') && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
+{(kind === 'racket' || kind === 'shoe') && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
