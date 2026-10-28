@@ -90,6 +90,22 @@ dlg.querySelector('[data-ai-close]').addEventListener('click',shut);
 dlg.addEventListener('close',()=>{if(open) end();});
 dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>500) shut();});
 </script>}
+<dialog class="rk-alert" id="rk-alert" aria-labelledby="rk-alert-h">
+<button type="button" class="rk-alert-x" data-alert-close aria-label={D(L2).ui.close}>✕</button>
+<form novalidate data-sub="alert" data-lang={L2} data-err={D(L2).ui.subErr}>
+<h2 id="rk-alert-h" data-alert-h></h2>
+<p class="muted small" data-alert-p>{D(L2).ui.alertP('x')}</p>
+<input type="email" required placeholder={D(L2).ui.emailPh} aria-label={D(L2).ui.emailLabel} autocomplete="email"/>
+<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
+<button class="btn" type="submit">{D(L2).ui.alertBtn}</button>
+<p hidden class="ok" role="status" data-ok={D(L2).ui.thanks}></p>
+<p class="muted small">{D(L2).ui.placeholderNote} <a href={url('privacy', L2)}>{D(L2).ui.privacy.toLowerCase()}</a>.</p>
+</form>
+</dialog>
+<script is:inline>
+document.addEventListener('click',e=>{const b=e.target.closest('.rk-bell'); if(!b) return; e.preventDefault(); const dlg=document.getElementById('rk-alert'); if(!dlg) return; const card=b.closest('.rk'); const name=((card&&card.querySelector('.rk-m')||{}).textContent||'').trim(); const f=dlg.querySelector('form'); f.dataset.racket=name; dlg.querySelector('[data-alert-h]').textContent=(b.dataset.h||'').replaceAll('{n}',name); const ok=f.querySelector('.ok'); if(ok) ok.hidden=true; const sub=f.querySelector('button'); if(sub) sub.disabled=false; dlg.showModal(); const i=f.querySelector('input[type=email]'); if(i) i.focus();});
+document.getElementById('rk-alert').addEventListener('click',e=>{if(e.target.closest('[data-alert-close]')) e.currentTarget.close();});
+</script>
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
 (()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b'||x.t==='g')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
