@@ -1,5 +1,5 @@
 ---
-import Price from './Price.astro'; import RkCard from './RkCard.astro'; import ShoeCard from './ShoeCard.astro'; import RacketIcon from './RacketIcon.astro';
+import Price from './Price.astro'; import RkCard from './RkCard.astro'; import ShoeCard from './ShoeCard.astro';
 import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
 import { rackets, allRackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
 import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
@@ -47,13 +47,14 @@ const SITE='https://whichpadel.com';
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
+const heroArt=['nox-at10-pro-cup-hard-2026','head-coello-pro-2026','adidas-metalbone-hrd-plus-2026'].map(s=>rackets.find(r=>r.slug===s)).filter(r=>r?.image);
 const baseProps={lang:DICTS[lang].locale};
 ---
 <Base {...baseProps} title={H.title(allRackets.length)} description={H.desc(allRackets.length,brands.length)} jsonld={jsonld}>
 <section class="hero" slot="hero"><div class="wrap"><div>
 <h1>{H.h1a}</h1>
 <div class="stats"><a href={L('rackets')}><b>{allRackets.length}</b><span>{H.stats[0]}</span></a><a href={L('shoes')}><b>{shoes.length}</b><span>{H.stats[1]}</span></a><a href={L('balls')}><b>{balls.length}</b><span>{H.stats[2]}</span></a><a href={L('brands')}><b>{brands.length}</b><span>{H.stats[3]}</span></a><div><b>0</b><span>{H.stats[4]}</span></div></div>
-</div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
+</div><div class="hero-art" aria-hidden="true">{heroArt.map(r=><span><img src={`/hero/${r.slug}.webp`} alt="" width="190" height="320" decoding="async"/></span>)}</div></div></section>
 
 {homeRows.map(s=><section class="hrow-wrap" id={s.id}><div class="hrow-head"><h2 class="h3">{s.h}</h2><a href={s.href}>{H.seeAll}</a></div><div class="hub cat" data-rk><ul class="hub-grid rk-strip">{s.items.map(it=>it.kind==='s'?<ShoeCard s={it.item} lang={lang} compare={s.cmp==='s'}/>:it.kind==='b'?<RkCard lang={lang} href={L('ball',it.item.slug)} img={ballImg(it.item)} alt={it.item.name} brand={it.item.brand} name={it.item.model} save={it.item.slug} kind="b"><Price r={it.item} lang={lang}/></RkCard>:<RkCard r={it.item} lang={lang} compare={s.cmp==='r'}/>)}</ul>{s.cmp&&<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={s.cmp==='s'?L('shoeCompare'):L('rackets')} data-k={s.cmp==='s'?'s':'r'} data-msg={u.tickAlert} onclick="const q=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(q.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?'+this.dataset.k+'='+q.join(',');">{u.compareSelected}</button></div>}</div></section>)}
 {rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><div class="hub cat" data-rk><ul class="hub-grid rk-strip">{x.rs.map((r,i)=><RkCard r={r} lang={lang} rank={i+1} compare line={`${x.l} ${x.f(r)}`}/>)}</ul><div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={L('rackets')} data-msg={u.tickAlert} onclick="const q=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(q.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+q.join(',');">{u.compareSelected}</button></div></div></section>)}

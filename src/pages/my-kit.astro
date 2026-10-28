@@ -28,6 +28,7 @@ const title='My kit: get told when what you use is cheaper';
 <button type="button" class="kit-zone" data-zone="shoes" data-slot="shoes" aria-pressed="false"><span>Shoes</span></button>
 </div>
 </div>
+<div class="kit-side">
 <div class="kit-pick" id="kpick" hidden>
 <div class="kit-pick-h"><h2 class="h3" id="kpick-h">Racket</h2><button type="button" class="btn btn-line btn-sm" id="kpick-done">Done</button></div>
 <p id="kpick-lead"></p>
@@ -40,15 +41,15 @@ const title='My kit: get told when what you use is cheaper';
 <p class="muted small" id="kpick-msg" aria-live="polite"></p>
 </form>
 </div>
-</div>
-</article>
-<section class="panel">
+<ul id="kit" style="list-style:none;padding:0;margin:0"></ul><p class="muted small" id="kempty">Nothing saved yet.</p>
 <form id="kball" class="kit-balls" autocomplete="off">
 <label for="kball-q">Balls you use</label>
 <div><input id="kball-q" list="kball-l" placeholder="Start typing a ball…"><datalist id="kball-l"></datalist><button class="btn" type="submit">Add</button></div>
 <p class="muted small" id="kball-msg" aria-live="polite"></p>
 </form>
-<ul id="kit" style="list-style:none;padding:0;margin:0"></ul><p class="muted small" id="kempty">Nothing saved yet.</p></section>
+</div>
+</div>
+</article>
 <section class="panel"><h2 class="h3">Want something better?</h2><p>Describe how you play and we'll suggest alternatives: <a href="/describe/">racket finder</a> · <a href="/describe-shoes/">shoe finder</a> · <a href="/deals/">today's deals</a>.</p></section>
 <script is:inline src="/deal-check.js"></script>
 <script is:inline define:vars={{SH,BA,BG,RK}}>
