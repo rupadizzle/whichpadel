@@ -3,6 +3,7 @@
 const ORIGIN = 'https://whichpadel.com';
 const PATHS = new Set(['/api/all-prices', '/api/shoe-prices', '/api/geo']);
 const REDIR = new Map([
+  ['/racket-finder', '/finder/'],
   ['/compare', '/rackets/'],
   ['/rackets/compare', '/rackets/'],
   ['/es/comparador-palas-padel', '/es/palas/'],

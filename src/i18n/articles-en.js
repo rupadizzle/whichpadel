@@ -3,7 +3,7 @@
 const H=(path,label)=>`<a href="${path}">${label}</a>`;
 const L={
  rules:H('/guides/padel-rules/','padel rules'), hold:H('/guides/how-to-hold-a-padel-racket/','how to hold a padel racket'), vs:H('/padel-vs-paddle-tennis/','padel vs paddle tennis'),
- finder:H('/racket-finder/','racket quiz'), guide:H('/padel-rackets/','padel racket buying guide'), beg:H('/best/best-padel-rackets-for-beginners/','best padel rackets for beginners'),
+ finder:H('/finder/','racket quiz'), guide:H('/padel-rackets/','padel racket buying guide'), beg:H('/best/best-padel-rackets-for-beginners/','best padel rackets for beginners'),
  balls:H('/balls/','padel balls'), shoes:H('/best-padel-shoes/','padel shoes'), rackets:H('/rackets/','all rackets'), tennis:H('/best/best-padel-racket-for-tennis-players/','best padel rackets for tennis players'),
  elbow:H('/best/best-padel-racket-for-tennis-elbow/','arm-friendly padel rackets'), light:H('/best/best-lightweight-padel-rackets/','lightweight padel rackets'), tool:H('/tools/real-weight/','real-weight tool')};
 

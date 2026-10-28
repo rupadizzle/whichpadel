@@ -13,5 +13,5 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList
 {A.sections.map(s=><><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html}/></>)}
 <h2 id="faq">FAQ</h2>
 {A.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
-<p>Keep reading: {ALSO.map((v,i)=><><a href={v.path}>{v.crumb}</a>{ALSO.length-1>i?' · ':''}</>)} · <a href="/racket-finder/">Racket quiz</a> · <a href="/padel-rackets/">Padel racket buying guide</a></p></article>
+<p>Keep reading: {ALSO.map((v,i)=><><a href={v.path}>{v.crumb}</a>{ALSO.length-1>i?' · ':''}</>)} · <a href="/finder/">Racket quiz</a> · <a href="/padel-rackets/">Padel racket buying guide</a></p></article>
 </Base>

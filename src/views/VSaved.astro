@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   const href=r=>(r.t==='s'?SK:r.t==='b'?BK:r.t==='g'?GK:RK)+r.s+'/';
   const short=r=>{let s=r.m||''; const b=r.b?String(r.b).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'):''; if(b) s=s.replace(new RegExp('^'+b+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return (s.trim()||r.m);};
   const fill=(r,i)=>{const li=document.getElementById('rk-card').content.firstElementChild.cloneNode(true); const id='sv-'+i;
-   li.querySelector('.rk-x').remove();
+   li.querySelector('.rk-x')?.remove();
    const a=li.querySelector('.rk-a'); a.href=href(r); a.setAttribute('aria-labelledby',id);
    const ph=li.querySelector('.rk-ph');
    if(r.i){const img=document.createElement('img'); img.src=r.i; img.alt=''; img.width=96; img.height=96; img.loading='lazy'; ph.replaceChildren(img);}

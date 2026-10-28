@@ -1,6 +1,6 @@
 ---
 // One blank card. Browser scripts clone this instead of writing the markup themselves.
 import RkCard from './RkCard.astro';
-const { lang = 'en' } = Astro.props;
+const { lang = 'en', compare = false } = Astro.props;
 ---
-<template id="rk-card"><RkCard lang={lang} href="/" brand=" " name=" " spec=" " save="tpl" compare/></template>
+<template id="rk-card"><RkCard lang={lang} href="/" brand=" " name=" " spec=" " save="tpl" compare={compare}/></template>

@@ -37,7 +37,7 @@ for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.new
 const c=await b.newContext({viewport:{width:1280,height:900}}); const p=await c.newPage(); p.setDefaultTimeout(8000); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('dialog',d=>{errs.push('dialog:'+d.message());d.dismiss()});
 const t=async(name,fn)=>{try{await fn();log('ok',name)}catch(e){issues.push('FAIL '+name+': '+e.message.split('\n')[0])}};
 await p.goto(B+'/');
-await t('header finder',async()=>{await p.click('.nav .cta'); await p.waitForURL(/racket-finder/);});
+await t('header finder',async()=>{await p.click('.nav .cta'); await p.waitForURL(/\/finder\//);});
 await t('finder quiz',async()=>{await p.click('.fz-start'); for(const x of ['Advanced','Either side','Power','Latest','No limit']) await p.click('.fz-step:not([hidden]) label:has-text("'+x+'")'); await p.waitForSelector('.fz-hero',{timeout:8000}); const n=await p.locator('.fz-alt').count(); if(n<2) throw Error('alts '+n); for(const q of ['level=advanced','style=power','prio=latest','budget=any']) if(!p.url().includes(q)) throw Error('url '+p.url()); const rel=await p.getAttribute('.fz-buy','rel'); if(rel!=='sponsored nofollow') throw Error('rel'); log(' finder ->',(await p.textContent('.fz-hn')).trim()); await p.goto(p.url()); await p.waitForSelector('.fz-hero');});
 await p.goto(B+'/');
 await t('dropdown',async()=>{await p.click('.dd>button'); if(!await p.isVisible('.dd .menu a')) throw Error('menu hidden'); await p.click('.dd .menu a[href*="/best/"] >> nth=0'); await p.waitForURL(/best/); await p.goBack();});
@@ -64,7 +64,7 @@ await t('brand cards',async()=>{const n=await p.locator('#rgrid .rk').count(); i
 // mobile menu + finder from another page
 const m=await (await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true})).newPage(); m.setDefaultTimeout(8000);
 await m.goto(B+'/brands/');
-await t('mobile burger+finder',async()=>{await m.tap('.burger'); await m.tap('.nav .cta'); await m.waitForURL(/racket-finder/); await m.waitForTimeout(400); if(await m.isVisible('.nav')) throw Error('nav still open');});
+await t('mobile burger+finder',async()=>{await m.tap('.burger'); await m.tap('.nav .cta'); await m.waitForURL(/\/finder\//); await m.waitForTimeout(400); if(await m.isVisible('.nav')) throw Error('nav still open');});
 await m.goto(B+'/brands/');
 await t('mobile best list link',async()=>{await m.tap('.burger'); if(!await m.isVisible('.dd .menu a[href*="/best/"]')) await m.tap('.dd>button'); await m.tap('.dd .menu a[href*="/best/"] >> nth=0'); await m.waitForURL(/best/);});
 await m.goto(B+'/rackets/adidas-2026-world-cup-argentina/'); await t('mobile sticky cta',async()=>{await m.waitForTimeout(400); const st=await m.evaluate(()=>({show:document.getElementById('stickycta').classList.contains('show'),box:getComputedStyle(document.getElementById('buybox')).display})); if(!st.show||st.box!=='none') throw Error('bar '+JSON.stringify(st));});

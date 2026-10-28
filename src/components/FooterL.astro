@@ -4,13 +4,39 @@ import { FX } from '../lib/price.js'; import { render } from '../lib/money.js';
 import Region from './Region.astro'; import { BAG } from '../i18n/bags.js';
 const { lang, switcher=[], news=false, region=null } = Astro.props; const d=D(lang); const u=d.ui; const LN=LANG_NAME;
 const show=s=>render(String(s??''),lang,FX.rates);
+const browse = [
+  { href: url('rackets', lang), label: u.allRackets },
+  { href: url('guide', lang), label: u.guide },
+  ...(url('bags', lang) ? [{ href: url('bags', lang), label: BAG[lang].nav }] : []),
+  { href: url('finder', lang), label: u.finder },
+  { href: url('brands', lang), label: u.brands },
+  { href: url('players', lang), label: u.players },
+  { href: url('rackets', lang), label: u.compare },
+  { href: url('tool', lang), label: u.tools },
+  { href: url('bf', lang), label: u.bf },
+];
+const more = [
+  ...(lang === 'en' ? [
+    { href: '/deals/', label: 'Deals' },
+    { href: '/describe/', label: 'Describe your game' },
+    { href: '/my-kit/', label: 'My kit' },
+    { href: '/guides/padel-rules/', label: 'Padel rules' },
+    { href: '/guides/how-to-hold-a-padel-racket/', label: 'How to hold a racket' },
+    { href: '/padel-vs-paddle-tennis/', label: 'Padel vs paddle tennis' },
+  ] : []),
+  { href: url('affiliate', lang), label: u.affiliate },
+  { href: url('about', lang), label: u.aboutL },
+  { href: url('privacy', lang), label: u.privacy },
+];
+const site = [...browse, ...more];
+const siteRows = Math.ceil(site.length / 2);
 ---
 <footer class="ftr">{news && <section class="news" id="newsletter"><div class="wrap"><div><h2>{u.newsH}</h2><p>{u.newsP}{' '}<a href={url('privacy',lang)}>{u.privacy.toLowerCase()}</a>.</p></div>
 <form class="inline-form" novalidate data-sub="news" data-lang={lang} data-err={u.subErr}><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{u.subscribe}</button><p hidden class="ok" style="color:#d4ff3a" role="status" data-ok={u.thanks}></p></form></div></section>}
 <div class="wrap">
 <div class="cols"><div><a class="logo" href={url('home',lang)}><span class="ball"></span><span>Which<em>Padel</em></span></a><p style="margin-top:12px">{u.footerAbout}</p><p class="small"><a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{lang==='en' && <button type="button" class="ai" data-ai aria-haspopup="dialog" aria-expanded="false" aria-controls="ai-dlg" aria-label="Describe your game">AI</button>}</div>
 <div><h2 class="fh">{u.footerLists}</h2><ul>{BEST_KEYS.slice(0,9).map(k=><li><a href={url('best',lang,k)} set:html={show(d.copy.best.titles[k][0])} /></li>)}</ul></div>
-<div><h2 class="fh">{u.footerSite}</h2><ul><li><a href={url('rackets',lang)}>{u.allRackets}</a></li><li><a href={url('guide',lang)}>{u.guide}</a></li>{url('bags',lang)&&<li><a href={url('bags',lang)}>{BAG[lang].nav}</a></li>}<li><a href={url('finder',lang)}>{u.finder}</a></li>{lang==='en'&&<><li><a href="/deals/">Deals</a></li><li><a href="/describe/">Describe your game</a></li><li><a href="/my-kit/">My kit</a></li><li><a href="/guides/padel-rules/">Padel rules</a></li><li><a href="/guides/how-to-hold-a-padel-racket/">How to hold a racket</a></li><li><a href="/padel-vs-paddle-tennis/">Padel vs paddle tennis</a></li></>}<li><a href={url('brands',lang)}>{u.brands}</a></li><li><a href={url('players',lang)}>{u.players}</a></li><li><a href={url('rackets',lang)}>{u.compare}</a></li><li><a href={url('tool',lang)}>{u.tools}</a></li><li><a href={url('bf',lang)}>{u.bf}</a></li><li><a href={url('affiliate',lang)}>{u.affiliate}</a></li><li><a href={url('about',lang)}>{u.aboutL}</a></li><li><a href={url('privacy',lang)}>{u.privacy}</a></li></ul></div></div>
+<div><h2 class="fh">{u.footerSite}</h2><ul class="site-links" style={`grid-template-rows:repeat(${siteRows},auto)`}>{site.map(l => <li><a href={l.href}>{l.label}</a></li>)}</ul></div></div>
 <div class="ftr-rgn" id="ftr-rgn"><Region lang={lang} switcher={switcher} region={region}/></div>
 <p class="legal"><Fragment set:html={u.legal}/><br/><a href={url('affiliate',lang)}>{u.affiliate}</a> · <a href={url('privacy',lang)}>{u.privacy}</a> · {u.contact}: <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>
 </div></footer>

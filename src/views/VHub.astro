@@ -212,7 +212,7 @@ const hub = (() => {
  </>}
 </section>
 </div>
-{hub.rk && <RkCardTemplate lang={lang}/>}
+{hub.rk && <RkCardTemplate lang={lang} compare/>}
 {hub.rk && ['round', 'teardrop', 'diamond', 'hybrid'].map(sh => <template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
 {hub.sh && <div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{hub.sh.C.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={hub.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>}
 </div>

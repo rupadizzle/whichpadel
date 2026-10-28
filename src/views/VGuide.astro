@@ -27,8 +27,7 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList
 <h2 id="level">{S.level[0]}</h2>
 <div class="tw"><table><thead><tr><th>{c.level}</th><th>{c.shape}</th><th>{c.balance}</th><th>{c.core}</th><th>{c.weight}</th><th>{c.list}</th></tr></thead><tbody>{G.levels.map(([l,a,b,co,w,k,lab])=><tr><td><b>{l}</b></td><td>{a}</td><td>{b}</td><td>{co}</td><td>{w}</td><td><a href={url('best',lang,k)}>{lab}</a></td></tr>)}</tbody></table></div>
 <Fragment set:html={S.level[1]}/>
-<div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid">{picks.map((r,i)=><RkCard r={r} lang={lang} eager={i===0} keys={['power','control','forgiveness']} compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>
+<div class="hub cat rk-rows rk-best"><ul class="hub-grid">{picks.map((r,i)=><RkCard r={r} lang={lang} eager={i===0} keys={['power','control','forgiveness']}/>)}</ul></div>
 <h2 id="price">{S.price[0]}</h2><Fragment set:html={S.price[1]}/>
 <div class="tw"><table><thead><tr><th>{c.band}</th><th>{c.rackets}</th><th>{c.typical}</th></tr></thead><tbody>{g.P.tiers.map((x,i)=><tr><td>{G.tierLabel(x.a,x.b)}</td><td>{x.n}</td><td set:html={G.tiers[i]}/></tr>)}</tbody></table></div>
 <Fragment set:html={S.price[2]}/>
