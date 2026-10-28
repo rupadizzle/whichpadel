@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { cleanItems, unionItems, toggleItem, safeNext, sha256, CAP } from './_acct.js';
 
 test('cleanItems keeps kind and slug, drops junk, caps at 40', ()=>{
- const junk=[{t:'r',s:'ok-1'},{t:'x',s:'no'},{t:'r',s:'Bad'},{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'}, null];
- assert.deepEqual(cleanItems(junk), [{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'}]);
+ const junk=[{t:'r',s:'ok-1'},{t:'x',s:'no'},{t:'r',s:'Bad'},{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'},{t:'g',s:'bag-1'},{t:'b',s:'ball-1'}, null];
+ assert.deepEqual(cleanItems(junk), [{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'},{t:'g',s:'bag-1'},{t:'b',s:'ball-1'}]);
  const many=Array.from({length:50},(_,i)=>({t:'r',s:'r-'+i}));
  assert.equal(cleanItems(many).length, CAP);
  assert.equal(cleanItems(many)[0].s, 'r-0');

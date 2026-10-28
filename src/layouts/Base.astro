@@ -96,11 +96,11 @@ dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>5
 </script>}
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
-(()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
+(()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b'||x.t==='g')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
 const read=()=>{try{const a=JSON.parse(localStorage[K]||'[]');return Array.isArray(a)?a.filter(ok).slice(0,CAP):[]}catch(e){return[]}};
 const write=list=>{try{localStorage[K]=JSON.stringify(list.slice(0,CAP))}catch(e){} document.dispatchEvent(new CustomEvent('wp:saved'))};
 const paint=()=>{const list=read(); document.querySelectorAll('[data-save]').forEach(b=>{const on=list.some(x=>x.t===(b.dataset.kind||'r')&&x.s===b.dataset.save); b.setAttribute('aria-pressed',on?'true':'false'); const lab=b.dataset[on?'on':'off']; if(lab){b.setAttribute('aria-label',lab); const t=b.querySelector('.save-lab'); if(t) t.textContent=lab;}}); const n=document.getElementById('saved-n'); if(n){const c=list.length; n.textContent=c?String(c):''; n.hidden=!c;}};
-let seq=0; const toggle=(s,t='r')=>{t=t==='s'||t==='b'?t:'r'; if(!/^[a-z0-9-]{1,80}$/.test(s||'')) return false; const on=read().some(x=>x.t===t&&x.s===s); let list=read().filter(x=>!(x.t===t&&x.s===s)); if(!on) list.unshift({t,s}); write(list.slice(0,CAP));
+let seq=0; const toggle=(s,t='r')=>{t=t==='s'||t==='b'||t==='g'?t:'r'; if(!/^[a-z0-9-]{1,80}$/.test(s||'')) return false; const on=read().some(x=>x.t===t&&x.s===s); let list=read().filter(x=>!(x.t===t&&x.s===s)); if(!on) list.unshift({t,s}); write(list.slice(0,CAP));
  let acct=false; try{acct=localStorage.wp_acct==='1'}catch(e){}
  if(acct){const n=++seq; fetch('/api/saved',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({op:'toggle',t,s})}).then(async r=>{if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){}} if(!r.ok||n!==seq) return; const d=await r.json(); if(Array.isArray(d.items)) write(d.items);}).catch(()=>{});}
  return !on;};

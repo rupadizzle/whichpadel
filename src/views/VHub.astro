@@ -5,11 +5,14 @@ import '../styles/hub.css';
 import RacketIcon from '../components/RacketIcon.astro';
 import CompareBoard from '../components/CompareBoard.astro';
 import ShoeCard from '../components/ShoeCard.astro';
+import BagCard from '../components/BagCard.astro';
 import ShoeCompareBoard from '../components/ShoeCompareBoard.astro';
 import SaveHeart from '../components/SaveHeart.astro';
 import HubRacketScript from './parts/HubRacketScript.astro';
 import HubShoeScript from './parts/HubShoeScript.astro';
 import HubBallScript from './parts/HubBallScript.astro';
+import HubBagScript from './parts/HubBagScript.astro';
+import BagGuide from './parts/BagGuide.astro';
 import { allRackets as rackets, brandList, slugify, CK_L } from '../lib/data.js';
 import { D, url, SITE } from '../i18n/index.js';
 import { SHAPE_KEYS } from '../i18n/routes.js';
@@ -20,6 +23,8 @@ import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn 
 import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
 import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js';
 import { BALL } from '../i18n/balls.js';
+import { bags, rankBags, bagPrice, bagStats } from '../lib/bags.js';
+import { BAG, BAG_DATE } from '../i18n/bags.js';
 const { kind, lang } = Astro.props;
 const p = Astro.props.p ?? 1;
 const d = D(lang), u = d.ui;
@@ -77,6 +82,30 @@ const hub = (() => {
       sh: { T, C, N, list, brandPick, sizes, GENDER: ['m', 'w', 'k'], pv: Object.fromEntries(shoes.map(s => [s.slug, priceIn(s, lang)])) },
     };
   }
+
+  if (kind === 'bags') {
+    const T = BAG[lang];
+    const N = bags.length;
+    const list = rankBags(bags, lang);
+    const brands = [...new Set(bags.map(b => b.brand))].sort();
+    const brandPick = brands.map(b => ({ name: b, value: b, n: bags.filter(x => x.brand === b).length })).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+    const TYPES = ['racket-bag', 'backpack', 'holdall'];
+    const COMPS = ['yes', 'no', 'ns'];
+    const U = SITE + url('bags', lang);
+    return {
+      locale: d.locale, title: T.title(N), description: T.desc(N),
+      jsonld: (() => { const st = bagStats(DEFAULT_REGION(lang)); const date = BAG_DATE[lang]; return { '@context': 'https://schema.org', '@graph': [
+        { '@type': 'CollectionPage', name: T.h1(N), url: U, description: T.desc(N) },
+        { '@type': 'ItemList', name: T.h1(N), numberOfItems: N, itemListOrder: 'https://schema.org/ItemListUnordered', itemListElement: list.map((b, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('bag', lang, b.slug), name: b.name })) },
+        { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: U }] },
+        { '@type': 'FAQPage', mainEntity: T.faq(st, date).map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+      ] }; })(),
+      h1: T.h1(N), intro: T.intro, crumb: T.crumb, search: T.search, searchPh: T.searchPh, filters: T.filters, close: T.close,
+      sorts: T.sorts, sortKeys: ['rec', 'hi', 'new', 'az'], clear: T.clear, clear2: T.clear, apply: T.apply.replace('§', String(N)), results: T.results.replace('§', String(N)),
+      h3: true, selectPop: false, cat: 'bags',
+      bg: { T, N, list, brandPick, TYPES, COMPS, pv: Object.fromEntries(bags.map(b => [b.slug, bagPrice(b, lang)])) },
+    };
+  }
   const T = BALL[lang];
   const N = balls.length;
   const list = rankBalls(balls, lang);
@@ -103,7 +132,7 @@ const hub = (() => {
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{hub.search}</span><Fragment set:html={searchSvg}/><input id="h-q" type="search" placeholder={hub.searchPh} autocomplete="off"/></label>
  <button type="button" class="hub-fo" id="h-open" aria-controls="h-f" aria-expanded="false"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>{hub.filters}<span id="h-fn" class="hub-n"></span></button>
- <label class="hub-so"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : hub.ba.T.sort}</span><select id="h-sort2">{hub.sortKeys.map((k, i) => <option value={k}>{hub.sorts[i]}</option>)}</select></label>
+ <label class="hub-so"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : kind === 'bags' ? hub.bg.T.sort : hub.ba.T.sort}</span><select id="h-sort2">{hub.sortKeys.map((k, i) => <option value={k}>{hub.sorts[i]}</option>)}</select></label>
 </div>
 </div>
 {hub.rk && <div class="hub-ac" id="h-ac" aria-label={hub.rk.H.activeF} hidden></div>}
@@ -136,11 +165,18 @@ const hub = (() => {
   <label class="hub-tg"><input type="checkbox" id="h-eco"/><span><b>{hub.ba.T.ecoF}</b><small>{hub.ba.T.ecoS}</small></span></label>
   <label class="hub-tg"><input type="checkbox" id="h-stock"/><span><b>{hub.ba.T.stock}</b><small>{hub.ba.T.stockS}</small></span></label>
   </>}
+  {hub.bg && <>
+  <fieldset class="hub-g"><legend>{hub.bg.T.typeF}</legend><div class="hub-chips">{hub.bg.TYPES.map(k => <label><input type="checkbox" name="h-type" value={k}/><span>{hub.bg.T.types[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g hub-brands"><legend>{hub.bg.T.brand}</legend><div class="hub-chips">{hub.bg.brandPick.map((b, i) => <label hidden={i >= 8}><input type="checkbox" name="h-brand" value={b.value}/><span>{b.name}</span></label>)}</div>{hub.bg.brandPick.length > 8 && <button type="button" class="hub-bmore" id="h-bmore" data-t={hub.bg.T.moreB} data-less={hub.bg.T.lessB}>{hub.bg.T.moreB.replace('§', String(hub.bg.brandPick.length - 8))}</button>}</fieldset>
+  <fieldset class="hub-g"><legend>{hub.bg.T.thermalF}</legend><div class="hub-chips">{hub.bg.COMPS.map(k => <label><input type="checkbox" name="h-th" value={k}/><span>{hub.bg.T.comps[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{hub.bg.T.shoeF}</legend><div class="hub-chips">{hub.bg.COMPS.map(k => <label><input type="checkbox" name="h-shoe" value={k}/><span>{hub.bg.T.comps[k]}</span></label>)}</div></fieldset>
+  <fieldset class="hub-g"><legend>{hub.bg.T.price}</legend><div class="hub-pr"><label><span class="sr">{hub.bg.T.min}</span><input id="h-min" type="number" min="0" inputmode="numeric" placeholder={hub.bg.T.min}/></label><span aria-hidden="true">–</span><label><span class="sr">{hub.bg.T.max}</span><input id="h-max" type="number" min="0" inputmode="numeric" placeholder={hub.bg.T.max}/></label></div></fieldset>
+  </>}
  </div>
  <div class="hub-ff"><button type="button" class="btn btn-line" id="h-clear">{hub.clear}</button><button type="button" class="btn btn-accent" id="h-apply">{hub.apply}</button></div>
 </aside>
 <section class="hub-main">
- <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{hub.results}</b></p><label class="hub-sort"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : hub.ba.T.sort}</span><select id="h-sort">{hub.sortKeys.map((k, i) => <option value={k} selected={hub.selectPop && k === 'pop'}>{hub.sorts[i]}</option>)}</select></label></div>
+ <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{hub.results}</b></p><label class="hub-sort"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : kind === 'bags' ? hub.bg.T.sort : hub.ba.T.sort}</span><select id="h-sort">{hub.sortKeys.map((k, i) => <option value={k} selected={hub.selectPop && k === 'pop'}>{hub.sorts[i]}</option>)}</select></label></div>
  {hub.rk && <>
  <div class="hub-stage">
  <ul class="hub-grid" id="h-grid">{hub.rk.rs.map((r, i) => <li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket', lang, r.slug)}><span class="rk-i">{r.image ? <img src={r.image} alt={`${r.model} ${hub.rk.H.alt}`} width="96" height="112" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></span><span class="rk-m">{hub.rk.shortM(r)}</span><span class="rk-c">{hub.rk.spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{hub.rk.priceTxt(r)}</span></span></span></a><label class="rk-x" title={hub.rk.H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{hub.rk.H.compare}: {r.model}</span></span></label></li>)}</ul>
@@ -169,6 +205,10 @@ const hub = (() => {
  <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour || ''} data-eco={b.eco ? '1' : '0'} data-n={b.inStock}><a class="rk-a" href={url('ball', lang, b.slug)}><span class="rk-i">{ballImg(b) && <img src={ballImg(b)} alt={hub.ba.T.alt(b.name)} width="96" height="96" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{b.model}</span><span class="rk-c">{hub.ba.spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{hub.ba.pr(b)}</span></span></span></a></li>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
+ {hub.bg && <>
+ <ul class="hub-grid" id="h-grid">{hub.bg.list.map((b, i) => <BagCard b={b} lang={lang} eager={i < 4}/>)}</ul>
+ <p class="hub-empty" id="h-empty" hidden>{hub.bg.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
+ </>}
 </section>
 </div>
 {hub.rk && ['round', 'teardrop', 'diamond', 'hybrid'].map(sh => <template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
@@ -185,4 +225,6 @@ const hub = (() => {
 {hub.rk && <HubRacketScript HT={hub.rk.HT}/>}
 {hub.sh && <HubShoeScript pv={hub.sh.pv} T={hub.sh.T} C={hub.sh.C}/>}
 {hub.ba && <HubBallScript pv={hub.ba.pv} T={hub.ba.T}/>}
+{hub.bg && <HubBagScript pv={hub.bg.pv} T={hub.bg.T}/>}
+{hub.bg && <BagGuide lang={lang}/>}
 </Base>
