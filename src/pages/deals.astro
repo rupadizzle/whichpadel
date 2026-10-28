@@ -1,38 +1,79 @@
 ---
-// English deals page. Everything is computed in the browser from the recorded price history (read-only price APIs). No history = no verdict.
+// English deals page. Rows are cloned from the product card. Verdicts come from recorded price history. Too little history and that section stays hidden.
 import Base from '../layouts/Base.astro';
-import { allRackets } from '../lib/data.js'; import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js';
-import { url } from '../i18n/routes.js'; import { FX } from '../lib/price.js';
-const CAT={};
-for(const r of allRackets) CAT[r.slug]={n:r.model,u:url('racket','en',r.slug),i:r.image||'',k:'r'};
-for(const s of shoes) CAT[s.slug]={n:s.name,u:url('shoe','en',s.slug),i:shoeImg(s)||'',k:'s'};
-for(const b of balls) CAT['ball-'+b.slug]={n:b.name,u:url('ball','en',b.slug),i:ballImg(b)||'',k:'b'};
-const title='Padel deals: real price drops and lowest prices';
+import RkCardTemplate from '../components/RkCardTemplate.astro';
+import { allRackets } from '../lib/data.js';
+import { shoes, shoeImg } from '../lib/shoes.js';
+import { balls, ballImg } from '../lib/balls.js';
+import { D, url } from '../i18n/index.js';
+
+const u = D('en').ui;
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const short = (brand, name, year) => {
+  let s = name || '';
+  if (brand) s = s.replace(new RegExp('^' + escRe(brand) + '\\s+', 'i'), '');
+  if (year) s = s.replace(new RegExp('\\s+' + year + '\\s*$'), '');
+  return s.trim() || name;
+};
+const CAT = {};
+const add = (key, kind, slug, brand, year, name, href, img) => {
+  CAT[key] = { k: kind, s: slug, b: brand || '', y: year || '', m: short(brand, name, year), u: href, i: img || '' };
+};
+for (const r of allRackets) add(r.slug, 'r', r.slug, r.brand, r.year, r.model, url('racket', 'en', r.slug), r.image || '');
+for (const s of shoes) add(s.slug, 's', s.slug, s.brand, s.year, s.name, url('shoe', 'en', s.slug), shoeImg(s) || '');
+for (const b of balls) add('ball-' + b.slug, 'b', b.slug, b.brand, '', b.model || b.name, url('ball', 'en', b.slug), ballImg(b) || '');
+const title = 'Padel deals: real price drops and lowest prices';
 ---
-<Base lang="en-GB" title={title+' | WhichPadel'} description="Padel racket, shoe and ball deals checked against the prices we have recorded: real drops, lowest-ever prices and the cheapest in stock.">
-<article class="panel prose"><h1>{title}</h1>
-<p>We check prices every few hours and keep the history, so we can tell a real discount from a price that was raised and then "cut". Black Friday is on 27 November 2026: <a href="/black-friday/#bf-mail">get our one Black Friday email</a>.</p></article>
-<section class="panel" id="d-real"><h2>Biggest drops vs the usual price</h2><ol class="dl" data-l="real"></ol><p class="muted small" data-empty="real" hidden>Not enough history yet. We give a verdict only after at least 3 weeks of recorded prices, so these appear from mid-November.</p></section>
-<section class="panel" id="d-low"><h2>Lowest prices we've ever recorded</h2><ol class="dl" data-l="low"></ol><p class="muted small" data-empty="low" hidden>Not enough history yet (we need at least 3 weeks of recorded prices).</p></section>
-<section class="panel" id="d-cut"><h2>Price cuts in the last 7 days</h2><ol class="dl" data-l="cut"></ol><p class="muted small" data-empty="cut" hidden>No price cuts recorded this week.</p></section>
-<section class="panel"><h2>Cheapest in stock</h2>
-<h3>Rackets</h3><ol class="dl" data-l="r"></ol><h3>Shoes</h3><ol class="dl" data-l="s"></ol><h3>Balls</h3><ol class="dl" data-l="b"></ol></section>
-<p class="muted small" style="margin:12px 4px">Prices are the cheapest in-stock offer we found at the time shown. Shop links may earn us a commission; it never changes the order.</p>
-<style>.dl{list-style:none;padding:0;margin:8px 0 16px}.dl li{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid #e8edf0}.dl img{width:48px;height:48px;object-fit:contain}.dl a{font-weight:600}.dl small{display:block;color:#5b6b75}</style>
+<Base lang="en-GB" title={title + ' | WhichPadel'} description="Padel racket, shoe and ball deals checked against the prices we have recorded: price cuts from the last 7 days, real drops and lowest-ever prices.">
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', 'en')}>{u.home}</a> › <span>Deals</span></nav>
+<div class="hub cat deals">
+<header class="hub-hd"><h1>{title}</h1>
+<p>Price cuts from the last 7 days. A drop against the usual price needs 3 weeks of history, so those lists appear once we have it. Black Friday is on 27 November 2026: <a href="/black-friday/#bf-mail">get our one Black Friday email</a>.</p></header>
+<section id="d-cut"><h2 class="h3">Price cuts in the last 7 days</h2><ul class="hub-grid" data-l="cut"></ul><p class="muted small" data-empty hidden>No price cuts recorded this week.</p></section>
+<section id="d-real" data-hold hidden><h2 class="h3">Biggest drops vs the usual price</h2><ul class="hub-grid" data-l="real"></ul></section>
+<section id="d-low" data-hold hidden><h2 class="h3">Lowest prices we've ever recorded</h2><ul class="hub-grid" data-l="low"></ul></section>
+<p class="muted small">Prices are the cheapest in-stock offer we found. Shop links may earn us a commission; it never changes the order.</p>
+</div>
+<RkCardTemplate lang="en"/>
+<style is:global>
+.deals.cat .hub-grid .rk.rk-card .rk-ft .rk-c{white-space:normal;overflow:visible;text-overflow:unset}
+</style>
 <script is:inline src="/deal-check.js"></script>
-<script is:inline define:vars={{CAT,RATES:FX.rates}}>
-const gbp=(p,c)=>p/(RATES[c]||1)*(RATES.GBP||1);
-const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-const F=WPDeal.fmt;
-const li=(x,note)=>`<li>${x.c.i?`<img src="${esc(x.c.i)}" alt="" loading="lazy">`:''}<span><a href="${esc(x.c.u)}">${esc(x.c.n)}</a><small>${esc(note)}</small></span></li>`;
-const put=(k,rows)=>{document.querySelector(`[data-l="${k}"]`).innerHTML=rows.join(''); const e=document.querySelector(`[data-empty="${k}"]`); if(e) e.hidden=rows.length>0;};
-Promise.all([WPDeal.get('/api/all-prices'),WPDeal.get('/api/shoe-prices')]).then(js=>{
- const items=[]; for(const j of js) for(const [k,e] of Object.entries((j&&j.r)||{})){const c=CAT[k]; if(c&&e&&e.p>0) items.push({k,e,c,v:WPDeal.verdict(e),g:gbp(e.p,e.c)});}
- const inS=items.filter(x=>x.e.s!==0);
- put('real',inS.filter(x=>x.v&&(x.v.k==='drop'||x.v.k==='lowest')).sort((a,b)=>b.v.pct-a.v.pct).slice(0,15).map(x=>li(x,`${F(x.e.p,x.e.c)} at ${x.e.n||x.e.d} · ${x.v.pct}% below usual ${F(x.v.usual,x.e.c)}`)));
- put('low',inS.filter(x=>x.v&&x.v.k==='lowest').sort((a,b)=>b.v.pct-a.v.pct).slice(0,15).map(x=>li(x,`${F(x.e.p,x.e.c)} at ${x.e.n||x.e.d} · lowest since ${x.v.since}`)));
- put('cut',inS.filter(x=>x.e.drop>=5).sort((a,b)=>b.e.drop-a.e.drop).slice(0,15).map(x=>li(x,`${F(x.e.p,x.e.c)} at ${x.e.n||x.e.d} · down ${x.e.drop}% on its previous price (${x.e.t})`)));
- for(const k of ['r','s','b']) put(k,inS.filter(x=>x.c.k===k).sort((a,b)=>a.g-b.g).slice(0,8).map(x=>li(x,`${F(x.e.p,x.e.c)} at ${x.e.n||x.e.d} · checked ${x.e.t}`)));
-});
+<script is:inline define:vars={{ CAT }}>
+const F = WPDeal.fmt;
+const shop = x => x.e.n || x.e.d || '';
+const fill = (x, note, id) => {
+  const li = document.getElementById('rk-card').content.firstElementChild.cloneNode(true);
+  const c = x.c;
+  li.dataset.s = c.s;
+  const cmp = li.querySelector('.rk-x'); if (cmp) cmp.remove();
+  const a = li.querySelector('.rk-a'); a.href = c.u; a.setAttribute('aria-labelledby', id);
+  const ph = li.querySelector('.rk-ph');
+  if (c.i) { const img = document.createElement('img'); img.src = c.i; img.alt = ''; img.width = 96; img.height = 112; img.loading = 'lazy'; img.decoding = 'async'; ph.replaceChildren(img); }
+  li.querySelector('.rk-b span').textContent = [c.b, c.y].filter(Boolean).join(' · ');
+  const name = li.querySelector('.rk-m'); name.id = id; name.textContent = c.m;
+  const spec = li.querySelector('.rk-c'); if (spec) spec.textContent = note;
+  li.querySelector('.rk-pv').textContent = F(x.e.p, x.e.c);
+  const heart = li.querySelector('.save-heart');
+  if (heart) { heart.dataset.save = c.s; heart.dataset.kind = c.k; }
+  return li;
+};
+const put = (k, xs, note) => {
+  const list = document.querySelector(`[data-l="${k}"]`);
+  const sec = list.closest('section');
+  list.replaceChildren(...xs.map((x, i) => fill(x, note(x), 'dl-' + k + '-' + i)));
+  const empty = sec.querySelector('[data-empty]');
+  if (empty) empty.hidden = xs.length > 0;
+  if (sec.dataset.hold != null) sec.hidden = xs.length === 0;
+};
+Promise.all([WPDeal.get('/api/all-prices'), WPDeal.get('/api/shoe-prices')]).then(js => {
+  const items = [];
+  for (const j of js) for (const [k, e] of Object.entries((j && j.r) || {})) { const c = CAT[k]; if (c && e && e.p > 0) items.push({ k, e, c, v: WPDeal.verdict(e) }); }
+  const inS = items.filter(x => x.e.s !== 0);
+  put('cut', inS.filter(x => x.e.drop >= 5).sort((a, b) => b.e.drop - a.e.drop).slice(0, 15), x => `−${x.e.drop}% · ${shop(x)}`);
+  put('real', inS.filter(x => x.v && (x.v.k === 'drop' || x.v.k === 'lowest')).sort((a, b) => b.v.pct - a.v.pct).slice(0, 15), x => `−${x.v.pct}% · ${shop(x)}`);
+  put('low', inS.filter(x => x.v && x.v.k === 'lowest').sort((a, b) => b.v.pct - a.v.pct).slice(0, 15), x => `Since ${x.v.since} · ${shop(x)}`);
+  if (window.wpSaved) wpSaved.paint();
+}).catch(() => { const e = document.querySelector('#d-cut [data-empty]'); if (e) e.hidden = false; });
 </script>
 </Base>

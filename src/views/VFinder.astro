@@ -1,10 +1,20 @@
 ---
+// One finder for rackets, shoes, balls and bags. The first choice picks the product;
+// each product has its own questions and scoring. Racket scoring is unchanged, and
+// old racket result links (no ?p=) still open.
 import NewsL from '../components/NewsL.astro';
-import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { D, url, SITE, CURL } from '../i18n/index.js';
-import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang]; const CUR0=CURL(lang);
+import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { shoes } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { bags } from '../lib/bags.js';
+import { D, url, SITE, CURL } from '../i18n/index.js';
+import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js';
+import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
+const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang], K=KIT[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
-const nShops=new Set(rackets.flatMap(r=>offersOf(r).map(o=>o.d))).size;
+const hasBag=!!L('bag','x');
+const prods=K.products.filter(p=>p.id!=='bag'||hasBag);
+const doms=new Set();
+rackets.forEach(r=>offersOf(r).forEach(o=>o.d&&doms.add(o.d)));
+for(const list of [shoes,balls,...(hasBag?[bags]:[])]) list.forEach(x=>(x.offs||[]).forEach(o=>o.d&&doms.add(o.d)));
+const nShops=doms.size;
 const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
@@ -14,52 +24,78 @@ const money=s=>String(s).replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za
 const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]].map(money);
 const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['side',Z.q[1],['right','left','either'],Z.sd],['style',Z.q[2],['control','all','power'],Z.st],['prio',Z.q[3],['comfort','light','durable','latest'],Z.pr],
  ['budget',Z.q[4],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
+const rows=(k,q,list)=>({k,q,opts:list.map(([v,ic,t,h])=>({v,ic,t,h,html:false}))});
+const budgetStep=(q,amounts,hints)=>({k:'budget',q,opts:[
+ ...amounts.map((n,i)=>({v:String(n),ic:['💷','💶','💳','💎'][i],t:K.upto.replace('§',money(`⟦b|${n}|${CUR0}|${CUR0}⟧`)),h:hints[i],html:true,mb:String(n)})),
+ {v:'any',ic:'🚀',t:K.nolimit,h:hints[amounts.length],html:false}]});
+const racketSteps=Q.map(([k,q,vals,opts])=>({k,q,opts:vals.map((v,j)=>({v,ic:opts[j][0],t:opts[j][1],h:opts[j][2],html:k==='budget',mb:k==='budget'&&v!=='any'?v:undefined}))}));
+const shoeSteps=[rows('who',K.shoes.q[0],K.shoes.who),rows('court',K.shoes.q[1],K.shoes.court),rows('fit',K.shoes.q[2],K.shoes.fit),budgetStep(K.shoes.q[3],K.shoes.amounts,K.shoes.bh)];
+const ballSteps=[rows('use',K.balls.q[0],K.balls.use),rows('speed',K.balls.q[1],K.balls.speed),budgetStep(K.balls.q[2],K.balls.amounts,K.balls.bh)];
+const bagSteps=[rows('carry',K.bags.q[0],K.bags.carry),rows('cap',K.bags.q[1],K.bags.cap),rows('extra',K.bags.q[2],K.bags.extra),budgetStep(K.bags.q[3],K.bags.amounts,K.bags.bh)];
+const QUIZ=[{id:'racket',steps:racketSteps},{id:'shoes',steps:shoeSteps},{id:'balls',steps:ballSteps},...(hasBag?[{id:'bag',steps:bagSteps}]:[])];
 const ZC={...Z,sub:null,w:null,cmpShops:Z.cmpShops('§'),buyAt:Z.buyAt('§'),
  W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1'),right:Z.w.right,left:Z.w.left}};
-const U={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate'),lang};
+const pack=s=>({finding:s.finding,none:s.none,w:s.w,tour:s.tour||null});
+const KW={shoes:pack(K.shoes),balls:pack(K.balls),bag:pack(K.bags)};
+const KL=Object.fromEntries(K.products.map(p=>[p.id,p.t]));
+const pref=t=>{const u=L(t,'X'); return u?u.replace(/X\/$/,''):'';};
+const U={href:{racket:pref('racket'),shoes:pref('shoe'),balls:pref('ball'),bag:pref('bag')},cmp:{racket:L('rackets'),shoes:L('shoeCompare')||''}};
+const subLine=(hasBag?K.sub:K.subShort).split('§');
 ---
-<Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc(rackets.length)} jsonld={jsonld}>
+<Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc()} jsonld={jsonld}>
 <div class="fz" id="fz" data-state="intro">
+<div class="fz-modes" id="fz-modes" role="group" aria-label={K.ask} hidden>{prods.map(p=><button type="button" data-mode={p.id}>{p.t}</button>)}</div>
 <section class="fz-scr fz-intro" data-scr="intro">
- <h1>{Z.promise}</h1>
- <p class="fz-sub">{Z.sub(rackets.length,'§').split('§')[0]}<span id="fz-ns">{nShops}</span>{Z.sub(rackets.length,'§').split('§')[1]}</p>
- <button type="button" class="btn btn-accent fz-start" id="fz-start">{Z.start} →</button>
- <ol class="fz-path">{Z.path.map((label,i)=><li><span aria-hidden="true">{i+1}</span>{label}</li>)}</ol>
+ <h1>{K.promise}</h1>
+ <p class="fz-sub">{subLine[0]}<span id="fz-ns">{nShops}</span>{subLine[1]}</p>
+ <p class="fz-ask">{K.ask}</p>
+ <div class="fz-prods">{prods.map(p=><button type="button" class="fz-prod" data-prod={p.id}><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{p.ic}</span><span class="fz-ot"><b>{p.t}</b><small>{p.h}</small></span></span></button>)}</div>
+ <p class="fz-trust">{K.note}</p>
  <p class="fz-trust">✓ {Z.trust}</p>
 </section>
 <section class="fz-scr fz-q" data-scr="q" hidden>
- <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax={Q.length} aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/{Q.length}</span></div>
+ <div class="fz-top"><button type="button" class="fz-back" id="fz-back" aria-label={Z.back}>←</button><div class="fz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="fz-pr"><i id="fz-bar"></i></div><span class="fz-cnt" id="fz-cnt">1/5</span></div>
  <form id="fq" onsubmit="return false">
- {Q.map(([n,lab,vals,opts],i)=><fieldset class="fz-step" data-i={i} hidden={i>0}><legend class="fz-qh">{lab}</legend>
- <div class="fz-opts">{vals.map((v,j)=><label class="fz-o"><input type="radio" name={n} value={v} data-t={v} data-mb={n==='budget'&&v!=='any'?v:undefined} data-mc={n==='budget'&&v!=='any'?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{opts[j][0]}</span><span class="fz-ot">{n==='budget'?<b set:html={opts[j][1]}/>:<b>{opts[j][1]}</b>}<small>{opts[j][2]}</small></span></span></label>)}</div></fieldset>)}
+ {QUIZ.map(p=>p.steps.map((st,i)=><fieldset class="fz-step" data-p={p.id} data-k={st.k} data-i={i} hidden><legend class="fz-qh">{st.q}</legend>
+ <div class="fz-opts">{st.opts.map(o=><label class="fz-o"><input type="radio" name={p.id==='racket'?st.k:`${p.id}-${st.k}`} value={o.v} data-t={o.v} data-mb={o.mb||undefined} data-mc={o.mb?CUR0:undefined}/><span class="fz-oc"><span class="fz-ic" aria-hidden="true">{o.ic}</span><span class="fz-ot">{o.html?<b set:html={o.t}/>:<b>{o.t}</b>}<small>{o.h}</small></span></span></label>)}</div></fieldset>))}
  </form>
 </section>
-<section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p>{Z.finding}</p></section>
+<section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p id="fz-finding">{Z.finding}</p></section>
 <section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><div id="fz-out"></div>
  <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
  <label class="fz-cons"><input type="checkbox" required/> <span>{Z.consent} <a href={L('privacy')}>{Z.priv}</a>.</span></label><p class="fz-msg" hidden></p></form>
- <NewsL lang={lang} src="finder"/>
+ <div id="fz-news"><NewsL lang={lang} src="finder"/></div>
  <p class="disc">{Z.ad} <a href={L('affiliate')}>{Z.disc}</a></p>
 </section>
 <div class="fz-bar" id="fz-sticky" hidden></div>
 </div>
-<script is:inline define:vars={{Z:ZC,U,SN,LG:lang}}>
+<script is:inline define:vars={{Z:ZC,U,SN,KW,KL,LG:lang}}>
 const $=id=>document.getElementById(id), fz=$('fz'); const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const R=(t,...a)=>a.reduce((o,v,i)=>o.split('§'+(i+1)).join(v),t).replace('§',a[0]);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const steps=[...document.querySelectorAll('.fz-step')]; const N=steps.length; let cur=0;
+let prod='racket', cur=0;
+const steps=()=>[...document.querySelectorAll(`#fq .fz-step[data-p="${prod}"]`)];
 const rv=n=>(document.querySelector(`#fq input[name="${n}"]:checked`)||{}).value||'';
-const scr=s=>{fz.dataset.state=s; document.querySelectorAll('.fz-scr').forEach(e=>{const on=e.dataset.scr===s; e.hidden=!on; if(on&&!RM){e.classList.remove('in'); void e.offsetWidth; e.classList.add('in');}}); $('fz-sticky').hidden=s!=='res'; scrollTo(0,0);};
-function show(i){cur=i; scr('q'); steps.forEach((s,j)=>{s.hidden=j!==i; if(j===i&&!RM){s.classList.remove('in'); void s.offsetWidth; s.classList.add('in');}}); $('fz-bar').style.width=((i+1)/N*100)+'%'; $('fz-cnt').textContent=(i+1)+'/'+N; $('fz-pr').setAttribute('aria-valuenow',i+1);
- const f=steps[i].querySelector('input:checked')||steps[i].querySelector('input'); try{f.focus({preventScroll:true})}catch(e){} }
-$('fz-start').onclick=()=>show(0);
+function syncModes(){const bar=$('fz-modes'); bar.hidden=fz.dataset.state==='intro'; bar.querySelectorAll('[data-mode]').forEach(b=>{if(b.dataset.mode===prod) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');});}
+const scr=s=>{fz.dataset.state=s; document.querySelectorAll('.fz-scr').forEach(e=>{const on=e.dataset.scr===s; e.hidden=!on; if(on&&!RM){e.classList.remove('in'); void e.offsetWidth; e.classList.add('in');}}); $('fz-sticky').hidden=s!=='res'; syncModes(); if(s==='intro'&&location.search) history.replaceState(null,'',location.pathname); scrollTo(0,0);};
+function enter(id){if(!id||(id===prod&&fz.dataset.state!=='intro')) return; prod=id; if(prod==='racket') load(); else loadKit(); const st=steps(); const missing=st.findIndex(s=>!s.querySelector('input:checked')); if(missing===-1&&st.length){finish(); return;} const q=new URLSearchParams({p:prod}); for(const s of st){const inp=s.querySelector('input:checked'); if(!inp) continue; const k=s.dataset.k; q.set(k,k==='budget'?inp.dataset.t:inp.value);} history.replaceState(null,'','?'+q); show(missing<0?0:missing);}
+function show(i){cur=i; scr('q'); const st=steps(); document.querySelectorAll('#fq .fz-step').forEach(s=>{s.hidden=true;}); const s=st[i]; if(!s) return; s.hidden=false; if(!RM){s.classList.remove('in'); void s.offsetWidth; s.classList.add('in');}
+ $('fz-bar').style.width=((i+1)/st.length*100)+'%'; $('fz-cnt').textContent=(i+1)+'/'+st.length; $('fz-pr').setAttribute('aria-valuemax',st.length); $('fz-pr').setAttribute('aria-valuenow',i+1);
+ const f=s.querySelector('input:checked')||s.querySelector('input'); try{f.focus({preventScroll:true})}catch(e){} }
 $('fz-back').onclick=()=>cur>0?show(cur-1):scr('intro');
-steps.forEach((s,i)=>{s.addEventListener('pointerdown',e=>{const inp=e.target.closest('.fz-o')?.querySelector('input'); s.dataset.keep=inp&&inp.checked?'1':'';});
- s.addEventListener('click',e=>{if(s.dataset.keep!=='1') return; s.dataset.keep=''; const inp=e.target.closest('.fz-o')?.querySelector('input'); if(inp&&inp.checked) advance(i);});
- s.addEventListener('change',()=>setTimeout(()=>advance(i),RM?0:180));});
-let all=null,prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{};
- a.forEach(c=>{const r=live[c.s]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s,t:o.t}));});
- const ns=new Set(a.flatMap(c=>(c.o||[]).map(o=>o.d))).size; if(ns) $('fz-ns').textContent=ns; all=a; return a;}));
+document.querySelectorAll('[data-prod]').forEach(b=>b.onclick=()=>enter(b.dataset.prod));
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>enter(b.dataset.mode));
+document.querySelectorAll('#fq .fz-step').forEach(s=>{
+ s.addEventListener('pointerdown',e=>{const inp=e.target.closest('.fz-o')?.querySelector('input'); s.dataset.keep=inp&&inp.checked?'1':'';});
+ s.addEventListener('click',e=>{if(s.dataset.p!==prod||s.dataset.keep!=='1') return; s.dataset.keep=''; const inp=e.target.closest('.fz-o')?.querySelector('input'); if(inp&&inp.checked) advance(+s.dataset.i);});
+ s.addEventListener('change',()=>{if(s.dataset.p!==prod) return; setTimeout(()=>advance(+s.dataset.i),RM?0:180);});
+});
+function advance(i){const st=steps(); if(i<st.length-1&&st.slice(i+1).every(x=>x.querySelector('input:checked'))) finish(); else if(i<st.length-1) show(i+1); else finish();}
+let all=null,prom=null,kit=null,kitProm=null;
+const bumpNs=n=>{const el=$('fz-ns'); if(el&&n>+el.textContent) el.textContent=n;};
+const paint=(list,live,key)=>list.forEach(c=>{const r=live[c[key]]; if(!r) return; const os=(Array.isArray(r.o)&&r.o.length?r.o:[r]).filter(o=>o.p>0); if(os.length) c.o=os.map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s,t:o.t}));});
+const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const live=p&&p.r||{}; paint(a,live,'s'); bumpNs(new Set(a.flatMap(c=>(c.o||[]).map(o=>o.d))).size); all=a; return a;}));
+const loadKit=()=>kitProm||(kitProm=Promise.all([fetch('/kit.json').then(r=>r.json()),fetch('/api/shoe-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([cat,p])=>{const live=p&&p.r||{}; for(const list of [cat.shoes,cat.balls,cat.bags]) paint(list,live,'px'); const ns=new Set([cat.shoes,cat.balls,cat.bags].flat().flatMap(c=>(c.o||[]).map(o=>o.d))).size; bumpNs(ns); kit=cat; return cat;}));
 load();
 const bq=r=>(window.WP&&r.o&&r.o.length)?WP.best(r.o):null; const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
 const W={beginner:{forgiveness:3,comfort:2,handling:1,control:1},intermediate:{control:2,power:1,forgiveness:1,handling:1},advanced:{power:1.5,control:1.5,handling:1}};
@@ -69,7 +105,7 @@ const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest
 const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&['soft','medium-soft','medium',''].includes(d.c)&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
 const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
-const sn=d=>esc((SN[d]||[d])[0]); const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
 function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;
  const w={...W[L]}; for(const o of [SW[S],SIDEW[Sd]||{},PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
@@ -87,41 +123,79 @@ function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const B
   if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0){const span=R(Z.W.light,d.w0,d.w1&&d.w1!==d.w0?d.w1:d.w0); out.push(!d.w1||d.w1===d.w0?span.replace(/(\d+)\s*[–-]\s*\1/,'$1'):span);} else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
   const ss=shopsOf(d); if(out.length<3&&ss.length) out.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt)); return out.slice(0,3);};
  return top.map(x=>({...x,why:why(x.d)}));}
+function budgetOf(A){if(!A.budget||A.budget==='any') return 0; const name=prod==='racket'?'budget':prod+'-budget'; const Bi=document.querySelector(`#fq input[name="${name}"][data-t="${A.budget}"]`); return Bi?+Bi.value:0;}
+function top3(pool){const top=[],br=new Set(); for(const x of pool){const bb=(x.d.b||'').toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;} return top;}
+function rankKit(A){const spec=KW[prod], W=spec.w, B=budgetOf(A); const list=kit[prod==='shoes'?'shoes':prod==='balls'?'balls':'bags']||[]; const pool=[];
+ for(const d of list){const price=pn(d); if(price==null) continue; if(B&&(price>B||price<B*0.4)) continue; let sc=0; const why=[];
+  if(prod==='shoes'){ if(A.who==='any'?d.g==='k':d.g!==A.who) continue; const so=d.so||[];
+   if(A.court==='outdoor'){ if(so.includes('clay')||so.includes('omni')){sc+=8; why.push(W.clay);} else if(so.includes('herringbone')){sc+=5; why.push(W.herr);} else if(so.includes('allcourt')) sc-=2; }
+   else if(A.court==='indoor'){ if(so.includes('allcourt')){sc+=8; why.push(W.indoor);} else if(so.includes('herringbone')) sc+=2; else if(so.includes('clay')||so.includes('omni')) sc-=1; }
+   else if(so.includes('herringbone')||so.includes('clay')||so.includes('omni')) sc+=2;
+   if(A.fit==='cushion'){ if(d.cu){sc+=6; why.push(R(W.cush,d.cu.charAt(0).toUpperCase()+d.cu.slice(1)));} }
+   else if(A.fit==='latest'){ sc+=d.y>=2026?8:d.y>=2025?3:-2; if(d.y) why.push(R(W.late,d.y)); }
+   sc+=d.y>=2026?2:d.y>=2025?1:0;
+  } else if(prod==='balls'){
+   if(A.use==='tour'){ if(d.tr){sc+=8; why.push((spec.tour&&spec.tour[d.tr])||W.tour);} else sc-=5; }
+   else if(A.use==='practice'){ if(!d.tr){sc+=4; why.push(W.practice);} }
+   else if(d.tr) sc+=1;
+   if(A.speed==='medium'||A.speed==='fast'){ if(d.sp===A.speed){sc+=7; why.push(A.speed==='fast'?W.fast:W.med);} else sc-=6; }
+  } else { const kind=d.t==='pack'?'pack':'bag'; if(A.carry==='bag'&&kind!=='bag') continue; if(A.carry==='pack'&&kind!=='pack') continue;
+   if(A.cap==='few'&&d.rk){ if(d.rk<=2){sc+=6; why.push(d.rk===1?W.few1:R(W.fewN,d.rk));} else sc-=3; }
+   if(A.cap==='many'&&d.rk){ if(d.rk>=3){sc+=6; why.push(R(W.many,d.rk));} else sc-=4; }
+   if(A.extra==='shoe'){ if(d.sh==='yes'){sc+=8; why.push(W.shoe);} else sc-=2; }
+   if(A.extra==='thermal'){ if(d.th==='yes'){sc+=8; why.push(W.thermal);} else sc-=2; }
+   if(why.length<3) why.push(kind==='pack'?W.pack:W.bag);
+   sc+=d.y>=2026?2:0;
+  }
+  const ss=shopsOf(d); if(ss.length>=2) sc+=2; if(ss[0]&&ss[0].s!==0) sc+=2;
+  if(B) sc+=(prod==='balls'&&A.use==='practice'?(1-price/B):price/B)*3;
+  if(why.length<3&&ss.length) why.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt));
+  let miss=false;
+  if(prod==='shoes'){ const so=d.so||[]; if(A.court==='outdoor'&&!(so.includes('clay')||so.includes('omni')||so.includes('herringbone'))) miss=true; if(A.court==='indoor'&&!(so.includes('allcourt')||so.includes('herringbone'))) miss=true; if(A.fit==='cushion'&&!d.cu) miss=true; }
+  else if(prod==='balls'){ if(A.use==='tour'&&!d.tr) miss=true; if((A.speed==='medium'||A.speed==='fast')&&d.sp!==A.speed) miss=true; }
+  else { if(A.extra==='shoe'&&d.sh!=='yes') miss=true; if(A.extra==='thermal'&&d.th!=='yes') miss=true; if(A.cap==='few'&&d.rk>2) miss=true; if(A.cap==='many'&&d.rk&&d.rk<3) miss=true; }
+  pool.push({d,s:sc,why:why.filter(Boolean).slice(0,3),miss});
+ } pool.sort((a,b)=>b.s-a.s); const strict=pool.filter(x=>!x.miss); return top3(strict.length?strict:pool);}
 const img=(d,w,h)=>d.i?`<img src="${d.i}" alt="${esc(d.m)}" width="${w}" height="${h}" loading="eager" decoding="async">`:'';
-const buy=(o,cls,label)=>`<a class="btn ${cls}" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" data-ev="buy">${label}</a>`;
-function render(A){const top=rank(A); const out=$('fz-out');
- if(!top.length){out.innerHTML=`<p class="fz-none">${esc(Z.none)}</p><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button>`; $('fz-alert').hidden=true; $('fz-sticky').innerHTML=''; bind(); return;}
- $('fz-alert').hidden=false; const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
+const buy=(o,cls,label)=>`<a class="btn ${cls}" href="${esc(hrefShop(o))}" rel="sponsored nofollow" target="_blank" data-ev="buy">${label}</a>`;
+const pageOf=s=>(U.href[prod]||'')+s+'/';
+const choiceLabelFrom=step=>{const inp=step.querySelector('input:checked'); const b=inp&&inp.parentElement.querySelector('b'); return b?b.textContent.trim():'';};
+function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; const news=$('fz-news'); if(news) news.hidden=prod!=='racket'; }
+function render(A){const top=prod==='racket'?rank(A):rankKit(A); const out=$('fz-out');
+ if(!top.length){out.innerHTML=`<p class="fz-none">${esc(prod==='racket'?Z.none:(KW[prod]&&KW[prod].none)||Z.none)}</p><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button>`; kitChrome(false); $('fz-sticky').innerHTML=''; bind(); return;}
+ kitChrome(true); const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
  const rows=ss.slice(0,4).map((o,i)=>`<li class="fz-sr${i===0?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${o.s===0?Z.oos:Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join('');
- const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${U.rk}${x.d.s}/">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${U.rk}${x.d.s}/">${esc(x.d.m)}</a><span class="fz-am">${esc(x.why[0]||'')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`}).join('');
- const picks=['level','side','style','prio','budget'].map((n,i)=>{const t=choiceLabel(n); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(Z.path[i]+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
- out.innerHTML=`<div class="fz-picks">${picks}</div><p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${U.rk}${d.s}/" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a></div>
- <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${U.rk}${d.s}/">${esc(d.m)}</a></h2>
+ const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${pageOf(x.d.s)}">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${pageOf(x.d.s)}">${esc(x.d.m)}</a><span class="fz-am">${x.why.slice(0,2).map(esc).join('<br>')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`;}).join('');
+ const picks=steps().map((s,i)=>{const t=choiceLabelFrom(s); const q=s.querySelector('legend').textContent.trim(); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(q+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
+ out.innerHTML=`<div class="fz-picks">${picks}</div><p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a></div>
+ <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
  <div class="fz-pb"><span class="fz-bp">${esc(b.txt)}</span><span class="fz-bs">${sn(b.d)}</span></div>${buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,(SN[b.d]||[b.d])[0]))+' →')}</div></article>
  ${ss.length>1?`<details class="fz-shops" open><summary>${esc(R(Z.cmpShops,Math.min(4,ss.length)))}</summary><ul>${rows}</ul></details>`:''}
  ${alt?`<h2 class="fz-h2">${esc(Z.also)}</h2><div class="fz-alts">${alt}</div>`:''}
- <div class="fz-acts">${top.length>1?`<a class="btn" href="${U.cmp}?r=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="btn btn-line" type="button" id="fz-share">↗ ${esc(Z.shareB)}</button><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button></div>`;
+ <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="btn btn-line" type="button" id="fz-share">↗ ${esc(Z.shareB)}</button><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button></div>`;
  $('fz-sticky').innerHTML=`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else st.classList.remove('off');}
- window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
-const choiceLabel=n=>{const inp=document.querySelector(`#fq input[name="${n}"]:checked`); const b=inp&&inp.parentElement.querySelector('b'); return b?b.textContent.trim():'';};
-function advance(i){ if(i<N-1&&steps.slice(i+1).every(st=>st.querySelector('input:checked'))) finish(); else if(i<N-1) show(i+1); else finish(); }
+ if(prod==='racket') window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
 function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
- document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); show(0);});
+ document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>scr('intro'));
+ document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); scr('intro');});
  const sh=$('fz-share'); if(sh) sh.onclick=async()=>{const t=document.title; try{ if(navigator.share){await navigator.share({title:t,url:location.href}); return;} await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(e){ if(e&&e.name==='AbortError') return; try{await navigator.clipboard.writeText(location.href); sh.textContent='✓ '+Z.copied;}catch(_){prompt('',location.href)}}};}
-const ans=()=>({level:rv('level'),side:rv('side')||'either',style:rv('style'),prio:rv('prio'),budget:(document.querySelector('#fq input[name="budget"]:checked')||{dataset:{}}).dataset.t||'any'});
-async function finish(){const A=ans(); history.replaceState(null,'','?'+new URLSearchParams(A)); scr('load'); const t0=Date.now(); await load().then(a=>all=a); await new Promise(r=>setTimeout(r,Math.max(0,(RM?250:650)-(Date.now()-t0)))); render(A); scr('res');}
-// alert form
-$('fz-alert').addEventListener('submit',async e=>{e.preventDefault(); const f=e.target, em=f.querySelector('[type=email]'), cb=f.querySelector('[type=checkbox]'), m=f.querySelector('.fz-msg');
+function ans(){const o={}; for(const s of steps()){const k=s.dataset.k, inp=s.querySelector('input:checked'); o[k]=inp?(k==='budget'?inp.dataset.t:inp.value):'';} return o;}
+async function finish(){const A=ans(); const q=new URLSearchParams({p:prod}); for(const [k,v] of Object.entries(A)) if(v) q.set(k,v); history.replaceState(null,'','?'+q);
+ scr('load'); $('fz-finding').textContent=prod==='racket'?Z.finding:(KW[prod]&&KW[prod].finding)||Z.finding; const t0=Date.now(); if(prod==='racket') await load(); else await loadKit(); await new Promise(r=>setTimeout(r,Math.max(0,(RM?250:650)-(Date.now()-t0)))); render(A); scr('res');}
+$('fz-alert').addEventListener('submit',async e=>{e.preventDefault(); if(prod!=='racket') return; const f=e.target, em=f.querySelector('[type=email]'), cb=f.querySelector('[type=checkbox]'), m=f.querySelector('.fz-msg');
  if(!em.checkValidity()){em.focus(); return;} if(!cb.checked){cb.focus(); cb.parentNode.classList.add('err'); return;}
  const x=window.__fz||{}; try{const r=await fetch('/api/alert',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:em.value,consent:true,racket:x.racket,price:x.price,cur:x.cur,lang:LG,answers:location.search.slice(1),website:f.website.value})});
   if(!r.ok) throw 0; m.textContent=Z.alertOk; m.className='fz-msg ok'; f.querySelector('.fz-af').hidden=true; f.querySelector('.fz-cons').hidden=true;}catch(_){m.textContent=Z.alertErr; m.className='fz-msg bad';} m.hidden=false;});
-// deep link
-const p=new URLSearchParams(location.search); const set=(n,v)=>{const i=document.querySelector(`#fq input[name="${n}"][data-t="${v}"]`); if(i){i.checked=true; return true;} return false;};
-if(p.get('style')==='arm'){p.set('style','all'); if(!p.get('prio')) p.set('prio','comfort');}
-if(!p.get('prio')&&p.get('level')) p.set('prio','latest');
-if(p.get('level')&&!p.get('side')) p.set('side','either');
-if(['level','side','style','prio','budget'].every(n=>p.get(n)&&set(n,p.get(n)))){ load().then(a=>{all=a; render(ans()); scr('res');}); }
-document.addEventListener('wp:region',()=>{ if(Array.isArray(all)&&fz.dataset.state==='res') render(ans()); });
+const KEYS={racket:['level','side','style','prio','budget'],shoes:['who','court','fit','budget'],balls:['use','speed','budget'],bag:['carry','cap','extra','budget']};
+const params=new URLSearchParams(location.search); const asked=params.get('p');
+const opened=asked&&KEYS[asked]&&document.querySelector(`[data-prod="${asked}"]`);
+const deep=opened||(!asked&&params.get('level'));
+if(opened) prod=asked; else if(!asked&&params.get('level')) prod='racket';
+if(deep&&prod==='racket'){ if(params.get('style')==='arm'){params.set('style','all'); if(!params.get('prio')) params.set('prio','comfort');} if(!params.get('prio')&&params.get('level')) params.set('prio','latest'); if(params.get('level')&&!params.get('side')) params.set('side','either'); }
+const applyKey=k=>{const v=params.get(k); if(!v||!/^[a-z0-9]+$/.test(v)) return false; const name=prod==='racket'?k:prod+'-'+k; const i=document.querySelector(`#fq input[name="${name}"][data-t="${v}"]`); if(!i) return false; i.checked=true; return true;};
+if(deep&&KEYS[prod].every(applyKey)){ const go=prod==='racket'?load():loadKit(); go.then(()=>{render(ans()); scr('res');}); }
+else if(opened){ KEYS[prod].forEach(applyKey); if(prod!=='racket') loadKit(); const st=steps(); const missing=st.findIndex(s=>!s.querySelector('input:checked')); show(missing<0?0:missing); }
+document.addEventListener('wp:region',()=>{ if(fz.dataset.state!=='res') return; if(prod==='racket'&&!Array.isArray(all)) return; if(prod!=='racket'&&!kit) return; render(ans()); });
 </script>
 </Base>
