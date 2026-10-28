@@ -1,0 +1,113 @@
+---
+// Test page at /hero. The live home is unchanged.
+import '../styles/hero-page.css';
+import Base from '../layouts/Base.astro';
+import Price from '../components/Price.astro';
+import { rackets } from '../lib/data.js';
+import { shoes, shoeImg } from '../lib/shoes.js';
+import { bags, bagImg, bagTypeKey } from '../lib/bags.js';
+import { pick } from '../lib/price.js';
+import { url } from '../i18n/routes.js';
+
+const lang = 'en';
+const L = (t, id) => url(t, lang, id);
+const cost = x => { const p = pick(x, 'GB'); return p.none ? 1e9 : p.v; };
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const short = (brand, name) => String(name || '').replace(new RegExp('^' + escRe(brand) + '\\s+', 'i'), '').replace(/\s+20\d\d\s*$/, '').trim() || name;
+const racket = rackets.filter(r => r.image && r.audience !== 'junior' && r.audience !== 'women' && (r.year || 0) >= 2026 && r.valueScore != null && cost(r) < 1e9).sort((a, b) => b.valueScore - a.valueScore)[0];
+const shoe = shoes.filter(s => shoeImg(s) && s.inStock && s.gender !== 'k' && cost(s) < 1e9).sort((a, b) => cost(a) - cost(b))[0];
+// The cheapest bag photo is a tight crop of fabric, so the next full product shot is the deal we show.
+const bag = bags.filter(b => bagImg(b) && b.slug !== 'black-crown-focus-backpack-26' && cost(b) < 1e9).sort((a, b) => cost(a) - cost(b))[0];
+const deals = [
+  racket && { k: 'Rackets', href: L('racket', racket.slug), img: racket.image, w: 200, h: 260, name: short(racket.brand, racket.model), line: `${racket.brand} · most rating for the price`, item: racket },
+  shoe && { k: 'Shoes', href: L('shoe', shoe.slug), img: shoeImg(shoe), w: 200, h: 160, name: short(shoe.brand, shoe.name), line: `${shoe.brand} · lowest price in stock`, item: shoe },
+  bag && { k: 'Bags', href: L('bag', bag.slug), img: bagImg(bag), w: 200, h: 200, name: short(bag.brand, bag.name), line: `${bag.brand} · lowest price in stock`, item: bag },
+].filter(Boolean);
+const bagRows = bags.filter(b => cost(b) < 1e9).sort((a, b) => cost(a) - cost(b)).map(b => ({ n: b.name.toLowerCase(), b: b.brand.toLowerCase(), t: bagTypeKey(b), u: L('bag', b.slug) }));
+const FINDER = L('finder');
+const RACKETS = L('rackets');
+const SHOES = L('shoes');
+const BAGS = L('bags');
+---
+<Base lang="en-GB" noindex title="Find the best deal on padel rackets, shoes and bags | WhichPadel" description="Describe the padel racket, shoes or bag you need. We match it and show the price in stock.">
+<section class="hv" slot="hero"><div class="wrap">
+<h1>Find the best deal on padel rackets, shoes and bags.</h1>
+<p class="hv-lead">Describe the racket, shoes or bag. We match it and show the price in stock.</p>
+<form class="hv-q" id="hv-form" action={RACKETS} method="get">
+<label class="sr" for="hv-q">What you need</label>
+<input id="hv-q" name="q" type="text" placeholder="A control racket under £150" autocomplete="off" enterkeyhint="search"/>
+<button type="button" class="hv-mic" id="hv-mic" aria-pressed="false" aria-label="Speak"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<button class="hv-go" type="submit">Find the deal</button>
+</form>
+<p class="hv-note" id="hv-note" aria-live="polite">Rackets, shoes and bags. Read on this device.</p>
+</div></section>
+
+<section class="hvd" aria-label="Deals in stock"><ul>{deals.map((d, i) => <li><a href={d.href}><img src={d.img} alt={d.name} width={d.w} height={d.h} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async"/><span class="hvd-k">{d.k}</span><Price r={d.item} lang={lang} cls="hvd-px"/><span class="hvd-n">{d.name}</span><span class="hvd-s">{d.line}</span></a></li>)}</ul></section>
+
+<script is:inline define:vars={{ FINDER, RACKETS, SHOES, BAGS, bagRows }}>
+const form = document.getElementById('hv-form');
+const input = document.getElementById('hv-q');
+const note = document.getElementById('hv-note');
+const mic = document.getElementById('hv-mic');
+const shoeRe = /\b(shoes?|trainers?|sneakers?|footwear|boots?)\b/i;
+const bagRe = /\b(bags?|backpacks?|paleteros?|holdalls?)\b/i;
+function bagUrl(t) {
+  const q = t.toLowerCase();
+  let pool = bagRows;
+  if (/\bbackpacks?\b/.test(q)) pool = pool.filter(x => x.t === 'backpack');
+  else if (/\b(paleteros?|holdalls?|racket bags?)\b/.test(q)) pool = pool.filter(x => x.t === 'racket-bag' || x.t === 'holdall');
+  if (!pool.length) pool = bagRows;
+  const named = pool.find(x => q.includes(x.n));
+  if (named) return named.u;
+  const brand = pool.find(x => q.includes(x.b));
+  if (brand) return brand.u;
+  if (pool !== bagRows) return pool[0].u;
+  return BAGS;
+}
+function go(t) {
+  const text = t.trim();
+  if (text.length < 3) { input.focus(); return; }
+  const shoeAt = text.search(shoeRe), bagAt = text.search(bagRe);
+  note.textContent = 'Finding the deal…';
+  if (shoeAt >= 0 && (bagAt < 0 || shoeAt <= bagAt)) {
+    const rest = text.replace(shoeRe, ' ').replace(/\b(padel|a|an|the|my|for|and)\b/gi, ' ').trim();
+    location.href = rest.length >= 3 ? '/describe-shoes/?q=' + encodeURIComponent(text) : SHOES;
+    return;
+  }
+  if (bagAt >= 0) { location.href = bagUrl(text); return; }
+  if (text.length >= 8 && window.DG) {
+    location.href = FINDER + '?' + new URLSearchParams(window.DG.racket(window.DG.parse(text)));
+    return;
+  }
+  location.href = RACKETS + '?q=' + encodeURIComponent(text);
+}
+form.addEventListener('submit', e => { e.preventDefault(); go(input.value); });
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) mic.hidden = true;
+else {
+  let rec = null;
+  mic.addEventListener('click', () => {
+    if (rec) { rec.stop(); return; }
+    rec = new SR();
+    rec.lang = 'en-GB';
+    rec.interimResults = true;
+    rec.continuous = true;
+    let fin = '';
+    rec.onresult = e => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) fin += e.results[i][0].transcript + ' ';
+        else interim += e.results[i][0].transcript;
+      }
+      input.value = (fin + interim).trim();
+    };
+    rec.onerror = () => { note.textContent = 'Microphone isn’t available. Type it instead.'; };
+    rec.onend = () => { rec = null; mic.classList.remove('on'); mic.setAttribute('aria-pressed', 'false'); if (input.value.trim().length >= 3) go(input.value); };
+    rec.start();
+    mic.classList.add('on');
+    mic.setAttribute('aria-pressed', 'true');
+    note.textContent = 'Listening…';
+  });
+}
+</script>
+</Base>

@@ -1,0 +1,40 @@
+/* /hero — find the best deal. Scoped so the live home stays unchanged. */
+.hv .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hv{color:#fff;padding:clamp(2.25rem,6vh,3.75rem) 0 clamp(2rem,5vh,3rem);background:radial-gradient(880px 300px at 92% -20%,rgb(212 255 58 / .16),transparent 62%),linear-gradient(165deg,var(--navy) 0%,#0d3b40 72%,var(--green) 100%)}
+.hv h1{max-width:18ch;margin:0;font-size:clamp(2.35rem,5vw,3.7rem);font-weight:800;line-height:.98;letter-spacing:-.04em;text-wrap:balance}
+.hv-lead{max-width:38ch;margin:1rem 0 0;color:#c9d8df;font-size:1.0625rem;line-height:1.45}
+.hv-q{display:flex;align-items:center;gap:.25rem;max-width:36rem;margin-top:1.75rem;padding:.35rem .35rem .35rem .85rem;border-radius:12px;background:#fff;box-shadow:0 10px 30px rgb(0 0 0 / .25)}
+.hv-q:focus-within{outline:2px solid var(--lime);outline-offset:3px}
+.hv-q input{flex:1;min-width:0;border:0;background:transparent;padding:.55rem 0;color:var(--ink);font:inherit;font-size:1rem}
+.hv-q input:focus{outline:none}
+.hv-q input::placeholder{color:#7d8d96}
+.hv-mic{flex:none;width:44px;height:44px;border:0;border-radius:8px;background:transparent;color:var(--navy);cursor:pointer}
+.hv-mic:hover,.hv-mic.on{background:#eef4f1}
+.hv-mic:focus-visible,.hv-go:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.hv-go{flex:none;min-height:44px;padding:0 1rem;border:0;border-radius:8px;background:var(--lime);color:var(--navy);font:inherit;font-weight:750;cursor:pointer}
+.hv-go:hover{background:var(--lime2)}
+.hv-note{min-height:1.3em;margin:.7rem 0 0;color:#9fb6c0;font-size:.875rem}
+
+.hvd{margin:0}
+.hvd ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem 2.5rem;margin:0;padding:0;list-style:none}
+.hvd a{display:flex;flex-direction:column;min-height:44px;color:inherit;text-decoration:none}
+.hvd a:hover .hvd-n{color:var(--green2)}
+.hvd a:focus-visible{outline:2px solid var(--navy);outline-offset:4px;border-radius:8px}
+.hvd img{width:100%;height:260px;object-fit:contain;object-position:center bottom}
+.hvd-k{margin-top:.85rem;color:var(--mut);font-size:.75rem;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
+.hvd-px{margin-top:.15rem;font-size:1.85rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;color:var(--ink)}
+.hvd-n{margin-top:.35rem;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.hvd-s{margin-top:.2rem;color:var(--mut);font-size:.875rem;line-height:1.4}
+main:has(.hvd){padding-top:1.75rem}
+
+@media(max-width:720px){
+ .hv{padding:1.75rem 0 1.5rem}
+ .hv h1{font-size:clamp(2rem,9vw,2.35rem);max-width:14ch}
+ .hv-q{padding-left:.7rem}
+ .hvd ul{grid-template-columns:1fr;gap:0}
+ .hvd li+li{border-top:1px solid var(--line)}
+ .hvd a{display:grid;grid-template-columns:104px minmax(0,1fr);column-gap:1rem;align-items:center;padding:.9rem 0}
+ .hvd img{grid-row:1 / span 4;width:104px;height:128px;object-position:center}
+ .hvd-k{margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){.hv-mic.on{outline:2px solid var(--green)}}

@@ -50,6 +50,8 @@ async function go(){const raw=$('dg-t').value.trim(); if(raw.length<8){$('dg-t')
   const L=shoeRank(P); O.innerHTML=`<h2 class="h3">Your shoe matches</h2>`+(L.length?`<ol class="dl" style="list-style:none;padding:0">${L.map(x=>`<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.s.i?`<img src="${esc(x.s.i)}" alt="" width="64" height="64" loading="lazy" style="object-fit:contain">`:''}<span><a href="${esc(x.s.u)}"><b>${esc(x.s.n)}</b></a><small style="display:block">${x.r.map(esc).join(' · ')}</small><small style="display:block">From ${F(x.b.p,x.b.c)} at ${esc(x.b.d)} · <a href="${esc(x.b.u)}" rel="sponsored nofollow" target="_blank">Shop</a> · <a href="${esc(x.s.u)}">All prices</a></small></span></li>`).join('')}</ol>`:'<p>No in-stock shoes match all of that. Try a higher budget or fewer must-haves.</p>');}
  O.scrollIntoView({behavior:'smooth',block:'start'});}
 $('dg-go').onclick=go;
+const preset=new URLSearchParams(location.search).get('q');
+if(preset){$('dg-t').value=preset; if(preset.trim().length>=8) go();}
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(SR){const b=$('dg-mic'); b.hidden=false; let rec=null; b.onclick=()=>{if(rec){rec.stop();return;} rec=new SR(); rec.lang='en-GB'; rec.interimResults=false; rec.continuous=true; const base=$('dg-t').value; let txt='';
  rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++) if(e.results[i].isFinal) txt+=e.results[i][0].transcript+' '; $('dg-t').value=(base?base+' ':'')+txt;};

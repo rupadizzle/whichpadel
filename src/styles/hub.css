@@ -339,33 +339,40 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
 .rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;grid-column:3;grid-row:2;top:auto;right:auto;transform:none;width:28px;height:28px;align-self:center;justify-self:end}
 .rk-rows .rk-pv::after{content:none}
 /* Best list, wide (C1) and phone (C2).
-   Beside the photo: brand and the rating bars span the full text width.
-   The name shares its row with the compare tick. The spec shares its row with the price. */
+   Brand, name and spec share one framed group. The rating bars sit under it. */
 .rk-best{container:rk / inline-size}
 .rk-best.rk-rows.cat .hub-grid{gap:14px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:128px minmax(0,1fr) max-content;grid-template-rows:auto auto auto auto;column-gap:16px;row-gap:4px;align-items:center;padding:8px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:16px;row-gap:4px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-t,
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-p{display:contents}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:100%;height:100%;aspect-ratio:auto;margin:0;align-self:stretch;justify-self:stretch;min-width:0;min-height:0;overflow:hidden}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;row-gap:8px;align-items:stretch;padding:8px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{position:absolute;inset:0;z-index:0;display:block;padding:0;column-gap:0;row-gap:0}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-i,
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-bars{position:relative;z-index:1;pointer-events:none}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:auto;height:100%;aspect-ratio:1;margin:0;align-self:stretch;justify-self:stretch;min-width:auto;min-height:0;overflow:visible;background:none;border-radius:0}
+.rk-ph{display:contents}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-ph{display:block;position:absolute;inset:0;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#f3f6f5}
 .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;object-position:center}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:2 / -1;grid-row:1;align-self:center;min-width:0}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:2;grid-row:2;align-self:center;min-width:0;white-space:normal;overflow:visible;text-overflow:clip}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:2;grid-row:3;align-self:baseline;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:3;grid-row:3;justify-self:end;align-self:baseline;white-space:nowrap}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{grid-column:3;grid-row:2;align-self:center;justify-self:end}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:2 / -1;grid-row:4;align-self:stretch;width:100%;margin:0;padding:8px 0 2px;gap:6px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy{grid-column:2;grid-row:1;align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:8px;min-width:0;margin:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#f7f9fa;pointer-events:none;position:relative;z-index:1}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .save-heart,
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-x{pointer-events:auto}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-b,
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-nr,
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-sp{align-self:stretch;width:100%;min-width:0}
+.rk-best .save-heart,.rk-best .save-heart .heart{width:18px;height:18px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr .rk-m{flex:1;align-self:center;min-width:0;color:inherit;text-decoration:none;white-space:normal;line-height:1.2}
+.rk-best .rk:hover .rk-nr .rk-m,.rk-best .rk-nr .rk-m:hover{text-decoration:underline}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr .rk-x{position:relative;top:auto;right:auto;transform:none;flex:none;align-self:center;justify-content:flex-end;width:28px;height:28px}
+.rk-nocmp .rk-x{display:none}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp .rk-c{align-self:center;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp .rk-pv{align-self:center;margin:0;flex:none;white-space:nowrap}
+.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:2;grid-row:2;align-self:end;width:100%;margin:0;padding:0;gap:6px}
 .rk-best.cat .hub-grid .rk-pv::after{content:none}
 @container rk (max-width: 640px){
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:minmax(0,1fr) max-content;grid-template-rows:auto auto auto auto auto;column-gap:12px;row-gap:4px;align-items:center;padding:8px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:12px;row-gap:4px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 6px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:2}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-m{grid-column:1;grid-row:3}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{grid-column:2;grid-row:3;justify-self:end;align-self:center}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-c{grid-column:1;grid-row:4}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:1 / -1;grid-row:5;width:100%;padding:8px 0 2px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:8px;row-gap:8px;align-items:stretch;padding:8px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:8px;row-gap:8px}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy{grid-column:1;grid-row:2}
+ .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:1;grid-row:3;width:100%}
 }
 .rk-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
 /* Homepage strips keep the section and scroll the same tile the catalog uses. */

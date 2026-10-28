@@ -123,8 +123,7 @@ const page = (() => {
 <div class="best-split">
 <div class="best-main">
 <div class="rulebox"><b>{u.howBuilt}</b> {page.rule} {u.topShown(page.top.length)}</div>
-<div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid" id="best">{page.top.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={page.KS} compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>
+<div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid" id="best">{page.top.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={page.KS} compare/>)}</ul></div>
 {page.method && <section class="panel" id="methodology"><h2>{u.methodology}</h2><p>{page.B.valueFormula}</p><p class="muted small">{page.B.valueNote}</p></section>}
 </div>
 <aside class="best-side">
@@ -139,8 +138,7 @@ const page = (() => {
 {page.repl.length > 0 && <section class="panel vs"><h2>{page.C.repl}</h2>{page.repl.map(([a, successorR]) => <a href={url('racket', lang, successorR.slug)}><span>{page.C.replTo(a.model, successorR.model)}</span><span>→</span></a>)}</section>}
 <div class="rulebox"><b>{u.howBuilt}</b> {page.C.rule}</div>
 {page.brands.length > 1 && <div class="yfil" role="group" aria-label={u.byBrand}><button type="button" class="on" data-b="" aria-pressed="true">{page.C.all}</button>{page.brands.map(brand => <button type="button" data-b={brand} aria-pressed="false">{brand}</button>)}</div>}
-<div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid" id="yl">{page.rs.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={['power','control','forgiveness']} compare dataBrand={r.brand}/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>
+<div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid" id="yl">{page.rs.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={['power','control','forgiveness']} compare dataBrand={r.brand}/>)}</ul></div>
 <FinderCard fc={page.FC} href={finderHref}/>
 <section class="panel vs"><h2>{page.C.hub}</h2>{page.years.filter(x => x !== y).map(x => <a href={url('year', lang, x)}><span>{page.C.h(x)}</span><span>{page.C.count(ofYear(x).length)} →</span></a>)}</section>
 <style is:global>.ynav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}.ynav .btn,.yfil button{min-height:44px;display:inline-flex;align-items:center}.yfil{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}.yfil button{padding:0 16px;border:1px solid var(--line,#dde3e6);border-radius:99px;background:#fff;font:inherit;font-size:.875rem;cursor:pointer}.yfil button.on{background:var(--green,#0f6b4f);color:#fff;border-color:transparent}</style>
@@ -148,8 +146,7 @@ const page = (() => {
 </>}
 {kind === 'player' && <>
 {page.rs.length > 1 && <p><a class="btn" href={url('rackets', lang) + `?r=${page.rs.slice(0, 3).map(r => r.slug).join(',')}`}>{page.C.compare(page.name)}</a></p>}
-<div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid">{page.rs.map((r, i) => <RkCard r={r} lang={lang} eager={i < 2} keys={['power','control','forgiveness']} compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>
+<div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid">{page.rs.map((r, i) => <RkCard r={r} lang={lang} eager={i < 2} keys={['power','control','forgiveness']} compare/>)}</ul></div>
 <FaqList heading={u.faq} items={page.faq}/>
 <p class="muted small">{page.note}</p>
 </>}
@@ -157,8 +154,7 @@ const page = (() => {
 <p class="rulebox"><b>{u.howBuilt}</b> {page.method}</p>
 <HubCss>
 <div class="hub">
-<div class="hub cat rk-rows" data-rk><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang={lang} rank={i + 1} eager={i < 4} compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('shoeCompare', lang)} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?s='+s.join(',');">{u.compareSelected}</button></div></div>
+<div class="hub cat rk-rows rk-nocmp" data-rk><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang={lang} rank={i + 1} eager={i < 4} compare/>)}</ul></div>
 <p><a class="btn btn-line" href={url('shoes', lang)}>{page.T.hubLink}</a></p>
 <FaqList heading={u.faq} items={page.faq}/>
 <section class="hub-pre"><h2 class="h3">{page.T.guides}</h2><p>{page.others.map(x => <a href={url('shoeList', lang, x)}>{page.T.lists[x][0]}</a>)}</p><p><b>{page.T.byBrand}</b>{shoeBrands.map(x => { const t = shoeBrandTarget(x.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{x.name}</a>; })}</p></section>
@@ -169,10 +165,8 @@ const page = (() => {
 <p class="rulebox"><b>{u.howBuilt}</b> only {page.isS ? 'shoes' : 'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p>
 <HubCss>
 <div class="hub us">
-{page.isS ? <div class="hub cat rk-rows" data-rk><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang="en" rank={i + 1} eager={i < 4} region="US" compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('shoeCompare', 'en')} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?s='+s.join(',');">{u.compareSelected}</button></div></div>
- : <div class="hub cat rk-rows rk-best" data-rk><ul class="hub-grid">{page.list.map((r, i) => <RkCard r={r} rank={i + 1} lang="en" eager={i === 0} region="US" keys={['power','control','forgiveness']} compare/>)}</ul>
-<div class="toolbar"><span class="muted small">{u.tickToCompare}</span><button class="btn btn-sm" type="button" data-cmp={url('rackets', 'en')} data-msg={u.tickAlert} onclick="const s=[...this.closest('[data-rk]').querySelectorAll('.rk-cb:checked')].map(c=>c.value).slice(0,3); if(s.length<2) return alert(this.dataset.msg); location.href=this.dataset.cmp+'?r='+s.join(',');">{u.compareSelected}</button></div></div>}
+{page.isS ? <div class="hub cat rk-rows rk-nocmp" data-rk><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang="en" rank={i + 1} eager={i < 4} region="US" compare/>)}</ul></div>
+ : <div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid">{page.list.map((r, i) => <RkCard r={r} rank={i + 1} lang="en" eager={i === 0} region="US" keys={['power','control','forgiveness']} compare/>)}</ul></div>}
 <p><a class="btn btn-line" href={page.isS ? url('shoes', 'en') : url('rackets', 'en', 1)}>{page.isS ? 'Compare all padel shoes →' : 'Compare all padel rackets →'}</a></p>
 <FaqList heading={u.faq} items={page.faq}/>
 {page.others.length > 0 && <section class="hub-pre"><h2 class="h3">More for US players</h2><p>{page.others.map(x => <a href={x.href}>{x.label}</a>)}</p></section>}
