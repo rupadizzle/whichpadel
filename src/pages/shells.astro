@@ -56,7 +56,21 @@ const use = {
 <div class="keep">
 <p class="keep-kicker">Reference</p>
 <h1>Four shells to keep</h1>
-<p class="keep-lead">Rackets, shoes and balls share the product card. Compare, brands and the homepage promo each keep one shell, because each is a different job. Each example has a code. Use the code when you want a change.</p>
+<p class="keep-lead">A page with several lists uses the page shell, so the gap between sections holds. Rackets, shoes and balls share the product card. Compare, brands and the homepage promo each keep one shell, because each is a different job. Each example has a code. Use the code when you want a change.</p>
+
+<section class="keep-block" id="page">
+<p class="keep-kicker">Page</p>
+<h2>A title, then sections</h2>
+<p class="keep-lead">The catalog shell is one title and one grid. This shell is for a page that stacks lists. The same gap applies when a section sits inside another section.</p>
+<div class="page">
+<header class="page-hd"><h1>Padel deals</h1><p>Price cuts from the last 7 days, then the lists that need more history.</p></header>
+<section><h2>Price cuts in the last 7 days</h2>
+<section><h3>Rackets</h3><p class="muted small">The grid for this group sits here.</p></section>
+<section><h3>Shoes</h3><p class="muted small">The gap above this group comes from the page shell.</p></section>
+</section>
+<section><h2>Biggest drops vs the usual price</h2><p class="muted small">A hairline separates this section from the one above.</p></section>
+</div>
+</section>
 
 <section class="keep-block" id="product">
 <p class="keep-kicker">1 · Product card</p>
@@ -144,8 +158,8 @@ const use = {
 
 <style is:global>
 .keep-kicker{font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--green);margin:0 0 4px}
-.keep h1{margin:0 0 8px}
-.keep h2{margin:0 0 8px;font-size:1.35rem}
+.keep > h1{margin:0 0 8px}
+.keep-block > h2{margin:0 0 8px;font-size:1.35rem}
 .keep-lead{margin:0 0 8px;max-width:62ch;color:var(--mut)}
 .keep-block{margin:0 0 40px}
 .keep-block:first-of-type{margin-top:28px}

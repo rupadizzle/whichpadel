@@ -21,19 +21,21 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
   const AX=(window.WP&&WP.approx)||'approx.'; const fb=o=>o.c===cur?fn(o.p,o.c):AX+' '+f(o.v);
   const rows=os.map(o=>{const s=window.WP&&WP.shop?WP.shop(o.d,o.c):null; const st=s?s:'u'; return {...o,v:cv(o.p,o.c),st};}).filter(o=>o.st!=='n')
    .sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);
-  const vis=os.filter(o=>!window.WP||!WP.shop||WP.shop(o.d,o.c)!=='n'); const low=Math.min(...vis.map(o=>cv(o.min30||o.p,o.c)));
+  const yes=rows.filter(o=>o.st==='y'), shown=yes.length?yes:rows;
+  const low=Math.min(...shown.map(o=>cv(o.min30||o.p,o.c)));
   L.innerHTML=`<li>${PX.low30}: <b>${f(low)}</b></li>`; L.hidden=false; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true;
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
-  if(!rows.length){ if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; pxFail(); return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false; pxFail(); return;}
+  if(!shown.length){ if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; pxFail(); return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false; pxFail(); return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
   const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
   const COMM={en:'We earn commission',es:'Ganamos comisión',fr:'Nous touchons une commission',pt:'Ganhamos comissão',it:'Guadagniamo una commissione',de:'Wir erhalten Provision'}[LG]||'We earn commission';
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{if(!t) return ''; const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return Number.isFinite(n)?(n===0?C.tdy:C.agoS.replace('{n}',n)):'';};
   const row=(o,best)=>`<li class="pxr${best?' best':''}${o.s===0?' oos':''}${o.st!=='y'?' nc':''}"><span class="pxs"><b>${sn(o)}</b>${(SN[o.d]||[])[1]?`<small class="pxaff" style="display:block;font-size:11px;opacity:.75">${COMM}</small>`:''}<small class="pxm">${best?`<span class="pxbd">${C.bestDeal}</span>`:''}<i class="dot${o.s===0?' no':''}" aria-label="${o.s===0?PX.oos:C.inStock}"></i>${o.s===0?PX.oos+' · ':''}<span class="pxag">${o.st!=='y'?`<span class="pxnc" title="${C.nc}" aria-label="${C.nc}">${C.ncS}</span>`:ag(o.t)}</span></small></span><span class="pxp">${fn(o.p,o.c)}${o.c!==cur?`<small class="pxcv">${AX} ${f(o.v)}</small>`:''}</span><a class="btn pxb${best?' pri':''}" href="${esc(href(o))}" rel="sponsored nofollow" target="_blank" aria-label="${C.buy.replace('{s}',sn(o))}">${C.buyS}</a></li>`;
-  const all=rows /* purely by price (in-stock first); shops that may not deliver keep their 'nc' marker */, top=all.slice(0,4);
+  const all=shown, top=all.slice(0,4);
   const b=all[0], bi=b.s!==0; const ul=(L,o0)=>`<ul class="pxl">${L.map((o,i)=>row(o,o0&&i===0&&bi)).join('')}</ul>`;
-  let h=`<p class="pxsub pxcnt">${(rows.length===1?C.n1:C.nN.replace('{n}',rows.length))}</p>`+ul(top,true);
+  const cnt=all.length===1?(yes.length?C.del1:C.n1):(yes.length?C.delN:C.nN).replace('{n}',all.length);
+  let h=`<p class="pxsub pxcnt">${cnt}</p>`+ul(top,true);
   if(all.length>4) h+=`<button type="button" class="pxall" id="pxall" aria-haspopup="dialog">${C.allN.replace('{n}',all.length)}</button>`;
   P.innerHTML=h; P.hidden=false; M.hidden=true; pxOn(1); window.__pxStatic=0; const PB=document.getElementById('pxbig'); if(PB) PB.hidden=true; L.hidden=true;
   const S=document.getElementById('stickybuy'); if(S){const SP=document.querySelector('#stickycta .sp'); const FR={en:'from',es:'desde',fr:'dès',de:'ab',it:'da',pt:'desde'}[LG]||'from'; if(SP) SP.innerHTML=`<b><small>${FR}</small> ${fb(b)}<svg class="spchev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>${sn(b)}</span>`;}

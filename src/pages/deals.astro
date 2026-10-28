@@ -28,24 +28,24 @@ const title = 'Padel deals: real price drops and lowest prices';
 ---
 <Base lang="en-GB" title={title + ' | WhichPadel'} description="Padel racket, shoe, bag and ball deals checked against the prices we have recorded: price cuts from the last 7 days, real drops and lowest-ever prices.">
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', 'en')}>{u.home}</a> › <span>Deals</span></nav>
-<div class="hub cat">
-<header class="hub-hd"><h1>{title}</h1>
+<div class="page">
+<header class="page-hd"><h1>{title}</h1>
 <p>Price cuts from the last 7 days. A drop against the usual price needs 3 weeks of history, so those lists appear once we have it. Black Friday is on 27 November 2026: <a href="/black-friday/#bf-mail">get our one Black Friday email</a>.</p></header>
-<section id="d-cut"><h2 class="h3">Price cuts in the last 7 days</h2><p class="muted small" data-empty hidden>No price cuts recorded this week.</p>
-<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="cut-r"></ul></section>
-<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="cut-s"></ul></section>
-<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="cut-g"></ul></section>
-<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="cut-b"></ul></section></section>
-<section id="d-real" data-hold hidden><h2 class="h3">Biggest drops vs the usual price</h2>
-<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="real-r"></ul></section>
-<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="real-s"></ul></section>
-<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="real-g"></ul></section>
-<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="real-b"></ul></section></section>
-<section id="d-low" data-hold hidden><h2 class="h3">Lowest prices we've ever recorded</h2>
-<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="low-r"></ul></section>
-<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="low-s"></ul></section>
-<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="low-g"></ul></section>
-<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="low-b"></ul></section></section>
+<section id="d-cut"><h2>Price cuts in the last 7 days</h2><p class="muted small" data-empty hidden>No price cuts recorded this week.</p>
+<section data-k="r" hidden><h3>Rackets</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-r"></ul></div></section>
+<section data-k="s" hidden><h3>Shoes</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-s"></ul></div></section>
+<section data-k="g" hidden><h3>Bags</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-g"></ul></div></section>
+<section data-k="b" hidden><h3>Balls</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-b"></ul></div></section></section>
+<section id="d-real" data-hold hidden><h2>Biggest drops vs the usual price</h2>
+<section data-k="r" hidden><h3>Rackets</h3><div class="hub cat"><ul class="hub-grid" data-l="real-r"></ul></div></section>
+<section data-k="s" hidden><h3>Shoes</h3><div class="hub cat"><ul class="hub-grid" data-l="real-s"></ul></div></section>
+<section data-k="g" hidden><h3>Bags</h3><div class="hub cat"><ul class="hub-grid" data-l="real-g"></ul></div></section>
+<section data-k="b" hidden><h3>Balls</h3><div class="hub cat"><ul class="hub-grid" data-l="real-b"></ul></div></section></section>
+<section id="d-low" data-hold hidden><h2>Lowest prices we've ever recorded</h2>
+<section data-k="r" hidden><h3>Rackets</h3><div class="hub cat"><ul class="hub-grid" data-l="low-r"></ul></div></section>
+<section data-k="s" hidden><h3>Shoes</h3><div class="hub cat"><ul class="hub-grid" data-l="low-s"></ul></div></section>
+<section data-k="g" hidden><h3>Bags</h3><div class="hub cat"><ul class="hub-grid" data-l="low-g"></ul></div></section>
+<section data-k="b" hidden><h3>Balls</h3><div class="hub cat"><ul class="hub-grid" data-l="low-b"></ul></div></section></section>
 <p class="muted small">Prices are the cheapest in-stock offer we found. Shop links may earn us a commission; it never changes the order.</p>
 </div>
 <RkCardTemplate lang="en"/>

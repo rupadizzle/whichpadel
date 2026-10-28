@@ -29,8 +29,8 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
  const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs):not(.pxag)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
  await pg.close();}
-// currency switch EUR + country ES: Decathlon does not deliver. In-stock then price: All For Padel, Mantis (delivery unknown), Tennis Warehouse, Padel Nuestro.
-{const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Mantis,Tennis Warehouse,Padel Nuestro'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
+// currency switch EUR + country ES: Decathlon does not deliver, and an unconfirmed shop stays off the list while a confirmed one exists.
+{const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Tennis Warehouse,Padel Nuestro,Padelsmith'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
  if(!/3d ago/.test(await pg.locator('#pxcmp').textContent())) F('age text');
  await pg.evaluate(()=>WP.setRC('US','USD')); const y=await info(pg); // US is strict: only shops delivering to the US that charge in USD (no converted EU prices)
  if(y.rows[0][0]!=='Tennis Warehouse'||y.rows.length!==1||!/\$100/.test(y.rows[0][1])) F('live switch US '+JSON.stringify(y.rows)); await pg.close();}

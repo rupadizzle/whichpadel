@@ -1,7 +1,4 @@
-/* v5 tokens + primitives */
-:root{--sp-1:0.5rem;--sp-2:1rem;--sp-3:1.5rem;--sp-4:2rem;--sp-5:3rem;--sp-6:4.5rem;--bar:5.25rem;--gap:var(--s5);--r:0.75rem;--sh:none;--line:#e1e7ec}
-
-@media (width >= 900px){:root{--gap:var(--s6)}}
+/* v5 primitives. Tokens live in site.css. */
 .container{max-width:75rem;margin-inline:auto;padding-inline:var(--sp-3)}
 
 @media (width <= 600px){.container{padding-inline:var(--sp-2)}}
@@ -20,6 +17,15 @@ main.wrap>*+*,.detail>div>*+*{margin-top:var(--gap)}
 main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
 .detail>div>section+section{padding-top:var(--sp-4);margin-top:var(--sp-4)}
 .panel h2,.section h2{margin-bottom:var(--sp-2)}
+/* Page shell: a title and stacked sections. The gap holds when a section sits inside another section. */
+main.wrap>.page{margin-top:0}
+.page>*+*{margin-top:var(--gap)}
+.page>section+section{border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
+.page section>section+section{margin-top:var(--gap)}
+.page-hd h1{margin:0 0 var(--s2)}
+.page-hd p{margin:0;max-width:68ch}
+.page h2{margin:0 0 var(--sp-2)}
+.page h3{margin:0 0 var(--s3)}
 /* single card level */
 .rcard,.bcard,.qc,.gcard,.hc,.rv a,.tscroll,.buybox{border:1px solid var(--line);border-radius:var(--r);box-shadow:none;background:#fff}
 .rcard:hover{transform:none;box-shadow:none;border-color:var(--green2)}

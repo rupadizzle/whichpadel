@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import Price from '../components/Price.astro';
 import Gallery from '../components/Gallery.astro';
 import StickyCta from '../components/StickyCta.astro';
-import PriceAlertL from '../components/PriceAlertL.astro';
 import RacketIcon from '../components/RacketIcon.astro';
 import SaveHeart from '../components/SaveHeart.astro';
 import ProductPriceScript from './parts/ProductPriceScript.astro';
@@ -241,9 +240,10 @@ const view = (() => {
 <div class="pxcmp" id="pxcmp" hidden></div>
 <ul class="pxl" id="bxl" hidden></ul>
 <div class="pxhist" id="pxhist" hidden></div>
+{kind === 'racket' && <form class="pxalert" novalidate data-sub="alert" data-lang={lang} data-racket={r.model} data-err={u.subErr}><button class="btn pxalert-cta" type="button">{u.px.cmp.alertDrop}</button><div class="pxalert-row" hidden><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><button class="btn" type="submit">{u.alertBtn}</button></div><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><p hidden class="ok" role="status" data-ok={u.thanks}></p><p class="muted small pxalert-note" hidden>{u.placeholderNote} <a href={url('privacy', lang)}>{u.privacy.toLowerCase()}</a>.</p></form>}
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
 {view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
-{view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
+{kind !== 'racket' && view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
 {view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
 </aside>
 <div class="rpbody">
@@ -268,7 +268,6 @@ const view = (() => {
 </div>
 </div>
 {kind === 'racket' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
-<PriceAlertL lang={lang} racket={r.model}/>
 <StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
@@ -280,6 +279,9 @@ try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').fil
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
+<script is:inline>
+document.querySelectorAll('#buybox .pxalert').forEach(f=>{const cta=f.querySelector('.pxalert-cta'),row=f.querySelector('.pxalert-row'),note=f.querySelector('.pxalert-note'); if(!cta) return; cta.onclick=()=>{cta.hidden=true;row.hidden=false;if(note)note.hidden=false;const i=row.querySelector('input'); if(i) i.focus();};});
+</script>
 <script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1 }}>
 document.body.classList.add('has-sticky');
 const sc=document.getElementById('stickycta'), mq=matchMedia('(max-width:899px)');

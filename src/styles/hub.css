@@ -124,7 +124,7 @@ body.has-tray{padding-bottom:120px}
 
 .tp-row .rk-p{color:var(--green);font-weight:700}
 
-/* Catalog shell shared by rackets and shoes. Scoped so the homepage rows keep their own rhythm. */
+/* Catalog shell: one title and one grid. A page with several sections uses .page. Scoped so the homepage rows keep their own rhythm. */
 main.wrap:has(>.cat){padding-top:10px;padding-bottom:28px}
 main.wrap>.cat{margin-top:0}
 main.wrap>.crumbs:has(+.cat){margin-bottom:6px}

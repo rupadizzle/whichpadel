@@ -1,5 +1,4 @@
 /* v4 mobile-first CRO layer */
-:root{--mut:#4f5f69;--fs-xs:.75rem;--fs-s:.875rem}
 body{overflow-x:hidden}
 .btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid #1d6fd8;outline-offset:2px}
 .tiny{display:block;font-size:var(--fs-xs);color:var(--mut);font-weight:400}
@@ -203,6 +202,13 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 #buybox .pxhist{margin:16px 0 0}#buybox .pxhist svg{height:64px;border-radius:8px}#buybox .pxhist p{font-size:13px;margin:8px 0 0}
 #buybox .disc{display:block;font-size:13px;line-height:1.4;color:#5b6670;margin:16px 0}
 #buybox>.btn-sm{min-height:44px;background:#fff;color:var(--ink,#0f1c24);border:1px solid var(--line)}
+#buybox .pxalert{margin:16px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+#buybox .pxalert [hidden]{display:none !important}
+#buybox .pxalert-cta,#buybox .pxalert-row .btn{width:100%;min-height:44px}
+#buybox .pxalert-row{display:flex;gap:8px}
+#buybox .pxalert-row input{flex:1;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font:inherit}
+#buybox .pxalert-row .btn{width:auto;padding:0 16px}
+#buybox .pxalert .ok,#buybox .pxalert-note{margin:8px 0 0}
 @media(max-width:359px){#buybox .pxcmp .pxr{grid-template-columns:minmax(0,1fr) auto;gap:8px 16px}#buybox .pxcmp .pxb{grid-column:1/-1}}
 @media(max-width:899px){
  .detail:not(#_){gap:24px}.detail>div:first-child>*{margin:0!important}
