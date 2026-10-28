@@ -38,6 +38,7 @@ function rms(b){let s=0; for(let i=0;i<b.length;i++) s+=b[i]*b[i]; return Math.s
 function clean(text){
  const t=(text||'').replace(/\s+/g,' ').trim().replace(/^[\s.,!?]+|[\s.,!?]+$/g,'');
  if(!t||/^(thanks for watching|thank you for watching|thank you|you|subtitles? by.*|please subscribe|\[.*\]|\(.*\)|music|applause|foreign|silence|bye)$/i.test(t)) return '';
+ if(/(.{1,12}?)\1{8,}/i.test(t.replace(/\s+/g,''))) return '';
  return t;
 }
 function join(prev, next){
@@ -87,12 +88,11 @@ function start(hooks){
    const hot=level>Math.max(0.008, noise*3.5);
    if(hot){speaking=true; quiet=0; parts.push(copy); n+=copy.length; if(!busy) hooks.onStatus(modelReady?'Hearing you…':'Hearing you. Downloading voice…');}
    else if(speaking){quiet+=ms; parts.push(copy); n+=copy.length;}
-   const pause=speaking&&quiet>700&&n>SR*0.45, long=n>SR*4.5;
+   const pause=speaking&&quiet>650&&n>SR*0.45, long=n>SR*20;
    if(!pause&&!long) return;
    const audio=cat(parts);
-   if(long&&hot){const tail=audio.slice(Math.max(0, audio.length-Math.floor(SR*0.3))); parts=[tail]; n=tail.length;}
-   else{parts=[]; n=0; speaking=false; quiet=0;}
-   run(long&&hot?audio:audio);
+   parts=[]; n=0; speaking=false; quiet=0;
+   run(audio);
   };
  }).catch(function(e){
   if(mine!==seq) return;
