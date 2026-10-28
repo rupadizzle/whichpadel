@@ -124,7 +124,7 @@ function start(hooks){
    else{pre.push(copy); preN+=copy.length; while(preN>SR*0.25&&pre.length) preN-=pre.shift().length;}
    const pause=speaking&&quiet>700&&n>SR*0.3, long=n>SR*20;
    if(pause||long){const audio=cat(parts); parts=[]; n=0; pre=[]; preN=0; lastKick=0; speaking=false; quiet=0; run(audio, true); return;}
-   if(speaking&&quiet<200&&n>SR*0.6&&n-lastKick>SR*1.2){lastKick=n; run(cat(parts), false);}
+   if(speaking&&quiet<200&&n>SR*0.45&&n-lastKick>SR*0.8){lastKick=n; run(cat(parts), false);}
   };
  }).catch(function(e){
   if(mine!==seq) return;

@@ -9,7 +9,6 @@
 }
 
 main:has(> .h3-sec){max-width:none;padding:0;background:#fff}
-main:has(> .h3-sec) > .news{margin:var(--s6) max(var(--s4), calc((100% - 1200px) / 2)) var(--s5)}
 .h3-sec{margin:0;padding:var(--s7) max(var(--s4), calc((100% - 1200px) / 2))}
 .h3-w{background:#fff}
 .h3-find{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);background:var(--lime);color:var(--navy)}

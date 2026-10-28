@@ -29,9 +29,20 @@ const saving=r=>{const os=reach(r); if(os.length<2) return (r.drop||0); const v=
 const ptxt=r=>{const q=best(r); return (!q||q.v==null)?T.none:T.fromP.replace('{p}',q.txt);};
 const shortM=r=>{let s=r.m||''; if(r.b) s=s.replace(new RegExp('^'+r.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return s.trim()||r.m;};
 const spec=r=>[r.a&&r.a!=='unisex'&&T.auds[['men','women','junior'].indexOf(r.a)],r.sh&&T.shapeCap[r.sh],r.w0&&`${r.w0}${r.w1&&r.w1!==r.w0?'–'+r.w1:''}\u00a0g`,r.ck&&r.ck!=='none'?r.ck:T.ckT[0]+': '+T.ckT[1].toLowerCase()].filter(Boolean).join(' · ');
-const card=(r,i)=>{const img=r.i?`<img src="${r.i}" alt="${esc(r.m)} ${esc(T.alt)}" width="96" height="112" loading="${i<4?'eager':'lazy'}" decoding="async">`:($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
- const on=sel.includes(r.s);
- return `<li class="rk${on?' sel':''}" data-s="${r.s}"><a class="rk-a" href="${T.rk}${r.s}/"><span class="rk-i">${img}</span><span class="rk-t"><span class="rk-b"><span>${esc([r.b,r.y].filter(Boolean).join(' · '))}</span><button type="button" class="save-heart" data-save="${r.s}" data-off="${esc(T.save)}" data-on="${esc(T.saved)}" aria-pressed="false" aria-label="${esc(T.save)}"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></span><span class="rk-m">${esc(shortM(r))}</span><span class="rk-c">${esc(spec(r))}</span><span class="rk-p"><span class="pz rk-pv">${esc(ptxt(r))}</span></span></span></a><label class="rk-x" title="${esc(T.compare)}"><input type="checkbox" class="rk-cb" value="${r.s}"${on?' checked':''}><span><span class="sr">${esc(T.compare)}: ${esc(r.m)}</span></span></label></li>`;};
+const card=(r,i)=>{const li=document.getElementById('rk-card').content.firstElementChild.cloneNode(true); const on=sel.includes(r.s); const id='hk-'+r.s;
+ li.dataset.s=r.s; li.classList.toggle('sel',on);
+ const a=li.querySelector('.rk-a'); a.href=T.rk+r.s+'/'; a.setAttribute('aria-labelledby',id);
+ const ph=li.querySelector('.rk-ph');
+ if(r.i){const img=document.createElement('img'); img.src=r.i; img.alt=r.m+' '+T.alt; img.width=96; img.height=112; img.loading=i<4?'eager':'lazy'; img.decoding='async'; ph.replaceChildren(img);}
+ else ph.innerHTML=($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
+ li.querySelector('.rk-b span').textContent=[r.b,r.y].filter(Boolean).join(' · ');
+ const name=li.querySelector('.rk-m'); name.id=id; name.textContent=shortM(r);
+ const specEl=li.querySelector('.rk-c'); const sp=spec(r); if(sp) specEl.textContent=sp; else specEl.remove();
+ li.querySelector('.rk-pv').textContent=ptxt(r);
+ const heart=li.querySelector('.save-heart'); heart.dataset.save=r.s; heart.dataset.off=T.save; heart.dataset.on=T.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',T.save);
+ const cb=li.querySelector('.rk-cb'); cb.value=r.s; cb.checked=on;
+ const lab=li.querySelector('.rk-x'); if(lab) lab.title=T.compare; const sr=li.querySelector('.rk-x .sr'); if(sr) sr.textContent=T.compare+': '+r.m;
+ return li;};
 const OI=Object.fromEntries(T.order.map((s,i)=>[s,i])); const pop=r=>-(OI[r.s]??1e6);
 function filt(s){const q=s.q.toLowerCase(), bn=parts(s.brand).map(sl=>T.brands[sl]).filter(Boolean), mn=parseFloat(s.min), mx=parseFloat(s.max);
  return all.filter(r=>(!q||(r.m+' '+r.b).toLowerCase().includes(q))&&hit(bn,r.b)&&hit(parts(s.year),r.y)&&hit(parts(s.aud),r.a)&&hit(parts(s.shape),r.sh)&&hit(parts(s.bal),r.bn)&&hit(parts(s.wt),r.wn)&&hit(parts(s.hard),r.cn)&&hit(parts(s.ck),r.ck||'none')&&hit(parts(s.level),r.lv)&&(!s.stock||near(r))&&((isNaN(mn)&&isNaN(mx))||((v=>v!=null&&(isNaN(mn)||v>=mn)&&(isNaN(mx)||v<=mx))(priceV(r)))));}
@@ -42,7 +53,7 @@ const syncURL=s=>{const qs=new URLSearchParams(); KEYS.forEach(k=>{if(s[k]) qs.s
 const money=n=>{const c=(window.WP&&WP.currency)||T.cur; const v=Math.round(+n); if(c==='SEK') return v+' kr'; return T.lang!=='en'?v+' '+(T.sym[c]||''):(T.sym[c]||'')+v;};
 const paintCur=()=>{const c=(window.WP&&WP.currency)||T.cur; const el=$('h-sym'); if(el) el.textContent=T.sym[c]||'';};
 const setCount=n=>{chips(); paintNotes(); $('h-count').textContent=T.results.replace('§',n); $('h-apply').textContent=T.apply.replace('§',n);};
-function render(reset){ if(reset) shown=T.PER; grid.innerHTML=view.slice(0,shown).map(card).join(''); $('h-empty').hidden=view.length>0; const m=$('h-more'); if(m) m.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint(); }
+function render(reset){ if(reset) shown=T.PER; grid.replaceChildren(...view.slice(0,shown).map(card)); $('h-empty').hidden=view.length>0; const m=$('h-more'); if(m) m.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint(); }
 async function apply(push=true){ await load(); const s=get(); const act=active(s); hub.classList.toggle('js-f',act); $('h-fn').textContent=nf(s)?String(nf(s)):'';
  view=sortv(filt(s),s.sort); setCount(view.length); if(push) syncURL(s);
  if(!act&&!hub.dataset.dirty){ shown=T.PER*T.p; refreshPrices(); const m=$('h-more'); if(m) m.hidden=shown>=view.length; return; }
@@ -72,7 +83,7 @@ const bmore=$('h-bmore'); if(bmore) bmore.addEventListener('click',()=>{const bo
 const clear=()=>{const box=document.querySelector('.hub-brands .hub-chips'); if(box) delete box.dataset.open; put({}); hub.dataset.dirty=1; apply();}; $('h-clear').onclick=clear; $('h-clear2').onclick=clear;
 // load more: crawlable link to the next static page, enhanced to append in place
 const more=$('h-more'); if(more) more.addEventListener('click',async e=>{e.preventDefault(); if(!all) await apply(false);
- grid.insertAdjacentHTML('beforeend',view.slice(shown,shown+T.PER).map(card).join('')); shown+=T.PER; more.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint();
+ view.slice(shown,shown+T.PER).forEach((r,j)=>grid.appendChild(card(r,shown+j))); shown+=T.PER; more.hidden=shown>=view.length; window.wpSaved&&wpSaved.paint();
  const np=Math.floor(shown/T.PER)+1; if(np<=T.P) more.href=T.pfx+np+'/'; });
 // compare tray: 3 on a wide screen, 2 on a phone
 const maxN=()=>matchMedia('(min-width:900px)').matches?3:2;

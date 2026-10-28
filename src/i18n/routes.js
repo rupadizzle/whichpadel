@@ -55,7 +55,7 @@ const P={
  vs:{en:s=>`/compare/${s}/`,es:s=>`/es/comparar/${s}/`,fr:s=>`/fr/comparer/${s}/`,pt:s=>`/pt/comparar/${s}/`,it:s=>`/it/confronto/${s}/`,de:s=>`/de/vergleich/${s}/`},
  finder:{en:()=>'/racket-finder/',es:()=>'/es/buscador-de-palas/',fr:()=>'/fr/test-raquette-padel/',pt:()=>'/pt/teste-raquete-padel/',it:()=>'/it/quiz-racchetta-padel/',de:()=>'/de/schlaeger-finder/'},
  tool:{en:()=>'/tools/real-weight/',es:()=>'/es/herramientas/peso-real/',fr:()=>'/fr/outils/poids-reel/',pt:()=>'/pt/ferramentas/peso-real/',it:()=>'/it/strumenti/peso-reale/',de:()=>'/de/tools/echtes-gewicht/'},
- bf:{en:()=>'/black-friday-padel-rackets/',es:()=>'/es/black-friday-palas-padel/',fr:()=>'/fr/black-friday-raquettes-padel/',pt:()=>'/pt/black-friday-raquetes-padel/',it:()=>'/it/black-friday-racchette-padel/',de:()=>'/de/black-friday-padelschlaeger/'},
+ bf:{en:()=>'/black-friday/',es:()=>'/es/black-friday-palas-padel/',fr:()=>'/fr/black-friday-raquettes-padel/',pt:()=>'/pt/black-friday-raquetes-padel/',it:()=>'/it/black-friday-racchette-padel/',de:()=>'/de/black-friday-padelschlaeger/'},
  privacy:{en:()=>'/privacy/',es:()=>'/es/privacidad/',fr:()=>'/fr/confidentialite/',pt:()=>'/pt/privacidade/',it:()=>'/it/privacy/',de:()=>'/de/datenschutz/'},
  affiliate:{en:()=>'/affiliate-disclosure/',es:()=>'/es/afiliados/',fr:()=>'/fr/affiliation/',pt:()=>'/pt/afiliados/',it:()=>'/it/affiliazione/',de:()=>'/de/affiliate-hinweis/'},
  rackets:{en:p=>p>1?`/rackets/page/${p}/`:'/rackets/',es:p=>p>1?`/es/palas/pagina/${p}/`:'/es/palas/',fr:p=>p>1?`/fr/raquettes/page/${p}/`:'/fr/raquettes/',pt:p=>p>1?`/pt/raquetes/pagina/${p}/`:'/pt/raquetes/',it:p=>p>1?`/it/racchette/pagina/${p}/`:'/it/racchette/',de:p=>p>1?`/de/schlaeger/seite/${p}/`:'/de/schlaeger/'},

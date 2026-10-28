@@ -52,7 +52,6 @@ const baseProps={lang:DICTS[lang].locale};
 <Base {...baseProps} title={H.title(allRackets.length)} description={H.desc(allRackets.length,brands.length)} jsonld={jsonld}>
 <section class="hero" slot="hero"><div class="wrap"><div>
 <h1>{H.h1a}</h1>
-<form class="search" data-gs action={L('rackets')} method="get"><input name="q" type="search" placeholder={H.searchPh} aria-label={H.searchL}/><button class="btn">{H.search}</button></form>
 <div class="stats"><a href={L('rackets')}><b>{allRackets.length}</b><span>{H.stats[0]}</span></a><a href={L('shoes')}><b>{shoes.length}</b><span>{H.stats[1]}</span></a><a href={L('balls')}><b>{balls.length}</b><span>{H.stats[2]}</span></a><a href={L('brands')}><b>{brands.length}</b><span>{H.stats[3]}</span></a><div><b>0</b><span>{H.stats[4]}</span></div></div>
 </div><div class="hero-art"><RacketIcon shape="round" size={110}/><RacketIcon shape="teardrop" size={110}/><RacketIcon shape="diamond" size={110}/></div></div></section>
 

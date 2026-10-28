@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import { D, url } from '../i18n/index.js';
+import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RkCardTemplate from '../components/RkCardTemplate.astro'; import { D, url } from '../i18n/index.js';
 import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js'; import { bags, bagImg } from '../lib/bags.js';
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui;
@@ -16,6 +16,7 @@ const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
 <p id="saved-empty" class="empty" hidden>{u.savedEmpty}</p>
 <p id="saved-go" hidden><a class="btn" href={url('rackets',lang)}>{u.rackets}</a></p>
 <div class="hub cat"><ul class="hub-grid" id="saved-list"></ul></div>
+<RkCardTemplate lang={lang}/>
 <p id="saved-cmp-wrap" hidden><a class="btn" id="saved-cmp" href={url('rackets',lang)}>{u.savedCompare}</a></p>
 <section class="panel" id="saved-keep">
  <h2 class="h3">{u.keepH}</h2>
@@ -48,10 +49,20 @@ document.addEventListener('DOMContentLoaded',async()=>{
   const by=Object.fromEntries(cat.map(r=>[key(r),r]));
   const rows=S.read().map(x=>by[key(x)]).filter(Boolean);
   $('saved-empty').hidden=rows.length>0; $('saved-go').hidden=rows.length>0;
-  const href=r=>(r.t==='s'?SK:r.t==='b'?BK:r.t==='g'?GK:RK)+esc(r.s)+'/';
+  const href=r=>(r.t==='s'?SK:r.t==='b'?BK:r.t==='g'?GK:RK)+r.s+'/';
   const short=r=>{let s=r.m||''; const b=r.b?String(r.b).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'):''; if(b) s=s.replace(new RegExp('^'+b+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return (s.trim()||r.m);};
-  const heart=`<svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
-  $('saved-list').innerHTML=rows.map(r=>`<li class="rk"><a class="rk-a" href="${href(r)}"><span class="rk-i">${r.i?`<img src="${esc(r.i)}" alt="" width="96" height="96" loading="lazy">`:''}</span><span class="rk-t"><span class="rk-b"><span>${esc([r.b,r.y].filter(Boolean).join(' · '))}</span><button type="button" class="save-heart" data-save="${esc(r.s)}" data-kind="${esc(r.t)}" data-off="${esc(TX.save)}" data-on="${esc(TX.saved)}" aria-pressed="true" aria-label="${esc(TX.saved)}">${heart}</button></span><span class="rk-m">${esc(short(r))}</span><span class="rk-p"><span class="rk-pv">${r.p?esc(r.p):''}</span></span></span></a></li>`).join('');
+  const fill=(r,i)=>{const li=document.getElementById('rk-card').content.firstElementChild.cloneNode(true); const id='sv-'+i;
+   li.querySelector('.rk-x').remove();
+   const a=li.querySelector('.rk-a'); a.href=href(r); a.setAttribute('aria-labelledby',id);
+   const ph=li.querySelector('.rk-ph');
+   if(r.i){const img=document.createElement('img'); img.src=r.i; img.alt=''; img.width=96; img.height=96; img.loading='lazy'; ph.replaceChildren(img);}
+   li.querySelector('.rk-b span').textContent=[r.b,r.y].filter(Boolean).join(' · ');
+   const name=li.querySelector('.rk-m'); name.id=id; name.textContent=short(r);
+   li.querySelector('.rk-c').remove();
+   li.querySelector('.rk-pv').textContent=r.p||'';
+   const heart=li.querySelector('.save-heart'); heart.dataset.save=r.s; heart.dataset.kind=r.t; heart.dataset.off=TX.save; heart.dataset.on=TX.saved; heart.setAttribute('aria-pressed','true'); heart.setAttribute('aria-label',TX.saved);
+   return li;};
+  $('saved-list').replaceChildren(...rows.map(fill));
   const rs=rows.filter(r=>r.t==='r'); const cmp=$('saved-cmp'); if(rs.length>=2){ cmp.href=CMP+'?r='+rs.slice(0,3).map(r=>r.s).join(','); $('saved-cmp-wrap').hidden=false; } else $('saved-cmp-wrap').hidden=true;
   S.paint();
  }

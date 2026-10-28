@@ -1,11 +1,8 @@
-/* homepage hero: one headline, one search */
+/* homepage hero: headline and counts */
 .hero:not(#_){padding:4.75rem 0 5rem}
 .hero h1:not(#_){font-size:clamp(2.15rem,4.4vw,3.25rem);line-height:1.08;letter-spacing:-.03em;max-width:12em;text-wrap:balance;margin:0}
-.hero .search:not(#_){margin-top:1.75rem;max-width:32rem}
-.hero .search button:not(#_){background:var(--lime);color:var(--navy)}
-.hero .search button:not(#_):hover{background:var(--lime2)}
-.nav .ai{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;border:0;background:transparent;color:var(--lime);box-shadow:inset 0 0 0 1.5px var(--lime);font:inherit;font-size:.93rem;font-weight:800;cursor:pointer}
-.nav .ai:hover,.nav .ai.on{background:var(--lime);color:var(--navy)}
+.ftr .ai{display:inline-flex;align-items:center;min-height:44px;margin-top:16px;padding:0 14px;border-radius:8px;border:0;background:transparent;color:var(--lime);box-shadow:inset 0 0 0 1.5px var(--lime);font:inherit;font-size:.93rem;font-weight:800;cursor:pointer}
+.ftr .ai:hover,.ftr .ai.on{background:var(--lime);color:var(--navy)}
 .ai-dlg{position:fixed;inset:0;width:min(420px,calc(100vw - 32px));height:fit-content;max-height:calc(100dvh - 48px);margin:auto;padding:28px 28px 32px;border:0;border-radius:20px;background:#071c28;color:#fff;box-shadow:0 24px 80px rgb(0 0 0 / 40%);text-align:center;overflow:visible}
 .ai-dlg:not([open]){display:none}
 .ai-dlg[open]{display:block}
@@ -23,7 +20,6 @@
 .ai-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#fff;font-size:1.15rem;cursor:pointer}
 .ai-x:hover{background:rgb(255 255 255 / .08)}
 .ai-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media(width <= 1180px){.nav .ai{order:-1;margin-bottom:8px;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.ai-mic .ring{animation:none;opacity:.5}}
 @media(max-width:860px){.hero:not(#_){padding:2.75rem 0 3rem}.hero h1:not(#_){font-size:clamp(1.85rem,8vw,2.35rem);max-width:14em}}
 /* Best lists: ranking in two thirds, finder and other lists in the third. */
@@ -136,15 +132,56 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 #saved-n:not([hidden]){display:inline-block}
 .saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:16px;margin:16px 0}
 #saved-keep,#saved-acct{margin-top:16px}
-/* one deals signup: copy takes the spare width, the form stays a fixed row */
-main.wrap>.news{grid-template-columns:minmax(0,1fr) minmax(18rem,24rem);gap:32px;align-items:center;padding:24px 32px;border-top:0}
-.news h2{margin:0 0 6px}
-.news p{margin:0;max-width:42rem}
-.news .inline-form{flex-wrap:nowrap;align-items:center;gap:8px}
-.news .inline-form input[type=email]{flex:1;min-width:0;min-height:44px}
-.news .inline-form .btn{flex:none}
+/* deals signup is the top band of the footer: copy left, form right, hairline under it */
+.ftr:has(> .news){padding-top:0}
+.ftr .news{font-size:1rem;background:transparent;border-radius:0}
+.ftr .news .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(18rem,24rem);gap:32px;align-items:center;padding-top:2.25rem;padding-bottom:1.75rem;border-bottom:1px solid rgb(255 255 255 / .08)}
+.ftr:has(> .news) > .wrap{padding-top:2.25rem}
+.ftr .news h2{margin:0 0 6px;color:#fff}
+.ftr .news p{max-width:42rem}
+.ftr .news a{color:var(--lime);text-decoration:underline;text-underline-offset:.15em}
+.ftr .news a:hover{color:#fff}
+.ftr .news .inline-form{flex-wrap:nowrap;align-items:center;gap:8px}
+.ftr .news .inline-form input[type=email]{flex:1;min-width:0;width:auto;min-height:44px}
+.ftr .news .inline-form .btn{flex:none}
 @media(max-width:760px){
- main.wrap>.news{grid-template-columns:1fr;gap:16px;padding:20px}
- .news .inline-form{flex-wrap:wrap}
- .news .inline-form .btn{min-height:44px}
+ .ftr .news .wrap{grid-template-columns:1fr;gap:16px;padding-top:1.5rem;padding-bottom:1.25rem}
+ .ftr:has(> .news) > .wrap{padding-top:1.5rem}
+ .ftr .news .inline-form{flex-wrap:wrap}
+ .ftr .news .inline-form .btn{min-height:44px}
+}
+/* My kit: a person with tappable bag, racket and shoes */
+.kit-page>p{max-width:42rem}
+.kit-board{margin-top:8px}
+.kit-board:has(#kpick:not([hidden])){display:grid;grid-template-columns:minmax(200px,230px) minmax(0,1fr);gap:28px;align-items:start}
+.kit-stage{max-width:220px}
+.kit-fig{position:relative;background:#e7f3ee;border-radius:20px;overflow:hidden}
+.kit-fig svg{display:block;width:100%;height:auto}
+.kit-zone{position:absolute;z-index:2;margin:0;padding:0;border:2px dashed #fff;border-radius:18px;background:rgb(255 255 255 / .16);box-shadow:0 0 0 1px rgb(11 42 60 / .4);color:var(--ink);font:inherit;cursor:pointer}
+.kit-zone span{position:absolute;left:8px;top:8px;padding:2px 8px;border-radius:8px;background:#fff;font-size:.75rem;font-weight:700;line-height:1.4;pointer-events:none}
+.kit-zone:hover,.kit-zone.is-open{background:rgb(212 255 58 / .32);border-color:var(--lime)}
+.kit-zone.is-set{border-style:solid;border-color:var(--lime)}
+.kit-zone.is-open{border-color:var(--lime);box-shadow:0 0 0 3px var(--lime)}
+.kit-zone:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.kit-pick{max-width:32rem}
+.kit-pick-h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kit-pick-h h2{margin:0}
+.kit-pick>p{margin:.35rem 0 0}
+.kit-field{margin:14px 0 0}
+.kit-field label{font-weight:650}
+.kit-field select,.kit-field input{width:100%;box-sizing:border-box;margin-top:6px}
+.kit-field p{margin:.5rem 0 0}
+.kit-results{list-style:none;margin:12px 0 0;padding:0;max-height:min(440px,52vh);overflow:auto}
+.kit-results button{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.kit-results button:hover,.kit-results button[aria-current="true"]{background:#eef4f1}
+.kit-results img,.kit-ph{width:48px;height:48px;object-fit:contain;flex:none}
+.kit-rn{flex:1;min-width:0}
+.kit-results button[aria-current="true"]::after{content:"Selected";margin-left:auto;color:var(--green);font-size:.82rem;font-weight:700}
+.kit-balls{margin:0 0 8px}
+.kit-balls div{display:flex;gap:8px;margin-top:8px}
+.kit-balls input{flex:1;min-width:0}
+.kit-balls p{margin:.4rem 0 0}
+@media(max-width:800px){
+ .kit-board:has(#kpick:not([hidden])){grid-template-columns:1fr}
+ .kit-stage{max-width:220px;margin:0 auto}
 }

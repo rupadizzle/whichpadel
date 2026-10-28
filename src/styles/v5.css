@@ -37,10 +37,9 @@ main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(-
 /* best/guide */
 .rulebox{border-radius:var(--r);margin:0;padding:var(--sp-2)}
 .rlist{gap:var(--sp-2)}
-.offer,.news{border-radius:var(--r);margin:0;padding:var(--sp-3)}
+.offer{border-radius:var(--r);margin:0;padding:var(--sp-3)}
 
-@media(width >= 900px){.offer,.news{padding:var(--sp-4)}}
-.news{margin-top:var(--gap)}
+@media(width >= 900px){.offer{padding:var(--sp-4)}}
 .ftr{margin-top:0}
 .empty404{padding:var(--sp-5) 0}
 .hero-art svg:nth-child(2){transform:none}

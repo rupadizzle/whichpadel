@@ -53,17 +53,16 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 </dialog>}
 <GeoBanner lang={L2}/>
 <slot name="hero"/>
-<main class="wrap"><slot/>
-{newsletter && <FooterL lang={L2} news/>}
-</main>
-<FooterL lang={L2} switcher={switcher} region={region}/>
+<main class="wrap"><slot/></main>
+<FooterL lang={L2} switcher={switcher} region={region} news={newsletter}/>
 <script is:inline>placeRegion();placeSearch();placeUtil()</script>
 {L2==='en' && <script is:inline src="/describe-parse.js"></script>}
 {L2==='en' && <script is:inline src="/describe-voice.js"></script>}
 {L2==='en' && <script is:inline define:vars={{FINDER: url('finder', L2)}}>
 const btns=[...document.querySelectorAll('[data-ai]')], dlg=document.getElementById('ai-dlg'), ta=document.getElementById('ai-t'), status=document.getElementById('ai-status'), mic=document.getElementById('ai-mic');
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-let rec=null, fin='', gen=0, open=false, leaving=false, arm=0, denied=false, misses=0, openedAt=0, voice='cloud', deviceTried=false, vgen=0;
+let rec=null, fin='', gen=0, open=false, leaving=false, arm=0, denied=false, misses=0, openedAt=0, voice='cloud', deviceTried=false, vgen=0, liveWords=false, deviceOk=false;
+if(SR&&SR.available) SR.available({langs:['en-US'],processLocally:true}).then(s=>{deviceOk=s==='available'; if(s==='downloadable'||s==='downloading') SR.install({langs:['en-US'],processLocally:true}).then(()=>{deviceOk=true;}).catch(()=>{});}).catch(()=>{});
 const setOn=on=>btns.forEach(b=>{b.classList.toggle('on',on); b.setAttribute('aria-expanded',on?'true':'false');});
 const liveOn=on=>{mic.setAttribute('aria-pressed',on?'true':'false'); mic.classList.toggle('on',on);};
 function kill(){gen++; clearTimeout(arm); const r=rec; rec=null; if(r){try{r.onresult=r.onerror=r.onend=null; r.stop();}catch(e){}} liveOn(false);}
@@ -74,17 +73,17 @@ function go(){clearTimeout(arm); const t=(ta.value||fin).trim(); if(t.length<8){
 function useful(t){if(!window.DG) return false; const r=window.DG.racket(window.DG.parse(t)); return r.side!=='either'||r.style!=='all'||r.budget!=='any'||r.prio!=='latest'||/\b(beginner|intermediate|advanced)\b/.test(t.toLowerCase());}
 function schedule(){clearTimeout(arm); const t=(ta.value||'').trim(); if(t.length>=8&&useful(t)) arm=setTimeout(go,1500); else if(t.length>=8) status.textContent='Press enter when that looks right.';}
 function fail(msg){voice='dead'; denied=true; vgen++; if(window.DGVoice) window.DGVoice.stop(); liveOn(false); mic.classList.remove('wait'); mic.classList.add('dead'); status.textContent=msg; ta.placeholder='Type how you play, then press enter'; ta.focus();}
-function beginLocal(){if(!open||leaving||voice==='local'||voice==='booting') return; const mine=vgen; voice='local'; denied=true; kill(); mic.classList.remove('dead','wait'); status.textContent='Listening. Just start talking.'; if(!window.DGVoice){fail('Voice didn\u2019t start. Type how you play, then press enter.'); return;} window.DGVoice.prime();
- window.DGVoice.start({onStatus(s){if(open&&voice==='local'&&mine===vgen) status.textContent=s;}, onReady(){if(open&&voice==='local'&&mine===vgen){mic.classList.remove('dead','wait'); liveOn(true);}}, onPartial(s){if(!open||voice!=='local'||mine!==vgen||!s) return; clearTimeout(arm); fin=s+' '; ta.value=s; ta.placeholder='';}, onText(s){if(!open||voice!=='local'||mine!==vgen) return; fin=s+' '; ta.value=s; ta.placeholder=''; schedule();}, onFail(m){if(open&&mine===vgen) fail(m);}});}
-function listen(){if(!SR||denied||!open||leaving||rec||voice==='local'||voice==='booting') return; const mine=gen; const r=rec=new SR(); r.lang='en-US'; r.interimResults=true; r.continuous=false; if(voice==='device'){try{r.processLocally=true;}catch(e){}}
- r.onresult=e=>{if(mine!==gen) return; misses=0; let interim=''; for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i]; if(x.isFinal) fin+=x[0].transcript+' '; else interim+=x[0].transcript;} ta.value=(fin+interim).trim(); ta.placeholder=''; status.textContent='Listening'; schedule();};
- r.onerror=e=>{const err=e.error||''; if(err==='no-speech'||err==='aborted') return; if(err==='not-allowed') fail('The microphone is blocked. Type how you play, then press enter.'); else if(err==='audio-capture') fail('No microphone found. Type how you play, then press enter.'); else beginLocal();};
- r.onend=()=>{if(rec===r) rec=null; if(mine!==gen||!open||leaving||denied||(voice!=='cloud'&&voice!=='device')) return; if(++misses>6){beginLocal(); return;} setTimeout(()=>{if(mine===gen&&open&&!leaving&&!denied&&!rec) listen();},400);};
- try{r.start();}catch(e){rec=null; beginLocal(); return;}
+function beginLocal(){if(!open||leaving||voice==='local'||voice==='booting') return; const mine=vgen; voice='local'; mic.classList.remove('dead','wait'); if(!window.DGVoice){if(!SR) fail('Voice didn\u2019t start. Type how you play, then press enter.'); return;} window.DGVoice.prime();
+ window.DGVoice.start({onStatus(s){if(open&&voice==='local'&&mine===vgen&&!liveWords&&(denied||!SR)) status.textContent=s;}, onReady(){if(open&&voice==='local'&&mine===vgen){mic.classList.remove('dead','wait'); liveOn(true);}}, onPartial(s){if(!open||voice!=='local'||mine!==vgen||!s||liveWords) return; clearTimeout(arm); fin=s+' '; ta.value=s; ta.placeholder='';}, onText(s){if(!open||voice!=='local'||mine!==vgen||!s||liveWords) return; fin=s+' '; ta.value=s; ta.placeholder=''; schedule();}, onFail(m){if(open&&mine===vgen&&!liveWords&&!rec) fail(m);}});}
+function listen(){if(!SR||denied||!open||leaving||rec) return; const mine=gen; const r=rec=new SR(); r.lang='en-US'; r.interimResults=true; r.continuous=true; if(deviceOk){try{r.processLocally=true;}catch(e){}}
+ r.onresult=e=>{if(mine!==gen) return; misses=0; if(!liveWords){liveWords=true; fin='';} let interim='', gotFinal=false; for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i]; if(x.isFinal){fin+=x[0].transcript+' '; gotFinal=true;} else interim+=x[0].transcript;} const shown=(fin+interim).trim(); if(!shown) return; ta.value=shown; ta.placeholder=''; status.textContent='Listening'; if(gotFinal) schedule(); else clearTimeout(arm);};
+ r.onerror=e=>{const err=e.error||''; if(err==='no-speech'||err==='aborted') return; if(err==='not-allowed'&&!liveWords){fail('The microphone is blocked. Type how you play, then press enter.'); return;} denied=true;};
+ r.onend=()=>{if(rec===r) rec=null; if(mine!==gen||!open||leaving||denied) return; if(++misses>8){denied=true; return;} setTimeout(()=>{if(mine===gen&&open&&!leaving&&!denied&&!rec) listen();},200);};
+ try{r.start();}catch(e){rec=null; denied=true; return;}
  liveOn(true); mic.classList.remove('dead','wait');}
-function show(){if(dlg.open){shut(); return;} if(window.DGVoice) window.DGVoice.prime(); stopVoice(); open=true; leaving=false; denied=false; misses=0; fin=''; ta.value=''; ta.placeholder='Or type it here and press enter'; status.textContent='Listening. Just start talking.'; const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');} if(typeof placeRegion==='function') placeRegion(); openedAt=performance.now(); try{dlg.showModal();}catch(e){open=false; return;} setOn(true); ta.focus(); beginLocal();}
+function show(){if(dlg.open){shut(); return;} if(window.DGVoice) window.DGVoice.prime(); stopVoice(); open=true; leaving=false; denied=false; liveWords=false; misses=0; fin=''; ta.value=''; ta.placeholder='Or type it here and press enter'; status.textContent='Listening'; const nav=document.getElementById('nav'); if(nav){nav.classList.remove('open'); const g=document.querySelector('.burger'); if(g) g.setAttribute('aria-expanded','false');} if(typeof placeRegion==='function') placeRegion(); openedAt=performance.now(); try{dlg.showModal();}catch(e){open=false; return;} setOn(true); ta.focus(); listen(); beginLocal();}
 btns.forEach(b=>b.addEventListener('click',show));
-mic.addEventListener('click',()=>{if(!open||leaving) return; if((ta.value||'').trim().length>=8){go(); return;} if(window.DGVoice) window.DGVoice.prime(); stopVoice(); denied=false; misses=0; mic.classList.remove('dead','wait'); status.textContent='Listening. Just start talking.'; beginLocal();});
+mic.addEventListener('click',()=>{if(!open||leaving) return; if((ta.value||'').trim().length>=8){go(); return;} if(window.DGVoice) window.DGVoice.prime(); stopVoice(); denied=false; liveWords=false; misses=0; fin=''; mic.classList.remove('dead','wait'); status.textContent='Listening'; listen(); beginLocal();});
 ta.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); go();}});
 ta.addEventListener('input',()=>{if(rec){const r=rec; rec=null; gen++; try{r.onend=null; r.stop();}catch(e){} liveOn(false);} if(voice==='local'||voice==='booting'){vgen++; voice='cloud'; deviceTried=true; denied=true; if(window.DGVoice) window.DGVoice.stop(); liveOn(false); mic.classList.remove('wait');} fin=ta.value.trim()+(ta.value.trim()?' ':''); schedule();});
 dlg.querySelector('[data-ai-close]').addEventListener('click',shut);

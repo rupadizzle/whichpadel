@@ -4,10 +4,11 @@ import Base from '../layouts/Base.astro';
 import '../styles/hub.css';
 import RacketIcon from '../components/RacketIcon.astro';
 import CompareBoard from '../components/CompareBoard.astro';
+import RkCard from '../components/RkCard.astro';
+import RkCardTemplate from '../components/RkCardTemplate.astro';
 import ShoeCard from '../components/ShoeCard.astro';
 import BagCard from '../components/BagCard.astro';
 import ShoeCompareBoard from '../components/ShoeCompareBoard.astro';
-import SaveHeart from '../components/SaveHeart.astro';
 import HubRacketScript from './parts/HubRacketScript.astro';
 import HubShoeScript from './parts/HubShoeScript.astro';
 import HubBallScript from './parts/HubBallScript.astro';
@@ -179,7 +180,7 @@ const hub = (() => {
  <div class="hub-head"><p class="hub-cnt"><b id="h-count" aria-live="polite">{hub.results}</b></p><label class="hub-sort"><span class="sr">{kind === 'rackets' ? hub.rk.H.sort : kind === 'shoes' ? hub.sh.T.sort : kind === 'bags' ? hub.bg.T.sort : hub.ba.T.sort}</span><select id="h-sort">{hub.sortKeys.map((k, i) => <option value={k} selected={hub.selectPop && k === 'pop'}>{hub.sorts[i]}</option>)}</select></label></div>
  {hub.rk && <>
  <div class="hub-stage">
- <ul class="hub-grid" id="h-grid">{hub.rk.rs.map((r, i) => <li class="rk" data-s={r.slug}><a class="rk-a" href={url('racket', lang, r.slug)}><span class="rk-i">{r.image ? <img src={r.image} alt={`${r.model} ${hub.rk.H.alt}`} width="96" height="112" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/> : <RacketIcon shape={r.shape || 'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand, r.year].filter(Boolean).join(' · ')}</span><button type="button" class="save-heart" data-save={r.slug} data-off={u.save} data-on={u.saved} aria-pressed="false" aria-label={u.save}><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></span><span class="rk-m">{hub.rk.shortM(r)}</span><span class="rk-c">{hub.rk.spec(r)}</span><span class="rk-p"><span class="pz rk-pv">{hub.rk.priceTxt(r)}</span></span></span></a><label class="rk-x" title={hub.rk.H.compare}><input type="checkbox" class="rk-cb" value={r.slug}/><span><span class="sr">{hub.rk.H.compare}: {r.model}</span></span></label></li>)}</ul>
+ <ul class="hub-grid" id="h-grid">{hub.rk.rs.map((r, i) => <RkCard r={r} lang={lang} compare eager={i < 4} line={hub.rk.spec(r)}/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.rk.H.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  <div class="hub-stick"><div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{hub.rk.H.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={hub.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div></div>
  </div>
@@ -194,7 +195,7 @@ const hub = (() => {
  </section>
  </>}
  {hub.sh && <>
- <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare catalog/>)}</ul>
+ <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
   <p>{SHOE_LIST_KEYS.filter(k => !k.startsWith('u')).map(k => <a href={url('shoeList', lang, k)}>{hub.sh.T.lists[k][0]}</a>)}</p>
@@ -202,7 +203,7 @@ const hub = (() => {
  </section>
  </>}
  {hub.ba && <>
- <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <li class="rk" data-s={b.slug} data-b={b.brand} data-sp={b.speed} data-tour={b.tour || ''} data-eco={b.eco ? '1' : '0'} data-n={b.inStock}><a class="rk-a" href={url('ball', lang, b.slug)}><span class="rk-i">{ballImg(b) && <img src={ballImg(b)} alt={hub.ba.T.alt(b.name)} width="96" height="96" loading={i < 4 ? 'eager' : 'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{b.brand}</span><SaveHeart slug={b.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{b.model}</span><span class="rk-c">{hub.ba.spec(b)}</span><span class="rk-p"><span class="pz rk-pv">{hub.ba.pr(b)}</span></span></span></a></li>)}</ul>
+ <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <RkCard lang={lang} kind="b" href={url('ball', lang, b.slug)} img={ballImg(b)} alt={hub.ba.T.alt(b.name)} brand={b.brand} name={b.model} spec={hub.ba.spec(b)} save={b.slug} eager={i < 4} attrs={{ 'data-b': b.brand, 'data-sp': b.speed, 'data-tour': b.tour || '', 'data-eco': b.eco ? '1' : '0', 'data-n': b.inStock }}>{hub.ba.pr(b)}</RkCard>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
  {hub.bg && <>
@@ -211,6 +212,7 @@ const hub = (() => {
  </>}
 </section>
 </div>
+{hub.rk && <RkCardTemplate lang={lang}/>}
 {hub.rk && ['round', 'teardrop', 'diamond', 'hybrid'].map(sh => <template id={`hic-${sh}`}><RacketIcon shape={sh} size={48}/></template>)}
 {hub.sh && <div class="hub-tray" id="h-tray" hidden><ul id="h-sel" aria-live="polite"></ul><button type="button" class="btn btn-accent" id="h-go" hidden disabled>{hub.sh.C.compare}</button><button type="button" class="hub-tray-x" id="h-tray-x" aria-label={hub.close}><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>}
 </div>

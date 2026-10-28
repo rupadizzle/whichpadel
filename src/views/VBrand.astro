@@ -1,6 +1,6 @@
 ---
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RacketIcon from '../components/RacketIcon.astro';
-import ShoeCard from '../components/ShoeCard.astro'; import BagCard from '../components/BagCard.astro'; import SaveHeart from '../components/SaveHeart.astro'; import '../styles/hub.css';
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RkCard from '../components/RkCard.astro';
+import ShoeCard from '../components/ShoeCard.astro'; import BagCard from '../components/BagCard.astro'; import '../styles/hub.css';
 import { brandList, slugify } from '../lib/data.js';
 import { shoes, rankShoes, shoeOnlyBrands } from '../lib/shoes.js';
 import { balls, rankBalls, ballImg } from '../lib/balls.js';
@@ -38,10 +38,7 @@ const typePhrase=(k,n)=>{const label=(TG.types[k]||k).toLowerCase(); const es={ 
 const bagYears=[...new Set(byears)].sort((a,c)=>c-a); const showBagYear=bagYears.length>1; const showBagType=typeEntries.length>1;
 const bagX={n:brandBags.length,y0:byears.length?Math.min(...byears):0,y1:byears.length?Math.max(...byears):0,types:typeEntries.map(([k,n])=>typePhrase(k,n)),...moneyRange(moneyVals(brandBags))};
 const shoeFaq=brandShoes.length?P.shoeFaq(b.name,shoeX):[]; const ballFaq=brandBalls.length?P.ballFaq(b.name,ballX):[]; const bagFaq=brandBags.length&&P.bagFaq?P.bagFaq(b.name,bagX):[];
-const priceTxt=r=>{const q=pick(r,reg); return q.none?H.none:H.fromP.replace('{p}',fmt(q.v,q.cur,lang));};
 const ballBits=v=>{const q=pick(v,reg); if(q.none||!v.balls) return {none:true}; const each=Math.round(q.v/v.balls*100)/100; const tube=offersOf(v); return {none:false,tube:fmt(q.v,q.cur,lang),each:fmt(each,q.cur,lang),o:JSON.stringify(tube),oe:JSON.stringify(tube.map(o=>({...o,p:Math.round(o.p/v.balls*100)/100})))};};
-const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const shortM=r=>{let s=r.model||''; if(r.brand) s=s.replace(new RegExp('^'+escRe(r.brand)+'\\s+','i'),''); if(r.year) s=s.replace(new RegExp('\\s+'+r.year+'\\s*$'),''); return s.trim()||r.model;};
 const AUD={men:0,women:1,junior:2};
 const specR=r=>[AUD[r.audience]!=null&&H.auds[AUD[r.audience]],r.shape&&t.shapeCap[r.shape],r.weightMin&&`${r.weightMin}${r.weightMax&&r.weightMax!==r.weightMin?'–'+r.weightMax:''}\u00a0g`].filter(Boolean).join(' · ');
 const h1=wide?b.name:C.h1(b.name);
@@ -70,7 +67,7 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 {x.shapes.length>1&&<div class="bfil"><span class="bfil-l">{H.shape}</span><div class="chipset" role="group" aria-label={C.filter}><label><input type="radio" name="bs" value="" checked/><span>{C.all} ({rs.length})</span></label>{x.shapes.map(([k,n])=><label><input type="radio" name="bs" value={k}/><span>{t.shapeCap[k]} ({n})</span></label>)}</div></div>}
 {(years.length>1||x.shapes.length>1)&&<p class="muted small" id="bcount" aria-live="polite">{C.showing(rs.length)}</p>}
 </div>
-<ul class="hub-grid" id="rgrid">{rs.map((r,i)=><li class="rk" data-y={r.year||''} data-shape={r.shape||''}><a class="rk-a" href={url('racket',lang,r.slug)}><span class="rk-i">{r.image?<img src={r.image} alt={`${r.model} ${H.alt}`} width="96" height="112" loading={i<4?'eager':'lazy'} decoding="async"/>:<RacketIcon shape={r.shape||'hybrid'} size={48}/>}</span><span class="rk-t"><span class="rk-b"><span>{[r.brand,r.year].filter(Boolean).join(' · ')}</span><SaveHeart slug={r.slug} off={u.save} on={u.saved}/></span><span class="rk-m">{shortM(r)}</span><span class="rk-c">{specR(r)}</span><span class="rk-p"><span class="pz rk-pv" data-o={JSON.stringify(offersOf(r))} data-f1={H.fromP} data-fn={H.fromP} data-none={H.none}>{priceTxt(r)}</span></span></span></a></li>)}</ul>
+<ul class="hub-grid" id="rgrid">{rs.map((r,i)=><RkCard r={r} lang={lang} eager={i<4} line={specR(r)} attrs={{'data-y':r.year||'','data-shape':r.shape||''}}/>)}</ul>
 <div class="brand-faq"><h2>{C.faqH(b.name)}</h2>{faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>
 </section>}
 {brandShoes.length>0&&<section class="brand-cat cat" id="shoes" data-panel="shoes" aria-label={TS.nav} hidden={first!=='shoes'}>
@@ -91,7 +88,7 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 {showBallTour&&<div class="bfil"><span class="bfil-l">{TB.tourF}</span><div class="chipset" role="group" aria-label={TB.tourF}><label><input type="radio" name="bt" value="" checked/><span>{TB.any} ({brandBalls.length})</span></label>{tourKeys.map(k=><label><input type="radio" name="bt" value={k}/><span>{TB.tours[k]} ({tourGroups[k].length})</span></label>)}</div></div>}
 <p class="muted small" id="ncount" aria-live="polite">{P.ballShowing(brandBalls.length)}</p>
 </div>}
-<ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=>{const bp=ballBits(v); return <li class="rk" data-speed={v.speed||''} data-tour={v.tour||''}><a class="rk-a" href={url('ball',lang,v.slug)}><span class="rk-i">{ballImg(v)&&<img src={ballImg(v)} alt={TB.alt(v.name)} width="96" height="96" loading={i<4?'eager':'lazy'} decoding="async"/>}</span><span class="rk-t"><span class="rk-b"><span>{v.brand}</span><SaveHeart slug={v.slug} kind="b" off={u.save} on={u.saved}/></span><span class="rk-m">{v.model}</span><span class="rk-c">{ballSpec(v)}</span><span class="rk-p"><span class="rk-pv">{bp.none?ballPr(v):<><span class="pz" data-o={bp.o}>{bp.tube}</span>{' · '}<span class="pz" data-o={bp.oe}>{bp.each}</span>{' '}{TB.perBall}</>}</span></span></span></a></li>;})}</ul>
+<ul class="hub-grid" id="ngrid">{brandBalls.map((v,i)=>{const bp=ballBits(v); return <RkCard lang={lang} kind="b" href={url('ball',lang,v.slug)} img={ballImg(v)} alt={TB.alt(v.name)} brand={v.brand} name={v.model} spec={ballSpec(v)} save={v.slug} eager={i<4} attrs={{'data-speed':v.speed||'','data-tour':v.tour||''}}>{bp.none?ballPr(v):<><span class="pz" data-o={bp.o}>{bp.tube}</span>{' · '}<span class="pz" data-o={bp.oe}>{bp.each}</span>{' '}{TB.perBall}</>}</RkCard>;})}</ul>
 {ballFaq.length>0&&<div class="brand-faq"><h2>{P.ballFaqH(b.name)}</h2>{ballFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
 </section>}
 {brandBags.length>0&&<section class="brand-cat cat" id="bags" data-panel="bags" aria-label={TG.nav} hidden={first!=='bags'}>
