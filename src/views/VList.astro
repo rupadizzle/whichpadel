@@ -11,7 +11,7 @@ import ShoeCard from '../components/ShoeCard.astro';
 import { rackets } from '../lib/data.js';
 import { D, url, SITE, P } from '../i18n/index.js';
 import { BEST_KEYS } from '../i18n/routes.js';
-import { pickL, method, ruleL, keysL } from '../i18n/lists.js';
+import { pickL, method, ruleL, keysL, whyText } from '../i18n/lists.js';
 import { YEARS, YC, ofYear, successor, FCARD } from '../lib/years.js';
 import { cnt } from '../i18n/stats.js';
 import { shoes, rankShoes, SHOE_LISTS, SHOE_LIST_KEYS, shoeBrands, shoeBrandTarget, UNDER, listCur } from '../lib/shoes.js';
@@ -123,7 +123,7 @@ const page = (() => {
 <div class="best-split">
 <div class="best-main">
 <div class="rulebox"><b>{u.howBuilt}</b> {page.rule} {u.topShown(page.top.length)}</div>
-<div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid" id="best">{page.top.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={page.KS} compare/>)}</ul></div>
+<div class="hub cat rk-rows rk-best rk-nocmp" data-rk><ul class="hub-grid" id="best">{page.top.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={page.KS} compare why={whyText(r.why, lang)}/>)}</ul></div>
 {page.method && <section class="panel" id="methodology"><h2>{u.methodology}</h2><p>{page.B.valueFormula}</p><p class="muted small">{page.B.valueNote}</p></section>}
 </div>
 <aside class="best-side">

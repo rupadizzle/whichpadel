@@ -265,15 +265,17 @@ main.wrap>.crumbs:has(+.cat){margin-bottom:6px}
  .cat .hub-bq input{min-height:40px;font-size:1rem}
 }
 /* Cards with no compare tick still keep the price on the right, where the ticked card placed it. */
-.brand-cat .rk:not(:has(.rk-x)) .rk-p,.cat.balls .rk-p{width:100%;flex-direction:row;justify-content:flex-end}
-.brand-cat .rk:not(:has(.rk-x)) .rk-pv,.cat.balls .rk-pv{white-space:nowrap}
+.brand-cat .rk:not(:has(.rk-x)) .rk-p,.cat.balls .rk-p,.cat.bags .rk-p{width:100%;flex-direction:row;justify-content:flex-end}
+.brand-cat .rk:not(:has(.rk-x)) .rk-pv,.cat.balls .rk-pv,.cat.bags .rk-pv{white-space:nowrap}
 .cat.balls .rk-m{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cat.balls .rk-c{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cat.balls .rk-c,.cat.bags .rk-c{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:860px){
- /* The tube-and-per-ball price is wider than a shoe price, so it sits on the spec row and the model keeps the full width. */
- .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-t{grid-template-areas:"brand brand" "name name" "spec price"}
+ /* No compare tick, so the price takes the spec row, where a racket price sits. */
+ .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-t,
+ .cat.bags .hub-grid .rk:not(:has(.rk-x)) .rk-t{grid-template-areas:"brand brand" "name name" "spec price"}
  .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-m{white-space:normal}
- .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-pv{align-self:end}
+ .cat.balls .hub-grid .rk:not(:has(.rk-x)) .rk-pv,
+ .cat.bags .hub-grid .rk:not(:has(.rk-x)) .rk-pv{align-self:end}
 }
 /* Full-screen compare takeover. The list stays mounted underneath, so Close and Back return to the same filters and scroll. */
 .cmp-take[open]{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
@@ -338,58 +340,64 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
 .rk-rows.cat .hub-grid .rk .rk-pv{grid-column:2;grid-row:3;justify-self:end;white-space:nowrap;font-size:.875rem}
 .rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-x{position:relative;grid-column:3;grid-row:2;top:auto;right:auto;transform:none;width:28px;height:28px;align-self:center;justify-self:end}
 .rk-rows .rk-pv::after{content:none}
-/* Best list, wide (C1) and phone (C2).
-   Brand, name and spec share one framed group. The rating bars sit under it. */
+/* Best lists share .rk-card. This only sets the container and the bar type. */
 .rk-best{container:rk / inline-size}
 .rk-best.rk-rows.cat .hub-grid{gap:14px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;row-gap:8px;align-items:stretch;padding:8px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{position:absolute;inset:0;z-index:0;display:block;padding:0;column-gap:0;row-gap:0}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-i,
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-bars{position:relative;z-index:1;pointer-events:none}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1;grid-row:1 / -1;width:auto;height:100%;aspect-ratio:1;margin:0;align-self:stretch;justify-self:stretch;min-width:auto;min-height:0;overflow:visible;background:none;border-radius:0}
 .rk-ph{display:contents}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-ph{display:block;position:absolute;inset:0;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#f3f6f5}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;object-position:center}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy{grid-column:2;grid-row:1;align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:8px;min-width:0;margin:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#f7f9fa;pointer-events:none;position:relative;z-index:1}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .save-heart,
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-x{pointer-events:auto}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-b,
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-nr,
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy .rk-sp{align-self:stretch;width:100%;min-width:0}
-.rk-best .save-heart,.rk-best .save-heart .heart{width:18px;height:18px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr .rk-m{flex:1;align-self:center;min-width:0;color:inherit;text-decoration:none;white-space:normal;line-height:1.2}
-.rk-best .rk:hover .rk-nr .rk-m,.rk-best .rk-nr .rk-m:hover{text-decoration:underline}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-nr .rk-x{position:relative;top:auto;right:auto;transform:none;flex:none;align-self:center;justify-content:flex-end;width:28px;height:28px}
 .rk-nocmp .rk-x{display:none}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp .rk-c{align-self:center;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-sp .rk-pv{align-self:center;margin:0;flex:none;white-space:nowrap}
-.rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:2;grid-row:2;align-self:end;width:100%;margin:0;padding:0;gap:6px}
+.rk-why{position:relative;z-index:1;margin:0;font-size:.8125rem;line-height:1.45;color:var(--mut)}
 .rk-best.cat .hub-grid .rk-pv::after{content:none}
-@container rk (max-width: 640px){
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x){grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;column-gap:8px;row-gap:8px;align-items:stretch;padding:8px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x)>.rk-a{column-gap:8px;row-gap:8px}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-copy{grid-column:1;grid-row:2}
- .rk-best.rk-rows.cat .hub-grid .rk:has(.rk-x) .rk-bars{grid-column:1;grid-row:3;width:100%}
-}
 .rk-best .mb{grid-template-columns:5.5rem minmax(0,1fr) 1.5rem;font-size:.75rem}
 /* Homepage strips keep the section and scroll the same tile the catalog uses. */
 .cat ul.rk-strip{display:flex;overflow-x:auto;gap:10px;padding:0 0 8px;scroll-snap-type:x mandatory;grid-template-columns:none}
 .cat ul.rk-strip>.rk{flex:0 0 200px;scroll-snap-align:start}
-.cat ul.rk-strip .rk:not(:has(.rk-x)){display:flex;flex-direction:column;padding:0}
-.cat ul.rk-strip .rk:not(:has(.rk-x))>.rk-a{display:flex;flex-direction:column;grid-template-columns:none;padding:8px 8px 10px}
-.cat ul.rk-strip .rk:not(:has(.rk-x)) .rk-i{grid-column:auto;grid-row:auto;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
-.cat ul.rk-strip .rk:not(:has(.rk-x)) .rk-t{display:flex;flex-direction:column;grid-column:auto;grid-row:auto;gap:2px}
-.cat ul.rk-strip .rk:has(.rk-x){display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto auto auto 28px;column-gap:10px;row-gap:0;align-items:center;align-content:start;padding:10px}
-.cat ul.rk-strip .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:10px;row-gap:0}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-t{display:grid;grid-column:1 / -1;grid-row:2 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:4px}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-m{grid-column:1 / -1;grid-row:2;white-space:normal}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-c{grid-column:1 / -1;grid-row:3;white-space:normal}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-p{display:contents}
-.cat ul.rk-strip .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end;white-space:nowrap}
-.cat ul.rk-strip .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:1;grid-row:5;width:28px;height:28px;justify-self:start;align-self:end}
 .cat ul.rk-strip .rk-pv::after{content:none}
+/* The link wraps the photo and the text, with no box of its own, so a click lands on the piece you point at. Heart and compare sit outside the link. */
+.cat .hub-grid .rk.rk-card:has(.rk-frame){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,max-content);grid-template-rows:auto auto auto auto;column-gap:8px;row-gap:8px;align-items:stretch;padding:8px}
+.cat .hub-grid .rk.rk-card:has(.rk-frame)>.rk-a{display:contents;color:inherit;text-decoration:none}
+.cat .hub-grid .rk.rk-card:has(>.rk-a:focus-visible){outline:2px solid var(--navy);outline-offset:2px}
+.cat .hub-grid .rk.rk-card .rk-i{position:relative;grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0;min-width:0;overflow:visible;background:none;border-radius:0;align-self:stretch}
+.cat .hub-grid .rk.rk-card .rk-ph{display:block;position:absolute;inset:0;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#f3f6f5}
+.cat .hub-grid .rk.rk-card .rk-i img,.cat .hub-grid .rk.rk-card .rk-i svg{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;object-position:center}
+.cat .hub-grid .rk.rk-card .rk-frame{grid-column:1 / -1;grid-row:2 / 5;z-index:0;border:1px solid var(--line);border-radius:8px;background:#f7f9fa}
+.cat .hub-grid .rk.rk-card .rk-b{grid-column:1;grid-row:2;z-index:1;align-self:stretch;display:flex;align-items:center;min-width:0;margin:0;padding:8px 0 0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cat .hub-grid .rk.rk-card .rk-m{grid-column:1;grid-row:3;z-index:1;align-self:stretch;display:flex;align-items:center;min-width:0;margin:0;padding:0 0 0 10px;color:inherit;text-decoration:none;white-space:normal;line-height:1.2}
+.cat .hub-grid .rk.rk-card:not(:has(.rk-x)) .rk-m{grid-column:1 / -1;padding-right:10px}
+.cat .hub-grid .rk.rk-card .rk-c{grid-column:1;grid-row:4;z-index:1;align-self:stretch;display:flex;align-items:center;min-width:0;margin:0;padding:0 0 8px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cat .hub-grid .rk.rk-card .save-heart{grid-column:2;grid-row:2;z-index:2;align-self:stretch;justify-self:end;display:flex;align-items:center;width:18px;height:auto;min-height:0;margin:0 10px 0 0;padding:8px 0 0}
+.cat .hub-grid .rk.rk-card>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:2;grid-row:3;z-index:2;align-self:center;justify-self:end;align-items:center;justify-content:flex-end;width:28px;height:28px;margin:0 10px 0 0}
+.cat .hub-grid .rk.rk-card .rk-pv{grid-column:2;grid-row:4;z-index:1;align-self:stretch;justify-self:end;display:flex;align-items:center;justify-content:flex-end;min-width:0;max-width:100%;margin:0;padding:0 10px 8px 0;text-align:right;white-space:normal}
+.cat .hub-grid .rk.rk-card .rk-pv::after{content:none}
+.cat .hub-grid .rk.rk-card .save-heart .heart{width:18px;height:18px;flex:none}
+.cat .hub-grid .rk.rk-card:hover .rk-m{text-decoration:underline}
+.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-frame){grid-template-columns:auto minmax(0,1fr) minmax(0,max-content);grid-template-rows:auto auto auto}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-i{grid-column:1;grid-row:1 / -1;width:auto;height:100%;aspect-ratio:1;min-width:auto}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-frame{grid-column:2 / -1;grid-row:1 / 4}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-b{grid-column:2;grid-row:1}
+.rk-rows.cat .hub-grid .rk.rk-card .save-heart{grid-column:3;grid-row:1}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-m{grid-column:2;grid-row:2}
+.rk-rows.cat .hub-grid .rk.rk-card:not(:has(.rk-x)) .rk-m{grid-column:2 / -1}
+.rk-rows.cat .hub-grid .rk.rk-card>.rk-x{grid-column:3;grid-row:2}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-c{grid-column:2;grid-row:3}
+.rk-rows.cat .hub-grid .rk.rk-card .rk-pv{grid-column:3;grid-row:3}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-frame){grid-template-rows:auto auto auto auto}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-why){grid-template-rows:auto auto auto auto auto}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-i{grid-row:1 / -1}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-why) .rk-i{grid-row:1 / -2}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-bars{grid-column:2 / -1;grid-row:4;z-index:1;align-self:end;width:100%;margin:0;padding:0;gap:6px}
+.rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-why{grid-column:1 / -1;grid-row:-2 / -1}
+@container rk (max-width: 640px){
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-frame){grid-template-columns:minmax(0,1fr) minmax(0,max-content);grid-template-rows:auto auto auto auto auto}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-why){grid-template-rows:auto auto auto auto auto auto}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-i,.rk-best.rk-rows.cat .hub-grid .rk.rk-card:has(.rk-why) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;min-width:0}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-frame{grid-column:1 / -1;grid-row:2 / 5}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-b{grid-column:1;grid-row:2}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .save-heart{grid-column:2;grid-row:2}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-m{grid-column:1;grid-row:3}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card:not(:has(.rk-x)) .rk-m{grid-column:1 / -1}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card>.rk-x{grid-column:2;grid-row:3}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-c{grid-column:1;grid-row:4}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-pv{grid-column:2;grid-row:4}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-bars{grid-column:1 / -1;grid-row:5;width:100%}
+ .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-why{grid-column:1 / -1;grid-row:-2 / -1}
+}

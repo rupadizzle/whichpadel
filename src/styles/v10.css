@@ -42,7 +42,9 @@
 .best-side .vs h2{margin:0 0 8px}
 .best-side .vs a{padding:11px 0}
 .best-side .vs p{margin:16px 0 0}
-@media(max-width:860px){.best-split{grid-template-columns:1fr;row-gap:36px}.best-side{position:static}}
+/* The best card stacks once its column is 640px. The sidebar has to leave before that,
+   or the column widens again when the sidebar drops and the card unstacks. */
+@media(max-width:1100px){.best-split{grid-template-columns:1fr;row-gap:36px}.best-side{position:static}}
 /* racket page v2: gallery + 2-col desktop / ordered single column mobile. 8px scale, 16px gutters, 44px targets */
 .detail.rp2:not(#_){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);grid-template-areas:"head buy" "gal buy" "body buy";grid-template-rows:auto auto 1fr;gap:0 32px;align-items:start}
 .rp2 .rpg{grid-area:gal;position:relative;margin:0 0 24px}.rp2 .rph{grid-area:head;margin:0 0 24px}.rp2 .rpbody{grid-area:body;min-width:0}

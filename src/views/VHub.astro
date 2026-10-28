@@ -194,7 +194,7 @@ const hub = (() => {
  </section>
  </>}
  {hub.sh && <>
- <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
+ <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare catalog/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
   <p>{SHOE_LIST_KEYS.filter(k => !k.startsWith('u')).map(k => <a href={url('shoeList', lang, k)}>{hub.sh.T.lists[k][0]}</a>)}</p>

@@ -163,32 +163,11 @@ const use = {
 .keep .keep-cmp.cmp-cards .chead::before{content:none}
 .keep-brands{grid-template-columns:repeat(3,minmax(0,240px));max-width:760px;margin-top:12px}
 .keep-promo{max-width:40rem;margin-top:12px}
-.keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)){padding:10px}
-.keep .hub.cat .keep-tiles .rk:not(:has(.rk-x))>.rk-a{padding:0}
-.keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-p{display:flex;justify-content:flex-end;margin-top:auto;padding-top:8px}
-.keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-pv{display:block;width:max-content;margin-left:auto;text-align:right;white-space:nowrap}
 @media(max-width:568px){
  .keep-phone-block{display:none}
 }
 @media(max-width:860px){
  .keep .hub.cat .keep-tiles{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;max-width:none}
- .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)){display:flex;flex-direction:column;padding:0}
- .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x))>.rk-a{display:flex;flex-direction:column;padding:8px 8px 10px}
- .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-i{width:100%;height:auto;aspect-ratio:1;margin:0 0 10px}
- .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-t{display:flex;flex-direction:column;align-items:stretch;gap:2px}
- .keep .hub.cat .keep-tiles .rk:not(:has(.rk-x)) .rk-p{align-self:stretch;width:100%}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x){display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto auto auto 28px;column-gap:10px;row-gap:0;align-items:center;align-content:start;padding:10px}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x)>.rk-a{display:grid;grid-column:1 / -1;grid-row:1 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;padding:0;column-gap:10px;row-gap:0}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-i{grid-column:1 / -1;grid-row:1;width:100%;height:auto;aspect-ratio:1;margin:0 0 10px;align-self:stretch}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-i img{width:100%;height:100%;max-height:none;object-fit:contain}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-t{display:grid;grid-column:1 / -1;grid-row:2 / -1;grid-template-columns:subgrid;grid-template-rows:subgrid;column-gap:10px;row-gap:4px;align-items:start}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-b{grid-column:1 / -1;grid-row:1;align-self:start}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-m{grid-column:1 / -1;grid-row:2;align-self:start;white-space:normal}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-c{grid-column:1 / -1;grid-row:3;align-self:start;white-space:normal}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-p{display:contents}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x) .rk-pv{grid-column:2;grid-row:4;justify-self:end;align-self:end;white-space:nowrap}
- .keep .hub.cat .keep-tiles .rk:has(.rk-x)>.rk-x{position:relative;top:auto;right:auto;transform:none;grid-column:1;grid-row:5;width:28px;height:28px;justify-self:start;align-self:end;justify-content:flex-start;align-items:flex-end}
- .keep .hub.cat .keep-tiles .rk-pv::after{content:none}
  .keep-tile-specs{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));max-width:none}
  .keep-brands{grid-template-columns:1fr}
 }
