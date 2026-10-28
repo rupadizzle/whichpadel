@@ -5,6 +5,7 @@ import RkCardTemplate from '../components/RkCardTemplate.astro';
 import { allRackets } from '../lib/data.js';
 import { shoes, shoeImg } from '../lib/shoes.js';
 import { balls, ballImg } from '../lib/balls.js';
+import { bags, bagImg } from '../lib/bags.js';
 import { D, url } from '../i18n/index.js';
 
 const u = D('en').ui;
@@ -22,27 +23,37 @@ const add = (key, kind, slug, brand, year, name, href, img) => {
 for (const r of allRackets) add(r.slug, 'r', r.slug, r.brand, r.year, r.model, url('racket', 'en', r.slug), r.image || '');
 for (const s of shoes) add(s.slug, 's', s.slug, s.brand, s.year, s.name, url('shoe', 'en', s.slug), shoeImg(s) || '');
 for (const b of balls) add('ball-' + b.slug, 'b', b.slug, b.brand, '', b.model || b.name, url('ball', 'en', b.slug), ballImg(b) || '');
+for (const g of bags) add(g.id || ('bag-' + g.slug), 'g', g.slug, g.brand, g.year, g.name, url('bag', 'en', g.slug), bagImg(g) || '');
 const title = 'Padel deals: real price drops and lowest prices';
 ---
-<Base lang="en-GB" title={title + ' | WhichPadel'} description="Padel racket, shoe and ball deals checked against the prices we have recorded: price cuts from the last 7 days, real drops and lowest-ever prices.">
+<Base lang="en-GB" title={title + ' | WhichPadel'} description="Padel racket, shoe, bag and ball deals checked against the prices we have recorded: price cuts from the last 7 days, real drops and lowest-ever prices.">
 <nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', 'en')}>{u.home}</a> › <span>Deals</span></nav>
-<div class="hub cat deals">
+<div class="hub cat">
 <header class="hub-hd"><h1>{title}</h1>
 <p>Price cuts from the last 7 days. A drop against the usual price needs 3 weeks of history, so those lists appear once we have it. Black Friday is on 27 November 2026: <a href="/black-friday/#bf-mail">get our one Black Friday email</a>.</p></header>
-<section id="d-cut"><h2 class="h3">Price cuts in the last 7 days</h2><ul class="hub-grid" data-l="cut"></ul><p class="muted small" data-empty hidden>No price cuts recorded this week.</p></section>
-<section id="d-real" data-hold hidden><h2 class="h3">Biggest drops vs the usual price</h2><ul class="hub-grid" data-l="real"></ul></section>
-<section id="d-low" data-hold hidden><h2 class="h3">Lowest prices we've ever recorded</h2><ul class="hub-grid" data-l="low"></ul></section>
+<section id="d-cut"><h2 class="h3">Price cuts in the last 7 days</h2><p class="muted small" data-empty hidden>No price cuts recorded this week.</p>
+<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="cut-r"></ul></section>
+<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="cut-s"></ul></section>
+<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="cut-g"></ul></section>
+<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="cut-b"></ul></section></section>
+<section id="d-real" data-hold hidden><h2 class="h3">Biggest drops vs the usual price</h2>
+<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="real-r"></ul></section>
+<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="real-s"></ul></section>
+<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="real-g"></ul></section>
+<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="real-b"></ul></section></section>
+<section id="d-low" data-hold hidden><h2 class="h3">Lowest prices we've ever recorded</h2>
+<section data-k="r" hidden><h3>Rackets</h3><ul class="hub-grid" data-l="low-r"></ul></section>
+<section data-k="s" hidden><h3>Shoes</h3><ul class="hub-grid" data-l="low-s"></ul></section>
+<section data-k="g" hidden><h3>Bags</h3><ul class="hub-grid" data-l="low-g"></ul></section>
+<section data-k="b" hidden><h3>Balls</h3><ul class="hub-grid" data-l="low-b"></ul></section></section>
 <p class="muted small">Prices are the cheapest in-stock offer we found. Shop links may earn us a commission; it never changes the order.</p>
 </div>
 <RkCardTemplate lang="en"/>
-<style is:global>
-.deals.cat .hub-grid .rk.rk-card .rk-ft .rk-c{white-space:normal;overflow:visible;text-overflow:unset}
-</style>
 <script is:inline src="/deal-check.js"></script>
 <script is:inline define:vars={{ CAT }}>
 const F = WPDeal.fmt;
 const shop = x => x.e.n || x.e.d || '';
-const fill = (x, note, id) => {
+const fill = (x, shopName, pct, id) => {
   const li = document.getElementById('rk-card').content.firstElementChild.cloneNode(true);
   const c = x.c;
   li.dataset.s = c.s;
@@ -52,27 +63,39 @@ const fill = (x, note, id) => {
   if (c.i) { const img = document.createElement('img'); img.src = c.i; img.alt = ''; img.width = 96; img.height = 112; img.loading = 'lazy'; img.decoding = 'async'; ph.replaceChildren(img); }
   li.querySelector('.rk-b span').textContent = [c.b, c.y].filter(Boolean).join(' · ');
   const name = li.querySelector('.rk-m'); name.id = id; name.textContent = c.m;
-  const spec = li.querySelector('.rk-c'); if (spec) spec.textContent = note;
+  const spec = li.querySelector('.rk-c'); if (spec) { if (shopName) spec.textContent = shopName; else spec.remove(); }
   li.querySelector('.rk-pv').textContent = F(x.e.p, x.e.c);
+  const off = li.querySelector('.rk-off');
+  if (off && pct) { off.textContent = '−' + pct + '%'; off.hidden = false; }
   const heart = li.querySelector('.save-heart');
   if (heart) { heart.dataset.save = c.s; heart.dataset.kind = c.k; }
   return li;
 };
-const put = (k, xs, note) => {
-  const list = document.querySelector(`[data-l="${k}"]`);
-  const sec = list.closest('section');
-  list.replaceChildren(...xs.map((x, i) => fill(x, note(x), 'dl-' + k + '-' + i)));
-  const empty = sec.querySelector('[data-empty]');
-  if (empty) empty.hidden = xs.length > 0;
-  if (sec.dataset.hold != null) sec.hidden = xs.length === 0;
+const KINDS = ['r', 's', 'g', 'b'];
+const put = (key, xs, pct) => {
+  let n = 0;
+  for (const k of KINDS) {
+    const rows = xs.filter(x => x.c.k === k).slice(0, 12);
+    const list = document.querySelector(`[data-l="${key}-${k}"]`);
+    const sec = list.closest('section');
+    list.replaceChildren(...rows.map((x, i) => fill(x, shop(x), pct(x), 'dl-' + key + '-' + k + '-' + i)));
+    sec.hidden = rows.length === 0;
+    n += rows.length;
+  }
+  const parent = document.getElementById('d-' + key);
+  const empty = parent.querySelector(':scope > [data-empty]');
+  if (empty) empty.hidden = n > 0;
+  if (parent.dataset.hold != null) parent.hidden = n === 0;
 };
 Promise.all([WPDeal.get('/api/all-prices'), WPDeal.get('/api/shoe-prices')]).then(js => {
   const items = [];
   for (const j of js) for (const [k, e] of Object.entries((j && j.r) || {})) { const c = CAT[k]; if (c && e && e.p > 0) items.push({ k, e, c, v: WPDeal.verdict(e) }); }
   const inS = items.filter(x => x.e.s !== 0);
-  put('cut', inS.filter(x => x.e.drop >= 5).sort((a, b) => b.e.drop - a.e.drop).slice(0, 15), x => `−${x.e.drop}% · ${shop(x)}`);
-  put('real', inS.filter(x => x.v && (x.v.k === 'drop' || x.v.k === 'lowest')).sort((a, b) => b.v.pct - a.v.pct).slice(0, 15), x => `−${x.v.pct}% · ${shop(x)}`);
-  put('low', inS.filter(x => x.v && x.v.k === 'lowest').sort((a, b) => b.v.pct - a.v.pct).slice(0, 15), x => `Since ${x.v.since} · ${shop(x)}`);
+  const byDrop = xs => [...xs].sort((a, b) => b.e.drop - a.e.drop);
+  const byPct = xs => [...xs].sort((a, b) => b.v.pct - a.v.pct);
+  put('cut', byDrop(inS.filter(x => x.e.drop >= 5)), x => x.e.drop);
+  put('real', byPct(inS.filter(x => x.v && (x.v.k === 'drop' || x.v.k === 'lowest'))), x => x.v.pct);
+  put('low', byPct(inS.filter(x => x.v && x.v.k === 'lowest')), x => x.v.pct);
   if (window.wpSaved) wpSaved.paint();
 }).catch(() => { const e = document.querySelector('#d-cut [data-empty]'); if (e) e.hidden = false; });
 </script>

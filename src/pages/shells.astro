@@ -61,20 +61,20 @@ const use = {
 <section class="keep-block" id="product">
 <p class="keep-kicker">1 · Product card</p>
 <h2>One card for rackets, shoes and balls</h2>
-<p class="keep-lead">A tile in a grid, a row on a phone or in a tight list. Save is always on. Compare is on for rackets and shoes, off for balls. Rank and rating bars turn on for a best list. There the racket fills the height of the card, and the name, price and ratings sit beside it. On a phone the card stacks: photo on top, then the name, ratings and price.</p>
+<p class="keep-lead">A tile in a grid, a row on a phone or in a tight list. Save is always on. Compare is on for rackets and shoes, off for balls. Rank and rating bars turn on for a best list. There the racket fills the height of the card, and the name, price and ratings sit beside it. On a phone the card stacks: photo on top, then the name, ratings and price. A price cut sits on the photo. It stays hidden when there is no cut.</p>
 
 <div class="keep-tile-specs">
 <div id="a1">
 <p class="keep-id"><b>A1</b> Product tile, racket <a href={use.a1}>{use.a1}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard r={racket} lang={lang} compare eager/></ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard r={racket} lang={lang} compare eager off="−25%"/></ul></div>
 </div>
 <div id="a2">
 <p class="keep-id"><b>A2</b> Product tile, shoe <a href={use.a2}>{use.a2}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles"><ShoeCard s={shoe} lang={lang} eager compare/></ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><ShoeCard s={shoe} lang={lang} eager compare off="−25%"/></ul></div>
 </div>
 <div id="a3">
 <p class="keep-id"><b>A3</b> Product tile, ball <a href={use.a3}>{use.a3}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug} eager>{fromP(ball)}</RkCard></ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug} eager off="−25%">{fromP(ball)}</RkCard></ul></div>
 </div>
 </div>
 

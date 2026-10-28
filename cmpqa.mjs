@@ -15,10 +15,10 @@ const info=pg=>pg.evaluate(()=>{const P=document.getElementById('pxcmp'); const 
   ext:[...P.querySelectorAll('a')].every(a=>/^https:\/\//.test(a.href)&&a.rel==='sponsored nofollow')};});
 for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280])) for(const [l,d] of Object.entries(dirs)){
  const pg=await page(`/${d}/${S}/`,w,{wp_region:'GB',wp_cur:'GBP'}); const x=await info(pg); const tag=`${l}@${w}`;
- // GB delivers: padelnuestro, decathlon, padelsmith(oos). unknown: allforpadel, mantis, tennis-warehouse
+ // GB: these fixture shops all deliver. In-stock cheapest first, so the £60 Padelsmith row is last because it is out of stock.
  if(x.hidden||x.main) F(tag+' list not shown');
- const names=x.rows.map(r=>r[0]); if(names.join()!=='Decathlon UK,Padel Nuestro,Padelsmith,All For Padel') F(tag+' sort/filter (confirmed first, fill to 4) '+names);
- if(x.nc!==1) F(tag+' nc hint '+x.nc); if(x.bd!==1) F(tag+' best label '+x.bd); if(!/6/.test(x.all||'')) F(tag+' all-N link '+x.all);
+ const names=x.rows.map(r=>r[0]); if(names.join()!=='All For Padel,Decathlon UK,Mantis,Tennis Warehouse') F(tag+' sort/filter (in-stock then price) '+names);
+ if(x.nc!==0) F(tag+' nc hint '+x.nc); if(x.bd!==1) F(tag+' best label '+x.bd); if(!/6/.test(x.all||'')) F(tag+' all-N link '+x.all);
  if(!x.rows[0]?.[3]||x.rows.filter(r=>r[3]).length!==1) F(tag+' highlight');
  if(!x.rows.every(r=>/£/.test(r[1]))) F(tag+' currency '+x.rows.map(r=>r[1]));
  if(x.other!==0) F(tag+' collapse should be gone '+x.other);
@@ -29,8 +29,8 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(!x.ext) F(tag+' links'); if(!/£55|55 £/.test(x.low)) F(tag+' low30 '+x.low);
  const ov=await pg.evaluate(()=>[...document.querySelectorAll('#pxcmp *:not(.pxs):not(.pxag)')].filter(e=>e.scrollWidth>e.clientWidth+1&&getComputedStyle(e).overflow!=='visible').map(e=>e.className+':'+e.textContent.slice(0,40)).join(';')); if(ov) F(tag+' element overflow '+ov);
  await pg.close();}
-// currency switch EUR + country ES: allforpadel, padelnuestro, mantis(unknown) ... ES delivers padelnuestro, allforpadel
-{const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Padel Nuestro,Mantis,Tennis Warehouse'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
+// currency switch EUR + country ES: Decathlon does not deliver. In-stock then price: All For Padel, Mantis (delivery unknown), Tennis Warehouse, Padel Nuestro.
+{const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Mantis,Tennis Warehouse,Padel Nuestro'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
  if(!/3d ago/.test(await pg.locator('#pxcmp').textContent())) F('age text');
  await pg.evaluate(()=>WP.setRC('US','USD')); const y=await info(pg); // US is strict: only shops delivering to the US that charge in USD (no converted EU prices)
  if(y.rows[0][0]!=='Tennis Warehouse'||y.rows.length!==1||!/\$100/.test(y.rows[0][1])) F('live switch US '+JSON.stringify(y.rows)); await pg.close();}

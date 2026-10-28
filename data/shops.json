@@ -1,6 +1,6 @@
 {
  "note": "delivers = verified delivery regions; unknown = not verified (we still show the price, flagged); no = known not to deliver (we show Check price only). Region codes match src/lib/price.js REGIONS.",
- "updated": "2026-10-20",
+ "updated": "2026-10-28",
  "shops": {
   "padelnuestro.com": {
    "name": "Padel Nuestro",
@@ -21,7 +21,7 @@
     "US",
     "ROW"
    ],
-   "source": "https://www.padelnuestro.com/uk/shipping-and-delivery (checked 2026-10-20)",
+   "source": "https://www.padelnuestro.com/uk/shipping-and-delivery (road table covers the EU countries above plus UK and Ireland; unlisted countries are air only, calculated at checkout; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "allforpadel.com": {
@@ -36,14 +36,16 @@
     "BE",
     "IE",
     "SE",
-    "EU"
+    "EU",
+    "GB"
    ],
    "unknown": [
-    "GB",
-    "US",
     "ROW"
    ],
-   "source": "https://allforpadel.com/en/inf/33-faq (EU 3–7 days; other destinations listed on its shipping page, not verified)",
+   "no": [
+    "US"
+   ],
+   "source": "https://allforpadel.com/en/2-start country selector (UK and every EU region listed; United States is not; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "decathlon.co.uk": {
@@ -73,29 +75,6 @@
   "padelsmith.co.uk": {
    "name": "Padelsmith",
    "delivers": [
-    "GB"
-   ],
-   "unknown": [
-    "ES",
-    "PT",
-    "FR",
-    "IT",
-    "DE",
-    "NL",
-    "BE",
-    "IE",
-    "SE",
-    "EU",
-    "US",
-    "ROW"
-   ],
-   "source": "UK store; international delivery not verified",
-   "affiliate": "PLACEHOLDER"
-  },
-  "mantissport.com": {
-   "name": "Mantis",
-   "delivers": [],
-   "unknown": [
     "ES",
     "PT",
     "FR",
@@ -110,12 +89,13 @@
     "US",
     "ROW"
    ],
-   "source": "not verified",
+   "source": "https://padelsmith.co.uk/products/padel-racket-padelsmith (free UK shipping, ships worldwide, delivered duty paid; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
-  "tennis-warehouse.com": {
-   "name": "Tennis Warehouse",
+  "mantissport.com": {
+   "name": "Mantis",
    "delivers": [
+    "GB",
     "US"
    ],
    "unknown": [
@@ -129,16 +109,14 @@
     "IE",
     "SE",
     "EU",
-    "GB",
     "ROW"
    ],
-   "source": "US store; international delivery not verified",
+   "source": "https://mantissport.com/policies/shipping-policy (UK 2–3 days and US 7–9 days named; other countries described only as international; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
-  "babolat.com": {
-   "name": "Babolat",
-   "delivers": [],
-   "unknown": [
+  "tennis-warehouse.com": {
+   "name": "Tennis Warehouse",
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -150,10 +128,36 @@
     "SE",
     "EU",
     "GB",
-    "US",
+    "US"
+   ],
+   "unknown": [
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://www.tennis-warehouse.com/twint/Spanish_pages/countrylistes.html (international list includes every named region; some brands, including Head, Wilson and Babolat, cannot ship outside the US; checked 2026-10-28)",
+   "affiliate": "PLACEHOLDER"
+  },
+  "babolat.com": {
+   "name": "Babolat",
+   "delivers": [
+    "ES",
+    "PT",
+    "FR",
+    "IT",
+    "DE",
+    "NL",
+    "BE",
+    "GB",
+    "US"
+   ],
+   "unknown": [
+    "EU",
+    "ROW"
+   ],
+   "no": [
+    "IE",
+    "SE"
+   ],
+   "source": "https://help.babolat.com/hc/es/articles/360015688598 (DE AT BE ES FR GB IT LU NL PT JP US; local site version required; AT and LU only, so the Other EU bucket stays unknown; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "bullpadel.com": {
@@ -242,8 +246,7 @@
   },
   "head.com": {
    "name": "Head",
-   "delivers": [],
-   "unknown": [
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -254,38 +257,44 @@
     "IE",
     "SE",
     "EU",
-    "GB",
-    "US",
+    "GB"
+   ],
+   "unknown": [
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "no": [
+    "US"
+   ],
+   "source": "https://www.head.com/delivery (European delivery table, every named region except the US; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "joma-sport.com": {
    "name": "Joma",
-   "delivers": [],
-   "unknown": [
+   "delivers": [
     "ES",
+    "FR"
+   ],
+   "unknown": [
     "PT",
-    "FR",
     "IT",
     "DE",
     "NL",
-    "BE",
     "IE",
     "SE",
     "EU",
-    "GB",
-    "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "no": [
+    "BE",
+    "GB",
+    "US"
+   ],
+   "source": "https://www.joma-sport.com/fr_FR/faqs.html (Spain named as the home territory; the exclusion list names Belgium, the UK and the US; other countries are not listed either way; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "noxsport.com": {
    "name": "Nox",
-   "delivers": [],
-   "unknown": [
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -300,7 +309,7 @@
     "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://noxsport.com/en/pages/faqs (ships worldwide; Europe 2–5 days, international 5–15 days; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "oxdog.net": {
@@ -389,10 +398,7 @@
   },
   "siuxpadel.com": {
    "name": "Siux",
-   "delivers": [],
-   "unknown": [
-    "ES",
-    "PT",
+   "delivers": [
     "FR",
     "IT",
     "DE",
@@ -400,18 +406,23 @@
     "BE",
     "IE",
     "SE",
-    "EU",
-    "GB",
+    "GB"
+   ],
+   "unknown": [
+    "ES",
+    "PT",
+    "EU"
+   ],
+   "no": [
     "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://www.siuxpadel.com/policies/terms-of-service (closed European list: IE SE GB DE IT BE FR NL, plus most but not all Other EU countries, so EU stays unknown; Spain and Portugal are not on the list; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "starvie.com": {
    "name": "StarVie",
-   "delivers": [],
-   "unknown": [
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -421,12 +432,14 @@
     "BE",
     "IE",
     "SE",
+    "GB"
+   ],
+   "unknown": [
     "EU",
-    "GB",
     "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://starvie.com/pages/envios (ES plus FR DE IT AT NL PT BE HU HR CZ DK SE FI IE CY and UK; UK and Switzerland exclude customs; Other EU is only partly listed; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "tecnifibre.com": {
@@ -452,8 +465,7 @@
   },
   "varlion.com": {
    "name": "Varlion",
-   "delivers": [],
-   "unknown": [
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -468,7 +480,7 @@
     "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://www.varlion.com/es/contacto (ship-to: DE ES FR IT PT, plus Resto de países; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "viborapadel.com": {
@@ -510,17 +522,13 @@
     "US",
     "ROW"
    ],
-   "source": "brand/shop page; delivery countries not verified",
+   "source": "https://www.wilson.com/es-es/explore/terms-and-conditions/ (Spain store ships only in Spain). Other wilson.com storefronts are not verified, so the domain stays unknown outside that note. Checked 2026-10-28",
    "affiliate": "PLACEHOLDER"
   },
   "zonadepadel.es": {
    "name": "Zona de Padel",
    "delivers": [
-    "ES"
-   ],
-   "unknown": [
-    "GB",
-    "IE",
+    "ES",
     "PT",
     "FR",
     "IT",
@@ -528,33 +536,37 @@
     "NL",
     "BE",
     "SE",
-    "US",
+    "GB"
+   ],
+   "unknown": [
+    "IE",
     "EU",
+    "US",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-23)",
+   "source": "https://www.zonadepadel.es/palas-de-test (published shipping rates for ES PT FR DE IT GB SE NL BE; other countries say contact us; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "streetpadel.com": {
    "name": "StreetPadel",
    "delivers": [
-    "ES"
-   ],
-   "unknown": [
-    "GB",
-    "IE",
+    "ES",
     "PT",
     "FR",
     "IT",
     "DE",
     "NL",
     "BE",
+    "IE",
     "SE",
-    "US",
     "EU",
+    "GB"
+   ],
+   "unknown": [
+    "US",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-23)",
+   "source": "https://www.streetpadel.com/pages/envios-y-tiempos-de-entrega (road rates for every named EU region, Ireland and England; unlisted countries are air only and say to ask first; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "padel-point.de": {
@@ -563,6 +575,9 @@
     "DE"
    ],
    "unknown": [
+    "EU"
+   ],
+   "no": [
     "GB",
     "IE",
     "ES",
@@ -573,18 +588,14 @@
     "BE",
     "SE",
     "US",
-    "EU",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-23)",
+   "source": "https://www.padel-point.de/pages/lieferinformationen (Germany and Austria only; Austria sits in the Other EU bucket, which also covers countries they do not list; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "padelproshop.com": {
    "name": "Padel Pro Shop",
-   "delivers": [],
-   "unknown": [
-    "GB",
-    "IE",
+   "delivers": [
     "ES",
     "PT",
     "FR",
@@ -592,21 +603,20 @@
     "DE",
     "NL",
     "BE",
+    "IE",
     "SE",
-    "US",
     "EU",
+    "GB",
+    "US",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-23)",
+   "source": "https://padelproshop.com/en/pages/shipping-payment (Spain, Portugal, rest of the EU, UK, USA and an international rate; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "pdhsports.com": {
    "name": "PDH Sports",
    "delivers": [
     "GB",
-    "US"
-   ],
-   "unknown": [
     "IE",
     "ES",
     "PT",
@@ -616,10 +626,13 @@
     "NL",
     "BE",
     "SE",
+    "US"
+   ],
+   "unknown": [
     "EU",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-23)",
+   "source": "https://pdhsports.com/policies/shipping-policy (UK, Ireland, and named rates for ES PT FR IT DE NL BE SE US; Cyprus is missing from the Other EU list; checked 2026-10-28)",
    "affiliate": "PLACEHOLDER"
   },
   "usaplayspadel.com": {
@@ -685,28 +698,26 @@
     "EU",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-26)"
+   "source": "https://www.padelreference.com/en/frequently-asked-questions (free delivery in mainland France from €80; international only on request; checked 2026-10-28)"
   },
   "esprit-padel-shop.com": {
    "name": "Esprit Padel Shop",
    "delivers": [
-    "FR"
-   ],
-   "unknown": [
-    "GB",
-    "IE",
-    "PT",
     "ES",
+    "PT",
+    "FR",
     "IT",
     "DE",
     "NL",
     "BE",
+    "IE",
     "SE",
-    "US",
     "EU",
+    "GB",
+    "US",
     "ROW"
    ],
-   "source": "home market only; other countries not verified (2026-10-26)"
+   "source": "https://esprit-padel-shop.com/pages/livraison-et-frais-de-port (France, EU zone including BE NL DE IT PT ES, and rest-of-world including the United States; checked 2026-10-28)"
   }
  }
 }

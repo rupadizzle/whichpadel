@@ -2,11 +2,11 @@
 import RkCard from './RkCard.astro';
 import { shoeImg } from '../lib/shoes.js'; import { SHOE } from '../i18n/shoes.js'; import { D, url } from '../i18n/index.js';
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
-const { s, lang, eager=false, rank, region=null, compare=false } = Astro.props; const T=SHOE[lang]; const u=D(lang).ui; const img=shoeImg(s);
+const { s, lang, eager=false, rank, region=null, compare=false, off='' } = Astro.props; const T=SHOE[lang]; const u=D(lang).ui; const img=shoeImg(s);
 const escRe=x=>String(x).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const shortN=()=>{let n=s.name||''; if(s.brand) n=n.replace(new RegExp('^'+escRe(s.brand)+'\\s+','i'),''); if(s.year){n=n.replace(new RegExp('\\s+'+s.year+'\\s*$'),''); const yy=String(s.year).slice(-2); if(yy.length===2) n=n.replace(new RegExp('\\s+'+yy+'\\s*$'),'');} return n.trim()||s.name;};
 const spec=[T.genders[s.gender],...s.sole.map(k=>T.soles[k])].filter(Boolean).join(' · ');
 const q=pick(s,region||DEFAULT_REGION(lang));
 const price=q.none?u.checkPrice:T.from1.split('{p}')[0]+fmt(q.v,q.cur,lang);
 ---
-<RkCard lang={lang} cls="sk" kind="s" href={url('shoe',lang,s.slug)} img={img||''} alt={T.alt(s.name)} brand={[s.brand,s.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={s.slug} eager={eager} rank={rank} compare={compare} attrs={{'data-m':shortN(),'data-b':s.brand,'data-g':s.gender,'data-so':s.sole.join(' '),'data-sz':s.sizesEU.join(' '),'data-y':s.year||0,'data-n':s.inStock}}><span class="pz">{price}</span></RkCard>
+<RkCard lang={lang} cls="sk" kind="s" href={url('shoe',lang,s.slug)} img={img||''} alt={T.alt(s.name)} brand={[s.brand,s.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={s.slug} eager={eager} rank={rank} compare={compare} off={off} attrs={{'data-m':shortN(),'data-b':s.brand,'data-g':s.gender,'data-so':s.sole.join(' '),'data-sz':s.sizesEU.join(' '),'data-y':s.year||0,'data-n':s.inStock}}><span class="pz">{price}</span></RkCard>
