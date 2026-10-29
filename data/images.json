@@ -6808,8 +6808,10 @@
     "filled": "2026-10-29"
   },
   "bullpadel-icon-2027-juan-martin-diaz": {
-    "ok": false,
-    "error": "shoe"
+    "ok": true,
+    "src": "https://www.bullpadel.com/23793-product_main_2x/pala-bullpadel-icon-27.jpg",
+    "filled": "2026-10-29",
+    "note": "same product as icon-2027"
   },
   "bullpadel-hack-04-2026-paquito-navarro": {
     "ok": true,
@@ -8797,8 +8799,9 @@
     "filled": "2026-10-29"
   },
   "oxdog-sense-pro-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/oxdog-sense-pro-2024.jpg",
+    "filled": "2026-10-29"
   },
   "oxdog-sense-tour-2024": {
     "ok": true,
@@ -8918,8 +8921,9 @@
     "filled": "2026-10-29"
   },
   "vibora-black-mamba-radical-12k-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/vibora-black-mamba-radical-12k-2024.jpg",
+    "filled": "2026-10-29"
   },
   "vibora-black-mamba-xtreme-3k-2024": {
     "ok": true,
@@ -9164,6 +9168,11 @@
   "vibora-yarara-xtreme-fiber-2024": {
     "ok": true,
     "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/vibora-yarara-xtreme-fiber-2024-1000-0707354d.webp",
+    "filled": "2026-10-29"
+  },
+  "vibora-king-cobra-elite-24k-2024": {
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/vibora-king-cobra-elite-24k-2024.jpg",
     "filled": "2026-10-29"
   }
 }
