@@ -5125,9 +5125,14 @@
   "source": "shop"
  },
  "oxdog-ultimate-court-2026": {
-  "ok": false,
-  "url": "https://padelproshop.com/products/oxdog-padel-racket-ultimate-court",
-  "err": "timeout"
+  "ok": true,
+  "url": "https://oxdogpadel.com/products/pala-ultimate-court",
+  "src": "https://cdn.shopify.com/s/files/1/0574/4882/4919/files/plantillaimagenesweboxdogcopy_62b41e21-7320-4b24-b460-8c0ffd6f803f.png?v=1728312344",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-pro-2024": {
   "ok": true,
@@ -5230,9 +5235,14 @@
   "source": "shop"
  },
  "sane-agressor-tactic-fiber-2026": {
-  "ok": false,
-  "url": "https://www.streetpadel.com/products/pala-sane-agressor-tactic-fiber-a007246-162227-p",
-  "err": "timeout"
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-sane-agressor-tactic-fiber-a007246",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/6/162227-pala-sane-agressor-tactic-fiber-a007246-1200x1200-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "sane-assassin-tactic-2026": {
   "ok": true,
@@ -5525,9 +5535,14 @@
   "source": "shop"
  },
  "tecnifibre-curva-speed-2025": {
-  "ok": false,
-  "url": "https://www.streetpadel.com/products/tecnifibre-curva-speed-2025-118895-p",
-  "err": "timeout"
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-tecnifibre-curva-speed-16curvasp5",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/118895-pala-tecnifibre-curva-speed-16curvasp5-1200x1200-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "tecnifibre-wall-breaker-355-2024": {
   "ok": true,
@@ -5610,14 +5625,24 @@
   "source": "shop"
  },
  "varlion-lw-rose-carbon-ti-2025": {
-  "ok": false,
+  "ok": true,
   "url": "https://pdhsports.com/products/varlion-lw-rose-carbon-ti-padel-racket",
-  "err": "timeout"
+  "src": "https://cdn.shopify.com/s/files/1/0693/3849/7281/files/Screenshot2026-03-19143929.png?v=1773932385",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "varlion-maxima-cube-elbowcare-s-2025": {
-  "ok": false,
-  "url": "https://www.streetpadel.com/en/products/varlion-maxima-cube-elbowcare-s-164360-p",
-  "err": "timeout"
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-varlion-maxima-cube-elbowcare-s-a007127-164360-p",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/6/164361-pala-varlion-maxima-cube-elbowcare-w-a007128-1200x1200-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "varlion-maxima-carbon-rose-2025": {
   "ok": true,
@@ -6288,5 +6313,455 @@
    2000
   ],
   "source": "brand"
+ },
+ "adidas-drive-grey-3-4-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-adidas-adidas-drive-grey-3-4-ar5ca1u18",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/113668-pala-adidas-drive-grey-3-4-ar7ca1u18-smu-1500x1500-vista1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "adidas-match-blue-3-4-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-adidas-adidas-match-blue-3-4-ar5ga2u12",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/113671-pala-adidas-adidas-match-blue-3-4-ar7ga2u12-smu-1500x1500-vista1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "adidas-drive-black-3-4-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-adidas-adidas-drive-black-3-4-ar5ca0u10",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/113667-pala-adidas-adidas-drive-black-3-4-ar5ca0u101500x1500-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "adidas-match-black-3-4-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-adidas-adidas-match-black-3-4-ar5ga0u10",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/113670-pala-adidas-adidas-match-black-3-4-ar5ga0u101500x1500-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "adidas-match-light-3-4-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-adidas-adidas-match-light-3-4-ar5ga1u11",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/113672-pala-adidas-adidas-match-light-3-4-ar5ga1u111500x1500-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "black-crown-piton-white-soft-2026": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-black-crown-piton-white-soft-a005436",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/2/120316-pala-black-crown-piton-white-soft-a005436-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-axion-attack-soft-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-axion-attack-soft",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP344011-AXIONATTACKSOFT_1.jpg?v=1770390477",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-blitz-attack-2025": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-drop-shot-blitz-attack",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP324020_BLITZ_ATTACK_29.jpg?v=1762627098",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-axion-comfort-1-0-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-axion-comfort-1-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotAxionComfort1.02026.webp?v=1771838823&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-canyon-pro-attack-soft-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-canyon-pro-attack-soft",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP344009-CANYONPROATTACKSOFT_1.jpg?v=1770390107",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-axion-comfort-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-axion-comfort-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Drop_Shot_Axion_Comfort_2025.webp?v=1773919776&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-axion-control-1-0-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-axion-control-1-0-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Drop_Shot_Axion_Control_1.0_2025_a.webp?v=1774350802&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-canyon-pro-comfort-1-0-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-drop-shot-canyon-pro-comfort-1-0-dp324006",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/114578-pala-drop-shot-canyon-pro-comfort-1-0-dp324006-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-canyon-pro-comfort-2-0-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-canyon-pro-comfort-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotCanyonProComfort2.02026.webp?v=1771836440&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-explorer-pro-attack-soft-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-explorer-pro-attack-soft",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/Disenosintitulo_4.jpg?v=1770648521",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-canyon-pro-control-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-canyon-pro-control-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Drop_Shot_Canyon_Pro_Control_2025.webp?v=1773923046&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-cyber-attack-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-cyber-attack",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP344013-CYBERATTACK_1.jpg?v=1770391290",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-conqueror-control-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-conqueror-control-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Drop_Shot_Conqueror_Control_2025_22.webp?v=1773922106&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-conqueror-attack-1-0-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-drop-shot-conqueror-attack-1-0-dp324016",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/114580-pala-drop-shot-conqueror-attack-1-0-dp324016-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-explorer-pro-comfort-1-0-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-explorer-pro-comfort-1-0-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/drop2_7e7c4023-34db-4e34-a757-404d953de0a4.webp?v=1765531008&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-prime-attack-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-prime-attack",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP344017-PRIMERATTACK_1.jpg?v=1770392269",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-flame-soft-2026": {
+  "ok": true,
+  "url": "https://es.dropshotstore.com/products/pala-flame-soft",
+  "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/DP344011-FLAMESOFT_1.jpg?v=1771840047",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-explorer-pro-control-1-0-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-explorer-pro-control-1-0-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/Pala_Drop_Shot_Explorer_Pro_Control_1.0_2025.webp?v=1773916109&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-explorer-soft-women-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-explorer-soft-women-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotExplorerSoftWomen2026.webp?v=1771843844&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-conqueror-attack-2-0-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-conqueror-attack-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotConquerorAttack2.02026_1.webp?v=1777272299&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-furia-attack-2-0-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-furia-attack-2-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotFuriaAttack2.02026.webp?v=1771837289&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-x-drive-2-0-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-de-beachtennis-dropshot-x-drive-2-0-dp324060",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/118517-pala-de-beachtennis-dropshot-x-drive-2-0-dp324060-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "drop-shot-quantum-soft-women-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/drop-shot-padel-racket-quantum-soft-women-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaDropShotQuantumSoftWomen20264.webp?v=1771844745&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "enebe-space-2-0-2026": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-enebe-space-2-0-a005828",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121676-pala-enebe-space-2-0-a005828-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "kombat-mirage-pro-2026": {
+  "ok": true,
+  "url": "https://kombatpadel.com/products/kombat-mirage-pro",
+  "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/4131_306bbfe5-907b-464d-8429-eb72028bc9ad.jpg?v=1781683414",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "nox-ml10-pro-cup-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/nox-padel-racket-ml10-pro-cup-coorp-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/pala-ml10-pro-cup-coorp-by-miguel-lamperti-pml10pcoor25-8435778900566-416363.webp?v=1761036893&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "royal-padel-efe-xtreme-2026": {
+  "ok": true,
+  "url": "https://royalpadel.com/product/rp-efe-xtreme-2026/",
+  "src": "https://royalpadel.com/wp-content/uploads/2025/11/FE73310002_1-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "royal-padel-35-aniversario-hybrid-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-royal-padel-rp-35-aniversario-hybrid-25",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/115069-pala-royal-padel-rp-35-aniversario-hybrid-25-1500x1500-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "royal-padel-35-aniversario-light-2025": {
+  "ok": true,
+  "url": "https://www.zonadepadel.es/royal-padel/11597-royal-padel-35-aniversario-light-2025.html",
+  "src": "https://www.zonadepadel.es/22006-zdp_customer/royal-padel-35-aniversario-light-2025.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "softee-speed-gold-power-4-0-nano-mesh-2026": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/pala-softee-speed-gold-power-4-0-nano-mesh-a005844",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/2/122249-pala-softee-speed-gold-power-4-0-nano-mesh-a005844-1000x1000-1.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "star-vie-black-titan-2027": {
+  "ok": true,
+  "url": "https://www.padel-point.de/products/starvie-black-titan-padelschlaeger-p0000000921001",
+  "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000092100100.jpg?v=1774962181",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "star-vie-drax-pro-touch-2025": {
+  "ok": true,
+  "url": "https://www.streetpadel.com/products/starvie-drax-pro-touch-2025-114817-p",
+  "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/114817_pala_starvie_drax_pro_touch_pstdv21000_1500x1500_1_96f5.jpg?v=1786110759",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "star-vie-brava-pro-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/starvie-brava-pro-2025-114815-p",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/114815_pala_starvie_brava_pro_pstbvp21000_1500x1500_1_9388.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "star-vie-polaris-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/starvie-padel-racket-polaris-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaStarViePolaris2026_1.webp?v=1761054912&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-black-mamba-elite-3k-2-0-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/vibor-a-black-mamba-elite-3k-2-0-2025-115104-p",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/115104_pala_vibor_a_black_mamba___lite_3k_2_0_a0036731200x1200_1_3f2f.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-black-mamba-radical-12k-2-0-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/vibor-a-padel-racket-black-mamba-radical-12k-2-0-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/A003670PALAPADELVIBOR-ABLACKMAMBARADICAL12K2.0_6.webp?v=1761033664&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-black-mamba-radical-12k-3-0-2026": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/vibor-a-padel-racket-black-mamba-radical-12k-3-0-2026",
+  "src": "https://padelproshop.com/cdn/shop/files/PalaVibor-ABlackMambaRadical12K3.02026_1.webp?v=1761052315&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-yarara-elite-24k-2-0-2025": {
+  "ok": true,
+  "url": "https://www.padelnuestro.com/vibor-a-yarara-elite-24k-2-0-2025-115115-p",
+  "src": "https://www.padelnuestro.com/media/catalog/product/1/1/115115_pala_vibor_a_yarara_elite_24k_2_0_a0036751000x1000_1_938f.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-yarara-radical-12k-2-0-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/vibor-a-padel-racket-yarara-radical-12k-2-0-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/A003671PALAPADELVIBOR-AYARARARADICAL12K2.0_1.webp?v=1761033704&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
+ },
+ "vibora-titan-limited-edition-2025": {
+  "ok": true,
+  "url": "https://padelproshop.com/products/vibor-a-padel-racket-titan-limited-edition-2025",
+  "src": "https://padelproshop.com/cdn/shop/files/pack-pala-padel-vibor-a-titan-limited-edition.webp?v=1761033738&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  }
 }
