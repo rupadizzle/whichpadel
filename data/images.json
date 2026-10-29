@@ -7388,7 +7388,8 @@
   },
   "star-vie-titania-2024": {
     "ok": false,
-    "error": "collision"
+    "src": null,
+    "cleared": "bad-batch"
   },
   "star-vie-kenta-speed-2024": {
     "ok": true,
@@ -7396,8 +7397,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-triton-pro-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/starvie_triton-pro_2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-triton-2024": {
     "ok": true,
@@ -8892,7 +8894,8 @@
   },
   "varlion-bourne-summum-prisma-airflow-s-2024": {
     "ok": false,
-    "error": "collision"
+    "src": null,
+    "cleared": "bad-batch"
   },
   "varlion-bourne-summum-prisma-airflow-w-2024": {
     "ok": false,
@@ -8905,7 +8908,8 @@
   },
   "varlion-lw-summum-prisma-airflow-s-2024": {
     "ok": false,
-    "error": "collision"
+    "src": null,
+    "cleared": "bad-batch"
   },
   "varlion-lw-summum-prisma-airflow-w-2024": {
     "ok": true,
@@ -9417,8 +9421,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-kibo-4-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR85...jpg?v=1661347008",
+    "filled": "2026-10-29"
   },
   "drop-shot-spark": {
     "ok": true,
@@ -9810,8 +9815,9 @@
     "filled": "2026-10-29"
   },
   "siux-genesis-hybrid-black": {
-    "ok": false,
-    "error": "site header.jpg not product"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-genesis-hybrid-black-1000-481ba893.webp",
+    "filled": "2026-10-29"
   },
   "siux-genesis-ii-lucho-capra-pro": {
     "ok": true,
@@ -9831,6 +9837,121 @@
   "siux-pegasus-oro": {
     "ok": true,
     "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-pegasus-oro-1000-b252099a.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-solar-attack-2023-momo-gonzalez": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/puma-solar-attack-2023-momo-gonzalez-1000-b8d56a8d.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-grafeno-azul": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200979/siux-diablo-grafeno-azul-1760200985.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-genesis-hybrid-12k": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200917/siux-genesis-hybrid-12k-1760200924.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-platinum-24k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-platinum-24k-1000-446a5480.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-sx7": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0890/8229/8708/files/SX_7.png?v=1737476019",
+    "filled": "2026-10-29"
+  },
+  "siux-sx7-air": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-siux-SX7-air.jpg?v=1713181192",
+    "filled": "2026-10-29"
+  },
+  "siux-snake-woman": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-siux-snake-woman_dffec0d0-a606-409a-a731-a84a73b2066d.jpg?v=1713180474",
+    "filled": "2026-10-29"
+  },
+  "siux-spyder-luxury-grafeno": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/siux-spider-luxury-grafeno.jpg?v=1668249777",
+    "filled": "2026-10-29"
+  },
+  "siux-spyder-revolution": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/imagen-1-24660-84ea3fae-26301-NORMAL.jpg?v=1700046957",
+    "filled": "2026-10-29"
+  },
+  "siux-spyder-revolution-2-attack": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-spyder-revolution-2-attack-1000-7951d32a.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-spyder-revolution-2-control": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/siux_spyder-revolution-2-control_2023.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-subzero-2-0": {
+    "ok": true,
+    "src": "https://www.tiendadepadel.com/web/image/product.template/2267/image_1024?unique=0db3c41",
+    "filled": "2026-10-29"
+  },
+  "siux-subzero-2-0-brillo": {
+    "ok": false,
+    "src": null,
+    "cleared": "bad-batch"
+  },
+  "siux-titania-2": {
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/siux-titania-2.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-trilogy-3-control": {
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/109486-trilogy-4-pro-grip-regular-1500x1500-1.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-trilogy-3-hybrid": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-siux-trilogy-hybrid-3-2023.jpg?v=1713179666",
+    "filled": "2026-10-29"
+  },
+  "siux-trilogy-4-lite-air": {
+    "ok": true,
+    "src": "https://www.padelreference.com/storage/6106/raquette-siux-trilogy-lite-air-4-2024.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-trilogy-4-pro": {
+    "ok": true,
+    "src": "https://www.tiendadepadel.com/web/image/product.template/14431/image_1024?unique=f56ff9b",
+    "filled": "2026-10-29"
+  },
+  "siux-trilogy-hybrid-black": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-trilogy-hybrid-black-1000-d4008b8f.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-tsunami-5-0-24k": {
+    "ok": true,
+    "src": "https://padelstar.es/wp-content/uploads/2021/11/siux-tsunami-5.0.jpg",
+    "filled": "2026-10-29"
+  },
+  "softee-ranger-coral": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0977/4225/8560/files/15747135570304-2741a5d89ed058187255df170a289ecec1b6ea04.jpg?v=1778311928",
+    "filled": "2026-10-29"
+  },
+  "softee-ranger-green": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/softee-ranger-green-1000-a338a593.webp",
+    "filled": "2026-10-29"
+  },
+  "softee-swat-sky": {
+    "ok": true,
+    "src": "https://www.forumsport.com/medias/medias-1000721149-00-P-X-20210317140343-500Wx500H.jpg?context=bWFzdGVyfGltYWdlc3w0NjA4MXxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJobFlpOW9ZMll2TVRBd05EazFOREE1TVRVeU16QXVhbkJufGJhYmNjMzlmNmUzODA4MTNjZDdhODljOWY2YTQxZWVjM2EzMmEyMTNhM2M3MzUwNjk2NjMxZWQwNDA0MmY2MDc",
     "filled": "2026-10-29"
   }
 }

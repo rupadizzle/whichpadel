@@ -36787,7 +36787,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-triton-pro-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -40826,7 +40826,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-kibo-4-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -42974,20 +42974,20 @@
       "model": "Puma Solar Attack 2023 Momo Gonzalez",
       "year": 2023,
       "shape": "round",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "356 to 370 g (12.6 to 13.1 oz)",
+      "weightMin": 356,
+      "weightMax": 370,
       "balance": null,
       "coreHardness": "medium-hard",
       "coreMaterial": "EVA PRO",
       "faceMaterial": "3K Carbon",
       "frame": "Carbon Fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 250.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/puma-solar-attack-2023-momo-gonzalez",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -42996,7 +42996,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-solar-attack-2023-momo-gonzalez.webp",
       "added": "2026-10-24"
     },
     {
@@ -43615,11 +43615,11 @@
       "faceMaterial": "3K Carbon, Graphene",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 94.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padelgroove.com/product/siux-diablo-grafeno-azul/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -43627,7 +43627,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-diablo-grafeno-azul.webp",
       "added": "2026-10-24"
     },
     {
@@ -44605,11 +44605,11 @@
       "faceMaterial": "12K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 82.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padelgroove.com/product/siux-genesis-hybrid-12k/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44617,7 +44617,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-genesis-hybrid-12k.webp",
       "added": "2026-10-24"
     },
     {
@@ -44635,11 +44635,11 @@
       "faceMaterial": "Black Carbon 3K",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/siux-genesis-hybrid-black",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44647,7 +44647,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-genesis-hybrid-black.webp",
       "added": "2026-10-24"
     },
     {
@@ -45265,11 +45265,11 @@
       "faceMaterial": "24K Carbon + aluminum",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/siux-platinum-24k",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45277,7 +45277,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-platinum-24k.webp",
       "added": "2026-10-24"
     },
     {
@@ -45590,17 +45590,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium",
       "coreMaterial": "Medium EVA",
       "faceMaterial": "Fiberglass",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 57.02,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://futurapadelshop.com/en/products/pala-siux-sx7",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45608,7 +45608,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-sx7.webp",
       "added": "2026-10-24"
     },
     {
@@ -45626,11 +45626,11 @@
       "faceMaterial": "Fiberglass",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 68.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padel-island.com/products/pala-siux-sx7-air",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45638,7 +45638,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-sx7-air.webp",
       "added": "2026-10-24"
     },
     {
@@ -45716,11 +45716,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 125.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padel-island.com/products/pala-siux-snake-woman",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45728,7 +45728,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-snake-woman.webp",
       "added": "2026-10-24"
     },
     {
@@ -45890,17 +45890,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium",
       "coreMaterial": "Black EVA Soft",
       "faceMaterial": "24K Carbon, Graphene",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 189.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padel-island.com/products/siux-spyder-luxury-grafeno",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45908,7 +45908,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-spyder-luxury-grafeno.webp",
       "added": "2026-10-24"
     },
     {
@@ -45926,11 +45926,11 @@
       "faceMaterial": "21K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 149.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padel-island.com/en/products/pala-siux-spyder-revolution",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45938,7 +45938,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-spyder-revolution.webp",
       "added": "2026-10-24"
     },
     {
@@ -45956,11 +45956,11 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/siux-spyder-revolution-2-attack",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45968,7 +45968,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-spyder-revolution-2-attack.webp",
       "added": "2026-10-24"
     },
     {
@@ -45980,17 +45980,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium-soft",
       "coreMaterial": "Soft EVA",
       "faceMaterial": "12K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 366.3,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.bestpadel.com/racket-shop/Siux/2023/spyder-revolution-2-control",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45998,7 +45998,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-spyder-revolution-2-control.webp",
       "added": "2026-10-24"
     },
     {
@@ -46010,7 +46010,7 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "Black EVA",
       "faceMaterial": "3K Carbon",
@@ -46028,7 +46028,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-subzero-2-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -46040,7 +46040,7 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "Black EVA",
       "faceMaterial": "3K Carbon",
@@ -46118,7 +46118,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-titania-2.webp",
       "added": "2026-10-24"
     },
     {
@@ -46190,17 +46190,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium",
       "coreMaterial": "Medium EVA",
       "faceMaterial": "24K Silver Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 154.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://revolutionpadelstore.com/en/siux-trilogy-control-pro-4-2/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46208,7 +46208,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-trilogy-3-control.webp",
       "added": "2026-10-24"
     },
     {
@@ -46226,11 +46226,11 @@
       "faceMaterial": "24K Silver Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 169.45,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.padel-island.com/en/products/pala-siux-trilogy-hybrid-3-2023",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46238,7 +46238,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-trilogy-3-hybrid.webp",
       "added": "2026-10-24"
     },
     {
@@ -46268,7 +46268,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-trilogy-4-lite-air.webp",
       "added": "2026-10-24"
     },
     {
@@ -46298,7 +46298,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-trilogy-4-pro.webp",
       "added": "2026-10-24"
     },
     {
@@ -46376,11 +46376,11 @@
       "faceMaterial": "12K Carbon",
       "frame": "Bitubular Carbon/Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/siux-trilogy-hybrid-black",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46388,7 +46388,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-trilogy-hybrid-black.webp",
       "added": "2026-10-24"
     },
     {
@@ -46478,7 +46478,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-tsunami-5-0-24k.webp",
       "added": "2026-10-24"
     },
     {
@@ -46610,17 +46610,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft S3",
       "faceMaterial": "100% Fiberglass",
       "frame": "100% Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 96.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://sportandtrend.com/en-eu/products/pala-padel-softee-ranger-coral",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46628,7 +46628,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/softee-ranger-coral.webp",
       "added": "2026-10-24"
     },
     {
@@ -46676,11 +46676,11 @@
       "faceMaterial": "100% Fiberglass",
       "frame": "100% Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 50.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://padelguru.app/racket/softee-ranger-green",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46688,7 +46688,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/softee-ranger-green.webp",
       "added": "2026-10-24"
     },
     {
@@ -46730,17 +46730,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft S3",
       "faceMaterial": "100% Fiberglass",
       "frame": "100% Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 62.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://www.forumsport.com/es-es/softee-pala-padel-adulto-swatsky-0016955-1000721149-p",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -46748,7 +46748,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/softee-swat-sky.webp",
       "added": "2026-10-24"
     },
     {
