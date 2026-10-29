@@ -7459,7 +7459,7 @@
   },
   "drop-shot-quantum": {
     "ok": false,
-    "error": "tiny/corrupt image removed"
+    "error": "beach-tennis"
   },
   "drop-shot-yukon-pro-2-0": {
     "ok": true,
@@ -9174,5 +9174,110 @@
     "ok": true,
     "src": "https://www.racketguide.com/prg-admin/images/vibora-king-cobra-elite-24k-2024.jpg",
     "filled": "2026-10-29"
+  },
+  "drop-shot-stage-pro": {
+    "ok": false,
+    "error": "wrong model opalo top"
+  },
+  "drop-shot-stage-pro-1-0": {
+    "ok": false,
+    "error": "collision/wrong"
+  },
+  "dunlop-rapid-power-3-0": {
+    "ok": false,
+    "error": "wrong product iconic power set"
+  },
+  "kombat-black-18k": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/KombatBLACKMay2026-01_1.jpg?v=1789650659",
+    "filled": "2026-10-29"
+  },
+  "kombat-black-limited-edition": {
+    "ok": false,
+    "error": "collision same as black-18k"
+  },
+  "kombat-delta-force-18k": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/2884_208de8ab-5491-4696-9580-129e0cd3f1c1.jpg?v=1781683227",
+    "filled": "2026-10-29"
+  },
+  "kombat-sas-attack-ii": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/4136_1f4629f2-1d02-456f-bec3-7d66e607e6d6.jpg?v=1781683411",
+    "filled": "2026-10-29"
+  },
+  "kombat-swat-limited-edition": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/KombatSWATONEILMay2026-01_1.jpg?v=1789651062",
+    "filled": "2026-10-29"
+  },
+  "akkeron-andromeda-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-andromeda-a22-rc-1000-17146942.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-athenea-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-athenea-a22-rc-1000-9e2899e9.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-atlas-edition-a22-rc": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/akkeron-atlas-edition-a22-rc_f2647813-2377-4916-be70-5e42b4b6481c.jpg?v=1699376830",
+    "filled": "2026-10-29"
+  },
+  "akkeron-calypso-a22-rc": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187289/akkeron-calypso-a22-rc-1760187292.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-fenix-edition-a22-rc": {
+    "ok": true,
+    "src": "https://padelactivo.com/wp-content/uploads/2023/10/akkeron-fenix-edition-a22-rc.jpg",
+    "filled": "2026-10-29"
+  },
+  "akkeron-furia-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-furia-a22-rc-1000-2a035c5c.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-helios-edition-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-helios-edition-a22-rc-1000-a6624657.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-nexus-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-nexus-a22-rc-1000-7b4dabe3.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-oro-espana-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-oro-espana-a22-rc-1000-d8894578.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-oro-furia-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-oro-furia-a22-rc-1000-9ee0ae93.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-poseidon-a22-rc": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-poseidon-a22-rc-1000-1ef38a4f.webp",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-raider-pwr": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0638/1885/8538/files/1490550004700000.jpg?v=1774905052",
+    "filled": "2026-10-29"
+  },
+  "cork-padel-supreme-power": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/1_3eeb21ce-3e26-4f0f-ae33-435845a47982.png?v=1658316512",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-allegra-2-0": {
+    "ok": false,
+    "error": "screenshot not product"
   }
 }
