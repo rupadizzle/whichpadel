@@ -6803,8 +6803,9 @@
     "filled": "2026-10-29"
   },
   "bullpadel-icon-2026-juan-martin-diaz": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0640/4646/5219/files/icon26-2.jpg?v=1762291661",
+    "filled": "2026-10-29"
   },
   "bullpadel-icon-2027-juan-martin-diaz": {
     "ok": false,
@@ -6851,12 +6852,14 @@
     "filled": "2026-10-29"
   },
   "bullpadel-wonder-2026-claudia-fernandez": {
-    "ok": false,
-    "error": "shoe"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0696/2449/6205/files/BULLPADELWONDER2026CLAUDIAFERNANDEZ_Pala_1_5fb78fa3-0dd4-426a-a501-3192d5609b79.jpg?v=1793011075",
+    "filled": "2026-10-29"
   },
   "bullpadel-wonder-2027-claudia-fernandez": {
-    "ok": false,
-    "error": "shoe"
+    "ok": true,
+    "src": "https://www.tiendapadelpoint.com/image/cache/catalog/pala-bullpadel-claudia-fernandez-wonder-2027-800x800.webp",
+    "filled": "2026-10-29"
   },
   "drop-shot-explorer-8-0-2025": {
     "ok": true,
@@ -7692,12 +7695,14 @@
     "filled": "2026-10-29"
   },
   "bullpadel-vertex-05-geo-2026-pablo-cardona": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0646/3671/5163/files/BULLPADELVERTEX05GEO2026PABLOCARDONA_Pala_1.jpg?v=1756736172",
+    "filled": "2026-10-29"
   },
   "bullpadel-xplo-2026-martin-di-nenno": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0640/4646/5219/files/xplo26-1.jpg?v=1762292036",
+    "filled": "2026-10-29"
   },
   "enebe-mustang-gold-15k-2026": {
     "ok": true,
@@ -7705,8 +7710,9 @@
     "filled": "2026-10-29"
   },
   "head-extreme-one-x-2026": {
-    "ok": false,
-    "error": "wrong model extreme-one"
+    "ok": true,
+    "src": "https://www.whichracket.com/rackets/padel/head-extreme-one-2026.jpg",
+    "filled": "2026-10-29"
   },
   "joma-master-lite-2026": {
     "ok": true,
@@ -7829,8 +7835,9 @@
     "filled": "2026-10-29"
   },
   "kombat-fuji-2-5-by-manu-martin-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/w_600,f_auto,q_auto/v1771266098/palas-imagenes/kombat/kombat-fuji-2026-by-manu-martin-ean-8436594724664-row-804.jpg",
+    "filled": "2026-10-29"
   },
   "kombat-galeras-2-5-by-manu-martin-2026": {
     "ok": true,
@@ -7838,8 +7845,9 @@
     "filled": "2026-10-29"
   },
   "kombat-krakatoa-2-5-by-manu-martin-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/w_600,f_auto,q_auto/v1771266099/palas-imagenes/kombat/kombat-krakatoa-2026-by-manu-martin-ean-8436594724725-row-807.jpg",
+    "filled": "2026-10-29"
   },
   "kombat-osorno-2-5-by-manu-martin-2026": {
     "ok": true,
@@ -7852,24 +7860,29 @@
     "filled": "2026-10-29"
   },
   "kuikma-pr-hybrid-carbon-dynamic-2026-coki-nieto": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelmad.co.uk/wp-content/uploads/2026/06/padel-equipment-reviews.jpg",
+    "filled": "2026-10-29"
   },
   "kuikma-pr-power-carbon-dynamic-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://contents.mediadecathlon.com/p3121594/k$249f356f58dfe1184c858a71c1963c6a/picture.jpg",
+    "filled": "2026-10-29"
   },
   "level-elegance-pro-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0947/2661/9522/files/PRODUCTO-PALA_ELEGANCE-1.webp?v=1788258084",
+    "filled": "2026-10-29"
   },
   "level-titanium-pro-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.pikipadel.com/image/cache/catalog/Palas/Level%20Padel/Pala%20LevelPadel%20Titanium%20Pro-600x600.png",
+    "filled": "2026-10-29"
   },
   "middle-moon-atila-3-0-12k-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelverdict.com/wp-content/uploads/2026/04/middle-moon-3.0-12k-2026.png",
+    "filled": "2026-10-29"
   },
   "middle-moon-eclipse-9-gold-attack-12k-2026": {
     "ok": false,
@@ -7880,16 +7893,18 @@
     "error": "placeholder"
   },
   "munich-shadow-flex-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.tradeinn.com/f/14271/142717713/munich-shadow-flex-padel-racket.webp",
+    "filled": "2026-10-29"
   },
   "munich-sky-edge-2026": {
     "ok": false,
     "error": "placeholder"
   },
   "munich-spectra-x-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://dam.elcorteingles.es/producto/www-001080469508784-00.jpg?impolicy=Resize&width=640&height=640",
+    "filled": "2026-10-29"
   },
   "nox-x-auro-2026": {
     "ok": true,
@@ -7897,8 +7912,9 @@
     "filled": "2026-10-29"
   },
   "osaka-pro-power-2026-raul-marcos": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0223/7241/7610/files/PDL00086_2019_1_Raul_Marcos_Pro_Padel_Racket_-_Power_Champagne_64f3d24e-fbf4-4d2f-822d-4a4f323abfa1.jpg?v=1770304421",
+    "filled": "2026-10-29"
   },
   "osaka-pro-tour-ltd-control-2026": {
     "ok": false,
@@ -7929,16 +7945,18 @@
     "filled": "2026-10-29"
   },
   "osaka-vision-pro-control-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0950/9188/4310/files/Osaka-Padel-Racket-Vision-Pro-Control-image-of-the-front-of-the-padel.png?v=1784668021",
+    "filled": "2026-10-29"
   },
   "osaka-vision-pro-power-2026": {
     "ok": false,
     "error": "placeholder"
   },
   "royal-padel-torino-bronze-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelprice.eu/images/0bd56309212a162ddfdb51fc7dc0c4f3.webp",
+    "filled": "2026-10-29"
   },
   "set-great-wolf-2026": {
     "ok": true,
@@ -7946,32 +7964,37 @@
     "filled": "2026-10-29"
   },
   "tactical-el-jefe-master-edition-2026-lucas-bergamini": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0803/4081/2051/files/ElJefe_1.png?v=1787718980",
+    "filled": "2026-10-29"
   },
   "tactical-el-jefe-midnight-3k-2026-lucas-bergamini": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0681/6081/5361/files/Gemini_Generated_Image_atlbvuatlbvuatlb.png?v=1781263979",
+    "filled": "2026-10-29"
   },
   "tactical-el-sabio-2026": {
     "ok": false,
     "error": "placeholder"
   },
   "tactical-el-toro-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://golfellasindonesia.com/wp-content/uploads/2026/10/1788580973728206.webp",
+    "filled": "2026-10-29"
   },
   "tactical-el-unico-2026": {
     "ok": false,
     "error": "placeholder"
   },
   "tactical-katana-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0990/7850/4754/files/ChatGPT-Image-Jul-30-2026-07_40_12-PM.png?v=1788411616",
+    "filled": "2026-10-29"
   },
   "xcalion-unum-h1-2026-patty-llaguno": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0430/1861/6996/files/Raquette-de-padel-Xcalion-Unum-plus-H1-By-Patty-Llaguno-Face.png?v=1778136392",
+    "filled": "2026-10-29"
   },
   "adidas-rx-light-2025": {
     "ok": true,
@@ -7979,8 +8002,9 @@
     "filled": "2026-10-29"
   },
   "adidas-rx-lime-2025": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/v1770999480/palas-imagenes/adidas/adidas-rx-series-lime-3-4-2025-ean-8435739402924-row-476.jpg",
+    "filled": "2026-10-29"
   },
   "adidas-rx-red-2025": {
     "ok": true,
@@ -8048,8 +8072,9 @@
     "filled": "2026-10-29"
   },
   "bullpadel-indiga-power-2025": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/bullpadel_indiga-power_2025.jpg",
+    "filled": "2026-10-29"
   },
   "bullpadel-ionic-light-2025": {
     "ok": true,
@@ -8057,8 +8082,9 @@
     "filled": "2026-10-29"
   },
   "bullpadel-k2-power-2025": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/bullpadel-k2-power-2025.jpg",
+    "filled": "2026-10-29"
   },
   "bullpadel-vertex-04-2025-juan-tello": {
     "ok": true,
@@ -8116,8 +8142,9 @@
     "filled": "2026-10-29"
   },
   "head-coello-vibe-2025": {
-    "ok": false,
-    "error": "tiny"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187298/head-coello-vibe-2025-pala-1760187302.webp",
+    "filled": "2026-10-29"
   },
   "head-speed-one-x-2025": {
     "ok": true,
@@ -8140,8 +8167,9 @@
     "filled": "2026-10-29"
   },
   "joma-pro-slam-2-0-negro-turquesa-2025": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/v1770996973/palas-imagenes/sin-marca/palajomaslampronegroturquesa2025-1-row-671.png",
+    "filled": "2026-10-29"
   },
   "joma-pro-tournament-2-0-azul-rojo-2025": {
     "ok": true,
@@ -8149,8 +8177,9 @@
     "filled": "2026-10-29"
   },
   "joma-slam-soft-gris-negro-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/joma_slam-soft-gris-negro_2025.jpg",
+    "filled": "2026-10-29"
   },
   "nox-d13-12k-2025": {
     "ok": true,
@@ -8207,8 +8236,9 @@
     "filled": "2026-10-29"
   },
   "royal-padel-whip-hybrid-2025": {
-    "ok": false,
-    "error": "tiny"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/processed-padel-racket-1758952617559.jpg",
+    "filled": "2026-10-29"
   },
   "royal-padel-whip-light-2025": {
     "ok": true,
@@ -8307,28 +8337,34 @@
     "error": "placeholder"
   },
   "bullpadel-bp10-evo-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/v1770999486/palas-imagenes/bullpadel/bullpadel-bp10-evo-2025-ean-8445402692033-row-521.jpg",
+    "filled": "2026-10-29"
   },
   "bullpadel-elite-woman-2025-gemma-triay": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.padelmine.com/wp-content/uploads/2025/02/pala-bullpadel-elite-w-25-7.jpg",
+    "filled": "2026-10-29"
   },
   "bullpadel-flow-woman-2025-ale-salazar": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelaiapp.com/images/og/rackets-bullpadel-flow-woman-2025-ale-salazar.jpg?v=30e6d6c00f",
+    "filled": "2026-10-29"
   },
   "bullpadel-hack-04-2025-paquito-navarro": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelpozo.com/wp-content/uploads/113754_pala_bullpadel_hack_04_25_448113_1500x1500_1_2c48.jpg.webp",
+    "filled": "2026-10-29"
   },
   "bullpadel-indiga-woman-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/medium/bullpadel/bullpadel-indiga-w-2025/main.webp",
+    "filled": "2026-10-29"
   },
   "bullpadel-vertex-04-woman-2025-delfi-brea": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0646/3671/5163/files/vertex04w25.jpg?v=1727079606",
+    "filled": "2026-10-29"
   },
   "joma-slam-flex-2-0-verde-blanco-2025": {
     "ok": true,
@@ -8336,8 +8372,9 @@
     "filled": "2026-10-29"
   },
   "joma-tournament-flex-negro-rojo-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/joma-tournament-flex-negro-rojo-2025.jpg",
+    "filled": "2026-10-29"
   },
   "joma-tournament-soft-rojo-blanco-2025": {
     "ok": true,
@@ -8350,28 +8387,32 @@
     "filled": "2026-10-29"
   },
   "kuikma-hybrid-pro-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelracketpicker.com/images/header.jpg",
+    "filled": "2026-10-29"
   },
   "nox-la10-quantum-12k-2025-leo-augsburger": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/v1770999460/palas-imagenes/nox/nox-la10-quantum-12k-by-leo-augsburger-2025-ean-8436603199971-row-403.jpg",
+    "filled": "2026-10-29"
   },
   "nox-tl10-quantum-12k-2025-tino-libaak": {
     "ok": false,
     "error": "placeholder"
   },
   "nox-vk10-quantum-3k-2025-aranzazu-osoro": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-nox-aranzazu-osoro-vk10-quantum-3k-2025.jpg?v=1742378827",
+    "filled": "2026-10-29"
   },
   "royal-padel-fury-2025": {
     "ok": false,
     "error": "placeholder"
   },
   "royal-padel-whip-extreme-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/processed-padel-racket-1758952556447.jpg",
+    "filled": "2026-10-29"
   },
   "set-geri-2025": {
     "ok": true,
@@ -8383,8 +8424,9 @@
     "error": "placeholder"
   },
   "vibora-yarara-xtreme-3k-2-0-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.tiendapadelpoint.com/image/cache/catalog/pala-vibora-yarara-xtreme-3k-2-0-2025-1-800x800.webp",
+    "filled": "2026-10-29"
   },
   "hirostar-horizon-2025": {
     "ok": true,
@@ -8392,28 +8434,33 @@
     "filled": "2026-10-29"
   },
   "kuikma-control-pro-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://pala-hack.com/wp-content/uploads/Kuikma-Control-Pro-2025-62937-62953-62963-62981-62972-62982-62983-62984.webp",
+    "filled": "2026-10-29"
   },
   "kuikma-pr-power-light-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://res.cloudinary.com/duaykdloc/image/upload/w_600,f_auto,q_auto/v1790890152/palas-imagenes/kuikma/pr-power-light.jpg",
+    "filled": "2026-10-29"
   },
   "kuikma-power-pro-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://pala-hack.com/wp-content/uploads/Kuikma-Power-Pro-2025-62785-62795-62811-62837-62820-62838-62839-62840.webp",
+    "filled": "2026-10-29"
   },
   "middle-moon-eclipse-5-carbon-gold-2025": {
     "ok": false,
     "error": "placeholder"
   },
   "nox-equation-light-woman-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/nox_equation-light-w-advanced_2025.jpg",
+    "filled": "2026-10-29"
   },
   "osaka-deshi-control-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187391/osaka-deshi-control-future-dusk-padel-racket-2025-1760187395.webp",
+    "filled": "2026-10-29"
   },
   "oxdog-pure-court-light-2025": {
     "ok": true,
@@ -8426,8 +8473,9 @@
     "filled": "2026-10-29"
   },
   "vibora-king-cobra-elite-24k-2-0-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padel-index.com/assets/img/vibora-king-cobra-elite-24k-2-0-2025.png",
+    "filled": "2026-10-29"
   },
   "adidas-adipower-ctrl-team-3-3-2024": {
     "ok": true,
