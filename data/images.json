@@ -7269,8 +7269,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-axion-attack-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/drop-shot-axion-attack-2024.jpg",
+    "filled": "2026-10-29"
   },
   "drop-shot-axion-control-2024": {
     "ok": true,
@@ -8428,12 +8429,14 @@
     "filled": "2026-10-29"
   },
   "adidas-adipower-light-3-3-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/adidas-adipower-light-33-2024.jpg",
+    "filled": "2026-10-29"
   },
   "adidas-adipower-team-light-3-3-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/adidas-adipower-team-light-33-2024.jpg",
+    "filled": "2026-10-29"
   },
   "adidas-cross-it-light-pro-edt-2024-martita-ortega": {
     "ok": true,
@@ -8441,8 +8444,9 @@
     "filled": "2026-10-29"
   },
   "adidas-drive-light-3-3-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/adidas-adidas-drive-light-33-2024.jpg",
+    "filled": "2026-10-29"
   },
   "babolat-air-veron-2024": {
     "ok": true,
@@ -8470,12 +8474,14 @@
     "filled": "2026-10-29"
   },
   "babolat-technical-vertuo-juan-lebron-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/babolat-technical-vertuo-juan-lebron-2024.jpg",
+    "filled": "2026-10-29"
   },
   "babolat-technical-viper-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/babolat-viper-technical-2024.jpg",
+    "filled": "2026-10-29"
   },
   "black-crown-piton-12-2024": {
     "ok": true,
@@ -8493,8 +8499,9 @@
     "filled": "2026-10-29"
   },
   "bullpadel-flow-light-2024": {
-    "ok": false,
-    "error": "year-{2026}"
+    "ok": true,
+    "src": "https://sharetribe-assets.imgix.net/6a356e5d-7c8f-47f8-af29-48c943d837ad/raw/5c/4a3a681babe8101344289c6e3960a6b88a391a?auto=format&fit=clip&h=630&w=1200&s=d9af805a383452a103a868548929eb3f",
+    "filled": "2026-10-29"
   },
   "bullpadel-flow-woman-2024": {
     "ok": true,
@@ -8517,8 +8524,9 @@
     "filled": "2026-10-29"
   },
   "bullpadel-indiga-power-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/processed-padel-racket-1759217315260.jpg",
+    "filled": "2026-10-29"
   },
   "bullpadel-indiga-woman-2024": {
     "ok": true,
@@ -8556,8 +8564,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-canyon-pro-attack-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-drop-shot-canyon-pro-attack.jpg?v=1718878945",
+    "filled": "2026-10-29"
   },
   "drop-shot-canyon-pro-control-2024": {
     "ok": true,
@@ -8570,16 +8579,19 @@
     "filled": "2026-10-29"
   },
   "drop-shot-conqueror-attack-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/drop-shot-conqueror-attack-2024.jpg",
+    "filled": "2026-10-29"
   },
   "drop-shot-explorer-pro-6-0-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://palapadelpro.com/es-es/image/cache/catalogIM/2/pala-drop-shot-explorer-pro-attack_65bbac7f45dbd-800x800.jpg",
+    "filled": "2026-10-29"
   },
   "drop-shot-explorer-pro-attack-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760201079/drop-shot-explorer-pro-attack-padel-racket-2024-1760201085.webp",
+    "filled": "2026-10-29"
   },
   "drop-shot-explorer-pro-control-2024": {
     "ok": true,
@@ -8591,8 +8603,9 @@
     "error": "collision"
   },
   "drop-shot-fury-control-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/drop-shot-fury-control-2024-1000-4393ecfb.webp",
+    "filled": "2026-10-29"
   },
   "drop-shot-quantum-1-0-2024": {
     "ok": true,
@@ -8600,8 +8613,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-renegade-control-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-drop-shot-renegade-control.jpg?v=1721039289",
+    "filled": "2026-10-29"
   },
   "enebe-arrow-blue-2024": {
     "ok": true,
@@ -8638,12 +8652,14 @@
     "filled": "2026-10-29"
   },
   "head-extreme-one-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/medium/head/head-extreme-one-2023/main.webp",
+    "filled": "2026-10-29"
   },
   "joma-gold-pro-amarillo-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200150/joma-gold-pro-amarillo-2024-1760200155.webp",
+    "filled": "2026-10-29"
   },
   "joma-gold-pro-rojo-2024": {
     "ok": true,
@@ -8656,16 +8672,19 @@
     "filled": "2026-10-29"
   },
   "joma-tournament-pro-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-joma-tournament-pro-2024.jpg?v=1717593794",
+    "filled": "2026-10-29"
   },
   "joma-tournament-pro-amarillo-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/joma-tournament-pro-amarillo-2024-1000-f9c9fbd8.webp",
+    "filled": "2026-10-29"
   },
   "joma-tournament-pro-rojo-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/joma-tournament-pro-rojo-2024-1000-af83c707.webp",
+    "filled": "2026-10-29"
   },
   "kombat-black-mkiii-2024": {
     "ok": false,
@@ -8677,12 +8696,14 @@
     "filled": "2026-10-29"
   },
   "kombat-swat-2024": {
-    "ok": false,
-    "error": "year-{2026}"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-swat-2024-1000-47890839.webp",
+    "filled": "2026-10-29"
   },
   "kombat-swat-oneil-2024": {
-    "ok": false,
-    "error": "year-{2026}"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-swat-oneil-2024-1000-e699f70f.webp",
+    "filled": "2026-10-29"
   },
   "kombat-xifos-2024": {
     "ok": true,
@@ -8843,6 +8864,131 @@
   "vibora-russell-classic-fiber-2024": {
     "ok": true,
     "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000773160101.jpg?v=1780389021",
+    "filled": "2026-10-29"
+  },
+  "adidas-rx-series-light-2024": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/adidas_rx-series-light_2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "adidas-rx-series-lime-2024": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/adidas_rx-series-lime_2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "adidas-rx-series-red-2024": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/adidas_rx-series-red_2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "alkemia-ignis-2024": {
+    "ok": true,
+    "src": "https://practicapadel.com/wp-content/uploads/2025/09/alkemia-ignis-2024-padel-racket.png",
+    "filled": "2026-10-29"
+  },
+  "alkemia-tenebris-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/alkemia-tenebris-2024-1000-f281d886.webp",
+    "filled": "2026-10-29"
+  },
+  "alkemia-terra-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/alkemia-terra-2024-1000-a4c84933.webp",
+    "filled": "2026-10-29"
+  },
+  "black-crown-piton-12k-silver-2024": {
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/Black-Crown-Piton-12-Silver-2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "black-crown-piton-attack-15k-power-2024": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/black-crown_piton-attack-15k-power_2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-bp10-evo-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/bullpadel-bp10-evo-2024-1000-bf6bc766.webp",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-elite-woman-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala_bullpadel_elite_w_24-5.jpg?v=1713172019",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-hack-03-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0646/3671/5163/files/7591.jpg?v=1725950265",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-k2-power-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0640/4646/5219/files/77d1c20d-b09d-4578-a45e-8547dca61250.jpg?v=1744796527",
+    "filled": "2026-10-29"
+  },
+  "enebe-aerox-7-2-carbon-reloaded-2024": {
+    "ok": true,
+    "src": "https://www.racketssport.com/wp-content/uploads/2026/08/1785657451/pala-enebe-aerox-7-2-carbon-reloaded-2024.webp",
+    "filled": "2026-10-29"
+  },
+  "enebe-response-fiber-purple-2024": {
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/18212-0-4.jpg",
+    "filled": "2026-10-29"
+  },
+  "just-ten-kimera-basaltik-2024": {
+    "ok": true,
+    "src": "https://padelcart.com/products/img/just-ten-racket-basaltik-kimera/media/1040/PhotoDetail_01.jpg",
+    "filled": "2026-10-29"
+  },
+  "kombat-obus-2024": {
+    "ok": true,
+    "src": "https://pala-hack.com/wp-content/uploads/Kombat-Obus-2024-18296-18297-18298-18300-18299-18301-18302-18303.webp",
+    "filled": "2026-10-29"
+  },
+  "kombat-obus-oneil-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-obus-oneil-2024-1000-46f18e7c.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-control-metal-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/large/kuikma/kuikma-control-metal/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-hybrid-carbon-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/medium/kuikma/kuikma-pr-hybrid-carbon/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-hybrid-metal-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/large/kuikma/kuikma-hybrid-metal/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-power-carbon-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/medium/kuikma/kuikma-pr-power-carbon/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-power-metal-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/large/kuikma/kuikma-power-metal/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-react-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/large/kuikma/kuikma-pr-react/main.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr-react-soft-2024": {
+    "ok": true,
+    "src": "https://padelscout.co/media/racket-images/large/kuikma/kuikma-pr-react-soft/main.webp",
+    "filled": "2026-10-29"
+  },
+  "nox-la10-future-2024": {
+    "ok": true,
+    "src": "https://www.padelreference.com/storage/5588/raquette-la10-by-leo-augsburger.webp",
     "filled": "2026-10-29"
   }
 }

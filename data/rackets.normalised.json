@@ -15158,7 +15158,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-adipower-light-3-3-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -15248,7 +15248,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-adipower-team-light-3-3-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -15820,7 +15820,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-drive-light-3-3-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -16497,17 +16497,17 @@
       "weight": "345 to 360 g (12.2 to 12.7 oz)",
       "weightMin": 345,
       "weightMax": 360,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft Performance",
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 116.14,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.bestpadel.com/racket-shop/Adidas/2024/rx-series-light",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -16515,7 +16515,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-series-light-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -16527,17 +16527,17 @@
       "weight": "360 to 375 g (12.7 to 13.2 oz)",
       "weightMin": 360,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft Performance",
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 125.08,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.bestpadel.com/racket-shop/Adidas/2024/rx-series-lime",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -16545,7 +16545,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-series-lime-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -16557,17 +16557,17 @@
       "weight": "360 to 375 g (12.7 to 13.2 oz)",
       "weightMin": 360,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft Performance",
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 125.08,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.bestpadel.com/racket-shop/Adidas/2024/rx-series-red",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -16575,7 +16575,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-series-red-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -17067,10 +17067,10 @@
       "weight": "345 to 375 g (12.2 to 13.2 oz)",
       "weightMin": 345,
       "weightMax": 375,
-      "balance": null,
+      "balance": "26.3 cm (10.4 in)",
       "coreHardness": "medium",
       "coreMaterial": "Black EVA PRO React",
-      "faceMaterial": null,
+      "faceMaterial": "Frame: Tubular mix of Kevlar and fiberglass",
       "frame": "Kevlar",
       "thicknessMm": null,
       "price": null,
@@ -17086,7 +17086,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-ignis-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -17166,11 +17166,11 @@
       "faceMaterial": null,
       "frame": "Kevlar",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/alkemia-tenebris-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -17179,7 +17179,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-tenebris-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -17258,11 +17258,11 @@
       "faceMaterial": null,
       "frame": "Kevlar",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/alkemia-terra-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -17271,7 +17271,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-terra-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -18359,7 +18359,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-technical-vertuo-juan-lebron-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -18419,7 +18419,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-technical-viper-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -18978,11 +18978,11 @@
       "faceMaterial": "18K Silver Carbon",
       "frame": "Carbon Fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 268.02,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/black-crown/piton-12k-silver-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -18990,7 +18990,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/black-crown-piton-12k-silver-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -19092,17 +19092,17 @@
       "weight": "355 to 370 g (12.5 to 13.1 oz)",
       "weightMin": 355,
       "weightMax": 370,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "Super Control EVA",
       "faceMaterial": null,
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 285.89,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.bestpadel.com/racket-shop/black-crown/2024/piton-attack-15k-power",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -19111,7 +19111,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/black-crown-piton-attack-15k-power-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -19460,11 +19460,11 @@
       "faceMaterial": "Polyglass",
       "frame": "Polyglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/bullpadel-bp10-evo-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -19472,7 +19472,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-bp10-evo-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -19550,11 +19550,11 @@
       "faceMaterial": "Xtend Carbon 3K",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 159.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-island.com/en/products/pala-bullpadel-elite-w-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -19562,7 +19562,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-elite-woman-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -19712,7 +19712,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-flow-light-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -19844,17 +19844,17 @@
       "weight": "360 to 375 g (12.7 to 13.2 oz)",
       "weightMin": 360,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-hard",
       "coreMaterial": "MultiEVA",
       "faceMaterial": "TriCarbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 152.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelmarket.com/en/products/bullpadel-hack-03-2024-paquito-navarro-racket-1",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -19862,7 +19862,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-hack-03-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -20376,7 +20376,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-indiga-power-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -20724,11 +20724,11 @@
       "faceMaterial": "Polyglass",
       "frame": "Polyglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 159.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelpadel.us/products/bullpadel-k2-power-24",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -20736,7 +20736,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-k2-power-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -21943,7 +21943,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-axion-attack-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -22243,7 +22243,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-canyon-pro-attack-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -22543,7 +22543,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-conqueror-attack-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -22693,7 +22693,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-explorer-pro-6-0-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -22813,7 +22813,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-explorer-pro-attack-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -23173,7 +23173,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-fury-control-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -23323,7 +23323,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-renegade-control-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -23968,17 +23968,17 @@
       "weight": "355 to 370 g (12.5 to 13.1 oz)",
       "weightMin": 355,
       "weightMax": 370,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "Black EVA HR3",
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 80.84,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketssport.com/product/pala-enebe-aerox-7-2-carbon-reloaded-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -23986,7 +23986,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/enebe-aerox-7-2-carbon-reloaded-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -24635,11 +24635,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 99.13,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://revolutionpadelstore.com/en/pala-enebe-response-fiber-purpura-2024-2/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -24647,7 +24647,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/enebe-response-fiber-purple-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -25277,7 +25277,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/head-extreme-one-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26122,7 +26122,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-gold-pro-amarillo-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26544,7 +26544,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-tournament-pro-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26574,7 +26574,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-tournament-pro-amarillo-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26635,7 +26635,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-tournament-pro-rojo-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26773,11 +26773,11 @@
       "faceMaterial": null,
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 177.79,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelcart.com/products/just-ten-racket-basaltik-kimera/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -26787,7 +26787,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/just-ten-kimera-basaltik-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27280,7 +27280,7 @@
       "weight": "360 to 370 g (12.7 to 13.1 oz)",
       "weightMin": 360,
       "weightMax": 370,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "hard",
       "coreMaterial": "Black EVA",
       "faceMaterial": "12K Rough Carbon",
@@ -27298,7 +27298,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-obus-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27316,11 +27316,11 @@
       "faceMaterial": "12K Rough Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 100.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/kombat-obus-oneil-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27328,7 +27328,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-obus-oneil-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27479,7 +27479,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-swat-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27509,7 +27509,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-swat-oneil-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27795,20 +27795,20 @@
       "model": "Kuikma PR Control Metal 2024",
       "year": 2024,
       "shape": "round",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "365 g (12.9 oz)",
+      "weightMin": 365,
+      "weightMax": 365,
       "balance": null,
       "coreHardness": null,
       "coreMaterial": "Soft EVA",
       "faceMaterial": null,
       "frame": "Carbon Twin Tube",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-control-metal-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27819,7 +27819,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-control-metal-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27828,20 +27828,20 @@
       "model": "Kuikma PR Hybrid Carbon 2024",
       "year": 2024,
       "shape": "teardrop",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "365 g (12.9 oz)",
+      "weightMin": 365,
+      "weightMax": 365,
       "balance": null,
       "coreHardness": "medium-hard",
       "coreMaterial": "Black EVA Medium",
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 129.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-pr-hybrid-carbon-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27851,7 +27851,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-hybrid-carbon-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27891,20 +27891,20 @@
       "model": "Kuikma PR Hybrid Metal 2024",
       "year": 2024,
       "shape": "teardrop",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "365 g (12.9 oz)",
+      "weightMin": 365,
+      "weightMax": 365,
       "balance": null,
       "coreHardness": "medium",
       "coreMaterial": "Soft EVA",
       "faceMaterial": null,
       "frame": "Carbon Twin Tube",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-hybrid-metal-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27914,7 +27914,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-hybrid-metal-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27923,20 +27923,20 @@
       "model": "Kuikma PR Power Carbon 2024",
       "year": 2024,
       "shape": "diamond",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "365 g (12.9 oz)",
+      "weightMin": 365,
+      "weightMax": 365,
       "balance": null,
       "coreHardness": "medium-hard",
       "coreMaterial": "Black EVA Medium",
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 129.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-pr-power-carbon-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27946,7 +27946,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-power-carbon-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -28017,20 +28017,20 @@
       "model": "Kuikma PR Power Metal 2024",
       "year": 2024,
       "shape": "diamond",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "365 g (12.9 oz)",
+      "weightMin": 365,
+      "weightMax": 365,
       "balance": null,
       "coreHardness": "soft",
       "coreMaterial": "Soft EVA",
       "faceMaterial": null,
       "frame": "Carbon Twin Tube",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-power-metal-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -28040,7 +28040,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-power-metal-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -28049,20 +28049,20 @@
       "model": "Kuikma PR React 2024",
       "year": 2024,
       "shape": "teardrop",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "353 g (12.5 oz)",
+      "weightMin": 353,
+      "weightMax": 353,
       "balance": null,
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft",
       "faceMaterial": null,
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 59.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-pr-react-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -28072,7 +28072,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-react-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -28081,20 +28081,20 @@
       "model": "Kuikma PR React Soft 2024",
       "year": 2024,
       "shape": "teardrop",
-      "weight": null,
-      "weightMin": null,
-      "weightMax": null,
+      "weight": "335 g (11.8 oz)",
+      "weightMin": 335,
+      "weightMax": 335,
       "balance": null,
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft",
       "faceMaterial": null,
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelscout.co/rackets/kuikma-pr-react-soft-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -28104,7 +28104,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr-react-soft-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -30307,11 +30307,11 @@
       "faceMaterial": "Aluminized Carbon 12K",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 244.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelreference.com/en/padel-rackets/p/nox-la10-future-by-leo-augsburger-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -30319,7 +30319,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-la10-future-2024.webp",
       "added": "2026-10-24"
     },
     {
