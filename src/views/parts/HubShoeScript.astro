@@ -49,7 +49,11 @@ document.addEventListener('wp:cmp',e=>{const next=e.detail||[]; if(next.join()==
 $('h-go').onclick=()=>{ if(sel.length>=2) openTake(); };
 try{(sessionStorage.wp_shoe_cmp||'').split(',').filter(Boolean).slice(0,maxN()).forEach(s=>{if(grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')) sel.push(s);});}catch(e){}
 matchMedia('(min-width:900px)').addEventListener('change',()=>{const m=maxN(); if(sel.length>m) sel.splice(m); if(sel.length) tray();});
+const qs=new URLSearchParams(location.search);
+const linked=(qs.get('s')||'').split(',').map(s=>s.trim()).filter(s=>s&&grid.querySelector('.rk[data-s="'+s.replace(/"/g,'')+'"]')).slice(0,maxN());
+if(linked.length>=2){sel.splice(0,sel.length,...linked); qs.delete('s'); const q=qs.toString(); history.replaceState(history.state,'',location.pathname+(q?'?'+q:'')+location.hash);}
 if(sel.length) tray();
-const qs=new URLSearchParams(location.search); const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
+const s0={}; KEYS.forEach(k=>s0[k]=qs.get(k)||''); if(KEYS.some(k=>s0[k])){put(s0); apply();}
+if(linked.length>=2) openTake();
 })();
 </script>

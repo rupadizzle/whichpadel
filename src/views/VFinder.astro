@@ -39,7 +39,7 @@ const pack=s=>({finding:s.finding,none:s.none,w:s.w,tour:s.tour||null});
 const KW={shoes:pack(K.shoes),balls:pack(K.balls),bag:pack(K.bags)};
 const KL=Object.fromEntries(K.products.map(p=>[p.id,p.t]));
 const pref=t=>{const u=L(t,'X'); return u?u.replace(/X\/$/,''):'';};
-const U={href:{racket:pref('racket'),shoes:pref('shoe'),balls:pref('ball'),bag:pref('bag')},cmp:{racket:L('rackets'),shoes:L('shoeCompare')||''}};
+const U={href:{racket:pref('racket'),shoes:pref('shoe'),balls:pref('ball'),bag:pref('bag')},cmp:{racket:L('rackets'),shoes:L('shoes')||''}};
 const subLine=(hasBag?K.sub:K.subShort).split('§');
 ---
 <Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc()} jsonld={jsonld}>

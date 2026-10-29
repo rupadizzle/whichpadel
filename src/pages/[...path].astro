@@ -5,7 +5,7 @@ import { brandList, players, bySlug } from '../lib/data.js'; import { brandYears
 import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VIndex from '../views/VIndex.astro'; import VList from '../views/VList.astro';
 import VProduct from '../views/VProduct.astro'; import VHub from '../views/VHub.astro';
 import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrandYear from '../views/VBrandYear.astro';
-import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import VFinder from '../views/VFinder.astro'; import V404 from '../views/V404.astro'; import VShoeCompare from '../views/VShoeCompare.astro'; import { shoeBySlug, shoeOnlyBrands } from '../lib/shoes.js';
+import VVs from '../views/VVs.astro'; import VTool from '../views/VTool.astro'; import VBf from '../views/VBf.astro'; import VLegal from '../views/VLegal.astro'; import VFinder from '../views/VFinder.astro'; import V404 from '../views/V404.astro'; import { shoeBySlug, shoeOnlyBrands } from '../lib/shoes.js';
 const shoeBrandPage=Object.fromEntries(shoeOnlyBrands.map(b=>[b.slug,{name:b.name,slug:b.slug,count:0,rackets:[]}]));
 export function getStaticPaths(){ const out=[];
  for(const lang of LANGS){ for(const p of pages()){ const u=url(p.type,lang,p.id); if(!u) continue; out.push({params:{path:u.replace(/^\/|\/$/g,'')||undefined},props:{type:p.type,id:p.id,lang}}); }
@@ -37,7 +37,6 @@ const brand=s=>brandList.find(b=>b.slug===s)||shoeBrandPage[s];
 {type==='year'&&<VList kind="year" y={id} lang={lang}/>}
 {type==='rackets'&&<VHub kind="rackets" p={id} lang={lang}/>}
 {type==='shoes'&&<VHub kind="shoes" lang={lang}/>}
-{type==='shoeCompare'&&<VShoeCompare lang={lang}/>}
 {type==='shoe'&&<VProduct kind="shoe" s={shoeBySlug[id]} lang={lang}/>}
 {type==='shoeList'&&<VList kind="shoe" k={id} lang={lang}/>}
 {type==='shoeBrand'&&<VList kind="shoe" k="brand" b={shoeOnlyBrands.find(b=>b.slug===id)} lang={lang}/>}

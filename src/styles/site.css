@@ -18,7 +18,7 @@ a{color:var(--green2)}p{margin:0 0 1em}
 .ubar .rgn:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
 html.bf-off .ubar-msg,html.bf-off .ubar-x{display:none}
 @media(max-width:1180px){html.bf-off .ubar,.ubar:not(:has(.ubar-msg)){display:none}}
-@media(width > 1180px){.ubar .wrap{grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr)}}
+@media(width > 1180px){.ubar .wrap{grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);max-width:none}}
 .ubar-msg{grid-column:2;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;width:100%;height:var(--uh);padding:0 8px;color:#fff;text-decoration:none;font-size:.875rem;font-weight:600}
 .ubar-msg b{flex:none;background:var(--lime);color:#111;border-radius:99px;padding:2px 8px;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .ubar-msg span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

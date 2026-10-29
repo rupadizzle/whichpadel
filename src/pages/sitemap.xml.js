@@ -27,7 +27,7 @@ const PRICE_TYPES = new Set(['home', 'best', 'bestIndex', 'brand', 'brandYear', 
 
 function dateFor(p) {
   if (p.type === 'racket') return racketDate[p.id] || REVIEWED;
-  if (p.type === 'shoe' || p.type === 'shoeList' || p.type === 'shoes' || p.type === 'shoeCompare' || p.type === 'shoeBrand') return shoeDate;
+  if (p.type === 'shoe' || p.type === 'shoeList' || p.type === 'shoes' || p.type === 'shoeBrand') return shoeDate;
   if (p.type === 'ball' || p.type === 'balls') return ballDate;
   if (p.type === 'bag' || p.type === 'bags') return bagDate;
   if (p.type === 'privacy') return '2026-10-24';

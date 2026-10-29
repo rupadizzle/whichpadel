@@ -16,6 +16,12 @@ const REDIR = new Map([
   ['/it/racchette/confronta', '/it/racchette/'],
   ['/de/padelschlaeger-vergleich', '/de/schlaeger/'],
   ['/de/schlaeger/vergleich', '/de/schlaeger/'],
+  ['/shoes/compare', '/shoes/'],
+  ['/es/zapatillas/comparar', '/es/zapatillas/'],
+  ['/fr/chaussures/comparer', '/fr/chaussures/'],
+  ['/pt/sapatilhas/comparar', '/pt/sapatilhas/'],
+  ['/it/scarpe/confronta', '/it/scarpe/'],
+  ['/de/schuhe/vergleich', '/de/schuhe/'],
 ]);
 const TTL = 10 * 60 * 1000;
 

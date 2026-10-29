@@ -190,7 +190,7 @@ const view = (() => {
     return {
       brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
       price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
-      compareHref: url('shoeCompare', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
+      compareHref: url('shoes', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
       overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
       shoeLinks: sh.lk && SHOE_LIST_KEYS.includes(sh.lk) ? [{ href: url('shoeList', lang, sh.lk), label: sh.T.lists[sh.lk][0] }, { href: url('shoeList', lang, 'best'), label: sh.T.lists.best[0] }] : null,
       rated: false, avg: null, ratings: null, specH: sh.T.specs, rows: sh.rows, specPrice: false, usRow: sh.usSz ? { label: 'Sizes in stock (US)', value: sh.usSz } : null,

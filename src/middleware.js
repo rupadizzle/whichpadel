@@ -1,5 +1,5 @@
 // Old /shoes/brand/:slug/ URLs. One brand, one page: /brands/:slug/.
-// The racket comparison tool lives on the racket list. Old /rackets/compare/ URLs go there.
+// Comparison lives on each product list. Old /rackets/compare/ and /shoes/compare/ URLs go there.
 import { defineMiddleware } from 'astro:middleware';
 import { url } from './i18n/routes.js';
 import { brandList } from './lib/data.js';
@@ -10,7 +10,11 @@ const redir=new Map();
 for(const b of shoeBrands){
   for(const lang of LANGS){ const from=url('shoeBrand',lang,b.slug), to=url('brand',lang,b.slug)+(racketSlugs.has(b.slug)?'#shoes':''); if(!from||!to) continue; redir.set(from,to); if(from.endsWith('/')) redir.set(from.slice(0,-1),to); } }
 const cmp=new Map();
-for(const lang of LANGS){ const from=url('compare',lang), to=url('rackets',lang); if(!from||!to) continue; cmp.set(from,to); if(from.endsWith('/')) cmp.set(from.slice(0,-1),to); }
+for(const lang of LANGS){
+  for(const [fromType,toType] of [['compare','rackets'],['shoeCompare','shoes']]){
+    const from=url(fromType,lang), to=url(toType,lang); if(!from||!to) continue; cmp.set(from,to); if(from.endsWith('/')) cmp.set(from.slice(0,-1),to);
+  }
+}
 export const onRequest=defineMiddleware((context,next)=>{
   const path=context.url.pathname;
   if(path==='/racket-finder'||path==='/racket-finder/'){ const search=new URL(context.request.url).search||context.url.search; return context.redirect('/finder/'+search,301); }
