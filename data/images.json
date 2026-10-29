@@ -7324,8 +7324,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-aquila-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://resize.sprintercdn.com/f/512x512/products/3a8a273f335849958f0d39963ca12bd6/pa-starvie-aquila-soft-2024-346-375_3a8a273f335849958f0d39963ca12bd6_2994172272.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-aquila-pro-2024": {
     "ok": true,
@@ -7887,8 +7888,9 @@
     "filled": "2026-10-29"
   },
   "middle-moon-eclipse-9-gold-attack-12k-2026": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelindex.app/palas/middle-middle-moon-eclipse-9-gold-attack-12k-2026/opengraph-image?5279b01b49031a58",
+    "filled": "2026-10-29"
   },
   "munich-hyper-vibe-2026": {
     "ok": false,
@@ -7929,7 +7931,7 @@
   },
   "osaka-vision-control-2026": {
     "ok": false,
-    "error": "placeholder"
+    "error": "src is Vision Pro not Vision Control"
   },
   "osaka-vision-power-2026": {
     "ok": true,
@@ -8224,8 +8226,9 @@
     "filled": "2026-10-29"
   },
   "royal-padel-35-aniversario-poly-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://solopalasdepadel.com/wp-content/uploads/2024/12/ROYAL-PADEL-35-ANIVERSARIO-POLY-2025-1.webp",
+    "filled": "2026-10-29"
   },
   "royal-padel-m27-light-2025": {
     "ok": true,
@@ -8399,8 +8402,9 @@
     "filled": "2026-10-29"
   },
   "nox-tl10-quantum-12k-2025-tino-libaak": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/nox_nox-tl10-quantum-12k_2025.jpg",
+    "filled": "2026-10-29"
   },
   "nox-vk10-quantum-3k-2025-aranzazu-osoro": {
     "ok": true,
@@ -8408,8 +8412,9 @@
     "filled": "2026-10-29"
   },
   "royal-padel-fury-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/processed-padel-racket-1758952486967.jpg",
+    "filled": "2026-10-29"
   },
   "royal-padel-whip-extreme-2025": {
     "ok": true,
@@ -8451,8 +8456,9 @@
     "filled": "2026-10-29"
   },
   "middle-moon-eclipse-5-carbon-gold-2025": {
-    "ok": false,
-    "error": "placeholder"
+    "ok": true,
+    "src": "https://padelindex.app/palas/middle-middle-moon-eclipse-5-carbon-gold-reedition-2025/opengraph-image?5279b01b49031a58",
+    "filled": "2026-10-29"
   },
   "nox-equation-light-woman-2025": {
     "ok": true,
@@ -8775,8 +8781,9 @@
     "filled": "2026-10-29"
   },
   "nox-ml10-luxury-bahia-12k-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.padelreference.com/storage/9005/LNgWcJaW1hGwMrTwipvyqayIaobWJQ-metaYmFoaWEgMS5qcGc%3D-.webp",
+    "filled": "2026-10-29"
   },
   "nox-ml10-luxury-shotgun-18k-2024": {
     "ok": true,
@@ -8839,8 +8846,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-aquila-blue-tour-edition-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://m.media-amazon.com/images/I/412j1UtXZkL._SL500_.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-aquila-speed-2024": {
     "ok": false,
@@ -8852,8 +8860,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-kenta-colours-pro-ltd-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.clusterpadel.com/revcms_render_image.aspx?date=20240625&id=17b73cab-6caa-458d-8e3b-8e72b47a2109&mode=0",
+    "filled": "2026-10-29"
   },
   "star-vie-kenta-colours-soft-ltd-2024": {
     "ok": false,
@@ -8884,7 +8893,7 @@
   },
   "varlion-bourne-summum-prisma-airflow-w-2024": {
     "ok": false,
-    "error": "collision"
+    "error": "generic opengraph photo"
   },
   "varlion-bourne-summum-prisma-radio-w-2024": {
     "ok": true,
@@ -9279,5 +9288,10 @@
   "drop-shot-allegra-2-0": {
     "ok": false,
     "error": "screenshot not product"
+  },
+  "vibora-king-cobra-xtreme-3k-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/vibora-king-cobra-xtreme-3k-2024-1000-f04c51f8.webp",
+    "filled": "2026-10-29"
   }
 }
