@@ -3,11 +3,12 @@ import { NEWS } from '../i18n/news.js';
 // Privacy, affiliate disclosure and About: one component for every language. Contact is only ever hello@whichpadel.com.
 import Base from '../layouts/Base.astro'; import { D, url, SITE } from '../i18n/index.js'; import { AUTHOR, LINKEDIN } from '../lib/byline.js';
 const { lang, kind } = Astro.props; const d=D(lang), L=d.copy.legal, u=d.ui;
-const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy+NEWS[lang].pv],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about]}[kind];
+const authorUrl=SITE+url('author',lang);
+const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy+NEWS[lang].pv],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about],author:[L.authorH,L.authorDesc,null,L.authorP]}[kind];
 const body=kind==='about'?T[3].replace('§',`<a href="${url('affiliate',lang)}">${u.affiliate.toLowerCase()}</a>`):T[3];
-const personUrl=SITE+url('about',lang)+'#rupert-wallace';
-const jsonld=kind==='about'?{'@context':'https://schema.org','@type':'AboutPage','@id':SITE+url('about',lang)+'#page','url':SITE+url('about',lang),'name':T[0],'description':T[1],'mainEntity':{'@id':SITE+'/#organization'},'about':{'@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang),'email':'hello@whichpadel.com','description':T[1],'founder':{'@type':'Person','@id':SITE+'/#rupert-wallace','name':AUTHOR,'url':personUrl,'sameAs':[LINKEDIN]}}}:null;
+const person={'@type':'Person','@id':SITE+'/#rupert-wallace',name:AUTHOR,url:authorUrl,description:L.authorP,sameAs:[LINKEDIN],worksFor:{'@id':SITE+'/#organization'}};
+const jsonld=kind==='about'?{'@context':'https://schema.org','@type':'AboutPage','url':SITE+url('about',lang),'name':T[0],'description':T[1],'mainEntity':{'@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang),'email':'hello@whichpadel.com','description':T[1]}}:kind==='author'?{'@context':'https://schema.org','@graph':[{'@type':'ProfilePage','url':authorUrl,'name':AUTHOR,'mainEntity':{'@id':SITE+'/#rupert-wallace'},'inLanguage':d.locale},person,{'@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang)}]}:null;
 ---
 <Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]} jsonld={jsonld}><article class="panel prose">
-<h1>{T[0]}</h1>{T[2]&&<p class="muted">{T[2]}</p>}<Fragment set:html={body}/>{kind==='about'&&<section id="rupert-wallace"><h2>{L.authorH}</h2><p>{L.authorP}</p><p><a href={LINKEDIN} rel="me">{L.linkedin}</a></p></section>}<p class="contact">{u.contactP} <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{kind==="about"&&L.credit&&<p class="muted small" data-parity-skip>{L.credit}</p>}
+<h1>{T[0]}</h1>{T[2]&&<p class="muted">{T[2]}</p>}{kind==='author'?<><p>{L.authorP}</p><p><a href={LINKEDIN} rel="me">{L.linkedin}</a></p><p><a href={url('about',lang)}>{L.aboutTitle}</a></p></>:<Fragment set:html={body}/>}<p class="contact">{u.contactP} <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{kind==="about"&&L.credit&&<p class="muted small" data-parity-skip>{L.credit}</p>}
 </article></Base>

@@ -28,6 +28,7 @@ const { kind, lang, r, s, b, g } = Astro.props;
 const stockAvail = offs => !Array.isArray(offs) || !offs.length || offs.every(o => o.s == null) ? undefined : (offs.some(o => o.s) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock');
 const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
+const pxJson = (offs, checked) => JSON.stringify((offs || []).filter(o => o && o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(checked ? { t: checked } : {}) })));
 const page = (() => {
   if (kind === 'racket') {
     const SN = shopNames(/\.(com|net|co\.uk)$/);
@@ -65,6 +66,7 @@ const page = (() => {
       G, R2, alt, bHref, kchips, ins, lvl, inLists, avg, srows, more, vs, similar, sameBrand, cmpU, FC, BN, oj, intro, C, t, x, SN, YC: YC[lang],
       recent: { cur: { s: r.slug, m: r.model, i: r.image || '' }, rk: url('racket', lang, 'X').replace(/X\/$/, ''), cmp: url('rackets', lang), cw: u.compareWith('§'), link: true },
       api: '/api/all-prices', slug: r.slug, name: r.model,
+      localPx: pxJson(r.price != null && r.productUrl ? [{ d: domainOf(r.productUrl), p: r.price, c: r.currency || 'EUR', u: r.productUrl, s: 1 }] : [], r.priceChecked || null),
     };
   }
   if (kind === 'shoe') {
@@ -100,6 +102,7 @@ const page = (() => {
       shoe: { T, R2, G, alt, bHref, soleT, usSz, rows, miss, kchips, intro, similar, sameBrand, BN, oj, lk, bestUrl: best0.u },
       SN, recent: { cur: { s: s.slug, m: s.name, i: shoeImg(s) || '' }, rk: url('shoe', lang, 'X').replace(/X\/$/, ''), cmp: url('shoes', lang), cw: '', link: false },
       api: '/api/shoe-prices', slug: s.slug, name: s.name, sizeNote: T.sizeNote,
+      localPx: pxJson(s.offs, SHOE_CHECKED),
     };
   }
 
@@ -133,7 +136,7 @@ const page = (() => {
     const best0 = [...offs].sort((a, b) => (b.s || 0) - (a.s || 0) || a.p - b.p)[0] || { d: '', p: 0, c: 'EUR', u: '#', s: 0 };
     const BN = (SN[best0.d] || [best0.d || ''])[0];
     const oj = JSON.stringify(offs.filter(o => o.s || !offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
-    const localPx = JSON.stringify(offs.filter(o => o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(BAG_CHECKED ? { t: BAG_CHECKED } : {}) })));
+    const localPx = pxJson(offs, BAG_CHECKED);
     const U = SITE + url('bag', lang, g.slug);
     const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('bags', lang), label: T.crumb }, { label: g.name }];
     return {
@@ -160,7 +163,7 @@ const page = (() => {
     locale: d.locale, title: `${b.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
     jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: b.name + ' (3)', url: U, brand: { '@type': 'Brand', name: b.brand }, ...(img ? { image: SITE + img } : {}), description: intro, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...b.offs.map(o => o.p))), highPrice: String(Math.max(...b.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: b.offs.length, ...(stockAvail(b.offs) ? { availability: stockAvail(b.offs) } : {}) } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('balls', lang) }, { '@type': 'ListItem', position: 3, name: b.name, item: U }] }] },
     crumbs: [{ href: url('home', lang), label: u.home }, { href: url('balls', lang), label: T.crumb }, { label: b.name }],
-    ball: { T, img, bHref, intro, rows, BN, oj, similar, bestUrl: best0.u }, SN,
+    ball: { T, img, bHref, intro, rows, BN, oj, similar, bestUrl: best0.u, localPx: pxJson(b.offs, BALL_CHECKED) }, SN,
   };
 })();
 const crumb = page.crumbs;
@@ -172,7 +175,7 @@ const view = (() => {
       brand: r.brand, brandHref: page.bHref, year: r.year, yearHref: r.year ? url('year', lang, r.year) : null, name: r.model, save: r.slug, saveKind: 'r',
       player: r.player ? { href: url('player', lang, playerSlug(r.player)), name: r.player } : null, chips: page.kchips, slides: page.G, alt: page.alt, shape: r.shape,
       price: r, tube: null, checked: r.priceChecked || null, buyHref: r.productUrl && r.price != null ? r.productUrl : null, buyLabel: u.px.cmp.buy.replace('{s}', page.BN), offers: page.oj,
-      compareHref: page.cmpU, compareLabel: u.compareThis, sizeNote: null, noUS: null, dc: r.slug, dcApi: '/api/all-prices',
+      compareHref: page.cmpU, compareLabel: u.compareThis, sizeNote: null, noUS: null, localPx: page.localPx, dc: r.slug, dcApi: '/api/all-prices',
       overview: u.overview, intro: page.intro, suitsH: page.R2.suits, suits: page.ins.suits, prosH: page.R2.pros, pros: page.ins.pros, consH: page.R2.cons, cons: page.ins.cons, shoeLinks: null,
       rated: !!r.rated, avg: page.avg, ratings: r.rated ? r.ratings : null, specH: page.R2.specs, rows: page.srows, specPrice: r.price != null, usRow: null,
       missing: r.inputsMissing.length ? u.missing(page.x.missing.join(', ')) : null, similarH: page.R2.more,
@@ -187,7 +190,7 @@ const view = (() => {
     return {
       brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
       price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
-      compareHref: url('shoeCompare', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, dc: s.slug, dcApi: '/api/shoe-prices',
+      compareHref: url('shoeCompare', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
       overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
       shoeLinks: sh.lk && SHOE_LIST_KEYS.includes(sh.lk) ? [{ href: url('shoeList', lang, sh.lk), label: sh.T.lists[sh.lk][0] }, { href: url('shoeList', lang, 'best'), label: sh.T.lists.best[0] }] : null,
       rated: false, avg: null, ratings: null, specH: sh.T.specs, rows: sh.rows, specPrice: false, usRow: sh.usSz ? { label: 'Sizes in stock (US)', value: sh.usSz } : null,
@@ -215,7 +218,7 @@ const view = (() => {
   return {
     brand: b.brand, brandHref: page.ball.bHref, year: null, yearHref: null, name: b.name, save: b.slug, saveKind: 'b', player: null,
     chips: [T.speeds[b.speed], b.tour && T.tour[b.tour], b.eco && T.eco, T.tube].filter(Boolean), slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(b.name), shape: null,
-    price: b, tube: T.tube, checked: BALL_CHECKED, buyHref: page.ball.bestUrl, buyLabel: T.buy.replace('{s}', page.ball.BN), offers: page.ball.oj,
+    price: b, tube: T.tube, checked: BALL_CHECKED, buyHref: page.ball.bestUrl, buyLabel: T.buy.replace('{s}', page.ball.BN), offers: page.ball.oj, localPx: page.ball.localPx,
     compareHref: null, compareLabel: null, sizeNote: null, noUS: T.noUS, dc: 'ball-' + b.slug, dcApi: '/api/shoe-prices',
     overview: u.overview, intro: page.ball.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
     rated: false, avg: null, ratings: null, specH: T.specs, rows: page.ball.rows, specPrice: false, usRow: null, missing: null, similarH: T.similar,

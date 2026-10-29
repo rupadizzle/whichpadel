@@ -2,7 +2,7 @@
 
 > Independent comparison of padel rackets, shoes, balls and bags. Ratings are calculated from published specifications with a published formula. They are not lab tests or court tests. Prices are recorded snapshots with a check date, not live quotes. No brand or shop pays for a ranking.
 
-WhichPadel compares gear so a player can match shape, weight, balance, core and price to their level. The pages are written by Rupert Wallace (https://www.linkedin.com/in/rupertwallace/). Some shop links are affiliate links; a commission never changes a rating or a position.
+WhichPadel compares gear so a player can match shape, weight, balance, core and price to their level. The pages are written by [Rupert Wallace](https://whichpadel.com/author/rupert-wallace/). Some shop links are affiliate links; a commission never changes a rating or a position.
 
 ## Start here
 
@@ -14,6 +14,7 @@ WhichPadel compares gear so a player can match shape, weight, balance, core and 
 - [Brands](https://whichpadel.com/brands/): One page per brand, with model counts and spec averages.
 - [Racket finder](https://whichpadel.com/finder/): Four questions, then matches from the same spec ratings.
 - [About](https://whichpadel.com/about/): How specs, ratings and prices are compiled.
+- [Rupert Wallace](https://whichpadel.com/author/rupert-wallace/): Author of the pages. LinkedIn: https://www.linkedin.com/in/rupertwallace/
 - [Affiliate disclosure](https://whichpadel.com/affiliate-disclosure/): How the site makes money.
 
 ## Other catalogues

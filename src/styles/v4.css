@@ -310,7 +310,9 @@ html.pxlock,html.pxlock body{overflow:hidden}
 :is(#pxsheet,#buybox .pxcmp) .pxp .pxcv:not(#_){display:block;margin:0;font-size:12px;line-height:16px;font-weight:500;color:#5b6670}
 :is(#pxsheet,#buybox .pxcmp) .pxb:not(#_){width:auto;min-width:72px;min-height:44px;height:44px;padding:0 12px;margin:0;justify-self:end;grid-column:auto;grid-row:auto;white-space:nowrap}
 #pxsheet .pxsall:not(#_),#buybox .pxcmp .pxall:not(#_){display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin:16px 0 0;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#13795c;font-size:14px;font-weight:600;text-decoration:none}
-#pxsheet .pxsmore .pxl li.pxr:first-child:not(#_){border-top:1px solid var(--line)}
+#pxsheet .pxsmore .pxl li.pxr:first-child:not(#_),#buybox .pxcmp .pxrest .pxl li.pxr:first-child:not(#_){border-top:1px solid var(--line)}
+#buybox .pxcmp .pxrest{display:block;margin:0;padding:0;border:0;background:none}
+#buybox .pxcmp .pxrest[hidden]{display:none}
 @media(max-width:359px){:is(#pxsheet,#buybox .pxcmp) li.pxr:not(#_){column-gap:8px}:is(#pxsheet,#buybox .pxcmp) .pxb:not(#_){min-width:64px;height:44px;min-height:44px;padding:0 8px}}
 #buybox .pxcmp li.pxr>a.pxb:not(#_){box-sizing:border-box;height:44px;min-height:44px;max-height:none;padding:0 8px;line-height:1}
 #pxall,#buybox .pxall{scroll-margin-bottom:120px}

@@ -4,8 +4,8 @@ import { AUTHOR, LINKEDIN, PUBLISHED, REVIEWED } from '../lib/byline.js';
 const { lang, headline, pageUrl, published = PUBLISHED, reviewed = REVIEWED } = Astro.props;
 const d = D(lang), u = d.ui;
 const day = iso => new Intl.DateTimeFormat(d.locale, { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(iso + 'T12:00:00Z'));
-const about = SITE + url('about', lang) + '#rupert-wallace';
+const about = SITE + url('author', lang);
 const ld = { '@context':'https://schema.org', '@type':'Article', headline, inLanguage:d.locale, url:pageUrl, mainEntityOfPage:pageUrl, datePublished:published, dateModified:reviewed, author:{ '@type':'Person', '@id':SITE+'/#rupert-wallace', name:AUTHOR, url:about, sameAs:[LINKEDIN] }, publisher:{ '@type':'Organization', name:'WhichPadel', url:SITE + url('home', lang) } };
 ---
-<p class="byline"><a href={url('about', lang)+'#rupert-wallace'}>{u.byAuthor}</a><span aria-hidden="true">·</span><time datetime={published}>{u.published(day(published))}</time><span aria-hidden="true">·</span><time datetime={reviewed}>{u.reviewed(day(reviewed))}</time></p>
+<p class="byline"><a href={url('author', lang)}>{u.byAuthor}</a><span aria-hidden="true">·</span><time datetime={published}>{u.published(day(published))}</time><span aria-hidden="true">·</span><time datetime={reviewed}>{u.reviewed(day(reviewed))}</time></p>
 <script type="application/ld+json" set:html={JSON.stringify(ld)}/>
