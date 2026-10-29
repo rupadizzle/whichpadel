@@ -45,7 +45,7 @@ const homeRows=[
 const SITE='https://whichpadel.com';
 const orgId=SITE+'/#organization';
 const jsonld={'@context':'https://schema.org','@graph':[
- {'@type':'Organization','@id':orgId,'name':'WhichPadel','url':SITE+L('home'),'email':'hello@whichpadel.com','description':'Independent padel comparison. Ratings are calculated from published specifications, not court tests. No paid placements.','founder':{'@type':'Person','@id':SITE+'/#rupert-wallace','name':'Rupert Wallace','url':SITE+L('about'),'sameAs':[LINKEDIN]}},
+ {'@type':'Organization','@id':orgId,'name':'WhichPadel','url':SITE+L('home'),'email':'hello@whichpadel.com','description':'Independent padel comparison. Ratings are calculated from published specifications, not court tests. No paid placements.','founder':{'@type':'Person','@id':SITE+'/#rupert-wallace','name':'Rupert Wallace','url':SITE+L('about')+'#rupert-wallace','sameAs':[LINKEDIN]}},
  {'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang],'publisher':{'@id':orgId}},
  {'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate')};
