@@ -9191,8 +9191,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-stage-pro-1-0": {
-    "ok": false,
-    "error": "collision/wrong"
+    "ok": true,
+    "src": "https://www.tradeinn.com/f/13860/138604879/drop-shot-stage-pro-padel-racket.webp",
+    "filled": "2026-10-29"
   },
   "dunlop-rapid-power-3-0": {
     "ok": true,
@@ -9291,7 +9292,7 @@
   },
   "drop-shot-allegra-2-0": {
     "ok": false,
-    "error": "screenshot"
+    "error": "bad"
   },
   "vibora-king-cobra-xtreme-3k-2024": {
     "ok": true,
@@ -9371,8 +9372,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-tiger-2-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR83.._1104226d-11ea-4698-b264-7770b223180c.jpg?v=1661349297",
+    "filled": "2026-10-29"
   },
   "drop-shot-tiger-3-0": {
     "ok": false,
@@ -9549,6 +9551,134 @@
   "siux-adrenaline-ibai-edition": {
     "ok": true,
     "src": "https://www.padelracketreviews.com/content/images/padel-rackets/siux-siux-adrenaline-ibai-edition-2022-padelnuestro.webp",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-delta-3-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-padel-drop-shot-delta-2022.jpg?v=1646568219",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-legend-3-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/legend-301.jpg?v=1647082011",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-legend-4-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-premium-3-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-drop-shot-premium-20_10fe09a0-8062-4941-a809-1e1b055831c0.jpg?v=1720439109",
+    "filled": "2026-10-29"
+  },
+  "kombat-troya-ajax": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-troya-ajax-1000-7987e5de.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr990-hybrid-soft": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr990-hybrid-soft-1000-b4ea7acf.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr990-power-hard": {
+    "ok": true,
+    "src": "https://padelactivo.com/wp-content/uploads/2023/10/kuikma-pr990-power-hard.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-ampurias": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200193/ocho-padel-ampurias-1760200203.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-joker-roja-3k": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200102/ocho-padel-joker-roja-3k-1760200106.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-alaris": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-alaris-1000-0061d905.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-android": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-android-1000-108a7c37.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-astra-2-0-attack": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-astra-20-attack-1000-2c86818d.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-black-carbon-3d-effect-brillo": {
+    "ok": false,
+    "error": "collision"
+  },
+  "siux-black-carbon-3d-effect-mate": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-black-carbon-3d-effect-mate-1000-6a09eab4.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-cayman": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0908/2952/1274/files/siux-cayman-padel-racket.webp?v=1765374384",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-fucsia-3-0": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-diablo-fucsia-30-1000-df2fd19c.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-granph": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200205/siux-diablo-granph-1760200214.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-luxury-1k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-diablo-luxury-1k-1000-1925f83d.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-12k": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-siux-diablo-revolution-12k.jpg?v=1639482144",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-3k": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/Siux-Diablo-Grafeno-Azul.jpg?v=1773319546",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-fucsia": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-diablo-revolution-fucsia-1000-579b213e.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-ii": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-diablo-revolution-ii-1000-81edd5ab.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-electra-st1-stupa": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-electra-st1-stupa-1000-ac203ceb.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-electra-st2-hybrid": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200843/siux-electra-st2-hybrid-1760200849.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-evoque-3-air": {
+    "ok": true,
+    "src": "https://m.media-amazon.com/images/G/01/share-icons/previewdoh/amazon.png",
+    "filled": "2026-10-29"
+  },
+  "siux-fenix-12k": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-de-padel-siux-fenix-12k.jpg?v=1639850634",
     "filled": "2026-10-29"
   }
 }
