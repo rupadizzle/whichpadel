@@ -43,13 +43,17 @@ const homeRows=[
  ]},
 ];
 const SITE='https://whichpadel.com';
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang]},{'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
+const orgId=SITE+'/#organization';
+const jsonld={'@context':'https://schema.org','@graph':[
+ {'@type':'Organization','@id':orgId,'name':'WhichPadel','url':SITE+L('home'),'email':'hello@whichpadel.com','description':'Independent padel comparison. Ratings are calculated from published specifications, not court tests. No paid placements.'},
+ {'@type':'WebSite','name':'WhichPadel','url':SITE+L('home'),'inLanguage':LOCALE[lang],'publisher':{'@id':orgId}},
+ {'@type':'ItemList','name':HB.top,'numberOfItems':picks.length,'itemListElement':picks.map((r,i)=>({'@type':'ListItem','position':i+1,'url':SITE+L('racket',r.slug),'name':r.model}))}]};
 const HU={rk:L('racket','X').replace(/X\/$/,''),cmp:L('rackets'),aff:L('affiliate')};
 const sorts=['','gbp:1','gbp:-1','power:-1','control:-1','forgiveness:-1','value:-1','year:-1','model:1'];
 const heroArt=['nox-at10-pro-cup-hard-2026','head-coello-pro-2026','adidas-metalbone-hrd-plus-2026'].map(s=>rackets.find(r=>r.slug===s)).filter(r=>r?.image);
 const baseProps={lang:DICTS[lang].locale};
 ---
-<Base {...baseProps} title={H.title(allRackets.length)} description={H.desc(allRackets.length,brands.length)} jsonld={jsonld}>
+<Base {...baseProps} title={H.title(allRackets.length)} description={H.desc(allRackets.length,brands.length)} jsonld={jsonld} ogImage={heroArt[0]?.image?SITE+heroArt[0].image:undefined}>
 <section class="hero" slot="hero"><div class="wrap"><div>
 <h1>{H.h1a}</h1>
 <div class="stats"><a href={L('rackets')}><b>{allRackets.length}</b><span>{H.stats[0]}</span></a><a href={L('shoes')}><b>{shoes.length}</b><span>{H.stats[1]}</span></a><a href={L('balls')}><b>{balls.length}</b><span>{H.stats[2]}</span></a><a href={L('brands')}><b>{brands.length}</b><span>{H.stats[3]}</span></a><div><b>0</b><span>{H.stats[4]}</span></div></div>

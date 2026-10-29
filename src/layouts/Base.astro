@@ -13,7 +13,7 @@ import '../styles/search.css';
 import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import SearchL from '../components/SearchL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
-const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true, newsletter = true } = Astro.props;
+const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, ogType = 'website', noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true, newsletter = true } = Astro.props;
 const L2 = LANGS.find(l=>l!=='en'&&lang.toLowerCase().startsWith(l))||'en';
 const alts = alternates(Astro.url.pathname);
 const LN=LANG_NAME;
@@ -26,7 +26,7 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <html lang={lang}><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>{title}</title>{Astro.url.pathname==="/" && <script is:inline type="text/javascript" src="https://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=a52e561e6375dd63575f8532b8eb75077321980b"></script>}<meta name="description" content={description}/>
 {noindex ? <meta name="robots" content="noindex"/> : <link rel="canonical" href={canon}/>}
-<meta property="og:url" content={canon}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>{ogImage&&<meta property="og:image" content={ogImage}/>}<meta name="twitter:card" content={ogImage?'summary_large_image':'summary'}/>
+<meta property="og:url" content={canon}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content={ogType}/>{ogImage&&<meta property="og:image" content={ogImage}/>}<meta name="twitter:card" content={ogImage?'summary_large_image':'summary'}/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/>
 {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}<meta property="og:site_name" content="WhichPadel"/>
 <slot name="head"/>{preload&&<link rel="preload" href={preload} as="fetch" crossorigin="anonymous"/>}<meta name="theme-color" content="#0b2a3c"/>{usPage?<link rel="alternate" hreflang="en-US" href={canon}/>:alts&&<>{Object.entries(alts).map(([l,u])=><link rel="alternate" hreflang={l} href={"https://whichpadel.com"+u}/>)}{alts.en&&<link rel="alternate" hreflang="x-default" href={"https://whichpadel.com"+alts.en}/>}</>}<meta property="og:locale" content={usPage?'en_US':OG_LOCALE[L2]}/>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "cf3636dc954245fca45c0fa20ca789bf"}'></script>

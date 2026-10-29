@@ -1,11 +1,12 @@
 ---
 import { NEWS } from '../i18n/news.js';
 // Privacy, affiliate disclosure and About: one component for every language. Contact is only ever hello@whichpadel.com.
-import Base from '../layouts/Base.astro'; import { D, url } from '../i18n/index.js';
+import Base from '../layouts/Base.astro'; import { D, url, SITE } from '../i18n/index.js';
 const { lang, kind } = Astro.props; const d=D(lang), L=d.copy.legal, u=d.ui;
 const T={privacy:[L.privacyTitle,L.privacyDesc,L.updated,L.privacy+NEWS[lang].pv],affiliate:[L.affTitle,L.affDesc,L.affUpdated,L.aff],about:[L.aboutTitle,L.aboutDesc,null,L.about]}[kind];
 const body=kind==='about'?T[3].replace('§',`<a href="${url('affiliate',lang)}">${u.affiliate.toLowerCase()}</a>`):T[3];
+const jsonld=kind==='about'?{'@context':'https://schema.org','@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang),'email':'hello@whichpadel.com','description':T[1]}:null;
 ---
-<Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]}><article class="panel prose">
+<Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]} jsonld={jsonld}><article class="panel prose">
 <h1>{T[0]}</h1>{T[2]&&<p class="muted">{T[2]}</p>}<Fragment set:html={body}/><p class="contact">{u.contactP} <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{kind==="about"&&L.credit&&<p class="muted small" data-parity-skip>{L.credit}</p>}
 </article></Base>

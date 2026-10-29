@@ -24,6 +24,7 @@ import { BALL } from '../i18n/balls.js';
 import { bags, bagImg, bagTypeKey, bagHref, rankBags, BAG_CHECKED } from '../lib/bags.js';
 import { BAG } from '../i18n/bags.js';
 const { kind, lang, r, s, b, g } = Astro.props;
+const stockAvail = offs => !Array.isArray(offs) || !offs.length || offs.every(o => o.s == null) ? undefined : (offs.some(o => o.s) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock');
 const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
 const page = (() => {
@@ -93,7 +94,7 @@ const page = (() => {
     crumbs.push({ label: s.model });
     return {
       locale: d.locale, title: `${s.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: G[0] ? SITE + G[0].l : undefined,
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...s.offs.map(o => o.p))), highPrice: String(Math.max(...s.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: s.offs.length } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] },
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...s.offs.map(o => o.p))), highPrice: String(Math.max(...s.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: s.offs.length, ...(stockAvail(s.offs) ? { availability: stockAvail(s.offs) } : {}) } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] },
       crumbs, preload: G[0] ? { href: G[0].l, srcset: `${G[0].s} 400w, ${G[0].l} 800w` } : null,
       shoe: { T, R2, G, alt, bHref, soleT, usSz, rows, miss, kchips, intro, similar, sameBrand, BN, oj, lk, bestUrl: best0.u },
       SN, recent: { cur: { s: s.slug, m: s.name, i: shoeImg(s) || '' }, rk: url('shoe', lang, 'X').replace(/X\/$/, ''), cmp: url('shoes', lang), cw: '', link: false },
@@ -136,7 +137,7 @@ const page = (() => {
     const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('bags', lang), label: T.crumb }, { label: g.name }];
     return {
       locale: d.locale, title: `${g.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...(offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...offs.map(o => o.p))), highPrice: String(Math.max(...offs.map(o => o.p))), priceCurrency: best0.c, offerCount: offs.length } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: g.name, item: U }] }] },
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...(offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...offs.map(o => o.p))), highPrice: String(Math.max(...offs.map(o => o.p))), priceCurrency: best0.c, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: g.name, item: U }] }] },
       crumbs, preload: img ? { href: img, srcset: `${img} 800w` } : null,
       bag: { T, img, bHref, intro, rows, kchips, BN, oj, localPx, similar, sameBrand, bestUrl: best0.u ? bagHref(best0) : null }, SN,
       api: '/api/shoe-prices', slug: g.id || ('bag-' + g.slug), name: g.name, sizeNote: null,
@@ -156,7 +157,7 @@ const page = (() => {
   const U = SITE + url('ball', lang, b.slug);
   return {
     locale: d.locale, title: `${b.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
-    jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: b.name + ' (3)', url: U, brand: { '@type': 'Brand', name: b.brand }, ...(img ? { image: SITE + img } : {}), description: intro, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...b.offs.map(o => o.p))), highPrice: String(Math.max(...b.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: b.offs.length } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('balls', lang) }, { '@type': 'ListItem', position: 3, name: b.name, item: U }] }] },
+    jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: b.name + ' (3)', url: U, brand: { '@type': 'Brand', name: b.brand }, ...(img ? { image: SITE + img } : {}), description: intro, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...b.offs.map(o => o.p))), highPrice: String(Math.max(...b.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: b.offs.length, ...(stockAvail(b.offs) ? { availability: stockAvail(b.offs) } : {}) } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('balls', lang) }, { '@type': 'ListItem', position: 3, name: b.name, item: U }] }] },
     crumbs: [{ href: url('home', lang), label: u.home }, { href: url('balls', lang), label: T.crumb }, { label: b.name }],
     ball: { T, img, bHref, intro, rows, BN, oj, similar, bestUrl: best0.u }, SN,
   };
@@ -222,7 +223,7 @@ const view = (() => {
   };
 })();
 ---
-<Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage}>
+<Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage} ogType="product">
 {page.preload && <Fragment slot="head"><link rel="preload" as="image" href={page.preload.href} imagesrcset={page.preload.srcset} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/></Fragment>}
 <nav class="crumbs" aria-label={u.breadcrumb}>{crumb.map((c, i) => <>{i > 0 && ' › '}{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}</nav>
 <div class="detail rp2">

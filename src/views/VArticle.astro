@@ -5,7 +5,7 @@ const { slug } = Astro.props; const A=ARTICLES[slug]; const lang='en'; const d=D
 const KEY={rules:'padel-rules',hold:'how-to-hold-a-padel-racket',vs:'padel-vs-paddle-tennis'}; const ALSO=A.next.map(k=>ARTICLES[KEY[k]]);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+'/'},{'@type':'ListItem','position':2,'name':A.crumb,'item':U}]},{'@type':'FAQPage','mainEntity':A.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
 ---
-<Base lang={d.locale} title={A.title+d.copy.titleSuffix} description={A.desc} jsonld={jsonld}>
+<Base lang={d.locale} title={A.title+d.copy.titleSuffix} description={A.desc} jsonld={jsonld} ogType="article">
 <section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href="/">{u.home}</a> › <span>{A.crumb}</span></nav><span class="eyebrow">{A.eyebrow}</span><h1>{A.h1}</h1><Byline lang={lang} headline={A.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{A.lead}</p></div></div></section>
 <article class="prose pg">
 <div class="tldr"><h2>In short</h2><ul>{A.tldr.map(x=><li set:html={x}/>)}</ul></div>
