@@ -131,10 +131,13 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 .pxwatch{display:flex;flex-direction:column;gap:12px;margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:none}
 .rp2 .buycol>.pxwatch{margin-top:0}
 .pxwatch h2,.pxwatch p{margin:0}
-.pxwatch .pxalert-cta{width:100%;min-height:44px}
-.pxwatch .pxalert-cta .bell{width:18px;height:18px;flex:none}
-.pxwatch .pxalert-cta[aria-pressed="true"]{border-color:var(--green);color:var(--green)}
-.pxwatch .pxalert-cta[aria-pressed="true"] .bell{fill:currentColor}
+.pxwatch .pxalert-cta{width:100%;min-height:44px;background:var(--lime);color:var(--navy);border-color:transparent}
+.pxwatch .pxalert-cta:hover{background:var(--lime2);color:var(--navy)}
+.pxwatch .pxalert-cta .bell{width:18px;height:18px;flex:none;transform-origin:50% 12%;animation:bell-ring 2.8s ease-in-out infinite}
+.pxwatch .pxalert-cta[aria-pressed="true"]{background:#fff;border-color:var(--green);color:var(--green)}
+.pxwatch .pxalert-cta[aria-pressed="true"] .bell{fill:currentColor;animation:none}
+@keyframes bell-ring{0%,42%,100%{transform:rotate(0)}6%{transform:rotate(16deg)}12%{transform:rotate(-14deg)}18%{transform:rotate(10deg)}24%{transform:rotate(-6deg)}30%{transform:rotate(2deg)}36%{transform:rotate(0)}}
+@media(prefers-reduced-motion:reduce){.pxwatch .pxalert-cta .bell{animation:none}}
 .rcard-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
 .rcard-acts .cmpbox{margin:0}
 .heart,.bell{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linejoin:round;stroke-linecap:round}
