@@ -7214,8 +7214,9 @@
     "filled": "2026-10-29"
   },
   "adidas-drive-vintage-3-3-2024": {
-    "ok": false,
-    "error": "tiny/corrupt image removed"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110136_padel_webs_padel_y_grupo_pala_adidas_drive_3_3_vintage_adrk5ca1u0062f_15_399e.jpg?v=1786110553",
+    "filled": "2026-10-29"
   },
   "adidas-adipower-multiweight-3-3-2024": {
     "ok": true,
@@ -7269,7 +7270,7 @@
   },
   "drop-shot-axion-attack-2024": {
     "ok": false,
-    "error": "tiny/corrupt image removed"
+    "error": "collision"
   },
   "drop-shot-axion-control-2024": {
     "ok": true,
@@ -7283,7 +7284,7 @@
   },
   "drop-shot-canyon-pro-2-0-2024": {
     "ok": false,
-    "error": "tiny/corrupt image removed"
+    "error": "collision"
   },
   "dunlop-titan-2-0-2024": {
     "ok": true,
@@ -7317,23 +7318,23 @@
   },
   "star-vie-aquila-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-aquila-pro-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-arcadia-2-0-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-basalto-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-basalto-pro-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-astrum-2024": {
     "ok": true,
@@ -7347,15 +7348,15 @@
   },
   "star-vie-eclipta-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-spika-2-0-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-helion-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-kenta-pro-2024": {
     "ok": true,
@@ -7369,11 +7370,11 @@
   },
   "star-vie-titania-pro-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-titania-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-kenta-speed-2024": {
     "ok": true,
@@ -7382,7 +7383,7 @@
   },
   "star-vie-triton-pro-2024": {
     "ok": false,
-    "error": "removed wrong-match image"
+    "error": "collision"
   },
   "star-vie-triton-2024": {
     "ok": true,
@@ -8420,5 +8421,428 @@
   "vibora-king-cobra-elite-24k-2-0-2025": {
     "ok": false,
     "error": "placeholder"
+  },
+  "adidas-adipower-ctrl-team-3-3-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/0050750020900000.jpg?v=1774929742",
+    "filled": "2026-10-29"
+  },
+  "adidas-adipower-light-3-3-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "adidas-adipower-team-light-3-3-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "adidas-cross-it-light-pro-edt-2024-martita-ortega": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110134_pala_adidas_cross_it_light_adrk1ca6u0051f_1500x1500_vista1_b692.jpg?v=1786110770",
+    "filled": "2026-10-29"
+  },
+  "adidas-drive-light-3-3-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "babolat-air-veron-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121761-pala-babolat-air-veron-150180-100-1500x1500-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "babolat-air-viper-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/115869-pala-test-b2c-babolat-air-viper-150160-100-test-b2c-1500x1500-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "babolat-counter-veron-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121764-pala-babolat-counter-veron-150181-100-1500x1500-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "babolat-counter-viper-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121766-pala-babolat-counter-viper-150177-100-1500x1500-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "babolat-technical-veron-juan-lebron-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/123815-pala-test-b2c-babolat-veron-juan-lebron-3.0-150182-100-1500x1500.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "babolat-technical-vertuo-juan-lebron-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "babolat-technical-viper-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "black-crown-piton-12-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121588-pala-black-crown-piton-14-a005498-1500x1500-1.jpg?v=1786110751",
+    "filled": "2026-10-29"
+  },
+  "black-crown-piton-air-12k-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/BLACK_CROWN_PITON_AIR_PLUS_VISTA1_1000_1000_82a7.jpg?v=1786110540",
+    "filled": "2026-10-29"
+  },
+  "black-crown-piton-premium-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/154888-black-crown-piton-blue-1500x1500-1.jpg?v=1786110619",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-flow-light-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "bullpadel-flow-woman-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/1496600001700000.jpg?v=1774942087",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-hack-02-prf-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000286110100.jpg?v=1774877851",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-hack-03-comfort-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/1491760010300000_1.jpg?v=1774878980",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-hack-03-hybrid-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000908030107_1.jpg?v=1786961866",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-indiga-power-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "bullpadel-indiga-woman-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/b/u/bullpadel_indiga_ctr_23_467401_32438_3_7de0.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-ionic-control-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/1490760025000000.jpg?v=1774920743",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-ionic-light-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0693/3849/7281/files/IonicLight36.jpg?v=1766143553",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-ionic-power-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/1490760024900000.jpg?v=1774913412",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-vertex-02-carbon-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000286030100.jpg?v=1775122099",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-vertex-04-mx-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000908040104_1.jpg?v=1786961415",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-vertex-hybrid-04-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000001202250100.jpg?v=1791531231",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-canyon-pro-attack-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-canyon-pro-control-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/114579-pala-drop-shot-canyon-pro-control-1-0-dp324009-1000x1000-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-conqueror-12-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/124171-pala-drop-shot-conqueror-attack-2-0-dp344014-1500x1500-vista1.jpg?v=1786110653",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-conqueror-attack-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-explorer-pro-6-0-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-explorer-pro-attack-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-explorer-pro-control-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0778/1541/5008/files/9768.jpg?v=1761075941",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-fury-attack-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-fury-control-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-quantum-1-0-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/124181-pala-drop-shot-quantum-soft-w-dp344007-mujer-1500x1500-1.jpg?v=1786110611",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-renegade-control-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "enebe-arrow-blue-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/113172_pack_enebe_arrow_a003174_1500x1500_f171.jpg?v=1786110785",
+    "filled": "2026-10-29"
+  },
+  "enebe-massive-roja-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/115887-pala-enebe-massive-yellow-a003663-1000x1000-1.jpg?v=1786110632",
+    "filled": "2026-10-29"
+  },
+  "enebe-mustang-12k-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/111891_pala_enebe_mustang_a000420_1000x1000_1_f854.jpg?v=1786110593",
+    "filled": "2026-10-29"
+  },
+  "enebe-nitro-red-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121678-pala-enebe-suburban-red-12k-a005848-1000x1000-1.jpg?v=1786110678",
+    "filled": "2026-10-29"
+  },
+  "head-extreme-evo-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "head-extreme-motion-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/0060680446980000.jpg?v=1774929733",
+    "filled": "2026-10-29"
+  },
+  "head-extreme-motion-ltd-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/pro_07b3ec38-8634-46fd-94d9-3671f935b27b.webp?v=1761052763",
+    "filled": "2026-10-29"
+  },
+  "head-extreme-one-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "joma-gold-pro-amarillo-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "joma-gold-pro-rojo-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/imagen_1_30491_29525756_e4ee.jpg?v=1786011960",
+    "filled": "2026-10-29"
+  },
+  "joma-slam-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/imagen-1-111846-35548247.jpg?v=1786098407",
+    "filled": "2026-10-29"
+  },
+  "joma-tournament-pro-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "joma-tournament-pro-amarillo-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "joma-tournament-pro-rojo-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "kombat-black-mkiii-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "kombat-hunter-mkiii-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/4137_9c1472ac-7c71-44ef-a666-c90ff9e90d9b.jpg?v=1781683413",
+    "filled": "2026-10-29"
+  },
+  "kombat-swat-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "kombat-swat-oneil-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "kombat-xifos-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/3754_1ae1feae-a1cc-4cec-97f5-a5c3075667f1.jpg?v=1781683341",
+    "filled": "2026-10-29"
+  },
+  "nox-equation-advanced-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/120978-pala-nox-equation-soft-advanced-pequsadv26-1500x1500-1.jpg?v=1786110748",
+    "filled": "2026-10-29"
+  },
+  "nox-ml10-luxury-bahia-12k-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "nox-ml10-luxury-shotgun-18k-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/PML10LUXSHOT22_1000_10002__12c8.jpg?v=1786110450",
+    "filled": "2026-10-29"
+  },
+  "nox-vk10-future-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/imagen_1_110814_ecb8b9a4_3c7b.jpg?v=1786110542",
+    "filled": "2026-10-29"
+  },
+  "oxdog-hyper-match-2-0-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "oxdog-hyper-tour-2-0-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaOxdogHyperWomanAIR2.0_1.webp?v=1780386481",
+    "filled": "2026-10-29"
+  },
+  "oxdog-sense-pro-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "oxdog-sense-tour-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaOxdogSenseproClassicSeries_1.webp?v=1769173448",
+    "filled": "2026-10-29"
+  },
+  "oxdog-ultimate-court-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaOxdogUltimateCourt_1.webp?v=1769172408",
+    "filled": "2026-10-29"
+  },
+  "oxdog-ultimate-match-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "oxdog-ultimate-pro-light-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/5242002-02.png?v=1765534586",
+    "filled": "2026-10-29"
+  },
+  "oxdog-ultimate-pro-plus-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaOxdogUltimateWomanAIR_1.webp?v=1780385986",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-34-aniversario-light-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "siux-pegasus-revolution-2-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/24659-siux-pegasus-revolution-cube-1500x1500-vista1.jpg?v=1786110792",
+    "filled": "2026-10-29"
+  },
+  "star-vie-aquila-blue-tour-edition-2024": {
+    "ok": false,
+    "error": "year-{2026}"
+  },
+  "star-vie-aquila-speed-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-dronos-speed-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-kenta-colours-pro-ltd-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-kenta-colours-soft-ltd-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-metheora-dual-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-raptor-black-limited-edition-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121648-pala-starvie-raptor-mas-pstrp31000-1500x1500-1.jpg?v=1786110570",
+    "filled": "2026-10-29"
+  },
+  "star-vie-titania-speed-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "star-vie-triton-speed-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "varlion-bourne-summum-prisma-airflow-s-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "varlion-bourne-summum-prisma-airflow-w-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "varlion-bourne-summum-prisma-radio-w-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/164366-pala-varlion-bourne-prisma-carbon-soft-a007133-1200x1200-1.jpg?v=1791323365",
+    "filled": "2026-10-29"
+  },
+  "varlion-lw-summum-prisma-airflow-s-2024": {
+    "ok": false,
+    "error": "new-collision"
+  },
+  "varlion-lw-summum-prisma-airflow-w-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/164365-pala-varlion-lw-c-3-summum-a007132-1200x1200-1.jpg?v=1791323509",
+    "filled": "2026-10-29"
+  },
+  "varlion-maxima-summum-prisma-airflow-s-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "varlion-maxima-summum-prisma-airflow-w-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/6/164367-pala-varlion-maxima-prisma-carbon-soft-a007134-1200x1200-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "varlion-maxima-summum-prisma-radio-s-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/164367-pala-varlion-maxima-prisma-carbon-soft-a007134-1200x1200-1.jpg?v=1791323338",
+    "filled": "2026-10-29"
+  },
+  "vibora-black-mamba-elite-3k-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "vibora-black-mamba-radical-12k-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "vibora-black-mamba-xtreme-3k-2024": {
+    "ok": false,
+    "error": "collision"
+  },
+  "vibora-russell-classic-fiber-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000773160101.jpg?v=1780389021",
+    "filled": "2026-10-29"
   }
 }
