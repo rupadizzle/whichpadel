@@ -14,7 +14,8 @@ import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
 import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L, ckTxt } from '../lib/data.js';
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
-import { offersOf, SHOPS, domainOf } from '../lib/price.js';
+import { offersOf, SHOPS, domainOf, FX } from '../lib/price.js';
+import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
 import { shoes, shoeGallery, shoeImg, rankShoes, shoeBrandTarget, SHOE_CHECKED, SHOE_LIST_KEYS } from '../lib/shoes.js';
@@ -276,13 +277,23 @@ const view = (() => {
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
 {kind === 'bag' && <StickyCta r={g} lang={lang} shop={page.bag.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
+<script is:inline define:vars={{ SHIP: shipData.shops, RATES: FX.rates }}>
+window.wpShip=function(d,region,price,cur){
+ const rules=SHIP[d]; if(!rules||price==null||!region) return null;
+ const rule=rules.find(x=>x.r.indexOf(region)>=0); if(!rule||!RATES[cur]||!RATES[rule.c]) return null;
+ const p=cur===rule.c?+price:+price/RATES[cur]*RATES[rule.c]; if(!Number.isFinite(p)) return null;
+ const band=rule.b.slice().sort((a,b)=>b[0]-a[0]).find(x=>p+1e-6>=x[0]); if(!band) return null;
+ return {fee:band[1],cur:rule.c};
+};
+window.wpConv=function(n,from,to){if(n==null||!RATES[from]||!RATES[to]) return null; const v=from===to?+n:+n/RATES[from]*RATES[to]; return Number.isFinite(v)?v:null;};
+</script>
 {(kind === 'racket' || kind === 'shoe' || kind === 'bag') && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
 {(kind === 'racket' || kind === 'shoe') && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
-<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1, SEEK: u.px.cmp.seek }}>
+<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1, SEEK: u.px.cmp.seek, FREE: u.px.cmp.shipFree, PLUS: u.px.cmp.shipPlus, EXTRA: u.px.cmp.shipExtra }}>
 document.body.classList.add('has-sticky');
 const sc=document.getElementById('stickycta'), mq=matchMedia('(max-width:899px)');
 function syncBar(){
@@ -303,7 +314,8 @@ function arm(){
  const title=(document.querySelector('.rph h1')||{}).textContent||'';
  let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
  const checked=note&&note.textContent.trim()?`<p class="pxchecked">${esc(note.textContent.trim())}</p>`:'';
- const list=!why&&M&&M.href?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b></span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li><li class="pxr pxseek"><span class="pxs"><b>${esc(SEEK)}</b></span></li></ul>${checked}`:'';
+ const shipNote=()=>{ if(!M||!window.wpShip||!window.WP) return ''; let os=[]; try{os=JSON.parse(M.dataset.o||'[]');}catch(e){os=[];} if(!Array.isArray(os)) os=[]; let host=''; try{host=new URL(M.href).hostname.replace(/^www\./,'');}catch(e){} const o=os.find(x=>x&&(x.d===host||String(x.u||'').indexOf(host)>=0))||os[0]; if(!o) return ''; const q=wpShip(o.d||host,WP.region,o.p,o.c); if(!q) return ''; const show=WP.currency||q.cur; const v=q.fee==null?null:(window.wpConv?wpConv(q.fee,q.cur,show):q.fee); const sym={GBP:'£',EUR:'€',USD:'$',SEK:'kr'}[show]||''; const money=v==null?'':String(Math.round(v)); const shown=show==='SEK'?money+' kr':(document.documentElement.lang==='en'?sym+money:money.replace('.',',')+' '+sym); const lab=q.fee===0?FREE:q.fee==null?EXTRA:PLUS.replace('{p}',shown); return `<small class="pxcv pxship">${esc(lab)}</small>`; };
+ const list=!why&&M&&M.href?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b></span><span class="pxp">${esc(price)}${shipNote()}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li><li class="pxr pxseek"><span class="pxs"><b>${esc(SEEK)}</b></span></li></ul>${checked}`:'';
  const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(list||`<p class="pxbigp">${esc(price)}</p>`);
  const P=document.getElementById('pxcmp'); if(list&&P){P.innerHTML=list; P.hidden=false; if(big) big.hidden=true; if(note) note.hidden=true; M.hidden=true;}
  D.dataset.live='0';

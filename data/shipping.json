@@ -1,0 +1,67 @@
+{
+  "checked": "2026-10-29",
+  "note": "Cheapest standard delivery published by each shop. b is [minimum order, fee] in c. fee 0 is free. fee null means the shop charges delivery but does not publish the amount. The first band whose minimum the price meets is used.",
+  "shops": {
+    "streetpadel.com": [
+      {"r":["ES","PT"],"c":"EUR","b":[[59.95,0],[0,4.95]]},
+      {"r":["FR","IT"],"c":"EUR","b":[[100,0],[0,9.95]]},
+      {"r":["DE"],"c":"EUR","b":[[100,0],[0,14.95]]},
+      {"r":["BE"],"c":"EUR","b":[[100,0],[0,11.95]]},
+      {"r":["NL"],"c":"EUR","b":[[200,0],[100,4.95],[0,9.95]]},
+      {"r":["IE","GB"],"c":"EUR","b":[[200,0],[100,7.95],[0,14.95]]},
+      {"r":["SE"],"c":"EUR","b":[[200,0],[100,7.95],[0,19.95]]}
+    ],
+    "padelproshop.com": [
+      {"r":["ES","PT"],"c":"EUR","b":[[50,0],[0,2.99]]},
+      {"r":["DE","FR","IT"],"c":"EUR","b":[[100,0],[0,3.99]]},
+      {"r":["GB","IE","NL","BE","SE","EU"],"c":"EUR","b":[[200,0],[100,2.99],[0,4.99]]}
+    ],
+    "pdhsports.com": [
+      {"r":["GB"],"c":"GBP","b":[[40,0],[0,4.99]]},
+      {"r":["IE"],"c":"GBP","b":[[0,10]]},
+      {"r":["FR","DE","NL","BE"],"c":"GBP","b":[[0,20]]},
+      {"r":["ES","PT","IT","SE"],"c":"GBP","b":[[0,30]]},
+      {"r":["US"],"c":"GBP","b":[[0,70]]},
+      {"r":["EU"],"c":"GBP","b":[[0,null]]}
+    ],
+    "padelsmith.co.uk": [
+      {"r":["GB"],"c":"GBP","b":[[0,0]]},
+      {"r":["ES","PT","FR","IT","DE","NL","BE","IE","SE","EU","US","ROW"],"c":"GBP","b":[[250,0],[0,null]]}
+    ],
+    "mantissport.com": [
+      {"r":["GB"],"c":"GBP","b":[[90,0],[0,null]]},
+      {"r":["US"],"c":"GBP","b":[[0,null]]}
+    ],
+    "padelreference.com": [
+      {"r":["FR"],"c":"EUR","b":[[80,0],[0,null]]}
+    ],
+    "joma-sport.com": [
+      {"r":["FR"],"c":"EUR","b":[[70.01,0],[50.01,5.95],[30.01,4.95],[0,3.95]]}
+    ],
+    "siuxpadel.com": [
+      {"r":["FR","IT","DE","NL","BE","IE","SE","GB"],"c":"EUR","b":[[150,0],[0,null]]}
+    ],
+    "starvie.com": [
+      {"r":["ES"],"c":"EUR","b":[[50,0],[0,5.95]]},
+      {"r":["PT","FR","DE","IT","NL","BE","IE","SE","GB"],"c":"EUR","b":[[0,16.95]]}
+    ],
+    "padel-point.de": [
+      {"r":["DE"],"c":"EUR","b":[[99,0],[0,5.99]]}
+    ],
+    "noxsport.com": [
+      {"r":["ES","PT"],"c":"EUR","b":[[65,0],[0,null]]},
+      {"r":["FR","IT","DE","NL","BE","IE","SE","GB","EU","US","ROW"],"c":"EUR","b":[[0,null]]}
+    ],
+    "zonadepadel.es": [
+      {"r":["ES"],"c":"EUR","b":[[55.01,0],[30,4.95],[0,null]]},
+      {"r":["PT"],"c":"EUR","b":[[55.01,null],[30,4.95],[0,7.95]]},
+      {"r":["FR","IT","DE","SE","NL","BE","IE","GB","EU"],"c":"EUR","b":[[0,null]]}
+    ],
+    "esprit-padel-shop.com": [
+      {"r":["FR"],"c":"EUR","b":[[80,0],[30,4.9],[0,3.9]]},
+      {"r":["BE","NL"],"c":"EUR","b":[[80,0],[0,4.9]]},
+      {"r":["DE","IT","PT","ES"],"c":"EUR","b":[[150,6.9],[30,11.9],[0,6.9]]},
+      {"r":["GB","IE","SE","EU","US","ROW"],"c":"EUR","b":[[0,null]]}
+    ]
+  }
+}
