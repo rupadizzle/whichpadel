@@ -1,0 +1,42 @@
+# WhichPadel
+
+> Independent comparison of padel rackets, shoes, balls and bags. Ratings are calculated from published specifications with a published formula. They are not lab tests or court tests. Prices are recorded snapshots with a check date, not live quotes. No brand or shop pays for a ranking.
+
+WhichPadel compares gear so a player can match shape, weight, balance, core and price to their level. The author of the pages is the WhichPadel organisation. Some shop links are affiliate links; a commission never changes a rating or a position.
+
+## Start here
+
+- [Homepage](https://whichpadel.com/): Catalogue counts, current prices and the main guides.
+- [How to choose a padel racket](https://whichpadel.com/padel-rackets/): Shapes, weight, balance, core, face, level and price, with figures from the database.
+- [Best padel rackets of 2026](https://whichpadel.com/best/best-padel-racket-2026/): 2026 and 2027 models ranked on a balanced spec score.
+- [All buying lists](https://whichpadel.com/best/): Beginners, power, control, budget, women, juniors and more. Each list states its rule.
+- [All rackets](https://whichpadel.com/rackets/): Filter by brand, year, shape, balance, weight, core and price.
+- [Brands](https://whichpadel.com/brands/): One page per brand, with model counts and spec averages.
+- [Racket finder](https://whichpadel.com/finder/): Four questions, then matches from the same spec ratings.
+- [About](https://whichpadel.com/about/): How specs, ratings and prices are compiled.
+- [Affiliate disclosure](https://whichpadel.com/affiliate-disclosure/): How the site makes money.
+
+## Other catalogues
+
+- [Padel shoes](https://whichpadel.com/shoes/)
+- [Padel balls](https://whichpadel.com/balls/)
+- [Padel bags](https://whichpadel.com/bags/)
+- [Rackets by player](https://whichpadel.com/players/)
+- [Head-to-head comparisons](https://whichpadel.com/compare/)
+
+## Languages
+
+- [English](https://whichpadel.com/)
+- [Español](https://whichpadel.com/es/)
+- [Français](https://whichpadel.com/fr/)
+- [Português](https://whichpadel.com/pt/)
+- [Italiano](https://whichpadel.com/it/)
+- [Deutsch](https://whichpadel.com/de/)
+
+## Facts worth citing
+
+- A round head keeps the sweet spot low and central. A diamond head moves it higher for power and is less forgiving. A teardrop sits between the two.
+- Adult racket length is limited to 45.5 cm and width to 26 cm. Most adult rackets that publish a thickness are 38 mm.
+- Rankings use published specs only. A model with too few published specs stays unrated rather than guessed.
+- Newer models and rackets sold at two or more shops get a small boost inside a list. Adult lists leave out women’s and junior models unless the list is specifically for them.
+- Full URL list: https://whichpadel.com/sitemap.xml

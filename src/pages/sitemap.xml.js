@@ -8,7 +8,7 @@ import { REVIEWED } from '../lib/byline.js';
 
 const iso = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') ? s : null;
 const later = (...xs) => xs.map(iso).filter(Boolean).sort().at(-1) || REVIEWED;
-const racketDate = Object.fromEntries(allRackets.map(r => [r.slug, later(r.priceChecked, REVIEWED)]));
+const racketDate = Object.fromEntries(allRackets.map(r => [r.slug, later(r.priceChecked, FX.date, REVIEWED)]));
 const shoeDate = later(SHOE_CHECKED, REVIEWED);
 const ballDate = later(BALL_CHECKED, REVIEWED);
 const bagDate = later(BAG_CHECKED, REVIEWED);
