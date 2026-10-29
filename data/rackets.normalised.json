@@ -40644,7 +40644,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-essence-2-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -40856,7 +40856,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-kibo-5-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -40917,7 +40917,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-legend-4-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -41267,11 +41267,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 71.43,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.dropshotsports.com/product-page/tiger-2-0-kids-padel-and-pop-36mm-profile-tiger",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -41279,7 +41279,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-tiger-3-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -42112,11 +42112,11 @@
       "faceMaterial": "Fiberglass",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 50.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/kuikma-pr190-verde",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -42124,7 +42124,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr190-verde.webp",
       "added": "2026-10-24"
     },
     {
@@ -42515,7 +42515,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-pr990-power-soft.webp",
       "added": "2026-10-24"
     },
     {
@@ -43285,11 +43285,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 189.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://webdepadel.com/siux-bat-pro",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -43297,7 +43297,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-bat-pro-3-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -43705,11 +43705,11 @@
       "faceMaterial": "Carbon",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 159.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://mundosports.es/palas-de-padel/599-siux-diablo-mate.html",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -43717,7 +43717,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-diablo-mate.webp",
       "added": "2026-10-24"
     },
     {
@@ -44215,11 +44215,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Bitubular Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 99.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://webdepadel.com/siux-empire/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44227,7 +44227,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-empire.webp",
       "added": "2026-10-24"
     },
     {
@@ -44335,11 +44335,11 @@
       "faceMaterial": "3K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 139.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelactivo.com/palas/siux-fenix-3k/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44347,7 +44347,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-fenix-3k.webp",
       "added": "2026-10-24"
     },
     {
@@ -44425,11 +44425,11 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 39.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/siux-fenix-ii-3k/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44437,7 +44437,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-fenix-ii-3k.webp",
       "added": "2026-10-24"
     },
     {
@@ -44677,7 +44677,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-genesis-ii-lucho-capra-pro.webp",
       "added": "2026-10-24"
     },
     {
@@ -44929,7 +44929,7 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "27.5 cm (10.8 in)",
       "coreHardness": "medium",
       "coreMaterial": "Black Soft EVA",
       "faceMaterial": "1K Carbon",
@@ -44947,7 +44947,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-1k-limited-edition.webp",
       "added": "2026-10-24"
     },
     {
@@ -45115,11 +45115,11 @@
       "faceMaterial": "24K Carbon + Graphene",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 227.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelstore.com/products/siux-pegasus-luxury-black-gold",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45127,7 +45127,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-luxury.webp",
       "added": "2026-10-24"
     },
     {
@@ -45145,11 +45145,11 @@
       "faceMaterial": "3K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/siux-pegasus-oro",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45157,7 +45157,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-oro.webp",
       "added": "2026-10-24"
     },
     {

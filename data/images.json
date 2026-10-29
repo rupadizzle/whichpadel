@@ -5845,8 +5845,9 @@
     "source": "shop"
   },
   "siux-empire": {
-    "ok": false,
-    "error": "accessory-src"
+    "ok": true,
+    "src": "https://webdepadel.com/wp-content/uploads/2021/06/Pala-de-padel-Siux-Empire-2021.jpg",
+    "filled": "2026-10-29"
   },
   "siux-fenix-go-4": {
     "ok": true,
@@ -9351,8 +9352,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-kibo-5-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR85...jpg?v=1661347008",
+    "filled": "2026-10-29"
   },
   "drop-shot-musk": {
     "ok": true,
@@ -9380,8 +9382,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-tiger-3-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://static.wixstatic.com/media/1dd049_5f4845cc1b7e410c85df109afde87cf8~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg",
+    "filled": "2026-10-29"
   },
   "drop-shot-tracker": {
     "ok": true,
@@ -9409,8 +9412,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-essence-2-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR96.jpg?v=1661431679",
+    "filled": "2026-10-29"
   },
   "drop-shot-kibo-4-0": {
     "ok": false,
@@ -9567,8 +9571,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-legend-4-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760201112/drop-shot-legend-4-0-1760201118.webp",
+    "filled": "2026-10-29"
   },
   "drop-shot-premium-3-0": {
     "ok": true,
@@ -9772,6 +9777,60 @@
   "siux-sg-black-limited-edition": {
     "ok": true,
     "src": "https://www.racketguide.com/prg-admin/images/siux-sg-black-limited-edition-2022-2.jpg",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr190-verde": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr190-verde-1000-fa11de77.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr990-power-soft": {
+    "ok": true,
+    "src": "https://www.nuestropadel.com/wp-content/uploads/2016/06/kuikma-pr990-power-soft.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-bat-pro-3-0": {
+    "ok": true,
+    "src": "https://webdepadel.com/wp-content/uploads/2016/01/Siux-Bat-Pro.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-mate": {
+    "ok": true,
+    "src": "https://mundosports.es/6657-large_default/siux-diablo-mate.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-fenix-3k": {
+    "ok": true,
+    "src": "https://padelactivo.com/wp-content/uploads/2023/10/siux-fenix-3k.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-fenix-ii-3k": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187298/siux-fenix-ii-3k-1760187302.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-genesis-hybrid-black": {
+    "ok": false,
+    "error": "site header.jpg not product"
+  },
+  "siux-genesis-ii-lucho-capra-pro": {
+    "ok": true,
+    "src": "https://padelstar.es/wp-content/uploads/2023/04/siux-genesis-2-lucho-capra-pro.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-1k-limited-edition": {
+    "ok": true,
+    "src": "https://practicapadel.com/wp-content/uploads/2025/07/siux-pegasus-1k-limited-edition.png",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-luxury": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0564/1974/5840/products/Siux-Pegasus-Luxury-15.png?v=1669117608",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-oro": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-pegasus-oro-1000-b252099a.webp",
     "filled": "2026-10-29"
   }
 }
