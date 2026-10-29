@@ -3043,8 +3043,9 @@
     ]
   },
   "black-crown-iconic-2026": {
-    "ok": false,
-    "error": "tiny"
+    "ok": true,
+    "src": "https://cdn.padelshack.com/wp-content/uploads/2026/03/kg4uoaciqd5.jpg",
+    "filled": "2026-10-29"
   },
   "black-crown-patron-gold-2025": {
     "ok": true,
@@ -5844,14 +5845,8 @@
     "source": "shop"
   },
   "siux-empire": {
-    "ok": true,
-    "url": "https://www.streetpadel.com/it/products/maglietta-siux-uomo-empire-coral-104920-p",
-    "src": "https://www.streetpadel.com/cdn/shop/files/104920_camiseta_siux_hombre_empire_coral_1200x1200_1_a9d9.jpg?v=1786098560",
-    "size": [
-      1200,
-      1200
-    ],
-    "source": "shop"
+    "ok": false,
+    "error": "accessory-src"
   },
   "siux-fenix-go-4": {
     "ok": true,
@@ -6809,7 +6804,7 @@
   },
   "bullpadel-icon-2026-juan-martin-diaz": {
     "ok": false,
-    "error": "shoe"
+    "error": "placeholder"
   },
   "bullpadel-icon-2027-juan-martin-diaz": {
     "ok": false,
@@ -7689,13 +7684,12 @@
     "filled": "2026-10-29"
   },
   "bullpadel-vertex-05-geo-2026-pablo-cardona": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/Llavero_Bullpadel_Vertex_05_Geo_2026_B.webp?v=1770372066",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "accessory-src"
   },
   "bullpadel-xplo-2026-martin-di-nenno": {
     "ok": false,
-    "error": "shoe"
+    "error": "placeholder"
   },
   "enebe-mustang-gold-15k-2026": {
     "ok": true,
@@ -7704,7 +7698,7 @@
   },
   "head-extreme-one-x-2026": {
     "ok": false,
-    "error": "tiny"
+    "error": "wrong model extreme-one"
   },
   "joma-master-lite-2026": {
     "ok": true,
@@ -7827,9 +7821,8 @@
     "filled": "2026-10-29"
   },
   "kombat-fuji-2-5-by-manu-martin-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "kombat-galeras-2-5-by-manu-martin-2026": {
     "ok": true,
@@ -7837,9 +7830,8 @@
     "filled": "2026-10-29"
   },
   "kombat-krakatoa-2-5-by-manu-martin-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "kombat-osorno-2-5-by-manu-martin-2026": {
     "ok": true,
@@ -7852,54 +7844,44 @@
     "filled": "2026-10-29"
   },
   "kuikma-pr-hybrid-carbon-dynamic-2026-coki-nieto": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "kuikma-pr-power-carbon-dynamic-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "level-elegance-pro-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "level-titanium-pro-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "middle-moon-atila-3-0-12k-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "middle-moon-eclipse-9-gold-attack-12k-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "munich-hyper-vibe-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "munich-shadow-flex-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "munich-sky-edge-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "munich-spectra-x-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "nox-x-auro-2026": {
     "ok": true,
@@ -7907,14 +7889,12 @@
     "filled": "2026-10-29"
   },
   "osaka-pro-power-2026-raul-marcos": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "osaka-pro-tour-ltd-control-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "osaka-pro-tour-ltd-power-2026": {
     "ok": true,
@@ -7922,9 +7902,8 @@
     "filled": "2026-10-29"
   },
   "osaka-vision-control-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "osaka-vision-power-2026": {
     "ok": true,
@@ -7942,19 +7921,16 @@
     "filled": "2026-10-29"
   },
   "osaka-vision-pro-control-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "osaka-vision-pro-power-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "royal-padel-torino-bronze-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "set-great-wolf-2026": {
     "ok": true,
@@ -7962,39 +7938,32 @@
     "filled": "2026-10-29"
   },
   "tactical-el-jefe-master-edition-2026-lucas-bergamini": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "tactical-el-jefe-midnight-3k-2026-lucas-bergamini": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "tactical-el-sabio-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "tactical-el-toro-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "tactical-el-unico-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "tactical-katana-2026": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "xcalion-unum-h1-2026-patty-llaguno": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "adidas-rx-light-2025": {
     "ok": true,
@@ -8002,9 +7971,8 @@
     "filled": "2026-10-29"
   },
   "adidas-rx-lime-2025": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/119506-tripack-de-botes-de-3-bolas-adidas-speedrx-bl1xa3u14-1200x1200.jpg?v=1786443149",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "accessory-src"
   },
   "adidas-rx-red-2025": {
     "ok": true,
@@ -8072,9 +8040,8 @@
     "filled": "2026-10-29"
   },
   "bullpadel-indiga-power-2025": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/BotedeGelBullpadelPowerGrip2025_1.webp?v=1761045122",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "accessory-src"
   },
   "bullpadel-ionic-light-2025": {
     "ok": true,
@@ -8082,9 +8049,8 @@
     "filled": "2026-10-29"
   },
   "bullpadel-k2-power-2025": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/BotedeGelBullpadelPowerGrip2025_1.webp?v=1761045122",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "accessory-src"
   },
   "bullpadel-vertex-04-2025-juan-tello": {
     "ok": true,
@@ -8166,9 +8132,8 @@
     "filled": "2026-10-29"
   },
   "joma-pro-slam-2-0-negro-turquesa-2025": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/122292-zapatillas-joma-slam-lady-2527-turquesa-tslals2527om-1500x1500-1.jpg?v=1786011881",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "accessory-src"
   },
   "joma-pro-tournament-2-0-azul-rojo-2025": {
     "ok": true,
@@ -8176,9 +8141,8 @@
     "filled": "2026-10-29"
   },
   "joma-slam-soft-gris-negro-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "nox-d13-12k-2025": {
     "ok": true,
@@ -8221,9 +8185,8 @@
     "filled": "2026-10-29"
   },
   "royal-padel-35-aniversario-poly-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "royal-padel-m27-light-2025": {
     "ok": true,
@@ -8320,54 +8283,44 @@
     "filled": "2026-10-29"
   },
   "alkemia-ignis-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "alkemia-tenebris-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "alkemia-terra-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "alkemia-vento-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-bp10-evo-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-elite-woman-2025-gemma-triay": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-flow-woman-2025-ale-salazar": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-hack-04-2025-paquito-navarro": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-indiga-woman-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "bullpadel-vertex-04-woman-2025-delfi-brea": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "joma-slam-flex-2-0-verde-blanco-2025": {
     "ok": true,
@@ -8375,9 +8328,8 @@
     "filled": "2026-10-29"
   },
   "joma-tournament-flex-negro-rojo-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "joma-tournament-soft-rojo-blanco-2025": {
     "ok": true,
@@ -8390,34 +8342,28 @@
     "filled": "2026-10-29"
   },
   "kuikma-hybrid-pro-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "nox-la10-quantum-12k-2025-leo-augsburger": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "nox-tl10-quantum-12k-2025-tino-libaak": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "nox-vk10-quantum-3k-2025-aranzazu-osoro": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "royal-padel-fury-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "royal-padel-whip-extreme-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "set-geri-2025": {
     "ok": true,
@@ -8425,13 +8371,54 @@
     "filled": "2026-10-29"
   },
   "vibora-king-cobra-xtreme-3k-2025": {
-    "ok": true,
-    "src": "https://www.padelful.com/og-en.png",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "placeholder"
   },
   "vibora-yarara-xtreme-3k-2-0-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "hirostar-horizon-2025": {
     "ok": true,
-    "src": "https://www.padelful.com/og-es.png",
+    "src": "https://www.racketguide.com/prg-admin/images/hirostar-horizon-2025.jpg",
     "filled": "2026-10-29"
+  },
+  "kuikma-control-pro-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "kuikma-pr-power-light-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "kuikma-power-pro-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "middle-moon-eclipse-5-carbon-gold-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "nox-equation-light-woman-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "osaka-deshi-control-2025": {
+    "ok": false,
+    "error": "placeholder"
+  },
+  "oxdog-pure-court-light-2025": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200089/padel-racket-oxdog-pure-court-light-2025-1760200094.webp",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-whip-polietileno-2025": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/Pala-Royal-Padel-Whip-Polietileno-2025.jpg?v=1741344512",
+    "filled": "2026-10-29"
+  },
+  "vibora-king-cobra-elite-24k-2-0-2025": {
+    "ok": false,
+    "error": "placeholder"
   }
 }
