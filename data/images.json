@@ -3043,9 +3043,9 @@
     ]
   },
   "black-crown-iconic-2026": {
-    "ok": false,
-    "url": "https://www.streetpadel.com/en/products/black-crown-iconic-121585-p",
-    "err": "no candidate"
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121585-pala-black-crown-iconic-a005999-1500x1500-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
   },
   "black-crown-patron-gold-2025": {
     "ok": true,
@@ -3616,9 +3616,9 @@
     ]
   },
   "joma-slam-pro-iconic-2026": {
-    "ok": false,
-    "url": "https://www.zonadepadel.nl/joma/15097-joma-slam-pro-iconic-wit-goud-2026.html",
-    "err": "no candidate"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaJomaTournamentProIconicBlack-Red2026_0.webp?v=1780039242",
+    "filled": "2026-10-29"
   },
   "joma-valkiria-flex-2026": {
     "ok": true,
@@ -7626,7 +7626,7 @@
   },
   "bullpadel-nitro-woman-2027": {
     "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/1496600001700000.jpg?v=1774942087",
+    "src": "https://cdn.shopify.com/s/files/1/0646/3671/5163/files/1Bullpadel-NitroWoman.png?v=1787211995",
     "filled": "2026-10-29"
   },
   "bullpadel-vertex-05-geo-2027-pablo-cardona": {
@@ -7636,7 +7636,7 @@
   },
   "bullpadel-vertex-05-woman-2027-delfi-brea": {
     "ok": true,
-    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/121540-llavero-bullpadel-vertex-05-w-495149-1200x1200.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "src": "https://vertex05woman.bullpadel.com/wp-content/uploads/2026/09/Vertex-05-W-v3-copia.webp",
     "filled": "2026-10-29"
   },
   "bullpadel-elite-02-woman-2027-gemma-triay": {
@@ -7652,6 +7652,155 @@
   "bullpadel-xplo-02-2027-martin-di-nenno": {
     "ok": true,
     "src": "https://cdn.shopify.com/s/files/1/0646/3671/5163/files/Bullpadel-Xplo022027-Pala-1.png?v=1787747715",
+    "filled": "2026-10-29"
+  },
+  "babolat-counter-x-crest-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/A000000495020100.jpg?v=1774913503",
+    "filled": "2026-10-29"
+  },
+  "black-crown-iconic-crown-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121586-pala-black-crown-iconic-crown-a006001-1500x1500-1.jpg?v=1786110638",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-elite-woman-2026-gemma-triay": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaBullpadelEliteWoman2026_1.webp?v=1766141900",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-flow-legend-2026-alejandra-salazar": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/flow_ecff60ba-d39a-4b18-9569-106241ee51cf.webp?v=1761050070",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-impulse-woman-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaBullpadelImpulsePWR2026_1.webp?v=1768899113",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-vertex-05-geo-2026-pablo-cardona": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/Llavero_Bullpadel_Vertex_05_Geo_2026_B.webp?v=1770372066",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-xplo-2026-martin-di-nenno": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelIcon26IGrisOscuro2026_1.webp?v=1788247104",
+    "filled": "2026-10-29"
+  },
+  "enebe-mustang-gold-15k-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121669-pala-enebe-mustang-pro-15k-a005785-1000x1000-1.jpg?v=1786110489",
+    "filled": "2026-10-29"
+  },
+  "head-extreme-one-x-2026": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/6/162498-pala-head-extreme-pro-2026-223126-1500x1500-vista1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "joma-master-lite-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaJomaMasterWhiteBlue2026.webp?v=1772700879",
+    "filled": "2026-10-29"
+  },
+  "nox-at10-genius-18k-alum-london-2026-agustin-tapia": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/120972-pala-nox-at10-genius-attack-18k-alum-by-agustin-tapia-1500x1500-1.jpg?v=1786110574",
+    "filled": "2026-10-29"
+  },
+  "nox-at10-genius-18k-alum-riyadh-2026-agustin-tapia": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/157281-pala-nox-pack-at10-genius-12k-alum-xtrem-ryp1-packpat120ryp1-1500x1500-vista1.jpg?v=1786110512",
+    "filled": "2026-10-29"
+  },
+  "nox-nerbo-12k-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/157281-pala-nox-pack-at10-genius-12k-alum-xtrem-ryp1-packpat120ryp1-1500x1500-vista1.jpg?v=1786110512",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-jpn-pro-green-2026": {
+    "ok": true,
+    "src": "https://royalpadel.com/wp-content/uploads/2025/11/FE73310008_11.jpg",
+    "filled": "2026-10-29"
+  },
+  "sane-agressor-evolution-blacklight-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/162226-pala-sane-agressor-evolution-tactic-a007242-1200x1200-1.jpg?v=1786110507",
+    "filled": "2026-10-29"
+  },
+  "sane-agressor-evolution-bluelight-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/162226-pala-sane-agressor-evolution-tactic-a007242-1200x1200-1.jpg?v=1786110507",
+    "filled": "2026-10-29"
+  },
+  "sane-agressor-evolution-starlight-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/162231-pala-sane-agressor-starlight-a007252-1200x1200-1.jpg?v=1786110457",
+    "filled": "2026-10-29"
+  },
+  "sane-cinetik-28-stealth-ltd-2026-javi-ruiz": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/162239-pala-sane-cinetik-28-javi-ruiz-stealth-a007260-1200x1200-1.jpg?v=1786110763",
+    "filled": "2026-10-29"
+  },
+  "siux-electra-pro-fire-red-2026-franco-stupackzuk": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/sh.webp?v=1765965209",
+    "filled": "2026-10-29"
+  },
+  "siux-electra-st4-rl-2026-franco-stupaczuk": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/sh.webp?v=1765965209",
+    "filled": "2026-10-29"
+  },
+  "siux-fenix-pro-black-2026-leo-ausburger": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/121750-pala-siux-fenix-pro-2026-black-200046-1500x1500-1.jpg?v=1786110729",
+    "filled": "2026-10-29"
+  },
+  "softee-pro-master-evolution-yellow-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/SOFTEE_PRO_MASTER_1200_1200_2268.jpg?v=1786110452",
+    "filled": "2026-10-29"
+  },
+  "softee-rebounce-red-2026": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/2/122248-pala-softee-rebounce-red-3k-a005875-1000x1000-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "softee-speed-3-0-royal-power-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/122249-pala-softee-speed-gold-power-4-0-nano-mesh-a005844-1000x1000-1.jpg?v=1786110710",
+    "filled": "2026-10-29"
+  },
+  "softee-trionic-3k-nano-mesh-2026": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/122253-pala-softee-trionic-nano-mesh-a005779-1000x1000-1.jpg?v=1786110515",
+    "filled": "2026-10-29"
+  },
+  "wilson-endure-pro-v1-2026-momo-gonzalez": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/14726097_1_60a69837-5389-46f6-9356-1a8851eff69d.webp?v=1771328782",
+    "filled": "2026-10-29"
+  },
+  "head-graphene-360-alpha-pro": {
+    "ok": false,
+    "error": "tiny"
+  },
+  "wilson-bela-pro-v2": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/0071620260200000_1.jpg?v=1774930558",
+    "filled": "2026-10-29"
+  },
+  "wilson-carbon-force-lt": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/0070620394100000.jpg?v=1775121752",
+    "filled": "2026-10-29"
+  },
+  "wilson-carbon-force-pro": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/0070620394100000.jpg?v=1775121752",
     "filled": "2026-10-29"
   }
 }
