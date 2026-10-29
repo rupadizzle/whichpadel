@@ -7636,11 +7636,11 @@
       "faceMaterial": "carbon 12K",
       "frame": "twin carbon tube with EVA foam insert",
       "thicknessMm": 38,
-      "price": 109.99,
-      "currency": "GBP",
-      "priceGBPApprox": 110,
-      "priceChecked": "2026-09-28",
-      "productUrl": "https://www.decathlon.co.uk/p/padel-racket-pr-hybrid-carbon/341828/m8979558",
+      "price": null,
+      "currency": null,
+      "priceGBPApprox": null,
+      "priceChecked": null,
+      "productUrl": null,
       "sourceUrl": "https://padeltrue.com/rackets/kuikma-pr-hybrid-carbon-coki-nieto",
       "ratings": {
         "power": 52,
@@ -15688,11 +15688,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": 99.9,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://padelproshop.com/en-eu/products/adidas-padel-racket-cross-it-team-3-4-2025",
+      "priceChecked": null,
+      "productUrl": null,
       "sourceUrl": "https://padelproshop.com/en-eu/products/adidas-padel-racket-cross-it-team-3-4-2025",
       "ratings": null,
       "profile": [],
@@ -15700,7 +15700,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/adidas-cross-it-team-light-3-4-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -15880,7 +15880,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/adidas-drive-vintage-3-3-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -21943,7 +21943,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/drop-shot-axion-attack-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -22153,7 +22153,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/drop-shot-canyon-pro-2-0-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -29369,12 +29369,12 @@
       "faceMaterial": null,
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": 424.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/157281-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/157281-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -29461,12 +29461,12 @@
       "faceMaterial": "18K Aluminum Carbon Fiber",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": 298.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/162212-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/162212-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -29857,19 +29857,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 139.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/113544-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/113544-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/nox-at10-pro-cup-comfort-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -29887,19 +29887,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 139.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/113544-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/113544-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/nox-at10-pro-cup-hard-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35057,19 +35057,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-aquila-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35117,19 +35117,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-aquila-pro-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35147,19 +35147,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-aquila-pro-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35177,19 +35177,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-aquila-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35237,19 +35237,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-arcadia-2-0-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35358,19 +35358,19 @@
       "faceMaterial": "Double layer carbon 15K",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-astrum-pro-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35388,19 +35388,19 @@
       "faceMaterial": "Double layer 15K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-astrum-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35418,19 +35418,19 @@
       "faceMaterial": "3K Carbon + Basalt",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-basalto-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35448,19 +35448,19 @@
       "faceMaterial": "3K Carbon + Basalt",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-basalto-pro-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35478,12 +35478,12 @@
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -35491,7 +35491,7 @@
         "surface"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-basalto-pro-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35509,12 +35509,12 @@
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -35522,7 +35522,7 @@
         "surface"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-basalto-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35780,19 +35780,19 @@
       "faceMaterial": "Carbon Fiber + Glass",
       "frame": "Carbon Fiber + Glass",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-eclipta-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35810,19 +35810,19 @@
       "faceMaterial": "Carbon fiber + glass",
       "frame": "Carbon fiber + glass",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-helion-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -35994,19 +35994,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-kenta-pro-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36024,19 +36024,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-kenta-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36415,19 +36415,19 @@
       "faceMaterial": "12K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-raptor-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36445,19 +36445,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-spika-2-0-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36475,19 +36475,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-titania-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36535,19 +36535,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-titania-pro-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36565,19 +36565,19 @@
       "faceMaterial": "3K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-titania-pro-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36775,19 +36775,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": 117.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-radar-2024-112021-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-triton-pro-2024.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -36805,12 +36805,12 @@
       "faceMaterial": "Double layer carbon 3K",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
+      "price": 249.9,
       "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "productUrl": "https://revolutionpadelstore.com/en/starvie-triton-pro-2025-2/",
+      "sourceUrl": "https://revolutionpadelstore.com/en/starvie-triton-pro-2025-2/",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -36865,19 +36865,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 134.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/star-vie-triton-soft-2025.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -37467,12 +37467,12 @@
       "faceMaterial": "Carbon, graphite",
       "frame": null,
       "thicknessMm": null,
-      "price": 99.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.streetpadel.com/en/products/118897-p",
-      "sourceUrl": "https://www.streetpadel.com/en/products/118897-p",
+      "priceChecked": null,
+      "productUrl": null,
+      "sourceUrl": null,
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -41069,7 +41069,7 @@
         "surface"
       ],
       "sources": {},
-      "image": "/rackets/drop-shot-quantum.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -44497,7 +44497,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/siux-fenix-lite-4.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -46508,7 +46508,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/siux-tsunami-5-0-3k.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -47996,11 +47996,11 @@
       "faceMaterial": "Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 138.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.padel-point.de/products/wilson-wilson-cupra-lt-v2-padelschlaeger-p0000007732401",
+      "priceChecked": null,
+      "productUrl": null,
       "sourceUrl": "https://www.padel-point.de/products/wilson-wilson-cupra-lt-v2-padelschlaeger-p0000007732401",
       "ratings": null,
       "profile": [],
@@ -48008,7 +48008,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/wilson-cupra.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -48056,11 +48056,11 @@
       "faceMaterial": "Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": 138.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.padel-point.de/products/wilson-wilson-cupra-lt-v2-padelschlaeger-p0000007732401",
+      "priceChecked": null,
+      "productUrl": null,
       "sourceUrl": "https://www.padel-point.de/products/wilson-wilson-cupra-lt-v2-padelschlaeger-p0000007732401",
       "ratings": null,
       "profile": [],
@@ -48146,11 +48146,11 @@
       "faceMaterial": "Fiberglass + Carbon",
       "frame": "Carnon Fiber",
       "thicknessMm": null,
-      "price": 124.95,
-      "currency": "EUR",
+      "price": null,
+      "currency": null,
       "priceGBPApprox": null,
-      "priceChecked": "2026-10-29",
-      "productUrl": "https://www.padelnuestro.com/wilson-pro-staff-elite-v2-27959-p",
+      "priceChecked": null,
+      "productUrl": null,
       "sourceUrl": "https://www.padelnuestro.com/wilson-pro-staff-elite-v2-27959-p",
       "ratings": null,
       "profile": [],
@@ -48158,7 +48158,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/wilson-pro-staff-elite.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -48188,7 +48188,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/wilson-pro-staff-elite-v2.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
