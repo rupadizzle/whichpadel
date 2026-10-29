@@ -742,9 +742,14 @@
   ]
  },
  "bullpadel-icon-2027": {
-  "ok": false,
-  "url": "https://padelproshop.com/products/bullpadel-padel-racket-icon-2027",
-  "err": "all rejected"
+  "ok": true,
+  "url": "https://www.bullpadel.com/23793-product_main_2x/pala-bullpadel-icon-27.jpg",
+  "src": "https://www.bullpadel.com/23793-product_main_2x/pala-bullpadel-icon-27.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "bullpadel-indiga-boy-2026": {
   "ok": true,
@@ -1143,44 +1148,84 @@
   ]
  },
  "cork-padel-classic-ii": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/classic-ii/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-classic-ii-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04326-Edit.jpg?v=1772819774",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-extreme-deus-ii": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/en/product/extreme-deus-ii/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-extreme-deus-ii-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04590-Edit.jpg?v=1772820156",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-premium-control-iii": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/premium-control-iii/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-premium-control-iii-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04300-Edit.jpg?v=1772820194",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-premium-hybrid-iii": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/premium-hybrid-iii/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-premium-hybrid-iii-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04218-Edit.jpg?v=1772820213",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-premium-woman": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/en/product/premium-woman/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/premium-woman",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/womanfrente.webp?v=1789516044",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-supreme-control-iv": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/supreme-control-iv/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-premium-power-iii-free-thermobag-copy",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04356-Edit.jpg?v=1772820300",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-supreme-hybrid-iv": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/supreme-hybrid-iv/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-supreme-hybrid-iv-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04397-Edit.jpg?v=1772820315",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "cork-padel-supreme-power-iv": {
-  "ok": false,
-  "url": "https://www.corkpadel.com/produto/supreme-power-iv/",
-  "err": "page None"
+  "ok": true,
+  "url": "https://corkpadelusa.com/products/cork-padel-racket-supreme-power-iv-free-thermobag",
+  "src": "https://cdn.shopify.com/s/files/1/0655/4180/0112/files/DSC04430-Edit.jpg?v=1772820370",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "drop-shot-canyon-pro-attack-2-0-2026": {
   "ok": true,
@@ -1319,9 +1364,14 @@
   ]
  },
  "head-extreme-one-x-2025": {
-  "ok": false,
-  "url": "https://www.head.com/product/extreme-one-x-2025-223105",
-  "err": "page None"
+  "ok": true,
+  "url": "https://pdhsports.com/products/head-extreme-one-x-2025-padel-racket",
+  "src": "https://cdn.shopify.com/s/files/1/0693/3849/7281/files/223105ExtremeOneX2025_2_3200x2400_9f1ca2ca-7b5f-4890-b21b-1e2387a9143f.jpg?v=1763986873",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "head-extreme-pro-2025": {
   "ok": true,
@@ -1397,24 +1447,44 @@
   ]
  },
  "joma-blast-pro-hrd-negro-gris": {
-  "ok": false,
-  "url": "https://www.joma-sport.com/es_ES/pala-de-padel-blast-pro-hrd-negro-gris/401908.111.html",
-  "err": "no candidate"
+  "ok": true,
+  "url": "https://www.zonadepadel.es/joma/15102-joma-blast-pro-hrd-negro-gris-2026.html",
+  "src": "https://www.zonadepadel.es/31785-zdp_customer/joma-blast-pro-hrd-negro-gris-2026.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "kuikma-hybrid-pro-coki-nieto": {
-  "ok": false,
-  "url": "https://www.decathlon.co.uk/p/padel-racket-hybrid-pro-coki-nieto/338036/c236m8993121",
-  "err": "page 403"
+  "ok": true,
+  "url": "https://www.decathlon.fr/p/raquette-de-padel-kuikma-hybrid-pro-coki-nieto/338036/c236m8993121",
+  "src": "https://contents.mediadecathlon.com/p3027507/k$d49d11520057d969cb156c6589956c4e/picture.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "kuikma-pr-comfort": {
-  "ok": false,
-  "url": "https://www.decathlon.co.uk/p/padel-racket-pr-comfort/352005/c1c4m8979566",
-  "err": "page 403"
+  "ok": true,
+  "url": "https://www.decathlon.ch/en/p/padel-racket-pr-comfort/352005/c1c4m8979566",
+  "src": "https://contents.mediadecathlon.com/p3027512/k$43dc933467581f1bf4a49ac8f202f30e/picture.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "kuikma-pr-hybrid-carbon-coki-nieto": {
-  "ok": false,
-  "url": "https://www.decathlon.co.uk/p/padel-racket-pr-hybrid-carbon/341828/m8979558",
-  "err": "page 403"
+  "ok": true,
+  "url": "https://www.decathlon.ch/en/p/padel-racket-pr-hybrid-carbon-coki-nieto/341828/m8979558",
+  "src": "https://contents.mediadecathlon.com/p3027483/k$17914f9968cac005c6c337dbaa50e2bf/picture.jpg",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "mantis-play-335-challenge": {
   "ok": true,
@@ -1516,9 +1586,14 @@
   ]
  },
  "nox-at10-luxury-genius-12k-alum-xtreme-lite-2026": {
-  "ok": false,
+  "ok": true,
   "url": "https://noxsport.com/products/pala-at10-genius-12k-alum-xtrem-lite-2026-by-agustin-tapia",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/2232/3715/files/at10-luxury-genius-12k-alum-xtrem-lite-2026-by-agustin-tapia-pat10genius12li26-8435778902652-8162701.png?v=1758604498",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "nox-at10-luxury-genius-18k-alum-2025": {
   "ok": true,
@@ -1703,9 +1778,14 @@
   ]
  },
  "nox-nextgen-pro-attack-12k-nfa-series": {
-  "ok": false,
+  "ok": true,
   "url": "https://noxsport.com/products/pala-nextgen-pro-attack-12k-nfa-series",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/2232/3715/files/nextgen-pro-attack-12k-nfa-series-palas-pnfangat1226nox-3380371.png?v=1780372230",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "nox-nextgen-pro-hybrid-12k-nfa-series": {
   "ok": true,
@@ -1920,9 +2000,14 @@
   "source": "shop"
  },
  "oxdog-pure-pro-plus-2026": {
-  "ok": false,
+  "ok": true,
   "url": "https://www.oxdogpadel.com/products/pure-pro-2026",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/0574/4882/4919/files/Pure_Pro_Plus_V1.png?v=1761579549",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "oxdog-ultimate-nxt-gen-2026": {
   "ok": true,
@@ -2005,9 +2090,14 @@
   "source": "shop"
  },
  "padelsmith-1": {
-  "ok": false,
+  "ok": true,
   "url": "https://padelsmith.co.uk/products/padel-racket-padelsmith",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/0736/2464/9927/files/5.jpg?v=1777297700",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "royal-padel-36-aniversario-light": {
   "ok": true,
@@ -2204,9 +2294,14 @@
   "source": "shop"
  },
  "siux-diablo-pro-se-north-2026": {
-  "ok": false,
-  "url": "https://siuxpadel.com/products/siux-diablo-pro-se-north",
-  "err": "page None"
+  "ok": true,
+  "url": "https://padelmarket.com/en/products/siux-diablo-pro-se-2026-tino-libaak-pala",
+  "src": "https://padelmarket.com/cdn/shop/files/Siux-DiabloProSE26-1-Pala.png?v=1788160115",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "siux-electra-pro-2026-shadow-red": {
   "ok": true,
@@ -2430,9 +2525,14 @@
   ]
  },
  "starvie-astrum-plus-2026": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/astrum",
-  "err": "page 404"
+  "ok": true,
+  "url": "https://esprit-padel-shop.com/products/raquette-de-padel-starvie-astrum-plus-2026",
+  "src": "https://cdn.shopify.com/s/files/1/0430/1861/6996/files/Raquette-de-padel-starvie-astrum-plus-face.png?v=1768298084",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-astrum-plus-black-2027": {
   "ok": true,
@@ -2490,9 +2590,14 @@
   ]
  },
  "starvie-metheora-plus-2027": {
-  "ok": false,
+  "ok": true,
   "url": "https://www.starvie.com/products/pala-metheora",
-  "err": "timeout"
+  "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/METHE1.4.webp?v=1788201961",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-nyra": {
   "ok": true,
@@ -2515,14 +2620,24 @@
   "source": "shop"
  },
  "starvie-raptor-plus-2026": {
-  "ok": false,
-  "url": "https://www.starvie.com/products/raptor",
-  "err": "page None"
+  "ok": true,
+  "url": "https://esprit-padel-shop.com/en-us/products/raquette-de-padel-starvie-raptor-plus-2026",
+  "src": "https://esprit-padel-shop.com/cdn/shop/files/raquette-de-padel-starvie-raptor-plus-2026-face.png?v=1767186336&width=1920",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-raptor-plus-red": {
-  "ok": false,
+  "ok": true,
   "url": "https://starvie.com/en/products/padel-racket-raptor-plus-red",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/RAPTOR1.3.webp?v=1787840501",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-shade-2027": {
   "ok": true,
@@ -2535,14 +2650,24 @@
   "source": "shop"
  },
  "starvie-triton-balance-plus-2027": {
-  "ok": false,
+  "ok": true,
   "url": "https://www.starvie.com/products/triton-balance",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/TRITONB1.5_da5a025b-c600-4b69-84f8-da253b5dba5d.webp?v=1788247288",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-triton-power-plus": {
-  "ok": false,
+  "ok": true,
   "url": "https://starvie.com/en/products/triton-power",
-  "err": "page None"
+  "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/TRITONPOER1.1_6d87a988-f99b-4e2b-8a4d-172682f7635e.webp?v=1788247489",
+  "size": [
+   900,
+   900
+  ],
+  "source": "shop"
  },
  "starvie-triton-t-one-2027": {
   "ok": true,
