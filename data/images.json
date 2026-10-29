@@ -7459,8 +7459,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-quantum": {
-    "ok": false,
-    "error": "beach-tennis"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1003/8227/7970/files/73b4c37d7a3358f206f18a3c2e0dae94.jpg?v=1762206272",
+    "filled": "2026-10-29"
   },
   "drop-shot-yukon-pro-2-0": {
     "ok": true,
@@ -9185,16 +9186,18 @@
     "filled": "2026-10-29"
   },
   "drop-shot-stage-pro": {
-    "ok": false,
-    "error": "wrong model opalo top"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR88.jpg?v=1661344933",
+    "filled": "2026-10-29"
   },
   "drop-shot-stage-pro-1-0": {
     "ok": false,
     "error": "collision/wrong"
   },
   "dunlop-rapid-power-3-0": {
-    "ok": false,
-    "error": "wrong product iconic power set"
+    "ok": true,
+    "src": "https://www.sportsgeary.com/wp-content/uploads/2025/11/1763540904/pala-dunlop-rapid-power-1763540910.webp",
+    "filled": "2026-10-29"
   },
   "kombat-black-18k": {
     "ok": true,
@@ -9202,8 +9205,9 @@
     "filled": "2026-10-29"
   },
   "kombat-black-limited-edition": {
-    "ok": false,
-    "error": "collision same as black-18k"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187329/kombat-black-limited-edition-1760187332.webp",
+    "filled": "2026-10-29"
   },
   "kombat-delta-force-18k": {
     "ok": true,
@@ -9287,11 +9291,264 @@
   },
   "drop-shot-allegra-2-0": {
     "ok": false,
-    "error": "screenshot not product"
+    "error": "screenshot"
   },
   "vibora-king-cobra-xtreme-3k-2024": {
     "ok": true,
     "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/vibora-king-cobra-xtreme-3k-2024-1000-f04c51f8.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-armageddon-edition-a22-rc": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/akkeron-armageddon-edition-a22-rc_aae725f9-2043-4106-b485-fe519143c129.jpg?v=1699377196",
+    "filled": "2026-10-29"
+  },
+  "akkeron-oro-a22-rc": {
+    "ok": false,
+    "error": "wrong model oro-espana image"
+  },
+  "akkeron-vega-a22-rc": {
+    "ok": true,
+    "src": "https://www.peakchampion.com/wp-content/uploads/2026/3/1772779588/akkeron-vega-a22-rc-1772779636.webp",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-allegra-1-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0638/1885/8538/files/2360550000700000.jpg?v=1774882785",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-bronco": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0608/2376/5229/files/drop-shot-pala-de-padel-bronco.webp?v=1752706038",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-delta-2-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-padel-drop-shot-delta-2022.jpg?v=1646568219",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-doppel": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-padel-drop-shot-doppel.jpg?v=1646570787",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-essence-1-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-harbour": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0608/2376/5229/files/pala-drop-shot-harbour_286bcf07ea5a4ea9bf1eb9495d5819d8_3222281527_1_resultado.jpg?v=1752705316",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-ionic": {
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/drop-shot_ionic_2023.jpg",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-kibo-5-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-musk": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/ScreenShot2022-08-24at3.08.54PM.jpg?v=1661343521",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-power-2-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/power-201.jpg?v=1647083509",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-premium-2-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-drop-shot-premium-20_10fe09a0-8062-4941-a809-1e1b055831c0.jpg?v=1720439109",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-sakura-5-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/WhatsAppImage2022-08-24at12.44.22PM.jpg?v=1661673713",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-tiger-2-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-tiger-3-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-tracker": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/ScreenShot2022-08-28at11.04.21AM_1.jpg?v=1661673982",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-x-bass": {
+    "ok": true,
+    "src": "https://practicapadel.com/wp-content/uploads/2025/07/drop-shot-x-bass-padel-racket.png",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-x-tourer": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0608/2376/5229/files/drop-shot-x-tourer_1.jpg?v=1752706761",
+    "filled": "2026-10-29"
+  },
+  "kombat-apache-ice-18k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-apache-ice-18k-1000-d3e36762.webp",
+    "filled": "2026-10-29"
+  },
+  "akkeron-plata-a22-rc": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200869/akkeron-plata-a22-rc-1760200875.webp",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-essence-2-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-kibo-4-0": {
+    "ok": false,
+    "error": "collision"
+  },
+  "drop-shot-spark": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/drop-shot-spark-1000-a622a890.webp",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-tacoma": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0608/2376/5229/files/drop-shot-tacoma-2023_5_resultado.jpg?v=1769899525",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-x-celerator-1-0": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/2360580003800000.jpg?v=1774946564",
+    "filled": "2026-10-29"
+  },
+  "kombat-ia-63-pampa": {
+    "ok": true,
+    "src": "https://practicapadel.com/wp-content/uploads/2025/07/kombat-ia63-pampa-padel-racket.png",
+    "filled": "2026-10-29"
+  },
+  "kombat-magnum": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760199999/kombat-magnum-1760200002.webp",
+    "filled": "2026-10-29"
+  },
+  "kombat-swat-blue-carbon-18k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-swat-blue-carbon-18k-1000-2c05776b.webp",
+    "filled": "2026-10-29"
+  },
+  "kombat-troya-aquiles": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-troya-aquiles-1000-30613abe.webp",
+    "filled": "2026-10-29"
+  },
+  "kombat-troya-ulises": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/1011/3525/3887/files/3900_3c887f10-976d-4638-abef-ec8b82aeb794.jpg?v=1781683388",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr500-amarilla": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr500-amarilla-1000-ebe42d8b.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr510": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr510-1000-2c05f571.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr530-negro-azul": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr530-negro-azul-2022-1000-ecf602bc.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr530-negro-verde": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr530-negro-verde-1000-faf58544.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr560-azul-verde": {
+    "ok": true,
+    "src": "https://padel-index.com/assets/img/kuikma-pr560-azul-verde.png",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr560-negra-naranja": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr560-negra-naranja-1000-51438f64.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr590": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr590-1000-517b9cfb.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr990-hybrid-soft-rosa": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kuikma-pr990-hybrid-soft-rosa-1000-49009d40.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-pr990-precision-hard": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200719/kuikma-pr990-precision-hard-1760200725.webp",
+    "filled": "2026-10-29"
+  },
+  "nox-mm2-pro-by-manu-martin": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0724/9536/6445/files/nox-mm2-pro-padel-racket.jpg?v=1719820324",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-ibera": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760199930/ocho-padel-ibera-1760199933.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-joker-green-3k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/ocho-padel-joker-green-3k-1000-0873b88f.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-mayerit": {
+    "ok": true,
+    "src": "https://www.victoryvaultsports.com/wp-content/uploads/2026/3/1772760362/ocho-padel-mayerit-1772760371.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-myrtea-excellence-blue-sea": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/ocho-padel-myrtea-excellence-blue-sea-1000-7c0c0b42.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-myrtea-excellence-earth-green": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/ocho-padel-myrtea-excellence-earth-green-1000-fc05a5a5.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-myrtea-luxury": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760201112/ocho-padel-myrtea-excellence-blue-sea-1760201118.webp",
+    "filled": "2026-10-29"
+  },
+  "ocho-padel-xct": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/ocho-padel-xct-1000-6e2913f5.webp",
+    "filled": "2026-10-29"
+  },
+  "oxdog-ultimate-pro-plus-classics-series": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200996/pala-oxdog-classics-ultimate-pro-1760201002.webp",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-rp790-whip": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187374/royal-padel-rp790-whip-1760187377.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-adrenaline-ibai-edition": {
+    "ok": true,
+    "src": "https://www.padelracketreviews.com/content/images/padel-rackets/siux-siux-adrenaline-ibai-edition-2022-padelnuestro.webp",
     "filled": "2026-10-29"
   }
 }
