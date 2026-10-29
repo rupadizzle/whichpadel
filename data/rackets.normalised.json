@@ -15688,11 +15688,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 99.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/adidas-padel-racket-cross-it-team-3-4-2025",
       "sourceUrl": "https://padelproshop.com/en-eu/products/adidas-padel-racket-cross-it-team-3-4-2025",
       "ratings": null,
       "profile": [],
@@ -15700,7 +15700,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-cross-it-team-light-3-4-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -16407,25 +16407,25 @@
       "weight": "345 to 360 g (12.2 to 12.7 oz)",
       "weightMin": 345,
       "weightMax": 360,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft Performance",
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 44.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/adidas-match-light-34-2025-113672-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/adidas-match-light-34-2025-113672-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-light-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -16455,7 +16455,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-lime-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -16473,19 +16473,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 47.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/polo-adidas-freelift-pro-red-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/polo-adidas-freelift-pro-red-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/adidas-rx-red-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -16647,25 +16647,25 @@
       "weight": "350 to 375 g (12.3 to 13.2 oz)",
       "weightMin": 350,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "hard",
       "coreMaterial": "EVA30K Black",
       "faceMaterial": "3K Carbon",
       "frame": "100% Full Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 109.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/akkeron-black-fenix-a25-121783-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/akkeron-black-fenix-a25-121783-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/akkeron-black-fenix-edition-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -16677,25 +16677,25 @@
       "weight": "350 to 375 g (12.3 to 13.2 oz)",
       "weightMin": 350,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "soft",
       "coreMaterial": "EVA25K Black Soft",
       "faceMaterial": "3K Carbon",
       "frame": "100% Full Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 149.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/akkeron-black-stormbreaker-121789-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/akkeron-black-stormbreaker-121789-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/akkeron-black-oro-edition-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17117,7 +17117,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-ignis-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17210,7 +17210,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-tenebris-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17286,7 +17286,7 @@
       "balance": null,
       "coreHardness": "medium-hard",
       "coreMaterial": "Black EVA Pro React",
-      "faceMaterial": null,
+      "faceMaterial": "carbono 3K Marco Kevlar",
       "frame": "Kevlar",
       "thicknessMm": null,
       "price": null,
@@ -17302,7 +17302,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-terra-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17424,7 +17424,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/alkemia-vento-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17534,19 +17534,19 @@
       "faceMaterial": "Carbon Flex",
       "frame": "Carbon Flex",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 148.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-veron-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-veron-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-air-veron-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17594,19 +17594,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 139.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-vertuo-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-vertuo-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-air-vertuo-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17804,19 +17804,19 @@
       "faceMaterial": "Carbon Flex",
       "frame": "Carbon Flex",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 264.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-point.de/products/babolat-counter-viper-2025-plus-schlaegertasche-00907503078000",
+      "sourceUrl": "https://www.padel-point.de/products/babolat-counter-viper-2025-plus-schlaegertasche-00907503078000",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-counter-veron-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -17864,19 +17864,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 264.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-point.de/products/babolat-counter-viper-2025-plus-schlaegertasche-00907503078000",
+      "sourceUrl": "https://www.padel-point.de/products/babolat-counter-viper-2025-plus-schlaegertasche-00907503078000",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-counter-vertuo-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -18287,19 +18287,19 @@
       "faceMaterial": "Carbon Flex",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-viper-2025-juan-lebron",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-viper-2025-juan-lebron",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-technical-veron-juan-lebron-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -18377,19 +18377,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-viper-2025-juan-lebron",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/babolat-padel-racket-technical-viper-2025-juan-lebron",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/babolat-technical-vertuo-juan-lebron-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -18671,25 +18671,25 @@
       "weight": "355 to 370 g (12.5 to 13.1 oz)",
       "weightMin": 355,
       "weightMax": 370,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "SC White EVA",
       "faceMaterial": "Fiberflex",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 139.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/black-crown-hurricane-pro-30-womens-113431-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/black-crown-hurricane-pro-30-womens-113431-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/black-crown-hurricane-3-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -18731,25 +18731,25 @@
       "weight": "355 to 370 g (12.5 to 13.1 oz)",
       "weightMin": 355,
       "weightMax": 370,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium",
       "coreMaterial": "SC White EVA",
       "faceMaterial": "12K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 96.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/black-crown-win-ultralight-2025-115140-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/black-crown-win-ultralight-2025-115140-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/black-crown-hurricane-pro-3-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -18809,7 +18809,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/black-crown-iconic-2026.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -19502,7 +19502,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-bp10-evo-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -19592,7 +19592,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-elite-woman-2025-gemma-triay.webp",
       "added": "2026-10-24"
     },
     {
@@ -19730,19 +19730,19 @@
       "faceMaterial": "Polyglass",
       "frame": "Polyglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 169.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pala-bullpadel-vertex-05-light-premier-padel-26-495202-mujer",
+      "sourceUrl": "https://www.padelnuestro.com/pala-bullpadel-vertex-05-light-premier-padel-26-495202-mujer",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-flow-light-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -19802,7 +19802,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-flow-woman-2025-ale-salazar.webp",
       "added": "2026-10-24"
     },
     {
@@ -19952,7 +19952,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-hack-04-2025-paquito-navarro.webp",
       "added": "2026-10-24"
     },
     {
@@ -20334,19 +20334,19 @@
       "faceMaterial": "Polyglass",
       "frame": "Polyglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 54.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/bullpadel-discover-ctr-2025",
+      "sourceUrl": "https://www.padelnuestro.com/bullpadel-discover-ctr-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-indiga-ctr-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -20406,7 +20406,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-indiga-power-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -20466,7 +20466,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-indiga-woman-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -20628,25 +20628,25 @@
       "weight": "350 to 360 g (12.3 to 12.7 oz)",
       "weightMin": 350,
       "weightMax": 360,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium-soft",
       "coreMaterial": "MultiEVA",
       "faceMaterial": "Glaphite",
       "frame": "Glaphite",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 144.49,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://pdhsports.com/products/bullpadel-ionic-light-26-padel-racket",
+      "sourceUrl": "https://pdhsports.com/products/bullpadel-ionic-light-26-padel-racket",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-ionic-light-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -20766,7 +20766,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-k2-power-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -21147,19 +21147,19 @@
       "faceMaterial": "Xtend Carbon 12K",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 189.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/bullpadel-pack-vertex-04-men-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/bullpadel-pack-vertex-04-men-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-vertex-04-2025-juan-tello.webp",
       "added": "2026-10-24"
     },
     {
@@ -21312,7 +21312,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-vertex-04-woman-2025-delfi-brea.webp",
       "added": "2026-10-24"
     },
     {
@@ -21685,25 +21685,25 @@
       "weight": "365 to 375 g (12.9 to 13.2 oz)",
       "weightMin": 365,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-hard",
       "coreMaterial": "MultiEVA",
       "faceMaterial": "Xtend Carbon 12K",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 245.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://pdhsports.com/products/bullpadel-xplo-premier-padel-edition-padel-racket",
+      "sourceUrl": "https://pdhsports.com/products/bullpadel-xplo-premier-padel-edition-padel-racket",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-xplo-2025-di-nenno.webp",
       "added": "2026-10-24"
     },
     {
@@ -22171,19 +22171,19 @@
       "faceMaterial": "24K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 144.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-furia-attack-10-2025-114587-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-furia-attack-10-2025-114587-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-canyon-pro-attack-1-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -22201,19 +22201,19 @@
       "faceMaterial": "24K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 119.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/drop-shot-padel-racket-canyon-pro-1-0-pablo-lima",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/drop-shot-padel-racket-canyon-pro-1-0-pablo-lima",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-canyon-pro-attack-1-5-pablo-lima-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -22555,25 +22555,25 @@
       "weight": "365 to 385 g (12.9 to 13.6 oz)",
       "weightMin": 365,
       "weightMax": 385,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft",
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 89.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-comfort-10-2025-114585-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-comfort-10-2025-114585-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-conqueror-comfort-1-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -22711,19 +22711,19 @@
       "faceMaterial": "24K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 154.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-attack-soft-124175-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-attack-soft-124175-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-explorer-pro-attack-1-0-2025-lucas-campagnolo.webp",
       "added": "2026-10-24"
     },
     {
@@ -22741,19 +22741,19 @@
       "faceMaterial": "24K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 154.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-attack-soft-124175-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-explorer-pro-attack-soft-124175-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-explorer-pro-attack-1-5-2025-lucas-campagnolo.webp",
       "added": "2026-10-24"
     },
     {
@@ -23245,25 +23245,25 @@
       "weight": "365 to 385 g (12.9 to 13.6 oz)",
       "weightMin": 365,
       "weightMax": 385,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft",
       "faceMaterial": "18K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 159.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-quantum-soft-woman-124181-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-quantum-soft-woman-124181-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-quantum-2-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -23341,19 +23341,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 83.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-renegade-lite-control-10-124182-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-renegade-lite-control-10-124182-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-renegade-lite-attack-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -23371,19 +23371,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 83.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/drop-shot-renegade-lite-control-10-124182-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/drop-shot-renegade-lite-control-10-124182-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-renegade-lite-control-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -23763,19 +23763,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 94.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pack-dunlop-inferno-power-gold-intro-carbon-white-120108-p",
+      "sourceUrl": "https://www.padelnuestro.com/pack-dunlop-inferno-power-gold-intro-carbon-white-120108-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/dunlop-inferno-carbon-extreme-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -25025,12 +25025,12 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 109.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pala-head-coello-team-2025-225035",
+      "sourceUrl": "https://www.padelnuestro.com/pala-head-coello-team-2025-225035",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -25337,7 +25337,7 @@
         "balance"
       ],
       "sources": {},
-      "image": "/rackets/head-extreme-one-x-2026.webp",
+      "image": null,
       "added": "2026-10-24"
     },
     {
@@ -25807,19 +25807,19 @@
       "faceMaterial": "2D Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 299.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-point.de/products/head-speed-one-x-2025-padelschlaeger-testschlaeger-00606904474800",
+      "sourceUrl": "https://www.padel-point.de/products/head-speed-one-x-2025-padelschlaeger-testschlaeger-00606904474800",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/head-speed-one-x-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -25837,19 +25837,19 @@
       "faceMaterial": "12K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 159.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pala-head-speed-pro-x-2025-228705",
+      "sourceUrl": "https://www.padelnuestro.com/pala-head-speed-pro-x-2025-228705",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/head-speed-pro-x-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26080,19 +26080,19 @@
       "faceMaterial": "3K Carbon Fiber",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 44.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/joma-padel-racket-game-junior-black-green-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/joma-padel-racket-game-junior-black-green-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-gold-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26292,19 +26292,19 @@
       "faceMaterial": "3K Carbon Fiber",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 44.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/joma-tpoint-men-2201-black-black-green-mx-tpoinw2201pn-30489-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/joma-tpoint-men-2201-black-black-green-mx-tpoinw2201pn-30489-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-pro-slam-2-0-gris-negro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26322,19 +26322,19 @@
       "faceMaterial": "3K Carbon Fiber",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 57.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/joma-slam-lady-25-turquoise-woman-tslals2527om-122292-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/joma-slam-lady-25-turquoise-woman-tslals2527om-122292-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-pro-slam-2-0-negro-turquesa-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26352,19 +26352,19 @@
       "faceMaterial": "3K Carbon Fiber",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 125.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-point.de/products/joma-slam-tournament-padelschuh-herren-schwarz-rot-p0000009940301",
+      "sourceUrl": "https://www.padel-point.de/products/joma-slam-tournament-padelschuh-herren-schwarz-rot-p0000009940301",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-pro-tournament-2-0-azul-rojo-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26382,11 +26382,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 160.81,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/joma/slam-flex-verde-blanco-2025/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -26394,7 +26394,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-slam-flex-2-0-verde-blanco-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26472,19 +26472,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 44.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/joma-slam-lady-2401-negro-mujer",
+      "sourceUrl": "https://www.padelnuestro.com/joma-slam-lady-2401-negro-mujer",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-slam-soft-gris-negro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26514,7 +26514,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-tournament-flex-negro-rojo-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26653,11 +26653,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 125.08,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/joma/tournament-soft-rojo-blanco-2025/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -26665,7 +26665,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/joma-tournament-soft-rojo-blanco-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -26955,11 +26955,11 @@
       "faceMaterial": "12K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 187.62,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/kombat/etna-2025/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -26967,7 +26967,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-etna-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -27737,7 +27737,7 @@
       "balance": null,
       "coreHardness": "medium",
       "coreMaterial": "Double-Density EVA",
-      "faceMaterial": null,
+      "faceMaterial": "Fiber Frame Carbon + Glass Fiber What we like",
       "frame": "Carbon + Glass Fiber",
       "thicknessMm": null,
       "price": null,
@@ -27754,7 +27754,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-hybrid-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -29857,19 +29857,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 139.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/113544-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/113544-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-at10-pro-cup-comfort-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -29887,19 +29887,19 @@
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 139.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/113544-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/113544-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-at10-pro-cup-hard-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -29971,25 +29971,25 @@
       "weight": "360 to 375 g (12.7 to 13.2 oz)",
       "weightMin": 360,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "MLD Black EVA",
       "faceMaterial": "12K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 154.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/nox-at10-genius-12k-by-agustin-tapia-2025-113539-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/nox-at10-genius-12k-by-agustin-tapia-2025-113539-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-d13-12k-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -30349,7 +30349,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-la10-quantum-12k-2025-leo-augsburger.webp",
       "added": "2026-10-24"
     },
     {
@@ -30547,19 +30547,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 119.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/nox-padel-racket-ml10-pro-cup-silver-2025-miguel-lamperti",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/nox-padel-racket-ml10-pro-cup-silver-2025-miguel-lamperti",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-ml10-quantum-3k-2025-miguel-lamperti.webp",
       "added": "2026-10-24"
     },
     {
@@ -30830,7 +30830,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-tl10-quantum-12k-2025-tino-libaak.webp",
       "added": "2026-10-24"
     },
     {
@@ -30890,7 +30890,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-vk10-quantum-3k-2025-aranzazu-osoro.webp",
       "added": "2026-10-24"
     },
     {
@@ -31308,19 +31308,19 @@
       "faceMaterial": "HES Carbon",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 289.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-hyper-tour-2-0-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-hyper-tour-2-0-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-hyper-pro-2-0-classics-series-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -31338,19 +31338,19 @@
       "faceMaterial": "HES Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 289.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-hyper-tour-2-0-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-hyper-tour-2-0-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-hyper-pro-plus-2-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -31428,19 +31428,19 @@
       "faceMaterial": "HES Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 180.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/oxdog-padel-racket-pure-tour-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/oxdog-padel-racket-pure-tour-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-pure-pro-plus-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -31698,19 +31698,19 @@
       "faceMaterial": "Composite fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 228.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-ultimate-court-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -31788,19 +31788,19 @@
       "faceMaterial": "HES Carbon 8K",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 228.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-ultimate-match-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -31938,19 +31938,19 @@
       "faceMaterial": "HES Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 228.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/pack-padel-team-gourmet-oxdog-padel-racket-ultimate-tour-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-ultimate-pro-plus-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -32541,19 +32541,19 @@
       "faceMaterial": "Fibertech",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pala-royal-padel-rp-35-aniversario-hybrid-25",
+      "sourceUrl": "https://www.padelnuestro.com/pala-royal-padel-rp-35-aniversario-hybrid-25",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-35-aniversario-poly-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -32644,7 +32644,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-fury-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -32722,19 +32722,19 @@
       "faceMaterial": "Carbon",
       "frame": "100% Hexcel Twill Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 209.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://royalpadel.com/product/royal-padel-r-ace-light-2025/",
+      "sourceUrl": "https://royalpadel.com/product/royal-padel-r-ace-light-2025/",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-m27-light-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -32783,19 +32783,19 @@
       "faceMaterial": "3K Carbon",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 179.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://pdhsports.com/products/royal-padel-anniversario-poly-36-padel-racket",
+      "sourceUrl": "https://pdhsports.com/products/royal-padel-anniversario-poly-36-padel-racket",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-m27-poly-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -32961,7 +32961,7 @@
       "balance": null,
       "coreHardness": "medium-soft",
       "coreMaterial": "Ultra-soft polyethylene",
-      "faceMaterial": null,
+      "faceMaterial": "aluminized glass fiber Frame Bidirectional tubular frame",
       "frame": null,
       "thicknessMm": null,
       "price": null,
@@ -32977,7 +32977,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-whip-extreme-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -33058,12 +33058,12 @@
       "faceMaterial": null,
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelnuestro.com/pala-royal-padel-rp-35-aniversario-hybrid-25",
+      "sourceUrl": "https://www.padelnuestro.com/pala-royal-padel-rp-35-aniversario-hybrid-25",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -33089,19 +33089,19 @@
       "faceMaterial": "Fiber Tech (aluminized fiberglass)",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 209.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://royalpadel.com/product/royal-padel-r-ace-light-2025/",
+      "sourceUrl": "https://royalpadel.com/product/royal-padel-r-ace-light-2025/",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-whip-light-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -33511,12 +33511,12 @@
       "faceMaterial": "Bicarbon 12K",
       "frame": "100% Carbon Fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -33525,7 +33525,7 @@
         "core"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/set-black-wolf-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -33543,11 +33543,11 @@
       "faceMaterial": "3K Carbon",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 161.24,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.stringersworld.com/product/set-geri-padel-racket-2025/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -33557,7 +33557,7 @@
         "core"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/set-geri-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -33575,12 +33575,12 @@
       "faceMaterial": "3K carbon",
       "frame": "100% carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -33589,7 +33589,7 @@
         "core"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/set-gold-wolf-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -33703,12 +33703,12 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/set-racket-platinum-wolf-control-2025-sanyo-gutierrez",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -33717,7 +33717,7 @@
         "core"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/set-white-wolf-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -34059,25 +34059,25 @@
       "weight": "350 to 375 g (12.3 to 13.2 oz)",
       "weightMin": 350,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Mid",
       "faceMaterial": "3K Alumesh",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/siux-electra-stupa-pro-st4-2025-112639-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/siux-electra-stupa-pro-st4-2025-112639-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-electra-go-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -34570,25 +34570,25 @@
       "weight": "350 to 375 g (12.3 to 13.2 oz)",
       "weightMin": 350,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-soft",
       "coreMaterial": "EVA Soft",
       "faceMaterial": "12K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 129.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/siux-fenix-elite-5-112641-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/siux-fenix-elite-5-112641-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-valkiria-elite-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -34606,19 +34606,19 @@
       "faceMaterial": "3K Alumesh",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 89.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelproshop.com/en-eu/products/siux-padel-racket-trilogy-go-5-2025",
+      "sourceUrl": "https://padelproshop.com/en-eu/products/siux-padel-racket-trilogy-go-5-2025",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-valkiria-go-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -34636,19 +34636,19 @@
       "faceMaterial": "24K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 795.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/towel-siux-reveal-2025-112779-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/towel-siux-reveal-2025-112779-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-valkiria-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35147,19 +35147,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-aquila-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35177,19 +35177,19 @@
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-aquila-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35358,19 +35358,19 @@
       "faceMaterial": "Double layer carbon 15K",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-astrum-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35388,19 +35388,19 @@
       "faceMaterial": "Double layer 15K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-astrum-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35478,12 +35478,12 @@
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -35491,7 +35491,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-basalto-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35509,12 +35509,12 @@
       "faceMaterial": null,
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -35522,7 +35522,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-basalto-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -35994,19 +35994,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-kenta-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36024,19 +36024,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-kenta-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36169,25 +36169,25 @@
       "weight": "350 to 385 g (12.3 to 13.6 oz)",
       "weightMin": 350,
       "weightMax": 385,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium-hard",
       "coreMaterial": "EVA Dual Density",
       "faceMaterial": "3K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-metheora-dual-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36415,19 +36415,19 @@
       "faceMaterial": "12K Carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-raptor-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36499,25 +36499,25 @@
       "weight": "350 to 385 g (12.3 to 13.6 oz)",
       "weightMin": 350,
       "weightMax": 385,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "soft",
       "coreMaterial": "EVA Ultra Speed Soft",
       "faceMaterial": "Fiberglass",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-titania-lite-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36565,19 +36565,19 @@
       "faceMaterial": "3K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-titania-pro-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36865,19 +36865,19 @@
       "faceMaterial": "Double layer 3K carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 134.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/starvie-exodus-gold-2025-115690-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-triton-soft-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -36955,11 +36955,11 @@
       "faceMaterial": "12K Lightweight Carbon Fiber",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 574.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://esprit-padel-shop.com/en-us/products/racket-of-padel-tactical-padel-jefe-12k-midnight",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -36967,7 +36967,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/tactical-el-jefe-midnight-12k-2026-lucas-bergamini.webp",
       "added": "2026-10-24"
     },
     {
@@ -36985,11 +36985,11 @@
       "faceMaterial": "18K Lightweight Carbon Fiber",
       "frame": "Carbon construction",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 499.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
       "priceChecked": null,
-      "productUrl": null,
+      "productUrl": "https://esprit-padel-shop.com/en-us/products/racket-of-padel-tactical-padel-jefe-18k-midnight",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -36997,7 +36997,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/tactical-el-jefe-midnight-18k-2026-lucas-bergamini.webp",
       "added": "2026-10-24"
     },
     {
@@ -37553,18 +37553,18 @@
       "weight": "345 to 360 g (12.2 to 12.7 oz)",
       "weightMin": 345,
       "weightMax": 360,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "Medium-hardness EVA SOFT",
       "faceMaterial": null,
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 234.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/varlion-bourne-prisma-carbon-soft-164366-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/varlion-bourne-prisma-carbon-soft-164366-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -37572,7 +37572,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/varlion-bourne-carbon-platinum-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -38018,18 +38018,18 @@
       "weight": "335 to 350 g (11.8 to 12.3 oz)",
       "weightMin": 335,
       "weightMax": 350,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": null,
       "coreMaterial": null,
       "faceMaterial": "Carbon 7 Rhombus Alu",
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 234.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/varlion-maxima-prisma-carbon-soft-164367-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/varlion-maxima-prisma-carbon-soft-164367-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
@@ -38037,7 +38037,7 @@
         "core"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/varlion-maxima-prisma-orquidea-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -38416,25 +38416,25 @@
       "weight": "350 to 370 g (12.3 to 13.1 oz)",
       "weightMin": 350,
       "weightMax": 370,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-hard",
       "coreMaterial": "EVA",
       "faceMaterial": "3K carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 169.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/vibor-a-black-mamba-anniversary-padel-racket-27553-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/vibor-a-black-mamba-anniversary-padel-racket-27553-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-black-mamba-xtreme-3k-2-0-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -38674,7 +38674,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-king-cobra-xtreme-3k-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -38686,25 +38686,25 @@
       "weight": "350 to 370 g (12.3 to 13.1 oz)",
       "weightMin": 350,
       "weightMax": 370,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium",
       "coreMaterial": "EVA PRO Multidensity",
       "faceMaterial": "12K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 169.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
-      "sourceUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.streetpadel.com/en/products/vibor-a-black-mamba-anniversary-padel-racket-27553-p",
+      "sourceUrl": "https://www.streetpadel.com/en/products/vibor-a-black-mamba-anniversary-padel-racket-27553-p",
       "ratings": null,
       "profile": [],
       "inputsMissing": [
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-mamba-pro-black-2025.webp",
       "added": "2026-10-24"
     },
     {
@@ -39155,7 +39155,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-yarara-xtreme-3k-2-0-2025.webp",
       "added": "2026-10-24"
     },
     {
