@@ -1,7 +1,7 @@
 // Padel shoe catalogue (data/shoes.json, built from shop product pages) + facets, ranking and money-page pickers.
-import raw from '../../data/shoes.json'; import { pick, DEFAULT_REGION, conv } from './price.js'; import { slugify, brandList } from './data.js';
+import raw from '../../data/shoes.json'; import { pick, DEFAULT_REGION, conv } from './price.js'; import { slugify, brandList, playerFromName } from './data.js';
 export const SHOE_CHECKED=raw.checked;
-export const shoes=raw.shoes.map(s=>({...s,shops:s.offs.length,inStock:s.offs.filter(o=>o.s).length}));
+export const shoes=raw.shoes.map(s=>({...s,player:playerFromName(s.name),shops:s.offs.length,inStock:s.offs.filter(o=>o.s).length}));
 export const shoeBySlug=Object.fromEntries(shoes.map(s=>[s.slug,s]));
 export const shoeGallery=s=>Array.from({length:s.imgs},(_,i)=>({s:`/shoes/g/${s.slug}-${i}-400.webp`,l:`/shoes/g/${s.slug}-${i}-800.webp`}));
 export const shoeImg=s=>s.imgs?`/shoes/g/${s.slug}-0-400.webp`:null;

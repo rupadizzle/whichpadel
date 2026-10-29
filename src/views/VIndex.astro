@@ -4,7 +4,8 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import FinderCard from '../components/FinderCard.astro';
 import RkCard from '../components/RkCard.astro';
-import { rackets, players } from '../lib/data.js';
+import { rackets } from '../lib/data.js';
+import { kitPlayers as players } from '../lib/player-kit.js';
 import { D, url, SITE } from '../i18n/index.js';
 import { BEST_KEYS } from '../i18n/routes.js';
 import { pickL } from '../i18n/lists.js';
@@ -40,12 +41,15 @@ const page = (() => {
   }
   const C = d.copy.players;
   const n = players.reduce((a, p) => a + p.rackets.length, 0);
+  const shoeN = players.reduce((a, p) => a + p.shoes.length, 0);
+  const bagN = url('bags', lang) ? players.reduce((a, p) => a + p.bags.length, 0) : 0;
+  const meta = p => [C.count(p.rackets.length).replace(/\s*→\s*$/, ''), p.shoes.length ? C.shoesN(p.shoes.length) : '', url('bags', lang) && p.bags.length ? C.bagsN(p.bags.length) : ''].filter(Boolean).join(' · ') + ' →';
   return {
     title: C.title(players.length, n) + d.copy.titleSuffix, description: C.desc(players.length, n), h1: C.h1,
-    pageUrl: SITE + url('players', lang), lead: C.lead(n, rackets.length),
+    pageUrl: SITE + url('players', lang), lead: C.lead(n, rackets.length) + (shoeN || bagN ? ' ' + C.gear(shoeN, bagN) : ''),
     crumbs: [{ href: url('home', lang), label: u.home }, { label: u.players }],
     jsonld: { '@context': 'https://schema.org', '@type': 'ItemList', name: C.h1, url: SITE + url('players', lang), numberOfItems: players.length, itemListElement: players.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('player', lang, p.slug), name: p.name })) },
-    links: players.map(p => ({ href: url('player', lang, p.slug), label: p.name, meta: C.count(p.rackets.length), metaClass: 'muted small' })),
+    links: players.map(p => ({ href: url('player', lang, p.slug), label: p.name, meta: meta(p), metaClass: 'muted small' })),
     rows: [],
   };
 })();

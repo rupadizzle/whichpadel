@@ -8,6 +8,7 @@ import FinderCard from '../components/FinderCard.astro';
 import RkCard from '../components/RkCard.astro';
 import HubCss from '../components/HubCss.astro';
 import ShoeCard from '../components/ShoeCard.astro';
+import BagCard from '../components/BagCard.astro';
 import { rackets } from '../lib/data.js';
 import { D, url, SITE, P } from '../i18n/index.js';
 import { BEST_KEYS } from '../i18n/routes.js';
@@ -17,6 +18,7 @@ import { cnt } from '../i18n/stats.js';
 import { shoes, rankShoes, SHOE_LISTS, SHOE_LIST_KEYS, shoeBrands, shoeBrandTarget, UNDER, listCur } from '../lib/shoes.js';
 import { bud } from '../lib/money.js';
 import { SHOE } from '../i18n/shoes.js';
+import { BAG } from '../i18n/bags.js';
 import { US_PAGES, US_KEYS, US_CHECKED } from '../lib/us.js';
 const { kind, k, b, y, p } = Astro.props;
 const lang = kind === 'us' ? 'en' : Astro.props.lang;
@@ -58,18 +60,20 @@ const page = (() => {
   }
   if (kind === 'player') {
     const C = d.copy.player, t = d.terms, rs = p.rackets, cur = rs[0];
+    const shoesL = p.shoes || [], bagsL = url('bags', lang) ? (p.bags || []) : [];
     const U = SITE + url('player', lang, p.slug);
     const ys = [...new Set(rs.map(r => r.year).filter(Boolean))].sort();
     const w = rs.filter(r => r.weightMin);
     const x = { n: rs.length, brands: [...new Set(rs.map(r => r.brand))], y0: ys[0], y1: ys.at(-1), shapes: cnt(rs, 'shape'), cores: cnt(rs, 'coreHardness'), w: w.length ? `${Math.min(...w.map(r => r.weightMin))}–${Math.max(...w.map(r => r.weightMax || r.weightMin))} g` : null, cur: cur.model, year: cur.year, price: P(cur, lang), list: rs.map(r => r.model).join(', ') };
-    const summary = C.summary(p.name, x, t);
+    const summary = C.summary(p.name, x, t) + (shoesL.length || bagsL.length ? ' ' + C.gear(p.name, shoesL.length, bagsL.length) : '');
     const faq = C.faq(p.name, x);
+    const gearItems = [...shoesL.map(s => ({ url: SITE + url('shoe', lang, s.slug), name: s.name })), ...bagsL.map(b => ({ url: SITE + url('bag', lang, b.slug), name: b.name }))];
     return {
       locale: d.locale, title: C.title(p.name, rs.length) + d.copy.titleSuffix, description: summary.slice(0, 158).replace(/\s\S*$/, ''),
       h1: C.h1(p.name), pageUrl: U, lead: summary,
       crumbs: [{ href: url('home', lang), label: u.home }, { href: url('players', lang), label: u.players }, { label: p.name }],
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'ItemList', name: C.h1(p.name), url: U, numberOfItems: rs.length, itemListElement: rs.map((r, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('racket', lang, r.slug), name: r.model })) }, { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.players, item: SITE + url('players', lang) }, { '@type': 'ListItem', position: 3, name: p.name, item: U }] }] },
-      C, rs, faq, name: p.name, note: C.note,
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'ItemList', name: C.h1(p.name), url: U, numberOfItems: rs.length + gearItems.length, itemListElement: [...rs.map((r, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('racket', lang, r.slug), name: r.model })), ...gearItems.map((g, i) => ({ '@type': 'ListItem', position: rs.length + i + 1, url: g.url, name: g.name }))] }, { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.players, item: SITE + url('players', lang) }, { '@type': 'ListItem', position: 3, name: p.name, item: U }] }] },
+      C, rs, shoes: shoesL, bags: bagsL, shoeH: SHOE[lang].nav, bagH: BAG[lang] && BAG[lang].nav, faq, name: p.name, note: C.note,
       photo: existsSync(new URL(`../../public/players/${p.slug}.webp`, import.meta.url)) ? { src: `/players/${p.slug}.webp`, alt: p.name } : null,
     };
   }
@@ -153,6 +157,8 @@ const page = (() => {
 {kind === 'player' && <>
 {page.rs.length > 1 && <p><a class="btn" href={url('rackets', lang) + `?r=${page.rs.slice(0, 3).map(r => r.slug).join(',')}`}>{page.C.compare(page.name)}</a></p>}
 <div class="hub cat rk-rows rk-best"><ul class="hub-grid">{page.rs.map((r, i) => <RkCard r={r} lang={lang} eager={i < 2} keys={['power','control','forgiveness']}/>)}</ul></div>
+{page.shoes.length > 0 && <><h2 class="h3">{page.shoeH}</h2><HubCss><div class="hub cat rk-rows"><ul class="hub-grid">{page.shoes.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 2}/>)}</ul></div></HubCss></>}
+{page.bags.length > 0 && <><h2 class="h3">{page.bagH}</h2><HubCss><div class="hub cat rk-rows"><ul class="hub-grid">{page.bags.map((b, i) => <BagCard b={b} lang={lang} eager={i < 2}/>)}</ul></div></HubCss></>}
 <FaqList heading={u.faq} items={page.faq}/>
 <p class="muted small">{page.note}</p>
 </>}

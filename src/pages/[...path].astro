@@ -1,7 +1,7 @@
 ---
 // Every page of every language is generated here from the route map (src/i18n/routes.js). One view per page type; no per-language page files.
 import { pages, url, LANGS } from '../i18n/routes.js';
-import { brandList, players, bySlug } from '../lib/data.js'; import { brandYears } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
+import { brandList, bySlug } from '../lib/data.js'; import { kitPlayers as players } from '../lib/player-kit.js'; import { brandYears } from '../lib/extra.js'; import { vsPairs } from '../lib/vs.js';
 import VHome from '../views/VHome.astro'; import VGuide from '../views/VGuide.astro'; import VIndex from '../views/VIndex.astro'; import VList from '../views/VList.astro';
 import VProduct from '../views/VProduct.astro'; import VHub from '../views/VHub.astro';
 import VBrands from '../views/VBrands.astro'; import VBrand from '../views/VBrand.astro'; import VBrandYear from '../views/VBrandYear.astro';

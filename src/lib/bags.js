@@ -1,9 +1,9 @@
 // Padel bag catalogue (data/bags.json). Ids are bag-<slug>, the same pattern balls use (ball-<slug>) on the shoe price engine.
 // Hub and product pages list only confirmed 2025-27 models (range === "in-range"); year-unknown models stay in the data, flagged.
-import raw from '../../data/bags.json'; import { pick, SHOPS, DEFAULT_REGION } from './price.js'; import { brandList } from './data.js';
+import raw from '../../data/bags.json'; import { pick, SHOPS, DEFAULT_REGION } from './price.js'; import { brandList, playerFromName } from './data.js';
 export const BAG_CHECKED = raw.checked;
-export const allBags = raw.bags;
-export const bags = raw.bags.filter(b => b.range === 'in-range');
+export const allBags = raw.bags.map(b => ({ ...b, player: playerFromName(b.name) }));
+export const bags = allBags.filter(b => b.range === 'in-range');
 export const bagBySlug = Object.fromEntries(bags.map(b => [b.slug, b]));
 export const bagImg = b => b.img ? `/bags/${b.slug}.webp` : null;
 export const bagTypeKey = b => (b.type || '').replace(/\s+/g, '-'); // racket-bag | backpack | holdall

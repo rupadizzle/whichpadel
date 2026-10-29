@@ -69,3 +69,10 @@ export const absImg = r => r.image ? `https://whichpadel.com${r.image}` : undefi
 
 export const players=(()=>{const m={}; rackets.forEach(r=>{if(r.player)(m[r.player]??=[]).push(r)}); return Object.entries(m).map(([name,rs])=>({name,slug:slugify(name),rackets:rs.sort((a,b)=>(b.year||0)-(a.year||0)||a.model.localeCompare(b.model))})).sort((a,b)=>b.rackets.length-a.rackets.length||a.name.localeCompare(b.name));})();
 export const playerSlug=n=>slugify(n);
+// A shoe or bag belongs to a player only when its model name contains that player's name as a whole word.
+// Shared tokens (Martín appears on two players) are dropped so a product is never assigned twice.
+const foldName=s=>String(s||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase();
+const SKIP_TOKEN=new Set(['martin']);
+const playerToken=new Map();
+for(const p of players){ for(const part of p.name.split(/\s+/)){ const k=foldName(part); if(k.length<5||SKIP_TOKEN.has(k)) continue; const cur=playerToken.get(k); if(cur==null) playerToken.set(k,p.name); else if(foldName(cur)!==foldName(p.name)) playerToken.set(k,false); } }
+export function playerFromName(text){ const hits=new Set(); for(const w of foldName(text).split(/[^a-z0-9]+/)){ if(!playerToken.has(w)||playerToken.get(w)===false) continue; hits.add(playerToken.get(w)); } return hits.size===1?[...hits][0]:null; }

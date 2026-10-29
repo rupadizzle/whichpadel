@@ -188,7 +188,7 @@ const view = (() => {
   if (kind === 'shoe') {
     const sh = page.shoe, other = sh.similar[0];
     return {
-      brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
+      brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: s.player ? { href: url('player', lang, playerSlug(s.player)), name: s.player } : null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
       price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
       compareHref: url('shoes', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
       overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
@@ -204,7 +204,7 @@ const view = (() => {
     const bg = page.bag, T = bg.T, img = bg.img;
     const same = bg.sameBrand;
     return {
-      brand: g.brand, brandHref: bg.bHref, year: g.year, yearHref: null, name: g.name, save: g.slug, saveKind: 'g', player: null,
+      brand: g.brand, brandHref: bg.bHref, year: g.year, yearHref: null, name: g.name, save: g.slug, saveKind: 'g', player: g.player && url('player', lang, playerSlug(g.player)) ? { href: url('player', lang, playerSlug(g.player)), name: g.player } : null,
       chips: bg.kchips, slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(g.name), shape: null,
       price: g, tube: null, checked: BAG_CHECKED, buyHref: bg.bestUrl, buyLabel: T.buy.replace('{s}', bg.BN), offers: bg.oj,
       compareHref: null, compareLabel: null, sizeNote: null, noUS: null, localPx: bg.localPx, dc: g.id || ('bag-' + g.slug), dcApi: '/api/shoe-prices',
