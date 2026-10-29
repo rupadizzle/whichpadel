@@ -40008,7 +40008,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/akkeron-oro-a22-rc.webp",
       "added": "2026-10-24"
     },
     {
@@ -40613,7 +40613,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-essence-1-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -43765,11 +43765,11 @@
       "faceMaterial": "24K Carbon + Graphene",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 146.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/siux-diablo-revolution-24k-padel-racket/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -43777,7 +43777,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-diablo-revolution-24k.webp",
       "added": "2026-10-24"
     },
     {
@@ -43885,11 +43885,11 @@
       "faceMaterial": "24K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/siux-diablo-revolution-ii",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -43897,7 +43897,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-diablo-revolution-ii-air.webp",
       "added": "2026-10-24"
     },
     {
@@ -44395,11 +44395,11 @@
       "faceMaterial": "1K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 294.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelstore.com/products/siux-fenix-ii",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44407,7 +44407,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-fenix-ii.webp",
       "added": "2026-10-24"
     },
     {
@@ -44497,7 +44497,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-fenix-lite-4.webp",
       "added": "2026-10-24"
     },
     {
@@ -44545,11 +44545,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Bicarbonate Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 59.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelstore.com/products/siux-force-pro-black-blue",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44557,7 +44557,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-force-pro.webp",
       "added": "2026-10-24"
     },
     {
@@ -44695,11 +44695,11 @@
       "faceMaterial": "12K Carbon",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/siux-genesis-power-12k",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44707,7 +44707,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-genesis-power-12k.webp",
       "added": "2026-10-24"
     },
     {
@@ -44755,11 +44755,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Bitubular Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 80.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://webdepadel.com/siux-inspire",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44767,7 +44767,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-inspire-4-0.webp",
       "added": "2026-10-24"
     },
     {
@@ -44905,11 +44905,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Bitubular Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 100.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/siux-optimus-pro-40-woman",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -44917,7 +44917,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-optimus-pro-4-0-woman.webp",
       "added": "2026-10-24"
     },
     {
@@ -45055,11 +45055,11 @@
       "faceMaterial": "24K Carbon + graphene",
       "frame": "Bitubular Carbon/Kevlar",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/siux-pegasus-grafeno-black",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45067,7 +45067,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-grafeno-black.webp",
       "added": "2026-10-24"
     },
     {
@@ -45085,11 +45085,11 @@
       "faceMaterial": "24K Carbon + graphene",
       "frame": "Bitubular Carbon/Kevlar",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 520.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://webdepadel.com/siux-pegasus-grafeno-silver/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45097,7 +45097,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-grafeno-silver.webp",
       "added": "2026-10-24"
     },
     {
@@ -45175,11 +45175,11 @@
       "faceMaterial": "12K Carbon, Fiberglass",
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 121.8,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/siux-pegasus-revolution-12k-padel-racket/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45187,7 +45187,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-pegasus-revolution-12k.webp",
       "added": "2026-10-24"
     },
     {
@@ -45295,11 +45295,11 @@
       "faceMaterial": null,
       "frame": "Bitubular Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 169.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padel-island.com/en/products/pala-siux-platinum-revolution-24k",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45308,7 +45308,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-platinum-revolution.webp",
       "added": "2026-10-24"
     },
     {
@@ -45338,7 +45338,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-quantum-2.webp",
       "added": "2026-10-24"
     },
     {
@@ -45350,17 +45350,17 @@
       "weight": "355 to 375 g (12.5 to 13.2 oz)",
       "weightMin": 355,
       "weightMax": 375,
-      "balance": null,
+      "balance": "medium",
       "coreHardness": "medium-soft",
       "coreMaterial": "Black EVA Soft",
       "faceMaterial": "Glass Fiber",
       "frame": "Bitubular Glass Fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 39.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://shop.thepadelclub.com/products/siux-radical-pro-4-2022",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45368,7 +45368,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-radical-pro-iv.webp",
       "added": "2026-10-24"
     },
     {
@@ -45386,11 +45386,11 @@
       "faceMaterial": "18K Carbon, Fiberglass",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 57.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/siux-raven-18k-control/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45398,7 +45398,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-raven-18k-control.webp",
       "added": "2026-10-24"
     },
     {
@@ -45416,11 +45416,11 @@
       "faceMaterial": "18K Carbon, Fiberglass",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 94.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/siux-raven-18k-hybrid/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45428,7 +45428,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-raven-18k-hybrid.webp",
       "added": "2026-10-24"
     },
     {
@@ -45446,11 +45446,11 @@
       "faceMaterial": "3K Carbon, Fiberglass",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 48.69,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.trainfitzone.com/product/siux-raven-3k-control/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45458,7 +45458,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-raven-3k-control.webp",
       "added": "2026-10-24"
     },
     {
@@ -45476,11 +45476,11 @@
       "faceMaterial": "3K Carbon, Fiberglass",
       "frame": "100% Carbono",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 239.05,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelstore.com/products/siux-raven-hybrid-3k-black-green",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45488,7 +45488,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-raven-3k-hybrid.webp",
       "added": "2026-10-24"
     },
     {
@@ -45506,11 +45506,11 @@
       "faceMaterial": "12K Carbon",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 375.23,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/siux/sg-black-limited-edition-2022/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -45518,7 +45518,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/siux-sg-black-limited-edition.webp",
       "added": "2026-10-24"
     },
     {

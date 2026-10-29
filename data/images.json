@@ -7529,8 +7529,9 @@
     "filled": "2026-10-29"
   },
   "siux-fenix-lite-4": {
-    "ok": false,
-    "error": "tiny/corrupt image removed"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200775/siux-fenix-lite-4-padel-racket-1760200781.webp",
+    "filled": "2026-10-29"
   },
   "siux-pegasus-grafeno-1k-lady": {
     "ok": true,
@@ -9305,8 +9306,9 @@
     "filled": "2026-10-29"
   },
   "akkeron-oro-a22-rc": {
-    "ok": false,
-    "error": "wrong model oro-espana image"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/akkeron-oro-a22-rc-1000-f78c27fd.webp",
+    "filled": "2026-10-29"
   },
   "akkeron-vega-a22-rc": {
     "ok": true,
@@ -9334,8 +9336,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-essence-1-0": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/DR96.jpg?v=1661431679",
+    "filled": "2026-10-29"
   },
   "drop-shot-harbour": {
     "ok": true,
@@ -9679,6 +9682,96 @@
   "siux-fenix-12k": {
     "ok": true,
     "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/products/pala-de-padel-siux-fenix-12k.jpg?v=1639850634",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-24k": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200996/siux-diablo-revolution-24k-padel-racket-1760201002.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-diablo-revolution-ii-air": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-diablo-revolution-ii-1000-81edd5ab.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-fenix-ii": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0564/1974/5840/files/21_900x_e3d7c501-f078-47af-b1bd-5c7e35686cc3.webp?v=1690382152",
+    "filled": "2026-10-29"
+  },
+  "siux-force-pro": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0564/1974/5840/products/Siux-Force-Pro_15.png?v=1669114117",
+    "filled": "2026-10-29"
+  },
+  "siux-genesis-power-12k": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-genesis-power-12k-1000-166fe2dc.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-inspire-4-0": {
+    "ok": true,
+    "src": "https://webdepadel.com/wp-content/uploads/2016/10/Siux-Inspire-con-paletero.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-optimus-pro-4-0-woman": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-optimus-pro-40-woman-1000-521d6cb7.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-grafeno-black": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/siux-pegasus-grafeno-black-1000-367391fc.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-grafeno-silver": {
+    "ok": true,
+    "src": "https://webdepadel.com/wp-content/uploads/2019/07/Pala-de-padel-Siux-Pegasus-Silver-2019.jpg",
+    "filled": "2026-10-29"
+  },
+  "siux-pegasus-revolution-12k": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760187289/siux-pegasus-revolution-12k-padel-racket-1760187292.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-platinum-revolution": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/siux_platinum_revolution_24k.webp?v=1713179985",
+    "filled": "2026-10-29"
+  },
+  "siux-quantum-2": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/magefan_blog/nueva-siux-quantum-2.png",
+    "filled": "2026-10-29"
+  },
+  "siux-radical-pro-iv": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0615/8571/9519/products/SIR02.jpg?v=1667467738",
+    "filled": "2026-10-29"
+  },
+  "siux-raven-18k-control": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200805/siux-raven-18k-control-1760200811.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-raven-18k-hybrid": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200223/siux-raven-18k-hybrid-1760200228.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-raven-3k-control": {
+    "ok": true,
+    "src": "https://www.trainfitzone.com/wp-content/uploads/2026/04/1775794309/siux-raven-3k-control.webp",
+    "filled": "2026-10-29"
+  },
+  "siux-raven-3k-hybrid": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0564/1974/5840/products/Siux-Raven-Hybrid-3K-Black-Green-1121018-9005-1.png?v=1665175843",
+    "filled": "2026-10-29"
+  },
+  "siux-sg-black-limited-edition": {
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/siux-sg-black-limited-edition-2022-2.jpg",
     "filled": "2026-10-29"
   }
 }
