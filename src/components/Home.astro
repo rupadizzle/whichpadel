@@ -1,14 +1,14 @@
 ---
 import Price from './Price.astro'; import RkCard from './RkCard.astro'; import ShoeCard from './ShoeCard.astro';
 import PriceAlertL from './PriceAlertL.astro'; import { pick, fmt, offersOf, DEFAULT_REGION } from '../lib/price.js'; import { HUB } from '../i18n/hub.js'; import { hubOrder } from '../lib/hub.js'; import '../styles/hub.css'; import Base from '../layouts/Base.astro';
-import { rackets, allRackets, lists as L0, brandList } from '../lib/data.js'; import { extraLists } from '../lib/seo-content.js'; import { y27 } from '../lib/extra.js';
-import { url, LOCALE, BEST_KEYS } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
+import { rackets, allRackets, lists as L0, brandList } from '../lib/data.js'; import { y27 } from '../lib/extra.js';
+import { url, LOCALE } from '../i18n/routes.js'; import { DICTS, CURL } from '../i18n/index.js'; import { HOME } from '../i18n/home.js';
+import { render } from '../lib/money.js'; import { FX } from '../lib/price.js'; import { RACKET_GUIDES } from '../lib/nav-menu.js';
 import { shoes, shoeImg, SHOE_LISTS } from '../lib/shoes.js';
 import { balls, ballImg, rankBalls } from '../lib/balls.js';
 import { SHOE } from '../i18n/shoes.js';
 import { BALL } from '../i18n/balls.js';
 const { lang='en' } = Astro.props; const H=HOME[lang]; const CUR0=CURL(lang);
-const lists={...L0,...extraLists};
 const brands=brandList.map(b=>b.name);
 const HB=HUB[lang];
 const priceOf=x=>{const p=pick(x,DEFAULT_REGION(lang)); return p.none?1e9:p.v;};
@@ -26,8 +26,8 @@ const C={
 const ok=rackets.filter(r=>r.image&&r.published>=4);
 const rows=[['best-value-padel-rackets',r=>r.valueScore,'value'],['most-comfortable-padel-rackets',r=>r.ratings.comfort,'comfort'],['most-powerful-padel-rackets',r=>r.ratings.power,'power']].map(([k,f,l],i)=>({h:H.rows[i],k,l:H.js.rt[l],f,rs:L0[k].pick(ok).slice(0,10)}));
 const lastChecked=rackets.map(x=>x.priceChecked).filter(Boolean).sort().at(-1);
-const gkeys=Object.keys(lists).slice(0,6).filter(k=>BEST_KEYS.includes(k));
-const gname=k=>DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,'');
+const gkeys=RACKET_GUIDES;
+const gname=k=>render(DICTS[lang].copy.best.titles[k][0].replace(/ \(.*\)/,''),lang,FX.rates);
 const L=(t,id)=>url(t,lang,id);
 const rk=r=>({kind:'r',item:r});
 const sh=s=>({kind:'s',item:s});
@@ -58,6 +58,6 @@ const baseProps={lang:DICTS[lang].locale};
 {homeRows.map(s=><section class="hrow-wrap" id={s.id}><div class="hrow-head"><h2 class="h3">{s.h}</h2><a href={s.href}>{H.seeAll}</a></div><div class="hub cat"><ul class="hub-grid rk-strip">{s.items.map(it=>it.kind==='s'?<ShoeCard s={it.item} lang={lang}/>:it.kind==='b'?<RkCard lang={lang} href={L('ball',it.item.slug)} img={ballImg(it.item)} alt={it.item.name} brand={it.item.brand} name={it.item.model} save={it.item.slug} kind="b"><Price r={it.item} lang={lang}/></RkCard>:<RkCard r={it.item} lang={lang}/>)}</ul></div></section>)}
 {rows.map(x=><section class="hrow-wrap"><div class="hrow-head"><h2 class="h3">{x.h}</h2><a href={L('best',x.k)}>{H.seeAll}</a></div><div class="hub cat"><ul class="hub-grid rk-strip">{x.rs.map((r,i)=><RkCard r={r} lang={lang} rank={i+1} line={`${x.l} ${x.f(r)}`}/>)}</ul></div></section>)}
 <section class="section"><div class="sec-head"><h2>{H.guidesH}</h2></div>
-<ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)}>{gname(k)}</a></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brandYear',b.id)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
+<ul class="gchips">{gkeys.map(k=><li><a href={L('best',k)} set:html={gname(k)} /></li>)}<li><a href={L('bf')}>{H.bf}</a></li>{y27.slice(0,3).map(b=><li><a href={L('brandYear',b.id)}>{H.y27(b.name)}</a></li>)}<li><a href={L('tool')}>{H.tool}</a></li><li><a class="gall" href={L('bestIndex')}>{H.allGuides}</a></li></ul></section>
 
 </Base>

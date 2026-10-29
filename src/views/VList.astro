@@ -184,15 +184,19 @@ const page = (() => {
 </HubCss>
 </>}
 {kind === 'us' && <>
-<p class="rulebox"><b>{u.howBuilt}</b> only {page.isS ? 'shoes' : 'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</p>
+<div class="best-split">
+<div class="best-main">
+<div class="rulebox"><b>{u.howBuilt}</b> only {page.isS ? 'shoes' : 'rackets'} with a live US-dollar price from a shop that delivers in the US. Checked {US_CHECKED}; prices refresh every 8 hours.</div>
 <HubCss>
-<div class="hub us">
 {page.isS ? <div class="hub cat rk-rows"><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang="en" rank={i + 1} eager={i < 4} region="US"/>)}</ul></div>
  : <div class="hub cat rk-rows rk-best"><ul class="hub-grid">{page.list.map((r, i) => <RkCard r={r} rank={i + 1} lang="en" eager={i === 0} region="US" keys={['power','control','forgiveness']}/>)}</ul></div>}
-<p><a class="btn btn-line" href={page.isS ? url('shoes', 'en') : url('rackets', 'en', 1)}>{page.isS ? 'Compare all padel shoes →' : 'Compare all padel rackets →'}</a></p>
-<FaqList heading={u.faq} items={page.faq}/>
-{page.others.length > 0 && <section class="hub-pre"><h2 class="h3">More for US players</h2><p>{page.others.map(x => <a href={x.href}>{x.label}</a>)}</p></section>}
-</div>
 </HubCss>
+</div>
+<aside class="best-side">
+{page.isS ? <FinderCard fc={[SHOE.en.home.t, SHOE.en.home.s, SHOE.en.home.cta]} href={url('shoes', 'en')}/> : <FinderCard fc={FCARD.en} href={finderHref}/>}
+<section class="panel vs"><h2>More for US players</h2>{page.others.map(x => <a href={x.href}><span>{x.label}</span><span>→</span></a>)}{!page.isS && <p><a href={url('rackets', 'en', 1)}>Compare all padel rackets</a></p>}</section>
+</aside>
+</div>
+<FaqList heading={u.faq} items={page.faq}/>
 </>}
 </Base>

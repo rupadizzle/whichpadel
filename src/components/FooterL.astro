@@ -1,18 +1,19 @@
 ---
-import { D, url } from '../i18n/index.js'; import { BEST_KEYS, LANG_NAME } from '../i18n/routes.js';
-import { FX } from '../lib/price.js'; import { render } from '../lib/money.js';
+import { D, url } from '../i18n/index.js'; import { LANG_NAME } from '../i18n/routes.js';
+import { FX } from '../lib/price.js'; import { render, bud } from '../lib/money.js';
 import Region from './Region.astro'; import { BAG } from '../i18n/bags.js';
+import { HUB } from '../i18n/hub.js'; import { SHOE } from '../i18n/shoes.js'; import { BALL } from '../i18n/balls.js';
+import { YC } from '../lib/years.js'; import { UNDER, listCur, SHOE_LIST_KEYS } from '../lib/shoes.js';
+import { RACKET_GUIDES, SHOE_GUIDES, SHOE_MENU } from '../lib/nav-menu.js';
 const { lang, switcher=[], news=false, region=null } = Astro.props; const d=D(lang); const u=d.ui; const LN=LANG_NAME;
 const show=s=>render(String(s??''),lang,FX.rates);
+const sm=SHOE_MENU[lang];
+const shoeGuides=SHOE_GUIDES.filter(k=>SHOE_LIST_KEYS.includes(k));
+const shoeTitle=k=>{const row=SHOE[lang].lists[k][0]; return typeof row==='function'?row(bud(UNDER[k],listCur(lang))):row;};
 const browse = [
-  { href: url('rackets', lang), label: u.allRackets },
-  { href: url('guide', lang), label: u.guide },
+  { href: url('balls', lang), label: BALL[lang].nav },
   ...(url('bags', lang) ? [{ href: url('bags', lang), label: BAG[lang].nav }] : []),
   { href: url('finder', lang), label: u.finder },
-  { href: url('brands', lang), label: u.brands },
-  { href: url('players', lang), label: u.players },
-  { href: url('rackets', lang), label: u.compare },
-  { href: url('tool', lang), label: u.tools },
   { href: url('bf', lang), label: u.bf },
 ];
 const more = [
@@ -35,7 +36,8 @@ const siteRows = Math.ceil(site.length / 2);
 <form class="inline-form" novalidate data-sub="news" data-lang={lang} data-err={u.subErr}><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{u.subscribe}</button><p hidden class="ok" style="color:#d4ff3a" role="status" data-ok={u.thanks}></p></form></div></section>}
 <div class="wrap">
 <div class="cols"><div><a class="logo" href={url('home',lang)}><span class="ball"></span><span>Which<em>Padel</em></span></a><p style="margin-top:12px">{u.footerAbout}</p><p class="small"><a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{lang==='en' && <button type="button" class="ai" data-ai aria-haspopup="dialog" aria-expanded="false" aria-controls="ai-dlg" aria-label="Describe your game">AI</button>}</div>
-<div><h2 class="fh">{u.footerLists}</h2><ul>{BEST_KEYS.slice(0,9).map(k=><li><a href={url('best',lang,k)} set:html={show(d.copy.best.titles[k][0])} /></li>)}</ul></div>
+<div><h2 class="fh">{HUB[lang].nav}</h2><ul><li><a href={url('rackets',lang)}>{u.allRackets}</a></li><li><a href={url('guide',lang)}>{u.guide}</a></li>{RACKET_GUIDES.map(k=><li><a href={url('best',lang,k)} set:html={show(d.copy.best.titles[k][0])} /></li>)}<li><a href={url('bestIndex',lang)}>{u.seeAll}</a></li><li><a href={url('compare',lang)}>{u.compare}</a></li><li><a href={url('brands',lang)}>{u.brands}</a></li><li><a href={url('players',lang)}>{u.players}</a></li><li><a href={url('years',lang)}>{YC[lang].hub}</a></li><li><a href={url('tool',lang)}>{u.tools}</a></li></ul></div>
+<div><h2 class="fh">{SHOE[lang].nav}</h2><ul><li><a href={url('shoes',lang)}>{sm.all}</a></li>{shoeGuides.map(k=><li><a href={url('shoeList',lang,k)} set:html={show(shoeTitle(k))} /></li>)}<li><a href={url('shoeCompare',lang)}>{sm.cmp}</a></li></ul></div>
 <div><h2 class="fh">{u.footerSite}</h2><ul class="site-links" style={`grid-template-rows:repeat(${siteRows},auto)`}>{site.map(l => <li><a href={l.href}>{l.label}</a></li>)}</ul></div></div>
 <div class="ftr-rgn" id="ftr-rgn"><Region lang={lang} switcher={switcher} region={region}/></div>
 <p class="legal"><Fragment set:html={u.legal}/><br/><a href={url('affiliate',lang)}>{u.affiliate}</a> · <a href={url('privacy',lang)}>{u.privacy}</a> · {u.contact}: <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>
