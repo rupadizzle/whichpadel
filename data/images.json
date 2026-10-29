@@ -4715,9 +4715,9 @@
     "source": "shop"
   },
   "head-extreme-pro-ltd-2024": {
-    "ok": false,
-    "url": "https://padelproshop.com/products/head-padel-racket-arturo-coello-extreme-pro-ltd",
-    "err": "timeout"
+    "ok": true,
+    "src": "https://padelproshop.com/cdn/shop/files/pro_07b3ec38-8634-46fd-94d9-3671f935b27b.webp?v=1761052763&width=1920",
+    "filled": "2026-10-29"
   },
   "head-gravity-motion-2024": {
     "ok": true,
@@ -7227,6 +7227,206 @@
   "star-vie-triton-power-2026-plus": {
     "ok": true,
     "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/PalaStarvieTriton_Power2026_1_fcb99394-e2a0-4add-b8bb-f91db5ad0e5f.webp?v=1761055023",
+    "filled": "2026-10-29"
+  },
+  "adidas-drive-vintage-3-3-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110136_padel_webs_padel_y_grupo_pala_adidas_drive_3_3_vintage_adrk5ca1u0062f_15_399e.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "adidas-adipower-multiweight-3-3-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110129-pala-adidas-adipower-multiweight-3-3-adrk1aa2u0014f-1500x1500-vista1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "adidas-adipower-multiweight-ctrl-3-3-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/32303_adidas_adipower_multiweight_ctrl_rk1cb0u23_328_1500x1500_vista1_9498.jpg?v=1786110446",
+    "filled": "2026-10-29"
+  },
+  "adidas-drive-3-3-blue-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110135_padel_webs_padel_y_grupo_pala_adidas_drive_3_3_blue_adrk5ca0u0012f_1500x_5027.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "adidas-cross-it-ctrl-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110134_pala_adidas_cross_it_light_adrk1ca6u0051f_1500x1500_vista1_b692.jpg?v=1786110770",
+    "filled": "2026-10-29"
+  },
+  "adidas-cross-it-light-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110134_pala_adidas_cross_it_light_adrk1ca6u0051f_1500x1500_vista1_b692.jpg?v=1786110770",
+    "filled": "2026-10-29"
+  },
+  "adidas-match-3-3-black-lime-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110138_padel_webs_padel_y_grupo_pala_adidas_match_3_3_black_lime_adrk5ga1u0010f_d93a.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "adidas-adipower-control-multiweight-pro-edt-2024-alex-ruiz": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/Pala_Adidas_Adipower_Multiweight_CTRL_Pro_EDT_Alex_Ruiz_5.webp?v=1772625949",
+    "filled": "2026-10-29"
+  },
+  "adidas-match-3-3-black-red-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110139_padel_webs_padel_y_grupo_pala_adidas_match_3_3_black_red_adrk5ga0u0012f__16b0.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "adidas-metalbone-carbon-ctrl-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110143-pala-adidas-metalbone-carbon-control-2024-adrk-ca4u0034f-1500x1500-vista1.jpg?v=1786110618",
+    "filled": "2026-10-29"
+  },
+  "adidas-metalbone-pro-edt-2024-ale-galan": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110141_pala_adidas_metalbone_3_3_adrk1aa0u0016f_1500x1500_vista1_4b50.jpg?v=1786110713",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-axion-attack-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/i/m/imagen-1-114722-dd53245d.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-axion-control-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/imagen-1-114722-dd53245d.jpg?v=1786110696",
+    "filled": "2026-10-29"
+  },
+  "babolat-technical-viper-juan-lebron-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/115755-pala-babolat-viper-juan-lebron-2-5-150158-100-x-1500x1500-vista1_1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "drop-shot-canyon-pro-2-0-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/118505-pala-de-dropshot-canyon-pro-2-0-nikita-bumarkin-dp324063-1000x1000-1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "dunlop-titan-2-0-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110875_pala_dunlop_titan_2_0_623765_naranja_1500x1500_vista1_f732.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "enebe-nitro-green-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/111893_pala_enebe_nitro_green_junior_a000434_1000x1000_1_548e.jpg?v=1786110433",
+    "filled": "2026-10-29"
+  },
+  "dunlop-titan-killer-2-0-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110878_pala_dunlop_titan_killer_2_0_623766_1500x1500_vista1_7be1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "nox-at-pro-cup-genius-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/110812_pala_nox_pack_at_genius_limited_edition_packpatltdd_1500x1500_vista11_cb1b.jpg?v=1786110498",
+    "filled": "2026-10-29"
+  },
+  "nox-at-luxury-attack-18k-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/110802_pala_nox_at10_genius_18k_by_agustin_tapia_pat10genius18d_1500x1500_vista_0989.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "nox-ml10-pro-cup-luxury-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/25415_nox_ml10_pro_cup_luxury_series_pml10pcoorlux_1500x1500_vista1_9e84.jpg?v=1786110677",
+    "filled": "2026-10-29"
+  },
+  "star-vie-aquila-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-aquila-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-arcadia-2-0-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-basalto-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-basalto-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-astrum-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000092020100.jpg?v=1774913411",
+    "filled": "2026-10-29"
+  },
+  "star-vie-kenta-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000092050100.jpg?v=1775122216",
+    "filled": "2026-10-29"
+  },
+  "star-vie-eclipta-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-spika-2-0-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-helion-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-kenta-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112015_pala_starvie_kenta_eternal_pro_pstkp11000_1500x1500_1_4d32.jpg?v=1786110481",
+    "filled": "2026-10-29"
+  },
+  "star-vie-metheora-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/METHE1.4.webp?v=1788201961",
+    "filled": "2026-10-29"
+  },
+  "star-vie-titania-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-titania-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-kenta-speed-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112015_pala_starvie_kenta_eternal_pro_pstkp11000_1500x1500_1_4d32.jpg?v=1786110481",
+    "filled": "2026-10-29"
+  },
+  "star-vie-triton-pro-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0939/5991/3771/files/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?v=1786110798",
+    "filled": "2026-10-29"
+  },
+  "star-vie-triton-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0918/2026/1753/files/TRITONB1.5_da5a025b-c600-4b69-84f8-da253b5dba5d.webp?v=1788247288",
+    "filled": "2026-10-29"
+  },
+  "star-vie-radar-2024": {
+    "ok": true,
+    "src": "https://www.padelnuestro.com/media/catalog/product/1/1/112021_pala_starvie_radar_pstradar_1500x1500_1_e283.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=220&width=220&canvas=220:220",
+    "filled": "2026-10-29"
+  },
+  "vibora-diva-elite-3k-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0684/7276/6629/files/P000000773190100.jpg?v=1777986942",
     "filled": "2026-10-29"
   }
 }
