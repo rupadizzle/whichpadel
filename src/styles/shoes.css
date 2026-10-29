@@ -1,6 +1,6 @@
 /* Padel shoes section. 8px scale, 44px taps. */
 main.wrap>.crumbs:has(+.rp2.shoe):not(#_){margin-top:0!important}
-@media(max-width:899px){.detail.rp2>#buybox{display:none}}
+@media(max-width:899px){.detail.rp2 #buybox{display:none}}
 #pxsheet .pxshist[hidden]{display:none}
 #pxsheet .pxshist{margin:16px 0 0}#pxsheet .pxshist svg{width:100%;height:64px;display:block;background:#fafbfc;border-radius:8px}#pxsheet .pxshist p{margin:8px 0 0;font-size:13px;line-height:1.4;color:#5b6670}
 #pxsheet .disc{display:block;margin:16px 0 0;font-size:13px;line-height:1.4;color:#5b6670}

@@ -52,7 +52,8 @@
 /* racket page v2: gallery + 2-col desktop / ordered single column mobile. 8px scale, 16px gutters, 44px targets */
 .detail.rp2:not(#_){display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);grid-template-areas:"head buy" "gal buy" "body buy";grid-template-rows:auto auto 1fr;gap:0 32px;align-items:start}
 .rp2 .rpg{grid-area:gal;position:relative;margin:0 0 24px}.rp2 .rph{grid-area:head;margin:0 0 24px}.rp2 .rpbody{grid-area:body;min-width:0}
-.rp2 #buybox{grid-area:buy;position:sticky;top:calc(80px + var(--bf));margin:0}
+.rp2 .buycol{grid-area:buy;position:sticky;top:calc(80px + var(--bf));display:flex;flex-direction:column;gap:24px;margin:0;min-width:0}
+.rp2 #buybox{position:static;margin:0}
 .rp2 .rpbody>*{margin:0 0 24px!important}.rp2 .rpbody>section+section,.rp2 .rpbody>*+*{border-top:0;padding-top:24px}
 /* gallery */
 .rpg .gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:12px;background:#fff;border:1px solid var(--line);height:440px;outline-offset:2px}
@@ -101,7 +102,8 @@
 .rp2 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;margin:0}.rp2 .fcard h2{margin:0 0 8px}.rp2 .fcard p{margin:0}.rp2 .fcard .btn{min-height:44px;display:inline-flex;align-items:center}
 @media(max-width:899px){
  .detail.rp2:not(#_){grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "gal" "buy" "body";gap:0}
- .rp2 #buybox{position:static;margin:0 0 24px}
+ .rp2 .buycol{position:static}
+ .rp2 #buybox{margin:0 0 24px}
  .rp2 .rpg{margin:0 -16px 16px}
  .rpg .gtrack{height:auto;aspect-ratio:1/1;border-radius:0;border-width:1px 0}
  .rpg .gslide{padding:16px 48px}
@@ -119,17 +121,27 @@
 .rp2 .rph .brand{margin-top:0}
 @media(min-width:900px){.rp2 .rph{margin:0 0 24px}.rp2 .rpg{margin:0 0 32px}}
 
-#buybox #pxbig{font-size:28px;font-weight:800;line-height:1.15;margin:0;font-variant-numeric:tabular-nums}#buybox #pxbig *{font-size:inherit}#buybox #pxbig small,#buybox #pxbig .ax{font-size:13px;font-weight:500}
+#buybox #pxbig{font-size:28px;font-weight:800;line-height:1.15;margin:0;padding-bottom:8px;font-variant-numeric:tabular-nums}#buybox #pxbig *{font-size:inherit}#buybox #pxbig small,#buybox #pxbig .ax{font-size:13px;font-weight:500}
 .rp2 .rph h1{margin-bottom:0}.rp2 .rph .kchips{margin-top:16px}
 @media(max-width:899px){.rp2 .rph{margin:0 0 16px}}
 main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
 #buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:13px;font-weight:500}.crumbs:has(+.rp2):not(#_){margin-bottom:16px!important}
-@media(min-width:900px){.rp2 #buybox:not(#_){margin-top:29px}}
+@media(min-width:900px){.rp2 .buycol:not(#_){margin-top:29px}}
+.pxwatch{display:flex;flex-direction:column;gap:12px;margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:none}
+.rp2 .buycol>.pxwatch{margin-top:0}
+.pxwatch h2,.pxwatch p{margin:0}
+.pxwatch .pxalert-cta{width:100%;min-height:44px}
+.pxwatch .pxalert-cta .bell{width:18px;height:18px;flex:none}
+.pxwatch .pxalert-cta[aria-pressed="true"]{border-color:var(--green);color:var(--green)}
+.pxwatch .pxalert-cta[aria-pressed="true"] .bell{fill:currentColor}
 .rcard-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
 .rcard-acts .cmpbox{margin:0}
 .heart,.bell{display:block;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linejoin:round;stroke-linecap:round}
 .rk-bell{position:static;flex:none;width:16px;height:16px;min-height:0;padding:0;border:0;background:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#8b98a1;cursor:pointer}
 .rk-bell:hover{color:var(--ink,#0f1c24)}
+.rk-bell[aria-pressed="true"]{color:var(--green)}
+.rk-bell[aria-pressed="true"] .bell{fill:currentColor}
+.rk-alert [hidden]{display:none !important}
 .rk-alert{position:fixed;inset:0;width:min(24rem,calc(100vw - 32px));height:fit-content;max-height:calc(100dvh - 48px);margin:auto;padding:var(--s5);border:1px solid var(--line);border-radius:var(--r);background:#fff;color:var(--ink);box-shadow:0 24px 80px rgb(7 28 40 / .24)}
 .rk-alert:not([open]){display:none}
 .rk-alert::backdrop{background:rgb(7 28 40 / .5)}

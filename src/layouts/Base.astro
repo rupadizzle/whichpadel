@@ -90,34 +90,41 @@ dlg.querySelector('[data-ai-close]').addEventListener('click',shut);
 dlg.addEventListener('close',()=>{if(open) end();});
 dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>500) shut();});
 </script>}
-<dialog class="rk-alert" id="rk-alert" aria-labelledby="rk-alert-h">
+<dialog class="rk-alert" id="rk-alert" aria-labelledby="rk-alert-h" data-watch={D(L2).ui.alertWatch('{email}')} data-ok={D(L2).ui.keepOk} data-err={D(L2).ui.keepErr} data-mail={D(L2).ui.keepMail}>
 <button type="button" class="rk-alert-x" data-alert-close aria-label={D(L2).ui.close}>✕</button>
-<form novalidate data-sub="alert" data-lang={L2} data-err={D(L2).ui.subErr}>
 <h2 id="rk-alert-h" data-alert-h></h2>
 <p class="muted small" data-alert-p>{D(L2).ui.alertP('x')}</p>
+<p class="muted small" data-alert-watch hidden></p>
+<form novalidate data-lang={L2}>
 <input type="email" required placeholder={D(L2).ui.emailPh} aria-label={D(L2).ui.emailLabel} autocomplete="email"/>
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
 <button class="btn" type="submit">{D(L2).ui.alertBtn}</button>
-<p hidden class="ok" role="status" data-ok={D(L2).ui.thanks}></p>
+<p hidden class="ok" role="status"></p>
 <p class="muted small">{D(L2).ui.placeholderNote} <a href={url('privacy', L2)}>{D(L2).ui.privacy.toLowerCase()}</a>.</p>
 </form>
 </dialog>
-<script is:inline>
-document.addEventListener('click',e=>{const b=e.target.closest('.rk-bell'); if(!b) return; e.preventDefault(); const dlg=document.getElementById('rk-alert'); if(!dlg) return; const card=b.closest('.rk'); const name=((card&&card.querySelector('.rk-m')||{}).textContent||'').trim(); const f=dlg.querySelector('form'); f.dataset.racket=name; dlg.querySelector('[data-alert-h]').textContent=(b.dataset.h||'').replaceAll('{n}',name); const ok=f.querySelector('.ok'); if(ok) ok.hidden=true; const sub=f.querySelector('button'); if(sub) sub.disabled=false; dlg.showModal(); const i=f.querySelector('input[type=email]'); if(i) i.focus();});
-document.getElementById('rk-alert').addEventListener('click',e=>{if(e.target.closest('[data-alert-close]')) e.currentTarget.close();});
-</script>
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
 (()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b'||x.t==='g')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
-const read=()=>{try{const a=JSON.parse(localStorage[K]||'[]');return Array.isArray(a)?a.filter(ok).slice(0,CAP):[]}catch(e){return[]}};
+const row=x=>({t:x.t,s:x.s,...(x.a?{a:1}:{})});
+const read=()=>{try{const a=JSON.parse(localStorage[K]||'[]');return Array.isArray(a)?a.filter(ok).slice(0,CAP).map(row):[]}catch(e){return[]}};
 const write=list=>{try{localStorage[K]=JSON.stringify(list.slice(0,CAP))}catch(e){} document.dispatchEvent(new CustomEvent('wp:saved'))};
-const paint=()=>{const list=read(); document.querySelectorAll('[data-save]').forEach(b=>{const on=list.some(x=>x.t===(b.dataset.kind||'r')&&x.s===b.dataset.save); b.setAttribute('aria-pressed',on?'true':'false'); const lab=b.dataset[on?'on':'off']; if(lab){b.setAttribute('aria-label',lab); const t=b.querySelector('.save-lab'); if(t) t.textContent=lab;}}); const n=document.getElementById('saved-n'); if(n){const c=list.length; n.textContent=c?String(c):''; n.hidden=!c;}};
-let seq=0; const toggle=(s,t='r')=>{t=t==='s'||t==='b'||t==='g'?t:'r'; if(!/^[a-z0-9-]{1,80}$/.test(s||'')) return false; const on=read().some(x=>x.t===t&&x.s===s); let list=read().filter(x=>!(x.t===t&&x.s===s)); if(!on) list.unshift({t,s}); write(list.slice(0,CAP));
- let acct=false; try{acct=localStorage.wp_acct==='1'}catch(e){}
- if(acct){const n=++seq; fetch('/api/saved',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({op:'toggle',t,s})}).then(async r=>{if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){}} if(!r.ok||n!==seq) return; const d=await r.json(); if(Array.isArray(d.items)) write(d.items);}).catch(()=>{});}
- return !on;};
-window.wpSaved={read,write,toggle,paint};
-document.addEventListener('click',e=>{const rm=e.target.closest('[data-remove]'); if(rm){e.preventDefault(); toggle(rm.dataset.remove, rm.dataset.kind||'r'); return;} const b=e.target.closest('[data-save]'); if(!b) return; e.preventDefault(); toggle(b.dataset.save, b.dataset.kind||'r');});
+const ident=b=>{const card=b.closest('.rk'), heart=card&&card.querySelector('.save-heart'); let s=(heart&&heart.dataset.save)||''; if(!s||s==='tpl') s=b.dataset.slug||(card&&card.dataset.s)||''; const t=(heart&&heart.dataset.kind)||b.dataset.kind||'r'; const name=card?((card.querySelector('.rk-m')||{}).textContent||'').trim():((document.querySelector('h1')||{}).textContent||'').trim(); return {s,t,name};};
+const paint=()=>{const list=read(); document.querySelectorAll('[data-save]').forEach(b=>{const on=list.some(x=>x.t===(b.dataset.kind||'r')&&x.s===b.dataset.save); b.setAttribute('aria-pressed',on?'true':'false'); const lab=b.dataset[on?'on':'off']; if(lab){b.setAttribute('aria-label',lab); const t=b.querySelector('.save-lab'); if(t) t.textContent=lab;}});
+ const mark=(el,s,t,name)=>{const on=list.some(x=>x.t===t&&x.s===s&&x.a); el.setAttribute('aria-pressed',on?'true':'false'); const lab=el.dataset[on?'on':'off']; if(!lab) return; if(el.classList.contains('rk-bell')) el.setAttribute('aria-label',name?lab+': '+name:lab); const span=el.querySelector('.pxalert-lab'); if(span) span.textContent=lab;};
+ document.querySelectorAll('.rk-bell').forEach(b=>{const id=ident(b); if(id.s&&id.s!=='tpl') mark(b,id.s,id.t,id.name);});
+ document.querySelectorAll('.pxalert-cta[data-slug]').forEach(b=>mark(b,b.dataset.slug,b.dataset.kind||'r',''));
+ const n=document.getElementById('saved-n'); if(n){const c=list.length; n.textContent=c?String(c):''; n.hidden=!c;}};
+let seq=0;
+const push=(op,t,s,on)=>{let acct=false; try{acct=localStorage.wp_acct==='1'}catch(e){} if(!acct) return; const n=++seq; const body=op==='alert'?{op,t,s,on:!!on}:{op,t,s}; fetch('/api/saved',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(async r=>{if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){} window.wpAcct=null;} if(!r.ok||n!==seq) return; const d=await r.json(); if(Array.isArray(d.items)) write(d.items); if(d.email) window.wpAcct={on:true,email:d.email};}).catch(()=>{});};
+const toggle=(s,t='r')=>{t=t==='s'||t==='b'||t==='g'?t:'r'; if(!/^[a-z0-9-]{1,80}$/.test(s||'')) return false; const on=read().some(x=>x.t===t&&x.s===s); let list=read().filter(x=>!(x.t===t&&x.s===s)); if(!on) list.unshift({t,s}); write(list.slice(0,CAP)); push('toggle',t,s); return !on;};
+const setAlert=(s,t='r',on=true)=>{t=t==='s'||t==='b'||t==='g'?t:'r'; if(!/^[a-z0-9-]{1,80}$/.test(s||'')) return; const prev=read().find(x=>x.t===t&&x.s===s); let list=read().filter(x=>!(x.t===t&&x.s===s)); if(on) list.unshift({t,s,a:1}); else if(prev) list.unshift({t,s}); write(list.slice(0,CAP)); push('alert',t,s,on);};
+window.wpSaved={read,write,toggle,alert:setAlert,paint};
+const dlg=document.getElementById('rk-alert');
+const openDlg=(mode,name,tpl,email)=>{if(!dlg) return; dlg.querySelector('[data-alert-h]').textContent=(tpl||'').replaceAll('{n}',name); const p=dlg.querySelector('[data-alert-p]'), w=dlg.querySelector('[data-alert-watch]'), f=dlg.querySelector('form'), ok=f.querySelector('.ok'), mail=f.querySelector('input[type=email]'), sub=f.querySelector('button'); if(ok){ok.hidden=true; ok.textContent='';} if(mail) mail.hidden=false; if(sub){sub.hidden=false; sub.disabled=false;} if(mode==='in'){p.hidden=true; f.hidden=true; w.hidden=false; w.textContent=(dlg.dataset.watch||'').replaceAll('{email}',email||'');} else {p.hidden=false; w.hidden=true; f.hidden=false;} if(!dlg.open) dlg.showModal(); if(mode!=='in'&&mail) mail.focus();};
+async function acctEmail(){if(window.wpAcct&&window.wpAcct.email) return window.wpAcct.email; let flagged=false; try{flagged=localStorage.wp_acct==='1'}catch(e){} if(!flagged) return ''; try{const r=await fetch('/api/saved',{credentials:'same-origin'}); if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){} window.wpAcct=null; return '';} if(!r.ok) return ''; const d=await r.json(); window.wpAcct={on:true,email:d.email||''}; if(Array.isArray(d.items)) write(d.items); return d.email||'';}catch(e){return '';}}
+document.addEventListener('click',async e=>{const rm=e.target.closest('[data-remove]'); if(rm){e.preventDefault(); toggle(rm.dataset.remove, rm.dataset.kind||'r'); return;} const bell=e.target.closest('.rk-bell, .pxalert-cta[data-slug]'); if(bell){e.preventDefault(); const id=ident(bell); if(!id.s||id.s==='tpl') return; if(bell.getAttribute('aria-pressed')==='true'){setAlert(id.s,id.t,false); if(dlg&&dlg.open) dlg.close(); return;} const email=await acctEmail(); if(email){setAlert(id.s,id.t,true); openDlg('in',id.name,bell.dataset.h,email); return;} dlg.dataset.slug=id.s; dlg.dataset.kind=id.t; dlg.dataset.tpl=bell.dataset.h||''; dlg.dataset.name=id.name; openDlg('out',id.name,bell.dataset.h,''); return;} const b=e.target.closest('[data-save]'); if(!b) return; e.preventDefault(); toggle(b.dataset.save, b.dataset.kind||'r');});
+if(dlg){dlg.addEventListener('click',e=>{if(e.target.closest('[data-alert-close]')) dlg.close();}); dlg.querySelector('form').addEventListener('submit',async e=>{e.preventDefault(); const f=e.target, i=f.querySelector('input[type=email]'), b=f.querySelector('button'), ok=f.querySelector('.ok'); if(!i.checkValidity()){i.reportValidity(); return;} b.disabled=true; let status=0; try{const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||''})}); status=r.status;}catch(err){status=0;} b.disabled=false; if(status>=200&&status<300){setAlert(dlg.dataset.slug,dlg.dataset.kind,true); i.hidden=true; b.hidden=true;} ok.textContent=status===503?dlg.dataset.mail:(status>=200&&status<300)?dlg.dataset.ok:dlg.dataset.err; ok.hidden=false;});}
 document.addEventListener('wp:saved',paint); paint();})();
 </script>
 </Fragment>}</body></html>

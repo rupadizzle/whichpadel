@@ -134,14 +134,20 @@ const page = (() => {
 <FaqList heading={u.faq} items={page.faq}/>
 </>}
 {kind === 'year' && <>
+<div class="best-split">
+<div class="best-main">
 <nav class="ynav" aria-label={page.C.hub}>{page.newer && <a class="btn btn-sm" href={url('year', lang, page.newer)}>← {page.C.newer(page.newer)}</a>}{page.older && <a class="btn btn-sm" href={url('year', lang, page.older)}>{page.C.older(page.older)} →</a>}{y === 2026 && <a class="btn btn-sm" href={url('best', lang, 'best-padel-racket-2026')}>{page.C.best26} →</a>}</nav>
 {page.repl.length > 0 && <section class="panel vs"><h2>{page.C.repl}</h2>{page.repl.map(([a, successorR]) => <a href={url('racket', lang, successorR.slug)}><span>{page.C.replTo(a.model, successorR.model)}</span><span>→</span></a>)}</section>}
 <div class="rulebox"><b>{u.howBuilt}</b> {page.C.rule}</div>
 {page.brands.length > 1 && <div class="yfil" role="group" aria-label={u.byBrand}><button type="button" class="on" data-b="" aria-pressed="true">{page.C.all}</button>{page.brands.map(brand => <button type="button" data-b={brand} aria-pressed="false">{brand}</button>)}</div>}
 <div class="hub cat rk-rows rk-best"><ul class="hub-grid" id="yl">{page.rs.map((r, i) => <RkCard r={r} rank={i + 1} lang={lang} eager={i === 0} keys={['power','control','forgiveness']} dataBrand={r.brand}/>)}</ul></div>
+</div>
+<aside class="best-side">
 <FinderCard fc={page.FC} href={finderHref}/>
 <section class="panel vs"><h2>{page.C.hub}</h2>{page.years.filter(x => x !== y).map(x => <a href={url('year', lang, x)}><span>{page.C.h(x)}</span><span>{page.C.count(ofYear(x).length)} →</span></a>)}</section>
-<style is:global>.ynav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}.ynav .btn,.yfil button{min-height:44px;display:inline-flex;align-items:center}.yfil{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}.yfil button{padding:0 16px;border:1px solid var(--line,#dde3e6);border-radius:99px;background:#fff;font:inherit;font-size:.875rem;cursor:pointer}.yfil button.on{background:var(--green,#0f6b4f);color:#fff;border-color:transparent}</style>
+</aside>
+</div>
+<style is:global>.ynav{display:flex;flex-wrap:wrap;gap:8px;margin:0}.ynav .btn,.yfil button{min-height:44px;display:inline-flex;align-items:center}.yfil{display:flex;flex-wrap:wrap;gap:8px;margin:0}.yfil button{padding:0 16px;border:1px solid var(--line,#dde3e6);border-radius:99px;background:#fff;font:inherit;font-size:.875rem;cursor:pointer}.yfil button.on{background:var(--green,#0f6b4f);color:#fff;border-color:transparent}#yl>[hidden]{display:none !important}</style>
 <script is:inline>document.querySelectorAll('.yfil button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.yfil button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});document.querySelectorAll('#yl>[data-brand]').forEach(c=>c.hidden=!!b.dataset.b&&c.dataset.brand!==b.dataset.b)});</script>
 </>}
 {kind === 'player' && <>
@@ -150,7 +156,23 @@ const page = (() => {
 <FaqList heading={u.faq} items={page.faq}/>
 <p class="muted small">{page.note}</p>
 </>}
-{kind === 'shoe' && <>
+{kind === 'shoe' && k !== 'brand' && <>
+<div class="best-split">
+<div class="best-main">
+<div class="rulebox"><b>{u.howBuilt}</b> {page.method}</div>
+<HubCss>
+<div class="hub cat rk-rows"><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang={lang} rank={i + 1} eager={i < 4}/>)}</ul></div>
+</HubCss>
+</div>
+<aside class="best-side">
+<FinderCard fc={[page.T.home.t, page.T.home.s, page.T.home.cta]} href={url('shoes', lang)}/>
+<section class="panel vs"><h2>{page.T.guides}</h2>{page.others.map(x => <a href={url('shoeList', lang, x)}><span>{page.T.lists[x][0]}</span><span>→</span></a>)}</section>
+<section class="panel vs"><h2>{page.T.byBrand}</h2>{shoeBrands.map(x => { const t = shoeBrandTarget(x.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}><span>{x.name}</span><span>→</span></a>; })}</section>
+</aside>
+</div>
+<FaqList heading={u.faq} items={page.faq}/>
+</>}
+{kind === 'shoe' && k === 'brand' && <>
 <p class="rulebox"><b>{u.howBuilt}</b> {page.method}</p>
 <HubCss>
 <div class="hub">

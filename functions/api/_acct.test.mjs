@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cleanItems, unionItems, toggleItem, safeNext, sha256, CAP } from './_acct.js';
+import { cleanItems, unionItems, toggleItem, setAlertItem, safeNext, sha256, CAP } from './_acct.js';
 
 test('cleanItems keeps kind and slug, drops junk, caps at 40', ()=>{
  const junk=[{t:'r',s:'ok-1'},{t:'x',s:'no'},{t:'r',s:'Bad'},{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'},{t:'g',s:'bag-1'},{t:'b',s:'ball-1'}, null];
@@ -14,6 +14,15 @@ test('union keeps this device first, then account-only items', ()=>{
  const account=[{t:'r',s:'old'},{t:'r',s:'both'}];
  const device=[{t:'r',s:'new'},{t:'r',s:'both'}];
  assert.deepEqual(unionItems(account, device).map(x=>x.s), ['new','both','old']);
+});
+
+test('alert flag stays on the saved product', ()=>{
+ const on=setAlertItem([{t:'r',s:'a'}], 's', 'shoe-1', true);
+ assert.deepEqual(on, [{t:'s',s:'shoe-1',a:1},{t:'r',s:'a'}]);
+ assert.deepEqual(setAlertItem(on, 's', 'shoe-1', false), [{t:'s',s:'shoe-1'},{t:'r',s:'a'}]);
+ assert.deepEqual(toggleItem(on, 's', 'shoe-1'), [{t:'r',s:'a'}]);
+ const merged=unionItems([{t:'r',s:'both',a:1}], [{t:'r',s:'both'}]);
+ assert.equal(merged.find(x=>x.s==='both').a, 1);
 });
 
 test('toggle adds then removes', ()=>{

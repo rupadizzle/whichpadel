@@ -233,6 +233,7 @@ const view = (() => {
 {view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
 </header>
 {view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
+<div class="buycol">
 <aside class="panel buybox" id="buybox" data-px={view.localPx}>
 <p class="price-big" id="pxbig"><Price r={view.price} lang={lang}/>{view.tube && <> <small class="muted">({view.tube})</small></>} <span class="pxdrop" id="pxdrop" hidden></span></p>
 {view.checked && <p class="muted small" id="pxstatic">{u.checkedOn(view.checked)}</p>}
@@ -240,12 +241,13 @@ const view = (() => {
 <div class="pxcmp" id="pxcmp" hidden></div>
 <ul class="pxl" id="bxl" hidden></ul>
 <div class="pxhist" id="pxhist" hidden></div>
-{kind === 'racket' && <form class="pxalert" novalidate data-sub="alert" data-lang={lang} data-racket={r.model} data-err={u.subErr}><button class="btn pxalert-cta" type="button"><svg class="bell" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8.5a6 6 0 0 1 12 0c0 4.5 1.5 6 1.5 8.5h-15c0-2.5 1.5-4 1.5-8.5z"/><path d="M10 18.5a2 2 0 0 0 4 0"/></svg>{u.px.cmp.alertDrop}</button><div class="pxalert-row" hidden><input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/><button class="btn" type="submit">{u.alertBtn}</button></div><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><p hidden class="ok" role="status" data-ok={u.thanks}></p><p class="muted small pxalert-note" hidden>{u.placeholderNote} <a href={url('privacy', lang)}>{u.privacy.toLowerCase()}</a>.</p></form>}
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
 {view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 {kind !== 'racket' && view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
 {view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
 </aside>
+{kind === 'racket' && <aside class="pxwatch"><h2 class="h3">{u.px.cmp.alertDrop}</h2><p class="muted">{u.alertP('x')}</p><button type="button" class="btn btn-line pxalert-cta" data-slug={r.slug} data-kind="r" data-h={u.alertH('{n}')} data-off={u.alertBtn} data-on={u.alerted}><svg class="bell" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8.5a6 6 0 0 1 12 0c0 4.5 1.5 6 1.5 8.5h-15c0-2.5 1.5-4 1.5-8.5z"/><path d="M10 18.5a2 2 0 0 0 4 0"/></svg><span class="pxalert-lab">{u.alertBtn}</span></button></aside>}
+</div>
 <div class="rpbody">
 {lang === 'en' && <section class="panel dcheck" hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><h2>{view.overview}</h2><p class="intro">{view.intro}</p>
@@ -279,10 +281,7 @@ try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').fil
 if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
-<script is:inline>
-document.querySelectorAll('#buybox .pxalert').forEach(f=>{const cta=f.querySelector('.pxalert-cta'),row=f.querySelector('.pxalert-row'),note=f.querySelector('.pxalert-note'); if(!cta) return; cta.onclick=()=>{cta.hidden=true;row.hidden=false;if(note)note.hidden=false;const i=row.querySelector('input'); if(i) i.focus();};});
-</script>
-<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1 }}>
+<script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1, SEEK: u.px.cmp.seek }}>
 document.body.classList.add('has-sticky');
 const sc=document.getElementById('stickycta'), mq=matchMedia('(max-width:899px)');
 function syncBar(){
@@ -302,7 +301,9 @@ function arm(){
  const why=nous&&!nous.hidden?nous:(cmpNous||null);
  const title=(document.querySelector('.rph h1')||{}).textContent||'';
  let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
- const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(M&&!M.hidden?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b>${note&&!note.hidden?`<small class="pxm">${esc(note.textContent.trim())}</small>`:''}</span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li></ul>`:`<p class="pxbigp">${esc(price)}</p>`);
+ const list=!why&&M&&M.href?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b>${note&&note.textContent.trim()?`<small class="pxm">${esc(note.textContent.trim())}</small>`:''}</span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li><li class="pxr pxseek"><span class="pxs"><b>${esc(SEEK)}</b></span></li></ul>`:'';
+ const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(list||`<p class="pxbigp">${esc(price)}</p>`);
+ const P=document.getElementById('pxcmp'); if(list&&P){P.innerHTML=list; P.hidden=false; if(big) big.hidden=true; if(note) note.hidden=true; M.hidden=true;}
  D.dataset.live='0';
  D.innerHTML=`<div class="pxsb" data-x></div><div class="pxsp" role="dialog" aria-modal="true" aria-labelledby="pxst" tabindex="-1"><div class="pxsg" aria-hidden="true"></div><div class="pxsh"><h2 id="pxst">${esc(title)}</h2><button type="button" class="pxsx" data-x aria-label="${esc(CLOSE)}">✕</button></div><div class="pxsc">${row}${size?`<p class="pxsize">${esc(size.textContent.trim())}</p>`:''}${disc?`<p class="disc">${disc.innerHTML}</p>`:''}</div></div>`;
  D.querySelectorAll('[data-x]').forEach(x=>x.onclick=sheetClose);

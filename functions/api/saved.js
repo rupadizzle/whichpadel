@@ -1,5 +1,5 @@
 // Signed-in saved list. Signed-out callers get 401 and keep using localStorage.
-import { J, originOk, readyDb, userFrom, readSaved, putSaved, cleanItems, unionItems, toggleItem } from './_acct.js';
+import { J, originOk, readyDb, userFrom, readSaved, putSaved, cleanItems, unionItems, toggleItem, setAlertItem } from './_acct.js';
 export async function onRequest({request,env}){
  if(request.method!=='GET'&&request.method!=='POST') return J({ok:false},405);
  if(!env.DB) return J({ok:false},503);
@@ -12,6 +12,7 @@ export async function onRequest({request,env}){
  const cur=await readSaved(env.DB, user.id);
  let next;
  if(b.op==='toggle') next=toggleItem(cur, b.t, b.s);
+ else if(b.op==='alert') next=setAlertItem(cur, b.t, b.s, !!b.on);
  else if(b.merge) next=unionItems(cur, b.items);
  else next=cleanItems(b.items);
  await putSaved(env.DB, user.id, next);

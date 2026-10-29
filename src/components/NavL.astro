@@ -15,7 +15,7 @@ const lab=s=>s.replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧
  if(!btn||!pop) return;
  const setOpen=on=>{pop.hidden=!on; btn.setAttribute('aria-expanded',on?'true':'false'); if(on){const f=form.hidden?document.getElementById('acct-out'):form.querySelector('input[type=email]'); if(f) f.focus();}};
  const short=email=>{const name=(email||'').split('@')[0]; if(!name) return ACCT; return name.length>18?name.slice(0,17)+'…':name;};
- const apply=d=>{const on=!!(d&&d.on); form.hidden=on; inn.hidden=!on; mail.textContent=on?(d.email||''):''; lab.textContent=on?short(d.email):SIGN; if(on&&d.email) btn.setAttribute('aria-label',d.email); else btn.removeAttribute('aria-label');};
+ const apply=d=>{const on=!!(d&&d.on); window.wpAcct=on?{on:true,email:(d&&d.email)||''}:null; form.hidden=on; inn.hidden=!on; mail.textContent=on?(d.email||''):''; lab.textContent=on?short(d.email):SIGN; if(on&&d.email) btn.setAttribute('aria-label',d.email); else btn.removeAttribute('aria-label');};
  btn.onclick=()=>setOpen(pop.hidden);
  document.addEventListener('click',e=>{if(!pop.hidden&&!document.getElementById('acct').contains(e.target)) setOpen(false);});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){setOpen(false); btn.focus();}});
@@ -32,6 +32,6 @@ const lab=s=>s.replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧
   let flagged=false; try{flagged=localStorage.wp_acct==='1'}catch(e){}
   if(!flagged){apply(null); return;}
   apply({on:true,email:''});
-  try{const r=await fetch('/api/saved',{credentials:'same-origin'}); if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){} apply(null); return;} if(!r.ok) return; const d=await r.json(); apply({on:true,email:d.email||''});}catch(e){}
+  try{const r=await fetch('/api/saved',{credentials:'same-origin'}); if(r.status===401){try{localStorage.removeItem('wp_acct')}catch(e){} apply(null); return;} if(!r.ok) return; const d=await r.json(); apply({on:true,email:d.email||''}); if(!own&&window.wpSaved&&Array.isArray(d.items)) window.wpSaved.write(d.items);}catch(e){}
  });})();
 </script>

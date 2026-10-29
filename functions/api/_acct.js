@@ -14,7 +14,9 @@ export function cleanItems(items){
  for(const x of items){
   const t=x&&x.t, s=x&&x.s;
   if(!KINDS.has(t)||typeof s!=='string'||!SLUG.test(s)) continue;
-  const k=t+':'+s; if(seen.has(k)) continue; seen.add(k); out.push({t,s});
+  const k=t+':'+s;
+  if(seen.has(k)){ if(x.a){ const prev=out.find(y=>y.t===t&&y.s===s); if(prev) prev.a=1; } continue; }
+  seen.add(k); const row={t,s}; if(x.a) row.a=1; out.push(row);
   if(out.length>=CAP) break;
  }
  return out;
@@ -25,6 +27,14 @@ export function toggleItem(items,t,s){
  const cur=cleanItems(items); if(!KINDS.has(t)||!SLUG.test(s||'')) return cur;
  const i=cur.findIndex(x=>x.t===t&&x.s===s);
  if(i>=0) cur.splice(i,1); else cur.unshift({t,s});
+ return cleanItems(cur);
+}
+// An alert is a flag on a saved product. Turning it on saves the product. Turning it off keeps the save.
+export function setAlertItem(items,t,s,on){
+ const cur=cleanItems(items); if(!KINDS.has(t)||!SLUG.test(s||'')) return cur;
+ const i=cur.findIndex(x=>x.t===t&&x.s===s);
+ if(on){ if(i>=0) cur[i]={t,s,a:1}; else cur.unshift({t,s,a:1}); }
+ else if(i>=0) cur[i]={t,s};
  return cleanItems(cur);
 }
 export function safeNext(s){
@@ -47,6 +57,7 @@ export async function readyDb(env){
  await q('CREATE TABLE IF NOT EXISTS sessions(hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires TEXT NOT NULL)');
  await q('CREATE TABLE IF NOT EXISTS login_tokens(hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires TEXT NOT NULL)');
  await q('CREATE TABLE IF NOT EXISTS saved(user_id INTEGER NOT NULL, kind TEXT NOT NULL, slug TEXT NOT NULL, created TEXT NOT NULL, PRIMARY KEY(user_id, kind, slug))');
+ try{ await q('ALTER TABLE saved ADD COLUMN alert INTEGER NOT NULL DEFAULT 0'); }catch(e){}
  ready=true;
 }
 export async function userFrom(request, env){
@@ -55,13 +66,13 @@ export async function userFrom(request, env){
  return env.DB.prepare('SELECT u.id AS id, u.email AS email FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.hash=? AND s.expires>?').bind(hash, new Date().toISOString()).first();
 }
 export async function readSaved(db, userId){
- const {results}=await db.prepare('SELECT kind AS t, slug AS s FROM saved WHERE user_id=? ORDER BY rowid DESC').bind(userId).all();
+ const {results}=await db.prepare('SELECT kind AS t, slug AS s, alert AS a FROM saved WHERE user_id=? ORDER BY rowid DESC').bind(userId).all();
  return cleanItems(results||[]);
 }
 export async function putSaved(db, userId, items){
  const now=new Date().toISOString();
  const stmts=[db.prepare('DELETE FROM saved WHERE user_id=?').bind(userId)];
- for(const x of [...items].reverse()) stmts.push(db.prepare('INSERT INTO saved(user_id,kind,slug,created) VALUES(?,?,?,?)').bind(userId,x.t,x.s,now));
+ for(const x of [...items].reverse()) stmts.push(db.prepare('INSERT INTO saved(user_id,kind,slug,created,alert) VALUES(?,?,?,?,?)').bind(userId,x.t,x.s,now,x.a?1:0));
  if(db.batch) await db.batch(stmts); else for(const st of stmts) await st.run();
 }
 export function sessionCookie(token, request, maxAge=60*86400){
