@@ -6808,14 +6808,12 @@
     "filled": "2026-10-29"
   },
   "bullpadel-icon-2026-juan-martin-diaz": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelIcon26IGrisOscuro2026_1.webp?v=1788247104",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "shoe"
   },
   "bullpadel-icon-2027-juan-martin-diaz": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelIcon26IGrisOscuro2026_1.webp?v=1788247104",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "shoe"
   },
   "bullpadel-hack-04-2026-paquito-navarro": {
     "ok": true,
@@ -6858,14 +6856,12 @@
     "filled": "2026-10-29"
   },
   "bullpadel-wonder-2026-claudia-fernandez": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelWonder26IRosa2026_1.webp?v=1788161782",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "shoe"
   },
   "bullpadel-wonder-2027-claudia-fernandez": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelWonder26IRosa2026_1.webp?v=1788161782",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "shoe"
   },
   "drop-shot-explorer-8-0-2025": {
     "ok": true,
@@ -7698,9 +7694,8 @@
     "filled": "2026-10-29"
   },
   "bullpadel-xplo-2026-martin-di-nenno": {
-    "ok": true,
-    "src": "https://cdn.shopify.com/s/files/1/0763/9577/4257/files/ZapatillaBullpadelIcon26IGrisOscuro2026_1.webp?v=1788247104",
-    "filled": "2026-10-29"
+    "ok": false,
+    "error": "shoe"
   },
   "enebe-mustang-gold-15k-2026": {
     "ok": true,
