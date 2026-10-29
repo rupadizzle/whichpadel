@@ -301,7 +301,8 @@ function arm(){
  const why=nous&&!nous.hidden?nous:(cmpNous||null);
  const title=(document.querySelector('.rph h1')||{}).textContent||'';
  let D=document.getElementById('pxsheet'); if(!D){D=document.createElement('div'); D.id='pxsheet'; D.className='pxsheet'; D.hidden=true; document.body.appendChild(D);}
- const list=!why&&M&&M.href?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b>${note&&note.textContent.trim()?`<small class="pxm">${esc(note.textContent.trim())}</small>`:''}</span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li><li class="pxr pxseek"><span class="pxs"><b>${esc(SEEK)}</b></span></li></ul>`:'';
+ const checked=note&&note.textContent.trim()?`<p class="pxchecked">${esc(note.textContent.trim())}</p>`:'';
+ const list=!why&&M&&M.href?`<p class="pxsub pxcnt">${esc(N1)}</p><ul class="pxl"><li class="pxr best"><span class="pxs"><b>${esc(shop)}</b></span><span class="pxp">${esc(price)}</span><a class="btn pxb pri" href="${esc(M.href)}" rel="sponsored nofollow">${esc(BUY)}</a></li><li class="pxr pxseek"><span class="pxs"><b>${esc(SEEK)}</b></span></li></ul>${checked}`:'';
  const row=why?`<p class="pxnous">${esc(why.textContent)}</p>`:(list||`<p class="pxbigp">${esc(price)}</p>`);
  const P=document.getElementById('pxcmp'); if(list&&P){P.innerHTML=list; P.hidden=false; if(big) big.hidden=true; if(note) note.hidden=true; M.hidden=true;}
  D.dataset.live='0';
