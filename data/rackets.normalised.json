@@ -21264,17 +21264,17 @@
       "weight": "360 to 375 g (12.7 to 13.2 oz)",
       "weightMin": 360,
       "weightMax": 375,
-      "balance": null,
+      "balance": "high",
       "coreHardness": "medium-soft",
       "coreMaterial": "MultiEVA",
       "faceMaterial": "Hybrid Fibrix Fiber",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 175.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://us.padelmarket.com/products/bullpadel-vertex-04-woman-2024-delfi-brea-racket-2",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -21282,7 +21282,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/bullpadel-vertex-04-woman-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -22153,7 +22153,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-canyon-pro-2-0-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -23143,7 +23143,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/drop-shot-fury-attack-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -24605,11 +24605,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 99.13,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://revolutionpadelstore.com/en/pala-enebe-response-fiber-azul-2024-2/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -24617,7 +24617,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/enebe-response-fiber-blue-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -25097,7 +25097,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/head-extreme-evo-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -26877,7 +26877,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kombat-black-mkiii-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -27671,17 +27671,17 @@
       "weight": null,
       "weightMin": null,
       "weightMax": null,
-      "balance": null,
+      "balance": "low",
       "coreHardness": "medium-soft",
       "coreMaterial": "Black EVA",
       "faceMaterial": "Double layer of fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 59.99,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.pala-hack.com/en/padel-rackets/kuikma/kuikma-comfort-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -27690,7 +27690,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/kuikma-comfort-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -30788,11 +30788,11 @@
       "faceMaterial": "Aluminized Carbon 12K",
       "frame": "100% Carbon",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 259.09,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.racketguide.com/us-en/padel/nox/tl10-future-by-tino-libaak-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -30800,7 +30800,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/nox-tl10-future-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -30969,11 +30969,11 @@
       "faceMaterial": "3K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 245.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.osakaworldusa.com/products/custom-pro-control-official",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -30981,7 +30981,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/osaka-custom-pro-control-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -31260,7 +31260,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-hyper-match-2-0-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -31548,11 +31548,11 @@
       "faceMaterial": "Fiberglass + carbon",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/pala-oxdog-sense-match-light-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -31560,7 +31560,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-sense-match-light-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -31770,7 +31770,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/oxdog-ultimate-match-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32058,11 +32058,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 50.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/puma-nova-court-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32070,7 +32070,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-court-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32118,11 +32118,11 @@
       "faceMaterial": "12K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 82.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/puma-nova-elite-ctr-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32130,7 +32130,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-elite-ctr-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32148,11 +32148,11 @@
       "faceMaterial": "12K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/puma-nova-elite-hybrid-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32160,7 +32160,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-elite-hybrid-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32208,11 +32208,11 @@
       "faceMaterial": "12K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 200.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/puma-nova-elite-pwr-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32220,7 +32220,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-elite-pwr-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32238,11 +32238,11 @@
       "faceMaterial": "3K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 150.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/puma-nova-elite-victoria-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32250,7 +32250,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-elite-victoria-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32268,11 +32268,11 @@
       "faceMaterial": "3K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 69.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelwebshop.com/products/puma-nova-pro-ctr-padel-racket",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32280,7 +32280,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-pro-ctr-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32310,7 +32310,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-pro-hybrid-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32328,11 +32328,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 65.69,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://uk.puma.com/uk/en/pd/nova-padel-smash-padel-racket/049052",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32340,7 +32340,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/puma-nova-smash-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32388,11 +32388,11 @@
       "faceMaterial": "Fiberglass, carbon-reinforced heart",
       "frame": "Fiberglass (Fibertech glass fabric)",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 209.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelreference.com/en/padel-rackets/p/royal-padel-34-aniversario-hybrid-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32400,7 +32400,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-34-aniversario-hybrid-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32431,7 +32431,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-34-aniversario-light-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32449,11 +32449,11 @@
       "faceMaterial": null,
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 179.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://solopalasdepadel.com/royal-padel-34-aniversario-polietileno-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32462,7 +32462,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-34-aniversario-polietileno-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -32752,11 +32752,11 @@
       "faceMaterial": null,
       "frame": null,
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 289.9,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://revolutionpadelstore.com/en/pala-royal-padel-m27-polietileno-2024-2/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -32765,7 +32765,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-m27-polietileno-ltd-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -33040,7 +33040,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/royal-padel-whip-hybrid-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -35129,7 +35129,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-aquila-pro-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -35430,7 +35430,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-basalto-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -35762,7 +35762,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-dronos-speed-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -35792,7 +35792,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-eclipta-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -35822,7 +35822,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-helion-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -36547,7 +36547,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-titania-pro-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -36607,7 +36607,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/star-vie-titania-speed-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -37618,7 +37618,7 @@
       "balance": "medium",
       "coreHardness": null,
       "coreMaterial": null,
-      "faceMaterial": null,
+      "faceMaterial": "Carbon Black's medium core, which is why the specification p",
       "frame": "Bidirectional carbon tubular",
       "thicknessMm": null,
       "price": 234.95,
@@ -37651,7 +37651,7 @@
       "balance": "medium",
       "coreHardness": "medium-hard",
       "coreMaterial": null,
-      "faceMaterial": null,
+      "faceMaterial": "Carbon Black's medium core, which is why the specification p",
       "frame": "Bidirectional carbon tubular",
       "thicknessMm": null,
       "price": 234.95,
@@ -38052,7 +38052,7 @@
       "balance": "medium",
       "coreHardness": null,
       "coreMaterial": null,
-      "faceMaterial": null,
+      "faceMaterial": "primera capa de fibra de carbono 12K, después tejido plain 3",
       "frame": "Bidirectional carbon tubular",
       "thicknessMm": null,
       "price": 234.95,
@@ -38070,7 +38070,7 @@
         "surface"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/varlion-maxima-summum-prisma-airflow-s-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -38314,7 +38314,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-black-mamba-elite-3k-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -38464,7 +38464,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-black-mamba-xtreme-3k-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -38782,11 +38782,11 @@
       "faceMaterial": "12K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 199.95,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.tiendapadelpoint.com/en/pala-vibora-titan-ltd-2024-en",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -38794,7 +38794,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-titan-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -38993,11 +38993,11 @@
       "faceMaterial": "24K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 142.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/vibora-yarara-elite-24k-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -39005,7 +39005,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-yarara-elite-24k-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -39173,11 +39173,11 @@
       "faceMaterial": "3K Carbon fiber",
       "frame": "Carbon fiber",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 92.5,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://www.padelgroove.com/product/vibora-yarara-xtreme-3k-2024/",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -39185,7 +39185,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-yarara-xtreme-3k-2024.webp",
       "added": "2026-10-24"
     },
     {
@@ -39203,11 +39203,11 @@
       "faceMaterial": "Fiberglass",
       "frame": "Fiberglass",
       "thicknessMm": null,
-      "price": null,
-      "currency": null,
+      "price": 100.0,
+      "currency": "EUR",
       "priceGBPApprox": null,
-      "priceChecked": null,
-      "productUrl": null,
+      "priceChecked": "2026-10-29",
+      "productUrl": "https://padelguru.app/racket/vibora-yarara-xtreme-fiber-2024",
       "sourceUrl": null,
       "ratings": null,
       "profile": [],
@@ -39215,7 +39215,7 @@
         "balance"
       ],
       "sources": {},
-      "image": null,
+      "image": "/rackets/vibora-yarara-xtreme-fiber-2024.webp",
       "added": "2026-10-24"
     },
     {

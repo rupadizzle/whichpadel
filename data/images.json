@@ -7284,8 +7284,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-canyon-pro-2-0-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0549/0606/0847/files/pala-drop-shot-canyon-pro-attack.jpg?v=1718878945",
+    "filled": "2026-10-29"
   },
   "dunlop-titan-2-0-2024": {
     "ok": true,
@@ -7322,16 +7323,18 @@
     "error": "collision"
   },
   "star-vie-aquila-pro-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/starvie-aquila-2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-arcadia-2-0-2024": {
     "ok": false,
     "error": "collision"
   },
   "star-vie-basalto-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/starvie_basalto_2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-basalto-pro-2024": {
     "ok": false,
@@ -7348,16 +7351,18 @@
     "filled": "2026-10-29"
   },
   "star-vie-eclipta-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/starvie-eclipta-2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-spika-2-0-2024": {
     "ok": false,
     "error": "collision"
   },
   "star-vie-helion-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/starvie_helion_2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-kenta-pro-2024": {
     "ok": true,
@@ -7370,8 +7375,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-titania-pro-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/112022-P-0-4.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-titania-2024": {
     "ok": false,
@@ -8599,8 +8605,9 @@
     "filled": "2026-10-29"
   },
   "drop-shot-fury-attack-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/drop-shot-fury-attack-2024-1000-81694cc9.webp",
+    "filled": "2026-10-29"
   },
   "drop-shot-fury-control-2024": {
     "ok": true,
@@ -8638,8 +8645,9 @@
     "filled": "2026-10-29"
   },
   "head-extreme-evo-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200961/pala-head-evo-extreme-2024-1760200967.webp",
+    "filled": "2026-10-29"
   },
   "head-extreme-motion-2024": {
     "ok": true,
@@ -8687,8 +8695,9 @@
     "filled": "2026-10-29"
   },
   "kombat-black-mkiii-2024": {
-    "ok": false,
-    "error": "year-{2026}"
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/kombat-black-mkiii-2024-1000-c85ae6a2.webp",
+    "filled": "2026-10-29"
   },
   "kombat-hunter-mkiii-2024": {
     "ok": true,
@@ -8730,8 +8739,9 @@
     "filled": "2026-10-29"
   },
   "oxdog-hyper-match-2-0-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://qbhjfynucwjjtbvfdtbj.supabase.co/storage/v1/object/public/rackets/oxdog_hyper-2-0-match_2024.jpg",
+    "filled": "2026-10-29"
   },
   "oxdog-hyper-tour-2-0-2024": {
     "ok": true,
@@ -8753,8 +8763,9 @@
     "filled": "2026-10-29"
   },
   "oxdog-ultimate-match-2024": {
-    "ok": false,
-    "error": "new-collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/oxdog-ultimate-match-2024.jpg",
+    "filled": "2026-10-29"
   },
   "oxdog-ultimate-pro-light-2024": {
     "ok": true,
@@ -8767,8 +8778,9 @@
     "filled": "2026-10-29"
   },
   "royal-padel-34-aniversario-light-2024": {
-    "ok": false,
-    "error": "year-{2026}"
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/17950-0-4.jpg",
+    "filled": "2026-10-29"
   },
   "siux-pegasus-revolution-2-2024": {
     "ok": true,
@@ -8777,15 +8789,16 @@
   },
   "star-vie-aquila-blue-tour-edition-2024": {
     "ok": false,
-    "error": "year-{2026}"
+    "error": "collision"
   },
   "star-vie-aquila-speed-2024": {
     "ok": false,
     "error": "collision"
   },
   "star-vie-dronos-speed-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/starvie-dronos-speed-2024.jpg",
+    "filled": "2026-10-29"
   },
   "star-vie-kenta-colours-pro-ltd-2024": {
     "ok": false,
@@ -8805,8 +8818,9 @@
     "filled": "2026-10-29"
   },
   "star-vie-titania-speed-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200712/starvie-titania-ultra-speed-soft-2024-padel-racket-1760200717.webp",
+    "filled": "2026-10-29"
   },
   "star-vie-triton-speed-2024": {
     "ok": true,
@@ -8828,7 +8842,7 @@
   },
   "varlion-lw-summum-prisma-airflow-s-2024": {
     "ok": false,
-    "error": "new-collision"
+    "error": "collision"
   },
   "varlion-lw-summum-prisma-airflow-w-2024": {
     "ok": true,
@@ -8836,8 +8850,9 @@
     "filled": "2026-10-29"
   },
   "varlion-maxima-summum-prisma-airflow-s-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://maxpadelpro.com/wp-content/uploads/2025/12/Maxima-w.png",
+    "filled": "2026-10-29"
   },
   "varlion-maxima-summum-prisma-airflow-w-2024": {
     "ok": true,
@@ -8850,16 +8865,18 @@
     "filled": "2026-10-29"
   },
   "vibora-black-mamba-elite-3k-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://www.tiendapadelpoint.com/image/cache/catalog/pala-vibora-black-mamba-elite-3k-2024-800x800.webp",
+    "filled": "2026-10-29"
   },
   "vibora-black-mamba-radical-12k-2024": {
     "ok": false,
     "error": "collision"
   },
   "vibora-black-mamba-xtreme-3k-2024": {
-    "ok": false,
-    "error": "collision"
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0665/2064/5801/files/pala-vibora-black-mamba-xtreme-3k-2024.jpg?v=1722016122",
+    "filled": "2026-10-29"
   },
   "vibora-russell-classic-fiber-2024": {
     "ok": true,
@@ -8989,6 +9006,116 @@
   "nox-la10-future-2024": {
     "ok": true,
     "src": "https://www.padelreference.com/storage/5588/raquette-la10-by-leo-augsburger.webp",
+    "filled": "2026-10-29"
+  },
+  "bullpadel-vertex-04-woman-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0696/2449/6205/files/7597_bddd68f9-4990-4fb6-b7d4-2a1619f2242c.jpg?v=1793011063",
+    "filled": "2026-10-29"
+  },
+  "enebe-response-fiber-blue-2024": {
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/18211-0-4.jpg",
+    "filled": "2026-10-29"
+  },
+  "nox-tl10-future-2024": {
+    "ok": true,
+    "src": "https://www.racketguide.com/prg-admin/images/nox-tl10-future-by-tino-libaak-2024.jpg",
+    "filled": "2026-10-29"
+  },
+  "oxdog-sense-match-light-2024": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200813/pala-oxdog-sense-match-light-2024-1760200818.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-elite-victoria-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/puma-nova-elite-victoria-2024-1000-e65df893.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-pro-ctr-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0959/0531/7251/files/padel-racket-puma-nova-pro-ctr.jpg?v=1761397075",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-34-aniversario-hybrid-2024": {
+    "ok": true,
+    "src": "https://www.padelreference.com/storage/6211/royal-padel-34-aniversario-hybrid-2024.webp",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-34-aniversario-polietileno-2024": {
+    "ok": true,
+    "src": "https://solopalasdepadel.com/wp-content/uploads/2023/12/Royal-Padel-34-Aniversario-Polietileno-2024-2-1.jpg",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-m27-polietileno-ltd-2024": {
+    "ok": true,
+    "src": "https://revolutionpadelstore.com/wp-content/uploads/2024/04/17955-0-4.jpg",
+    "filled": "2026-10-29"
+  },
+  "royal-padel-whip-hybrid-2024": {
+    "ok": true,
+    "src": "https://www.tradeinn.com/f/14050/140509405/royal-padel-rp-790-whip-hybrid-2024-padel-racket.webp",
+    "filled": "2026-10-29"
+  },
+  "kuikma-comfort-2024": {
+    "ok": true,
+    "src": "https://pala-hack.com/wp-content/uploads/Kuikma-Comfort-2024-67111-67112-67113-67115-67114-67116-67117-67118.webp",
+    "filled": "2026-10-29"
+  },
+  "osaka-custom-pro-control-2024": {
+    "ok": true,
+    "src": "https://cdn.shopify.com/s/files/1/0950/9188/4310/files/custom-pro-padel.gif?v=1792511025",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-court-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/puma-nova-court-2024-1000-9ca1d162.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-elite-ctr-2024": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200122/puma-nova-elite-ctr-2024-1760200127.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-elite-hybrid-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/puma-nova-elite-hybrid-2024-1000-4c089bc7.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-elite-pwr-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/puma-nova-elite-pwr-2024-1000-d2f517c5.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-pro-hybrid-2024": {
+    "ok": true,
+    "src": "https://padeltennisrackets.com/wp-content/uploads/2025/08/puma-nova-padel-pro-hybrid-2024.webp",
+    "filled": "2026-10-29"
+  },
+  "puma-nova-smash-2024": {
+    "ok": true,
+    "src": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/049052/01/fnd/GBR/fmt/png/NOVA-PADEL-SMASH-Padel-Racket",
+    "filled": "2026-10-29"
+  },
+  "vibora-titan-2024": {
+    "ok": true,
+    "src": "https://www.tiendapadelpoint.com/image/cache/catalog/pala-vibora-titan-ltd-2024-800x800.webp",
+    "filled": "2026-10-29"
+  },
+  "vibora-yarara-elite-24k-2024": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200734/vibora-yarara-elite-24k-2024-1760200739.webp",
+    "filled": "2026-10-29"
+  },
+  "vibora-yarara-xtreme-3k-2024": {
+    "ok": true,
+    "src": "https://www.padelgroove.com/wp-content/uploads/2025/10/1760200749/vibora-yarara-xtreme-3k-2024-1760200755.webp",
+    "filled": "2026-10-29"
+  },
+  "vibora-yarara-xtreme-fiber-2024": {
+    "ok": true,
+    "src": "https://padelguru.nbg1.your-objectstorage.com/img/rackets/vibora-yarara-xtreme-fiber-2024-1000-0707354d.webp",
     "filled": "2026-10-29"
   }
 }
