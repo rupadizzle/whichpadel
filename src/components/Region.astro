@@ -5,7 +5,7 @@ import { REGIONS, FX, SHOPS, DEFAULT_REGION, SYM } from '../lib/price.js'; impor
 import { LANG_NAME } from '../i18n/routes.js';
 const { lang='en', switcher=[], region=null } = Astro.props; const RG=D(lang).ui.region; const UI=D(lang).ui;
 const LANG_FLAG={en:'🇬🇧',es:'🇪🇸',fr:'🇫🇷',pt:'🇵🇹',it:'🇮🇹',de:'🇩🇪'};
-const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[]}]));
+const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[],a:typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:''}]));
 const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]])),SYM};
 const def=region||DEFAULT_REGION(lang); const dc=REGIONS[def][2];
 const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404.html');
@@ -31,11 +31,12 @@ let reg=PAGE?DEF:(ls('wp_region')||(nonEn?DEF:ls('wp_geo'))||DEF); if(!R[reg]) r
 const curNow=()=>R[reg][1];
 const fmt=(n,c)=>{const v=Math.round(n); if(c==='SEK') return v+' kr'; return nonEn?v+' '+SYM[c]:SYM[c]+v;};
 function best(os){const C=curNow(); const c=(os||[]).map(o=>{const s=SH[o.d]||{y:[],n:[]}; const sx=STRICT[reg]; const st=sx?(s.y.includes(reg)&&o.c===sx?0:2):s.y.includes(reg)?0:s.n.includes(reg)?2:1; const nat=o.c===C; return {...o,st,nat,v:nat?o.p:Math.round(o.p/FX.rates[o.c]*FX.rates[C])};}).filter(o=>o.st<2).sort((a,b)=>a.st-b.st||(b.nat-a.nat)||a.v-b.v);
- if(!c.length) return {txt:STRICT[reg]?NOUS:NONE,v:null,u:null,none:true}; const o=c[0]; return {txt:fmt(o.v,C),v:o.v,u:o.u,conv:!o.nat,from:o.c,unk:o.st===1,cur:C};}
+ if(!c.length) return {txt:STRICT[reg]?NOUS:NONE,v:null,u:null,none:true}; const o=c[0]; return {txt:fmt(o.v,C),v:o.v,u:o.u,d:o.d,conv:!o.nat,from:o.c,unk:o.st===1,cur:C};}
+function shopGo(o){const a=o&&(SH[o.d]||{}).a; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o&&o.u;}}
 function apply(){const C=curNow(); const l=document.getElementById('rgn-reg'); if(l) l.textContent=reg; const lf=document.getElementById('rgn-reg-flag'); if(lf&&R[reg]) lf.textContent=R[reg][0]; const lc=document.getElementById('rgn-cur'); if(lc) lc.textContent=SYM[C];
  document.querySelectorAll('[data-rgn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rgn===reg?'true':'false'));
  document.querySelectorAll('.pz[data-o]').forEach(e=>{const q=best(JSON.parse(e.dataset.o)); if(e.dataset.fn){const os=JSON.parse(e.dataset.o).filter(o=>{const x=SH[o.d], sx=STRICT[reg]; return sx?!!x&&x.y.includes(reg)&&o.c===sx:!x||!x.n.includes(reg)}); e.textContent=q.v==null?e.dataset.none:(os.length>1?e.dataset.fn.replace('{n}',os.length):e.dataset.f1).replace('{p}',q.txt);} else e.textContent=q.txt; e.classList.toggle('cv',!!q.conv); e.dataset.ap=AP; if(q.conv) e.title=CONV.replace('§',q.from); else e.removeAttribute('title');});
- document.querySelectorAll('a.aff[data-o]').forEach(a=>{const q=best(JSON.parse(a.dataset.o)); if(q.u) a.href=q.u; a.toggleAttribute('data-nous',!!(q.none&&STRICT[reg]));});
+ document.querySelectorAll('a.aff[data-o]').forEach(a=>{const q=best(JSON.parse(a.dataset.o)); if(q.u) a.href=shopGo(q); a.toggleAttribute('data-nous',!!(q.none&&STRICT[reg]));});
  const MR=(k,n,f)=>{if(f===C) return Math.round(n); const v=n/FX.rates[f]*FX.rates[C]; if(k!=='b') return Math.round(v); const st=v<50?5:v<300?10:v<1000?50:100; return Math.max(st,Math.round(v/st)*st);};
  document.querySelectorAll('.mz').forEach(e=>{e.textContent=fmt(MR(e.dataset.k,+e.dataset.m,e.dataset.mc),C);});
  document.querySelectorAll('.mzs').forEach(e=>{e.textContent=SYM[C];});

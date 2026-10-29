@@ -1,7 +1,8 @@
 ---
 // English "describe your game" finders. Rule-based keyword parsing only (no AI calls). Rackets reuse the racket finder's scoring via its URL answers.
 import Base from '../layouts/Base.astro';
-import { shoes, shoeImg } from '../lib/shoes.js'; import { url } from '../i18n/routes.js';
+import { shoes, shoeImg } from '../lib/shoes.js'; import { url } from '../i18n/routes.js'; import { SHOPS } from '../lib/price.js';
+const AFF=Object.fromEntries(Object.entries(SHOPS).flatMap(([k,v])=>typeof v.affiliate==='string'&&v.affiliate.startsWith('https://')?[[k,v.affiliate]]:[]));
 const SH=shoes.map(s=>({s:s.slug,n:s.name,b:s.brand,g:s.gender,y:s.year||0,so:s.sole,cu:s.cushion,wd:!!s.wide,w:s.weight,i:shoeImg(s),u:url('shoe','en',s.slug),o:(s.offs||[]).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s}))}));
 const FINDER=url('finder','en');
 const title='Describe your game: shoe finder';
@@ -18,7 +19,7 @@ const title='Describe your game: shoe finder';
 <section class="panel" id="dg-out" hidden></section>
 <p class="muted small" style="margin:12px 4px">Shop links may earn us a commission; it never changes the order. Save what you use now in <a href="/my-kit/">My kit</a> to hear about deals on it.</p>
 <script is:inline src="/describe-parse.js"></script>
-<script is:inline define:vars={{SH,FINDER}}>
+<script is:inline define:vars={{SH,FINDER,AFF}}>
 const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 let tab='s';
 const setTab=t=>{tab=t; document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===t; b.setAttribute('aria-pressed',on); b.className='btn'+(on?'':' btn-line');}); $('dg-t').placeholder=t==='r'?"e.g. I'm an advanced player, I play 3 or 4 times a week on the right side. I've got tennis elbow and head-heavy rackets made it worse. I want control more than power, budget about 200 pounds.":"e.g. I play twice a week on outdoor clay-sand courts, I have wide feet and sore knees, women's shoes under £100."; $('dg-read').hidden=$('dg-out').hidden=true;};
@@ -41,13 +42,14 @@ function shoeRank({A}){const knee=A.injury.some(x=>/knee|heel|plantar|back|achil
   if(!r.length) r.push('Good match for your budget');
   return {s,b,sc,r};}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,6);}
 const F=(p,c)=>{try{return new Intl.NumberFormat('en-GB',{style:'currency',currency:c,maximumFractionDigits:p%1?2:0}).format(p)}catch(e){return p+' '+c}};
+const shopGo=o=>{const a=AFF[o.d]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
 async function go(){const raw=$('dg-t').value.trim(); if(raw.length<8){$('dg-t').focus(); return;}
  const P=parse(raw); $('dg-chips').innerHTML=P.why.map(w=>`<li>${esc(w)}</li>`).join(''); $('dg-read').hidden=false; const O=$('dg-out'); O.hidden=false;
  if(tab==='r'){const a=racket(P); const q=new URLSearchParams(a).toString();
   const extra=[]; if(a.prio==='comfort'&&P.A.injury.length) extra.push('Because of your '+P.A.injury.join('/')+', we only show soft or medium-soft rackets that are not head-heavy and weigh 365 g or less.'); if(P.A.side==='right') extra.push('Right side: rounder, control-friendly shapes rank higher.'); if(P.A.side==='left') extra.push('Left side: diamond and teardrop shapes rank higher.');
   O.innerHTML=`<h2 class="h3">Your racket matches</h2><p>${extra.map(esc).join(' ')}</p><p>We score every racket with the same rules as our racket finder (level ${esc(a.level)}, ${esc(a.style)}, ${esc(a.prio)}, budget ${a.budget==='any'?'any':'£'+a.budget}).</p><p><a class="btn" href="${FINDER}?${q}">See my 3 matches with prices →</a></p>`;}
  else{ if(!window.__shoeLive){try{const j=await (await fetch('/api/shoe-prices')).json(); window.__shoeLive=j&&j.r||{};}catch(e){window.__shoeLive={};}}
-  const L=shoeRank(P); O.innerHTML=`<h2 class="h3">Your shoe matches</h2>`+(L.length?`<ol class="dl" style="list-style:none;padding:0">${L.map(x=>`<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.s.i?`<img src="${esc(x.s.i)}" alt="" width="64" height="64" loading="lazy" style="object-fit:contain">`:''}<span><a href="${esc(x.s.u)}"><b>${esc(x.s.n)}</b></a><small style="display:block">${x.r.map(esc).join(' · ')}</small><small style="display:block">From ${F(x.b.p,x.b.c)} at ${esc(x.b.d)} · <a href="${esc(x.b.u)}" rel="sponsored nofollow" target="_blank">Shop</a> · <a href="${esc(x.s.u)}">All prices</a></small></span></li>`).join('')}</ol>`:'<p>No in-stock shoes match all of that. Try a higher budget or fewer must-haves.</p>');}
+  const L=shoeRank(P); O.innerHTML=`<h2 class="h3">Your shoe matches</h2>`+(L.length?`<ol class="dl" style="list-style:none;padding:0">${L.map(x=>`<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.s.i?`<img src="${esc(x.s.i)}" alt="" width="64" height="64" loading="lazy" style="object-fit:contain">`:''}<span><a href="${esc(x.s.u)}"><b>${esc(x.s.n)}</b></a><small style="display:block">${x.r.map(esc).join(' · ')}</small><small style="display:block">From ${F(x.b.p,x.b.c)} at ${esc(x.b.d)} · <a href="${esc(shopGo(x.b))}" rel="sponsored nofollow" target="_blank">Shop</a> · <a href="${esc(x.s.u)}">All prices</a></small></span></li>`).join('')}</ol>`:'<p>No in-stock shoes match all of that. Try a higher budget or fewer must-haves.</p>');}
  O.scrollIntoView({behavior:'smooth',block:'start'});}
 $('dg-go').onclick=go;
 const preset=new URLSearchParams(location.search).get('q');

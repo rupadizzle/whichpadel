@@ -19,7 +19,7 @@ if(okHost){ window.__pxLive=1; fetch('/api/shoe-prices',{signal:AbortSignal.time
   const L=document.getElementById('bxl'), P=document.getElementById('pxcmp'), M=document.getElementById('buymain'), NU=document.getElementById('bxnous');
   if(!rows.length){if(W.strict&&W.strict()){NU.hidden=false; if(M) M.hidden=true; if(L) L.hidden=true; if(P){P.hidden=true; P.innerHTML='';}} pxFail(); return;}
   NU.hidden=true; if(M) M.hidden=true; if(L) L.hidden=true; pxOn(1); window.__pxStatic=0; const sp=document.getElementById('pxstatic'); if(sp) sp.hidden=true; const PBIG=document.getElementById('pxbig'); if(PBIG) PBIG.hidden=true;
-  const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+  const href=o=>{const a=(SN[o.d]||[])[1]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{if(!t) return ''; const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.tdy:C.agoS.replace('{n}',n);};
   const reg=W.region||'GB'; const ship=o=>{const q=window.wpShip&&wpShip(o.d,reg,o.p,o.c); if(!q) return ''; const lab=q.fee===0?C.shipFree:q.fee==null?C.shipExtra:C.shipPlus.replace('{p}',f(q.cur===cur?q.fee:cv(q.fee,q.cur))); return `<small class="pxcv pxship">${esc(lab)}</small>`;};

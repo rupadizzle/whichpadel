@@ -105,7 +105,7 @@ const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest
 const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&['soft','medium-soft','medium',''].includes(d.c)&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
 const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
-const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=(SN[o.d]||[])[1]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
 function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;
  const w={...W[L]}; for(const o of [SW[S],SIDEW[Sd]||{},PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);

@@ -1,6 +1,6 @@
 // Padel bag catalogue (data/bags.json). Ids are bag-<slug>, the same pattern balls use (ball-<slug>) on the shoe price engine.
 // Hub and product pages list only confirmed 2025-27 models (range === "in-range"); year-unknown models stay in the data, flagged.
-import raw from '../../data/bags.json'; import { pick, SHOPS, DEFAULT_REGION } from './price.js'; import { brandList, playerFromName } from './data.js';
+import raw from '../../data/bags.json'; import { pick, SHOPS, DEFAULT_REGION } from './price.js'; import { shopHref } from './shop-href.js'; import { brandList, playerFromName } from './data.js';
 export const BAG_CHECKED = raw.checked;
 export const allBags = raw.bags.map(b => ({ ...b, player: playerFromName(b.name) }));
 export const bags = allBags.filter(b => b.range === 'in-range');
@@ -20,5 +20,5 @@ export const bagStats = region => {
   return { n: bags.length, nBags: g.bags.length, nPacks: g.packs.length, brands: new Set(bags.map(b => b.brand)).size, priceBags: price(g.bags), pricePacks: price(g.packs), capBags: cap(g.bags), capPacks: cap(g.packs), thermal: yes('thermal'), shoe: yes('shoe'), cur: bagOffer(g.bags[0], region)?.cur };
 };
 export const bagBrand = (name, region) => { const l = bags.filter(b => b.brand === name).sort(byPrice(region)); const slug = brandList.find(x => x.name.toLowerCase() === name.toLowerCase())?.slug || null; return { name, slug, list: l, n: l.length, from: l.length ? bagOffer(l[0], region) : null }; };
-export const bagHref = o => { const a = SHOPS[o.d]?.affiliate; return typeof a === 'string' && a.startsWith('https://') ? a.replace('{url}', encodeURIComponent(o.u)) : o.u; };
+export const bagHref = o => shopHref(o.u, SHOPS[o.d]?.affiliate);
 export const bagComp = v => v === 'yes' || v === 'no' ? v : 'ns';

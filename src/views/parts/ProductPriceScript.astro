@@ -25,7 +25,7 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
   const P=document.getElementById('pxcmp'), M=document.getElementById('buymain');
   if(!shown.length){ if(window.WP&&WP.strict&&WP.strict()){L.hidden=true; P.innerHTML=`<p class="pxnous">${PX.noUS||'No US shop yet'}</p>`; P.hidden=false; if(M) M.hidden=true; pxFail(); return;} P.hidden=true;P.innerHTML='';if(M) M.hidden=false; pxFail(); return;}
   const age=t=>{const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return n===0?C.today:n===1?C.ago1:C.ago.replace('{n}',n);};
-  const href=o=>{const a=(SN[o.d]||[])[1]; return a?a.replace('{url}',encodeURIComponent(o.u)):o.u;};
+  const href=o=>{const a=(SN[o.d]||[])[1]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
   const COMM={en:'We earn commission',es:'Ganamos comisión',fr:'Nous touchons une commission',pt:'Ganhamos comissão',it:'Guadagniamo una commissione',de:'Wir erhalten Provision'}[LG]||'We earn commission';
   const sn=o=>esc((SN[o.d]||[o.n||o.d])[0]);
   const ag=t=>{if(!t) return ''; const n=Math.max(0,Math.round((today-Date.parse(t))/864e5)); return Number.isFinite(n)?(n===0?C.tdy:C.agoS.replace('{n}',n)):'';};
