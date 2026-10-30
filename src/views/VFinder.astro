@@ -190,29 +190,26 @@ function libCard(item,specText,priceTxt){const tpl=document.getElementById('rk-c
  return li;}
 function setAlert(){const ah=$('fz-ah'); if(ah) ah.textContent='🔔 '+Z.alertH;}
 function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; }
-let fzTop=[], fzA=null, fzOpen=new Set();
+let fzTop=[], fzA=null, fzOpen=0;
 function heroHTML(item,n){const d=item.d, ss=shopsOf(d), b=ss[0], canBuy=!!(b&&b.s!==0);
  const oos=canBuy?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
  const oosNote=oos?R(Z.alertOos,shopName(oos.d),money(b.v-oos.v)):'';
- const instock=ss.filter(o=>o.s!==0).slice(0,4);
- const shopRows=instock.length>1?instock.map(o=>`<li class="fz-sr${o===b?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join(''):'';
  const heroBuy=canBuy?buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,shopName(b.d)))+' →'):'';
  return `<article class="fz-hero"><div class="fz-hi"><span class="fz-badge">#${n+1}</span><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,210,250)}</a></div>
  <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${(item.why||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
- <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>
- ${shopRows?`<details class="fz-shops"><summary>${esc(R(Z.cmpShops,instock.length))}</summary><ul>${shopRows}</ul></details>`:''}`;}
+ <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>`;}
 function paintPicks(){const box=$('fz-choices'); if(!box) return; const win=fzTop[0]; box.replaceChildren();
  fzTop.forEach((item,i)=>{const wrap=document.createElement('div'); wrap.className='fz-choice';
-  if(fzOpen.has(i)) wrap.innerHTML=heroHTML(item,i);
+  if(i===fzOpen) wrap.innerHTML=heroHTML(item,i);
   else {wrap.classList.add('hub','cat','rk-rows'); const ul=document.createElement('ul'); ul.className='hub-grid';
    const s2=shopsOf(item.d).find(o=>o.s!==0)||shopsOf(item.d)[0];
-   const lines=prod==='racket'?altLines(fzA,win,item):(item.why||[]).slice(0,2);
+   const lines=i===0?(item.why||[]).slice(0,1):prod==='racket'?altLines(fzA,win,item):(item.why||[]).slice(0,2);
    const price=s2&&s2.txt?CARD.from.replace('{p}',s2.txt):'';
    const li=libCard(item.d,lines.filter(Boolean).join(' · '),price);
    if(li){const photo=li.querySelector('.rk-i'); if(photo){const badge=document.createElement('span'); badge.className='fz-badge'; badge.textContent='#'+(i+1); photo.appendChild(badge);}
     const a=li.querySelector('.rk-a'); a.setAttribute('role','button'); a.setAttribute('aria-expanded','false');
-    a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return; e.preventDefault(); fzOpen.add(i); paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
+    a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return; e.preventDefault(); fzOpen=i; paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
     ul.appendChild(li);}
    wrap.appendChild(ul);}
   box.appendChild(wrap);});
@@ -229,7 +226,7 @@ function render(A){const top=prod==='racket'?rank(A):rankKit(A); const out=$('fz
  const head=vd.h?`<h1 class="fz-vd">${esc(vd.h)}</h1>${vd.sub?`<p class="fz-vdsub">${esc(vd.sub)}</p>`:''}`:`<p class="fz-eb">${esc(Z.best)}</p>`;
  out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.change)}</span>${picks}</div>`:''}<div class="fz-choices" id="fz-choices"></div>
  <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="fz-link" type="button" id="fz-share">${esc(Z.shareB)}</button><button class="fz-link" type="button" data-again>${esc(Z.again)}</button></div>`;
- fzTop=top; fzA=A; fzOpen=new Set([0]); paintPicks();
+ fzTop=top; fzA=A; fzOpen=0; paintPicks();
  if(prod==='racket'&&b) window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
 function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
  document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>scr('intro'));
