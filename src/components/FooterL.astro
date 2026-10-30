@@ -26,6 +26,13 @@ const more = [
     { href: '/guides/padel-rules/', label: 'Padel rules' },
     { href: '/guides/how-to-hold-a-padel-racket/', label: 'How to hold a racket' },
     { href: '/padel-vs-paddle-tennis/', label: 'Padel vs paddle tennis' },
+    { href: url('buyGuide', lang, 'clothing'), label: 'Padel clothing' },
+    { href: url('buyGuide', lang, 'accessories'), label: 'Padel accessories' },
+    { href: url('buyGuide', lang, 'grips'), label: 'Grips and overgrips' },
+  ] : lang === 'es' ? [
+    { href: url('buyGuide', lang, 'clothing'), label: 'Ropa de pádel' },
+    { href: url('buyGuide', lang, 'accessories'), label: 'Accesorios de pádel' },
+    { href: url('buyGuide', lang, 'grips'), label: 'Grips y overgrips' },
   ] : []),
   { href: url('affiliate', lang), label: u.affiliate },
   { href: url('about', lang), label: u.aboutL },
