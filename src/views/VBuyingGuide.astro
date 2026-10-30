@@ -1,0 +1,52 @@
+---
+// Variant A buying guide (EN + ES): hero, byline, affiliate disclosure, TL;DR, contents, sections, FAQ.
+// No product table and no prices. Section id="compare" is the stable upgrade slot for a future ItemList table.
+// Copy: src/i18n/buying-guides.js. Route type: buyGuide in src/i18n/routes.js.
+import Base from '../layouts/Base.astro';
+import Byline from '../components/Byline.astro';
+import { D, SITE, url } from '../i18n/index.js';
+import { BUY, BUY_UI } from '../i18n/buying-guides.js';
+const { lang, id } = Astro.props;
+const d = D(lang), u = d.ui;
+const T = BUY[id][lang];
+const UI = BUY_UI[lang];
+const U = SITE + url('buyGuide', lang, id);
+const also = (T.next || []).map(k => ({ href: url('buyGuide', lang, k), label: BUY[k][lang].crumb }));
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Article', name: T.h1, headline: T.h1, url: U, description: T.desc, inLanguage: d.locale, datePublished: '2026-10-30', dateModified: '2026-10-30' },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) },
+      { '@type': 'ListItem', position: 2, name: T.crumb, item: U },
+    ]},
+    { '@type': 'FAQPage', mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+    ...(T.howTo ? [{
+      '@type': 'HowTo', name: T.howTo.name, description: T.howTo.desc,
+      step: T.howTo.steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s[0], text: s[1] })),
+    }] : []),
+  ],
+};
+---
+<Base lang={d.locale} title={T.title + d.copy.titleSuffix} description={T.desc} jsonld={jsonld}>
+<section class="phero" slot="hero"><div class="wrap">
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<span class="eyebrow">{T.eyebrow}</span>
+<h1>{T.h1}</h1>
+<Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-30" reviewed="2026-10-30"/>
+<div class="seo"><p>{T.lead}</p></div>
+<span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+</div></section>
+<article class="prose pg">
+<div class="tldr"><h2>{UI.tldr}</h2><ul>{T.tldr.map(x => <li set:html={x}/>)}</ul></div>
+<nav class="toc" aria-label={UI.toc}><b>{UI.toc}</b><ol>{Object.entries(T.toc).map(([sid, l]) => <li><a href={'#' + sid}>{l}</a></li>)}</ol></nav>
+{T.sections.map(s => <><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html}/></>)}
+<h2 id="faq">{UI.faq}</h2>
+{T.faq.map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
+<p>{UI.more}{also.map((v, i) => <><a href={v.href}>{v.label}</a>{also.length - 1 > i ? ' · ' : ''}</>)}{also.length ? ' · ' : ''}<a href={url('guide', lang)}>{UI.racketGuide}</a>{lang === 'en' ? <> · <a href="/guides/padel-rules/">Padel rules</a></> : ''}</p>
+</article>
+<style>
+.hero-disc{color:rgba(255,255,255,.75)}
+.hero-disc a{color:inherit}
+</style>
+</Base>
