@@ -6,7 +6,7 @@ const { lang='en' } = Astro.props; const r=D(lang).ui.region;
 const T={m:r.geoQ('§c','§s'),ok:r.geoOk('§c'),ch:r.geoCh,x:D(lang).ui.close};
 const RC=Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,v[2]]));
 ---
-<div id="geo-bn" class="geo-bn" role="region" aria-live="polite" hidden><p id="geo-msg"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-ok"></button><button type="button" class="btn" id="geo-ch"></button></div><button type="button" class="geo-x" id="geo-x" aria-label={T.x}>✕</button></div>
+<div id="geo-bn" class="geo-bn" role="dialog" aria-modal="true" aria-labelledby="geo-msg" aria-describedby="geo-sub" hidden><div class="geo-card"><p id="geo-msg" class="geo-q"></p><p id="geo-sub"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-ok"></button><button type="button" class="btn" id="geo-ch"></button></div><button type="button" class="geo-x" id="geo-x" aria-label={T.x}>✕</button></div></div></div>
 <script is:inline define:vars={{T,RC,SYM,lang}}>
 (()=>{const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
 if(ls('wp_lang')||ls('wp_region')||ls('wp_cur')||ls('wp_geo_stay')) return;
@@ -17,20 +17,25 @@ const EU=['AT','BG','HR','CY','CZ','DK','EE','FI','GR','HU','LV','LT','LU','MT',
 const go=c=>{if(!c||!/^[A-Za-z]{2}$/.test(c)) return; c=c.toUpperCase(); if(c==='UK') c='GB';
  const rk=RC[c]?c:EU.includes(c)?'EU':'ROW', cu=RC[rk], tl=LM[c]||'en'; let cn=c; try{cn=new Intl.DisplayNames([lang],{type:'region'}).of(c)||c}catch(e){}
  const b=document.getElementById('geo-bn'), ok=document.getElementById('geo-ok'), ch=document.getElementById('geo-ch');
- document.getElementById('geo-msg').textContent=T.m.replace('§c',cn).replace('§s',SYM[cu]); ok.textContent=T.ok.replace('§c',cn); ch.textContent=T.ch;
+ const raw=T.m.replace('§c',cn).replace('§s',SYM[cu]), parts=raw.match(/^(¿?.+?\?)\s*([\s\S]*)$/);
+ document.getElementById('geo-msg').textContent=parts?parts[1]:raw; document.getElementById('geo-sub').textContent=parts?parts[2]:''; ok.textContent=T.ok.replace('§c',cn); ch.textContent=T.ch;
  const hide=()=>{b.hidden=true;};
  ok.onclick=()=>{ if(window.WP&&WP.setRC) WP.setRC(rk,cu); else {set('wp_region',rk); set('wp_cur',cu);} hide();
   if(tl!==lang){const a=document.querySelector('[data-lang-pick] a[hreflang="'+tl+'"]'); if(a){set('wp_lang',tl); try{document.cookie='wp_lang='+tl+';path=/;max-age=31536000;samesite=lax'}catch(x){} location.href=a.getAttribute('href');}}};
  ch.onclick=()=>{set('wp_geo_stay','1'); hide(); const g=document.getElementById('rgn-btn'); if(g) g.click();};
  document.getElementById('geo-x').onclick=()=>{set('wp_geo_stay','1'); hide();};
- b.hidden=false;};
+ b.hidden=false; ok.focus({preventScroll:true});};
 const run=()=>{ if(q) return go(q); fetch('/api/geo').then(r=>r.json()).then(j=>go(j.country)).catch(()=>{}); };
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run):run();})();
 </script>
 <style is:global>
-.geo-bn{position:fixed;left:var(--sp-2,16px);right:var(--sp-2,16px);top:var(--sp-2,16px);z-index:60;margin:0 auto;max-width:680px;display:flex;align-items:center;gap:var(--sp-2,16px);padding:var(--sp-2,16px);padding-right:52px;background:#fff;color:#0b2a3c;border:1px solid #d7dee3;border-radius:var(--r);box-sizing:border-box}
-.geo-bn[hidden]{display:flex !important;visibility:hidden;pointer-events:none}.geo-bn p{margin:0;flex:1;font-size:15px;line-height:1.4}.geo-act{display:flex;gap:8px;flex-shrink:0}.geo-act .btn{min-height:44px;min-width:44px}
-@media(max-width:400px){#geo-msg{min-height:4.2em}}
-.geo-x{position:absolute;top:2px;right:2px;width:44px;height:44px;border:0;background:none;color:inherit;font-size:16px;cursor:pointer}
-@media (max-width:600px){.geo-bn{flex-direction:column;align-items:stretch}.geo-act{flex-direction:column}.geo-act .btn{width:100%}}
+.geo-bn{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;background:rgb(7 28 40 / .28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.geo-bn[hidden]{display:flex !important;visibility:hidden;pointer-events:none;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+html:has(.geo-bn:not([hidden])){overflow:hidden}
+.geo-card{position:relative;width:min(28rem,100%);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:28px 24px 24px;background:#fff;color:#0b2a3c;border:1px solid #d7dee3;border-radius:var(--r);box-sizing:border-box;box-shadow:0 24px 80px rgb(7 28 40 / .24)}
+.geo-q{margin:0;padding-right:36px;font-size:1.35rem;font-weight:800;line-height:1.25;letter-spacing:-.02em}
+#geo-sub{margin:0;color:var(--mut,#4f5f69);font-size:15px;line-height:1.45}
+.geo-act{display:flex;flex-direction:column;gap:8px;margin-top:8px}.geo-act .btn{width:100%;min-height:48px;min-width:44px}
+.geo-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:none;color:inherit;font-size:16px;cursor:pointer}
+@media (prefers-reduced-transparency:reduce){.geo-bn{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgb(7 28 40 / .55)}}
 </style>
