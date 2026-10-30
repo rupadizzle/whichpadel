@@ -8,7 +8,7 @@ export const KIT = {
     sub: `Rackets, shoes, balls and bags. Recent prices from ${shop} shops.`,
     subShort: `Rackets, shoes and balls. Recent prices from ${shop} shops.`,
     note: 'A few questions, then your best match with prices.',
-    upto: 'Up to §', nolimit: 'No limit',
+    upto: 'Up to §', range: '§1 to §2', nolimit: 'No limit',
     products: [
       { id: 'racket', ic: '🎾', t: 'Racket', h: 'Level, style and budget' },
       { id: 'shoes', ic: '👟', t: 'Shoes', h: 'Fit, court and budget' },
@@ -52,7 +52,7 @@ export const KIT = {
     sub: `Palas, zapatillas, pelotas y paleteros. Precios recientes de ${shop} tiendas.`,
     subShort: `Palas, zapatillas y pelotas. Precios recientes de ${shop} tiendas.`,
     note: 'Unas pocas preguntas y tu mejor opción, con precios.',
-    upto: 'Hasta §', nolimit: 'Sin límite',
+    upto: 'Hasta §', range: '§1 a §2', nolimit: 'Sin límite',
     products: [
       { id: 'racket', ic: '🎾', t: 'Pala', h: 'Nivel, estilo y presupuesto' },
       { id: 'shoes', ic: '👟', t: 'Zapatillas', h: 'Horma, pista y presupuesto' },
@@ -96,7 +96,7 @@ export const KIT = {
     sub: `Raquettes, chaussures, balles et sacs. Prix récents de ${shop} boutiques.`,
     subShort: `Raquettes, chaussures et balles. Prix récents de ${shop} boutiques.`,
     note: 'Quelques questions, puis votre meilleur choix avec les prix.',
-    upto: 'Jusqu’à §', nolimit: 'Sans limite',
+    upto: 'Jusqu’à §', range: '§1 à §2', nolimit: 'Sans limite',
     products: [
       { id: 'racket', ic: '🎾', t: 'Raquette', h: 'Niveau, style et budget' },
       { id: 'shoes', ic: '👟', t: 'Chaussures', h: 'Coupe, court et budget' },
@@ -140,7 +140,7 @@ export const KIT = {
     sub: `Raquetes, sapatilhas, bolas e malas. Preços recentes de ${shop} lojas.`,
     subShort: `Raquetes, sapatilhas e bolas. Preços recentes de ${shop} lojas.`,
     note: 'Algumas perguntas e a sua melhor escolha, com preços.',
-    upto: 'Até §', nolimit: 'Sem limite',
+    upto: 'Até §', range: '§1 a §2', nolimit: 'Sem limite',
     products: [
       { id: 'racket', ic: '🎾', t: 'Raquete', h: 'Nível, estilo e orçamento' },
       { id: 'shoes', ic: '👟', t: 'Sapatilhas', h: 'Forma, piso e orçamento' },
@@ -184,7 +184,7 @@ export const KIT = {
     sub: `Racchette, scarpe, palline e borse. Prezzi aggiornati da ${shop} negozi.`,
     subShort: `Racchette, scarpe e palline. Prezzi aggiornati da ${shop} negozi.`,
     note: 'Qualche domanda, poi la scelta migliore con i prezzi.',
-    upto: 'Fino a §', nolimit: 'Nessun limite',
+    upto: 'Fino a §', range: '§1 a §2', nolimit: 'Nessun limite',
     products: [
       { id: 'racket', ic: '🎾', t: 'Racchetta', h: 'Livello, stile e budget' },
       { id: 'shoes', ic: '👟', t: 'Scarpe', h: 'Calzata, campo e budget' },
@@ -228,7 +228,7 @@ export const KIT = {
     sub: `Schläger, Schuhe, Bälle und Taschen. Aktuelle Preise von ${shop} Shops.`,
     subShort: `Schläger, Schuhe und Bälle. Aktuelle Preise von ${shop} Shops.`,
     note: 'Ein paar Fragen, dann dein bester Treffer mit Preisen.',
-    upto: 'Bis §', nolimit: 'Kein Limit',
+    upto: 'Bis §', range: '§1 bis §2', nolimit: 'Kein Limit',
     products: [
       { id: 'racket', ic: '🎾', t: 'Schläger', h: 'Niveau, Stil und Budget' },
       { id: 'shoes', ic: '👟', t: 'Schuhe', h: 'Passform, Platz und Budget' },

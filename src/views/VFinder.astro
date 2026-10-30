@@ -4,10 +4,10 @@
 // old racket result links (no ?p=) still open.
 import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { shoes } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { bags } from '../lib/bags.js';
 import { D, url, SITE, CURL } from '../i18n/index.js';
-import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js'; import { HUB } from '../i18n/hub.js';
+import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js'; import { HUB } from '../i18n/hub.js';
 import RkCardTemplate from '../components/RkCardTemplate.astro';
 import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
-const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang], K=KIT[lang]; const CUR0=CURL(lang);
+const { lang } = Astro.props; const d=D(lang), u=d.ui, F=FINDER[lang], Z=FZ[lang], K=KIT[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
 const hasBag=!!L('bag','x');
 const prods=K.products.filter(p=>p.id!=='bag'||hasBag);
@@ -19,16 +19,15 @@ const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.nam
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]}]};
-const BUD=['100','150','200','300','any'];
 const money=s=>String(s).replace(/⟦([mbsMBS])\|([\d.]+)\|([A-Za-z]{3})\|([A-Za-z]{3})⟧/g,(_,k,n,f,d0)=>{k=k.toLowerCase();f=f.toUpperCase();d0=d0.toUpperCase();return k==='s'?`<span class="mzs" data-mc="${d0}">${SYMS[d0]}</span>`:`<span class="mz" data-k="${k}" data-m="${n}" data-mc="${f}">${fmtM(val(FX.rates,k,+n,f,d0),d0,lang)}</span>`;});
-const budL=[...H.budgets.slice(0,3),H.budgets[2].replace('|200|','|300|'),H.budgets[3]].map(money);
-const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['side',Z.q[1],['right','left','either'],Z.sd],['style',Z.q[2],['control','all','power'],Z.st],['prio',Z.q[3],['comfort','light','durable','latest'],Z.pr],
- ['budget',Z.q[4],BUD,BUD.map((v,i)=>[['💷','💶','💳','💎','🚀'][i],budL[i],Z.bh[i]])]];
+const priceTok=n=>money(`⟦b|${n}|${CUR0}|${CUR0}⟧`);
+const bandTitle=(amounts,i)=>i?K.range.replace('§1',priceTok(amounts[i-1])).replace('§2',priceTok(amounts[i])):K.upto.replace('§',priceTok(amounts[i]));
+const Q=[['level',Z.q[0],['beginner','intermediate','advanced'],Z.lv],['side',Z.q[1],['right','left','either'],Z.sd],['style',Z.q[2],['control','all','power'],Z.st],['prio',Z.q[3],['comfort','light','durable','latest'],Z.pr]];
 const rows=(k,q,list)=>({k,q,opts:list.map(([v,ic,t,h])=>({v,ic,t,h,html:false}))});
 const budgetStep=(q,amounts,hints)=>({k:'budget',q,opts:[
- ...amounts.map((n,i)=>({v:String(n),ic:['💷','💶','💳','💎'][i],t:K.upto.replace('§',money(`⟦b|${n}|${CUR0}|${CUR0}⟧`)),h:hints[i],html:true,mb:String(n)})),
+ ...amounts.map((n,i)=>({v:String(n),ic:['💷','💶','💳','💎'][i],t:bandTitle(amounts,i),h:hints[i],html:true,mb:String(n)})),
  {v:'any',ic:'🚀',t:K.nolimit,h:hints[amounts.length],html:false}]});
-const racketSteps=Q.map(([k,q,vals,opts])=>({k,q,opts:vals.map((v,j)=>({v,ic:opts[j][0],t:opts[j][1],h:opts[j][2],html:k==='budget',mb:k==='budget'&&v!=='any'?v:undefined}))}));
+const racketSteps=[...Q.map(([k,q,vals,opts])=>({k,q,opts:vals.map((v,j)=>({v,ic:opts[j][0],t:opts[j][1],h:opts[j][2],html:false}))})),budgetStep(Z.q[4],[100,150,200,300],Z.bh)];
 const shoeSteps=[rows('who',K.shoes.q[0],K.shoes.who),rows('court',K.shoes.q[1],K.shoes.court),rows('fit',K.shoes.q[2],K.shoes.fit),budgetStep(K.shoes.q[3],K.shoes.amounts,K.shoes.bh)];
 const ballSteps=[rows('use',K.balls.q[0],K.balls.use),rows('speed',K.balls.q[1],K.balls.speed),budgetStep(K.balls.q[2],K.balls.amounts,K.balls.bh)];
 const bagSteps=[rows('carry',K.bags.q[0],K.bags.carry),rows('cap',K.bags.q[1],K.bags.cap),rows('extra',K.bags.q[2],K.bags.extra),budgetStep(K.bags.q[3],K.bags.amounts,K.bags.bh)];
@@ -99,6 +98,7 @@ const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),f
 const loadKit=()=>kitProm||(kitProm=Promise.all([fetch('/kit.json').then(r=>r.json()),fetch('/api/shoe-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([cat,p])=>{const live=p&&p.r||{}; for(const list of [cat.shoes,cat.balls,cat.bags]) paint(list,live,'px'); const ns=new Set([cat.shoes,cat.balls,cat.bags].flat().flatMap(c=>(c.o||[]).map(o=>o.d))).size; bumpNs(ns); kit=cat; return cat;}));
 load();
 const bq=r=>(window.WP&&r.o&&r.o.length)?WP.best(r.o):null; const pn=r=>{const q=bq(r); return q&&q.v!=null?q.v:null;};
+const shownV=d=>{const ss=shopsOf(d); const b=ss.find(o=>o.s!==0)||ss[0]; return b?b.v:null;};
 const W={beginner:{forgiveness:3,comfort:2,handling:1,control:1},intermediate:{control:2,power:1,forgiveness:1,handling:1},advanced:{power:1.5,control:1.5,handling:1}};
 const SW={control:{control:3},all:{control:1.5,power:1.5,handling:1},power:{power:3}};
 const SIDEW={right:{control:2,forgiveness:1},left:{power:2},either:{}};
@@ -107,15 +107,17 @@ const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&['soft','medium-soft','medium',''].includes(d.c)&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
 const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
 const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=(SN[o.d]||[])[1]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
-function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const Bi=document.querySelector(`#fq input[name="budget"][data-t="${A.budget}"]`); const B=A.budget==='any'||!Bi?0:+Bi.value;
+function budgetBand(){const name=prod==='racket'?'budget':prod+'-budget'; const inputs=[...document.querySelectorAll(`#fq input[name="${name}"][data-mb]`)]; const i=inputs.findIndex(inp=>inp.checked); if(i<0) return null; return {lo:i?+inputs[i-1].value:0,hi:+inputs[i].value};}
+function inBand(price,band){return !band||(price<=band.hi&&(!band.lo||price>=band.lo));}
+function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const band=budgetBand(); const B=band?band.hi:0;
  const k=(+(document.querySelector('#fq input[data-t="200"]')||{}).value||200)/200; const gp=d=>pn(d)/k;
  const w={...W[L]}; for(const o of [SW[S],SIDEW[Sd]||{},PW[P]]) for(const [kk,v] of Object.entries(o)) w[kk]=(w[kk]||0)+v; const tot=Object.values(w).reduce((a,b)=>a+b,0);
  const want=L==='beginner'?'round':SHP[S]; const ov=d=>(d.power+d.control+d.forgiveness+d.comfort+d.handling)/5;
  const tier=d=>{const p=gp(d); if(L==='advanced') return Math.min(p,250)/250*10-(S==='power'&&/\b(team|light|lite|control)\b/i.test(d.m)?4:0); if(L==='intermediate') return p>=70&&p<=220?5:0; return 0;};
  const pri=d=>P==='light'?(d.w1&&d.w1<=360?6:d.w0>=370?-4:0):P==='durable'?((d.c==='hard'?5:d.c==='medium'?3:0)+(gp(d)>=120?2:0)):P==='latest'?(d.y>=2026?8:d.y>=2025?3:-3):P==='comfort'?(d.c==='soft'?3:0):0;
  const sideN=d=>Sd==='right'?(d.sh==='round'?4:(d.sh==='teardrop'||d.sh==='hybrid')?2:0):Sd==='left'?(d.sh==='diamond'?4:(d.sh==='teardrop'||d.sh==='hybrid')?2:0):0;
- const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+sideN(d)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:d.y&&d.y<=2023?-4:0)+(B?pn(d)/B*8:0)+(d.i?1:0)+tier(d)+pri(d);};
- const pool=all.filter(d=>pn(d)!=null&&(!B||(pn(d)<=B&&pn(d)>=B*0.4))&&OK[L](d)&&(P!=='comfort'||(['soft','medium-soft'].includes(d.c)&&d.bl!=='high'&&!(d.w1>365)))&&d.a!=='women'&&d.a!=='junior'&&!/\b(jr|junior|kids?|women|woman|lady|w)\b/i.test(d.m)).map(d=>({d,s:sc(d)})).sort((a,b)=>b.s-a.s);
+ const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+sideN(d)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:d.y&&d.y<=2023?-4:0)+(B?(shownV(d)||0)/B*8:0)+(d.i?1:0)+tier(d)+pri(d);};
+ const pool=all.filter(d=>{const p=shownV(d); return p!=null&&inBand(p,band)&&OK[L](d)&&(P!=='comfort'||(['soft','medium-soft'].includes(d.c)&&d.bl!=='high'&&!(d.w1>365)))&&d.a!=='women'&&d.a!=='junior'&&!/\b(jr|junior|kids?|women|woman|lady|w)\b/i.test(d.m);}).map(d=>({d,s:sc(d)})).sort((a,b)=>b.s-a.s);
  const top=[],br=new Set(); for(const x of pool){const bb=x.d.b.toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;}
  const why=d=>{const sh=Z.shape[d.sh]||''; const shw=(LG==='en'||LG==='de')&&sh?sh.charAt(0).toUpperCase()+sh.slice(1):sh;
   const shape=shw?R(Z.W.forg,shw):'';
@@ -130,10 +132,9 @@ function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const B
   if(rows.filter(Boolean).length<3){const ss=shopsOf(d); if(ss.length) rows.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt));}
   return rows.filter(Boolean).slice(0,3);};
  return top.map(x=>({...x,why:why(x.d)}));}
-function budgetOf(A){if(!A.budget||A.budget==='any') return 0; const name=prod==='racket'?'budget':prod+'-budget'; const Bi=document.querySelector(`#fq input[name="${name}"][data-t="${A.budget}"]`); return Bi?+Bi.value:0;}
 function top3(pool){const top=[],br=new Set(); for(const x of pool){const bb=(x.d.b||'').toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;} return top;}
-function rankKit(A){const spec=KW[prod], W=spec.w, B=budgetOf(A); const list=kit[prod==='shoes'?'shoes':prod==='balls'?'balls':'bags']||[]; const pool=[];
- for(const d of list){const price=pn(d); if(price==null) continue; if(B&&(price>B||price<B*0.4)) continue; let sc=0; const why=[];
+function rankKit(A){const spec=KW[prod], W=spec.w, band=budgetBand(), B=band?band.hi:0; const list=kit[prod==='shoes'?'shoes':prod==='balls'?'balls':'bags']||[]; const pool=[];
+ for(const d of list){const price=shownV(d); if(price==null) continue; if(!inBand(price,band)) continue; let sc=0; const why=[];
   if(prod==='shoes'){ if(A.who==='any'?d.g==='k':d.g!==A.who) continue; const so=d.so||[];
    if(A.court==='outdoor'){ if(so.includes('clay')||so.includes('omni')){sc+=8; why.push(W.clay);} else if(so.includes('herringbone')){sc+=5; why.push(W.herr);} else if(so.includes('allcourt')) sc-=2; }
    else if(A.court==='indoor'){ if(so.includes('allcourt')){sc+=8; why.push(W.indoor);} else if(so.includes('herringbone')) sc+=2; else if(so.includes('clay')||so.includes('omni')) sc-=1; }
