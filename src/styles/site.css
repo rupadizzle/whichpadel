@@ -10,7 +10,7 @@ a{color:var(--green2)}p{margin:0 0 1em}
 @media(max-width:600px){.wrap{padding:0 var(--s4)}}
 .muted{color:var(--mut)}.small{font-size:.82rem}
 /* header */
-.ubar{--uh:36px;position:relative;z-index:22;height:var(--uh);background:#111;color:#fff}
+.ubar{--uh:44px;position:relative;z-index:22;height:var(--uh);background:#111;color:#fff}
 .ubar .wrap{display:grid;grid-template-columns:var(--uh) minmax(0,1fr) var(--uh);align-items:center;height:var(--uh)}
 #ubar-rgn{grid-column:1;display:flex;align-items:center;min-width:0}
 .ubar .rgn{margin:0;height:var(--uh);min-height:0;padding:0;border:0;border-radius:0;background:transparent}
