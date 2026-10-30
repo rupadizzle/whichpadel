@@ -2,7 +2,6 @@
 // One finder for rackets, shoes, balls and bags. The first choice picks the product;
 // each product has its own questions and scoring. Racket scoring is unchanged, and
 // old racket result links (no ?p=) still open.
-import NewsL from '../components/NewsL.astro';
 import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { shoes } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { bags } from '../lib/bags.js';
 import { D, url, SITE, CURL } from '../i18n/index.js';
 import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js';
@@ -34,7 +33,8 @@ const ballSteps=[rows('use',K.balls.q[0],K.balls.use),rows('speed',K.balls.q[1],
 const bagSteps=[rows('carry',K.bags.q[0],K.bags.carry),rows('cap',K.bags.q[1],K.bags.cap),rows('extra',K.bags.q[2],K.bags.extra),budgetStep(K.bags.q[3],K.bags.amounts,K.bags.bh)];
 const QUIZ=[{id:'racket',steps:racketSteps},{id:'shoes',steps:shoeSteps},{id:'balls',steps:ballSteps},...(hasBag?[{id:'bag',steps:bagSteps}]:[])];
 const ZC={...Z,sub:null,w:null,cmpShops:Z.cmpShops('§'),buyAt:Z.buyAt('§'),
- W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1'),right:Z.w.right,left:Z.w.left}};
+ more:Z.more('§1'),less:Z.less('§1'),lessStat:Z.lessStat('§1','§2','§3'),moreStat:Z.moreStat('§1','§2','§3'),alertOos:Z.alertOos('§1','§2'),
+ W:{forg:Z.w.forg('§1'),ctl:Z.w.ctl('§1'),ctlBeg:Z.w.ctlBeg('§1'),pow:Z.w.pow('§1'),bal:Z.w.bal('§1','§2'),comf:Z.w.comf('§1'),comfSoft:Z.w.comfSoft('§1'),comfW:Z.w.comfW('§1','§2'),light:Z.w.light('§1','§2'),dur:Z.w.dur('§1'),late:Z.w.late('§1'),shops:Z.w.shops('§1','§2'),price:Z.w.price('§1'),right:Z.w.right,left:Z.w.left}};
 const pack=s=>({finding:s.finding,none:s.none,w:s.w,tour:s.tour||null});
 const KW={shoes:pack(K.shoes),balls:pack(K.balls),bag:pack(K.bags)};
 const KL=Object.fromEntries(K.products.map(p=>[p.id,p.t]));
@@ -62,22 +62,21 @@ const subLine=(hasBag?K.sub:K.subShort).split('§');
 </section>
 <section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p id="fz-finding">{Z.finding}</p></section>
 <section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><div id="fz-out"></div>
- <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
+ <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3" id="fz-ah">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
  <label class="fz-cons"><input type="checkbox" required/> <span>{Z.consent} <a href={L('privacy')}>{Z.priv}</a>.</span></label><p class="fz-msg" hidden></p></form>
- <div id="fz-news"><NewsL lang={lang} src="finder"/></div>
  <p class="disc">{Z.ad} <a href={L('affiliate')}>{Z.disc}</a></p>
 </section>
 <div class="fz-bar" id="fz-sticky" hidden></div>
 </div>
 <script is:inline define:vars={{Z:ZC,U,SN,KW,KL,LG:lang}}>
-const $=id=>document.getElementById(id), fz=$('fz'); const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id), fz=$('fz'), BASE_TITLE=document.title; const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const R=(t,...a)=>a.reduce((o,v,i)=>o.split('§'+(i+1)).join(v),t).replace('§',a[0]);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let prod='racket', cur=0;
 const steps=()=>[...document.querySelectorAll(`#fq .fz-step[data-p="${prod}"]`)];
 const rv=n=>(document.querySelector(`#fq input[name="${n}"]:checked`)||{}).value||'';
-function syncModes(){const bar=$('fz-modes'); bar.hidden=fz.dataset.state==='intro'; bar.querySelectorAll('[data-mode]').forEach(b=>{if(b.dataset.mode===prod) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');});}
-const scr=s=>{fz.dataset.state=s; document.querySelectorAll('.fz-scr').forEach(e=>{const on=e.dataset.scr===s; e.hidden=!on; if(on&&!RM){e.classList.remove('in'); void e.offsetWidth; e.classList.add('in');}}); $('fz-sticky').hidden=s!=='res'; syncModes(); if(s==='intro'&&location.search) history.replaceState(null,'',location.pathname); scrollTo(0,0);};
+function syncModes(){const bar=$('fz-modes'); bar.hidden=fz.dataset.state!=='q'; bar.querySelectorAll('[data-mode]').forEach(b=>{if(b.dataset.mode===prod) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current');});}
+const scr=s=>{fz.dataset.state=s; document.querySelectorAll('.fz-scr').forEach(e=>{const on=e.dataset.scr===s; e.hidden=!on; if(on&&!RM){e.classList.remove('in'); void e.offsetWidth; e.classList.add('in');}}); $('fz-sticky').hidden=s!=='res'; syncModes(); if(s!=='res'){document.title=BASE_TITLE; fz.classList.remove('fz-oosdeal');} if(s==='intro'&&location.search) history.replaceState(null,'',location.pathname); scrollTo(0,0);};
 function enter(id){if(!id||(id===prod&&fz.dataset.state!=='intro')) return; prod=id; if(prod==='racket') load(); else loadKit(); const st=steps(); const missing=st.findIndex(s=>!s.querySelector('input:checked')); if(missing===-1&&st.length){finish(); return;} const q=new URLSearchParams({p:prod}); for(const s of st){const inp=s.querySelector('input:checked'); if(!inp) continue; const k=s.dataset.k; q.set(k,k==='budget'?inp.dataset.t:inp.value);} history.replaceState(null,'','?'+q); show(missing<0?0:missing);}
 function show(i){cur=i; scr('q'); const st=steps(); document.querySelectorAll('#fq .fz-step').forEach(s=>{s.hidden=true;}); const s=st[i]; if(!s) return; s.hidden=false; if(!RM){s.classList.remove('in'); void s.offsetWidth; s.classList.add('in');}
  $('fz-bar').style.width=((i+1)/st.length*100)+'%'; $('fz-cnt').textContent=(i+1)+'/'+st.length; $('fz-pr').setAttribute('aria-valuemax',st.length); $('fz-pr').setAttribute('aria-valuenow',i+1);
@@ -116,12 +115,18 @@ function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const B
  const sc=d=>{const fit=Object.entries(w).reduce((a,[kk,v])=>a+(d[kk]||0)*v,0)/tot; return 0.8*fit+0.2*ov(d)+(d.sh===want?5:(d.sh==='hybrid'||d.sh==='teardrop')?2:0)+sideN(d)+(shopsOf(d).length>=2?3:0)+(d.y>=2025?3:d.y&&d.y<=2023?-4:0)+(B?pn(d)/B*8:0)+(d.i?1:0)+tier(d)+pri(d);};
  const pool=all.filter(d=>pn(d)!=null&&(!B||(pn(d)<=B&&pn(d)>=B*0.4))&&OK[L](d)&&(P!=='comfort'||(['soft','medium-soft'].includes(d.c)&&d.bl!=='high'&&!(d.w1>365)))&&d.a!=='women'&&d.a!=='junior'&&!/\b(jr|junior|kids?|women|woman|lady|w)\b/i.test(d.m)).map(d=>({d,s:sc(d)})).sort((a,b)=>b.s-a.s);
  const top=[],br=new Set(); for(const x of pool){const bb=x.d.b.toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;}
- const why=d=>{const out=[]; const sh=Z.shape[d.sh]||'';
-  if(L==='beginner'&&d.forgiveness>=60&&sh) out.push(R(Z.W.forg,sh));
-  out.push(S==='control'?R(Z.W.ctl,d.control):S==='power'?R(Z.W.pow,d.power):R(Z.W.bal,d.power,d.control));
-  if(Sd==='right') out.push(Z.W.right); else if(Sd==='left') out.push(Z.W.left);
-  if(P==='comfort') out.push(R(Z.W.comf,d.comfort)); else if(P==='light'&&d.w0){const span=R(Z.W.light,d.w0,d.w1&&d.w1!==d.w0?d.w1:d.w0); out.push(!d.w1||d.w1===d.w0?span.replace(/(\d+)\s*[–-]\s*\1/,'$1'):span);} else if(P==='durable'&&d.c) out.push(R(Z.W.dur,Z.core[d.c])); else if(P==='latest'&&d.y) out.push(R(Z.W.late,d.y));
-  const ss=shopsOf(d); if(out.length<3&&ss.length) out.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt)); return out.slice(0,3);};
+ const why=d=>{const sh=Z.shape[d.sh]||''; const shw=(LG==='en'||LG==='de')&&sh?sh.charAt(0).toUpperCase()+sh.slice(1):sh;
+  const shape=shw?R(Z.W.forg,shw):'';
+  const style=S==='control'?R(L==='beginner'?Z.W.ctlBeg:Z.W.ctl,d.control):S==='power'?R(Z.W.pow,d.power):R(Z.W.bal,d.power,d.control);
+  let pri='';
+  if(P==='comfort'){const grams=d.w0?(d.w1&&+d.w1!==+d.w0?d.w0+'–'+d.w1:String(d.w0)):''; const soft=d.c==='soft'||d.c==='medium-soft'; pri=soft&&grams?R(Z.W.comfW,grams,d.comfort):soft?R(Z.W.comfSoft,d.comfort):R(Z.W.comf,d.comfort);}
+  else if(P==='light'&&d.w0){const span=R(Z.W.light,d.w0,d.w1&&+d.w1!==+d.w0?d.w1:d.w0); pri=!d.w1||+d.w1===+d.w0?span.replace(/(\d+)\s*[–-]\s*\1/,'$1'):span;}
+  else if(P==='durable'&&d.c) pri=R(Z.W.dur,Z.core[d.c]||d.c);
+  else if(P==='latest'&&d.y) pri=R(Z.W.late,d.y);
+  const side=Sd==='right'?Z.W.right:Sd==='left'?Z.W.left:'';
+  const rows=side?[style,pri,side]:[shape,style,pri];
+  if(rows.filter(Boolean).length<3){const ss=shopsOf(d); if(ss.length) rows.push(ss.length>1?R(Z.W.shops,ss.length,ss[0].txt):R(Z.W.price,ss[0].txt));}
+  return rows.filter(Boolean).slice(0,3);};
  return top.map(x=>({...x,why:why(x.d)}));}
 function budgetOf(A){if(!A.budget||A.budget==='any') return 0; const name=prod==='racket'?'budget':prod+'-budget'; const Bi=document.querySelector(`#fq input[name="${name}"][data-t="${A.budget}"]`); return Bi?+Bi.value:0;}
 function top3(pool){const top=[],br=new Set(); for(const x of pool){const bb=(x.d.b||'').toLowerCase(); if(br.has(bb)) continue; br.add(bb); top.push(x); if(top.length===3) break;} return top;}
@@ -160,22 +165,40 @@ const img=(d,w,h)=>d.i?`<img src="${d.i}" alt="${esc(d.m)}" width="${w}" height=
 const buy=(o,cls,label)=>`<a class="btn ${cls}" href="${esc(hrefShop(o))}" rel="sponsored nofollow" target="_blank" data-ev="buy">${label}</a>`;
 const pageOf=s=>(U.href[prod]||'')+s+'/';
 const choiceLabelFrom=step=>{const inp=step.querySelector('input:checked'); const b=inp&&inp.parentElement.querySelector('b'); return b?b.textContent.trim():'';};
-function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; const news=$('fz-news'); if(news) news.hidden=prod!=='racket'; }
+const neutral=step=>{const k=step.dataset.k; if(k==='who') return false; const inp=step.querySelector('input:checked'); if(!inp) return true; if(k==='budget') return inp.dataset.t==='any'; return inp.value==='any'||inp.value==='either';};
+const money=n=>{const c=(window.WP&&WP.currency)||'EUR'; const v=Math.round(Math.abs(+n)); const sym={GBP:'£',EUR:'€',USD:'$',SEK:'kr'}[c]||''; if(c==='SEK') return v+' kr'; return (document.documentElement.lang||'en').toLowerCase().startsWith('en')?sym+v:v+' '+sym;};
+const shopName=d=>(SN[d]||[d])[0];
+function altLines(A,win,alt){const lines=[]; const wb=shopsOf(win.d).find(o=>o.s!==0)||shopsOf(win.d)[0]; const ab=shopsOf(alt.d).find(o=>o.s!==0)||shopsOf(alt.d)[0];
+ if(wb&&ab&&wb.v!=null&&ab.v!=null){const diff=Math.round(ab.v-wb.v); lines.push(Math.abs(diff)<2?Z.samePrice:R(diff>0?Z.more:Z.less,money(diff)));}
+ const styleKey=A.style==='power'?'power':'control'; const styleGap=(+win.d[styleKey]||0)-(+alt.d[styleKey]||0); const comfGap=(+win.d.comfort||0)-(+alt.d.comfort||0);
+ const styleBig=Math.abs(styleGap)>=8, comfBig=Math.abs(comfGap)>=8;
+ const useComf=comfBig&&(!styleBig||Math.abs(comfGap)>Math.abs(styleGap)); const gap=useComf?comfGap:styleGap; const key=useComf?'comfort':styleKey;
+ if(Math.abs(gap)>=8) lines.push(R(gap>0?Z.lessStat:Z.moreStat,(Z.metric&&Z.metric[key])||key,useComf?alt.d.comfort:alt.d[styleKey],useComf?win.d.comfort:win.d[styleKey])); else lines.push(Z.sameFeel);
+ return lines.filter(Boolean).slice(0,2);}
+function verdictOf(A,d){if(prod!=='racket') return {h:'',sub:''}; const label=(Z.vh&&Z.vh[(A.level||'')+'-'+(A.style||'')])||Z.best; return {h:label+': '+d.m,sub:A.level==='beginner'&&A.budget==='any'?(Z.spend||''):''};}
+function setAlert(){const ah=$('fz-ah'); if(ah) ah.textContent='🔔 '+Z.alertH;}
+function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; }
 function render(A){const top=prod==='racket'?rank(A):rankKit(A); const out=$('fz-out');
- if(!top.length){out.innerHTML=`<p class="fz-none">${esc(prod==='racket'?Z.none:(KW[prod]&&KW[prod].none)||Z.none)}</p><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button>`; kitChrome(false); $('fz-sticky').innerHTML=''; bind(); return;}
- kitChrome(true); const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0];
- const rows=ss.slice(0,4).map((o,i)=>`<li class="fz-sr${i===0?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${o.s===0?Z.oos:Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join('');
- const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d)[0]; return `<article class="fz-alt"><a class="fz-ai" href="${pageOf(x.d.s)}">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${pageOf(x.d.s)}">${esc(x.d.m)}</a><span class="fz-am">${x.why.slice(0,2).map(esc).join('<br>')}</span><b class="fz-ap">${esc(s2.txt)}</b></div>${buy(s2,'btn-accent btn-sm fz-abuy',esc(Z.buy))}</article>`;}).join('');
- const picks=steps().map((s,i)=>{const t=choiceLabelFrom(s); const q=s.querySelector('legend').textContent.trim(); return `<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(q+': '+t)}">${esc(t)}</button>`;}).join('<span class="fz-dot" aria-hidden="true">·</span>');
- out.innerHTML=`<div class="fz-picks">${picks}</div><p class="fz-eb">${esc(Z.best)}</p><article class="fz-hero"><div class="fz-hi"><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,120,144)}</a></div>
+ if(!top.length){out.innerHTML=`<p class="fz-none">${esc(prod==='racket'?Z.none:(KW[prod]&&KW[prod].none)||Z.none)}</p><button class="fz-link" type="button" data-again>↺ ${esc(Z.again)}</button>`; kitChrome(false); setAlert(); $('fz-sticky').innerHTML=''; document.title=BASE_TITLE; bind(); return;}
+ kitChrome(true); const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0], canBuy=!!(b&&b.s!==0);
+ const oos=canBuy?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
+ const oosNote=oos?R(Z.alertOos,shopName(oos.d),money(b.v-oos.v)):''; setAlert();
+ const instock=ss.filter(o=>o.s!==0).slice(0,4);
+ const rows=instock.length>1?instock.map(o=>`<li class="fz-sr${o===b?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join(''):'';
+ const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d).find(o=>o.s!==0)||shopsOf(x.d)[0]; const lines=prod==='racket'?altLines(A,h,x):(x.why||[]).slice(0,2); const altBuy=s2&&s2.s!==0?buy(s2,'btn-line btn-sm fz-abuy',esc(Z.buy)):`<span class="fz-ooslab">${esc(Z.oos)}</span>`; return `<article class="fz-alt"><a class="fz-ai" href="${pageOf(x.d.s)}">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${pageOf(x.d.s)}">${esc(x.d.m)}</a><span class="fz-am">${lines.map(esc).join('<br>')}</span>${s2?`<b class="fz-ap">${esc(s2.txt)}</b>`:''}</div>${altBuy}</article>`;}).join('');
+ const picks=steps().flatMap((s,i)=>{if(neutral(s)) return []; const t=choiceLabelFrom(s); const q=s.querySelector('legend').textContent.trim(); return [`<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(q+': '+t)}">${esc(t)}</button>`];}).join('<span class="fz-dot" aria-hidden="true">·</span>');
+ const vd=verdictOf(A,d); document.title=vd.h?vd.h+' | WhichPadel':BASE_TITLE;
+ const head=vd.h?`<h1 class="fz-vd">${esc(vd.h)}</h1>${vd.sub?`<p class="fz-vdsub">${esc(vd.sub)}</p>`:''}`:`<p class="fz-eb">${esc(Z.best)}</p>`;
+ const heroBuy=canBuy?buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,shopName(b.d)))+' →'):'';
+ out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.change)}</span>${picks}</div>`:''}<article class="fz-hero"><div class="fz-hi"><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,210,250)}</a></div>
  <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
- <div class="fz-pb"><span class="fz-bp">${esc(b.txt)}</span><span class="fz-bs">${sn(b.d)}</span></div>${buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,(SN[b.d]||[b.d])[0]))+' →')}</div></article>
- ${ss.length>1?`<details class="fz-shops" open><summary>${esc(R(Z.cmpShops,Math.min(4,ss.length)))}</summary><ul>${rows}</ul></details>`:''}
+ <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>
+ ${rows?`<details class="fz-shops"><summary>${esc(R(Z.cmpShops,instock.length))}</summary><ul>${rows}</ul></details>`:''}
  ${alt?`<h2 class="fz-h2">${esc(Z.also)}</h2><div class="fz-alts">${alt}</div>`:''}
- <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="btn btn-line" type="button" id="fz-share">↗ ${esc(Z.shareB)}</button><button class="btn btn-line" type="button" data-again>↺ ${esc(Z.again)}</button></div>`;
- $('fz-sticky').innerHTML=`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else st.classList.remove('off');}
- if(prod==='racket') window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
+ <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="fz-link" type="button" id="fz-share">${esc(Z.shareB)}</button><button class="fz-link" type="button" data-again>${esc(Z.again)}</button></div>`;
+ $('fz-sticky').innerHTML=canBuy?`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`:''; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&canBuy&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else if(canBuy) st.classList.remove('off');}
+ if(prod==='racket'&&b) window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
 function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
  document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>scr('intro'));
  document.querySelectorAll('[data-again]').forEach(x=>x.onclick=()=>{history.replaceState(null,'',location.pathname); document.querySelectorAll('#fq input').forEach(i=>i.checked=false); scr('intro');});
