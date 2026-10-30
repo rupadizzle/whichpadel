@@ -63,7 +63,6 @@ const P={
  year:{en:y=>`/rackets/year/${y}/`,es:y=>`/es/palas/ano/${y}/`,fr:y=>`/fr/raquettes/annee/${y}/`,pt:y=>`/pt/raquetes/ano/${y}/`,it:y=>`/it/racchette/anno/${y}/`,de:y=>`/de/schlaeger/jahr/${y}/`},
  bags:{en:()=>'/bags/',es:()=>'/es/paleteros-mochilas-padel/'},
  bag:{en:s=>`/bags/${s}/`,es:s=>`/es/paleteros-mochilas-padel/${s}/`},
- // Variant A buying guides (EN+ES only; upgrade to compare pages when catalogue has 12+ products). Slugs stay stable.
  buyGuide:{
   en:k=>({clothing:'/padel-clothing/',accessories:'/padel-accessories/',grips:'/padel-grips-overgrips/',pressuriser:'/padel-ball-pressuriser/',ballMachine:'/padel-ball-machine/'})[k],
   es:k=>({clothing:'/es/ropa-padel/',accessories:'/es/accesorios-padel/',grips:'/es/grips-overgrips-padel/',pressuriser:'/es/presurizador-pelotas-padel/',ballMachine:'/es/maquina-lanzapelotas-padel/'})[k],
