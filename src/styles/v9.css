@@ -113,7 +113,15 @@ main.fz-main:has(#fz[data-state="intro"]){min-height:calc(100svh - 62px);display
 .fz-badge{position:absolute;top:var(--s2);left:var(--s2);z-index:2;background:var(--navy);color:var(--lime);font-weight:800;font-size:var(--fs-xs);border-radius:99px;padding:var(--s1) var(--s3)}
 .fz-choices{display:grid;gap:14px}
 .fz-res .rk-i .fz-badge{top:4px;left:4px;padding:2px 7px}
+.fz-choice.rk-rows .rk-card{cursor:pointer}
+.fz-exp{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;margin-left:8px;font-size:.8125rem;font-weight:750;color:var(--navy);white-space:nowrap}
+.fz-exp::after{content:'';width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.fz-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fz-tools.rk{display:flex;flex-direction:row;align-items:center;gap:10px;flex:0 0 auto;position:static;background:none;border:0;border-radius:0}
+.fz-tools .rk-bell,.fz-tools .save-heart{width:28px;height:28px}
+.fz-tools .bell,.fz-tools .heart{width:18px;height:18px}
 .fz-br{margin:0;font-size:var(--fs-xs);color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.fz-from{font-size:1.25rem;font-weight:800;letter-spacing:-.02em}
 .fz-hn{font-size:1.4rem;line-height:1.2;margin:var(--s1) 0 var(--s3)}.fz-hn a{color:var(--ink);text-decoration:none}
 .fz-wh{font-size:var(--fs-s);margin:0 0 var(--s2);color:var(--mut)}
 .fz-why{list-style:none;padding:0;margin:0 0 var(--s4);display:grid;gap:var(--s2)}

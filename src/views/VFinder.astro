@@ -191,14 +191,19 @@ function libCard(item,specText,priceTxt){const tpl=document.getElementById('rk-c
 function setAlert(){const ah=$('fz-ah'); if(ah) ah.textContent='🔔 '+Z.alertH;}
 function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; }
 let fzTop=[], fzA=null, fzOpen=0;
-function heroHTML(item,n){const d=item.d, ss=shopsOf(d), b=ss[0], canBuy=!!(b&&b.s!==0);
- const oos=canBuy?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
+function toolsHTML(d){const tpl=document.getElementById('rk-card'); if(!tpl) return ''; const li=tpl.content.firstElementChild.cloneNode(true); const kind=(CARD.kind&&CARD.kind[prod])||'r'; const name=shortM(d);
+ const heart=li.querySelector('.save-heart'); if(heart){heart.dataset.save=d.s; heart.dataset.kind=kind; heart.dataset.off=CARD.save; heart.dataset.on=CARD.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',CARD.save);}
+ const bell=li.querySelector('.rk-bell'); if(bell){bell.dataset.slug=d.s; bell.dataset.kind=kind; bell.setAttribute('aria-label',(bell.getAttribute('aria-label')||'').replace(/:\s*$/,': '+name));}
+ return `${bell?bell.outerHTML:''}${heart?heart.outerHTML:''}`;}
+function heroHTML(item,n){const d=item.d, ss=shopsOf(d), live=ss.filter(o=>o.s!==0), b=live[0]||ss[0], nSh=live.length||ss.length;
+ const oos=b&&b.s!==0?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
  const oosNote=oos?R(Z.alertOos,shopName(oos.d),money(b.v-oos.v)):'';
- const heroBuy=canBuy?buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,shopName(b.d)))+' →'):'';
+ const priceLine=b&&b.txt&&nSh?R(nSh>1?Z.fromN:Z.from1,b.txt,String(nSh)):'';
+ const heroBuy=`<a class="btn btn-accent fz-buy" href="${pageOf(d.s)}">${esc(Z.see)} →</a>`;
  return `<article class="fz-hero"><div class="fz-hi"><span class="fz-badge">#${n+1}</span><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,210,250)}</a></div>
- <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
+ <div class="fz-hb"><div class="fz-top"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><span class="rk fz-tools"><span class="rk-m" hidden>${esc(shortM(d))}</span>${toolsHTML(d)}</span></div><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
  <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${(item.why||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
- <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>`;}
+ <div class="fz-pb"><span class="fz-from">${esc(priceLine)}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>`;}
 function paintPicks(){const box=$('fz-choices'); if(!box) return; const win=fzTop[0]; box.replaceChildren();
  fzTop.forEach((item,i)=>{const wrap=document.createElement('div'); wrap.className='fz-choice';
   if(i===fzOpen) wrap.innerHTML=heroHTML(item,i);
@@ -208,16 +213,18 @@ function paintPicks(){const box=$('fz-choices'); if(!box) return; const win=fzTo
    const price=s2&&s2.txt?CARD.from.replace('{p}',s2.txt):'';
    const li=libCard(item.d,lines.filter(Boolean).join(' · '),price);
    if(li){const photo=li.querySelector('.rk-i'); if(photo){const badge=document.createElement('span'); badge.className='fz-badge'; badge.textContent='#'+(i+1); photo.appendChild(badge);}
-    const a=li.querySelector('.rk-a'); a.setAttribute('role','button'); a.setAttribute('aria-expanded','false');
-    a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return; e.preventDefault(); fzOpen=i; paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
+    const ft=li.querySelector('.rk-ft'); if(ft){const cue=document.createElement('span'); cue.className='fz-exp'; cue.textContent=Z.open; ft.appendChild(cue);}
+    const a=li.querySelector('.rk-a'); a.removeAttribute('href'); a.setAttribute('role','button'); a.tabIndex=0; a.setAttribute('aria-expanded','false');
+    a.addEventListener('click',e=>{e.preventDefault(); fzOpen=i; paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
+    a.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ') return; e.preventDefault(); a.click();});
     ul.appendChild(li);}
    wrap.appendChild(ul);}
   box.appendChild(wrap);});
  if(window.wpSaved) wpSaved.paint();
- const d0=win&&win.d, ss0=d0?shopsOf(d0):[], b0=ss0[0], canBuy=!!(b0&&b0.s!==0), st=$('fz-sticky');
- st.innerHTML=canBuy?`<span class="fz-stp"><b>${esc(b0.txt)}</b><small>${esc(d0.m)}</small></span>${buy(b0,'btn-accent',esc(Z.buy)+' →')}`:'';
+ const cur=fzTop[fzOpen]||win, cd=cur&&cur.d, cs=cd&&(shopsOf(cd).find(o=>o.s!==0)||shopsOf(cd)[0]), st=$('fz-sticky');
+ st.innerHTML=cd?`<span class="fz-stp">${cs&&cs.txt?`<b>${esc(cs.txt)}</b>`:''}<small>${esc(cd.m)}</small></span><a class="btn btn-accent" href="${pageOf(cd.s)}">${esc(Z.see)} →</a>`:'';
  st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); const hb=box.querySelector('.fz-buy');
- if(hb&&canBuy&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else if(canBuy) st.classList.remove('off');}
+ if(hb&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else if(cd) st.classList.remove('off');}
 function render(A){const top=prod==='racket'?rank(A):rankKit(A); const out=$('fz-out');
  if(!top.length){out.innerHTML=`<p class="fz-none">${esc(prod==='racket'?Z.none:(KW[prod]&&KW[prod].none)||Z.none)}</p><button class="fz-link" type="button" data-again>↺ ${esc(Z.again)}</button>`; kitChrome(false); setAlert(); $('fz-sticky').innerHTML=''; document.title=BASE_TITLE; bind(); return;}
  kitChrome(true); setAlert(); const d=top[0].d, b=shopsOf(d)[0];
