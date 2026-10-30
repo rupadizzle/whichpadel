@@ -90,6 +90,7 @@ dlg.querySelector('[data-ai-close]').addEventListener('click',shut);
 dlg.addEventListener('close',()=>{if(open) end();});
 dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>500) shut();});
 </script>}
+</Fragment>}
 <dialog class="rk-alert" id="rk-alert" aria-labelledby="rk-alert-h" data-watch={D(L2).ui.alertWatch('{email}')} data-ok={D(L2).ui.keepOk} data-err={D(L2).ui.keepErr} data-mail={D(L2).ui.keepMail}>
 <button type="button" class="rk-alert-x" data-alert-close aria-label={D(L2).ui.close}>✕</button>
 <h2 id="rk-alert-h" data-alert-h></h2>
@@ -127,4 +128,4 @@ document.addEventListener('click',async e=>{const rm=e.target.closest('[data-rem
 if(dlg){dlg.addEventListener('click',e=>{if(e.target.closest('[data-alert-close]')) dlg.close();}); dlg.querySelector('form').addEventListener('submit',async e=>{e.preventDefault(); const f=e.target, i=f.querySelector('input[type=email]'), b=f.querySelector('button'), ok=f.querySelector('.ok'); if(!i.checkValidity()){i.reportValidity(); return;} b.disabled=true; let status=0; try{const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||''})}); status=r.status;}catch(err){status=0;} b.disabled=false; if(status>=200&&status<300){setAlert(dlg.dataset.slug,dlg.dataset.kind,true); i.hidden=true; b.hidden=true;} ok.textContent=status===503?dlg.dataset.mail:(status>=200&&status<300)?dlg.dataset.ok:dlg.dataset.err; ok.hidden=false;});}
 document.addEventListener('wp:saved',paint); paint();})();
 </script>
-</Fragment>}</body></html>
+</body></html>

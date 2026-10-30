@@ -4,7 +4,8 @@
 // old racket result links (no ?p=) still open.
 import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.js'; import { shoes } from '../lib/shoes.js'; import { balls } from '../lib/balls.js'; import { bags } from '../lib/bags.js';
 import { D, url, SITE, CURL } from '../i18n/index.js';
-import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js';
+import { HOME } from '../i18n/home.js'; import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js'; import { HUB } from '../i18n/hub.js';
+import RkCardTemplate from '../components/RkCardTemplate.astro';
 import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, H=HOME[lang], F=FINDER[lang], Z=FZ[lang], K=KIT[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
@@ -41,6 +42,7 @@ const KL=Object.fromEntries(K.products.map(p=>[p.id,p.t]));
 const pref=t=>{const u=L(t,'X'); return u?u.replace(/X\/$/,''):'';};
 const U={href:{racket:pref('racket'),shoes:pref('shoe'),balls:pref('ball'),bag:pref('bag')},cmp:{racket:L('rackets'),shoes:L('shoes')||''}};
 const subLine=(hasBag?K.sub:K.subShort).split('§');
+const CARD={shape:d.terms.shapeCap,from:HUB[lang].fromP,save:u.save,saved:u.saved,kind:{racket:'r',shoes:'s',balls:'b',bag:'g'}};
 ---
 <Base lang={d.locale} focus title={F.title+' | WhichPadel'} description={F.desc()} jsonld={jsonld}>
 <div class="fz" id="fz" data-state="intro">
@@ -61,14 +63,14 @@ const subLine=(hasBag?K.sub:K.subShort).split('§');
  </form>
 </section>
 <section class="fz-scr fz-load" data-scr="load" hidden aria-live="polite"><span class="fz-spin" aria-hidden="true"></span><p id="fz-finding">{Z.finding}</p></section>
-<section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><div id="fz-out"></div>
+<section class="fz-scr fz-res" data-scr="res" hidden aria-live="polite"><RkCardTemplate lang={lang}/><div id="fz-out"></div>
  <form class="fz-alert" id="fz-alert" novalidate><h2 class="h3" id="fz-ah">🔔 {Z.alertH}</h2><div class="fz-af"><input type="email" required placeholder={Z.email} aria-label={Z.email} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn">{Z.alertB}</button></div>
  <label class="fz-cons"><input type="checkbox" required/> <span>{Z.consent} <a href={L('privacy')}>{Z.priv}</a>.</span></label><p class="fz-msg" hidden></p></form>
  <p class="disc">{Z.ad} <a href={L('affiliate')}>{Z.disc}</a></p>
 </section>
 <div class="fz-bar" id="fz-sticky" hidden></div>
 </div>
-<script is:inline define:vars={{Z:ZC,U,SN,KW,KL,LG:lang}}>
+<script is:inline define:vars={{Z:ZC,U,SN,KW,KL,LG:lang,CARD}}>
 const $=id=>document.getElementById(id), fz=$('fz'), BASE_TITLE=document.title; const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const R=(t,...a)=>a.reduce((o,v,i)=>o.split('§'+(i+1)).join(v),t).replace('§',a[0]);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -176,28 +178,58 @@ function altLines(A,win,alt){const lines=[]; const wb=shopsOf(win.d).find(o=>o.s
  if(Math.abs(gap)>=8) lines.push(R(gap>0?Z.lessStat:Z.moreStat,(Z.metric&&Z.metric[key])||key,useComf?alt.d.comfort:alt.d[styleKey],useComf?win.d.comfort:win.d[styleKey])); else lines.push(Z.sameFeel);
  return lines.filter(Boolean).slice(0,2);}
 function verdictOf(A,d){if(prod!=='racket') return {h:'',sub:''}; const label=(Z.vh&&Z.vh[(A.level||'')+'-'+(A.style||'')])||Z.best; return {h:label+': '+d.m,sub:A.level==='beginner'&&A.budget==='any'?(Z.spend||''):''};}
+function shortM(r){let s=r.m||''; if(r.b) s=s.replace(new RegExp('^'+String(r.b).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return s.trim()||r.m||'';}
+function libCard(item,specText,priceTxt){const tpl=document.getElementById('rk-card'); if(!tpl) return null; const li=tpl.content.firstElementChild.cloneNode(true); const kind=(CARD.kind&&CARD.kind[prod])||'r'; const id='fz-'+prod+'-'+item.s;
+ li.dataset.s=item.s; const a=li.querySelector('.rk-a'); a.href=pageOf(item.s); a.setAttribute('aria-labelledby',id);
+ const ph=li.querySelector('.rk-ph'); if(item.i){const im=document.createElement('img'); im.src=item.i; im.alt=item.m||''; im.width=96; im.height=112; im.decoding='async'; ph.replaceChildren(im);}
+ const name=shortM(item); li.querySelector('.rk-b span').textContent=[item.b,item.y].filter(Boolean).join(' · '); const nm=li.querySelector('.rk-m'); nm.id=id; nm.textContent=name;
+ const specEl=li.querySelector('.rk-c'); if(specText) specEl.textContent=specText; else specEl.remove();
+ const pv=li.querySelector('.rk-pv'); if(pv) pv.textContent=priceTxt||'';
+ const heart=li.querySelector('.save-heart'); if(heart){heart.dataset.save=item.s; heart.dataset.kind=kind; heart.dataset.off=CARD.save; heart.dataset.on=CARD.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',CARD.save);}
+ const bell=li.querySelector('.rk-bell'); if(bell){bell.dataset.slug=item.s; bell.dataset.kind=kind; bell.setAttribute('aria-label',(bell.getAttribute('aria-label')||'').replace(/:\s*$/,': '+name));}
+ return li;}
 function setAlert(){const ah=$('fz-ah'); if(ah) ah.textContent='🔔 '+Z.alertH;}
 function kitChrome(hasMatch){ $('fz-alert').hidden=prod!=='racket'||!hasMatch; }
+let fzTop=[], fzA=null, fzOpen=new Set();
+function heroHTML(item,n){const d=item.d, ss=shopsOf(d), b=ss[0], canBuy=!!(b&&b.s!==0);
+ const oos=canBuy?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
+ const oosNote=oos?R(Z.alertOos,shopName(oos.d),money(b.v-oos.v)):'';
+ const instock=ss.filter(o=>o.s!==0).slice(0,4);
+ const shopRows=instock.length>1?instock.map(o=>`<li class="fz-sr${o===b?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join(''):'';
+ const heroBuy=canBuy?buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,shopName(b.d)))+' →'):'';
+ return `<article class="fz-hero"><div class="fz-hi"><span class="fz-badge">#${n+1}</span><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,210,250)}</a></div>
+ <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
+ <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${(item.why||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+ <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>
+ ${shopRows?`<details class="fz-shops"><summary>${esc(R(Z.cmpShops,instock.length))}</summary><ul>${shopRows}</ul></details>`:''}`;}
+function paintPicks(){const box=$('fz-choices'); if(!box) return; const win=fzTop[0]; box.replaceChildren();
+ fzTop.forEach((item,i)=>{const wrap=document.createElement('div'); wrap.className='fz-choice';
+  if(fzOpen.has(i)) wrap.innerHTML=heroHTML(item,i);
+  else {wrap.classList.add('hub','cat','rk-rows'); const ul=document.createElement('ul'); ul.className='hub-grid';
+   const s2=shopsOf(item.d).find(o=>o.s!==0)||shopsOf(item.d)[0];
+   const lines=prod==='racket'?altLines(fzA,win,item):(item.why||[]).slice(0,2);
+   const price=s2&&s2.txt?CARD.from.replace('{p}',s2.txt):'';
+   const li=libCard(item.d,lines.filter(Boolean).join(' · '),price);
+   if(li){const photo=li.querySelector('.rk-i'); if(photo){const badge=document.createElement('span'); badge.className='fz-badge'; badge.textContent='#'+(i+1); photo.appendChild(badge);}
+    const a=li.querySelector('.rk-a'); a.setAttribute('role','button'); a.setAttribute('aria-expanded','false');
+    a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return; e.preventDefault(); fzOpen.add(i); paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});});
+    ul.appendChild(li);}
+   wrap.appendChild(ul);}
+  box.appendChild(wrap);});
+ if(window.wpSaved) wpSaved.paint();
+ const d0=win&&win.d, ss0=d0?shopsOf(d0):[], b0=ss0[0], canBuy=!!(b0&&b0.s!==0), st=$('fz-sticky');
+ st.innerHTML=canBuy?`<span class="fz-stp"><b>${esc(b0.txt)}</b><small>${esc(d0.m)}</small></span>${buy(b0,'btn-accent',esc(Z.buy)+' →')}`:'';
+ st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); const hb=box.querySelector('.fz-buy');
+ if(hb&&canBuy&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else if(canBuy) st.classList.remove('off');}
 function render(A){const top=prod==='racket'?rank(A):rankKit(A); const out=$('fz-out');
  if(!top.length){out.innerHTML=`<p class="fz-none">${esc(prod==='racket'?Z.none:(KW[prod]&&KW[prod].none)||Z.none)}</p><button class="fz-link" type="button" data-again>↺ ${esc(Z.again)}</button>`; kitChrome(false); setAlert(); $('fz-sticky').innerHTML=''; document.title=BASE_TITLE; bind(); return;}
- kitChrome(true); const h=top[0], d=h.d, ss=shopsOf(d), b=ss[0], canBuy=!!(b&&b.s!==0);
- const oos=canBuy?ss.filter(o=>o.s===0&&o.v!=null&&o.v<b.v-1).sort((a,c)=>a.v-c.v)[0]:null;
- const oosNote=oos?R(Z.alertOos,shopName(oos.d),money(b.v-oos.v)):''; setAlert();
- const instock=ss.filter(o=>o.s!==0).slice(0,4);
- const rows=instock.length>1?instock.map(o=>`<li class="fz-sr${o===b?' best':''}"><span class="fz-sn"><b>${sn(o.d)}</b><small>${Z.inStock}</small></span><span class="fz-sp">${esc(o.txt)}</span>${buy(o,'btn-line btn-sm',esc(Z.buy))}</li>`).join(''):'';
- const alt=top.slice(1).map(x=>{const s2=shopsOf(x.d).find(o=>o.s!==0)||shopsOf(x.d)[0]; const lines=prod==='racket'?altLines(A,h,x):(x.why||[]).slice(0,2); const altBuy=s2&&s2.s!==0?buy(s2,'btn-line btn-sm fz-abuy',esc(Z.buy)):`<span class="fz-ooslab">${esc(Z.oos)}</span>`; return `<article class="fz-alt"><a class="fz-ai" href="${pageOf(x.d.s)}">${img(x.d,56,66)}</a><div class="fz-ab"><a class="fz-an" href="${pageOf(x.d.s)}">${esc(x.d.m)}</a><span class="fz-am">${lines.map(esc).join('<br>')}</span>${s2?`<b class="fz-ap">${esc(s2.txt)}</b>`:''}</div>${altBuy}</article>`;}).join('');
+ kitChrome(true); setAlert(); const d=top[0].d, b=shopsOf(d)[0];
  const picks=steps().flatMap((s,i)=>{if(neutral(s)) return []; const t=choiceLabelFrom(s); const q=s.querySelector('legend').textContent.trim(); return [`<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(q+': '+t)}">${esc(t)}</button>`];}).join('<span class="fz-dot" aria-hidden="true">·</span>');
  const vd=verdictOf(A,d); document.title=vd.h?vd.h+' | WhichPadel':BASE_TITLE;
  const head=vd.h?`<h1 class="fz-vd">${esc(vd.h)}</h1>${vd.sub?`<p class="fz-vdsub">${esc(vd.sub)}</p>`:''}`:`<p class="fz-eb">${esc(Z.best)}</p>`;
- const heroBuy=canBuy?buy(b,'btn-accent fz-buy',esc(R(Z.buyAt,shopName(b.d)))+' →'):'';
- out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.change)}</span>${picks}</div>`:''}<article class="fz-hero"><div class="fz-hi"><a href="${pageOf(d.s)}" tabindex="-1" aria-hidden="true">${img(d,210,250)}</a></div>
- <div class="fz-hb"><p class="fz-br">${esc(d.b)}${d.y?' · '+d.y:''}</p><h2 class="fz-hn"><a href="${pageOf(d.s)}">${esc(d.m)}</a></h2>
- <h2 class="fz-wh">${esc(Z.why)}</h2><ul class="fz-why">${h.why.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
- <div class="fz-pb"><span class="fz-bp">${esc(b?b.txt:'')}</span><span class="fz-bs">${b?sn(b.d):''}</span></div>${heroBuy}${oosNote?`<p class="fz-wait">${esc(oosNote)}</p>`:''}</div></article>
- ${rows?`<details class="fz-shops"><summary>${esc(R(Z.cmpShops,instock.length))}</summary><ul>${rows}</ul></details>`:''}
- ${alt?`<h2 class="fz-h2">${esc(Z.also)}</h2><div class="fz-alts">${alt}</div>`:''}
+ out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.change)}</span>${picks}</div>`:''}<div class="fz-choices" id="fz-choices"></div>
  <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="fz-link" type="button" id="fz-share">${esc(Z.shareB)}</button><button class="fz-link" type="button" data-again>${esc(Z.again)}</button></div>`;
- $('fz-sticky').innerHTML=canBuy?`<span class="fz-stp"><b>${esc(b.txt)}</b><small>${esc(d.m)}</small></span>${buy(b,'btn-accent',esc(Z.buy)+' →')}`:''; {const st=$('fz-sticky'),hb=out.querySelector('.fz-buy'); st.classList.add('off'); if(window.__fzio) __fzio.disconnect(); if(hb&&canBuy&&'IntersectionObserver' in window){window.__fzio=new IntersectionObserver(([e])=>st.classList.toggle('off',e.isIntersecting||e.boundingClientRect.top>innerHeight)); __fzio.observe(hb);} else if(canBuy) st.classList.remove('off');}
+ fzTop=top; fzA=A; fzOpen=new Set([0]); paintPicks();
  if(prod==='racket'&&b) window.__fz={racket:d.s,price:b.v,cur:WP.currency,names:top.map(x=>x.d.m)}; bind();}
 function bind(){document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>show(+b.dataset.edit));
  document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>scr('intro'));
