@@ -1,4 +1,4 @@
-// Shared helpers for magic-link accounts and saved rackets. Tables live in the existing D1 binding (DB).
+// Shared helpers for magic-link accounts and saved rackets. Tables live in the ACCT D1 binding (whichpadel-accounts).
 const KINDS=new Set(['r','s','b','g']);
 const SLUG=/^[a-z0-9-]{1,80}$/;
 export const CAP=40;
@@ -52,7 +52,7 @@ export async function sha256(s){
 let ready=false;
 export async function readyDb(env){
  if(ready) return;
- const q=sql=>env.DB.prepare(sql).run();
+ const q=sql=>env.ACCT.prepare(sql).run();
  await q('CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, created TEXT NOT NULL)');
  await q('CREATE TABLE IF NOT EXISTS sessions(hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires TEXT NOT NULL)');
  await q('CREATE TABLE IF NOT EXISTS login_tokens(hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires TEXT NOT NULL)');
@@ -63,7 +63,7 @@ export async function readyDb(env){
 export async function userFrom(request, env){
  const m=(request.headers.get('cookie')||'').match(/(?:^|; )wp_session=([^;]+)/); if(!m) return null;
  const hash=await sha256(decodeURIComponent(m[1]));
- return env.DB.prepare('SELECT u.id AS id, u.email AS email FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.hash=? AND s.expires>?').bind(hash, new Date().toISOString()).first();
+ return env.ACCT.prepare('SELECT u.id AS id, u.email AS email FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.hash=? AND s.expires>?').bind(hash, new Date().toISOString()).first();
 }
 export async function readSaved(db, userId){
  const {results}=await db.prepare('SELECT kind AS t, slug AS s, alert AS a FROM saved WHERE user_id=? ORDER BY rowid DESC').bind(userId).all();

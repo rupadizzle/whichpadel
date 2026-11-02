@@ -76,7 +76,17 @@ html.bf-off .ubar-msg,html.bf-off .ubar-x{display:none}
 .burger{display:none;margin-left:auto;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer;width:44px;height:44px}
 
 @media(max-width:1180px){.burger{display:block}.nav{display:none;position:fixed;z-index:30;left:0;right:0;top:calc(62px + var(--bf));bottom:0;background:var(--navy);flex-direction:column;align-items:stretch;padding:0.625rem 1.25rem max(1.125rem,env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain}
-.nav.open{display:flex}body:has(.nav.open){overflow:hidden}body:has(.nav.open) .hdr,body:has(.nav.open) .ubar{z-index:100}.dd .menu,.dd:hover .menu,.dd:focus-within .menu{display:none;position:static;background:none;box-shadow:none;padding:0 0 0.25rem 0.25rem;min-width:0;grid-template-columns:1fr}.dd.open .menu{display:flex;flex-direction:column}.dd>button{width:100%;justify-content:space-between}.dd .menu a{min-height:44px;padding:var(--s2) var(--s3);color:#d6e2e8}.dd .menu a:hover{background:rgb(255 255 255 / .08);color:#fff}.dd .menu .dd-lab{color:#9fb6c0}.dd .menu a.dd-split{border-top-color:rgb(255 255 255 / .15)}}
+.nav.open{display:flex}body:has(.nav.open){overflow:hidden}body:has(.nav.open) .hdr,body:has(.nav.open) .ubar{z-index:100}.dd .menu,.dd:hover .menu,.dd:focus-within .menu{display:none;position:static;background:none;box-shadow:none;padding:0 0 0.25rem 0.25rem;min-width:0;grid-template-columns:1fr}.dd.open .menu{display:flex;flex-direction:column}.dd>button{width:100%;justify-content:space-between}.dd .menu a{min-height:44px;padding:var(--s2) var(--s3);color:#d6e2e8}.dd .menu a:hover{background:rgb(255 255 255 / .08);color:#fff}.dd .menu .dd-lab{color:#9fb6c0}.dd .menu a.dd-split{border-top-color:rgb(255 255 255 / .15)}
+.dd>button .dd-mark{display:none}
+.dd>button::after{content:"";width:.45rem;height:.45rem;margin-left:auto;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);flex:none}
+.nav:has(.dd.open){overflow:hidden}
+.nav:has(.dd.open) .nav-main>:not(.dd.open),.nav:has(.dd.open)>.nav-end,.nav:has(.dd.open)>.nav-rgn,.nav:has(.dd.open) #site-util{display:none}
+.nav:has(.dd.open) .dd.open{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;width:100%}
+.nav:has(.dd.open) .dd.open>button{flex-shrink:0;justify-content:flex-start;gap:.75rem;font-weight:750;color:#fff;border-bottom:1px solid rgb(255 255 255 / .15);border-radius:0;margin-bottom:.5rem}
+.nav:has(.dd.open) .dd.open>button::after{order:-1;margin-left:0;transform:rotate(135deg);border-right-color:var(--lime);border-bottom-color:var(--lime)}
+.nav:has(.dd.open) .dd.open .menu{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:.5rem 0 0}}
+@media(max-width:1180px) and (prefers-reduced-motion:no-preference){.nav:has(.dd.open) .dd.open{animation:nav-step-in .2s ease}}
+@keyframes nav-step-in{from{transform:translateX(1.25rem);opacity:0}to{transform:none;opacity:1}}
 /* hero */
 .hero{background:radial-gradient(1200px 400px at 85% -10%,rgb(212,255,58,.18),transparent 60%),linear-gradient(160deg,var(--navy),#0d3b40 60%,var(--green));color:#fff;padding:3.5rem 0 4rem}
 .hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:2.5rem;align-items:center}

@@ -60,7 +60,6 @@
 .rpg .gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:12px;background:#fff;border:1px solid var(--line);height:440px;outline-offset:2px}
 .rpg .gtrack::-webkit-scrollbar{display:none}
 .rpg .gslide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:16px;margin:0;background:none;border:0;cursor:zoom-in;min-height:0;border-radius:0}
-.rpg[data-n="1"] .gslide{cursor:default}
 .rpg .gslide img{width:auto;height:100%;max-width:100%;object-fit:contain;aspect-ratio:4/5}
 .rpg .gnone{align-items:center;justify-content:center;height:320px;background:linear-gradient(160deg,#eef4f1,#fff)}
 .rpg .gcount{position:absolute;top:12px;right:12px;background:rgb(15,28,36,.72);color:#fff;font-size:13px;line-height:1;padding:6px 10px;border-radius:99px;font-variant-numeric:tabular-nums;pointer-events:none}
@@ -73,9 +72,15 @@
 .rpg .gthumbs img{width:100%;height:100%;object-fit:contain}
 .gzoom{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#fff}
 .gzoom::backdrop{background:rgb(0,0,0,.6)}
-.gztrack{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory}
+.gztrack{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.gztrack::-webkit-scrollbar{display:none}
 .gztrack img{flex:0 0 100%;width:100%;height:100%;object-fit:contain;scroll-snap-align:center;padding:56px 8px 16px}
+.gzoom:has(.gzarr) .gztrack img{padding-inline:72px}
 .gzx{position:fixed;top:8px;right:8px;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;z-index:2;cursor:pointer}
+.gzcount{position:fixed;top:16px;left:16px;z-index:2;background:rgb(15,28,36,.72);color:#fff;font-size:13px;line-height:1;padding:8px 10px;border-radius:99px;font-variant-numeric:tabular-nums;pointer-events:none}
+.gzarr{position:fixed;top:50%;z-index:2;width:44px;height:44px;min-height:44px;margin-top:-22px;padding:0;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink,#0f1c24);font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgb(15,28,36,.12);cursor:pointer}
+.gzprev{left:12px}.gznxt{right:12px}
+.gzarr:focus-visible,.gzx:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
 /* header */
 .rph .brand{margin:0 0 8px;font-size:14px;font-weight:600}.rph .brand a{color:var(--mut,#5b6670)}
 .rph h1{font-size:var(--title);line-height:1.15;margin:0 0 8px;letter-spacing:-.01em}

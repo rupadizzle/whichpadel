@@ -2,19 +2,19 @@
 import { J, originOk, readyDb, userFrom, readSaved, putSaved, cleanItems, unionItems, toggleItem, setAlertItem } from './_acct.js';
 export async function onRequest({request,env}){
  if(request.method!=='GET'&&request.method!=='POST') return J({ok:false},405);
- if(!env.DB) return J({ok:false},503);
+ if(!env.ACCT) return J({ok:false},503);
  if(request.method==='POST'&&!originOk(request)) return J({ok:false},403);
  if(Number(request.headers.get('content-length')||0)>8000) return J({ok:false},413);
  await readyDb(env);
  const user=await userFrom(request, env); if(!user) return J({ok:false},401);
- if(request.method==='GET') return J({ok:true,email:user.email,items:await readSaved(env.DB, user.id)});
+ if(request.method==='GET') return J({ok:true,email:user.email,items:await readSaved(env.ACCT, user.id)});
  let b; try{b=await request.json()}catch{return J({ok:false},400)}
- const cur=await readSaved(env.DB, user.id);
+ const cur=await readSaved(env.ACCT, user.id);
  let next;
  if(b.op==='toggle') next=toggleItem(cur, b.t, b.s);
  else if(b.op==='alert') next=setAlertItem(cur, b.t, b.s, !!b.on);
  else if(b.merge) next=unionItems(cur, b.items);
  else next=cleanItems(b.items);
- await putSaved(env.DB, user.id, next);
+ await putSaved(env.ACCT, user.id, next);
  return J({ok:true,email:user.email,items:next});
 }

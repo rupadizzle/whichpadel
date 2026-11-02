@@ -3,10 +3,16 @@
 const tr=g.querySelector('.gtrack'), n=+g.dataset.n; if(!n||!tr.querySelector('.gslide')) return; const cnt=g.querySelector('.gcount b'), dots=[...g.querySelectorAll('.gdots i')], th=[...g.querySelectorAll('.gthumbs button')]; let cur=0;
 const go=i=>{i=(i+n)%n; tr.scrollTo({left:i*tr.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
 const set=i=>{if(i===cur) return; cur=i; if(cnt) cnt.textContent=i+1; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); th.forEach((b,k)=>b.toggleAttribute('aria-current',k===i));};
-tr.addEventListener('scroll',()=>set(Math.round(tr.scrollLeft/tr.clientWidth)),{passive:true});
+tr.addEventListener('scroll',()=>{if(!tr.clientWidth) return; set(Math.round(tr.scrollLeft/tr.clientWidth));},{passive:true});
 th.forEach(b=>b.onclick=()=>go(+b.dataset.i)); const P=g.querySelector('.gprev'),N=g.querySelector('.gnext'); if(P){P.onclick=()=>go(cur-1); N.onclick=()=>go(cur+1);}
-tr.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(cur+1);} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}});
-const z=g.querySelector('.gzoom'); if(!z||!z.showModal) return; const zt=z.querySelector('.gztrack');
-tr.querySelectorAll('.gslide').forEach(b=>b.onclick=()=>{zt.querySelectorAll('img[data-src]').forEach(im=>{im.src=im.dataset.src; im.removeAttribute('data-src');}); z.showModal(); document.documentElement.classList.add('pxlock'); requestAnimationFrame(()=>{zt.scrollLeft=(+b.dataset.i)*zt.clientWidth;});});
-const zc=()=>{z.close();}; z.querySelector('.gzx').onclick=zc; z.addEventListener('close',()=>document.documentElement.classList.remove('pxlock')); z.addEventListener('click',e=>{if(e.target===z||e.target===zt) zc();});})();
+tr.addEventListener('keydown',e=>{if(n<2) return; if(e.key==='ArrowRight'){e.preventDefault();go(cur+1);} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}});
+const z=g.querySelector('.gzoom'); if(!z||!z.showModal) return; const zt=z.querySelector('.gztrack'), zc=z.querySelector('.gzcount b'); let zi=0;
+const zpos=i=>{zi=(i+n)%n; zt.scrollLeft=zi*zt.clientWidth; if(zc) zc.textContent=zi+1;};
+const load=()=>{zt.querySelectorAll('img[data-src]').forEach(im=>{im.src=im.dataset.src; im.removeAttribute('data-src');});};
+const open=i=>{load(); z.showModal(); document.documentElement.classList.add('pxlock'); zi=(+i||0)%n; requestAnimationFrame(()=>{zt.scrollLeft=zi*zt.clientWidth; if(zc) zc.textContent=zi+1; const x=z.querySelector('.gzx'); if(x) x.focus();});};
+tr.querySelectorAll('button.gslide').forEach(b=>b.addEventListener('click',()=>open(b.dataset.i)));
+const ZP=z.querySelector('.gzprev'),ZN=z.querySelector('.gznxt'); if(ZP){ZP.addEventListener('click',()=>zpos(zi-1)); ZN.addEventListener('click',()=>zpos(zi+1));}
+zt.addEventListener('scroll',()=>{if(!z.open||!zt.clientWidth) return; const i=Math.round(zt.scrollLeft/zt.clientWidth); if(i===zi) return; zi=i; if(zc) zc.textContent=zi+1;},{passive:true});
+z.addEventListener('keydown',e=>{if(n<2) return; if(e.key==='ArrowRight'){e.preventDefault(); zpos(zi+1);} if(e.key==='ArrowLeft'){e.preventDefault(); zpos(zi-1);}});
+const shut=()=>{if(z.open) z.close();}; z.querySelector('.gzx').addEventListener('click',shut); z.addEventListener('close',()=>document.documentElement.classList.remove('pxlock')); z.addEventListener('click',e=>{if(e.target===z||e.target===zt) shut();});})();
 </script>

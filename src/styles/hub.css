@@ -323,7 +323,7 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
  .cat .hub-grid .rk:not(:has(.rk-x)) .rk-a{grid-template-columns:72px minmax(0,1fr);padding:0}
  .cat .hub-grid .rk-m{font-size:.8125rem}
 }
-/* Ranked lists use the shells row (B) and, with bars, the best-list row (C). Catalog grids do not. */
+/* Ranked lists use the shells row (B) and, with bars, the best-list row (C). Catalog grids use the tile until the phone breakpoint, then the same row. */
 .rk-rows.cat .hub-grid{grid-template-columns:1fr;gap:6px}
 .rk-i:has(.rank),.rk-rows .rk-i{position:relative}
 .rk-rows .rk-i .rank{top:6px;left:6px}
@@ -405,4 +405,17 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
  .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-ft{grid-column:1 / -1;grid-row:4}
  .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-bars{grid-column:1 / -1;grid-row:5;width:100%}
  .rk-best.rk-rows.cat .hub-grid .rk.rk-card .rk-why{grid-column:1 / -1;grid-row:-2 / -1}
+}
+/* Catalog grids (rackets, shoes, balls, bags, brands, deals, saved) use the row under the phone breakpoint. Strips and the shells tiles stay tiles. Best lists keep their own stack. */
+@media(max-width:860px){
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card:has(.rk-frame){grid-template-columns:auto minmax(0,1fr) minmax(0,max-content);grid-template-rows:auto minmax(auto,1fr) auto}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-i{grid-column:1;grid-row:1 / -1;width:auto;height:100%;aspect-ratio:1;min-width:auto}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-frame{grid-column:2 / -1;grid-row:1 / 4}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-b{grid-column:2 / -1;grid-row:1;padding-right:62px}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card:not(:has(.save-heart)) .rk-b{padding-right:10px}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-acts{grid-column:3;grid-row:1}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-m{grid-column:2 / -1;grid-row:2;padding-right:46px}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card:not(:has(.rk-x)) .rk-m{padding-right:10px}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card>.rk-x{grid-column:3;grid-row:2}
+ .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card .rk-ft{grid-column:2 / -1;grid-row:3}
 }

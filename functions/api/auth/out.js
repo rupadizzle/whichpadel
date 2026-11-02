@@ -1,10 +1,10 @@
 import { J, originOk, readyDb, sha256, sessionCookie } from '../_acct.js';
 export async function onRequestPost({request,env}){
  if(!originOk(request)) return J({ok:false},403);
- if(env.DB){
+ if(env.ACCT){
   await readyDb(env);
   const m=(request.headers.get('cookie')||'').match(/(?:^|; )wp_session=([^;]+)/);
-  if(m) await env.DB.prepare('DELETE FROM sessions WHERE hash=?').bind(await sha256(decodeURIComponent(m[1]))).run();
+  if(m) await env.ACCT.prepare('DELETE FROM sessions WHERE hash=?').bind(await sha256(decodeURIComponent(m[1]))).run();
  }
  return new Response(JSON.stringify({ok:true}),{headers:{'content-type':'application/json','cache-control':'no-store','set-cookie':sessionCookie('', request, 0)}});
 }
