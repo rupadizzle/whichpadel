@@ -39,7 +39,7 @@ const card=(r,i)=>{const li=document.getElementById('rk-card').content.firstElem
  const name=li.querySelector('.rk-m'); name.id=id; name.textContent=shortM(r);
  const bell=li.querySelector('.rk-bell'); if(bell) bell.setAttribute('aria-label', bell.getAttribute('aria-label').replace(/:\s*$/, ': '+name.textContent));
  const specEl=li.querySelector('.rk-c'); const sp=spec(r); if(sp) specEl.textContent=sp; else specEl.remove();
- li.querySelector('.rk-pv').textContent=ptxt(r);
+ const pv=li.querySelector('.rk-pv'); const ptx=ptxt(r); pv.textContent=ptx; pv.classList.toggle('rk-go',ptx!==T.none);
  const heart=li.querySelector('.save-heart'); heart.dataset.save=r.s; heart.dataset.off=T.save; heart.dataset.on=T.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',T.save);
  const cb=li.querySelector('.rk-cb'); cb.value=r.s; cb.checked=on;
  const lab=li.querySelector('.rk-x'); if(lab) lab.title=T.compare; const sr=li.querySelector('.rk-x .sr'); if(sr) sr.textContent=T.compare+': '+r.m;
@@ -59,7 +59,7 @@ async function apply(push=true){ await load(); const s=get(); const act=active(s
  view=sortv(filt(s),s.sort); setCount(view.length); if(push) syncURL(s);
  if(!act&&!hub.dataset.dirty){ shown=T.PER*T.p; refreshPrices(); const m=$('h-more'); if(m) m.hidden=shown>=view.length; return; }
  hub.dataset.dirty=1; if(!act) shown=T.PER; render(true); }
-function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&&all.find(x=>x.s===li.dataset.s); if(r) li.querySelector('.rk-pv').textContent=ptxt(r);}); }
+function refreshPrices(){ grid.querySelectorAll('.rk').forEach(li=>{const r=all&&all.find(x=>x.s===li.dataset.s); if(!r) return; const pv=li.querySelector('.rk-pv'); const ptx=ptxt(r); pv.textContent=ptx; pv.classList.toggle('rk-go',ptx!==T.none);}); }
 let prom=null; const load=()=>prom||(prom=Promise.all([fetch('/cards.json').then(r=>r.json()),fetch('/api/all-prices').then(r=>r.ok?r.json():null).catch(()=>null)]).then(([a,p])=>{const L=p&&p.r||{}; a.forEach(r=>{const e=L[r.s]; if(e){const os=(Array.isArray(e.o)&&e.o.length?e.o:[e]).filter(o=>o.p>0).map(o=>({d:o.d,p:o.p,c:o.c,u:o.u,s:o.s})); if(os.length) r.live=os; r.drop=e.drop||0;}}); all=a; return a;}));
 // active filter chips
 const LBL=k=>({aud:T.aud,shape:T.shape,bal:T.balance,wt:T.weight,hard:T.hard,ck:T.ckT[0],level:T.level,brand:T.brand,year:T.year})[k];

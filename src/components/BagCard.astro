@@ -11,4 +11,4 @@ const q = pick(b, DEFAULT_REGION(lang));
 const price = q.none ? u.checkPrice : T.from1.split('{p}')[0] + fmt(q.v, q.cur, lang);
 const th = bagComp(b.thermal); const sh = bagComp(b.shoe);
 ---
-<RkCard lang={lang} kind="g" href={url('bag', lang, b.slug)} img={img || ''} alt={T.alt(b.name)} brand={[b.brand, b.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={b.slug} eager={eager} attrs={{ 'data-m': shortN(), 'data-b': b.brand, 'data-type': typeK, 'data-th': th, 'data-shoe': sh, 'data-y': b.year || 0, 'data-n': b.offs?.filter(o => o.s).length || 0 }}><span class="pz">{price}</span></RkCard>
+<RkCard lang={lang} kind="g" go={!q.none} href={url('bag', lang, b.slug)} img={img || ''} alt={T.alt(b.name)} brand={[b.brand, b.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={b.slug} eager={eager} attrs={{ 'data-m': shortN(), 'data-b': b.brand, 'data-type': typeK, 'data-th': th, 'data-shoe': sh, 'data-y': b.year || 0, 'data-n': b.offs?.filter(o => o.s).length || 0 }}><span class="pz">{price}</span></RkCard>

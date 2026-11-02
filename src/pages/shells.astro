@@ -88,7 +88,7 @@ const use = {
 </div>
 <div id="a3">
 <p class="keep-id"><b>A3</b> Product tile, ball <a href={use.a3}>{use.a3}</a></p>
-<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug} eager off="−25%">{fromP(ball)}</RkCard></ul></div>
+<div class="hub cat"><ul class="hub-grid keep-tiles"><RkCard lang={lang} kind="b" go={!pick(ball, reg).none} href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug} eager off="−25%">{fromP(ball)}</RkCard></ul></div>
 </div>
 </div>
 
@@ -102,7 +102,7 @@ const use = {
 </div>
 <div id="b3">
 <p class="keep-id"><b>B3</b> Product row, ball <a href={use.b3}>{use.b3}</a></p>
-<div class="hub cat rk-rows"><ul class="hub-grid"><RkCard lang={lang} kind="b" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug}>{fromP(ball)}</RkCard></ul></div>
+<div class="hub cat rk-rows"><ul class="hub-grid"><RkCard lang={lang} kind="b" go={!pick(ball, reg).none} href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} brand={ball.brand} name={ball.model} spec={specB(ball)} save={ball.slug}>{fromP(ball)}</RkCard></ul></div>
 </div>
 
 <div id="c1">

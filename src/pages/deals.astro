@@ -65,7 +65,7 @@ const fill = (x, shopName, pct, id) => {
   const name = li.querySelector('.rk-m'); name.id = id; name.textContent = c.m;
   const bell = li.querySelector('.rk-bell'); if (bell) bell.setAttribute('aria-label', bell.getAttribute('aria-label').replace(/:\s*$/, ': ' + c.m));
   const spec = li.querySelector('.rk-c'); if (spec) { if (shopName) spec.textContent = shopName; else spec.remove(); }
-  li.querySelector('.rk-pv').textContent = F(x.e.p, x.e.c);
+  const pv = li.querySelector('.rk-pv'); pv.textContent = F(x.e.p, x.e.c); pv.classList.toggle('rk-go', /\d/.test(pv.textContent));
   const off = li.querySelector('.rk-off');
   if (off && pct) { off.textContent = '−' + pct + '%'; off.hidden = false; }
   const heart = li.querySelector('.save-heart');

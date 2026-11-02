@@ -185,7 +185,7 @@ function libCard(item,specText,priceTxt){const tpl=document.getElementById('rk-c
  const ph=li.querySelector('.rk-ph'); if(item.i){const im=document.createElement('img'); im.src=item.i; im.alt=item.m||''; im.width=96; im.height=112; im.decoding='async'; ph.replaceChildren(im);}
  const name=shortM(item); li.querySelector('.rk-b span').textContent=[item.b,item.y].filter(Boolean).join(' · '); const nm=li.querySelector('.rk-m'); nm.id=id; nm.textContent=name;
  const specEl=li.querySelector('.rk-c'); if(specText) specEl.textContent=specText; else specEl.remove();
- const pv=li.querySelector('.rk-pv'); if(pv) pv.textContent=priceTxt||'';
+ const pv=li.querySelector('.rk-pv'); if(pv){ pv.textContent=priceTxt||''; pv.classList.toggle('rk-go',/\d/.test(priceTxt||'')); }
  const heart=li.querySelector('.save-heart'); if(heart){heart.dataset.save=item.s; heart.dataset.kind=kind; heart.dataset.off=CARD.save; heart.dataset.on=CARD.saved; heart.setAttribute('aria-pressed','false'); heart.setAttribute('aria-label',CARD.save);}
  const bell=li.querySelector('.rk-bell'); if(bell){bell.dataset.slug=item.s; bell.dataset.kind=kind; bell.setAttribute('aria-label',(bell.getAttribute('aria-label')||'').replace(/:\s*$/,': '+name));}
  return li;}

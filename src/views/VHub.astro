@@ -203,7 +203,7 @@ const hub = (() => {
  </section>
  </>}
  {hub.ba && <>
- <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <RkCard lang={lang} kind="b" href={url('ball', lang, b.slug)} img={ballImg(b)} alt={hub.ba.T.alt(b.name)} brand={b.brand} name={b.model} spec={hub.ba.spec(b)} save={b.slug} eager={i < 4} attrs={{ 'data-b': b.brand, 'data-sp': b.speed, 'data-tour': b.tour || '', 'data-eco': b.eco ? '1' : '0', 'data-n': b.inStock }}>{hub.ba.pr(b)}</RkCard>)}</ul>
+ <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <RkCard lang={lang} kind="b" go={!pick(b, DEFAULT_REGION(lang)).none} href={url('ball', lang, b.slug)} img={ballImg(b)} alt={hub.ba.T.alt(b.name)} brand={b.brand} name={b.model} spec={hub.ba.spec(b)} save={b.slug} eager={i < 4} attrs={{ 'data-b': b.brand, 'data-sp': b.speed, 'data-tour': b.tour || '', 'data-eco': b.eco ? '1' : '0', 'data-n': b.inStock }}>{hub.ba.pr(b)}</RkCard>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
  {hub.bg && <>

@@ -9,4 +9,4 @@ const spec=[T.genders[s.gender],...s.sole.map(k=>T.soles[k])].filter(Boolean).jo
 const q=pick(s,region||DEFAULT_REGION(lang));
 const price=q.none?u.checkPrice:T.from1.split('{p}')[0]+fmt(q.v,q.cur,lang);
 ---
-<RkCard lang={lang} cls="sk" kind="s" href={url('shoe',lang,s.slug)} img={img||''} alt={T.alt(s.name)} brand={[s.brand,s.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={s.slug} eager={eager} rank={rank} compare={compare} off={off} attrs={{'data-m':shortN(),'data-b':s.brand,'data-g':s.gender,'data-so':s.sole.join(' '),'data-sz':s.sizesEU.join(' '),'data-y':s.year||0,'data-n':s.inStock}}><span class="pz">{price}</span></RkCard>
+<RkCard lang={lang} cls="sk" kind="s" go={!q.none} href={url('shoe',lang,s.slug)} img={img||''} alt={T.alt(s.name)} brand={[s.brand,s.year].filter(Boolean).join(' · ')} name={shortN()} spec={spec} save={s.slug} eager={eager} rank={rank} compare={compare} off={off} attrs={{'data-m':shortN(),'data-b':s.brand,'data-g':s.gender,'data-so':s.sole.join(' '),'data-sz':s.sizesEU.join(' '),'data-y':s.year||0,'data-n':s.inStock}}><span class="pz">{price}</span></RkCard>
