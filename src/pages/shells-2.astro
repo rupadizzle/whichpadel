@@ -23,11 +23,7 @@ const shortM = r => {
 };
 const quote = item => {
   const q = pick(item, reg);
-  if (q.none) return { price: H.none, was: '' };
-  return {
-    price: H.fromP.replace('{p}', fmt(q.v, q.cur, lang)),
-    was: fmt(Math.round(q.v / 0.75), q.cur, lang),
-  };
+  return q.none ? H.none : H.fromP.replace('{p}', fmt(q.v, q.cur, lang));
 };
 const ballEach = b => {
   const q = pick(b, reg);
@@ -64,11 +60,11 @@ const cut = '−25%';
 
   <section class="s2p-block">
     <h2>Tile</h2>
-    <p class="s2p-lead">A shorter photo, on the same grey ground for a racket, a shoe, and a ball. The −25% is the example cut from the shells page. The usual price shares a line with the spec.</p>
+    <p class="s2p-lead">A shorter photo, on the same grey ground for a racket, a shoe, and a ball. The −25% is the example cut from the shells page.</p>
     <ul class="s2-grid">
-      <Shell2Card lang={lang} posture="tile" eager compare off={cut} was={rq.was} href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq.price} save={racket.slug}/>
-      <Shell2Card lang={lang} posture="tile" compare off={cut} was={sq.was} href={L('shoe', shoe.slug)} img={shoeImg(shoe) || ''} kind="s" brand={[shoe.brand, shoe.year].filter(Boolean).join(' · ')} name={shoeName()} spec={specS(shoe)} price={sq.price} save={shoe.slug}/>
-      <Shell2Card lang={lang} posture="tile" off={cut} was={bq.was} href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} kind="b" brand={ball.brand} name={ball.model} spec={specB(ball)} price={bq.price} save={ball.slug}/>
+      <Shell2Card lang={lang} posture="tile" eager compare off={cut} href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq} save={racket.slug}/>
+      <Shell2Card lang={lang} posture="tile" compare off={cut} href={L('shoe', shoe.slug)} img={shoeImg(shoe) || ''} kind="s" brand={[shoe.brand, shoe.year].filter(Boolean).join(' · ')} name={shoeName()} spec={specS(shoe)} price={sq} save={shoe.slug}/>
+      <Shell2Card lang={lang} posture="tile" off={cut} href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} kind="b" brand={ball.brand} name={ball.model} spec={specB(ball)} price={bq} save={ball.slug}/>
     </ul>
   </section>
 
@@ -76,9 +72,9 @@ const cut = '−25%';
     <h2>Row</h2>
     <p class="s2p-lead">The same card on its side. The photo is a column of the card. Actions sit at the end.</p>
     <ul class="s2-list">
-      <Shell2Card lang={lang} posture="row" compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq.price} save={racket.slug}/>
-      <Shell2Card lang={lang} posture="row" compare href={L('shoe', shoe.slug)} img={shoeImg(shoe) || ''} kind="s" brand={[shoe.brand, shoe.year].filter(Boolean).join(' · ')} name={shoeName()} spec={specS(shoe)} price={sq.price} save={shoe.slug}/>
-      <Shell2Card lang={lang} posture="row" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} kind="b" brand={ball.brand} name={ball.model} spec={specB(ball)} price={bq.price} save={ball.slug}/>
+      <Shell2Card lang={lang} posture="row" compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq} save={racket.slug}/>
+      <Shell2Card lang={lang} posture="row" compare href={L('shoe', shoe.slug)} img={shoeImg(shoe) || ''} kind="s" brand={[shoe.brand, shoe.year].filter(Boolean).join(' · ')} name={shoeName()} spec={specS(shoe)} price={sq} save={shoe.slug}/>
+      <Shell2Card lang={lang} posture="row" href={L('ball', ball.slug)} img={ball.imgs ? `/balls/g/${ball.slug}-400.webp` : ''} kind="b" brand={ball.brand} name={ball.model} spec={specB(ball)} price={bq} save={ball.slug}/>
     </ul>
   </section>
 
@@ -89,15 +85,15 @@ const cut = '−25%';
       <div class="s2-wide">
         <p class="s2p-kicker">Wide</p>
         <ul class="s2-list">
-          <Shell2Card lang={lang} posture="best" eager rank={1} compare href={L('racket', racketB.slug)} img={racketB.image} brand={[racketB.brand, racketB.year].filter(Boolean).join(' · ')} name={shortM(racketB)} spec={specR(racketB)} price={rbq.price} save={racketB.slug} bars={barsOf(racketB)}/>
-          <Shell2Card lang={lang} posture="best" rank={2} compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq.price} save={racket.slug} bars={barsOf(racket)}/>
+          <Shell2Card lang={lang} posture="best" eager rank={1} compare href={L('racket', racketB.slug)} img={racketB.image} brand={[racketB.brand, racketB.year].filter(Boolean).join(' · ')} name={shortM(racketB)} spec={specR(racketB)} price={rbq} save={racketB.slug} bars={barsOf(racketB)}/>
+          <Shell2Card lang={lang} posture="best" rank={2} compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq} save={racket.slug} bars={barsOf(racket)}/>
         </ul>
       </div>
       <div class="s2-phone">
         <p class="s2p-kicker">Phone</p>
         <ul class="s2-list">
-          <Shell2Card lang={lang} posture="best" rank={1} compare href={L('racket', racketB.slug)} img={racketB.image} brand={[racketB.brand, racketB.year].filter(Boolean).join(' · ')} name={shortM(racketB)} spec={specR(racketB)} price={rbq.price} save={racketB.slug} bars={barsOf(racketB)}/>
-          <Shell2Card lang={lang} posture="best" rank={2} compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq.price} save={racket.slug} bars={barsOf(racket)}/>
+          <Shell2Card lang={lang} posture="best" rank={1} compare href={L('racket', racketB.slug)} img={racketB.image} brand={[racketB.brand, racketB.year].filter(Boolean).join(' · ')} name={shortM(racketB)} spec={specR(racketB)} price={rbq} save={racketB.slug} bars={barsOf(racketB)}/>
+          <Shell2Card lang={lang} posture="best" rank={2} compare href={L('racket', racket.slug)} img={racket.image} brand={[racket.brand, racket.year].filter(Boolean).join(' · ')} name={shortM(racket)} spec={specR(racket)} price={rq} save={racket.slug} bars={barsOf(racket)}/>
         </ul>
       </div>
     </div>
@@ -114,7 +110,7 @@ const cut = '−25%';
 .s2p-block{margin:0 0 40px}
 .s2p-block:first-of-type{margin-top:28px}
 .s2-grid,.s2-list{list-style:none;margin:0;padding:0}
-.s2-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:880px}
+.s2-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:880px;align-items:start}
 .s2-list{display:grid;gap:10px;max-width:40rem}
 .s2-wide .s2-list{max-width:46rem}
 .s2-pair{display:grid;grid-template-columns:minmax(0,46rem) minmax(16rem,22.5rem);gap:28px;align-items:start}
@@ -129,11 +125,10 @@ const cut = '−25%';
 .s2-ph img{position:absolute;inset:6%;width:auto;height:auto;max-width:88%;max-height:88%;margin:auto;object-fit:contain}
 .s2-body{display:grid;grid-template-columns:minmax(0,1fr) max-content;column-gap:12px;row-gap:0;align-items:start;min-width:0;padding:var(--s2-pad);background:#fff}
 .s2-brand{grid-column:1 / -1;grid-row:1;font-size:.6875rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);line-height:var(--s2-lh)}
-.s2-name{grid-column:1;grid-row:2;min-width:0;min-height:calc(var(--s2-lh) * 2);font-weight:700;font-size:.9375rem;line-height:var(--s2-lh);letter-spacing:-.01em}
+.s2-name{grid-column:1;grid-row:2;min-width:0;font-weight:700;font-size:.9375rem;line-height:var(--s2-lh);letter-spacing:-.01em}
 .s2-price{grid-column:2;grid-row:2;justify-self:end;align-self:start;margin:0;font-weight:700;font-size:.9375rem;line-height:var(--s2-lh);color:var(--green);white-space:nowrap}
-.s2-meta{grid-column:1 / -1;grid-row:3;display:flex;align-items:baseline;gap:12px;min-width:0;min-height:var(--s2-lh)}
+.s2-meta{grid-column:1 / -1;grid-row:3;display:flex;align-items:baseline;min-width:0;min-height:var(--s2-lh)}
 .s2-spec{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem;line-height:var(--s2-lh);color:var(--mut)}
-.s2-was{flex:none;margin:0;font-size:.75rem;font-weight:500;line-height:var(--s2-lh);color:var(--mut);text-decoration:line-through;white-space:nowrap}
 .s2-bars{grid-column:1 / -1;grid-row:4;display:grid;gap:0;margin:0}
 .s2-bars>span{display:grid;grid-template-columns:5.5rem minmax(0,1fr) max-content;column-gap:8px;align-items:baseline;min-height:var(--s2-lh);font-size:.75rem;line-height:var(--s2-lh);color:var(--mut)}
 .s2-bars>span>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -153,7 +148,7 @@ const cut = '−25%';
 .s2-best{grid-template-columns:156px minmax(0,1fr) auto}
 .s2-row .s2-a,.s2-best .s2-a{display:grid;grid-column:1 / 3;grid-row:1;grid-template-columns:subgrid}
 .s2-row .s2-body,.s2-best .s2-body{align-self:stretch}
-.s2-row .s2-acts,.s2-best .s2-acts{grid-column:3;grid-row:1;align-self:start;margin-top:calc(var(--s2-pad) + var(--s2-lh) * 1.5 - var(--s2-hit) / 2);padding-right:var(--s2-pad)}
+.s2-row .s2-acts,.s2-best .s2-acts{grid-column:3;grid-row:1;align-self:start;justify-content:flex-end;min-width:calc(var(--s2-hit) * 3 + var(--s2-pad));margin-top:calc(var(--s2-pad) + var(--s2-lh) * 1.5 - var(--s2-hit) / 2);padding-right:var(--s2-pad)}
 
 .s2-acts{display:flex;align-items:center}
 .s2-acts .rk-bell,.s2-acts .save-heart,.s2-acts .s2-cmp{width:32px;height:32px;min-height:0;margin:0;padding:0;border:0;border-radius:8px;background:none;box-shadow:none;display:grid;place-items:center;color:#5c6b74;cursor:pointer}
@@ -171,7 +166,7 @@ const cut = '−25%';
 .s2-phone .s2-best .s2-a{display:flex;flex-direction:column;grid-column:auto;grid-row:auto}
 .s2-phone .s2-best .s2-ph{aspect-ratio:4/3}
 .s2-phone .s2-best .s2-body{align-self:stretch}
-.s2-phone .s2-best .s2-acts{position:absolute;top:8px;right:8px;grid-column:auto;margin-top:0;padding:2px;background:rgb(255 255 255 / .92);border:1px solid rgb(15 28 36 / .08);border-radius:10px}
+.s2-phone .s2-best .s2-acts{position:absolute;top:8px;right:8px;grid-column:auto;min-width:0;justify-content:flex-start;margin-top:0;padding:2px;background:rgb(255 255 255 / .92);border:1px solid rgb(15 28 36 / .08);border-radius:10px}
 
 @media(max-width:980px){
  .s2-pair{grid-template-columns:1fr}
@@ -185,7 +180,7 @@ const cut = '−25%';
  .s2-wide .s2-best .s2-a{display:flex;flex-direction:column;grid-column:auto;grid-row:auto}
  .s2-wide .s2-best .s2-ph{aspect-ratio:4/3}
  .s2-wide .s2-best .s2-body{align-self:stretch}
- .s2-wide .s2-best .s2-acts{position:absolute;top:8px;right:8px;grid-column:auto;margin-top:0;padding:2px;background:rgb(255 255 255 / .92);border:1px solid rgb(15 28 36 / .08);border-radius:10px}
+ .s2-wide .s2-best .s2-acts{position:absolute;top:8px;right:8px;grid-column:auto;min-width:0;justify-content:flex-start;margin-top:0;padding:2px;background:rgb(255 255 255 / .92);border:1px solid rgb(15 28 36 / .08);border-radius:10px}
 }
 @media(max-width:460px){
  .s2-grid{grid-template-columns:1fr}

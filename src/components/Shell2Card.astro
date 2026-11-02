@@ -12,7 +12,6 @@ const {
   name = '',
   spec = '',
   price = '',
-  was = '',
   off = '',
   rank = '',
   bars = [],
@@ -39,7 +38,7 @@ const icoCmp = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7.5" y="7.5
       {brand && <span class="s2-brand">{brand}</span>}
       <span class="s2-name" id={nameId}>{name}</span>
       <span class="s2-price">{price}</span>
-      {(spec || was) && <span class="s2-meta">{spec && <span class="s2-spec">{spec}</span>}{was && <s class="s2-was">{was}</s>}</span>}
+      {spec && <span class="s2-meta"><span class="s2-spec">{spec}</span></span>}
       {bars.length > 0 && <span class="s2-bars">{bars.map(bar => <span><span>{bar.label}</span><span class="s2-track"><i style={`width:${bar.value}%`}></i></span><b>{bar.value}</b></span>)}</span>}
     </span>
   </a>
