@@ -20,7 +20,8 @@ import { SHAPE_KEYS } from '../i18n/routes.js';
 import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js';
 import { HUB } from '../i18n/hub.js';
 import { PER, hubOrder, hubPages } from '../lib/hub.js';
-import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn } from '../lib/shoes.js';
+import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn, UNDER, listCur } from '../lib/shoes.js';
+import { bud } from '../lib/money.js';
 import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
 import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js';
 import { BALL } from '../i18n/balls.js';
@@ -74,13 +75,14 @@ const hub = (() => {
     const brandPick = brands.map(b => ({ name: b, value: b, n: shoes.filter(s => s.brand === b).length })).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
     const sizes = [...new Set(shoes.flatMap(s => s.sizesEU))].filter(x => Number.isInteger(x)).sort((a, b) => a - b);
     const U = SITE + url('shoes', lang);
+    const guideLinks = SHOE_LIST_KEYS.map(k => { const L = T.lists[k][0]; return { k, label: typeof L === 'function' ? L(bud(UNDER[k], listCur(lang))) : L }; });
     return {
       locale: d.locale, title: T.title(N), description: T.desc(N),
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', name: T.h1(N), url: U, description: T.desc(N) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: U }] }] },
       h1: T.h1(N), intro: T.intro, crumb: T.crumb, search: T.search, searchPh: T.searchPh, filters: T.filters, close: T.close,
       sorts: T.sorts, sortKeys: ['rec', 'price', 'hi', 'new', 'old', 'shops'], clear: T.clear, clear2: T.clear, apply: T.apply.replace('§', String(N)), results: T.results.replace('§', String(N)),
       h3: true, selectPop: false, cat: 'shoes',
-      sh: { T, C, N, list, brandPick, sizes, GENDER: ['m', 'w', 'k'], pv: Object.fromEntries(shoes.map(s => [s.slug, priceIn(s, lang)])) },
+      sh: { T, C, N, list, brandPick, sizes, GENDER: ['m', 'w', 'k'], pv: Object.fromEntries(shoes.map(s => [s.slug, priceIn(s, lang)])), guideLinks },
     };
   }
 
@@ -195,18 +197,23 @@ const hub = (() => {
  </section>
  </>}
  {hub.sh && <>
+ <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
+  <p>{hub.sh.guideLinks.map(g => <a href={url('shoeList', lang, g.k)}>{g.label}</a>)}</p>
+  <p><b>{hub.sh.T.byBrand}</b>{shoeBrands.map(b => { const t = shoeBrandTarget(b.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{b.name}</a>; })}</p>
+  <p class="hub-more">{hub.sh.list.map(s => <a href={url('shoe', lang, s.slug)}>{s.name}</a>)}</p>
+ </section>
  <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
- <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
-  <p>{SHOE_LIST_KEYS.filter(k => !k.startsWith('u')).map(k => <a href={url('shoeList', lang, k)}>{hub.sh.T.lists[k][0]}</a>)}</p>
-  <p><b>{hub.sh.T.byBrand}</b>{shoeBrands.map(b => { const t = shoeBrandTarget(b.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{b.name}</a>; })}</p>
- </section>
  </>}
  {hub.ba && <>
  <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <RkCard lang={lang} kind="b" go={!pick(b, DEFAULT_REGION(lang)).none} href={url('ball', lang, b.slug)} img={ballImg(b)} alt={hub.ba.T.alt(b.name)} brand={b.brand} name={b.model} spec={hub.ba.spec(b)} save={b.slug} eager={i < 4} attrs={{ 'data-b': b.brand, 'data-sp': b.speed, 'data-tour': b.tour || '', 'data-eco': b.eco ? '1' : '0', 'data-n': b.inStock }}>{hub.ba.pr(b)}</RkCard>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
  {hub.bg && <>
+ <section class="hub-pre"><h2 class="h3">{hub.bg.T.brand}</h2>
+  <p>{hub.bg.brandPick.map(b => { const hit = brandList.find(x => x.name === b.name); return hit ? <a href={url('brand', lang, hit.slug) + '#bags'}>{b.name}</a> : <a href={url('bags', lang)}>{b.name}</a>; })}</p>
+  <p class="hub-more">{hub.bg.list.map(b => <a href={url('bag', lang, b.slug)}>{b.name}</a>)}</p>
+ </section>
  <ul class="hub-grid" id="h-grid">{hub.bg.list.map((b, i) => <BagCard b={b} lang={lang} eager={i < 4}/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.bg.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
