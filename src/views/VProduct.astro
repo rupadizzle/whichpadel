@@ -82,12 +82,16 @@ const page = (() => {
     const offerLd = !offerPick.none ? { offers: { '@type': 'Offer', price: String(offerPick.v), priceCurrency: offerPick.cur, url: (offerPick.o && offerPick.o.u) || r.productUrl } } : {};
     const titleOverhead = C.title('').length + d.copy.titleSuffix.length;
     let titleBare = titleModel(r);
-    if (titleBare.length + titleOverhead > 65) {
-      const room = Math.max(8, 65 - titleOverhead);
+    const titleYear = r.year != null ? String(r.year) : '';
+    if (titleYear && titleBare.endsWith(titleYear)) titleBare = titleBare.slice(0, -titleYear.length).trim();
+    const yearLen = titleYear ? titleYear.length + 1 : 0;
+    if (titleBare.length + yearLen + titleOverhead > 65) {
+      const room = Math.max(8, 65 - titleOverhead - yearLen);
       titleBare = titleBare.slice(0, room);
       const sp = titleBare.lastIndexOf(' ');
       if (sp > room * 0.5) titleBare = titleBare.slice(0, sp);
     }
+    if (titleYear) titleBare = `${titleBare} ${titleYear}`.trim();
     const racketTitle = C.title(titleBare) + d.copy.titleSuffix;
     return {
       locale: d.locale, title: racketTitle, description: C.desc(r, t, x.price), ogImage: absImg(r),
@@ -133,7 +137,7 @@ const page = (() => {
     crumbs.push({ label: s.model });
     return {
       locale: d.locale, title: `${s.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: G[0] ? SITE + G[0].l : undefined,
-      jsonld: (() => { const shoeCur = (REGIONS[d.region || DEFAULT_REGION(lang)] || REGIONS.GB)[2]; const shoePrices = offs.map(o => o.c === shoeCur ? o.p : conv(o.p, o.c || 'EUR', shoeCur)); const offer = shoePrices.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...shoePrices)), highPrice: String(Math.max(...shoePrices)), priceCurrency: shoeCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {}; return { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, ...offer }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] }; })(),
+      jsonld: (() => { const shoeCur = (REGIONS[d.region || DEFAULT_REGION(lang)] || REGIONS.GB)[2]; const shoePrices = offs.map(o => o.c === shoeCur ? o.p : conv(o.p, o.c || 'EUR', shoeCur)); const offer = shoePrices.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.round(Math.min(...shoePrices))), highPrice: String(Math.round(Math.max(...shoePrices))), priceCurrency: shoeCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {}; return { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, ...offer }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] }; })(),
       crumbs, preload: G[0] ? { href: G[0].l, srcset: `${G[0].s} 400w, ${G[0].l} 800w` } : null,
       shoe: { T, R2, G, alt, bHref, soleT, usSz, rows, miss, kchips, intro, similar, sameBrand, BN, oj, lk, bestUrl: shopHref(best0.u, SHOPS[best0.d]?.affiliate) },
       SN, recent: { cur: { s: s.slug, m: s.name, i: shoeImg(s) || '' }, rk: url('shoe', lang, 'X').replace(/X\/$/, ''), cmp: url('shoes', lang), cw: '', link: false },
@@ -179,7 +183,7 @@ const page = (() => {
     const bagTitle = clipTitle(`${bagCore} | ${T.crumb}`, ' | WhichPadel');
     const bagCur = (REGIONS[d.region || DEFAULT_REGION(lang)] || REGIONS.GB)[2];
     const bagPrices = offs.map(o => o.c === bagCur ? o.p : conv(o.p, o.c || 'EUR', bagCur));
-    const bagOfferLd = offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...bagPrices)), highPrice: String(Math.max(...bagPrices)), priceCurrency: bagCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {};
+    const bagOfferLd = offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.round(Math.min(...bagPrices))), highPrice: String(Math.round(Math.max(...bagPrices))), priceCurrency: bagCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {};
     return {
       locale: d.locale, title: bagTitle, description: intro, ogImage: img ? SITE + img : undefined,
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: bagCore || g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...bagOfferLd }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: bagCore || g.name, item: U }] }] },
