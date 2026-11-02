@@ -14,10 +14,11 @@ id = "030127a373d949d4a7f83b9e845ececf"
 # database_name = "whichpadel-accounts"
 # database_id = ""
 
-# Sign-in mail only. The from address must belong to an onboarded Email Sending domain.
-[[send_email]]
-name = "EMAIL"
-allowed_sender_addresses = [ "noreply@whichpadel.com" ]
+# Sign-in mail only. Pages wrangler rejects [[send_email]] in wrangler.toml (broken deploys since edc3a7e on main).
+# Auth start already returns 503/'mail' when env.EMAIL is absent. Wire EMAIL via dashboard/API if needed.
+# [[send_email]]
+# name = "EMAIL"
+# allowed_sender_addresses = [ "noreply@whichpadel.com" ]
 
 # Price Workers reached via service bindings (same-zone fetch to a Worker route is not reliable from Functions).
 # PRICES = production racket Worker (unchanged); US + SHOES = US and shoe price Workers (own D1s, cron every 10 min).
