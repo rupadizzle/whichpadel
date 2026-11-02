@@ -49,7 +49,6 @@ const titleModel = (r) => {
     if (idx >= 0) {
       const after = m.slice(idx + y.length + 1).trim();
       m = m.slice(0, idx).trim();
-      // Last token after the year (Plus, edition) keeps otherwise-identical titles unique.
       if (after) disamb = after.split(/\s+/).filter(Boolean).pop() || disamb;
     }
   }
@@ -105,7 +104,6 @@ const page = (() => {
     const disambLen = disamb ? disamb.length + 1 : 0;
     if (titleBare.length + disambLen + yearLen + titleOverhead > 65) {
       const room = Math.max(8, 65 - titleOverhead - yearLen - disambLen);
-      // Left-clip so the bare title stays a prefix of the model core (mixqa name strip).
       titleBare = titleBare.slice(0, room);
       const sp = titleBare.lastIndexOf(' ');
       if (sp > room * 0.5) titleBare = titleBare.slice(0, sp);
