@@ -33,7 +33,7 @@ const card=(r,i)=>{const li=document.getElementById('rk-card').content.firstElem
  li.dataset.s=r.s; li.classList.toggle('sel',on);
  const a=li.querySelector('.rk-a'); a.href=T.rk+r.s+'/'; a.setAttribute('aria-labelledby',id);
  const ph=li.querySelector('.rk-ph');
- if(r.i){const img=document.createElement('img'); img.src=r.i; img.alt=r.m+' '+T.alt; img.width=96; img.height=112; img.loading=i<4?'eager':'lazy'; img.decoding='async'; ph.replaceChildren(img);}
+ if(r.i){const img=document.createElement('img'); const m=String(r.i).match(/^\/rackets\/([^/]+)\.webp$/); if(m){const s400=`/rackets/g/${m[1]}-0-400.webp`, s800=`/rackets/g/${m[1]}-0-800.webp`; img.src=s400; img.srcset=s400+' 400w, '+s800+' 800w'; img.sizes='96px';} else if(/\/g\/.+-400\.webp$/.test(r.i)){ img.src=r.i; img.srcset=r.i+' 400w, '+r.i.replace('-400.webp','-800.webp')+' 800w'; img.sizes='96px'; } else { img.src=r.i; } img.alt=r.m+' '+T.alt; img.width=96; img.height=112; img.loading=i<4?'eager':'lazy'; img.decoding='async'; ph.replaceChildren(img);}
  else ph.innerHTML=($('hic-'+(r.sh||'hybrid'))||$('hic-hybrid')).innerHTML;
  li.querySelector('.rk-b span').textContent=[r.b,r.y].filter(Boolean).join(' · ');
  const name=li.querySelector('.rk-m'); name.id=id; name.textContent=shortM(r);
