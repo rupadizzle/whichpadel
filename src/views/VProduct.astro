@@ -14,7 +14,7 @@ import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
 import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L, ckTxt } from '../lib/data.js';
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
-import { offersOf, SHOPS, domainOf, FX, shopHref } from '../lib/price.js';
+import { offersOf, SHOPS, domainOf, FX, shopHref, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
@@ -29,6 +29,41 @@ const stockAvail = offs => !Array.isArray(offs) || !offs.length || offs.every(o 
 const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
 const pxJson = (offs, checked) => JSON.stringify((offs || []).filter(o => o && o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(checked ? { t: checked } : {}) })));
+
+const titleModel = (r) => {
+  let m = String(r.model || '');
+  m = m.replace(/\s+by\s+\S(?:.*\S)?$/i, '').trim();
+  let disamb = '';
+  if (r.player) {
+    const esc = String(r.player).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const before = m;
+    m = m.replace(new RegExp('\\s+' + esc + '\\s*$', 'i'), '').trim();
+    if (before !== m) {
+      const parts = String(r.player).trim().split(/\s+/).filter(Boolean);
+      disamb = parts.length ? parts[parts.length - 1] : '';
+    }
+  }
+  if (r.year != null) {
+    const y = String(r.year);
+    const idx = m.search(new RegExp('\\s+' + y + '\\b'));
+    if (idx >= 0) {
+      const after = m.slice(idx + y.length + 1).trim();
+      m = m.slice(0, idx).trim();
+      if (after) disamb = after.split(/\s+/).filter(Boolean).pop() || disamb;
+    }
+  }
+  return { core: m || String(r.model || ''), disamb };
+};
+const clipTitle = (core, suffix, max = 65) => {
+  const room = max - suffix.length;
+  if (room < 8) return (core + suffix).slice(0, max);
+  if (core.length <= room) return core + suffix;
+  let cut = core.slice(0, room).trim();
+  const sp = cut.lastIndexOf(' ');
+  if (sp > room * 0.5) cut = cut.slice(0, sp);
+  return cut + suffix;
+};
+
 const page = (() => {
   if (kind === 'racket') {
     const SN = shopNames(/\.(com|net|co\.uk)$/);
@@ -47,7 +82,7 @@ const page = (() => {
     const U = SITE + url('racket', lang, r.slug);
     const intro0 = C.intro(r, t, x);
     const intro = r.rated ? intro0 : intro0.split(/(?<=[.!?])\s+/).filter(z => !z.includes('/100')).join(' ');
-    const avg = Math.round(Object.values(r.ratings).reduce((a, b) => a + b, 0) / 6);
+    const avg = r.rated && r.ratings ? Math.round(Object.values(r.ratings).filter(v => v != null).reduce((a, b) => a + b, 0) / Math.max(1, Object.values(r.ratings).filter(v => v != null).length)) : 0;
     const G = gallery(r), R2 = RP(lang), lv = levelOf(r), ins = r.rated ? insight(r, lang) : { suits: [], pros: [], cons: [] }, FC = FCARD[lang] || FCARD.en;
     const alt = t.imgAlt(r.model);
     const srows = rows.filter(([, v]) => v != null && v !== '' && v !== false);
@@ -58,9 +93,27 @@ const page = (() => {
     const BN = (SN[BD] || [BD || r.brand])[0];
     const vs = vsFor(r.slug);
     const cmpU = url('rackets', lang) + `?r=${r.slug}${similar[0] ? ',' + similar[0].slug : ''}`;
+    const offerPick = pick(r, d.region || DEFAULT_REGION(lang));
+    const offerLd = !offerPick.none ? { offers: { '@type': 'Offer', price: String(offerPick.v), priceCurrency: offerPick.cur, url: (offerPick.o && offerPick.o.u) || r.productUrl } } : {};
+    const titleOverhead = C.title('').length + d.copy.titleSuffix.length;
+    const tm = titleModel(r);
+    let titleBare = tm.core;
+    const titleYear = r.year != null ? String(r.year) : '';
+    const disamb = tm.disamb;
+    const yearLen = titleYear ? titleYear.length + 1 : 0;
+    const disambLen = disamb ? disamb.length + 1 : 0;
+    if (titleBare.length + disambLen + yearLen + titleOverhead > 65) {
+      const room = Math.max(8, 65 - titleOverhead - yearLen - disambLen);
+      titleBare = titleBare.slice(0, room);
+      const sp = titleBare.lastIndexOf(' ');
+      if (sp > room * 0.5) titleBare = titleBare.slice(0, sp);
+    }
+    if (disamb) titleBare = `${titleBare} ${disamb}`.trim();
+    if (titleYear) titleBare = `${titleBare} ${titleYear}`.trim();
+    const racketTitle = C.title(titleBare) + d.copy.titleSuffix;
     return {
-      locale: d.locale, title: C.title(r.model) + d.copy.titleSuffix, description: C.desc(r, t, x.price), ogImage: absImg(r),
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: r.model, url: U, brand: { '@type': 'Brand', name: r.brand }, ...(r.image ? { image: absImg(r) } : {}), description: intro, category: t.racketFull, audience: audLD, ...(r.price != null ? { offers: { '@type': 'Offer', price: String(r.price), priceCurrency: r.currency, url: r.productUrl } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.brands, item: SITE + url('brands', lang) }, { '@type': 'ListItem', position: 3, name: r.brand, item: SITE + bHref }, { '@type': 'ListItem', position: 4, name: r.model, item: U }] }] },
+      locale: d.locale, title: racketTitle, description: C.desc(r, t, x.price), ogImage: absImg(r),
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: r.model, url: U, brand: { '@type': 'Brand', name: r.brand }, ...(r.image ? { image: absImg(r) } : {}), description: intro, category: t.racketFull, audience: audLD, ...offerLd }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.brands, item: SITE + url('brands', lang) }, { '@type': 'ListItem', position: 3, name: r.brand, item: SITE + bHref }, { '@type': 'ListItem', position: 4, name: r.model, item: U }] }] },
       crumbs: [{ href: url('home', lang), label: u.home }, { href: url('brands', lang), label: u.brands }, { href: bHref, label: r.brand }, { label: r.model.replace(r.brand + ' ', '') }],
       preload: G[0] ? { href: G[0].l, srcset: G[0].one ? undefined : `${G[0].s} 400w, ${G[0].l} 800w` } : null,
       G, R2, alt, bHref, kchips, ins, lvl, inLists, avg, srows, more, vs, similar, sameBrand, cmpU, FC, BN, oj, intro, C, t, x, SN, YC: YC[lang],
@@ -77,19 +130,24 @@ const page = (() => {
     const bs = slugify(s.brand);
     const bt = shoeBrandTarget(bs);
     const bHref = bt ? url(bt.type, lang, bt.id) + (bt.hash ? '#' + bt.hash : '') : null;
-    const soleT = s.sole.map(k => T.soles[k]);
-    const usSz = lang === 'en' && s.sizesUK.length && s.gender !== 'k' ? s.sizesUK.map(x => String(x + (s.gender === 'w' ? 2 : 1))).join(' · ') : null;
+    const sole = Array.isArray(s.sole) ? s.sole : [];
+    const cushion = Array.isArray(s.cushion) ? s.cushion : [];
+    const sizesUK = Array.isArray(s.sizesUK) ? s.sizesUK : [];
+    const sizesEU = Array.isArray(s.sizesEU) ? s.sizesEU : [];
+    const offs = Array.isArray(s.offs) ? s.offs : [];
+    const soleT = sole.map(k => T.soles[k]).filter(Boolean);
+    const usSz = lang === 'en' && sizesUK.length && s.gender !== 'k' ? sizesUK.map(x => String(x + (s.gender === 'w' ? 2 : 1))).join(' · ') : null;
     const sz = a => a.map(x => String(x).replace('.', lang === 'en' ? '.' : ',')).join(' · ');
     const fmtD = n => String(n).replace('.', lang === 'en' ? '.' : ',') + ' mm';
-    const rows = [[T.spec.brand, s.brand], [T.spec.year, s.year], [T.spec.gender, T.genders[s.gender]], [T.spec.sole, soleT.join(', ') || null], [T.spec.outsole, s.vibram ? T.vibram : null], [T.spec.cushion, s.cushion.length ? s.cushion.map(c => c.toUpperCase()).join(', ') : null], [T.spec.weight, s.weight ? s.weight + ' g' : null], [T.spec.drop, s.drop != null ? fmtD(s.drop) : null], [T.spec.width, s.wide ? T.wide : null], [T.spec.sizesEU, s.sizesEU.length ? sz(s.sizesEU) : null], [T.spec.sizesUK, s.sizesUK.length ? sz(s.sizesUK) : null], [T.spec.cols, s.colours], [T.spec.shops, s.shops]].filter(([, v]) => v != null && v !== '');
+    const rows = [[T.spec.brand, s.brand], [T.spec.year, s.year], [T.spec.gender, T.genders[s.gender]], [T.spec.sole, soleT.join(', ') || null], [T.spec.outsole, s.vibram ? T.vibram : null], [T.spec.cushion, cushion.length ? cushion.map(c => c.toUpperCase()).join(', ') : null], [T.spec.weight, s.weight ? s.weight + ' g' : null], [T.spec.drop, s.drop != null ? fmtD(s.drop) : null], [T.spec.width, s.wide ? T.wide : null], [T.spec.sizesEU, sizesEU.length ? sz(sizesEU) : null], [T.spec.sizesUK, sizesUK.length ? sz(sizesUK) : null], [T.spec.cols, s.colours], [T.spec.shops, s.shops]].filter(([, v]) => v != null && v !== '');
     const miss = [!s.weight && T.mk.weight, s.drop == null && T.mk.drop].filter(Boolean);
     const kchips = [T.genders[s.gender], ...soleT, s.wide && T.wide, s.vibram && T.vibram, s.weight && s.weight + ' g', T.cols(s.colours)].filter(Boolean);
-    const intro = T.introS({ name: s.name, g: T.gl[s.gender], sole: soleT.length ? soleT.join('/').toLowerCase() : '', cush: s.cushion.length ? s.cushion.map(c => c.toUpperCase()).join(' + ') : '', n: s.shops, cols: s.colours });
-    const similar = rankShoes(shoes.filter(x => x.slug !== s.slug && x.gender === s.gender && (x.sole.some(k => s.sole.includes(k)) || !s.sole.length)), lang).slice(0, 4);
+    const intro = T.introS({ name: s.name, g: T.gl[s.gender], sole: soleT.length ? soleT.join('/').toLowerCase() : '', cush: cushion.length ? cushion.map(c => c.toUpperCase()).join(' + ') : '', n: s.shops || offs.length, cols: s.colours });
+    const similar = rankShoes(shoes.filter(x => x.slug !== s.slug && x.gender === s.gender && ((x.sole || []).some(k => sole.includes(k)) || !sole.length)), lang).slice(0, 4);
     const sameBrand = rankShoes(shoes.filter(x => x.brand === s.brand && x.slug !== s.slug), lang).slice(0, 6);
-    const best0 = [...s.offs].sort((a, b) => b.s - a.s || a.p - b.p)[0];
+    const best0 = offs.length ? [...offs].sort((a, b) => (b.s || 0) - (a.s || 0) || a.p - b.p)[0] : { d: '', p: 0, c: 'GBP', u: '#', s: 0 };
     const BN = (SN[best0.d] || [best0.d])[0];
-    const oj = JSON.stringify(s.offs.filter(o => o.s || !s.offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
+    const oj = JSON.stringify(offs.filter(o => o.s || !offs.some(x => x.s)).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u })));
     const U = SITE + url('shoe', lang, s.slug);
     const lk = { m: 'mens', w: 'womens', k: 'junior' }[s.gender];
     const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('shoes', lang), label: T.crumb }];
@@ -97,12 +155,12 @@ const page = (() => {
     crumbs.push({ label: s.model });
     return {
       locale: d.locale, title: `${s.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: G[0] ? SITE + G[0].l : undefined,
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...s.offs.map(o => o.p))), highPrice: String(Math.max(...s.offs.map(o => o.p))), priceCurrency: best0.c, offerCount: s.offs.length, ...(stockAvail(s.offs) ? { availability: stockAvail(s.offs) } : {}) } }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] },
+      jsonld: (() => { const shoeCur = (REGIONS[d.region || DEFAULT_REGION(lang)] || REGIONS.GB)[2]; const shoePrices = offs.map(o => o.c === shoeCur ? o.p : conv(o.p, o.c || 'EUR', shoeCur)); const offer = shoePrices.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.round(Math.min(...shoePrices))), highPrice: String(Math.round(Math.max(...shoePrices))), priceCurrency: shoeCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {}; return { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: s.name, url: U, brand: { '@type': 'Brand', name: s.brand }, ...(G[0] ? { image: SITE + G[0].l } : {}), description: intro, category: T.crumb, ...offer }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: s.name, item: U }] }] }; })(),
       crumbs, preload: G[0] ? { href: G[0].l, srcset: `${G[0].s} 400w, ${G[0].l} 800w` } : null,
       shoe: { T, R2, G, alt, bHref, soleT, usSz, rows, miss, kchips, intro, similar, sameBrand, BN, oj, lk, bestUrl: shopHref(best0.u, SHOPS[best0.d]?.affiliate) },
       SN, recent: { cur: { s: s.slug, m: s.name, i: shoeImg(s) || '' }, rk: url('shoe', lang, 'X').replace(/X\/$/, ''), cmp: url('shoes', lang), cw: '', link: false },
       api: '/api/shoe-prices', slug: s.slug, name: s.name, sizeNote: T.sizeNote,
-      localPx: pxJson(s.offs, SHOE_CHECKED),
+      localPx: pxJson(offs, SHOE_CHECKED),
     };
   }
 
@@ -139,9 +197,14 @@ const page = (() => {
     const localPx = pxJson(offs, BAG_CHECKED);
     const U = SITE + url('bag', lang, g.slug);
     const crumbs = [{ href: url('home', lang), label: u.home }, { href: url('bags', lang), label: T.crumb }, { label: g.name }];
+    const bagCore = [g.brand, g.model, typeL && String(typeL).toLowerCase(), g.year].filter(Boolean).join(' ');
+    const bagTitle = clipTitle(`${bagCore} | ${T.crumb}`, ' | WhichPadel');
+    const bagCur = (REGIONS[d.region || DEFAULT_REGION(lang)] || REGIONS.GB)[2];
+    const bagPrices = offs.map(o => o.c === bagCur ? o.p : conv(o.p, o.c || 'EUR', bagCur));
+    const bagOfferLd = offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.round(Math.min(...bagPrices))), highPrice: String(Math.round(Math.max(...bagPrices))), priceCurrency: bagCur, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {};
     return {
-      locale: d.locale, title: `${g.name} | ${T.crumb} | WhichPadel`, description: intro, ogImage: img ? SITE + img : undefined,
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...(offs.length ? { offers: { '@type': 'AggregateOffer', lowPrice: String(Math.min(...offs.map(o => o.p))), highPrice: String(Math.max(...offs.map(o => o.p))), priceCurrency: best0.c, offerCount: offs.length, ...(stockAvail(offs) ? { availability: stockAvail(offs) } : {}) } } : {}) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: g.name, item: U }] }] },
+      locale: d.locale, title: bagTitle, description: intro, ogImage: img ? SITE + img : undefined,
+      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: bagCore || g.name, url: U, brand: { '@type': 'Brand', name: g.brand }, ...(img ? { image: SITE + img } : {}), description: intro, category: T.crumb, ...bagOfferLd }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('bags', lang) }, { '@type': 'ListItem', position: 3, name: bagCore || g.name, item: U }] }] },
       crumbs, preload: img ? { href: img, srcset: `${img} 800w` } : null,
       bag: { T, img, bHref, intro, rows, kchips, BN, oj, localPx, similar, sameBrand, bestUrl: best0.u ? bagHref(best0) : null }, SN,
       api: '/api/shoe-prices', slug: g.id || ('bag-' + g.slug), name: g.name, sizeNote: null,
@@ -191,11 +254,11 @@ const view = (() => {
       brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: s.player ? { href: url('player', lang, playerSlug(s.player)), name: s.player } : null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
       price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
       compareHref: url('shoes', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
-      overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: s.sole.filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
+      overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: (Array.isArray(s.sole) ? s.sole : []).filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
       shoeLinks: sh.lk && SHOE_LIST_KEYS.includes(sh.lk) ? [{ href: url('shoeList', lang, sh.lk), label: sh.T.lists[sh.lk][0] }, { href: url('shoeList', lang, 'best'), label: sh.T.lists.best[0] }] : null,
       rated: false, avg: null, ratings: null, specH: sh.T.specs, rows: sh.rows, specPrice: false, usRow: sh.usSz ? { label: 'Sizes in stock (US)', value: sh.usSz } : null,
       missing: sh.miss.length ? sh.T.missing(sh.miss.join(', ')) : null, similarH: sh.T.similar,
-      similar: sh.similar.map(x => ({ href: url('shoe', lang, x.slug), img: shoeImg(x), shape: null, title: x.name, lead: x.sole.map(k => sh.T.soles[k]).join(', '), item: x })),
+      similar: sh.similar.map(x => ({ href: url('shoe', lang, x.slug), img: shoeImg(x), shape: null, title: x.name, lead: (x.sole || []).map(k => sh.T.soles[k]).filter(Boolean).join(', '), item: x })),
       similarCmp: null, h2hH: null, h2h: [], moreH: sh.T.moreFrom(s.brand), more: sh.sameBrand.map(x => ({ href: url('shoe', lang, x.slug), name: x.name })), allHref: sh.bHref, allLabel: sh.T.allFrom(s.brand), yearMore: null, finder: null,
     };
   }
