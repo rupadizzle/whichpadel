@@ -14,11 +14,6 @@ function transcribe(audio){
  asrChain=job.then(function(){},function(){});
  return job;
 }
-function warm(){
- const go=function(){transcribe(new Float32Array(8000)).catch(function(){});};
- if(window.requestIdleCallback) requestIdleCallback(go,{timeout:1200});
- else setTimeout(go,300);
-}
 function load(){
  if(!pipeP) pipeP=(async()=>{
   const {pipeline, env}=await import(LIB);
@@ -132,5 +127,4 @@ function start(hooks){
  });
 }
 window.DGVoice={prime:prime, start:start, stop:stop};
-warm();
 })();

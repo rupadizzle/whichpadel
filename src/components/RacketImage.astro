@@ -1,13 +1,15 @@
 ---
 // Image slot: real product photo (WebP) when present, else a brand-tinted SVG shape outline.
 import RacketIcon from './RacketIcon.astro'; import { D } from '../i18n/index.js';
+import { gallery } from '../lib/rp2.js';
 const { r, size = 60, label = true, eager = false, lang = 'en' } = Astro.props;
 const T=D(lang).terms; const shp=r.shape?T.shape[r.shape]:T.noShape; const alt=T.imgAlt(r.model);
 let h=0; for (const c of r.brand) h=(h*31+c.charCodeAt(0))%360;
 const tint=`hsl(${h} 55% 38%)`, face=`hsl(${h} 60% 95%)`;
 const w=Math.round(size*1.6), ht=Math.round(size*1.9);
+const g0=gallery(r)[0]; const srcset=g0&&!g0.one?`${g0.s} 400w, ${g0.l} 800w`:undefined; const src=g0&&!g0.one?g0.s:(r.image||'');
 ---
 <div class="rslot" style={`--icon-line:${tint};--icon-face:${face}`}>
-{r.image ? <img src={r.image} alt={alt} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':undefined} decoding="async" width={w} height={ht} style={`--w:${w}px;--h:${ht}px`}/> : <RacketIcon shape={r.shape} size={size}/>}
+{r.image ? <img src={src||r.image} srcset={srcset} sizes={`${w}px`} alt={alt} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':undefined} decoding="async" width={w} height={ht} style={`--w:${w}px;--h:${ht}px`}/> : <RacketIcon shape={r.shape} size={size}/>}
 {label && !r.image && <span class="rlabel"><b style={`color:${tint}`}>{r.brand}</b><span>{shp}</span></span>}
 </div>
