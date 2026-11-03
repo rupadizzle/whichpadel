@@ -106,7 +106,7 @@ main.wrap>.page{margin-top:0}
 @media (width >= 900px){.cmp-cards .chead{grid-template-columns:var(--lab,180px) repeat(var(--n),minmax(0,1fr))}}
 .cgroup{border-radius:var(--r);box-shadow:none}
 /* sticky bars never cover content */
-@media (width < 900px){body:has(.stickycta){padding-bottom:var(--bar)}body.has-sticky .ftr{padding-bottom:var(--s6)}}
+@media (width < 900px){body:has(.stickycta){padding-bottom:var(--bar)}}
 body:has(#cmpbar:not([hidden])){padding-bottom:var(--bar)}
 .filters.panel{padding:0}
 

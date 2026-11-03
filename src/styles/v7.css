@@ -42,6 +42,3 @@
  .bcard .bmark{flex-basis:52px;width:52px;height:22px}
 }
 /* guide tables: no mid-word breaks */
-@media (width < 600px){.tw table{font-size:var(--fs-xs)}.tw th,.tw td{overflow-wrap:normal;hyphens:manual;word-break:normal;padding-inline:var(--s0)}}
-@media (width < 600px){.tw table{table-layout:fixed!important;font-size:var(--fs-xs)!important}.tw th,.tw td{overflow-wrap:break-word!important;word-break:normal!important;hyphens:manual!important;padding-inline:var(--s1)!important}}
-@media (width < 600px){.tw th:first-child{width:21%}}

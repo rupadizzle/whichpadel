@@ -3,7 +3,6 @@
 .pg .tldr{border:1px solid var(--line);border-radius:var(--r);padding:var(--s3) var(--s4);background:var(--bg)}
 .pg .tldr h2{margin:0 0 var(--s2);font-size:var(--fs-l)}
 .pg .toc{margin:var(--s4) 0;font-size:var(--fs-base)}.pg .toc ol{columns:2;margin:var(--s2) 0 0;padding-left:var(--s4)}
-.pg .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s3) 0}
 .pg table{border-collapse:collapse;width:100%;font-size:var(--fs-m)}
 @media (width < 600px){.pg table{font-size:var(--fs-xs);table-layout:fixed}.pg th,.pg td{padding:var(--s2) var(--s1);overflow-wrap:anywhere}}
 .pg th,.pg td{border-bottom:1px solid var(--line);padding:var(--s2) var(--s2);text-align:left;vertical-align:top}

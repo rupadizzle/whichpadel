@@ -91,3 +91,13 @@
 /* ---------- page rhythm: header/hero -> content -> footer is always --s6 ---------- */
 main.wrap>:first-child{margin-top:0}
 main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])),main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])),main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])){margin-bottom:0}
+main.wrap>.stickycta{margin:0}
+
+/* ---------- data tables in guides: scroll sideways, never break words ---------- */
+.tw{max-width:100%;overflow-x:auto;margin:var(--s3) 0;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.tw table{width:100%;margin:0;font-size:var(--fs-m);font-variant-numeric:tabular-nums}
+.tw th,.tw td{padding:var(--s2) var(--s3);white-space:nowrap}
+.tw thead th{font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--mut);background:var(--bg)}
+.tw tbody th,.tw td:first-child{position:sticky;left:0;background:var(--card)}
+.tw thead th:first-child{position:sticky;left:0;z-index:1}
+@media (width < 600px){.tw table{font-size:var(--fs-s)}}
