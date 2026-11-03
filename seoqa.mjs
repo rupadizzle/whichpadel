@@ -8,12 +8,10 @@ for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/
  const alts={}; for(const m of h.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)) alts[m[1]]=m[2];
  // /us/ pages: English (US) only, no translated twin -> exactly one self-referencing en-US hreflang
  if(rel.startsWith('/us/')){ if(Object.keys(alts).join()!=='en-US'||alts['en-US']!==S+rel) errs.push(`${rel}: want only self en-US hreflang`); continue; }
- if(['/guides/best-padel-gifts-for-men/','/guides/best-padel-gifts-for-women/'].includes(rel)){
-  const lang=(h.match(/<html lang="([^"]+)"/)||[])[1];
-  if(Object.keys(alts).length!==2||alts.en!==S+rel||alts['x-default']!==S+rel) errs.push(`${rel}: want only self en and x-default hreflang`);
-  map[rel]={alts,lang}; continue;
- }
- const PAIR=false;
+ // English-only pages with no translations: canonical only, no hreflang set
+ if(['/deals/','/describe/','/describe-shoes/','/my-kit/','/padel-vs-paddle-tennis/','/guides/how-to-hold-a-padel-racket/','/guides/padel-rules/'].includes(rel)){ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
+ // English + Spanish pair pages (no other translations yet): exactly en, es and x-default, reciprocal like the rest
+ const PAIR=rel.startsWith('/bags/')||rel.startsWith('/es/paleteros-mochilas-padel/')||['/padel-clothing/','/es/ropa-padel/','/padel-accessories/','/es/accesorios-padel/','/padel-grips-overgrips/','/es/grips-overgrips-padel/','/padel-ball-pressuriser/','/es/presurizador-pelotas-padel/','/padel-ball-machine/','/es/maquina-lanzapelotas-padel/'].includes(rel);
  for(const l of [...(PAIR?['en','es']:LANGS),'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
  if(PAIR&&Object.keys(alts).length!==3) errs.push(`${rel}: en+es page should have only en, es and x-default hreflang`);
  if(alts['x-default']&&alts['x-default']!==alts.en) errs.push(`${rel}: x-default != en`);
