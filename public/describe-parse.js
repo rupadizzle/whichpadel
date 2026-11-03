@@ -1,4 +1,4 @@
-// Rule-based 'describe your game' parsing (keywords only, no AI service). Shared by /describe/ and /describe-shoes/.
+// Rule-based 'describe your game' parsing (keywords only, no AI service).
 (function(){
 const has=(t,re)=>re.test(t);
 // --- shared keyword rules ---

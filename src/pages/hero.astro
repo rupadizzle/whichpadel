@@ -71,7 +71,7 @@ function go(t) {
   note.textContent = 'Finding the deal…';
   if (shoeAt >= 0 && (bagAt < 0 || shoeAt <= bagAt)) {
     const rest = text.replace(shoeRe, ' ').replace(/\b(padel|a|an|the|my|for|and)\b/gi, ' ').trim();
-    location.href = rest.length >= 3 ? '/describe-shoes/?q=' + encodeURIComponent(text) : SHOES;
+    location.href = rest.length >= 3 ? FINDER + '?p=shoes' : SHOES;
     return;
   }
   if (bagAt >= 0) { location.href = bagUrl(text); return; }
