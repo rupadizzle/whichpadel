@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
 import { D, SITE, url } from '../i18n/index.js';
@@ -23,7 +24,7 @@ const jsonld = {
 ---
 <Base lang={d.locale} title={T.title + d.copy.titleSuffix} description={T.desc} jsonld={jsonld} ogType="article">
 <section class="phero" slot="hero"><div class="wrap">
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:T.crumb}]}/>
 <span class="eyebrow">{T.eyebrow}</span>
 <h1>{T.h1}</h1>
 <Byline lang={lang} headline={T.h1} pageUrl={U} published={published} reviewed={published}/>

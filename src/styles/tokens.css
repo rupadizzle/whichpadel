@@ -32,7 +32,8 @@
  /* colour: state */
  --ok:#1a9e6a;
  --danger:#c0392b;
- --focus:#1d6fd8;
+ --focus-light:#1d6fd8; --focus-dark:var(--lime);
+ --focus:var(--focus-light);
  /* gradients */
  --grad-hero:linear-gradient(160deg,var(--navy),var(--navy-mid) 60%,var(--green));
  --grad-well:linear-gradient(180deg,var(--tint),var(--card));
@@ -59,7 +60,8 @@
  --s0:2px; --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
  --gap:var(--s5);
  --tap:44px;          /* minimum hit area */
- --ctl:48px;          /* default control height */
+ --ctl:44px;          /* default control height (buttons, fields) */
+ --ctl-l:48px;        /* full-width primary CTA */
  --ctl-d:44px;        /* dense control (filters, chips): 36px only on desktop with a mouse */
 
  /* shape */

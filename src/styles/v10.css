@@ -35,10 +35,10 @@
 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);justify-content:space-between;margin:var(--s5) 0}
 .fcard h2{margin:0 0 var(--s2)}
 .fcard p{margin:0}
-.fcard .btn{min-height:44px;display:inline-flex;align-items:center}
+
 .best-split{display:grid;grid-template-columns:minmax(0,2fr) minmax(17rem,1fr);column-gap:var(--s7);align-items:start}
 .best-main{min-width:0;display:flex;flex-direction:column;gap:var(--s4)}
-.best-main .rulebox{margin:0;padding:var(--s3) var(--s4);font-size:var(--fs-m);line-height:1.5}
+
 .best-main .toolbar{margin:var(--s4) 0 0}
 .best-main>.panel{margin:0}
 .best-side{position:sticky;top:calc(80px + var(--bf));min-width:0;display:flex;flex-direction:column;gap:var(--s6)}
@@ -105,7 +105,7 @@
 .rpsi{flex:0 0 48px;height:60px;display:flex;align-items:center;justify-content:center}.rpsi img{width:48px;height:60px;object-fit:contain}
 .rpsim b{display:block;font-size:var(--fs-m);line-height:1.3}.rpsim small{display:block;font-size:var(--fs-s);color:var(--mut);margin-top:var(--s0)}
 .rpcmp:not(#_){display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:var(--s4);width:100%;background:var(--card);color:var(--green-2);border:1.5px solid var(--green-2)}
-.rp2 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);justify-content:space-between;margin:0}.rp2 .fcard h2{margin:0 0 var(--s2)}.rp2 .fcard p{margin:0}.rp2 .fcard .btn{min-height:44px;display:inline-flex;align-items:center}
+.rp2 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);justify-content:space-between;margin:0}.rp2 .fcard h2{margin:0 0 var(--s2)}.rp2 .fcard p{margin:0}
 @media (width < 900px){
  .detail.rp2:not(#_){grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "gal" "buy" "body";gap:0}
  .rp2 .buycol{position:static}
@@ -123,16 +123,13 @@
 }
 @media (width >= 600px) and (width < 900px){.rp2 .rpg{margin-inline:calc(-1 * var(--s5))}.kchips{margin-inline:calc(-1 * var(--s5));padding-inline:var(--s5)}}
 
-.crumbs:has(+.rp2):not(#_){margin:var(--s4) 0 var(--s4)!important;padding:0!important}
 .rp2 .rph .brand{margin-top:0}
 @media (width >= 900px){.rp2 .rph{margin:0 0 var(--s5)}.rp2 .rpg{margin:0 0 var(--s6)}}
 
 #buybox #pxbig{font-size:var(--fs-3xl);font-weight:800;line-height:1.15;margin:0;padding-bottom:var(--s2);font-variant-numeric:tabular-nums}#buybox #pxbig *{font-size:inherit}#buybox #pxbig small,#buybox #pxbig .ax{font-size:var(--fs-s);font-weight:500}
 .rp2 .rph h1{margin-bottom:0}.rp2 .rph .kchips{margin-top:var(--s4)}
 @media (width < 900px){.rp2 .rph{margin:0 0 var(--s4)}}
-main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
-#buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:var(--fs-s);font-weight:500}.crumbs:has(+.rp2):not(#_){margin-bottom:var(--s4)!important}
-@media (width >= 900px){.rp2 .buycol:not(#_){margin-top:var(--s6)}}
+#buybox #pxbig .pz::after,#buybox #pxbig .pz::before{font-size:var(--fs-s);font-weight:500}@media (width >= 900px){.rp2 .buycol:not(#_){margin-top:var(--s6)}}
 .pxwatch{display:flex;flex-direction:column;gap:var(--s3);margin:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);box-shadow:none}
 .rp2 .buycol>.pxwatch{margin-top:0}
 .pxwatch h2,.pxwatch p{margin:0}
@@ -187,7 +184,7 @@ main.wrap>.crumbs+.detail.rp2:not(#_){margin-top:0!important}
  .ftr .news .wrap{grid-template-columns:1fr;gap:var(--s4);padding-top:var(--s5);padding-bottom:var(--s4)}
  .ftr:has(> .news) > .wrap{padding-top:var(--s5)}
  .ftr .news .inline-form{flex-wrap:wrap}
- .ftr .news .inline-form .btn{min-height:44px}
+
 }
 /* My kit: a person with tappable bag, racket and shoes */
 .kit-page>p{max-width:42rem}

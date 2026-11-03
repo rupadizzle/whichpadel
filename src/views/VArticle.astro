@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, SITE, url } from '../i18n/index.js'; import { ART, ART_UI } from '../i18n/articles.js';
 const { lang, id } = Astro.props; const A=ART[id][lang]; const d=D(lang), u=d.ui; const UI=ART_UI[lang];
 const U=SITE+url('article',lang,id);
@@ -10,7 +11,7 @@ const jsonld={'@context':'https://schema.org','@graph':[
 ]};
 ---
 <Base lang={d.locale} title={A.title+d.copy.titleSuffix} description={A.desc} jsonld={jsonld} ogType="article">
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{A.crumb}</span></nav><span class="eyebrow">{A.eyebrow}</span><h1>{A.h1}</h1><Byline lang={lang} headline={A.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{A.lead}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:A.crumb}]}/><span class="eyebrow">{A.eyebrow}</span><h1>{A.h1}</h1><Byline lang={lang} headline={A.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{A.lead}</p></div></div></section>
 <article class="prose pg">
 <div class="tldr"><h2>{UI.tldr}</h2><ul>{A.tldr.map(x=><li set:html={x}/>)}</ul></div>
 <nav class="toc" aria-label={UI.toc}><b>{UI.toc}</b><ol>{Object.entries(A.toc).map(([sid,l])=><li><a href={'#'+sid}>{l}</a></li>)}</ol></nav>

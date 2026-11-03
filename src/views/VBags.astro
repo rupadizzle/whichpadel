@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 // Padel bags (racket bags, backpacks, holdalls): one view for /bags/ and /es/paleteros-mochilas-padel/. Copy lives in src/i18n/bags.js, data in data/bags.json via src/lib/bags.js.
 // Lists only confirmed 2025-27 models. Shop buttons go straight to the shop (rel="sponsored nofollow"); shop names are never shown.
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, url, SITE, money } from '../i18n/index.js'; import { tk } from '../lib/money.js';
@@ -17,7 +18,7 @@ const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'FAQPage','mainEntity':T.faq(s,date).map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
 ---
 <Base lang={d.locale} title={T.title+d.copy.titleSuffix} description={T.desc} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav><span class="eyebrow">{T.eyebrow(s)}</span><h1>{T.h1}</h1><Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{T.lead}</p></div><span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></div></section>
+<section class="phero" slot="hero"><div class="wrap"><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:T.crumb}]}/><span class="eyebrow">{T.eyebrow(s)}</span><h1>{T.h1}</h1><Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{T.lead}</p></div><span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></div></section>
 <article class="prose pg bagpg">
 <div class="tldr"><h2>{T.tldrH}</h2><ul>{T.tldr(s,m).map(x=><li set:html={x}/>)}</ul></div>
 <nav class="toc" aria-label={T.tocH}><b>{T.tocH}</b><ol>{Object.entries(T.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>

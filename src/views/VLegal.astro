@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import { NEWS } from '../i18n/news.js';
 // Privacy, affiliate disclosure and About: one component for every language. Contact is only ever hello@whichpadel.com.
 import Base from '../layouts/Base.astro'; import { D, url, SITE } from '../i18n/index.js'; import { AUTHOR, LINKEDIN } from '../lib/byline.js';
@@ -9,6 +10,7 @@ const body=kind==='about'?T[3].replace('§',`<a href="${url('affiliate',lang)}">
 const person={'@type':'Person','@id':SITE+'/#rupert-wallace',name:AUTHOR,url:authorUrl,description:L.authorP,sameAs:[LINKEDIN],worksFor:{'@id':SITE+'/#organization'}};
 const jsonld=kind==='about'?{'@context':'https://schema.org','@type':'AboutPage','url':SITE+url('about',lang),'name':T[0],'description':T[1],'mainEntity':{'@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang),'email':'hello@whichpadel.com','description':T[1]}}:kind==='author'?{'@context':'https://schema.org','@graph':[{'@type':'ProfilePage','url':authorUrl,'name':AUTHOR,'mainEntity':{'@id':SITE+'/#rupert-wallace'},'inLanguage':d.locale},person,{'@type':'Organization','@id':SITE+'/#organization','name':'WhichPadel','url':SITE+url('home',lang)}]}:null;
 ---
-<Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]} jsonld={jsonld}><article class="panel prose">
-<h1>{T[0]}</h1>{T[2]&&<p class="muted">{T[2]}</p>}{kind==='author'?<><p>{L.authorP}</p><p><a href={LINKEDIN} rel="me">{L.linkedin}</a></p><p><a href={url('about',lang)}>{L.aboutTitle}</a></p></>:<Fragment set:html={body}/>}<p class="contact">{u.contactP} <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{kind==="about"&&L.credit&&<p class="muted small" data-parity-skip>{L.credit}</p>}
+<Base lang={d.locale} title={T[0]+d.copy.titleSuffix} description={T[1]} jsonld={jsonld}><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:T[0]}]}/>
+<article class="panel prose">
+<header class="page-hd"><h1>{T[0]}</h1>{T[2]&&<p>{T[2]}</p>}</header>{kind==='author'?<><p>{L.authorP}</p><p><a href={LINKEDIN} rel="me">{L.linkedin}</a></p><p><a href={url('about',lang)}>{L.aboutTitle}</a></p></>:<Fragment set:html={body}/>}<p class="contact">{u.contactP} <a href="mailto:hello@whichpadel.com">hello@whichpadel.com</a></p>{kind==="about"&&L.credit&&<p class="muted small" data-parity-skip>{L.credit}</p>}
 </article></Base>

@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro';
 import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js'; import { bags, bagImg, bagOffer } from '../lib/bags.js'; import { SHOPS } from '../lib/price.js'; import { D, url } from '../i18n/index.js';
 import { TOOL } from '../i18n/tools.js';
@@ -15,8 +16,9 @@ const dealsHref=url('deals',lang);
 const SLOTS=T.slots;
 ---
 <Base lang={D(lang).locale} title={T.title+' | WhichPadel'} description={T.desc}>
-<article class="panel kit-page"><h1>{T.h1}</h1>
-<p>{T.lead}</p>
+<Crumbs label={D(lang).ui.breadcrumb} items={[{href:url('home',lang),label:D(lang).ui.home},{label:T.crumb}]}/>
+<article class="panel kit-page"><header class="page-hd"><h1>{T.h1}</h1>
+<p>{T.lead}</p></header>
 <div class="kit-board">
 <div class="kit-stage" id="kfig">
 <div class="kit-fig">

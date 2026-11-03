@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro'; import '../styles/hub.css'; import RkCardTemplate from '../components/RkCardTemplate.astro'; import { D, url } from '../i18n/index.js';
 import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js'; import { bags, bagImg } from '../lib/bags.js';
 import { pick, fmt, DEFAULT_REGION } from '../lib/price.js';
@@ -10,8 +11,8 @@ const ballBase=url('ball',lang,'X').replace(/X\/$/,'');
 const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
 ---
 <Base lang={d.locale} title={u.savedH+d.copy.titleSuffix} description={u.savedDesc} noindex preload="/cards.json">
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.savedNav}</span></nav>
-<h1>{u.savedH}</h1>
+<Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:u.savedNav}]}/>
+<header class="page-hd"><h1>{u.savedH}</h1></header>
 <p class="muted" id="saved-device" hidden>{u.savedDevice}</p>
 <p id="saved-empty" class="empty" hidden>{u.savedEmpty}</p>
 <p id="saved-go" hidden><a class="btn" href={url('rackets',lang)}>{u.rackets}</a></p>

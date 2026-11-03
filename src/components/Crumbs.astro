@@ -1,0 +1,5 @@
+---
+// Breadcrumb trail for every page type. items: [{ href?, label }], last item is the current page.
+const { label, items } = Astro.props;
+---
+<nav class="crumbs" aria-label={label}><ol>{items.map((c, i) => <li>{c.href && i < items.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}</ol></nav>

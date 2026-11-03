@@ -19,13 +19,13 @@
 .toolbar #count{margin-right:auto}
 /* guides chip row */
 .gchips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
-.gchips a{display:inline-block;line-height:calc(var(--tap) - 2px);white-space:nowrap;padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--ink);text-decoration:none;font-weight:600;font-size:var(--fs-m)}
-.gchips a:hover{border-color:var(--green-2)}
-.gchips a.gall{background:var(--green);color:var(--on-dark);border-color:var(--green)}
+
+
+
 @media (width < 600px){.gchips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:var(--s2);scrollbar-width:none}.gchips li{flex:0 0 auto;scroll-snap-align:start}}
 /* hero buttons + spacing */
 .hero-ctas{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);max-width:560px}
-.hero-ctas .btn{width:100%;justify-content:center;text-align:center;min-height:48px}
+.hero-ctas .btn{width:100%}
 @media (width < 421px){.hero-ctas{grid-template-columns:1fr}}
 #quiz{padding-top:var(--s2)}
 main>#quiz:first-child,main>section:first-child{margin-top:0}

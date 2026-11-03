@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RkCard from '../components/RkCard.astro';
 import ShoeCard from '../components/ShoeCard.astro'; import BagCard from '../components/BagCard.astro'; import '../styles/hub.css';
 import { brandList, slugify } from '../lib/data.js';
@@ -53,17 +54,13 @@ const others=[...brandList, ...shoeOnlyBrands.map(s=>({name:s.name,slug:s.slug})
 const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.length>0&&'balls',brandBags.length>0&&'bags'].filter(Boolean); const first=cats[0]||'rackets';
 ---
 <Base lang={d.locale} title={title} description={desc} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <a href={url('brands',lang)}>{u.brands}</a> › <span>{b.name}</span></nav><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{lead}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{href:url('brands',lang),label:u.brands},{label:b.name}]}/><h1>{h1}</h1><Byline lang={lang} headline={h1} pageUrl={U}/><div class="seo"><p>{lead}</p></div></div></section>
 {cats.length>1&&<div class="brand-switch" role="radiogroup" aria-label={C.range}>
  {rs.length>0&&<label><input type="radio" name="brandcat" value="rackets" checked={first==='rackets'}/><span>{H.nav} <small>{rs.length}</small></span></label>}
  {brandShoes.length>0&&<label><input type="radio" name="brandcat" value="shoes" checked={first==='shoes'}/><span>{SHOE[lang].nav} <small>{brandShoes.length}</small></span></label>}
  {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls" checked={first==='balls'}/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
  {brandBags.length>0&&<label><input type="radio" name="brandcat" value="bags" checked={first==='bags'}/><span>{TG.nav} <small>{brandBags.length}</small></span></label>}
 </div>}
-{(brandShoes.length>0||brandBags.length>0)&&<section class="hub-pre brand-more" aria-label={brandShoes.length?TS.nav:(TG?TG.nav:TS.nav)}>
-{brandShoes.length>0&&<p><b>{TS.nav}</b>{brandShoes.map(s=><a href={url('shoe',lang,s.slug)}>{s.name}</a>)}</p>}
-{brandBags.length>0&&TG&&<p><b>{TG.nav}</b>{brandBags.map(g=><a href={url('bag',lang,g.slug)}>{g.name}</a>)}</p>}
-</section>}
 {rs.length>0&&<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
 <p class="brand-note">{C.intro(b.name,x,t)}</p>
 <div class="bfilter">
@@ -118,6 +115,10 @@ facet('#sgrid',[{name:'sg',attr:'g',mode:'eq'},{name:'ss',attr:'so',mode:'has'},
 facet('#ngrid',[{name:'bv',attr:'speed',mode:'eq'},{name:'bt',attr:'tour',mode:'eq'}],'ncount',BS);
 facet('#ggrid',[{name:'gt',attr:'type',mode:'eq'},{name:'gy',attr:'y',mode:'eq'}],'gcount',GS);
 </script>
+{(brandShoes.length>0||brandBags.length>0)&&<section class="panel brand-more">
+{brandShoes.length>0&&<details class="linkset"><summary>{TS.nav} <small>{brandShoes.length}</small></summary><p class="brandlinks">{brandShoes.map(s=><a href={url('shoe',lang,s.slug)}>{s.name}</a>)}</p></details>}
+{brandBags.length>0&&TG&&<details class="linkset"><summary>{TG.nav} <small>{brandBags.length}</small></summary><p class="brandlinks">{brandBags.map(g=><a href={url('bag',lang,g.slug)}>{g.name}</a>)}</p></details>}
+</section>}
 <section class="panel"><h2>{u.otherBrands}</h2><p class="brandlinks">{others.map(o=><a href={url('brand',lang,o.slug)}>{o.name}</a>)}</p></section>
 </Base>
 <style>

@@ -22,7 +22,6 @@
  .dhero .rslot img{--w:auto;--h:240px;width:auto!important;height:240px!important;max-width:100%;object-fit:contain}
  .dhero .rslot svg{height:200px;width:auto}
 }
-@media (width < 600px){.crumbs{display:flex;flex-wrap:wrap;align-items:center;column-gap:var(--s1);margin-bottom:var(--s2)}.crumbs a,.crumbs span{min-height:44px}}
 /* compact horizontal cards on brand + best lists (mobile) */
 @media (width < 600px){
  #bgrid,#best{display:grid;grid-template-columns:1fr;gap:var(--s4)}

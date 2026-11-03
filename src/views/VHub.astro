@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 // Catalog hubs: rackets, shoes, balls. Shared search, filter drawer and sort. Each kind keeps its own filters and client script.
 import Base from '../layouts/Base.astro';
 import '../styles/hub.css';
@@ -128,9 +129,9 @@ const hub = (() => {
 })();
 ---
 <Base lang={hub.locale} title={hub.title} description={hub.description} jsonld={hub.jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{hub.crumb}</span></nav>
+<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:hub.crumb}]}/>
 <div class:list={['hub', 'cat', hub.cat]} id="hub" data-p={hub.page}>
-<header class="hub-hd"><h1>{hub.h1}</h1><p>{hub.intro}</p></header>
+<header class="page-hd hub-hd"><h1>{hub.h1}</h1><p>{hub.intro}</p></header>
 <div class="hub-bar">
 <div class="hub-tb">
  <label class="hub-q"><span class="sr">{hub.search}</span><Fragment set:html={searchSvg}/><input id="h-q" type="search" placeholder={hub.searchPh} autocomplete="off"/></label>

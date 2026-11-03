@@ -201,7 +201,7 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
 #buybox .pxo summary::-webkit-details-marker{display:none}#buybox .pxo summary::after{content:"+";margin-left:auto;font-size:var(--fs-l)}#buybox .pxo[open] summary::after{content:"−"}
 #buybox .pxhist{margin:var(--s4) 0 0}#buybox .pxhist svg{height:64px;border-radius:var(--r-s)}#buybox .pxhist p{font-size:var(--fs-s);margin:var(--s2) 0 0}
 #buybox .disc{display:block;font-size:var(--fs-s);line-height:1.4;color:var(--mut);margin:var(--s4) 0 0}
-#buybox>.btn-sm{min-height:44px;background:var(--card);color:var(--ink);border:1px solid var(--line)}
+
 #buybox #buymain{margin-top:var(--s4)}
 #buybox .pxalert-row{display:flex;gap:var(--s2)}
 #buybox .pxalert-row input{flex:1;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:var(--r-s);padding:0 var(--s3);font:inherit}
@@ -213,7 +213,7 @@ p a,.disc a,.legal a,.trust a{text-decoration:underline;text-underline-offset:2p
  #buybox:not(#_){padding:var(--s4);border-radius:var(--r)}
  .stickycta:not(#_){padding:var(--s2) var(--s4) calc(var(--s2) + env(safe-area-inset-bottom));gap:var(--s4);min-height:64px}
  .stickycta .sp b{font-size:var(--fs-base);font-variant-numeric:tabular-nums}.stickycta .sp span{font-size:var(--fs-s)}
- .stickycta .btn{min-height:44px;padding:0 var(--s5)}
+
  body.has-sticky{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 }
 @media (width < 900px){

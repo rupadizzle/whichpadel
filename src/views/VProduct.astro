@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 // Product pages: racket, shoe, ball. Shared gallery, buy box chrome, sticky price bar and live-price script.
 import Base from '../layouts/Base.astro';
 import Price from '../components/Price.astro';
@@ -292,7 +293,7 @@ const view = (() => {
 ---
 <Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage} ogType="product">
 {page.preload && <Fragment slot="head"><link rel="preload" as="image" href={page.preload.href} imagesrcset={page.preload.srcset} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/></Fragment>}
-<nav class="crumbs" aria-label={u.breadcrumb}>{crumb.map((c, i) => <>{i > 0 && ' › '}{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}</nav>
+<Crumbs label={u.breadcrumb} items={crumb}/>
 <div class="detail rp2">
 <header class="rph">
 <p class="brand"><span>{view.brandHref ? <a href={view.brandHref}>{view.brand}</a> : view.brand}{view.year && <> · {view.yearHref ? <a href={view.yearHref}>{view.year}</a> : view.year}</>}</span><SaveHeart slug={view.save} kind={view.saveKind} off={u.save} on={u.saved}/></p>
