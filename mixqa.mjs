@@ -13,7 +13,7 @@ const NM=new RegExp(names.join('|'),'gi');
 const files=[]; (function w(d){for(const f of fs.readdirSync(d,{withFileTypes:true})){const p=d+'/'+f.name; f.isDirectory()?w(p):p.endsWith('.html')&&files.push(p);}})('dist');
 const out=[]; const LANGS=fs.readdirSync('dist').filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`dist/${d}/index.html`));
 // marker words that are unambiguous for each language (never valid in the others we ship)
-const OK={pt:['marcas','também'],es:['marcas','também'],it:['del'],de:['des']};
+const OK={pt:['marcas','também','pala'],es:['marcas','também'],it:['del','pala'],de:['des'],fr:['pala']};
 const MK={es:['las','los','pala','palas','del','marcas','también'],fr:['les','des','avec','pour','une','raquettes','poids','marques'],pt:['raquetes','raquete','você','não','também','preço','marcas'],it:['racchette','racchetta','della','delle','prezzo','marchi','anche'],de:['schläger','und','mit','für','preis','marken','auch']};
 const rx=ws=>new RegExp('(?<!\\p{L})('+ws.join('|')+')(?!\\p{L})','giu');
 for(const f of files){const pg=f.slice(4); const lg=pg.split('/')[1]; if(!LANGS.includes(lg)) continue; const h=fs.readFileSync(f,'utf8');

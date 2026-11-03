@@ -231,7 +231,7 @@ export const BAG = {
   brandLine: (b, m) => `${b.n} ${b.n === 1 ? 'borsa' : 'borse'}${b.from ? `, da ${m(b.from.v)}` : ''}. La più economica: ${b.list[0].name}.`,
   brandLink: n => `Racchette da padel ${n}`,
   genderH: 'Esistono borse donna e uomo?',
-  genderP: 'Quasi tutte le borse da padel sono unisex. Quando un brand vende una borsa «donna», di solito cambiano colore o una taglia leggermente minore, non la struttura. Per questo questa pagina non ha filtro uomo/donna: scegli in base a quante racchette porti e quali scomparti ti servono.',
+  genderP: 'Quasi tutte le borse da padel sono unisex. Quando una marca vende una borsa «donna», di solito cambiano colore o una taglia leggermente minore, non la struttura. Per questo questa pagina non ha filtro uomo/donna: scegli in base a quante racchette porti e quali scomparti ti servono.',
   lookH: 'Cosa guardare',
   look: s => [`<b>Capacità.</b> Conta le racchette che porti davvero. La maggior parte dei paletero indica spazio per ${s.capBags || 2} o più.`, `<b>Scomparto termico.</b> Una sezione isolata protegge la racchetta da caldo e freddo. ${s.thermal} delle ${s.n} borse elencate dicono di averlo.`, `<b>Vano scarpe.</b> Una tasca separata e ventilata tiene le scarpe lontane dai vestiti. ${s.shoe} delle ${s.n} borse elencate dicono di averlo.`, `<b>Dimensioni.</b> Controllale se la borsa deve entrare in un armadietto o nel bagagliaio.`],
   lookNote: '«Non indicato» significa che la scheda prodotto non lo dice. Non significa che lo scomparto manchi.',

@@ -1,7 +1,5 @@
 /racket-finder /finder/ 301
 /racket-finder/ /finder/ 301
-/describe for=shoes /finder/?p=shoes 301
-/describe/ for=shoes /finder/?p=shoes 301
 /describe /finder/ 301
 /describe/ /finder/ 301
 /describe-shoes /finder/?p=shoes 301
