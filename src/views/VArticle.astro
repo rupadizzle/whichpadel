@@ -1,17 +1,21 @@
 ---
-// Explainer article (English). Same shell as the buying guide (VGuide): hero, byline, TL;DR, contents, sections, FAQ with FAQPage schema. Copy lives in src/i18n/articles-en.js.
-import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, SITE } from '../i18n/index.js'; import { ARTICLES } from '../i18n/articles-en.js';
-const { slug } = Astro.props; const A=ARTICLES[slug]; const lang='en'; const d=D(lang), u=d.ui; const U=SITE+A.path;
-const KEY={rules:'padel-rules',hold:'how-to-hold-a-padel-racket',vs:'padel-vs-paddle-tennis'}; const ALSO=A.next.map(k=>ARTICLES[KEY[k]]);
-const jsonld={'@context':'https://schema.org','@graph':[{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+'/'},{'@type':'ListItem','position':2,'name':A.crumb,'item':U}]},{'@type':'FAQPage','mainEntity':A.faq.map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
+import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, SITE, url } from '../i18n/index.js'; import { ART, ART_UI } from '../i18n/articles.js';
+const { lang, id } = Astro.props; const A=ART[id][lang]; const d=D(lang), u=d.ui; const UI=ART_UI[lang];
+const U=SITE+url('article',lang,id);
+const ALSO=(A.next||[]).map(k=>({href:url('article',lang,k),label:ART[k][lang].crumb}));
+const jsonld={'@context':'https://schema.org','@graph':[
+  {'@type':'Article',name:A.h1,headline:A.h1,url:U,description:A.desc,inLanguage:d.locale,datePublished:'2026-10-27',dateModified:'2026-10-27'},
+  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem',position:1,name:u.home,item:SITE+url('home',lang)},{'@type':'ListItem',position:2,name:A.crumb,item:U}]},
+  {'@type':'FAQPage','mainEntity':A.faq.map(([q,a])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))}
+]};
 ---
 <Base lang={d.locale} title={A.title+d.copy.titleSuffix} description={A.desc} jsonld={jsonld} ogType="article">
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href="/">{u.home}</a> › <span>{A.crumb}</span></nav><span class="eyebrow">{A.eyebrow}</span><h1>{A.h1}</h1><Byline lang={lang} headline={A.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{A.lead}</p></div></div></section>
+<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{A.crumb}</span></nav><span class="eyebrow">{A.eyebrow}</span><h1>{A.h1}</h1><Byline lang={lang} headline={A.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{A.lead}</p></div></div></section>
 <article class="prose pg">
-<div class="tldr"><h2>In short</h2><ul>{A.tldr.map(x=><li set:html={x}/>)}</ul></div>
-<nav class="toc" aria-label="Contents"><b>Contents</b><ol>{Object.entries(A.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>
+<div class="tldr"><h2>{UI.tldr}</h2><ul>{A.tldr.map(x=><li set:html={x}/>)}</ul></div>
+<nav class="toc" aria-label={UI.toc}><b>{UI.toc}</b><ol>{Object.entries(A.toc).map(([sid,l])=><li><a href={'#'+sid}>{l}</a></li>)}</ol></nav>
 {A.sections.map(s=><><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html}/></>)}
-<h2 id="faq">FAQ</h2>
+<h2 id="faq">{UI.faq}</h2>
 {A.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
-<p>Keep reading: {ALSO.map((v,i)=><><a href={v.path}>{v.crumb}</a>{ALSO.length-1>i?' · ':''}</>)} · <a href="/finder/">Racket quiz</a> · <a href="/padel-rackets/">Padel racket buying guide</a></p></article>
+<p>{UI.more}{ALSO.map((v,i)=><><a href={v.href}>{v.label}</a>{ALSO.length-1>i?' · ':''}</>)} · <a href={url('finder',lang)}>{UI.finder}</a> · <a href={url('guide',lang)}>{UI.guide}</a></p></article>
 </Base>
