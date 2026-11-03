@@ -6,6 +6,7 @@ fail(){ echo "ABORT: $1"; exit 1; }
 T0=$(date +%s); step(){ echo "[$(( $(date +%s)-T0 ))s] $*"; }
 build(){
  step translate; node scripts/translate-missing.mjs >$L/tm.log 2>&1; grep -q complete $L/tm.log || fail "translate-missing ($L/tm.log)"
+ step lint; npx stylelint "src/**/*.css" >$L/lint.log 2>&1 || fail "stylelint: raw values or hacks outside the design system ($L/lint.log)"
  step build; rm -rf dist && npm run build >$L/build.log 2>&1 || fail "build ($L/build.log)"
  # always restart the local server: astro preview caches the file list at start, a stale one serves false 404s
  pkill -f "astro preview --port ${QA_PORT:-4987}" || true; (nohup npx astro preview --port ${QA_PORT:-4987} --host 127.0.0.1 >$L/srv.log 2>&1 &)

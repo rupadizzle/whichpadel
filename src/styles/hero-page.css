@@ -1,5 +1,5 @@
 /* /hero — find the best deal. Scoped so the live home stays unchanged. */
-.hv .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hv .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .hv{color:var(--on-dark);padding:clamp(var(--s6),6vh,var(--s8)) 0 clamp(var(--s6),5vh,var(--s7));background:radial-gradient(880px 300px at 92% -20%,rgb(212 255 58 / .16),transparent 62%),linear-gradient(165deg,var(--navy) 0%,var(--navy-mid) 72%,var(--green) 100%)}
 .hv h1{max-width:18ch;margin:0;font-size:clamp(2.35rem,5vw,3.7rem);font-weight:800;line-height:.98;letter-spacing:-.04em;text-wrap:balance}
 .hv-lead{max-width:38ch;margin:var(--s4) 0 0;color:var(--on-dark-2);font-size:var(--fs-base);line-height:1.45}

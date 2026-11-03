@@ -25,7 +25,7 @@
 .gs-tx b{font-size:var(--fs-base);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gs-tx small{color:var(--mut);font-size:var(--fs-s)}
 .gs-empty{margin:var(--s2);color:var(--mut)}
-.gs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.gs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 @media (width < 900px){
 .gs{width:100%;max-width:none;height:100dvh;max-height:100dvh;margin:0;border-radius:0}
 .gs-list{max-height:none;flex:1}

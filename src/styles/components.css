@@ -81,10 +81,10 @@
 
 /* ---------- horizontal chip/tab scrollers: fade the cut edge so it reads as scrollable ---------- */
 @media (width < 900px){
- .kchips,.brand-switch{mask-image:linear-gradient(90deg,#000 calc(100% - var(--s6)),transparent)}
+ .kchips,.brand-switch{mask-image:linear-gradient(90deg,black calc(100% - var(--s6)),transparent)}
 }
 @media (width < 600px){
- .gchips{mask-image:linear-gradient(90deg,#000 calc(100% - var(--s6)),transparent)}
+ .gchips{mask-image:linear-gradient(90deg,black calc(100% - var(--s6)),transparent)}
 }
 .cmp-take-x,.hub-tray-x{--focus:var(--focus-dark)}
 
@@ -95,9 +95,14 @@ main.wrap>.stickycta{margin:0}
 
 /* ---------- data tables in guides: scroll sideways, never break words ---------- */
 .tw{max-width:100%;overflow-x:auto;margin:var(--s3) 0;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
-.tw table{width:100%;margin:0;font-size:var(--fs-m);font-variant-numeric:tabular-nums}
-.tw th,.tw td{padding:var(--s2) var(--s3);white-space:nowrap}
+.tw table{table-layout:auto;width:100%;margin:0;font-size:var(--fs-m);font-variant-numeric:tabular-nums}
+.tw th,.tw td{padding:var(--s2) var(--s3)}
 .tw thead th{font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--mut);background:var(--bg)}
 .tw tbody th,.tw td:first-child{position:sticky;left:0;background:var(--card)}
 .tw thead th:first-child{position:sticky;left:0;z-index:1}
-@media (width < 600px){.tw table{font-size:var(--fs-s)}}
+@media (width < 900px){.tw table{min-width:max-content;font-size:var(--fs-s)}.tw th,.tw td{white-space:nowrap}}
+/* stand-alone link pills are not a dense filter UI: full tap height everywhere */
+.gchips a,.brandlinks a{line-height:calc(var(--tap) - 2px)}
+
+/* home hero counts: one row at phone widths in every language (labels wrap per word) */
+@media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(5,min-content);column-gap:var(--s4)}.hero .stats span{display:block}}

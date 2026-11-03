@@ -39,7 +39,7 @@ html.bf-off .ubar-msg,html.bf-off .ubar-x{display:none}
 .acct-pop p{margin:0}
 .acct-h{font-weight:700;font-size:var(--fs-base)}
 .acct-p{color:var(--mut);font-size:var(--fs-m)}
-.acct-pop input[type=email]{width:100%}
+.acct-pop input[type="email"]{width:100%}
 .acct-pop .btn{width:100%}
 .acct-email{font-weight:600;overflow-wrap:anywhere}
 @media (width <= 1180px){#site-util{flex-direction:column;align-items:stretch}.nav #saved-link,.nav .acct-btn{width:100%;justify-content:flex-start}.nav .acct-pop{margin:0 0 var(--s2)}}
@@ -93,7 +93,7 @@ html.bf-off .ubar-msg,html.bf-off .ubar-x{display:none}
 .hero-ctas{display:flex;gap:var(--s3);margin-top:var(--s4);flex-wrap:wrap}
 .stats{display:flex;gap:var(--s5);margin-top:var(--s5);flex-wrap:wrap}.stats b{display:block;font-size:var(--fs-2xl);color:var(--on-dark)}.stats span{color:var(--on-dark-3);font-size:var(--fs-m)}
 .hero .stats a{display:block;min-height:44px;color:inherit;text-decoration:none}.hero .stats a span{text-decoration:underline;text-underline-offset:.2em}.hero .stats a:hover span{color:var(--on-dark)}.hero .stats a:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:var(--r-xs)}
-.hero-art{display:flex;justify-content:center;gap:var(--s2);--icon-face:var(--wash-1);--icon-line:#d4ff3a}
+.hero-art{display:flex;justify-content:center;gap:var(--s2);--icon-face:var(--wash-1);--icon-line:var(--lime)}
 .hero-art svg:nth-child(2){transform:translateY(-18px)}
 
 @media (width < 900px){.hero{padding:var(--s6) 0 var(--s7)}.hero .wrap{grid-template-columns:1fr}.hero-art{display:none}}
@@ -187,7 +187,7 @@ select,input{width:100%;max-width:100%;min-width:0}
 .bcard:hover{border-color:var(--green-2)}.bcard>span:not(.bmark){display:flex;flex-direction:column;min-width:0}
 .bcard .bmark{flex:0 0 72px;width:72px;height:28px}
 .bcard .bmark.on{background:var(--ink);-webkit-mask:var(--mark) center/contain no-repeat;mask:var(--mark) center/contain no-repeat;mask-mode:alpha}
-.bmeta{display:flex;flex-direction:column;gap:1px;line-height:1.35}
+.bmeta{display:flex;flex-direction:column;gap:var(--s0);line-height:1.35}
 .brandlinks{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}
 .faq h3{margin:var(--s4) 0 var(--s1)}.faq p{margin:0}
 .h3{font-size:var(--fs-l)}
@@ -207,6 +207,7 @@ select,input{min-height:44px}
 
 .rslot img{width:var(--w);height:var(--h)}
 /* US (strict country): no delivering USD shop -> hide the generic buy button, show a calm empty state */
+/* stylelint-disable-next-line declaration-no-important -- state utility */
 a.aff[data-nous]{display:none!important}
 .pxnous{margin:0;padding:var(--s4);border:1px dashed var(--line);border-radius:var(--r);color:var(--mut);text-align:center;min-height:44px}
 /* small standalone links (bylines): 44px hit height */

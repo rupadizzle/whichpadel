@@ -5,6 +5,7 @@
  --navy:#0b2a3c;        /* header, dark hero start, selected state */
  --navy-2:#071c28;      /* footer, utility bar, deepest surface */
  --navy-mid:#0d3b40;    /* hero gradient midpoint */
+ --navy-hover:#164056;  /* hover on navy controls */
  --green:#0f5b46;       /* primary button, strong accent text */
  --green-2:#13795c;     /* links, hover, active, "best" ring */
  --green-3:#58c27d;     /* score-bar gradient end */
@@ -51,7 +52,8 @@
  --fs-4xl:2rem;      /* 32 */
  --fs-h2:clamp(1.125rem,1.6vw,1.3rem);
  --title:clamp(1.35rem,2.2vw,1.65rem);           /* every h1 */
- --display:clamp(1.95rem,4.4vw,3.25rem);         /* home hero only */
+ --display:clamp(1.95rem,4.4vw,3.25rem);         /* landing heroes: home, finder */
+ --display-xl:clamp(2.75rem,5vw,4.5rem);         /* campaign poster (Black Friday) */
  --fw-body:400; --fw-ui:600; --fw-head:700; --fw-black:800;
  --lh-tight:1.15; --lh-ui:1.35; --lh-body:1.55;
  --track-label:.06em;
@@ -81,6 +83,10 @@
  --wrap:75rem;
  --hdr-h:62px;
  --bar:5.25rem;
+ --sticky-h:88px;     /* mobile price bar */
+ --tray-h:120px; --tray-h-go:168px; /* compare tray */
+ --fz-bar:80px;       /* finder result bar */
+ --acts-w:78px;       /* card action column */
  --bf:0px;
 
  /* legacy aliases (kept so older markup and inline JS keep working) */

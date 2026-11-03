@@ -198,25 +198,25 @@ const hub = (() => {
  </section>
  </>}
  {hub.sh && <>
+ <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
+ <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  <section class="hub-pre"><h2 class="h3">{hub.sh.T.guides}</h2>
   <p>{hub.sh.guideLinks.map(g => <a href={url('shoeList', lang, g.k)}>{g.label}</a>)}</p>
   <p><b>{hub.sh.T.byBrand}</b>{shoeBrands.map(b => { const t = shoeBrandTarget(b.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{b.name}</a>; })}</p>
-  <p class="hub-more">{hub.sh.list.map(s => <a href={url('shoe', lang, s.slug)}>{s.name}</a>)}</p>
+  <details class="linkset"><summary>{hub.sh.T.nav} <small>{hub.sh.list.length}</small></summary><p class="brandlinks">{hub.sh.list.map(s => <a href={url('shoe', lang, s.slug)}>{s.name}</a>)}</p></details>
  </section>
- <ul class="hub-grid" id="h-grid">{hub.sh.list.map((s, i) => <ShoeCard s={s} lang={lang} eager={i < 4} compare/>)}</ul>
- <p class="hub-empty" id="h-empty" hidden>{hub.sh.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
  {hub.ba && <>
  <ul class="hub-grid" id="h-grid">{hub.ba.list.map((b, i) => <RkCard lang={lang} kind="b" go={!pick(b, DEFAULT_REGION(lang)).none} href={url('ball', lang, b.slug)} img={ballImg(b)} alt={hub.ba.T.alt(b.name)} brand={b.brand} name={b.model} spec={hub.ba.spec(b)} save={b.slug} eager={i < 4} attrs={{ 'data-b': b.brand, 'data-sp': b.speed, 'data-tour': b.tour || '', 'data-eco': b.eco ? '1' : '0', 'data-n': b.inStock }}>{hub.ba.pr(b)}</RkCard>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.ba.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
  </>}
  {hub.bg && <>
- <section class="hub-pre"><h2 class="h3">{hub.bg.T.brand}</h2>
-  <p>{hub.bg.brandPick.map(b => { const hit = brandList.find(x => x.name === b.name); return hit ? <a href={url('brand', lang, hit.slug) + '#bags'}>{b.name}</a> : <a href={url('bags', lang)}>{b.name}</a>; })}</p>
-  <p class="hub-more">{hub.bg.list.map(b => <a href={url('bag', lang, b.slug)}>{b.name}</a>)}</p>
- </section>
  <ul class="hub-grid" id="h-grid">{hub.bg.list.map((b, i) => <BagCard b={b} lang={lang} eager={i < 4}/>)}</ul>
  <p class="hub-empty" id="h-empty" hidden>{hub.bg.T.empty} <button type="button" class="btn btn-sm btn-line" id="h-clear2">{hub.clear2}</button></p>
+ <section class="hub-pre"><h2 class="h3">{hub.bg.T.brand}</h2>
+  <p>{hub.bg.brandPick.map(b => { const hit = brandList.find(x => x.name === b.name); return hit ? <a href={url('brand', lang, hit.slug) + '#bags'}>{b.name}</a> : <a href={url('bags', lang)}>{b.name}</a>; })}</p>
+  <details class="linkset"><summary>{hub.bg.T.nav} <small>{hub.bg.list.length}</small></summary><p class="brandlinks">{hub.bg.list.map(b => <a href={url('bag', lang, b.slug)}>{b.name}</a>)}</p></details>
+ </section>
  </>}
 </section>
 </div>

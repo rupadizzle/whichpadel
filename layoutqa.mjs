@@ -25,7 +25,7 @@ function check(){
  // c) overflow of parent / page
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);
  for(const e of document.querySelectorAll('main *, header *, footer *')){ if(!vis(e)||!inflow(e)) continue; const p=e.parentElement; if(!p||!vis(p)) continue;
-  if(e.closest('.rpg,.kchips,.tscroll,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
+  if(e.closest('.rpg,.kchips,.tscroll,.tw,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
   const a=R(e),b=R(p); if(b.width<=1) continue; /* inside screen-reader-only box */ if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
  // d) text clipping
  for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue; if(e.getBoundingClientRect().width<=1) continue; /* screen-reader-only text */
