@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Byline from '../components/Byline.astro';
+import { D, SITE, url } from '../i18n/index.js';
+import { CLOTH_BRANDS, CLOTH_BRANDS_UI } from '../i18n/clothing-brands.js';
+const { lang } = Astro.props;
+const d = D(lang), u = d.ui;
+const T = CLOTH_BRANDS[lang];
+const UI = CLOTH_BRANDS_UI[lang];
+const U = SITE + url('clothingBrands', lang);
+const published = '2026-11-03';
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Article', name: T.h1, headline: T.h1, url: U, description: T.desc, inLanguage: d.locale, datePublished: published, dateModified: published },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) },
+      { '@type': 'ListItem', position: 2, name: T.crumb, item: U },
+    ]},
+    { '@type': 'FAQPage', mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+    { '@type': 'ItemList', name: T.h1, itemListElement: ['Bullpadel','Nox','Adidas','Joma','Head','Babolat','Kuikma','Pallacorda','Padelism','PSF Collective'].map((name, i) => ({ '@type': 'ListItem', position: i + 1, name })) },
+  ],
+};
+---
+<Base lang={d.locale} title={T.title + d.copy.titleSuffix} description={T.desc} jsonld={jsonld} ogType="article">
+<section class="phero" slot="hero"><div class="wrap">
+<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<span class="eyebrow">{T.eyebrow}</span>
+<h1>{T.h1}</h1>
+<Byline lang={lang} headline={T.h1} pageUrl={U} published={published} reviewed={published}/>
+<div class="seo"><p>{T.lead}</p></div>
+<span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+</div></section>
+<article class="prose pg">
+<div class="tldr"><h2>{UI.tldr}</h2><ul>{T.tldr.map(x => <li set:html={x}/>)}</ul></div>
+<nav class="toc" aria-label={UI.toc}><b>{UI.toc}</b><ol>{Object.entries(T.toc).map(([sid, l]) => <li><a href={'#' + sid}>{l}</a></li>)}</ol></nav>
+{T.sections.map(s => <><h2 id={s.id}>{s.h}</h2><Fragment set:html={s.html}/></>)}
+<h2 id="faq">{UI.faq}</h2>
+{T.faq.map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
+<p>{UI.more}{T.nextLinks.map((v, i) => <><a href={v.href}>{v.label}</a>{T.nextLinks.length - 1 > i ? ' · ' : ''}</>)} · <a href={url('guide', lang)}>{UI.guideLink}</a></p>
+</article>
+<style>
+.hero-disc{color:rgba(255,255,255,.75)}
+.hero-disc a{color:inherit}
+</style>
+</Base>
