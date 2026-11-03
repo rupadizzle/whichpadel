@@ -100,7 +100,7 @@ export const BAG = {
  },
  fr: {
   nav: 'Sacs', crumb: 'Sacs de padel',
-  title: n => `Meilleurs sacs de padel 2026 : comparez ${n} sacs et sacs à dos | WhichPadel`,
+  title: n => `Meilleurs sacs padel 2026 : ${n} sacs et sacs à dos | WhichPadel`,
   h1: n => `Sacs de padel : comparez ${n} sacs et sacs à dos`,
   desc: n => `Comparez ${n} sacs et sacs à dos de padel Bullpadel, Nox, Adidas et Head : capacité, compartiment thermique, poche chaussures et prix actuel.`,
   intro: 'Filtrez par type, marque, prix et compartiments. Les cartes montrent des modèles 2025–2027 confirmés, du prix actuel le plus bas au plus élevé.',

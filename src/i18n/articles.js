@@ -466,7 +466,7 @@ rules:{
  }; })(),
   es:(()=>{ const l=L('es'); return {
  crumb:"Reglas del pádel",
- title:"Reglas del pádel: cómo se juega, el saque y la puntuación",
+ title:"Reglas del pádel: juego, saque y puntuación",
  desc:"Reglas del pádel explicadas: la pista, el saque de abajo, paredes y reja, puntuación y táctica básica.",
  eyebrow:"Reglamento",
  h1:"Reglas del pádel: cómo se juega, el saque y la puntuación",
