@@ -72,7 +72,7 @@ export default {
    faqSoft:(b,s,n)=>[`Does ${b} make soft, arm-friendly rackets?`,`${s} of the ${n} ${b} rackets we list have a soft or medium-soft core, as published by the brand or shop.`],
    faqPrice:(b,x)=>[`How much do ${b} rackets cost?`,x.np>1?`Recorded prices for the ${x.np} priced ${b} rackets in our database run from ${x.pmin} to ${x.pmax}, with a median of ${x.pmed}. Prices change often: check the shop before you buy.`:x.np?`We have one recorded ${b} price: ${x.pmin}. Prices change often: check the shop.`:`We don’t have a recorded ${b} price yet. Use each racket’s shop link.`],
    faqH:b=>`${b} padel racket FAQ`, filter:'Filter by shape', all:'All', showing:n=>`Showing ${n} rackets`, years:'Model years', range:'In this range',
-   wideTitle:(b,r,s,n,g)=>{const bits=[]; if(r) bits.push(`${r} ${pl(r,'padel racket','padel rackets')}`); if(s) bits.push(`${s} ${pl(s,'shoe','shoes')}`); if(n) bits.push(`${n} ${pl(n,'ball tube','ball tubes')}`); if(g) bits.push(`${g} ${pl(g,'bag','bags')}`); return bits.length?`${b}: ${bits.length>1?bits.slice(0,-1).join(', ')+' and '+bits.at(-1):bits[0]}`:b;},
+   wideTitle:(b,r,s,n,g)=>`${b}: padel rackets, shoes and bags`,
    wideDesc:(b,r,s,n,g)=>{const extra=[]; if(s) extra.push(`${s} ${pl(s,'padel shoe','padel shoes')}`); if(n) extra.push(`${n} ${pl(n,'ball tube','ball tubes')}`); if(g) extra.push(`${g} padel ${pl(g,'bag','bags')}`); const list=extra.length>1?extra.slice(0,-1).join(', ')+' and '+extra.at(-1):extra[0]||''; if(!r) return `We list ${list} from ${b}. Specs and prices come from the brand or a shop listing.`; return `Every ${b} padel racket we list (${r})${extra.length?`, plus ${list}`:''}. Specs and prices come from the brand or a shop listing.`;},
    also:(s,n,g)=>{const bits=[]; if(s) bits.push(`${s} ${pl(s,'padel shoe','padel shoes')}`); if(n) bits.push(`${n} ${pl(n,'ball tube','ball tubes')}`); if(g) bits.push(`${g} padel ${pl(g,'bag','bags')}`); return bits.length?`We also list ${bits.join(' and ')}.`:'';},
   },
@@ -122,7 +122,7 @@ export default {
    note:'Player links come from official model names and the listings we source. We don’t publish player biographies or rankings.',
   },
   vs:{
-   title:(a,b)=>`${a} vs ${b}: specs compared`, desc:(a,b)=>`${a} vs ${b}: shape, weight, balance, core, price and calculated ratings side by side, with a quick verdict.`,
+   title:(a,b)=>`${a} vs ${b}`, desc:(a,b)=>`${a} vs ${b}: shape, weight, balance, core, price and calculated ratings side by side, with a quick verdict.`,
    intro:(x,t)=>{const s=[]; s.push(`The ${x.A} and the ${x.B} ${x.sameBrand?`are both ${x.brandA} rackets`:`come from ${x.brandA} and ${x.brandB}`}${x.shA&&x.shB?(x.shA===x.shB?`, and both have a ${t.shape[x.shA]} head`:`, with a ${t.shape[x.shA]} head on the ${x.a} and a ${t.shape[x.shB]} one on the ${x.b}`):''}.`);
     const p=[]; if(x.wA&&x.wB) p.push(`published weights are ${x.wA} and ${x.wB}`); if(x.balA&&x.balB) p.push(x.balA===x.balB?`both have a ${x.balA} balance`:`balance is ${x.balA} versus ${x.balB}`); if(x.cA&&x.cB) p.push(x.cA===x.cB?`both use a ${t.core[x.cA]} core`:`the core is ${t.core[x.cA]} on the ${x.a} and ${t.core[x.cB]} on the ${x.b}`);
     if(p.length) s.push(`On paper, ${p.join('; ')}.`);
@@ -132,7 +132,7 @@ export default {
    faqH:(a,b)=>`${a} vs ${b}: FAQ`,
   },
   tool:{
-   title:'Padel racket real weight: how heavy it feels when you swing', desc:n=>`Work out how head-heavy a padel racket feels from its published weight and balance. Compare 2–3 of ${n} rackets with an open formula.`, h1:'How heavy will it feel? Real-weight calculator',
+   title:'Padel racket real-weight calculator', desc:n=>`Work out how head-heavy a padel racket feels from its published weight and balance. Compare 2–3 of ${n} rackets with an open formula.`, h1:'How heavy will it feel? Real-weight calculator',
    lead:'The number on the box is static weight. What your arm feels is closer to swingweight: the same 360 g feels heavier if more of it sits in the head. Pick 2–3 rackets to see which will feel more or less head-heavy.',
    pickH:'Compare rackets', pick:n=>`Racket ${n}`, optional:' (optional)', choose:'Choose…', need2:'Pick at least 2 rackets.', balEst:'estimated balance', bal:'balance',
    same:(a,b)=>`<b>${a}</b> should feel about the same in the head as the ${b}.`, heavier:(a,p,b)=>`<b>${a}</b> should feel about ${p}% more head-heavy than the ${b}.`, lightest:a=>`<b>${a}</b> feels lightest of your picks, so it should be quickest at the net.`,

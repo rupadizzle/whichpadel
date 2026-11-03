@@ -14,13 +14,17 @@ async function mergeBody(env, svc, path, usPath){
 }
 
 export async function merged(env, svc, path, usPath, ctx){
- const cache=caches.default;
- const key=new Request(`https://whichpadel.com/__wp_merged/${svc}${path}?us=${usPath}`);
- let hit=await cache.match(key);
- if(hit) return hit;
- const out=await mergeBody(env, svc, path, usPath);
- const r=new Response(JSON.stringify(out),{headers:CACHE_HDR});
- const put=cache.put(key,r.clone());
- if(ctx&&ctx.waitUntil) ctx.waitUntil(put); else await put;
- return r;
+ try{
+  const cache=caches.default;
+  const key=new Request(`https://whichpadel.com/__wp_merged/${svc}${path}?us=${usPath}`);
+  let hit=await cache.match(key);
+  if(hit) return hit;
+  const out=await mergeBody(env, svc, path, usPath);
+  const r=new Response(JSON.stringify(out),{headers:CACHE_HDR});
+  const put=cache.put(key,r.clone());
+  if(ctx&&ctx.waitUntil) ctx.waitUntil(put); else await put;
+  return r;
+ }catch{
+  return new Response(JSON.stringify({updated:new Date().toISOString(),r:{}}),{status:200,headers:CACHE_HDR});
+ }
 }

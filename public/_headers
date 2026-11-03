@@ -5,3 +5,6 @@
   Cache-Control: public, max-age=604800
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+/deals-cat.json
+  Cache-Control: public, max-age=3600, s-maxage=86400
