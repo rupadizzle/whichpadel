@@ -227,8 +227,8 @@ function render(A, keep){const top=prod==='racket'?rank(A):rankKit(A); const out
  const d=top[0].d;
  const picks=steps().flatMap((s,i)=>{if(neutral(s)) return []; const t=choiceLabelFrom(s); const q=s.querySelector('legend').textContent.trim(); return [`<button type="button" class="fz-pick" data-edit="${i}" aria-label="${esc(q+': '+t)}">${esc(t)}</button>`];}).join('<span class="fz-dot" aria-hidden="true">·</span>');
  const vd=verdictOf(A,d); document.title=vd.h?vd.h+' | WhichPadel':BASE_TITLE;
- const head=vd.h?`<h1 class="fz-vd">${esc(vd.h)}</h1>${vd.sub?`<p class="fz-vdsub">${esc(vd.sub)}</p>`:''}`:`<p class="fz-eb">${esc(Z.best)}</p>`;
- out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.change)}</span>${picks}</div>`:''}<div class="fz-choices" id="fz-choices"></div>
+ const head=vd.h?`<p class="fz-eb">${esc(Z.recs)}</p><h1 class="fz-vd">${esc(vd.h)}</h1>${vd.sub?`<p class="fz-vdsub">${esc(vd.sub)}</p>`:''}`:`<p class="fz-eb">${esc(Z.recs)}</p>`;
+ out.innerHTML=`${head}${picks?`<div class="fz-picks"><span class="fz-change">${esc(Z.based)}</span>${picks}</div>`:''}<div class="fz-choices" id="fz-choices"></div>
  <div class="fz-acts">${U.cmp[prod]&&top.length===3?`<a class="btn" href="${U.cmp[prod]}?${prod==='shoes'?'s':'r'}=${top.map(x=>x.d.s).join(',')}">${esc(Z.cmp3)}</a>`:''}<button class="fz-link" type="button" id="fz-share">${esc(Z.shareB)}</button><button class="fz-link" type="button" data-again>${esc(Z.again)}</button></div>`;
  fzTop=top; fzA=A; if(!keep||fzOpen>=top.length) fzOpen=-1; paintPicks();
  bind();}
