@@ -101,6 +101,16 @@ fr:{
   if(x.tourN) f.push([`Quelle balle ${b} est utilisée en tournoi ?`,x.tourN===1?`${x.tourBalls[0]} est indiqué ainsi : ${x.tourLabel}.`:`${j(x.tourBalls,'et')} sont indiqués ainsi : ${x.tourLabel}.`]);
   if(x.np) f.push([`Combien coûtent les balles ${b} ?`,(x.np>1?`Les prix relevés pour les ${x.np} tubes ${b} vont de ${x.pmin} à ${x.pmax}`:`Nous avons un prix relevé pour le tube ${b} : ${x.pmin}`)+per(x,(a,c)=>`, de ${a} à ${c} par balle. Les prix changent souvent : vérifiez en boutique avant d’acheter.`,a=>`, ${a} par balle. Les prix changent souvent : vérifiez en boutique.`)]);
   return f;},
+  bagShowing:n=>`${n} sacs affichés`, bagFaqH:b=>`Questions fréquentes sur les sacs ${b}`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` de ${x.y0} à ${x.y1}`:` de ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'et')}.`:'';
+  return `Nous référençons ${x.n} ${x.n===1?'sac':'sacs'} de padel ${b}${years}.${types}`+price(x,(a,c)=>` Les prix relevés vont de ${a} à ${c}.`,a=>` Le prix relevé est de ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`Quels types de sacs ${b} y a-t-il ?`,`Les ${x.n} sacs ${b} que nous référençons se répartissent en ${j(x.types,'et')}.`]);
+  if(x.np) f.push([`Combien coûtent les sacs de padel ${b} ?`,x.np>1?`Les prix relevés pour les ${x.np} sacs ${b} avec un prix vont de ${x.pmin} à ${x.pmax}. Les prix changent souvent : vérifiez en boutique avant d’acheter.`:`Nous avons un prix relevé pour un sac ${b} : ${x.pmin}. Les prix changent souvent : vérifiez en boutique.`]);
+  return f;},
 },
 pt:{
  shoeShowing:n=>`A mostrar ${n} sapatilhas`, ballShowing:n=>`A mostrar ${n} tubos`,
@@ -126,6 +136,16 @@ pt:{
   f.push([`As bolas ${b} são rápidas ou médias?`,x.n===1?`A ${x.name} é uma bola ${x.fast?'rápida':'de velocidade média'}${x.per?`, em tubo de ${x.per}`:''}.`:x.fast&&x.med?`${x.fast} dos ${x.n} tubos são rápidos e ${x.med} de velocidade média.`:`Os ${x.n} tubos que temos são ${x.fast?'rápidos':'de velocidade média'}.`]);
   if(x.tourN) f.push([`Que bola ${b} se usa em torneios?`,x.tourN===1?`${x.tourBalls[0]} está indicado como: ${x.tourLabel}.`:`${j(x.tourBalls,'e')} estão indicados como: ${x.tourLabel}.`]);
   if(x.np) f.push([`Quanto custam as bolas ${b}?`,(x.np>1?`Os preços registados dos ${x.np} tubos ${b} vão de ${x.pmin} a ${x.pmax}`:`Temos um preço registado do tubo ${b}: ${x.pmin}`)+per(x,(a,c)=>`, de ${a} a ${c} por bola. Os preços mudam muitas vezes: confirme na loja antes de comprar.`,a=>`, ${a} por bola. Os preços mudam muitas vezes: confirme na loja.`)]);
+  return f;},
+  bagShowing:n=>`A mostrar ${n} sacos`, bagFaqH:b=>`Perguntas frequentes sobre sacos ${b}`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` de ${x.y0} a ${x.y1}`:` de ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'e')}.`:'';
+  return `Temos ${x.n} ${x.n===1?'saco':'sacos'} de padel ${b}${years}.${types}`+price(x,(a,c)=>` Os preços registados vão de ${a} a ${c}.`,a=>` O preço registado é de ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`Que tipos de sacos ${b} há?`,`Os ${x.n} sacos ${b} que temos dividem-se em ${j(x.types,'e')}.`]);
+  if(x.np) f.push([`Quanto custam os sacos de padel ${b}?`,x.np>1?`Os preços registados dos ${x.np} sacos ${b} com preço vão de ${x.pmin} a ${x.pmax}. Os preços mudam muitas vezes: confirme na loja antes de comprar.`:`Temos um preço registado de um saco ${b}: ${x.pmin}. Os preços mudam muitas vezes: confirme na loja.`]);
   return f;},
 },
 it:{
@@ -153,6 +173,16 @@ it:{
   if(x.tourN) f.push([`Quale pallina ${b} si usa nei tornei?`,x.tourN===1?`${x.tourBalls[0]} è indicato come: ${x.tourLabel}.`:`${j(x.tourBalls,'e')} sono indicati come: ${x.tourLabel}.`]);
   if(x.np) f.push([`Quanto costano le palline ${b}?`,(x.np>1?`I prezzi registrati per i ${x.np} tubi ${b} vanno da ${x.pmin} a ${x.pmax}`:`Abbiamo un prezzo registrato per il tubo ${b}: ${x.pmin}`)+per(x,(a,c)=>`, da ${a} a ${c} a pallina. I prezzi cambiano spesso: controlla in negozio prima di comprare.`,a=>`, ${a} a pallina. I prezzi cambiano spesso: controlla in negozio.`)]);
   return f;},
+  bagShowing:n=>`${n} borse mostrate`, bagFaqH:b=>`Domande frequenti sulle borse ${b}`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` dal ${x.y0} al ${x.y1}`:` del ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'e')}.`:'';
+  return `Abbiamo ${x.n} ${x.n===1?'borsa':'borse'} da padel ${b}${years}.${types}`+price(x,(a,c)=>` I prezzi registrati vanno da ${a} a ${c}.`,a=>` Il prezzo registrato è ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`Che tipi di borse ${b} ci sono?`,`Le ${x.n} borse ${b} che abbiamo si dividono in ${j(x.types,'e')}.`]);
+  if(x.np) f.push([`Quanto costano le borse da padel ${b}?`,x.np>1?`I prezzi registrati per le ${x.np} borse ${b} con un prezzo vanno da ${x.pmin} a ${x.pmax}. I prezzi cambiano spesso: controlla in negozio prima di comprare.`:`Abbiamo un prezzo registrato per una borsa ${b}: ${x.pmin}. I prezzi cambiano spesso: controlla in negozio.`]);
+  return f;},
 },
 de:{
  shoeShowing:n=>`${n} Schuhe angezeigt`, ballShowing:n=>`${n} Röhren angezeigt`,
@@ -178,6 +208,16 @@ de:{
   f.push([`Sind ${b}-Bälle schnell oder mittel?`,x.n===1?`${x.name} ist ein ${x.fast?'schneller Ball':'Ball mit mittlerer Geschwindigkeit'}${x.per?`, verkauft in einer Röhre zu ${x.per}`:''}.`:x.fast&&x.med?`${x.fast} der ${x.n} Röhren sind schnell und ${x.med} mittel.`:`Alle ${x.n} Röhren, die wir führen, sind ${x.fast?'schnell':'mittel'}.`]);
   if(x.tourN) f.push([`Welcher ${b}-Ball wird im Turnier genutzt?`,x.tourN===1?`${x.tourBalls[0]} ist angegeben als: ${x.tourLabel}.`:`${j(x.tourBalls,'und')} sind angegeben als: ${x.tourLabel}.`]);
   if(x.np) f.push([`Was kosten ${b}-Bälle?`,(x.np>1?`Die erfassten Preise für die ${x.np} ${b}-Röhren reichen von ${x.pmin} bis ${x.pmax}`:`Wir haben einen erfassten Preis für die ${b}-Röhre: ${x.pmin}`)+per(x,(a,c)=>`, ${a} bis ${c} pro Ball. Preise ändern sich oft: prüfe sie im Shop vor dem Kauf.`,a=>`, ${a} pro Ball. Preise ändern sich oft: prüfe ihn im Shop.`)]);
+  return f;},
+  bagShowing:n=>`${n} Taschen angezeigt`, bagFaqH:b=>`Häufige Fragen zu ${b}-Taschen`,
+ bagIntro:(b,x)=>{
+  const years=x.y0?(x.y1&&x.y1!==x.y0?` aus den Jahren ${x.y0} bis ${x.y1}`:` aus dem Jahr ${x.y0}`):'';
+  const types=x.types.length?` ${j(x.types,'und')}.`:'';
+  return `Wir führen ${x.n} ${b}-${x.n===1?'Padeltasche':'Padeltaschen'}${years}.${types}`+price(x,(a,c)=>` Die erfassten Preise reichen von ${a} bis ${c}.`,a=>` Der erfasste Preis liegt bei ${a}.`);
+ },
+ bagFaq:(b,x)=>{const f=[];
+  if(x.types.length>1) f.push([`Welche Arten von ${b}-Taschen gibt es?`,`Die ${x.n} ${b}-Taschen, die wir führen, teilen sich in ${j(x.types,'und')}.`]);
+  if(x.np) f.push([`Was kosten ${b}-Padeltaschen?`,x.np>1?`Die erfassten Preise für die ${x.np} ${b}-Taschen mit Preis reichen von ${x.pmin} bis ${x.pmax}. Preise ändern sich oft: prüfe sie im Shop vor dem Kauf.`:`Wir haben einen erfassten Preis für eine ${b}-Tasche: ${x.pmin}. Preise ändern sich oft: prüfe ihn im Shop.`]);
   return f;},
 },
 };
