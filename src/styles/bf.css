@@ -19,7 +19,7 @@
 .bf-count{display:flex;justify-content:center;gap:clamp(var(--s5),6vw,72px);margin:0}
 .bf-count span{display:flex;flex-direction:column;align-items:center;min-width:3.2rem}
 .bf-count b{color:var(--lime);font-size:clamp(2.4rem,4vw,3.6rem);font-weight:700;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
-.bf-count i{margin-top:var(--s2);color:var(--mut);font-style:normal;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--track-label);text-transform:uppercase}
+.bf-count i{margin-top:var(--s2);color:var(--on-dark-3);font-style:normal;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--track-label);text-transform:uppercase}
 .bf-copy .btn{order:4;align-self:flex-start;margin-top:var(--s5);padding-inline:var(--s5);font-weight:700}
 .bf-stage{position:relative;display:flex;align-items:flex-start;justify-content:center;margin-right:-24px;background:var(--card);min-height:640px;padding:var(--s6) var(--s5) 168px;color:var(--on-dark);text-decoration:none}
 .bf-stage img{width:auto;height:min(440px,52vh);max-width:100%;object-fit:contain}
@@ -32,7 +32,7 @@
 .bf-hero-px strong{color:var(--on-dark);font-size:var(--fs-xl);font-weight:800;letter-spacing:-.03em}
 .bf-hero-px s{color:var(--mut);font-size:var(--fs-base)}
 .bf-who{display:block;margin-top:var(--s1);color:var(--on-dark-2);font-size:var(--fs-s);line-height:1.35}
-.bf-stage:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
+.bf-stage:focus-visible{outline:3px solid var(--focus);outline-offset:-2px}
 @media (prefers-reduced-motion:no-preference){
   .bf-stage img{transition:transform .45s ease}
   .bf-stage:hover img{transform:translateY(-6px)}
@@ -55,7 +55,7 @@ body:has(.bf-hero) main.wrap > *{width:min(40rem,100%)}
 .bf-row:last-child{border-bottom:1px solid var(--line)}
 .bf-row a{display:grid;grid-template-columns:96px minmax(0,1.3fr) auto minmax(9.5rem,auto);gap:var(--s2) var(--s5);align-items:center;margin:0 -8px;padding:var(--s3) var(--s2);border-radius:var(--r);color:inherit;text-decoration:none;min-height:44px}
 .bf-row a:hover{background:var(--card)}
-.bf-row a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.bf-row a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .bf-row img{width:96px;height:116px;object-fit:contain}
 .bf-id .bf-brand{display:block;color:var(--mut);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--track-label);text-transform:uppercase}
 .bf-id .bf-name{display:block;margin-top:var(--s0);font-size:var(--fs-l);font-weight:700;letter-spacing:-.02em;line-height:1.25}

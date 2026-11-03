@@ -6,7 +6,7 @@
 .h2-doors{display:flex;align-items:flex-end;justify-content:flex-start;gap:clamp(var(--s7),7vw,6.5rem);list-style:none;margin:var(--s7) 0 0;padding:0}
 .h2-doors>li{min-width:0}
 .h2-door{display:flex;flex-direction:column;align-items:flex-start;color:inherit;text-decoration:none}
-.h2-door:focus-visible,.h2-q button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.h2-door:focus-visible,.h2-q button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .h2-pic{display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .h2-pic img{filter:url(#h2knock);flex:none;max-width:none}
 .h2-pic-rk{width:210px;height:250px}
@@ -42,7 +42,7 @@
 .h2-row:last-child{border-bottom:1px solid var(--line)}
 .h2-cat{color:var(--ink);font-size:var(--fs-xl);font-weight:700;letter-spacing:-.02em;text-decoration:none}
 .h2-cat:hover{color:var(--green-2)}
-.h2-cat:focus-visible,.h2-rk:focus-visible,.h2-all:focus-visible,.h2-tube:focus-visible,.h2-else a:focus-visible{outline:2px solid var(--navy);outline-offset:3px;border-radius:var(--r-xs)}
+.h2-cat:focus-visible,.h2-rk:focus-visible,.h2-all:focus-visible,.h2-tube:focus-visible,.h2-else a:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:var(--r-xs)}
 .h2-d{margin:var(--s1) 0 0;color:var(--mut);font-size:var(--fs-base);max-width:42ch}
 .h2-rk{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:var(--s3);align-items:center;text-decoration:none;color:var(--ink);min-height:44px;padding:var(--s1);margin:-.25rem;border-radius:var(--r)}
 .h2-rk:hover,.h2-tube:hover{background:var(--card)}

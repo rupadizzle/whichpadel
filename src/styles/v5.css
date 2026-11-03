@@ -123,3 +123,6 @@ body:has(#cmpbar:not([hidden])){padding-bottom:var(--bar)}
 .wrap{max-width:75rem;padding-inline:var(--s5)}
 
 @media (width < 600px){.wrap{padding-inline:var(--s4)}.buyrow{padding-inline:var(--s4)}}
+/* compare header swap/remove: 28px glyph buttons, 44px wide hit area */
+.cmp-cards .hact .mini{position:relative}
+.cmp-cards .hact .mini::after{content:"";position:absolute;inset:calc(-1 * var(--s1)) calc(50% - var(--tap) / 2)}

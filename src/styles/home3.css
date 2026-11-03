@@ -2,7 +2,7 @@
 .h3-hero h1{font-size:clamp(2.4rem,4.4vw,3.4rem);line-height:.98;letter-spacing:-.04em;max-width:11ch}
 .h3-cta{display:inline-flex;align-items:center;gap:var(--s2);margin-top:var(--s5);background:var(--lime);color:var(--navy);font-weight:800;font-size:var(--fs-base);text-decoration:none;min-height:56px;padding:0 var(--s5);border-radius:var(--r)}
 .h3-cta:hover{background:var(--lime-2);color:var(--navy)}
-.h3-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.h3-cta:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .h3-hero .stats{margin-top:var(--s5)}
 @media (width < 600px){
  .h3-hero .stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4) var(--s5)}
@@ -16,7 +16,7 @@ main:has(> .h3-sec){max-width:none;padding:0;background:var(--card)}
 .h3-find p{margin:var(--s2) 0 0;color:var(--navy);font-size:var(--fs-base);max-width:36ch}
 .h3-find a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 var(--s4);border-radius:var(--r);background:var(--navy);color:var(--lime);font-weight:800;text-decoration:none}
 .h3-find a:hover{color:var(--on-dark)}
-.h3-find a:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
+.h3-find a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .h3-green{background:var(--green);color:var(--on-dark)}
 .h3-green h2,.h3-green .h3-cat,.h3-green .h3-meta b,.h3-green .h3-all{color:var(--on-dark)}
 .h3-green .h3-head p,.h3-green .h3-d,.h3-green .h3-meta small{color:var(--on-dark-2)}
@@ -78,7 +78,7 @@ main:has(> .h3-sec){max-width:none;padding:0;background:var(--card)}
 .h3-else{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s5)}
 .h3-else a{color:var(--ink);font-weight:600;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .h3-else a:hover{color:var(--green-2)}
-.h3-door:focus-visible,.h3-cat:focus-visible,.h3-rk:focus-visible,.h3-all:focus-visible,.h3-brand:focus-visible,.h3-tube:focus-visible,.h3-else a:focus-visible{outline:2px solid var(--navy);outline-offset:3px;border-radius:var(--r-xs)}
+.h3-door:focus-visible,.h3-cat:focus-visible,.h3-rk:focus-visible,.h3-all:focus-visible,.h3-brand:focus-visible,.h3-tube:focus-visible,.h3-else a:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:var(--r-xs)}
 
 @media (width < 900px){
  .h3-sec{padding-block:var(--s6)}

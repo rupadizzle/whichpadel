@@ -2,7 +2,6 @@
 /* footer: best lists in 2 compact columns */
 @media (width < 900px){
  .ftr .cols ul{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s4)}
- .ftr li a{min-height:44px;line-height:1.3}
 }
 /* compare buy row: single-line labels, equal buttons */
 .buyrow .btn{white-space:nowrap;font-size:var(--fs-m);min-width:0}

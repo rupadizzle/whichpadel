@@ -78,7 +78,7 @@ body{overflow-x:hidden}
 .quizcta{display:flex;align-items:center;gap:var(--s3);background:var(--lime);color:var(--navy);border-radius:var(--r);padding:var(--s3) var(--s4);text-decoration:none;font-weight:800;font-size:var(--fs-base);margin:var(--s4) 0 0;max-width:560px;box-shadow:var(--sh-pop);min-height:56px}
 .quizcta small{display:block;font-weight:500;font-size:var(--fs-s)}.quizcta .arr{margin-left:auto;font-size:var(--fs-2xl)}
 
-@media (width < 900px){.hero{padding:var(--s5) 0 var(--s6)}.hero h1{font-size:var(--fs-3xl)}.hero p.lead{font-size:var(--fs-base);margin-bottom:var(--s3)}.stats{margin-top:var(--s4);gap:var(--s5)}.stats b{font-size:var(--fs-xl)}.hero-ctas .btn-accent{display:none}}
+@media (width < 900px){.hero{padding:var(--s5) 0 var(--s6)}.hero h1{font-size:var(--fs-3xl)}.hero p.lead{font-size:var(--fs-base);margin-bottom:var(--s3)}.stats{margin-top:var(--s4);gap:var(--s3) var(--s4)}.stats b{font-size:var(--fs-xl)}.hero-ctas .btn-accent{display:none}}
 @media (width < 361px){.hero p.lead{min-height:4.65em}.quizcta{min-height:119px}}
 /* stepped quiz */
 .qsteps{display:grid;gap:var(--s4)}
