@@ -11,7 +11,7 @@ const jsonld={'@context':'https://schema.org','@type':'ItemList','name':C.h1(b.n
 <div class="best-main">
 <div class="hub cat rk-rows rk-best"><ul class="hub-grid">{b.models.map((r,i)=><RkCard r={r} lang={lang} eager={i<2} keys={['power','control','forgiveness']}/>)}</ul></div>
 {b.pairs.length>0&&<section class="panel"><h2>{C.changed(b.prev,b.year)}</h2><p class="muted small">{C.note}</p>
-{b.pairs.map(({o,n})=><div class="y-pair"><h3>{sh(o)} → {sh(n)}</h3><div class="tscroll"><table class="spec"><tbody><tr><th></th><th>{b.prev}</th><th>{b.year}</th></tr>{rowsL(o,n).map(x=><tr><th>{x.k}</th><td>{x.same?x.a:<b>{x.a}</b>}</td><td>{x.same?x.b:<b>{x.b}</b>}</td></tr>)}</tbody></table></div><p class="small" style="margin:8px 0 0"><a href={url('racket',lang,o.slug)}>{sh(o)}</a> · <a href={url('racket',lang,n.slug)}>{sh(n)}</a> · <a href={url('rackets',lang)+`?r=${o.slug},${n.slug}`}>{C.side}</a></p></div>)}</section>}
+{b.pairs.map(({o,n})=><div class="y-pair"><h3>{sh(o)} → {sh(n)}</h3><div class="tscroll"><table class="spec"><tbody><tr><th></th><th>{b.prev}</th><th>{b.year}</th></tr>{rowsL(o,n).map(x=><tr><th>{x.k}</th><td>{x.same?x.a:<b>{x.a}</b>}</td><td>{x.same?x.b:<b>{x.b}</b>}</td></tr>)}</tbody></table></div><p class="small" style="margin:var(--s2) 0 0"><a href={url('racket',lang,o.slug)}>{sh(o)}</a> · <a href={url('racket',lang,n.slug)}>{sh(n)}</a> · <a href={url('rackets',lang)+`?r=${o.slug},${n.slug}`}>{C.side}</a></p></div>)}</section>}
 </div>
 <aside class="best-side">
 <FinderCard fc={FCARD[lang]} href={url('finder', lang)}/>

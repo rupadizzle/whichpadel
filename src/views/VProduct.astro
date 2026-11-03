@@ -312,7 +312,7 @@ const view = (() => {
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
 {view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 {kind !== 'racket' && view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
-{view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
+{view.sizeNote && <p class="muted small" id="pxsize" style="margin:var(--s2) 0 0">{view.sizeNote}</p>}
 </aside>
 {kind === 'racket' && <aside class="pxwatch"><h2 class="h3">{u.px.cmp.alertDrop}</h2><p class="muted">{u.alertP('x')}</p><button type="button" class="btn btn-line pxalert-cta" data-slug={r.slug} data-kind="r" data-h={u.alertH('{n}')} data-off={u.alertBtn} data-on={u.alerted}><svg class="bell" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8.5a6 6 0 0 1 12 0c0 4.5 1.5 6 1.5 8.5h-15c0-2.5 1.5-4 1.5-8.5z"/><path d="M10 18.5a2 2 0 0 0 4 0"/></svg><span class="pxalert-lab">{u.alertBtn}</span></button></aside>}
 </div>
@@ -329,11 +329,11 @@ const view = (() => {
 <div class="scores">{Object.entries(view.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
 <p class="muted small">{u.ratingsNote}</p></section>}
 <details class="panel rpspec" id="rpspec" open><summary><h2>{view.specH}</h2></summary><div class="tscroll"><table class="spec"><tbody>{view.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{view.specPrice && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}{view.usRow && <tr data-usrow hidden><th>{view.usRow.label}</th><td>{view.usRow.value}</td></tr>}</tbody></table></div>
-{view.missing && <p class="muted small" style="margin-top:12px">{view.missing}</p>}</details>
+{view.missing && <p class="muted small" style="margin-top:var(--s3)">{view.missing}</p>}</details>
 {view.similar.length > 0 && <section class="panel"><h2>{view.similarH}</h2><div class="rpsim">{view.similar.map(item => <a href={item.href}><span class="rpsi">{item.img ? <img src={item.img} alt="" width="72" height="90" loading="lazy" decoding="async"/> : item.shape ? <RacketIcon shape={item.shape} size={40}/> : null}</span><span><b>{item.title}</b><small>{item.lead}{item.lead && item.item ? ' · ' : ''}{item.item && <Price r={item.item} lang={lang}/>}</small></span></a>)}</div>
 {view.similarCmp && <a class="btn btn-sm rpcmp" href={view.similarCmp.href}>{view.similarCmp.label} →</a>}</section>}
 {view.h2h.length > 0 && <section class="panel vs"><h2>{view.h2hH}</h2>{view.h2h.map(item => <a href={item.href}><span>{item.label}</span><span>→</span></a>)}</section>}
-{view.more.length > 0 && <section class="panel vs"><h2>{view.moreH}</h2>{view.more.map(item => <a href={item.href}><span>{item.name}</span><span>→</span></a>)}{(view.allHref || view.yearMore) && <p style="margin:12px 0 0">{view.allHref && <a href={view.allHref}>{view.allLabel}</a>}{view.yearMore && <>{view.allHref && ' · '}<a href={view.yearMore.href}>{view.yearMore.label}</a></>}</p>}</section>}
+{view.more.length > 0 && <section class="panel vs"><h2>{view.moreH}</h2>{view.more.map(item => <a href={item.href}><span>{item.name}</span><span>→</span></a>)}{(view.allHref || view.yearMore) && <p style="margin:var(--s3) 0 0">{view.allHref && <a href={view.allHref}>{view.allLabel}</a>}{view.yearMore && <>{view.allHref && ' · '}<a href={view.yearMore.href}>{view.yearMore.label}</a></>}</p>}</section>}
 {view.finder && <section class="panel fcard"><div><h2 class="h3">{view.finder.h}</h2><p class="muted">{view.finder.p}</p></div><a class="btn" href={view.finder.href}>{view.finder.cta} →</a></section>}
 </div>
 </div>

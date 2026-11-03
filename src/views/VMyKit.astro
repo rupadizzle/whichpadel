@@ -107,7 +107,7 @@ async function render(){const kept=read().filter(x=>x.t!=='Shirt'); if(kept.leng
    if(e&&e.p>0){const v=WPDeal.verdict(e); hint=`${F(e.p,e.c)} · ${esc(e.n||e.d)}`; hint+=v?' · '+esc(v.t):e.drop>=5?` · −${e.drop}%`:'';}
    else if(x.t==='Bag'){const px=(byKey.get(x.k)||{}).px; if(px) hint=`${F(px[0],px[1])} · ${esc(px[2])}`;}}
   const go=x.u?`<a class="btn btn-line btn-sm" href="${esc(x.u)}">→</a>`:'';
-  return `<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" style="object-fit:contain">`:''}<span style="flex:1"><small class="muted">${esc(x.kind||x.t)}</small><br/><b>${x.u?`<a href="${esc(x.u)}">${esc(x.n)}</a>`:esc(x.n)}</b><small style="display:block">${hint}</small></span>${go} <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}">✕</button></li>`;}));
+  return `<li style="display:flex;gap:var(--s3);align-items:center;padding:var(--s2) 0;border-top:1px solid var(--line)">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" style="object-fit:contain">`:''}<span style="flex:1"><small class="muted">${esc(x.kind||x.t)}</small><br/><b>${x.u?`<a href="${esc(x.u)}">${esc(x.n)}</a>`:esc(x.n)}</b><small style="display:block">${hint}</small></span>${go} <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}">✕</button></li>`;}));
  UL.innerHTML=rows.join(''); UL.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{write(read().filter(x=>x.k!==b.dataset.rm)); render();});}
 addEventListener('resize',placeHits);
 render();

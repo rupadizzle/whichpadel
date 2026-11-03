@@ -1,0 +1,87 @@
+/* WhichPadel design tokens. The only place raw design values live.
+   Every other stylesheet uses var(--…). See docs/DESIGN-SYSTEM.md. */
+:root{
+ /* colour: brand */
+ --navy:#0b2a3c;        /* header, dark hero start, selected state */
+ --navy-2:#071c28;      /* footer, utility bar, deepest surface */
+ --navy-mid:#0d3b40;    /* hero gradient midpoint */
+ --green:#0f5b46;       /* primary button, strong accent text */
+ --green-2:#13795c;     /* links, hover, active, "best" ring */
+ --green-3:#58c27d;     /* score-bar gradient end */
+ --lime:#d4ff3a;        /* accent: on dark surfaces or as a filled button only */
+ --lime-2:#b8e620;      /* lime hover */
+ --lime-ink:#4b7a00;    /* lime-family text that passes on white */
+ --lime-tint:#e9fbd0;   /* winning value background */
+ /* colour: neutrals */
+ --ink:#0f1c24;         /* body text */
+ --mut:#4f5f69;         /* secondary text (6.2:1 on --bg) */
+ --icon:#6b7a84;        /* inactive icons (4.4:1 on white) */
+ --line:#e1e7ec;        /* hairlines, card borders, bar tracks */
+ --line-2:#c9d4da;      /* strong borders: inputs, dashed slots, handles */
+ --bg:#f5f7f8;          /* page */
+ --card:#fff;           /* cards, panels, fields */
+ --tint:#eef4f1;        /* green-tinted surface: image wells, chips, callouts, best rows */
+ /* colour: on dark */
+ --on-dark:#fff;
+ --on-dark-2:#c9d8df;   /* body copy on dark */
+ --on-dark-3:#9fb6c0;   /* meta on dark (navy only) */
+ --wash-1:rgb(255 255 255 / .08);  /* hover, subtle fill on dark */
+ --wash-2:rgb(255 255 255 / .16);  /* hairline / pill fill on dark */
+ --wash-3:rgb(255 255 255 / .25);  /* outline on dark */
+ --scrim:rgb(7 28 40 / .55);       /* dialog / sheet backdrop */
+ /* colour: state */
+ --ok:#1a9e6a;
+ --danger:#c0392b;
+ --focus:#1d6fd8;
+ /* gradients */
+ --grad-hero:linear-gradient(160deg,var(--navy),var(--navy-mid) 60%,var(--green));
+ --grad-well:linear-gradient(180deg,var(--tint),var(--card));
+
+ /* type */
+ --font:'Inter Variable',Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+ --fs-xs:.75rem;     /* 12 legal, uppercase labels */
+ --fs-s:.8125rem;    /* 13 meta, bylines, chips */
+ --fs-m:.875rem;     /* 14 secondary UI, tables, small buttons */
+ --fs-base:1rem;     /* 16 body, buttons, fields */
+ --fs-l:1.125rem;    /* 18 lead, h3, prices */
+ --fs-xl:1.25rem;    /* 20 */
+ --fs-2xl:1.5rem;    /* 24 */
+ --fs-3xl:1.75rem;   /* 28 big price */
+ --fs-4xl:2rem;      /* 32 */
+ --fs-h2:clamp(1.125rem,1.6vw,1.3rem);
+ --title:clamp(1.35rem,2.2vw,1.65rem);           /* every h1 */
+ --display:clamp(1.95rem,4.4vw,3.25rem);         /* home hero only */
+ --fw-body:400; --fw-ui:600; --fw-head:700; --fw-black:800;
+ --lh-tight:1.15; --lh-ui:1.35; --lh-body:1.55;
+ --track-label:.06em;
+
+ /* space: 4px scale */
+ --s0:2px; --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+ --gap:var(--s5);
+ --tap:44px;          /* minimum hit area */
+ --ctl:48px;          /* default control height */
+
+ /* shape */
+ --r-xs:4px; --r-s:8px; --r:12px; --r-l:16px; --r-pill:999px;
+
+ /* elevation: flat by default */
+ --sh:none;
+ --sh-1:0 2px 8px rgb(15 28 36 / .12);
+ --sh-pop:0 12px 40px rgb(7 28 40 / .18);
+ --sh-bar:0 -4px 16px rgb(15 28 36 / .08);
+ --ring:inset 0 0 0 2px var(--green-2);
+
+ /* motion */
+ --t-fast:.15s ease; --t:.25s ease-out;
+
+ /* layout */
+ --wrap:75rem;
+ --hdr-h:62px;
+ --bar:5.25rem;
+ --bf:0px;
+
+ /* legacy aliases (kept so older markup and inline JS keep working) */
+ --green2:var(--green-2); --lime2:var(--lime-2); --muted:var(--mut); --r-card:var(--r);
+ --sp-1:var(--s2); --sp-2:var(--s4); --sp-3:var(--s5); --sp-4:var(--s6); --sp-5:var(--s7);
+}
+@media(width >= 900px){:root{--gap:var(--s6)}}
