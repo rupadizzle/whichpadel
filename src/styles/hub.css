@@ -421,3 +421,11 @@ main.wrap:has(>.brand-switch),main.wrap:has(>section.brand-cat){padding-top:var(
  .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card>.rk-x{width:18px}
  .cat:not(.rk-rows) .hub-grid:not(.rk-strip):not(.keep-tiles) .rk.rk-card:has(.rk-x) .rk-acts{margin-right:26px}
 }
+
+.rk-skel{min-height:104px;background:#fff;border:1px solid var(--line);border-radius:12px;pointer-events:none}
+.rk-skel::before{content:"";display:block;width:72px;height:88px;margin:8px;border-radius:8px;background:#f3f6f5}
+@media(min-width:861px){.rk-skel{min-height:220px}.rk-skel::before{width:auto;height:auto;aspect-ratio:1;margin:8px}}
+#d-cut .hub-grid:has([data-skel]){min-height:calc(8 * 104px)}
+
+.d-board{min-height:2000px}
+.d-board.is-ready{min-height:0}

@@ -1,5 +1,23 @@
 {
   "version": 1,
   "include": ["/api/*"],
-  "exclude": []
+  "exclude": [
+    "/_astro/*",
+    "/*.webp",
+    "/*.js",
+    "/*.css",
+    "/*.json",
+    "/rackets/*",
+    "/brands/*",
+    "/shoes/*",
+    "/bags/*",
+    "/balls/*",
+    "/compare/*",
+    "/best/*",
+    "/guides/*",
+    "/deals",
+    "/deals/",
+    "/finder",
+    "/finder/"
+  ]
 }
