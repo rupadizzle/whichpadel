@@ -1,0 +1,62 @@
+export const CLOTH_BRANDS_UI = {
+  en: { tldr: 'In short', toc: 'Contents', faq: 'FAQ', more: 'Keep reading: ', guideLink: 'Padel racket buying guide' },
+};
+
+export const CLOTH_BRANDS = {
+en: {
+  crumb: 'Padel clothing brands',
+  title: 'Best padel clothing brands UK (2026)',
+  desc: 'Bullpadel, Nox, Adidas, Head, Joma, Kuikma and UK labels compared for padel kit — who fits performance, value, budget and cold-club layers.',
+  eyebrow: 'Brand guide',
+  h1: 'Best padel clothing brands in the UK',
+  lead: 'You do not need padel-branded clothes to play. For match kit, Bullpadel and Nox lead on padel-specific cuts; Adidas and Joma cover value; Decathlon’s Kuikma is the budget entry; a few UK labels cover lifestyle and warm-ups. Pick by fabric, fit and ball pockets, then shop a retailer that stocks your size.',
+  tldr: [
+    '<b>Best for performance styling:</b> Bullpadel — tour-led cuts and bold colourways.',
+    '<b>Best technical all-round:</b> Nox — breathable match kit with strong women’s options.',
+    '<b>Best value and availability:</b> Adidas and Joma — widely stocked, sensible prices.',
+    '<b>Best budget entry:</b> Kuikma at Decathlon — purpose-made kit without a premium badge.',
+    '<b>Best lifestyle / warm-ups:</b> UK labels such as Pallacorda, Padelism and PSF Collective.',
+  ],
+  toc: {
+    how: 'How we compared brands',
+    bullpadel: 'Bullpadel',
+    nox: 'Nox',
+    adidas: 'Adidas',
+    joma: 'Joma',
+    head: 'Head and Babolat',
+    kuikma: 'Kuikma (Decathlon)',
+    uk: 'UK lifestyle labels',
+    gender: 'Which brand for men vs women',
+    overlap: 'Rackets, shoes and bags overlap',
+    faq: 'FAQ',
+  },
+  sections: [
+    { id: 'how', h: 'How we compared brands', html: `<p>This page compares apparel brands you will see in UK padel shops, not a scored table of garments. We weighed padel-specific cuts (ball pockets, skirts, dresses), UK availability, men’s and women’s breadth, and whether each line sits at performance, value or budget. We do not invent prices or “best seller” ranks.</p><p>WhichPadel lists rackets, shoes, bags and balls with live offers. Clothing is editorial only — see the <a href="/padel-clothing/">padel clothing</a> hub for what to wear, then use the retailer links there to buy.</p>` },
+    { id: 'bullpadel', h: 'Bullpadel — performance / pro styling', html: `<p>Bullpadel is the default for players who want kit that looks and moves like the tour: technical fabrics, sharp colourways and ranges that usually include shirts, shorts, skirts and team-style tops. UK specialists stock it beside the brand’s rackets, so matching a bag or frame is easy.</p><p>It suits club and league players who want padel-specific cuts rather than generic gym wear. The limitation is price — you pay for the badge, and popular colourways sell through. Judge the hang in your size; the logo does not change how fabric breathes. See the <a href="/brands/bullpadel/">Bullpadel</a> hub for rackets we already compare.</p>` },
+    { id: 'nox', h: 'Nox — technical all-round', html: `<p>Nox sits next to Bullpadel as a padel-first apparel brand: breathable tops, modern fits and a women’s range that usually includes skirts and dresses as well as shorts. It is a strong pick if you want technical kit without chasing every pro colour drop, and UK shops often carry Nox clothing alongside AT10 and other racket lines.</p><p>It suits all-round club players and anyone who prefers a cleaner look than the loudest tour kits. The limitation is patchy size runs online — check returns before you order a dress or first skort. For rackets and shoes under the same name, start at the <a href="/brands/nox/">Nox</a> brand page.</p>` },
+    { id: 'adidas', h: 'Adidas — value and availability', html: `<p>Adidas has pushed padel-specific apparel hard in recent seasons, and the advantage in the UK is availability: multi-sport chains and padel specialists both stock shirts, shorts and some women’s pieces, often at keener prices than pure padel brands. Manufacturing scale helps if you want competent kit without a boutique markup.</p><p>It suits players who already wear Adidas shoes or want a familiar fit. The limitation is that some lines blur into tennis or training wear — check for a ball pocket and a padel-oriented cut if that matters to you. Racket and shoe overlap lives on our <a href="/brands/adidas/">Adidas</a> hub.</p>` },
+    { id: 'joma', h: 'Joma — dependable value', html: `<p>Joma is padel’s quietly practical option: comfortable shirts and shorts, sensible fabrics and prices that usually undercut tour-led brands. UK availability is solid through specialist shops, and the brand also makes shoes many club players already know.</p><p>It suits beginners and regulars who want kit that works without fashion drama. The limitation is thinner “hero” collections — you may find fewer statement dresses or limited colour drops than at Bullpadel or Nox. See <a href="/brands/joma/">Joma</a> for the wider gear range we list.</p>` },
+    { id: 'head', h: 'Head and Babolat — racket brands with apparel', html: `<p>Head and Babolat are racket houses first; their clothing lines exist so clubs and coaches can kit a team in one brand, and so players who like a Head or Babolat frame can buy a matching shirt. Expect shirts, shorts and some skirts rather than the deepest padel-only fashion range.</p><p>They suit players already invested in those ecosystems. The limitation is breadth: apparel depth rarely matches Bullpadel or Nox, and stock can be racket-led in UK shops. Use the <a href="/brands/head/">Head</a> and <a href="/brands/babolat/">Babolat</a> hubs for frames and related kit; treat clothing as optional coordination, not the reason to pick the brand.</p>` },
+    { id: 'kuikma', h: 'Kuikma (Decathlon) — budget entry', html: `<p>Kuikma is Decathlon’s in-house padel brand and the usual UK route into purpose-made padel clothing without a premium badge. Tops and bottoms are built for sport, often with the practical details beginners need, at entry-level prices you can replace without flinching.</p><p>It suits first kits, practice gear and anyone stocking a spare shirt for back-to-back matches. The limitation is fashion range and longevity of colourways — expect functional rather than tour styling. Decathlon UK is also where many players buy their first Kuikma racket; our <a href="/brands/kuikma/">Kuikma</a> hub covers frames we list.</p>` },
+    { id: 'uk', h: 'UK lifestyle labels', html: `<p>A small set of British labels fills the gap between performance kit and clubhouse wear. <b>Pallacorda</b> focuses on clean, court-ready tees, shorts and light layers. <b>Padelism</b> (designed in London) is known for heavyweight hoodies and warm-up pieces. <b>PSF Collective</b> leans lifestyle and après-padel, with a sustainability angle and wider sizing than many tour lines.</p><p>They suit warm-ups and travel layers, not as a substitute for breathable match fabric on a hot court. Check each label’s size guide — lifestyle fits differ from competition cuts.</p>` },
+    { id: 'gender', h: 'Which brand for men vs women', html: `<p>Men’s padel clothing is mostly shirts, shorts and socks across every brand above. Women’s ranges diverge: Bullpadel, Nox and Adidas are the safest bets if you want skirts, skorts or dresses with ball pockets in UK stock. Joma and Kuikma cover women’s shorts and tops well; dress depth varies by season. Head and Babolat women’s apparel is thinner than their racket catalogues.</p><p>UK lifestyle labels often cut both men’s and women’s tees and layers, but padel dresses remain concentrated in the specialist performance brands. We do not publish size charts here — use the retailer’s guide, and prefer shops with easy returns for first orders. More on cuts and pockets sits on the <a href="/padel-clothing/">what to wear</a> hub.</p>` },
+    { id: 'overlap', h: 'Where these brands overlap our racket and shoe ranges', html: `<p>If you already play a Bullpadel, Nox, Adidas, Head, Joma or Kuikma racket, matching clothing is optional convenience, not performance. Our <a href="/brands/">brands</a> index and the hubs above cover rackets and shoes — not clothing SKUs. For footwear use <a href="/best-padel-shoes/">best padel shoes</a>; for carrying kit use <a href="/bags/">padel bags</a>.</p><p>When you browse apparel, return to <a href="/padel-clothing/">padel clothing</a> for retailer links. On-site clothing comparisons wait until we have a UK clothing feed.</p>` },
+  ],
+  faq: [
+    ['What are the best padel clothing brands in the UK?', 'Bullpadel and Nox lead on padel-specific performance kit; Adidas and Joma are strong on value and availability; Kuikma is the budget entry via Decathlon; UK labels such as Pallacorda, Padelism and PSF Collective cover lifestyle and warm-ups.'],
+    ['Do I need padel-branded clothes?', 'No. Breathable, stretchy sports kit is enough. Upgrade to padel brands when you want ball pockets, skirts or dresses cut for the court, or a specific look.'],
+    ['Is Bullpadel better than Nox for clothing?', 'Neither is universally better. Bullpadel leans louder tour styling; Nox is a strong technical all-rounder with solid women’s options. Try fit and pocket depth in your size.'],
+    ['Where should beginners buy padel clothes?', 'Kuikma at Decathlon or a value Adidas or Joma set is enough for the first months. Spend more on shoes and a forgiving racket first.'],
+    ['Which brands sell padel dresses in the UK?', 'Specialist padel brands — especially Bullpadel and Nox, with seasonal Adidas pieces — are the usual source. Stock changes by season, so check a multi-brand retailer.'],
+    ['Do Head and Babolat make good padel clothing?', 'They make serviceable apparel that matches their racket ecosystems, but the ranges are narrower than Bullpadel or Nox. Buy them for coordination, not as the primary clothing brand.'],
+    ['Does WhichPadel sell or price clothing?', 'Not yet. We publish what-to-wear and brand guidance only. Live prices on this site cover rackets, shoes, bags and balls.'],
+  ],
+  nextLinks: [
+    { href: '/padel-clothing/', label: 'Padel clothing hub' },
+    { href: '/best-padel-shoes/', label: 'Best padel shoes' },
+    { href: '/bags/', label: 'Padel bags' },
+    { href: '/brands/', label: 'All brands' },
+    { href: '/padel-accessories/', label: 'Accessories' },
+  ],
+},
+};
