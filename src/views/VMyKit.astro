@@ -9,8 +9,8 @@ const SH=shoes.map(s=>[s.slug,s.name,shoeImg(s)||'',url('shoe',lang,s.slug)]);
 const BA=balls.map(b=>['ball-'+b.slug,b.name,ballImg(b)||'',url('ball',lang,b.slug)]);
 const BG=bags.map(b=>{const q=bagOffer(b,'GB'), o=q&&q.o; return [b.id,b.name,bagImg(b)||'',url('bag',lang,b.slug),o?[o.p,o.c,shopName(o.d)]:null,(b.type||'').replace(/\b\w/g,c=>c.toUpperCase())];});
 const RK=url('racket',lang,'__');
-const describeHref=url('describe',lang);
-const describeShoesHref=url('describeShoes',lang);
+const finderHref=url('finder',lang);
+const finderShoesHref=url('finder',lang)+'?p=shoes';
 const dealsHref=url('deals',lang);
 const SLOTS=T.slots;
 ---
@@ -53,7 +53,7 @@ const SLOTS=T.slots;
 </div>
 </div>
 </article>
-<section class="panel"><h2 class="h3">{T.better}</h2><p>{T.betterP}<a href={describeHref}>{T.descR}</a> · <a href={describeShoesHref}>{T.descS}</a> · <a href={dealsHref}>{T.deals}</a>.</p></section>
+<section class="panel"><h2 class="h3">{T.better}</h2><p>{T.betterP}<a href={finderHref}>{T.descR}</a> · <a href={finderShoesHref}>{T.descS}</a> · <a href={dealsHref}>{T.deals}</a>.</p></section>
 <script is:inline src="/deal-check.js"></script>
 <script is:inline define:vars={{SH,BA,BG,RK,SLOTS}}>
 const TYPE={bag:'Bag',racket:'Racket',shoes:'Shoes'};

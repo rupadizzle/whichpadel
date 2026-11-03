@@ -1,5 +1,31 @@
 /racket-finder /finder/ 301
 /racket-finder/ /finder/ 301
+/describe for=shoes /finder/?p=shoes 301
+/describe/ for=shoes /finder/?p=shoes 301
+/describe /finder/ 301
+/describe/ /finder/ 301
+/describe-shoes /finder/?p=shoes 301
+/describe-shoes/ /finder/?p=shoes 301
+/es/describe-tu-juego /es/buscador-de-palas/ 301
+/es/describe-tu-juego/ /es/buscador-de-palas/ 301
+/es/describe-tus-zapatillas /es/buscador-de-palas/?p=shoes 301
+/es/describe-tus-zapatillas/ /es/buscador-de-palas/?p=shoes 301
+/fr/decris-ton-jeu /fr/test-raquette-padel/ 301
+/fr/decris-ton-jeu/ /fr/test-raquette-padel/ 301
+/fr/decris-tes-chaussures /fr/test-raquette-padel/?p=shoes 301
+/fr/decris-tes-chaussures/ /fr/test-raquette-padel/?p=shoes 301
+/pt/descreve-o-teu-jogo /pt/teste-raquete-padel/ 301
+/pt/descreve-o-teu-jogo/ /pt/teste-raquete-padel/ 301
+/pt/descreve-as-tuas-sapatilhas /pt/teste-raquete-padel/?p=shoes 301
+/pt/descreve-as-tuas-sapatilhas/ /pt/teste-raquete-padel/?p=shoes 301
+/it/descrivi-il-tuo-gioco /it/quiz-racchetta-padel/ 301
+/it/descrivi-il-tuo-gioco/ /it/quiz-racchetta-padel/ 301
+/it/descrivi-le-tue-scarpe /it/quiz-racchetta-padel/?p=shoes 301
+/it/descrivi-le-tue-scarpe/ /it/quiz-racchetta-padel/?p=shoes 301
+/de/beschreibe-dein-spiel /de/schlaeger-finder/ 301
+/de/beschreibe-dein-spiel/ /de/schlaeger-finder/ 301
+/de/beschreibe-deine-schuhe /de/schlaeger-finder/?p=shoes 301
+/de/beschreibe-deine-schuhe/ /de/schlaeger-finder/?p=shoes 301
 /black-friday-padel-rackets /black-friday/ 301
 /black-friday-padel-rackets/ /black-friday/ 301
 /padel-bags /bags/ 301

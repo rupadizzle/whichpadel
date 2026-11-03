@@ -16,8 +16,6 @@ const priceDate = later(REVIEWED, FX.date, ...Object.values(racketDate));
 const EXTRA = {
   '/deals/': priceDate,
   '/black-friday/': priceDate,
-  '/describe/': REVIEWED,
-  '/describe-shoes/': shoeDate,
   '/my-kit/': REVIEWED,
   '/padel-vs-paddle-tennis/': REVIEWED,
   '/guides/how-to-hold-a-padel-racket/': REVIEWED,

@@ -90,8 +90,6 @@ const P={
   de:k=>({rules:'/de/padel-regeln/',hold:'/de/padelschlaeger-halten/',vs:'/de/padel-vs-paddle-tennis/'})[k],
  },
  deals:{en:()=>'/deals/',es:()=>'/es/ofertas/',fr:()=>'/fr/bonnes-affaires/',pt:()=>'/pt/ofertas/',it:()=>'/it/offerte/',de:()=>'/de/angebote/'},
- describe:{en:()=>'/describe/',es:()=>'/es/describe-tu-juego/',fr:()=>'/fr/decris-ton-jeu/',pt:()=>'/pt/descreve-o-teu-jogo/',it:()=>'/it/descrivi-il-tuo-gioco/',de:()=>'/de/beschreibe-dein-spiel/'},
- describeShoes:{en:()=>'/describe-shoes/',es:()=>'/es/describe-tus-zapatillas/',fr:()=>'/fr/decris-tes-chaussures/',pt:()=>'/pt/descreve-as-tuas-sapatilhas/',it:()=>'/it/descrivi-le-tue-scarpe/',de:()=>'/de/beschreibe-deine-schuhe/'},
  myKit:{en:()=>'/my-kit/',es:()=>'/es/mi-equipo/',fr:()=>'/fr/mon-kit/',pt:()=>'/pt/o-meu-kit/',it:()=>'/it/il-mio-kit/',de:()=>'/de/mein-kit/'},
  about:{en:()=>'/about/',es:()=>'/es/sobre-nosotros/',fr:()=>'/fr/a-propos/',pt:()=>'/pt/sobre-nos/',it:()=>'/it/chi-siamo/',de:()=>'/de/ueber-uns/'},
  author:{en:()=>'/author/rupert-wallace/',es:()=>'/es/autor/rupert-wallace/',fr:()=>'/fr/auteur/rupert-wallace/',pt:()=>'/pt/autor/rupert-wallace/',it:()=>'/it/autore/rupert-wallace/',de:()=>'/de/autor/rupert-wallace/'},
@@ -102,7 +100,7 @@ export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','author','years','saved'].forEach(t=>add(t));
  allRackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(allRackets.length/24);i++) add('rackets',i);
- add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['clothing','accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); ['main','men','women'].forEach(k=>add('gifts',k)); ['rules','hold','vs'].forEach(k=>add('article',k)); ['deals','describe','describeShoes','myKit'].forEach(t=>add(t)); return out;};
+ add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['clothing','accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); ['main','men','women'].forEach(k=>add('gifts',k)); ['rules','hold','vs'].forEach(k=>add('article',k)); ['deals','myKit'].forEach(t=>add(t)); return out;};
 // reverse map for hreflang on any page
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}
