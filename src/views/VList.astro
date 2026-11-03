@@ -89,7 +89,7 @@ const page = (() => {
       locale: d.locale, title: T.t(h1, list.length), description: intro, h1, pageUrl: U, lead: intro,
       crumbs: [{ href: url('home', lang), label: u.home }, { href: url('shoes', lang), label: T.crumb }, { label: h1 }],
       jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'ItemList', name: h1, url: U, numberOfItems: list.length, itemListElement: list.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url('shoe', lang, s.slug), name: s.name })) }, { '@type': 'FAQPage', mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: T.crumb, item: SITE + url('shoes', lang) }, { '@type': 'ListItem', position: 3, name: h1, item: U }] }] },
-      T, list, faq: T.faq, method: T.method, others: SHOE_LIST_KEYS.filter(x => x !== k && !x.startsWith('u')),
+      T, list, faq: T.faq, method: T.method, others: SHOE_LIST_KEYS.filter(x => x !== k).map(x => { const L = T.lists[x][0]; return { k: x, label: typeof L === 'function' ? L(bud(UNDER[x], listCur(lang))) : L }; }),
     };
   }
   const Pge = US_PAGES[k];
@@ -172,7 +172,7 @@ const page = (() => {
 </div>
 <aside class="best-side">
 <FinderCard fc={[page.T.home.t, page.T.home.s, page.T.home.cta]} href={url('shoes', lang)}/>
-<section class="panel vs"><h2>{page.T.guides}</h2>{page.others.map(x => <a href={url('shoeList', lang, x)}><span>{page.T.lists[x][0]}</span><span>→</span></a>)}</section>
+<section class="panel vs"><h2>{page.T.guides}</h2>{page.others.map(x => <a href={url('shoeList', lang, x.k)}><span>{x.label}</span><span>→</span></a>)}</section>
 <section class="panel vs"><h2>{page.T.byBrand}</h2>{shoeBrands.map(x => { const t = shoeBrandTarget(x.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}><span>{x.name}</span><span>→</span></a>; })}</section>
 </aside>
 </div>
@@ -185,7 +185,7 @@ const page = (() => {
 <div class="hub cat rk-rows"><ul class="hub-grid">{page.list.map((s, i) => <ShoeCard s={s} lang={lang} rank={i + 1} eager={i < 4}/>)}</ul></div>
 <p><a class="btn btn-line" href={url('shoes', lang)}>{page.T.hubLink}</a></p>
 <FaqList heading={u.faq} items={page.faq}/>
-<section class="hub-pre"><h2 class="h3">{page.T.guides}</h2><p>{page.others.map(x => <a href={url('shoeList', lang, x)}>{page.T.lists[x][0]}</a>)}</p><p><b>{page.T.byBrand}</b>{shoeBrands.map(x => { const t = shoeBrandTarget(x.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{x.name}</a>; })}</p></section>
+<section class="hub-pre"><h2 class="h3">{page.T.guides}</h2><p>{page.others.map(x => <a href={url('shoeList', lang, x.k)}>{x.label}</a>)}</p><p><b>{page.T.byBrand}</b>{shoeBrands.map(x => { const t = shoeBrandTarget(x.slug); return <a href={url(t.type, lang, t.id) + (t.hash ? '#' + t.hash : '')}>{x.name}</a>; })}</p></section>
 </div>
 </HubCss>
 </>}

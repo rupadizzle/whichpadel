@@ -60,6 +60,10 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
  {brandBalls.length>0&&<label><input type="radio" name="brandcat" value="balls" checked={first==='balls'}/><span>{TB.nav} <small>{brandBalls.length}</small></span></label>}
  {brandBags.length>0&&<label><input type="radio" name="brandcat" value="bags" checked={first==='bags'}/><span>{TG.nav} <small>{brandBags.length}</small></span></label>}
 </div>}
+{(brandShoes.length>0||brandBags.length>0)&&<section class="hub-pre brand-more" aria-label={brandShoes.length?TS.nav:(TG?TG.nav:TS.nav)}>
+{brandShoes.length>0&&<p><b>{TS.nav}</b>{brandShoes.map(s=><a href={url('shoe',lang,s.slug)}>{s.name}</a>)}</p>}
+{brandBags.length>0&&TG&&<p><b>{TG.nav}</b>{brandBags.map(g=><a href={url('bag',lang,g.slug)}>{g.name}</a>)}</p>}
+</section>}
 {rs.length>0&&<section class="brand-cat cat" id="rackets" data-panel="rackets" aria-label={H.nav}>
 <p class="brand-note">{C.intro(b.name,x,t)}</p>
 <div class="bfilter">
