@@ -77,7 +77,7 @@ export default {
    faqSoft:(b,s,n)=>[`${b} ha racchette morbide e delicate sul braccio?`,`${s} delle ${n} racchette ${b} che elenchiamo hanno un nucleo morbido o medio-morbido, secondo quanto pubblicato dal marchio o dal negozio.`],
    faqPrice:(b,x)=>[`Quanto costano le racchette ${b}?`,x.np>1?`I prezzi registrati delle ${x.np} racchette ${b} con prezzo nel nostro database vanno da ${x.pmin} a ${x.pmax}, con una mediana di ${x.pmed}. I prezzi cambiano spesso: verifica nel negozio prima di acquistare.`:x.np?`Abbiamo un solo prezzo registrato per ${b}: ${x.pmin}. I prezzi cambiano spesso: verifica nel negozio.`:`Non abbiamo ancora un prezzo registrato per ${b}. Usa il link al negozio di ogni racchetta.`],
    faqH:b=>`Domande frequenti sulle racchette ${b}`, filter:'Filtra per forma', all:'Tutte', showing:n=>`${n} racchette mostrate`, years:'Anni di modello', range:'In questa gamma',
-   wideTitle:(b,r,s,n)=>{const bits=[]; if(r) bits.push(`${r} ${pl(r,'racchetta da padel','racchette da padel')}`); if(s) bits.push(`${s} ${pl(s,'scarpa','scarpe')}`); if(n) bits.push(`${n} ${pl(n,'tubo di palline','tubi di palline')}`); return bits.length?`${b}: ${bits.length>1?bits.slice(0,-1).join(', ')+' e '+bits.at(-1):bits[0]}`:b;},
+   wideTitle:(b,r,s,n)=>`${b}: racchette, scarpe e borse`,
    wideDesc:(b,r,s,n)=>{const extra=[]; if(s) extra.push(`${s} ${pl(s,'scarpa da padel','scarpe da padel')}`); if(n) extra.push(`${n} ${pl(n,'tubo di palline','tubi di palline')}`); if(!r){const list=extra.length>1?extra.slice(0,-1).join(', ')+' e '+extra.at(-1):extra[0]||''; return `Elenchiamo ${list} ${b}. Specifiche e prezzi presi dal marchio o da un negozio.`;} return `Tutte le racchette ${b} che elenchiamo (${r})${extra.length?`, più ${extra.join(' e ')}`:''}. Specifiche e prezzi presi dal marchio o da un negozio.`;},
    also:(s,n)=>{const bits=[]; if(s) bits.push(`${s} ${pl(s,'scarpa da padel','scarpe da padel')}`); if(n) bits.push(`${n} ${pl(n,'tubo di palline','tubi di palline')}`); return bits.length?`Elenchiamo anche ${bits.join(' e ')}.`:'';},
   },
@@ -127,7 +127,7 @@ export default {
    note:'Le associazioni ai giocatori derivano dai nomi ufficiali dei modelli e dalle schede che usiamo come fonte. Non pubblichiamo biografie né classifiche dei giocatori.',
   },
   vs:{
-   title:(a,b)=>`${a} vs ${b}: specifiche a confronto`, desc:(a,b)=>`${a} vs ${b}: forma, peso, bilanciamento, nucleo, prezzo e punteggi calcolati affiancati, con un verdetto rapido.`,
+   title:(a,b)=>`${a} vs ${b}`, desc:(a,b)=>`${a} vs ${b}: forma, peso, bilanciamento, nucleo, prezzo e punteggi calcolati affiancati, con un verdetto rapido.`,
    intro:(x,t)=>{const s=[]; s.push(`La ${x.A} e la ${x.B} ${x.sameBrand?`sono due racchette ${x.brandA}`:`sono rispettivamente di ${x.brandA} e di ${x.brandB}`}${x.shA&&x.shB?(x.shA===x.shB?`, ed entrambe hanno una testa ${t.shape[x.shA]}`:`, con testa ${t.shape[x.shA]} sulla ${x.a} e ${t.shape[x.shB]} sulla ${x.b}`):''}.`);
     const p=[]; if(x.wA&&x.wB) p.push(`i pesi dichiarati sono ${x.wA} e ${x.wB}`); if(x.balA&&x.balB) p.push(x.balA===x.balB?`entrambe hanno bilanciamento ${x.balA}`:`il bilanciamento è ${x.balA} contro ${x.balB}`); if(x.cA&&x.cB) p.push(x.cA===x.cB?`entrambe usano un nucleo ${t.core[x.cA]}`:`il nucleo è ${t.core[x.cA]} sulla ${x.a} e ${t.core[x.cB]} sulla ${x.b}`);
     if(p.length) s.push(`Sulla carta, ${p.join('; ')}.`);

@@ -77,7 +77,7 @@ export default {
    faqSoft:(b,s,n)=>[`Hat ${b} weiche, armschonende Schläger?`,`${s} der ${n} ${b}-Schläger, die wir führen, haben laut Marke oder Händler einen weichen oder mittelweichen Kern.`],
    faqPrice:(b,x)=>[`Was kosten ${b}-Schläger?`,x.np>1?`Die erfassten Preise der ${x.np} ${b}-Schläger mit Preis in unserer Datenbank reichen von ${x.pmin} bis ${x.pmax}, mit einem Median von ${x.pmed}. Preise ändern sich oft: Prüfe sie vor dem Kauf im Shop.`:x.np?`Wir haben einen einzigen erfassten Preis für ${b}: ${x.pmin}. Preise ändern sich oft: Prüfe ihn im Shop.`:`Wir haben noch keinen erfassten Preis für ${b}. Nutze den Shop-Link bei jedem Schläger.`],
    faqH:b=>`Häufige Fragen zu ${b}-Schlägern`, filter:'Nach Form filtern', all:'Alle', showing:n=>`${n} Schläger angezeigt`, years:'Modelljahre', range:'In diesem Sortiment',
-   wideTitle:(b,r,s,n)=>{const bits=[]; if(r) bits.push(`${r} ${pl(r,'Padelschläger','Padelschläger')}`); if(s) bits.push(`${s} ${pl(s,'Schuh','Schuhe')}`); if(n) bits.push(`${n} ${pl(n,'Ballröhre','Ballröhren')}`); return bits.length?`${b}: ${bits.length>1?bits.slice(0,-1).join(', ')+' und '+bits.at(-1):bits[0]}`:b;},
+   wideTitle:(b,r,s,n)=>`${b}: Schläger, Schuhe und Taschen`,
    wideDesc:(b,r,s,n)=>{const extra=[]; if(s) extra.push(`${s} ${pl(s,'Padelschuh','Padelschuhe')}`); if(n) extra.push(`${n} ${pl(n,'Ballröhre','Ballröhren')}`); if(!r){const list=extra.length>1?extra.slice(0,-1).join(', ')+' und '+extra.at(-1):extra[0]||''; return `Wir führen ${list} von ${b}. Daten und Preise stammen von der Marke oder einem Shop.`;} return `Alle ${b}-Padelschläger, die wir führen (${r})${extra.length?`, plus ${extra.join(' und ')}`:''}. Daten und Preise stammen von der Marke oder einem Shop.`;},
    also:(s,n)=>{const bits=[]; if(s) bits.push(`${s} ${pl(s,'Padelschuh','Padelschuhe')}`); if(n) bits.push(`${n} ${pl(n,'Ballröhre','Ballröhren')}`); return bits.length?`Außerdem führen wir ${bits.join(' und ')}.`:'';},
   },
@@ -127,7 +127,7 @@ export default {
    note:'Spielerzuordnungen stammen aus den offiziellen Modellnamen und den Produktseiten, die wir als Quelle nutzen. Wir veröffentlichen keine Biografien oder Ranglisten von Spielern.',
   },
   vs:{
-   title:(a,b)=>`${a} vs ${b}: Spezifikationen im Vergleich`, desc:(a,b)=>`${a} vs ${b}: Form, Gewicht, Balance, Kern, Preis und berechnete Bewertungen nebeneinander, mit kurzem Fazit.`,
+   title:(a,b)=>`${a} vs ${b}`, desc:(a,b)=>`${a} vs ${b}: Form, Gewicht, Balance, Kern, Preis und berechnete Bewertungen nebeneinander, mit kurzem Fazit.`,
    intro:(x,t)=>{const s=[]; s.push(`Der ${x.A} und der ${x.B} ${x.sameBrand?`sind zwei Schläger von ${x.brandA}`:`stammen von ${x.brandA} und ${x.brandB}`}${x.shA&&x.shB?(x.shA===x.shB?`, und beide haben die Kopfform ${t.shape[x.shA]}`:`, mit Kopfform ${t.shape[x.shA]} beim ${x.a} und ${t.shape[x.shB]} beim ${x.b}`):''}.`);
     const p=[]; if(x.wA&&x.wB) p.push(`die angegebenen Gewichte sind ${x.wA} und ${x.wB}`); if(x.balA&&x.balB) p.push(x.balA===x.balB?`beide haben Balance ${x.balA}`:`die Balance ist ${x.balA} gegenüber ${x.balB}`); if(x.cA&&x.cB) p.push(x.cA===x.cB?`beide haben einen Kern der Härte ${t.core[x.cA]}`:`der Kern ist ${t.core[x.cA]} beim ${x.a} und ${t.core[x.cB]} beim ${x.b}`);
     if(p.length) s.push(`Auf dem Papier: ${p.join('; ')}.`);

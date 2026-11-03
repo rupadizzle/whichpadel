@@ -1,6 +1,6 @@
 // Finder page title and schema copy (6 langs). The quiz itself is a kit finder: racket, shoes, balls, bag.
 export const FINDER={
- en:{title:'Which padel kit should I buy? Racket, shoe, ball and bag finder',desc:()=>`Answer a few questions. We match rackets, shoes, balls and bags from published specs, then show your best options with recent prices from shops that deliver to you.`,
+ en:{title:'Which padel kit should I buy?',desc:()=>`Answer a few questions. We match rackets, shoes, balls and bags from published specs, then show your best options with recent prices from shops that deliver to you.`,
   h1:'Which padel kit should I buy?',lead:'A few questions. We match rackets, shoes, balls and bags from published specs and show your best options with recent prices.',
   step:'Step',back:'Back',next:'Next',again:'Start again',share:'Copy link to these results',copied:'Link copied',buy:'Buy',details:'Details',crumb:'Kit finder',
   cta:'Not sure which racket to buy?',ctaS:'Take the 30-second racket finder',
