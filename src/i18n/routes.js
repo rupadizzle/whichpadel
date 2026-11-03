@@ -61,11 +61,15 @@ const P={
  rackets:{en:p=>p>1?`/rackets/page/${p}/`:'/rackets/',es:p=>p>1?`/es/palas/pagina/${p}/`:'/es/palas/',fr:p=>p>1?`/fr/raquettes/page/${p}/`:'/fr/raquettes/',pt:p=>p>1?`/pt/raquetes/pagina/${p}/`:'/pt/raquetes/',it:p=>p>1?`/it/racchette/pagina/${p}/`:'/it/racchette/',de:p=>p>1?`/de/schlaeger/seite/${p}/`:'/de/schlaeger/'},
  years:{en:()=>'/rackets/year/',es:()=>'/es/palas/ano/',fr:()=>'/fr/raquettes/annee/',pt:()=>'/pt/raquetes/ano/',it:()=>'/it/racchette/anno/',de:()=>'/de/schlaeger/jahr/'},
  year:{en:y=>`/rackets/year/${y}/`,es:y=>`/es/palas/ano/${y}/`,fr:y=>`/fr/raquettes/annee/${y}/`,pt:y=>`/pt/raquetes/ano/${y}/`,it:y=>`/it/racchette/anno/${y}/`,de:y=>`/de/schlaeger/jahr/${y}/`},
- bags:{en:()=>'/bags/',es:()=>'/es/paleteros-mochilas-padel/'},
- bag:{en:s=>`/bags/${s}/`,es:s=>`/es/paleteros-mochilas-padel/${s}/`},
+ bags:{en:()=>'/bags/',es:()=>'/es/paleteros-mochilas-padel/',fr:()=>'/fr/sacs-padel/',pt:()=>'/pt/sacos-padel/',it:()=>'/it/borse-padel/',de:()=>'/de/padeltaschen/'},
+ bag:{en:s=>`/bags/${s}/`,es:s=>`/es/paleteros-mochilas-padel/${s}/`,fr:s=>`/fr/sacs-padel/${s}/`,pt:s=>`/pt/sacos-padel/${s}/`,it:s=>`/it/borse-padel/${s}/`,de:s=>`/de/padeltaschen/${s}/`},
  buyGuide:{
   en:k=>({clothing:'/padel-clothing/',accessories:'/padel-accessories/',grips:'/padel-grips-overgrips/',pressuriser:'/padel-ball-pressuriser/',ballMachine:'/padel-ball-machine/'})[k],
   es:k=>({clothing:'/es/ropa-padel/',accessories:'/es/accesorios-padel/',grips:'/es/grips-overgrips-padel/',pressuriser:'/es/presurizador-pelotas-padel/',ballMachine:'/es/maquina-lanzapelotas-padel/'})[k],
+  fr:k=>({clothing:'/fr/vetements-padel/',accessories:'/fr/accessoires-padel/',grips:'/fr/grips-overgrips-padel/',pressuriser:'/fr/presse-balles-padel/',ballMachine:'/fr/machine-balles-padel/'})[k],
+  pt:k=>({clothing:'/pt/roupa-padel/',accessories:'/pt/acessorios-padel/',grips:'/pt/grips-overgrips-padel/',pressuriser:'/pt/pressurizador-bolas-padel/',ballMachine:'/pt/maquina-bolas-padel/'})[k],
+  it:k=>({clothing:'/it/abbigliamento-padel/',accessories:'/it/accessori-padel/',grips:'/it/grip-overgrip-padel/',pressuriser:'/it/pressurizzatore-palline-padel/',ballMachine:'/it/macchina-palline-padel/'})[k],
+  de:k=>({clothing:'/de/padel-bekleidung/',accessories:'/de/padel-zubehoer/',grips:'/de/padel-griffe-overgrips/',pressuriser:'/de/padelball-druckbehaelter/',ballMachine:'/de/padel-ballmaschine/'})[k],
  },
  shoes:{en:()=>'/shoes/',es:()=>'/es/zapatillas/',fr:()=>'/fr/chaussures/',pt:()=>'/pt/sapatilhas/',it:()=>'/it/scarpe/',de:()=>'/de/schuhe/'},
  shoeCompare:{en:()=>'/shoes/compare/',es:()=>'/es/zapatillas/comparar/',fr:()=>'/fr/chaussures/comparer/',pt:()=>'/pt/sapatilhas/comparar/',it:()=>'/it/scarpe/confronta/',de:()=>'/de/schuhe/vergleich/'},
@@ -76,7 +80,19 @@ const P={
  ball:{en:s=>`/balls/${s}/`,es:s=>`/es/pelotas/${s}/`,fr:s=>`/fr/balles/${s}/`,pt:s=>`/pt/bolas/${s}/`,it:s=>`/it/palline/${s}/`,de:s=>`/de/baelle/${s}/`},
  // US money pages: English only, own URLs under /us/ (no translated or en-GB twin, so no hreflang pairs)
  us:{en:k=>`/us/${k}/`},
- gifts:{en:k=>({main:'/guides/best-padel-gifts/',men:'/guides/best-padel-gifts-for-men/',women:'/guides/best-padel-gifts-for-women/'})[k],es:k=>k==='main'?'/es/mejores-regalos-padel/':null},
+ gifts:{en:k=>({main:'/guides/best-padel-gifts/',men:'/guides/best-padel-gifts-for-men/',women:'/guides/best-padel-gifts-for-women/'})[k],es:k=>k==='main'?'/es/mejores-regalos-padel/':null,fr:k=>k==='main'?'/fr/meilleurs-cadeaux-padel/':null,pt:k=>k==='main'?'/pt/melhores-presentes-padel/':null,it:k=>k==='main'?'/it/migliori-regali-padel/':null,de:k=>k==='main'?'/de/beste-padel-geschenke/':null},
+ article:{
+  en:k=>({rules:'/guides/padel-rules/',hold:'/guides/how-to-hold-a-padel-racket/',vs:'/padel-vs-paddle-tennis/'})[k],
+  es:k=>({rules:'/es/reglas-padel/',hold:'/es/como-coger-pala-padel/',vs:'/es/padel-vs-paddle-tennis/'})[k],
+  fr:k=>({rules:'/fr/regles-padel/',hold:'/fr/comment-tenir-raquette-padel/',vs:'/fr/padel-vs-paddle-tennis/'})[k],
+  pt:k=>({rules:'/pt/regras-padel/',hold:'/pt/como-segurar-raquete-padel/',vs:'/pt/padel-vs-paddle-tennis/'})[k],
+  it:k=>({rules:'/it/regole-padel/',hold:'/it/come-impugnare-racchetta-padel/',vs:'/it/padel-vs-paddle-tennis/'})[k],
+  de:k=>({rules:'/de/padel-regeln/',hold:'/de/padelschlaeger-halten/',vs:'/de/padel-vs-paddle-tennis/'})[k],
+ },
+ deals:{en:()=>'/deals/',es:()=>'/es/ofertas/',fr:()=>'/fr/bonnes-affaires/',pt:()=>'/pt/ofertas/',it:()=>'/it/offerte/',de:()=>'/de/angebote/'},
+ describe:{en:()=>'/describe/',es:()=>'/es/describe-tu-juego/',fr:()=>'/fr/decris-ton-jeu/',pt:()=>'/pt/descreve-o-teu-jogo/',it:()=>'/it/descrivi-il-tuo-gioco/',de:()=>'/de/beschreibe-dein-spiel/'},
+ describeShoes:{en:()=>'/describe-shoes/',es:()=>'/es/describe-tus-zapatillas/',fr:()=>'/fr/decris-tes-chaussures/',pt:()=>'/pt/descreve-as-tuas-sapatilhas/',it:()=>'/it/descrivi-le-tue-scarpe/',de:()=>'/de/beschreibe-deine-schuhe/'},
+ myKit:{en:()=>'/my-kit/',es:()=>'/es/mi-equipo/',fr:()=>'/fr/mon-kit/',pt:()=>'/pt/o-meu-kit/',it:()=>'/it/il-mio-kit/',de:()=>'/de/mein-kit/'},
  about:{en:()=>'/about/',es:()=>'/es/sobre-nosotros/',fr:()=>'/fr/a-propos/',pt:()=>'/pt/sobre-nos/',it:()=>'/it/chi-siamo/',de:()=>'/de/ueber-uns/'},
  author:{en:()=>'/author/rupert-wallace/',es:()=>'/es/autor/rupert-wallace/',fr:()=>'/fr/auteur/rupert-wallace/',pt:()=>'/pt/autor/rupert-wallace/',it:()=>'/it/autore/rupert-wallace/',de:()=>'/de/autor/rupert-wallace/'},
  saved:{en:()=>'/saved/',es:()=>'/es/guardadas/',fr:()=>'/fr/enregistrees/',pt:()=>'/pt/guardadas/',it:()=>'/it/salvate/',de:()=>'/de/gespeichert/'},
@@ -86,7 +102,7 @@ export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','author','years','saved'].forEach(t=>add(t));
  allRackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(allRackets.length/24);i++) add('rackets',i);
- add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['clothing','accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); ['main','men','women'].forEach(k=>add('gifts',k)); return out;};
+ add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['clothing','accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); ['main','men','women'].forEach(k=>add('gifts',k)); ['rules','hold','vs'].forEach(k=>add('article',k)); ['deals','describe','describeShoes','myKit'].forEach(t=>add(t)); return out;};
 // reverse map for hreflang on any page
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}
