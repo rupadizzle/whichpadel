@@ -2,9 +2,7 @@
 .container{max-width:75rem;margin-inline:auto;padding-inline:var(--s5)}
 
 @media (width < 600px){.container{padding-inline:var(--s4)}}
-.stack{display:flex;flex-direction:column;gap:var(--stack)}
-.cluster{display:flex;flex-wrap:wrap;align-items:center;gap:var(--cluster)}
-.l-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(var(--min,15rem),100%),1fr));gap:var(--s4)}
+
 /* page container */
 main{padding:var(--s6) var(--s5) var(--gap)}
 
@@ -25,28 +23,25 @@ main.wrap>.page{margin-top:0}
 .page h2{margin:0 0 var(--s4)}
 .page h3{margin:0 0 var(--s3)}
 /* single card level */
-.rcard,.bcard,.qc,.gcard,.hc,.rv a,.tscroll,.buybox{border:1px solid var(--line);border-radius:var(--r);box-shadow:none;background:var(--card)}
-.rcard:hover{transform:none;box-shadow:none;border-color:var(--green-2)}
-.gcard{display:block;padding:var(--s4);text-decoration:none;color:inherit;min-height:44px}.gcard:hover{border-color:var(--green-2)}
+.bcard,.hc,.rv a,.tscroll,.buybox{border:1px solid var(--line);border-radius:var(--r);box-shadow:none;background:var(--card)}
+
 .buybox{padding:var(--s5)}
-.buybox .trustbar{margin-bottom:var(--s4)}
+
 .tscroll table{margin:0}
 .spec th{background:none}
 /* list links: dividers instead of boxes */
 .vs a{border:0;border-radius:0;border-bottom:1px solid var(--line);margin:0;padding:var(--s2) 0}
 .vs a:first-of-type{border-top:1px solid var(--line)}.vs a:hover{color:var(--green-2)}
 /* racket hero */
-.dhero .art{background:none;padding:0}
-.dhero{align-items:start}
+
 /* best/guide */
 
-.rlist{gap:var(--s4)}
 .offer{border-radius:var(--r);margin:0;padding:var(--s5)}
 
 @media (width >= 900px){.offer{padding:var(--s6)}}
 .ftr{margin-top:0}
 .hero-art svg:nth-child(2){transform:none}
-.sec-head{margin-bottom:var(--s4)}.toolbar{margin:var(--s4) 0}
+.sec-head{margin-bottom:var(--s4)}
 .more{margin-top:var(--s5)}
 /* compare: header, spec values and buy buttons share one content box.
    Spec rows sit inside a 1px card border plus row padding. */
@@ -58,8 +53,8 @@ main.wrap>.page{margin-top:0}
  .cvals{display:contents}
 }
 @media (width < 900px){
- main.wrap>.cmp-intro{margin-top:0}
- main.wrap>.cmp-intro p{margin-bottom:0}
+ 
+ 
  main.wrap>.cmp{margin-top:var(--s4)}
  main.wrap>.cmp:first-child{margin-top:0}
  main.wrap>.trust{margin-top:var(--s4)}

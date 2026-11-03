@@ -26,9 +26,9 @@ function check(){
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);
  for(const e of document.querySelectorAll('main *, header *, footer *')){ if(!vis(e)||!inflow(e)) continue; const p=e.parentElement; if(!p||!vis(p)) continue;
   if(e.closest('.rpg,.kchips,.tscroll,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
-  const a=R(e),b=R(p); if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
+  const a=R(e),b=R(p); if(b.width<=1) continue; /* inside screen-reader-only box */ if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
  // d) text clipping
- for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue;
+ for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue; if(e.getBoundingClientRect().width<=1) continue; /* screen-reader-only text */
   if(e.scrollWidth>e.clientWidth+1&&e.innerText.trim()) out.push('text clipped: '+name(e)+` ${e.scrollWidth}>${e.clientWidth}`);}
  // e) nesting depth of bordered/background containers
  const isBox=e=>{const s=getComputedStyle(e); if(/^(BUTTON|INPUT|SELECT|LABEL|A|SPAN|B|I|IMG|svg|TH|TD|TR|TABLE|TBODY|THEAD|LI|SUMMARY|HTML|BODY|MAIN|HEADER|FOOTER|FORM|DIALOG)$/i.test(e.tagName)&&!e.classList.contains('rcard')&&!e.classList.contains('gcard')&&!e.classList.contains('bcard')) return false; if(e.matches('.bar,.chip,.ring,.ring *,.btn,.cv,.eyebrow,.medal,.rank,.x')) return false; if(!e.firstElementChild) return false;

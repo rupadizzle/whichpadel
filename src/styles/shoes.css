@@ -9,4 +9,4 @@
 .ball .rpg .gslide img{width:100%;height:100%;max-width:none;aspect-ratio:auto;object-fit:contain}
 @media (width >= 900px){.ball .rpg .gtrack{width:min(100%,440px);height:auto;aspect-ratio:1/1}}
 .sk .rk-a{min-height:44px}
-.hub-fl label,.hub-chips button{min-height:44px}
+.hub-chips button{min-height:44px}

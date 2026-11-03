@@ -3,7 +3,7 @@
 
 /* ---------- focus: one ring, lime on dark surfaces ---------- */
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.hdr,.ubar,.ftr,.phero,.hero,.verdict,.offer,.bf-hero,.cmpbar,.hub-tray,.nav.open{--focus:var(--focus-dark)}
+.hdr,.ubar,.ftr,.phero,.hero,.verdict,.offer,.bf-hero,.hub-tray,.nav.open{--focus:var(--focus-dark)}
 .acct-pop,dialog.gs,.sheet,.rk-alert,.cmp-take,.gzoom{--focus:var(--focus-light)}
 .ai-dlg{--focus:var(--focus-dark)}
 @media (width > 1180px){.dd .menu{--focus:var(--focus-light)}}
@@ -46,8 +46,6 @@
 .btn-accent:hover,.aff:hover{background:var(--lime-2);color:var(--navy)}
 .btn-line{background:var(--card);color:var(--green);border-color:var(--line-2)}
 .btn-line:hover{background:var(--tint);color:var(--green);border-color:var(--green-2)}
-.btn-ghost{background:transparent;color:var(--on-dark);border-color:var(--wash-3)}
-.btn-ghost:hover{background:var(--wash-1);color:var(--on-dark)}
 .btn-sm{padding:var(--s1) var(--s4);font-size:var(--fs-m)}
 .btn-lg{width:100%;min-height:var(--ctl-l)}
 .btn:disabled,.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
@@ -65,7 +63,7 @@
 .gchips a:hover,.hub-pre a:hover,.brandlinks a:hover{border-color:var(--green-2);color:var(--ink)}
 .gchips a.gall{background:var(--navy);border-color:var(--navy);color:var(--on-dark)}
 /* uppercase micro label */
-.label,.clab,.fchips legend{font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--mut)}
+.label,.clab{font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--mut)}
 
 /* ---------- disclosure link set (long internal link lists) ---------- */
 .linkset{border-top:1px solid var(--line)}
@@ -89,3 +87,7 @@
  .gchips{mask-image:linear-gradient(90deg,#000 calc(100% - var(--s6)),transparent)}
 }
 .cmp-take-x,.hub-tray-x{--focus:var(--focus-dark)}
+
+/* ---------- page rhythm: header/hero -> content -> footer is always --s6 ---------- */
+main.wrap>:first-child{margin-top:0}
+main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])),main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])),main.wrap>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden]))>:nth-last-child(1 of :not(script,template,style,dialog,[hidden])){margin-bottom:0}

@@ -16,28 +16,23 @@
  .buyrow .ba{font-size:var(--fs-xs);font-weight:600;line-height:1.2}
 }
 /* racket hero: real-size photo on mobile, no gap */
-@media (width < 900px){
- .dhero{grid-template-columns:1fr;gap:var(--s3)}
- .dhero .art{justify-content:center;background:linear-gradient(160deg,var(--tint),var(--card));border-radius:var(--r);padding:var(--s3)}
- .dhero .rslot img{--w:auto;--h:240px;width:auto!important;height:240px!important;max-width:100%;object-fit:contain}
- .dhero .rslot svg{height:200px;width:auto}
-}
+
 /* compact horizontal cards on brand + best lists (mobile) */
 @media (width < 600px){
  #bgrid,#best{display:grid;grid-template-columns:1fr;gap:var(--s4)}
- #bgrid .rcard,#best .rcard{display:grid;grid-template-columns:104px minmax(0,1fr);gap:var(--s3);padding:var(--s3);align-items:start;position:relative}
- #bgrid .rimg,#best .rimg{padding:0;background:none;display:flex;justify-content:center}
- #bgrid .rimg img,#best .rimg img{width:104px!important;height:130px!important}
- #bgrid .rimg svg,#best .rimg svg{width:72px;height:auto}
+ 
+ 
+ 
+ 
  #bgrid .rlabel,#best .rlabel{display:none}
- #bgrid .rbody,#best .rbody{padding:0;min-width:0}
- #bgrid .rcard h3,#best .rcard h3{margin:0;padding:0;font-size:var(--fs-base)}
- #bgrid .rcard h3 a,#best .rcard h3 a{min-height:44px}
+ 
+ 
+ 
  #bgrid .chips,#best .chips{margin:var(--s1) 0}
  #bgrid .chip:nth-child(n+3),#best .chip:nth-child(n+3){display:none}
- #bgrid .rfoot,#best .rfoot{display:flex;grid-template-columns:none;justify-content:space-between;align-items:center;gap:var(--s2);padding-top:var(--s2)}
- #bgrid .rfoot .btn,#best .rfoot .btn{width:auto}
- #bgrid .cmpbox,#best .cmpbox{min-height:44px;margin:0}
+ 
+ 
+ 
  #best .rank{position:absolute;top:var(--s2);left:var(--s2);z-index:1}
 }
 /* brands index: 2-col uniform tiles */
