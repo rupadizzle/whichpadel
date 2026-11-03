@@ -11,3 +11,4 @@ export const SHOE_MENU = {
   it: { all: 'Tutte le scarpe', best: 'Migliori', mens: 'Uomo', womens: 'Donna', junior: 'Junior', clay: 'Suola clay', wide: 'Pianta larga', u60: 'Sotto ⟦b|60|EUR|EUR⟧', u100: 'Sotto ⟦b|100|EUR|EUR⟧', cmp: 'Confronta le scarpe' },
   de: { all: 'Alle Schuhe', best: 'Beste', mens: 'Herren', womens: 'Damen', junior: 'Kinder', clay: 'Clay-Sohle', wide: 'Breite Füße', u60: 'Unter ⟦b|60|EUR|EUR⟧', u100: 'Unter ⟦b|100|EUR|EUR⟧', cmp: 'Schuhe vergleichen' },
 };
+export const GIFT_NAV = { en: 'Gifts', es: 'Regalos', fr: 'Cadeaux', pt: 'Presentes', it: 'Regali', de: 'Geschenke' };
