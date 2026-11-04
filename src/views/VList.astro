@@ -151,7 +151,9 @@ const page = (() => {
 <section class="panel vs"><h2>{page.C.hub}</h2>{page.years.filter(x => x !== y).map(x => <a href={url('year', lang, x)}><span>{page.C.h(x)}</span><span>{page.C.count(ofYear(x).length)} →</span></a>)}</section>
 </aside>
 </div>
-<style is:global>.ynav{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}.ynav .btn,.yfil button{min-height:44px;display:inline-flex;align-items:center}.yfil{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}.yfil button{padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);font:inherit;font-size:var(--fs-m);cursor:pointer}.yfil button.on{background:var(--green);color:var(--on-dark);border-color:transparent}#yl>[hidden]{display:none !important}</style>
+<style is:global>.ynav{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}.ynav .btn,.yfil button{min-height:44px;display:inline-flex;align-items:center}.yfil{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}.yfil button{padding:0 var(--s4);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);font:inherit;font-size:var(--fs-m);cursor:pointer}.yfil button.on{background:var(--green);color:var(--on-dark);border-color:transparent}
+/* stylelint-disable-next-line declaration-no-important -- state utility */
+#yl>[hidden]{display:none !important}</style>
 <script is:inline>document.querySelectorAll('.yfil button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.yfil button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});document.querySelectorAll('#yl>[data-brand]').forEach(c=>c.hidden=!!b.dataset.b&&c.dataset.brand!==b.dataset.b)});</script>
 </>}
 {kind === 'player' && <>

@@ -102,7 +102,8 @@ const cats=[rs.length>0&&'rackets',brandShoes.length>0&&'shoes',brandBalls.lengt
 <ul class="hub-grid" id="ggrid">{brandBags.map((g,i)=><BagCard b={g} lang={lang} eager={i<4}/>)}</ul>
 {bagFaq.length>0&&<div class="brand-faq"><h2>{P.bagFaqH(b.name)}</h2>{bagFaq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</div>}
 </section>}
-<noscript><style>.brand-cat[hidden]{display:block !important}</style></noscript>
+<noscript><style>/* stylelint-disable-next-line declaration-no-important -- no-JS fallback shows every panel */
+.brand-cat[hidden]{display:block !important}</style></noscript>
 <script is:inline define:vars={{SH:C.showing(0),SS:P.shoeShowing(0),BS:P.ballShowing(0),GS:(P.bagShowing||(n=>String(n)))(0)}}>
 function show(v){document.querySelectorAll('[data-panel]').forEach(p=>{p.hidden=p.dataset.panel!==v}); document.querySelectorAll('input[name=brandcat]').forEach(r=>{r.checked=r.value===v})}
 document.querySelectorAll('input[name=brandcat]').forEach(i=>i.addEventListener('change',()=>{show(i.value); const next='#'+i.value; if(location.hash!==next) history.replaceState(null,'',next)}));
