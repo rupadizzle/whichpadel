@@ -38,8 +38,6 @@ const jsonld={'@context':'https://schema.org','@graph':[
 {T.faq(s,date).map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
 <p set:html={T.more(k=>url(k,lang))}/></article>
 <style>
-.hero-disc{color:rgb(255 255 255 / .75)}
-.hero-disc a{color:inherit}
 .bagt td{vertical-align:middle}
 .bagt th:first-child{width:42%}
 .bagn{display:flex;gap:var(--s2);align-items:center;min-width:0}

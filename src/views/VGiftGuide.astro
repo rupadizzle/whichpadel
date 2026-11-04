@@ -39,8 +39,4 @@ const jsonld = {
 {T.faq.map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
 <p>{UI.more}{T.nextLinks.map((v, i) => <><a href={v.href}>{v.label}</a>{T.nextLinks.length - 1 > i ? ' · ' : ''}</>)} · <a href={url('guide', lang)}>{UI.guideLink}</a></p>
 </article>
-<style>
-.hero-disc{color:rgb(255 255 255 / .75)}
-.hero-disc a{color:inherit}
-</style>
 </Base>
