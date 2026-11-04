@@ -110,3 +110,7 @@ main.wrap>.stickycta{margin:0}
 /* affiliate note inside a dark hero */
 .phero .hero-disc{color:var(--on-dark-2)}
 .phero .hero-disc a{color:inherit}
+
+/* placeholder cards on the saved page: same size as the real card, invisible until filled */
+.rk-ghost{visibility:hidden}
+@media (width >= 900px){#saved-list .rk-m{min-height:2.4em}}

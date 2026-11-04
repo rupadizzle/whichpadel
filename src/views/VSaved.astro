@@ -33,6 +33,15 @@ const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
  <p><b>{u.savedAs}</b> <span id="saved-email"></span></p>
  <p class="hero-ctas"><button type="button" class="btn btn-line" id="saved-out">{u.signOut}</button><button type="button" class="btn btn-line" id="saved-del">{u.deleteAccount}</button></p>
 </section>
+<script is:inline>
+/* Before first paint: lay out what the saved list will show, so nothing moves when it fills in. */
+(()=>{let list=[],acct=false;try{list=JSON.parse(localStorage.wp_saved||'[]');if(!Array.isArray(list))list=[];acct=localStorage.wp_acct==='1'}catch(e){}
+const $=id=>document.getElementById(id),n=Math.min(list.length,40),tpl=$('rk-card');
+if(!n){$('saved-empty').hidden=false;$('saved-go').hidden=false;}
+else if(tpl){const L=$('saved-list');for(let i=0;i<n;i++){const li=tpl.content.firstElementChild.cloneNode(true);li.querySelector('.rk-x')?.remove();li.querySelector('.rk-c')?.remove();for(const q of ['.rk-b span','.rk-m','.rk-pv']){const e=li.querySelector(q);if(e)e.textContent='\u00a0';}li.classList.add('rk-ghost');li.setAttribute('aria-hidden','true');li.inert=true;L.appendChild(li);}}
+if(list.filter(x=>x&&x.t==='r').length>=2)$('saved-cmp-wrap').hidden=false;
+if(acct){$('saved-keep').hidden=true;$('saved-acct').hidden=false;}else $('saved-device').hidden=false;})();
+</script>
 <script is:inline define:vars={{TX, MORE, CMP:url('rackets',lang), RK:url('racket',lang,'X').replace(/X\/$/,''), SK:url('shoe',lang,'X').replace(/X\/$/,''), BK:ballBase, GK:bagBase}}>
 document.addEventListener('DOMContentLoaded',async()=>{
  const S=window.wpSaved; if(!S) return;
