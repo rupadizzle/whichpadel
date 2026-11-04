@@ -1,0 +1,77 @@
+/* Page shell: container, main rhythm, panels, heroes. Values come from tokens.css; shared components live in components.css. */
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--s5)}
+@media (width < 600px){
+.wrap{padding:0 var(--s4)}
+}
+/* sections */
+main{padding:var(--s6) var(--s5) var(--s5)}
+.section{margin:0 0 var(--s7)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:var(--s5);box-shadow:var(--sh);margin:0 0 var(--s5)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:var(--s3);flex-wrap:wrap;margin-bottom:var(--s4)}
+.sec-head h2{margin:0}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:var(--s4)}
+/* best list hero */
+.phero{background:var(--grad-hero);color:var(--on-dark);padding:var(--s6) 0 var(--s6)}
+.phero h1{overflow-wrap:anywhere;text-wrap:balance;margin:0 0 var(--s2)}
+.phero .byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s2);margin:var(--s2) 0 var(--s4);color:var(--on-dark-2);font-size:var(--fs-s);line-height:var(--lh-body)}
+.phero .byline a{color:var(--on-dark);text-decoration:underline}
+.phero .byline time{color:var(--on-dark-2)}
+.phero .seo{max-width:68ch;color:var(--on-dark-2);font-size:var(--fs-base);line-height:var(--lh-prose)}
+.phero .seo p{color:inherit;max-width:none;margin:0 0 .75em}
+.phero .seo p:last-child{margin-bottom:0}
+.phero .seo a{color:var(--on-dark);text-decoration:underline}
+.phero .seo b{color:var(--on-dark)}
+.phero .seo ul,.phero .seo ol{margin:.15em 0 .75em;padding-left:1.2em}
+.phero .seo li+li{margin-top:.3em}
+.phero .seo h2{color:var(--on-dark);font-size:var(--fs-base);margin:1em 0 .35em}
+.phero p{color:var(--on-dark-2);max-width:68ch}
+@media (width < 600px){
+main.wrap{overflow-x:clip}
+}
+.more{display:flex;flex-direction:column;align-items:center;gap:var(--s2);margin-top:var(--s5)}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:var(--s4)}
+.sec-head>a{display:inline-flex;align-items:center;min-height:44px;padding:0;margin:0}
+/* small standalone links (bylines): 44px hit height */
+.byline a{position:relative}
+.byline a::after{content:"";position:absolute;inset:calc(50% - var(--tap) / 2) 0}
+.container{max-width:75rem;margin-inline:auto;padding-inline:var(--s5)}
+@media (width < 600px){
+.container{padding-inline:var(--s4)}
+}
+/* page container */
+main{padding:var(--s6) var(--s5) var(--gap)}
+@media (width < 600px){
+main{padding:var(--s5) var(--s4) var(--gap)}
+}
+main>*{margin-top:0;margin-bottom:0}
+main.wrap>*+*,.detail>div>*+*{margin-top:var(--gap)}
+/* flat sections: no box, a hairline divider between consecutive blocks */
+.panel{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin-block:0}
+.section{margin-block:0}
+main.wrap>section:where(:not([hidden]))~section:where(:not([hidden])),.detail>div>section:where(:not([hidden]))~section:where(:not([hidden])){border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
+.panel h2,.section h2{margin-bottom:var(--s4)}
+/* Page shell: a title and stacked sections. The gap holds when a section sits inside another section. */
+main.wrap>.page{margin-top:0}
+.page>*+*{margin-top:var(--gap)}
+.page>section:where(:not([hidden]))~section:where(:not([hidden])){border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
+.page section>section:where(:not([hidden]))~section:where(:not([hidden])){margin-top:var(--gap)}
+.page h2{margin:0 0 var(--s4)}
+.page h3{margin:0 0 var(--s3)}
+.sec-head{margin-bottom:var(--s4)}
+.more{margin-top:var(--s5)}
+.wrap{max-width:75rem;padding-inline:var(--s5)}
+@media (width < 600px){
+.wrap{padding-inline:var(--s4)}
+/* racket hero: real-size photo on mobile, no gap */
+/* compact horizontal cards on brand + best lists (mobile) */
+#bgrid,#best{display:grid;grid-template-columns:1fr;gap:var(--s4)}
+#bgrid .rlabel,#best .rlabel{display:none}
+#bgrid .chips,#best .chips{margin:var(--s1) 0}
+#bgrid .chip:nth-child(n+3),#best .chip:nth-child(n+3){display:none}
+/* brands index: 2-col uniform tiles */
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+}
+.phero p a{color:var(--on-dark);text-decoration:underline}
+/* Main content vertical padding: same gap below header/hero and above footer on every page */
+main.wrap{padding-top:var(--s6);padding-bottom:var(--s6)}

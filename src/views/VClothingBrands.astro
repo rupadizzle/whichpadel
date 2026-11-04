@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
+import Crumbs from '../components/Crumbs.astro';
 import { D, SITE, url } from '../i18n/index.js';
 import { CLOTH_BRANDS, CLOTH_BRANDS_UI } from '../i18n/clothing-brands.js';
 const { lang } = Astro.props;
@@ -24,7 +25,7 @@ const jsonld = {
 ---
 <Base lang={d.locale} title={T.title + d.copy.titleSuffix} description={T.desc} jsonld={jsonld} ogType="article">
 <section class="phero" slot="hero"><div class="wrap">
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:T.crumb}]}/>
 <span class="eyebrow">{T.eyebrow}</span>
 <h1>{T.h1}</h1>
 <Byline lang={lang} headline={T.h1} pageUrl={U} published={published} reviewed={published}/>
@@ -39,8 +40,4 @@ const jsonld = {
 {T.faq.map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
 <p>{UI.more}{T.nextLinks.map((v, i) => <><a href={v.href}>{v.label}</a>{T.nextLinks.length - 1 > i ? ' · ' : ''}</>)} · <a href={url('guide', lang)}>{UI.guideLink}</a></p>
 </article>
-<style>
-.hero-disc{color:rgba(255,255,255,.75)}
-.hero-disc a{color:inherit}
-</style>
 </Base>

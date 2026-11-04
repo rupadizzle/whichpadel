@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro';
 import { shoes, shoeImg } from '../lib/shoes.js'; import { balls, ballImg } from '../lib/balls.js'; import { bags, bagImg, bagOffer } from '../lib/bags.js'; import { SHOPS } from '../lib/price.js'; import { D, url } from '../i18n/index.js';
 import { TOOL } from '../i18n/tools.js';
@@ -15,8 +16,9 @@ const dealsHref=url('deals',lang);
 const SLOTS=T.slots;
 ---
 <Base lang={D(lang).locale} title={T.title+' | WhichPadel'} description={T.desc}>
-<article class="panel kit-page"><h1>{T.h1}</h1>
-<p>{T.lead}</p>
+<Crumbs label={D(lang).ui.breadcrumb} items={[{href:url('home',lang),label:D(lang).ui.home},{label:T.crumb}]}/>
+<article class="panel kit-page"><header class="page-hd"><h1>{T.h1}</h1>
+<p>{T.lead}</p></header>
 <div class="kit-board">
 <div class="kit-stage" id="kfig">
 <div class="kit-fig">
@@ -44,7 +46,7 @@ const SLOTS=T.slots;
 <p class="muted small" id="kpick-msg" aria-live="polite"></p>
 </form>
 </div>
-<ul id="kit" style="list-style:none;padding:0;margin:0"></ul><p class="muted small" id="kempty">{T.empty}</p>
+<ul id="kit" class="kit-list"></ul><p class="muted small" id="kempty">{T.empty}</p>
 <form id="kball" class="kit-balls" autocomplete="off">
 <label for="kball-q">{T.balls}</label>
 <div><input id="kball-q" list="kball-l" placeholder={T.ballsPh}><datalist id="kball-l"></datalist><button class="btn" type="submit">{T.add}</button></div>
@@ -73,12 +75,7 @@ function put(it){let a=read().filter(x=>x.k!==it.k&&x.t!=='Shirt'); if(it.t!=='B
 function paintFig(){const w=worn();
  document.querySelectorAll('.kit-zone').forEach(el=>{const s=el.dataset.slot, x=w[s]; el.classList.toggle('is-set',!!x); el.classList.toggle('is-open',openSlot===s);
   el.setAttribute('aria-pressed',openSlot===s?'true':'false'); el.setAttribute('aria-label',x?`${SLOTS[s].t}: ${x.n}`:`${SLOTS[s].t}`);});
- placeHits();}
-function placeHits(){const fig=document.querySelector('.kit-fig'), fr=fig.getBoundingClientRect(), svg=fig.querySelector('svg'); if(!svg) return;
- const box={bag:'#fig-bag',racket:'#fig-racket',shoes:'#fig-shoes'};
- const grow={bag:[6,6],racket:[6,6],shoes:[8,6]};
- for(const [s,sel] of Object.entries(box)){const r=svg.querySelector(sel).getBoundingClientRect(); const zone=fig.querySelector(`[data-zone="${s}"]`); const [gy,gx]=grow[s];
-  zone.style.left=(r.left-fr.left-gx)+'px'; zone.style.top=(r.top-fr.top-gy)+'px'; zone.style.width=(r.width+gx*2)+'px'; zone.style.height=(r.height+gy*2)+'px';}}
+}
 function closePick(){openSlot=null; $('kpick').hidden=true; paintFig();}
 async function showResults(q){const mine=++req, slot=openSlot; if(!SLOTS[slot]) return; const n=q.trim().toLowerCase();
  if(n.length<2){$('kpick-list').innerHTML=''; $('kpick-msg').textContent=''; return;}
@@ -87,7 +84,7 @@ async function showResults(q){const mine=++req, slot=openSlot; if(!SLOTS[slot]) 
  if(mine!==req||openSlot!==slot) return;
  const type=TYPE[slot], on=worn()[slot];
  const hit=[...byKey.values()].filter(x=>x.t===type&&x.n.toLowerCase().includes(n)).sort((a,b)=>(a.n.toLowerCase().startsWith(n)?0:1)-(b.n.toLowerCase().startsWith(n)?0:1)||a.n.localeCompare(b.n)).slice(0,12);
- $('kpick-list').innerHTML=hit.map(x=>`<li><button type="button" data-k="${esc(x.k)}"${on&&on.k===x.k?' aria-current="true"':''}>${x.i?`<img src="${esc(x.i)}" alt="" width="48" height="48">`:`<span class="kit-ph"></span>`}<span class="kit-rn">${esc(x.n)}${x.kind?`<small class="muted" style="display:block">${esc(x.kind)}</small>`:''}</span></button></li>`).join('');
+ $('kpick-list').innerHTML=hit.map(x=>`<li><button type="button" data-k="${esc(x.k)}"${on&&on.k===x.k?' aria-current="true"':''}>${x.i?`<img src="${esc(x.i)}" alt="" width="48" height="48">`:`<span class="kit-ph"></span>`}<span class="kit-rn">${esc(x.n)}${x.kind?`<small class="muted kit-sub">${esc(x.kind)}</small>`:''}</span></button></li>`).join('');
  $('kpick-msg').textContent=hit.length?String(hit.length):'';}
 function openPick(slot){openSlot=slot; const meta=SLOTS[slot]; $('kpick').hidden=false; $('kpick-h').textContent=meta.t; $('kpick-lead').textContent=meta.lead; $('kpick-f').hidden=false;
  $('kpick-qlabel').textContent=meta.label; $('kpick-q').placeholder=meta.ph; $('kpick-msg').textContent=''; $('kpick-list').innerHTML=''; $('kpick-q').value='';
@@ -107,9 +104,9 @@ async function render(){const kept=read().filter(x=>x.t!=='Shirt'); if(kept.leng
    if(e&&e.p>0){const v=WPDeal.verdict(e); hint=`${F(e.p,e.c)} · ${esc(e.n||e.d)}`; hint+=v?' · '+esc(v.t):e.drop>=5?` · −${e.drop}%`:'';}
    else if(x.t==='Bag'){const px=(byKey.get(x.k)||{}).px; if(px) hint=`${F(px[0],px[1])} · ${esc(px[2])}`;}}
   const go=x.u?`<a class="btn btn-line btn-sm" href="${esc(x.u)}">→</a>`:'';
-  return `<li style="display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #e8edf0">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" style="object-fit:contain">`:''}<span style="flex:1"><small class="muted">${esc(x.kind||x.t)}</small><br/><b>${x.u?`<a href="${esc(x.u)}">${esc(x.n)}</a>`:esc(x.n)}</b><small style="display:block">${hint}</small></span>${go} <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}">✕</button></li>`;}));
+  return `<li class="kit-li">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" class="kit-li-img">`:''}<span class="kit-li-txt"><small class="muted">${esc(x.kind||x.t)}</small><br/><b>${x.u?`<a href="${esc(x.u)}">${esc(x.n)}</a>`:esc(x.n)}</b><small class="kit-sub">${hint}</small></span>${go} <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}">✕</button></li>`;}));
  UL.innerHTML=rows.join(''); UL.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{write(read().filter(x=>x.k!==b.dataset.rm)); render();});}
-addEventListener('resize',placeHits);
+
 render();
 </script>
 </Base>

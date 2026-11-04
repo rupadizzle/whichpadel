@@ -27,6 +27,8 @@ jobs:
           for p in / /rackets/ /balls/; do c=$(curl -s -o /dev/null -w '%{http_code}' "https://whichpadel.com$p"); echo "$p $c"; [ "$c" = 200 ]; done
       - name: Site checks (report only)
         continue-on-error: true
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144   # seoqa holds every page's hreflang map; the default heap runs out
         run: |
           npx -y playwright-core install --with-deps chromium >/dev/null 2>&1 || true
           (npx astro preview --port 4987 --host 127.0.0.1 >/tmp/srv.log 2>&1 &); sleep 5

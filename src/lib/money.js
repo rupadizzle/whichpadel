@@ -24,3 +24,19 @@ export function render(html,lang,rates){
  if(mt) out=out.replace(/<html\b([^>]*)>/,(_,a)=>`<html${a} data-mt="${mt.replace(/"/g,'&quot;')}">`);
  return out;
 }
+
+// Prose written by hand (guides) with literal amounts: turn every amount into a token so it follows the visitor's currency.
+// Thresholds ("under £50", "menos de 50 €") become budget tokens (rounded local equivalent); other amounts convert exactly.
+// Handles symbol-first (£4.25, $30, €30) and number-first runs ("50 / 100 / 150 €", "2–4 €", "4,25 €").
+const PROSE_CUR={'£':'GBP','€':'EUR','$':'USD'};
+const PROSE_TH=/(under|below|less than|up to|menos de|hasta|unter|bis zu|sotto|fino a|moins de|jusqu'à|até|abaixo de)\s*[~≈]?\s*(?:[£$€]?\s?\d+(?:[.,]\d{1,2})?\s?€?\s?(?:\/|–|-)\s?)*$/i;
+export function moneyProse(s){
+ if(!s||typeof s!=='string') return s;
+ const num=n=>+String(n).replace(',','.');
+ const kind=(str,off)=>PROSE_TH.test(str.slice(Math.max(0,off-40),off))?'b':'m';
+ // number-first runs ending in €: "50 / 100 / 150 €", "2–4 €", "4,25 €"
+ s=s.replace(/(\d+(?:[.,]\d{1,2})?)((?:\s?(?:\/|–|-)\s?\d+(?:[.,]\d{1,2})?)*)\s?€/g,(m,a,rest,off,str)=>{const k=kind(str,off); return tk(num(a),'EUR','EUR',k)+rest.replace(/\d+(?:[.,]\d{1,2})?/g,n=>tk(num(n),'EUR','EUR',k));});
+ // symbol-first: £4.25, $30, €30
+ s=s.replace(/([£$€])\s?(\d+(?:[.,]\d{1,2})?)/g,(m,c,n,off,str)=>tk(num(n),PROSE_CUR[c],PROSE_CUR[c],kind(str,off)));
+ return s;
+}

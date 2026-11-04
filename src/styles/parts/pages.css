@@ -1,0 +1,124 @@
+/* Other pages: tools, kit, saved, brand lists, guides. Values come from tokens.css; shared components live in components.css. */
+/* filters */
+.filters{display:grid;grid-template-columns:2fr repeat(5,1fr) .8fr;gap:var(--s2);align-items:end}
+@media (width < 900px){
+.filters{grid-template-columns:1fr 1fr}
+}
+.filters{grid-template-columns:1.6fr repeat(6,minmax(0,1fr))}
+@media (width < 900px){
+.filters{grid-template-columns:1fr 1fr}
+}
+.bcard{display:flex;align-items:center;gap:var(--s4);background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);box-shadow:var(--sh);text-decoration:none;color:var(--ink);min-height:44px}
+.bcard:hover{border-color:var(--green-2)}
+.bcard>span:not(.bmark){display:flex;flex-direction:column;min-width:0}
+.bcard .bmark{flex:0 0 72px;width:72px;height:28px}
+.bcard .bmark.on{background:var(--ink);-webkit-mask:var(--mark) center/contain no-repeat;mask:var(--mark) center/contain no-repeat;mask-mode:alpha}
+.bmeta{display:flex;flex-direction:column;gap:var(--s0);line-height:var(--lh-ui)}
+.brandlinks{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}
+@media (width < 900px){
+/* filter sheet */
+.filters{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-panel);margin:0;border-radius:var(--r-l) var(--r-l) 0 0;max-height:85vh;overflow:auto;padding-bottom:0;box-shadow:var(--sh-bar)}
+#filters.filters{display:none;grid-template-columns:1fr 1fr}
+#filters.filters.open{display:grid}
+}
+.bfilter{margin-bottom:var(--s4)}
+/* single card level */
+.bcard,.hc,.rv a,.tscroll,.buybox{border:1px solid var(--line);border-radius:var(--r);box-shadow:none;background:var(--card)}
+.filters.panel{padding:0}
+@media (width < 900px){
+.filters.panel.open{background:var(--card);padding:var(--s4)}
+}
+/* sticky filters bar: solid, single count */
+/* guides chip row */
+.gchips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
+@media (width < 600px){
+.gchips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:var(--s2);scrollbar-width:none}
+.gchips li{flex:0 0 auto;scroll-snap-align:start}
+#best .rank{position:absolute;top:var(--s2);left:var(--s2);z-index:1}
+.bcard{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s3);min-height:72px}
+.bcard .bmark{flex-basis:52px;width:52px;height:22px}
+}
+.gchips{contain:inline-size;min-width:0}
+.rw-pick{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.rw-pick label{display:flex;flex-direction:column;gap:var(--s1);min-width:0}
+.rw-pick select{min-height:44px;width:100%;max-width:100%;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--r);background:var(--card);font:inherit}
+.rw-rows{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s4)}
+.rw-row{display:grid;grid-template-columns:minmax(0,1fr) 30% 3ch;gap:var(--s3);align-items:center}
+.rw-n{display:flex;flex-direction:column;min-width:0}
+.rw-say{margin:var(--s4) 0 0;padding-left:var(--s5)}
+.rw-n a{display:inline-flex;align-items:center;min-height:44px}
+/* home finder CTA */
+.fcta-card{display:flex;align-items:center;gap:var(--s3);padding:var(--s4);border:1px solid var(--line);border-radius:var(--r);background:var(--card);text-decoration:none;color:var(--ink);min-height:72px}
+.fcta-card:hover{border-color:var(--navy)}
+.fcta-ic{font-size:var(--fs-3xl)}
+.fcta-t{display:flex;flex-direction:column;gap:var(--s0)}
+.fcta-t b{font-size:var(--fs-base)}
+.fcta-t span{font-size:var(--fs-s);color:var(--mut)}
+.fcta-arr{margin-left:auto;width:44px;height:44px;border-radius:var(--r-pill);background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:var(--fw-black);font-size:var(--fs-xl);flex:0 0 auto}
+/* Best lists: ranking in two thirds, finder and other lists in the third. */
+.fcard{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);justify-content:space-between;margin:var(--s5) 0}
+.fcard h2{margin:0 0 var(--s2)}
+.fcard p{margin:0}
+.best-split{display:grid;grid-template-columns:minmax(0,2fr) minmax(17rem,1fr);column-gap:var(--s7);align-items:start}
+.best-main{min-width:0;display:flex;flex-direction:column;gap:var(--s4)}
+.best-main>.panel{margin:0}
+.best-side{position:sticky;top:calc(80px + var(--bf));min-width:0;display:flex;flex-direction:column;gap:var(--s6)}
+.best-side .fcard{flex-direction:column;align-items:flex-start;gap:var(--s3);margin:0;padding:var(--s4) var(--s4) var(--s4);background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.best-side .fcard .btn{align-self:flex-start}
+.best-side .vs h2{margin:0 0 var(--s2)}
+.best-side .vs a{padding:var(--s3) 0}
+.best-side .vs p{margin:var(--s4) 0 0}
+@media (width <= 1180px){
+/* The best card stacks once its column is 640px. The sidebar has to leave before that,
+   or the column widens again when the sidebar drops and the card unstacks. */
+.best-split{grid-template-columns:1fr;row-gap:var(--s6)}
+.best-side{position:static}
+}
+#saved-keep,#saved-acct{margin-top:var(--s4)}
+/* My kit: a person with tappable bag, racket and shoes */
+.kit-page>p{max-width:42rem}
+.kit-board{display:grid;grid-template-columns:280px minmax(0,1fr);gap:var(--s5);align-items:start;margin-top:var(--s2)}
+.kit-stage{max-width:280px}
+.kit-side{min-width:0}
+.kit-fig{position:relative;background:var(--tint);border-radius:var(--r-l);overflow:hidden}
+.kit-fig img{display:block;width:100%;height:auto}
+.kit-fig svg{position:absolute;inset:0;width:100%;height:100%}
+.kit-zone{position:absolute;z-index:2;margin:0;padding:0;border:2px dashed var(--on-dark);border-radius:var(--r-l);background:var(--wash-2);box-shadow:0 0 0 1px var(--navy-ring);color:var(--ink);font:inherit;cursor:pointer}
+.kit-zone span{position:absolute;left:8px;top:8px;padding:var(--s0) var(--s2);border-radius:var(--r-s);background:var(--card);font-size:var(--fs-xs);font-weight:var(--fw-head);line-height:var(--lh-body);pointer-events:none}
+.kit-zone:hover,.kit-zone.is-open{background:var(--lime-wash-2);border-color:var(--lime)}
+.kit-zone.is-set{border-style:solid;border-color:var(--lime)}
+.kit-zone.is-open{border-color:var(--lime);box-shadow:0 0 0 3px var(--lime)}
+.kit-zone:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.kit-pick{max-width:32rem}
+.kit-pick-h{display:flex;align-items:center;justify-content:space-between;gap:var(--s3)}
+.kit-pick-h h2{margin:0}
+.kit-pick>p{margin:var(--s2) 0 0}
+.kit-field{margin:var(--s3) 0 0}
+.kit-field label{font-weight:var(--fw-ui)}
+.kit-field select,.kit-field input{width:100%;box-sizing:border-box;margin-top:var(--s2)}
+.kit-field p{margin:var(--s2) 0 0}
+.kit-results{list-style:none;margin:var(--s3) 0 0;padding:0;max-height:min(440px,52vh);overflow:auto}
+.kit-results button{display:flex;align-items:center;gap:var(--s3);width:100%;min-height:44px;padding:var(--s2);border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.kit-results button:hover,.kit-results button[aria-current="true"]{background:var(--tint)}
+.kit-results img,.kit-ph{width:48px;height:48px;object-fit:contain;flex:none}
+.kit-rn{flex:1;min-width:0}
+.kit-results button[aria-current="true"]::after{content:"Selected";margin-left:auto;color:var(--green);font-size:var(--fs-s);font-weight:var(--fw-head)}
+.kit-balls{margin:var(--s4) 0 0}
+.kit-balls div{display:flex;gap:var(--s2);margin-top:var(--s2)}
+.kit-balls input{flex:1;min-width:0}
+.kit-balls p{margin:var(--s2) 0 0}
+@media (width < 900px){
+.kit-board{grid-template-columns:1fr}
+.kit-stage{max-width:280px;margin:0 auto}
+}
+
+/* my kit: chosen-items list */
+.kit-list{list-style:none;margin:0;padding:0}
+.kit-li{display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-top:1px solid var(--line)}
+.kit-li-img{object-fit:contain}
+.kit-li-txt{flex:1}
+.kit-sub{display:block}
+/* hotspots over the player figure, from the SVG rects (viewBox 266x450): placed by CSS so they are right from the first paint */
+.kit-zone[data-zone="bag"]{left:0.00%;top:22.67%;width:43.61%;height:38.22%}
+.kit-zone[data-zone="racket"]{left:53.38%;top:20.44%;width:46.62%;height:30.22%}
+.kit-zone[data-zone="shoes"]{left:23.31%;top:79.56%;width:49.62%;height:19.56%}

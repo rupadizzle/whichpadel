@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro'; import { feelData } from '../lib/extra.js'; import { rackets } from '../lib/data.js'; import { D, url, SITE } from '../i18n/index.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, C=d.copy.tool;
 const D0=feelData(); const def=['bullpadel-vertex-05-2027','bullpadel-flow-legend-2027','nox-at10-pro-cup-hard-2026','adidas-metalbone-2026'].filter(s=>D0.some(x=>x.s===s)).slice(0,2);
@@ -6,8 +7,8 @@ const jsonld={'@context':'https://schema.org','@graph':[{'@type':'WebApplication
 const S={need2:C.need2,balEst:C.balEst,bal:C.bal,same:C.same('§1','§2'),heavier:C.heavier('§1','§p','§2'),lightest:C.lightest('§1'),rk:url('racket',lang,'§')};
 ---
 <Base lang={d.locale} title={C.title+d.copy.titleSuffix} description={C.desc(D0.length)} jsonld={jsonld}>
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{u.tools}</span></nav>
-<h1>{C.h1}</h1><p class="lead-sm">{C.lead}</p>
+<Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:u.tools}]}/>
+<header class="page-hd"><h1>{C.h1}</h1><p>{C.lead}</p></header>
 <section class="panel" id="rw"><h2 class="h3">{C.pickH}</h2>
 <div class="rw-pick">{[0,1,2].map(i=><label><span class="small">{C.pick(i+1)}{i===2&&C.optional}</span><select data-i={i} aria-label={C.pick(i+1)}><option value="">{C.choose}</option>{D0.map(x=><option value={x.s} selected={def[i]===x.s}>{x.m}</option>)}</select></label>)}</div>
 <div id="rw-out" aria-live="polite"></div></section>

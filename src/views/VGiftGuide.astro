@@ -1,11 +1,14 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
 import { D, SITE, url } from '../i18n/index.js';
 import { GIFT, GIFT_UI } from '../i18n/gift-guide.js';
+import { moneyProse } from '../lib/money.js';
 const { lang, id } = Astro.props;
 const d = D(lang), u = d.ui;
-const T = GIFT[id][lang];
+const deepMoney = v => typeof v === 'string' ? moneyProse(v) : Array.isArray(v) ? v.map(deepMoney) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepMoney(x)])) : v;
+const T = deepMoney(GIFT[id][lang]); // amounts in the prose follow the visitor's currency
 const UI = GIFT_UI[lang];
 const U = SITE + url('gifts', lang, id);
 const published = '2026-11-03';
@@ -23,7 +26,7 @@ const jsonld = {
 ---
 <Base lang={d.locale} title={T.title + d.copy.titleSuffix} description={T.desc} jsonld={jsonld} ogType="article">
 <section class="phero" slot="hero"><div class="wrap">
-<nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home', lang)}>{u.home}</a> › <span>{T.crumb}</span></nav>
+<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:T.crumb}]}/>
 <span class="eyebrow">{T.eyebrow}</span>
 <h1>{T.h1}</h1>
 <Byline lang={lang} headline={T.h1} pageUrl={U} published={published} reviewed={published}/>
@@ -38,8 +41,4 @@ const jsonld = {
 {T.faq.map(([q, a]) => <div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
 <p>{UI.more}{T.nextLinks.map((v, i) => <><a href={v.href}>{v.label}</a>{T.nextLinks.length - 1 > i ? ' · ' : ''}</>)} · <a href={url('guide', lang)}>{UI.guideLink}</a></p>
 </article>
-<style>
-.hero-disc{color:rgba(255,255,255,.75)}
-.hero-disc a{color:inherit}
-</style>
 </Base>

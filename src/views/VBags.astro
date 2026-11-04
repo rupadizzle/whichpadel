@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 // Padel bags (racket bags, backpacks, holdalls): one view for /bags/ and /es/paleteros-mochilas-padel/. Copy lives in src/i18n/bags.js, data in data/bags.json via src/lib/bags.js.
 // Lists only confirmed 2025-27 models. Shop buttons go straight to the shop (rel="sponsored nofollow"); shop names are never shown.
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import { D, url, SITE, money } from '../i18n/index.js'; import { tk } from '../lib/money.js';
@@ -17,7 +18,7 @@ const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'FAQPage','mainEntity':T.faq(s,date).map(([q,a])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}}))}]};
 ---
 <Base lang={d.locale} title={T.title+d.copy.titleSuffix} description={T.desc} jsonld={jsonld}>
-<section class="phero" slot="hero"><div class="wrap"><nav class="crumbs" aria-label={u.breadcrumb}><a href={url('home',lang)}>{u.home}</a> › <span>{T.crumb}</span></nav><span class="eyebrow">{T.eyebrow(s)}</span><h1>{T.h1}</h1><Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{T.lead}</p></div><span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></div></section>
+<section class="phero" slot="hero"><div class="wrap"><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:T.crumb}]}/><span class="eyebrow">{T.eyebrow(s)}</span><h1>{T.h1}</h1><Byline lang={lang} headline={T.h1} pageUrl={U} published="2026-10-27" reviewed="2026-10-27"/><div class="seo"><p>{T.lead}</p></div><span class="disc hero-disc">{u.ad}: {u.adNote} <a href={url('affiliate',lang)}>{u.disclosure}</a></span></div></section>
 <article class="prose pg bagpg">
 <div class="tldr"><h2>{T.tldrH}</h2><ul>{T.tldr(s,m).map(x=><li set:html={x}/>)}</ul></div>
 <nav class="toc" aria-label={T.tocH}><b>{T.tocH}</b><ol>{Object.entries(T.toc).map(([id,l])=><li><a href={'#'+id}>{l}</a></li>)}</ol></nav>
@@ -37,23 +38,21 @@ const jsonld={'@context':'https://schema.org','@graph':[
 {T.faq(s,date).map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}
 <p set:html={T.more(k=>url(k,lang))}/></article>
 <style>
-.hero-disc{color:rgba(255,255,255,.75)}
-.hero-disc a{color:inherit}
 .bagt td{vertical-align:middle}
 .bagt th:first-child{width:42%}
-.bagn{display:flex;gap:.625rem;align-items:center;min-width:0}
+.bagn{display:flex;gap:var(--s2);align-items:center;min-width:0}
 .bagn > span{min-width:0}
-.bagn img{width:56px;height:56px;object-fit:contain;flex:none;border-radius:6px;background:#fff}
-.bagn small{display:block;color:var(--mut);font-size:.75rem;line-height:1.3}
-.bagt .btn{margin-top:.25rem;white-space:nowrap}
-@media (max-width:640px){
+.bagn img{width:56px;height:56px;object-fit:contain;flex:none;border-radius:var(--r-s);background:var(--card)}
+.bagn small{display:block;color:var(--mut);font-size:var(--fs-xs);line-height:var(--lh-ui)}
+.bagt .btn{margin-top:var(--s1);white-space:nowrap}
+@media (width < 600px){
  .bagt thead{display:none}
  .bagt table,.bagt tbody{display:block}
- .bagt tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.375rem .5rem;padding:.75rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
- .bagt td{display:block;border:0;padding:0;font-size:.85rem}
+ .bagt tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2) var(--s2);padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+ .bagt td{display:block;border:0;padding:0;font-size:var(--fs-m)}
  .bagt td:first-child,.bagt td.bagp{grid-column:1/-1}
- .bagt td[data-l]::before{content:attr(data-l);display:block;color:var(--mut);font-size:.7rem}
- .bagt td.bagp{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+ .bagt td[data-l]::before{content:attr(data-l);display:block;color:var(--mut);font-size:var(--fs-xs)}
+ .bagt td.bagp{display:flex;align-items:center;justify-content:space-between;gap:var(--s2)}
  .bagt td.bagp br{display:none}
  .bagt .btn{margin-top:0}
  .bagn img{width:48px;height:48px}

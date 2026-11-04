@@ -63,7 +63,7 @@ function draw(){drawn=true; save(); const xs=sel.slice(0,cap).map(s=>by[s]); con
  root.innerHTML=h;}
 function list(){const q=$('sheet-q').value.toLowerCase().trim(); const r=slim.filter(x=>!sel.includes(x.s)&&(!q||(x.n+' '+x.b).toLowerCase().includes(q))).slice(0,40);
  $('sheet-list').innerHTML=r.length?r.map(x=>`<li><button type="button" data-pick="${x.s}">${img(x)}<span><b>${esc(x.n)}</b><small>${esc(x.g||'')} · ${esc(x.pt||none)}</small></span></button></li>`).join(''):'<li class="muted">'+esc(C.noMatch)+'</li>';}
-function open(i){slot=i; $('sheet-q').value=''; list(); sheet.showModal(); if(matchMedia('(min-width:700px)').matches) $('sheet-q').focus();}
+function open(i){slot=i; $('sheet-q').value=''; list(); sheet.showModal(); if(matchMedia('(min-width:900px)').matches) $('sheet-q').focus();}
 function onClick(e){const t=e.target.closest('[data-add],[data-rm],[data-pick],[data-close],[data-quick]'); if(!t){ if(e.target===sheet) sheet.close(); return;}
  const d=t.dataset; if(d.add!=null) open(+d.add); else if(d.rm!=null){sel.splice(+d.rm,1); if(sel.length<3) cap=2; draw();} else if(d.quick){if(sel.length<cap) sel.push(d.quick); draw();}
  else if(d.pick){ if(slot<sel.length) sel[slot]=d.pick; else if(sel.length<cap) sel.push(d.pick); held=held.filter(s=>!sel.includes(s)); sheet.close(); draw(); const sc=root.closest('.cmp-take-body'); if(sc) sc.scrollTop=0; else window.scrollTo({top:0}); }

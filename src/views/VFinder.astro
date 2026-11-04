@@ -211,7 +211,7 @@ function paintPicks(){const box=$('fz-choices'); if(!box) return; const win=fzTo
    const li=libCard(item.d,lines.filter(Boolean).join(' · '),price);
    if(li){const photo=li.querySelector('.rk-i'); if(photo){const badge=document.createElement('span'); badge.className='fz-badge'; badge.textContent='#'+(i+1); photo.appendChild(badge);}
     const open=()=>{fzOpen=i; paintPicks(); const opened=$('fz-choices').children[i]; if(opened) opened.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'});};
-    const a=li.querySelector('.rk-a'); a.removeAttribute('href'); a.setAttribute('role','button'); a.tabIndex=0; a.setAttribute('aria-expanded','false');
+    const a=li.querySelector('.rk-a'); a.removeAttribute('href'); a.setAttribute('role','button'); a.tabIndex=0; /* promotes this pick to the featured result; it does not expand, so no aria-expanded */
     a.addEventListener('click',e=>{e.preventDefault(); open();});
     a.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ') return; e.preventDefault(); a.click();});
     ul.appendChild(li);}

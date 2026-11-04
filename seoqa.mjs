@@ -10,10 +10,10 @@ for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/
  // /us/ pages: English (US) only, no translated twin -> exactly one self-referencing en-US hreflang
  if(rel.startsWith('/us/')){ if(Object.keys(alts).join()!=='en-US'||alts['en-US']!==S+rel) errs.push(`${rel}: want only self en-US hreflang`); continue; }
  // English-only pages with no translations: canonical only, no hreflang set
- if(['/deals/','/describe/','/describe-shoes/','/my-kit/','/padel-vs-paddle-tennis/','/guides/how-to-hold-a-padel-racket/','/guides/padel-rules/'].includes(rel)){ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
+ if(['/describe/','/describe-shoes/'].includes(rel)) /* deals, my kit, padel rules, how to hold and padel vs paddle now ship in all six languages */{ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
  if(EN_ONLY_XD.includes(rel)){ if(Object.keys(alts).sort().join()!=='en,x-default'||alts.en!==S+rel||alts['x-default']!==alts.en) errs.push(`${rel}: want only self en + x-default hreflang`); continue; }
  // English + Spanish pair pages (no other translations yet): exactly en, es and x-default, reciprocal like the rest
- const PAIR=rel.startsWith('/bags/')||rel.startsWith('/es/paleteros-mochilas-padel/')||['/padel-clothing/','/es/ropa-padel/','/padel-accessories/','/es/accesorios-padel/','/padel-grips-overgrips/','/es/grips-overgrips-padel/','/padel-ball-pressuriser/','/es/presurizador-pelotas-padel/','/padel-ball-machine/','/es/maquina-lanzapelotas-padel/'].includes(rel);
+ const PAIR=['/padel-clothing/','/es/ropa-padel/'].includes(rel); /* en+es only pages; bags, accessories, grips, pressuriser and ball machine now ship in all six languages */
  for(const l of [...(PAIR?['en','es']:LANGS),'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
  if(PAIR&&Object.keys(alts).length!==3) errs.push(`${rel}: en+es page should have only en, es and x-default hreflang`);
  if(alts['x-default']&&alts['x-default']!==alts.en) errs.push(`${rel}: x-default != en`);

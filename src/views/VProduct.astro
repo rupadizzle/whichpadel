@@ -1,4 +1,5 @@
 ---
+import Crumbs from '../components/Crumbs.astro';
 // Product pages: racket, shoe, ball. Shared gallery, buy box chrome, sticky price bar and live-price script.
 import Base from '../layouts/Base.astro';
 import Price from '../components/Price.astro';
@@ -14,6 +15,7 @@ import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
 import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L, ckTxt } from '../lib/data.js';
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
+import { titleCore } from '../lib/racket-title.js';
 import { offersOf, SHOPS, domainOf, FX, shopHref, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
@@ -30,30 +32,6 @@ const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
 const pxJson = (offs, checked) => JSON.stringify((offs || []).filter(o => o && o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(checked ? { t: checked } : {}) })));
 
-const titleModel = (r) => {
-  let m = String(r.model || '');
-  m = m.replace(/\s+by\s+\S(?:.*\S)?$/i, '').trim();
-  let disamb = '';
-  if (r.player) {
-    const esc = String(r.player).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const before = m;
-    m = m.replace(new RegExp('\\s+' + esc + '\\s*$', 'i'), '').trim();
-    if (before !== m) {
-      const parts = String(r.player).trim().split(/\s+/).filter(Boolean);
-      disamb = parts.length ? parts[parts.length - 1] : '';
-    }
-  }
-  if (r.year != null) {
-    const y = String(r.year);
-    const idx = m.search(new RegExp('\\s+' + y + '\\b'));
-    if (idx >= 0) {
-      const after = m.slice(idx + y.length + 1).trim();
-      m = m.slice(0, idx).trim();
-      if (after) disamb = after.split(/\s+/).filter(Boolean).pop() || disamb;
-    }
-  }
-  return { core: m || String(r.model || ''), disamb };
-};
 const clipTitle = (core, suffix, max = 65) => {
   const room = max - suffix.length;
   if (room < 8) return (core + suffix).slice(0, max);
@@ -96,20 +74,7 @@ const page = (() => {
     const offerPick = pick(r, d.region || DEFAULT_REGION(lang));
     const offerLd = !offerPick.none ? { offers: { '@type': 'Offer', price: String(offerPick.v), priceCurrency: offerPick.cur, url: (offerPick.o && offerPick.o.u) || r.productUrl } } : {};
     const titleOverhead = C.title('').length + d.copy.titleSuffix.length;
-    const tm = titleModel(r);
-    let titleBare = tm.core;
-    const titleYear = r.year != null ? String(r.year) : '';
-    const disamb = tm.disamb;
-    const yearLen = titleYear ? titleYear.length + 1 : 0;
-    const disambLen = disamb ? disamb.length + 1 : 0;
-    if (titleBare.length + disambLen + yearLen + titleOverhead > 65) {
-      const room = Math.max(8, 65 - titleOverhead - yearLen - disambLen);
-      titleBare = titleBare.slice(0, room);
-      const sp = titleBare.lastIndexOf(' ');
-      if (sp > room * 0.5) titleBare = titleBare.slice(0, sp);
-    }
-    if (disamb) titleBare = `${titleBare} ${disamb}`.trim();
-    if (titleYear) titleBare = `${titleBare} ${titleYear}`.trim();
+    const titleBare = titleCore(r, titleOverhead); // unique within the language; see src/lib/racket-title.js
     const racketTitle = C.title(titleBare) + d.copy.titleSuffix;
     return {
       locale: d.locale, title: racketTitle, description: C.desc(r, t, x.price), ogImage: absImg(r),
@@ -292,7 +257,7 @@ const view = (() => {
 ---
 <Base lang={page.locale} title={page.title} description={page.description} jsonld={page.jsonld} ogImage={page.ogImage} ogType="product">
 {page.preload && <Fragment slot="head"><link rel="preload" as="image" href={page.preload.href} imagesrcset={page.preload.srcset} imagesizes="(max-width: 899px) 100vw, 480px" fetchpriority="high"/></Fragment>}
-<nav class="crumbs" aria-label={u.breadcrumb}>{crumb.map((c, i) => <>{i > 0 && ' › '}{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}</nav>
+<Crumbs label={u.breadcrumb} items={crumb}/>
 <div class="detail rp2">
 <header class="rph">
 <p class="brand"><span>{view.brandHref ? <a href={view.brandHref}>{view.brand}</a> : view.brand}{view.year && <> · {view.yearHref ? <a href={view.yearHref}>{view.year}</a> : view.year}</>}</span><SaveHeart slug={view.save} kind={view.saveKind} off={u.save} on={u.saved}/></p>
@@ -311,29 +276,29 @@ const view = (() => {
 <div class="pxhist" id="pxhist" hidden></div>
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
 {view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
-{kind !== 'racket' && view.compareHref && <a class="btn btn-sm" style="width:100%" href={view.compareHref}>{view.compareLabel}</a>}
-{view.sizeNote && <p class="muted small" id="pxsize" style="margin:8px 0 0">{view.sizeNote}</p>}
+{kind !== 'racket' && view.compareHref && <a class="btn btn-sm btn-block" href={view.compareHref}>{view.compareLabel}</a>}
+{view.sizeNote && <p class="muted small m0 mt2" id="pxsize">{view.sizeNote}</p>}
 </aside>
 {kind === 'racket' && <aside class="pxwatch"><h2 class="h3">{u.px.cmp.alertDrop}</h2><p class="muted">{u.alertP('x')}</p><button type="button" class="btn btn-line pxalert-cta" data-slug={r.slug} data-kind="r" data-h={u.alertH('{n}')} data-off={u.alertBtn} data-on={u.alerted}><svg class="bell" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8.5a6 6 0 0 1 12 0c0 4.5 1.5 6 1.5 8.5h-15c0-2.5 1.5-4 1.5-8.5z"/><path d="M10 18.5a2 2 0 0 0 4 0"/></svg><span class="pxalert-lab">{u.alertBtn}</span></button></aside>}
 </div>
 <div class="rpbody">
-{lang === 'en' && <section class="panel dcheck" hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
+{lang === 'en' && <section class="panel dcheck" data-parity-skip hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><h2>{view.overview}</h2><p class="intro">{view.intro}</p>
 {view.suits.length > 0 && <>{view.suitsH && <h3>{view.suitsH}</h3>}<ul class="suits">{view.suits.map(line => <li>{line}</li>)}</ul></>}
 {(view.pros.length > 0 || view.cons.length > 0) && <div class="pc">{view.pros.length > 0 && <div><h3>{view.prosH}</h3><ul class="pros">{view.pros.map(line => <li>{line}</li>)}</ul></div>}{view.cons.length > 0 && <div><h3>{view.consH}</h3><ul class="cons">{view.cons.map(line => <li>{line}</li>)}</ul></div>}</div>}
 {kind === 'racket' && <p class="small rpguide">{page.C.notSure} <a href={url('guide', lang)}>{page.C.howChoose}</a> {page.C.orSee} <a href={url('best', lang, page.lvl)}>{d.copy.best.titles[page.lvl][0].toLowerCase()}</a>.</p>}
-{kind === 'racket' && page.inLists.length > 0 && <p class="muted small" style="margin:0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}
+{kind === 'racket' && page.inLists.length > 0 && <p class="muted small m0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}
 {view.shoeLinks && <p class="small rpguide">{view.shoeLinks.map((link, i) => <>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>)}</p>}
 </section>
-{view.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${view.avg * 3.6}deg,#e8edf0 0)`}><span>{view.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
+{view.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(var(--green-2) ${view.avg * 3.6}deg,var(--line) 0)`}><span>{view.avg}</span></div><div><h2 class="m0">{u.calcRatings}</h2><p class="muted small m0">{u.avgOfSix}</p></div></div>
 <div class="scores">{Object.entries(view.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
 <p class="muted small">{u.ratingsNote}</p></section>}
 <details class="panel rpspec" id="rpspec" open><summary><h2>{view.specH}</h2></summary><div class="tscroll"><table class="spec"><tbody>{view.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{view.specPrice && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}{view.usRow && <tr data-usrow hidden><th>{view.usRow.label}</th><td>{view.usRow.value}</td></tr>}</tbody></table></div>
-{view.missing && <p class="muted small" style="margin-top:12px">{view.missing}</p>}</details>
+{view.missing && <p class="muted small mt3">{view.missing}</p>}</details>
 {view.similar.length > 0 && <section class="panel"><h2>{view.similarH}</h2><div class="rpsim">{view.similar.map(item => <a href={item.href}><span class="rpsi">{item.img ? <img src={item.img} alt="" width="72" height="90" loading="lazy" decoding="async"/> : item.shape ? <RacketIcon shape={item.shape} size={40}/> : null}</span><span><b>{item.title}</b><small>{item.lead}{item.lead && item.item ? ' · ' : ''}{item.item && <Price r={item.item} lang={lang}/>}</small></span></a>)}</div>
-{view.similarCmp && <a class="btn btn-sm rpcmp" href={view.similarCmp.href}>{view.similarCmp.label} →</a>}</section>}
+{view.similarCmp && <a class="btn btn-line rpcmp" href={view.similarCmp.href}>{view.similarCmp.label} →</a>}</section>}
 {view.h2h.length > 0 && <section class="panel vs"><h2>{view.h2hH}</h2>{view.h2h.map(item => <a href={item.href}><span>{item.label}</span><span>→</span></a>)}</section>}
-{view.more.length > 0 && <section class="panel vs"><h2>{view.moreH}</h2>{view.more.map(item => <a href={item.href}><span>{item.name}</span><span>→</span></a>)}{(view.allHref || view.yearMore) && <p style="margin:12px 0 0">{view.allHref && <a href={view.allHref}>{view.allLabel}</a>}{view.yearMore && <>{view.allHref && ' · '}<a href={view.yearMore.href}>{view.yearMore.label}</a></>}</p>}</section>}
+{view.more.length > 0 && <section class="panel vs"><h2>{view.moreH}</h2>{view.more.map(item => <a href={item.href}><span>{item.name}</span><span>→</span></a>)}{(view.allHref || view.yearMore) && <p class="m0 mt3">{view.allHref && <a href={view.allHref}>{view.allLabel}</a>}{view.yearMore && <>{view.allHref && ' · '}<a href={view.yearMore.href}>{view.yearMore.label}</a></>}</p>}</section>}
 {view.finder && <section class="panel fcard"><div><h2 class="h3">{view.finder.h}</h2><p class="muted">{view.finder.p}</p></div><a class="btn" href={view.finder.href}>{view.finder.cta} →</a></section>}
 </div>
 </div>
