@@ -18,7 +18,7 @@ par(){ local pids=() names=() pats=(); for j in "$@"; do IFS='|' read -r n p c <
  [ $bad = 0 ] || fail QA; }
 smoke(){
  step "smoke QA (parallel, 390+1280)"; export QA_FAST=1 QA_WIDTHS=390,1280 QA_PAGES=$(node scripts/smoke-pages.mjs)
- par "curtext|CURTEXT PASS|node curtextqa.mjs" "mix|^0 issues|node mixqa.mjs" "px|PXQA PASS|node pxqa.mjs" "seo|0 issues|node seoqa.mjs" \
+ par "curtext|CURTEXT PASS|node curtextqa.mjs" "mix|^0 issues|node mixqa.mjs" "px|PXQA PASS|node pxqa.mjs" "seo|0 issues|NODE_OPTIONS=--max-old-space-size=6144 node seoqa.mjs" \
      "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs" "parity|, 0 mismatches|node parity.mjs http://127.0.0.1:${QA_PORT:-4987}" \
      "pad|PASS|node padqa.mjs" "geo|GEOQA PASS|node geoqa.mjs" "cmp|CMPQA PASS|node cmpqa.mjs" "picker|PICKERQA PASS|node pickerqa.mjs" "cur|curqa: pass|node curqa.mjs http://127.0.0.1:${QA_PORT:-4987}"
  unset QA_FAST QA_WIDTHS QA_PAGES; }

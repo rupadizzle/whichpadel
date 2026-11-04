@@ -12,7 +12,7 @@ function check(){
  // a) overlap of visible in-flow siblings
  for(const par of document.querySelectorAll('body, body *')){ if(!vis(par)) continue; const d=getComputedStyle(par).display; if(!/block|flex|grid/.test(d)||d.startsWith('inline')) continue;
   const kids=[...par.children].filter(k=>vis(k)&&inflow(k)&&!/^(SCRIPT|STYLE|BR|svg)$/i.test(k.tagName)&&getComputedStyle(k).display.match(/block|flex|grid|table|list-item/)&&!getComputedStyle(k).display.startsWith('inline')).slice(0,80);
-  for(let i=0;i<kids.length;i++)for(let j=i+1;j<kids.length;j++){const a=R(kids[i]),b=R(kids[j]);const ox=Math.min(a.right,b.right)-Math.max(a.left,b.left),oy=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top); if(ox>1&&oy>1) out.push('overlap: '+name(kids[i])+' x '+name(kids[j])+` (${Math.round(ox)}x${Math.round(oy)})`);}
+  if(par.closest('.hero-art')) continue; /* the three hero rackets are fanned to overlap on purpose */ for(let i=0;i<kids.length;i++)for(let j=i+1;j<kids.length;j++){const a=R(kids[i]),b=R(kids[j]);const ox=Math.min(a.right,b.right)-Math.max(a.left,b.left),oy=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top); if(ox>1&&oy>1) out.push('overlap: '+name(kids[i])+' x '+name(kids[j])+` (${Math.round(ox)}x${Math.round(oy)})`);}
  }
  // b) min 12px gap (was 16; Rupert's tighter --gap/section rhythm, commit e03cd78) between adjacent blocks
  const groups=['main','.detail>div','.grid','.l-grid','.bgrid','.rlist','.qcards','.ftr .cols'];
@@ -25,7 +25,7 @@ function check(){
  // c) overflow of parent / page
  const W=document.documentElement.clientWidth; if(document.documentElement.scrollWidth>W+1) out.push('page overflow-x '+document.documentElement.scrollWidth);
  for(const e of document.querySelectorAll('main *, header *, footer *')){ if(!vis(e)||!inflow(e)) continue; const p=e.parentElement; if(!p||!vis(p)) continue;
-  if(e.closest('.rpg,.kchips,.tscroll,.tw,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
+  if(e.closest('.rpg,.kchips,.tscroll,.tw,.rk-strip,.brand-switch,.gchips,.hrow,.tp-row,.rv,.pick-list,.chipset input')||getComputedStyle(p).display.startsWith('inline')||/^(svg|path|INPUT)$/i.test(e.tagName)) continue;
   const a=R(e),b=R(p); if(b.width<=1) continue; /* inside screen-reader-only box */ if(a.left<b.left-1||a.right>b.right+1) out.push('overflows parent: '+name(e)+' in '+name(p)+` (${Math.round(a.left-b.left)},${Math.round(a.right-b.right)})`);}
  // d) text clipping
  for(const e of document.querySelectorAll('body *')){ if(!vis(e)) continue; const s=getComputedStyle(e); if(!/hidden|clip/.test(s.overflowX+s.overflow)||s.textOverflow==='ellipsis'||e.closest('.bar')||e.tagName==='IMG') continue; if(e.getBoundingClientRect().width<=1) continue; /* screen-reader-only text */

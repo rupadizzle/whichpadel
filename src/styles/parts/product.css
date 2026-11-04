@@ -215,7 +215,7 @@ body.has-sticky .ftr{padding-bottom:var(--s5)}
 @media (width < 431px){
 :is(#pxsheet,#buybox .pxcmp) li.pxr.best .pxm .dot,:is(#pxsheet,#buybox .pxcmp) li.pxr.best .pxag{display:none}
 }
-.detail>div>section+section{padding-top:var(--s6);margin-top:var(--s6)}
+.detail>div>section:where(:not([hidden]))~section:where(:not([hidden])){padding-top:var(--s6);margin-top:var(--s6)}
 .buybox{padding:var(--s5)}
 .spec th{background:none}
 @media (width < 900px){
@@ -230,7 +230,7 @@ body:has(.stickycta){padding-bottom:var(--bar)}
 .rp2 .buycol{grid-area:buy;position:sticky;top:calc(80px + var(--bf));display:flex;flex-direction:column;gap:var(--s5);margin:0;min-width:0}
 .rp2 #buybox{position:static;margin:0}
 .rp2 .rpbody>*{margin:0 0 var(--s5)}
-.rp2 .rpbody>section+section,.rp2 .rpbody>*+*{border-top:0;padding-top:var(--s5)}
+.rp2 .rpbody>:where(:not([hidden]))~:where(:not([hidden])){border-top:0;padding-top:var(--s5)} /* hidden panels (deal check) do not count as a previous section */
 /* gallery */
 .rpg .gtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:var(--r);background:var(--card);border:1px solid var(--line);height:440px;outline-offset:2px}
 .rpg .gtrack::-webkit-scrollbar{display:none}

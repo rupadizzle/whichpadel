@@ -318,7 +318,7 @@ const view = (() => {
 {kind === 'racket' && <aside class="pxwatch"><h2 class="h3">{u.px.cmp.alertDrop}</h2><p class="muted">{u.alertP('x')}</p><button type="button" class="btn btn-line pxalert-cta" data-slug={r.slug} data-kind="r" data-h={u.alertH('{n}')} data-off={u.alertBtn} data-on={u.alerted}><svg class="bell" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8.5a6 6 0 0 1 12 0c0 4.5 1.5 6 1.5 8.5h-15c0-2.5 1.5-4 1.5-8.5z"/><path d="M10 18.5a2 2 0 0 0 4 0"/></svg><span class="pxalert-lab">{u.alertBtn}</span></button></aside>}
 </div>
 <div class="rpbody">
-{lang === 'en' && <section class="panel dcheck" hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
+{lang === 'en' && <section class="panel dcheck" data-parity-skip hidden data-dc={view.dc} data-api={view.dcApi}><h2 class="h3">Is this discount real?</h2><p data-dc-out></p><p class="muted small">Based on the prices we have recorded for this shop offer. <a href="/deals/">More deals</a> · <a href="/black-friday/">Black Friday</a></p></section>}
 <section class="panel"><h2>{view.overview}</h2><p class="intro">{view.intro}</p>
 {view.suits.length > 0 && <>{view.suitsH && <h3>{view.suitsH}</h3>}<ul class="suits">{view.suits.map(line => <li>{line}</li>)}</ul></>}
 {(view.pros.length > 0 || view.cons.length > 0) && <div class="pc">{view.pros.length > 0 && <div><h3>{view.prosH}</h3><ul class="pros">{view.pros.map(line => <li>{line}</li>)}</ul></div>}{view.cons.length > 0 && <div><h3>{view.consH}</h3><ul class="cons">{view.cons.map(line => <li>{line}</li>)}</ul></div>}</div>}

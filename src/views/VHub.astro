@@ -22,7 +22,7 @@ import { pick, fmt, DEFAULT_REGION, SYM, REGIONS } from '../lib/price.js';
 import { HUB } from '../i18n/hub.js';
 import { PER, hubOrder, hubPages } from '../lib/hub.js';
 import { shoes, rankShoes, shoeBrands, shoeBrandTarget, SHOE_LIST_KEYS, priceIn, UNDER, listCur } from '../lib/shoes.js';
-import { bud } from '../lib/money.js';
+import { bud, tk } from '../lib/money.js';
 import { SHOE, SHOE_CMP } from '../i18n/shoes.js';
 import { balls, rankBalls, ballImg, ballPrice } from '../lib/balls.js';
 import { BALL } from '../i18n/balls.js';
@@ -116,7 +116,7 @@ const hub = (() => {
   const brands = [...new Set(balls.map(b => b.brand))].sort();
   const brandPick = brands.map(b => ({ name: b, value: b, n: balls.filter(x => x.brand === b).length })).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
   const U = SITE + url('balls', lang);
-  const pr = b => { const q = pick(b, DEFAULT_REGION(lang)); return q.none ? u.checkPrice : `${fmt(q.v, q.cur, lang)} · ${fmt(Math.round(q.v / b.balls * 100) / 100, q.cur, lang)} ${T.perBall}`; };
+  const pr = b => { const q = pick(b, DEFAULT_REGION(lang)); return q.none ? u.checkPrice : `${tk(q.v, q.cur)} · ${tk(Math.round(q.v / b.balls * 100) / 100, q.cur)} ${T.perBall}`; };
   const spec = b => [T.speeds[b.speed], b.tour && T.tours[b.tour], b.eco && T.eco].filter(Boolean).join(' · ');
   return {
     locale: d.locale, title: T.title(N), description: T.desc(N),

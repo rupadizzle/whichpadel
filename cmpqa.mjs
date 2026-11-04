@@ -9,9 +9,9 @@ const API={updated:'x',r:{[S]:{...O[0],min90:80,since:T,drop:0,h:[],o:O}}};
 const dirs={en:'rackets',es:'es/palas',fr:'fr/raquettes',pt:'pt/raquetes',it:'it/racchette',de:'de/schlaeger'};
 async function page(path,w,ls={},api=API){const pg=await b.newPage({viewport:{width:w,height:800}}); await pg.addInitScript(o=>{for(const[k,v] of Object.entries(o)) localStorage[k]=v; localStorage.wp_geo_seen='1';},ls);
  await pg.route('**/api/all-prices',r=>r.fulfill({json:api})); await pg.route('**/api/geo',r=>r.fulfill({json:{country:null}})); await pg.goto('http://127.0.0.1:'+(process.env.QA_PORT||4987)+''+path+'?px=1'); await pg.waitForTimeout(700); return pg;}
-const info=pg=>pg.evaluate(()=>{const P=document.getElementById('pxcmp'); const rows=[...P.querySelectorAll('.pxl:not(details .pxl) > li')];
- return {hidden:P.hidden,main:!document.getElementById('buymain').hidden,rows:rows.map(li=>[li.querySelector('.pxs b').textContent,li.querySelector('.pxp').textContent,li.hidden,li.classList.contains('best'),li.querySelector('a').rel,li.querySelector('a').getBoundingClientRect().height]),
-  other:P.querySelectorAll('details .pxl li').length,otherOpen:!!P.querySelector('details[open]'),more:P.querySelector('.pxmore')?.textContent||null,nc:P.querySelectorAll('.pxnc').length,bd:P.querySelectorAll('.pxbd').length,all:P.querySelector('#pxall')?.textContent||null,sw:document.documentElement.scrollWidth,vw:innerWidth,low:document.getElementById('pxlive').innerText,
+const info=pg=>pg.evaluate(()=>{const P=document.getElementById('pxcmp'); const rows=[...P.querySelectorAll('.pxl:not(details .pxl):not(.pxrest .pxl) > li')]; /* shops 5+ sit collapsed in .pxrest behind #pxall */
+ return {hidden:P.hidden,main:!document.getElementById('buymain').hidden,rows:rows.filter(li=>li.querySelector('.pxs b')&&!li.classList.contains('pxseek')).map(li=>[li.querySelector('.pxs b').textContent,li.querySelector('.pxp')?.textContent||'',li.hidden,li.classList.contains('best'),li.querySelector('a')?.rel||'',li.querySelector('a')?.getBoundingClientRect().height||0]), /* shop rows only: the 'searching for other shops' row is not a shop */
+  other:P.querySelectorAll('details .pxl li').length,otherOpen:!!P.querySelector('details[open]'),more:P.querySelector('.pxmore')?.textContent||null,nc:P.querySelectorAll('.pxnc').length,seek:!!P.querySelector('.pxseek'),bd:P.querySelectorAll('.pxl:not(.pxrest .pxl) > li.pxr.best').length, /* best row: tinted, ringed, lime Buy (the old .pxbd text badge was retired) */all:P.querySelector('#pxall')?.textContent||null,sw:document.documentElement.scrollWidth,vw:innerWidth,low:document.getElementById('pxlive').innerText,
   ext:[...P.querySelectorAll('a')].every(a=>/^https:\/\//.test(a.href)&&a.rel==='sponsored nofollow')};});
 for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1280])) for(const [l,d] of Object.entries(dirs)){
  const pg=await page(`/${d}/${S}/`,w,{wp_region:'GB',wp_cur:'GBP'}); const x=await info(pg); const tag=`${l}@${w}`;
@@ -68,10 +68,11 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
  if(await pg.getAttribute('#stickybuy','href')) F('bar must not link out');
  await pg.close();}
 // fallback: no live offer
-{const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); if(!x.hidden||!x.main) F('fallback');
+{const pg=await page('/rackets/'+S+'/',390,{},{updated:'x',r:{}}); const x=await info(pg); /* no live prices: show the build-time recorded offer plus a 'searching for other shops' row, never an empty box */ if(x.hidden||x.main||x.rows.length<1||!x.seek) F('fallback '+JSON.stringify({hidden:x.hidden,main:x.main,rows:x.rows.length,seek:x.seek}));
  if(!await pg.evaluate(()=>document.getElementById('stickycta').classList.contains('show')&&getComputedStyle(document.getElementById('buybox')).display==='none')) F('fallback bar');
  await pg.click('#stickyopen'); await pg.waitForTimeout(400);
  const sh=await pg.evaluate(()=>{const D=document.getElementById('pxsheet'); return {open:!!D&&!D.hidden&&D.classList.contains('open'),buy:!!D?.querySelector('a.pxb[href]')};});
  if(!sh.open||!sh.buy) F('fallback sheet '+JSON.stringify(sh)); await pg.close();}
-{const pg=await page('/rackets/'+S+'/',390,{wp_region:'GB'},{updated:'x',r:{[S]:{...of('noxsport.com',90,'EUR'),min90:1,since:T,drop:0,h:[],o:[of('noxsport.com',90,'EUR')]}}}); const x=await info(pg); if(x.rows.length!==1||x.nc!==1) F('only-unknown '+x.rows.length+'/'+x.nc); await pg.close();}
+/* fixture: a shop whose UK delivery is unknown in the shop data (noxsport.com is now confirmed) */
+{const pg=await page('/rackets/'+S+'/',390,{wp_region:'GB'},{updated:'x',r:{[S]:{...of('bullpadel.com',90,'EUR'),min90:1,since:T,drop:0,h:[],o:[of('bullpadel.com',90,'EUR')]}}}); const x=await info(pg); if(x.rows.length!==1||x.nc!==1) F('only-unknown '+x.rows.length+'/'+x.nc); await pg.close();}
 await b.close(); console.log(bad?'CMPQA FAIL '+bad:'CMPQA PASS');

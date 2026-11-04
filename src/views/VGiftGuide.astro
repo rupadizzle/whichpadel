@@ -4,9 +4,11 @@ import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
 import { D, SITE, url } from '../i18n/index.js';
 import { GIFT, GIFT_UI } from '../i18n/gift-guide.js';
+import { moneyProse } from '../lib/money.js';
 const { lang, id } = Astro.props;
 const d = D(lang), u = d.ui;
-const T = GIFT[id][lang];
+const deepMoney = v => typeof v === 'string' ? moneyProse(v) : Array.isArray(v) ? v.map(deepMoney) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepMoney(x)])) : v;
+const T = deepMoney(GIFT[id][lang]); // amounts in the prose follow the visitor's currency
 const UI = GIFT_UI[lang];
 const U = SITE + url('gifts', lang, id);
 const published = '2026-11-03';

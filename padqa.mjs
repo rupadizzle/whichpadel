@@ -14,7 +14,7 @@ for(const w of W){ await pg.setViewportSize({width:w,height:900});
   const r=await pg.evaluate(()=>{const vis=e=>{const s=getComputedStyle(e),b=e.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&s.position!=='fixed'&&b.height>0&&!['SCRIPT','STYLE'].includes(e.tagName)};
    const m=document.querySelector('main');const kids=[...m.children].filter(vis);const f=kids[0],l=kids[kids.length-1];
    let above=m.previousElementSibling;while(above&&!vis(above))above=above.previousElementSibling;
-   const foot=m.nextElementSibling;const mt=e=>parseFloat(getComputedStyle(e).marginTop),mb=e=>parseFloat(getComputedStyle(e).marginBottom);
+   const foot=document.querySelector('footer.ftr')||m.nextElementSibling; /* not nextElementSibling: banners/dialogs can be inserted after main while loading */const mt=e=>parseFloat(getComputedStyle(e).marginTop),mb=e=>parseFloat(getComputedStyle(e).marginBottom);
    return {top:Math.round(f.getBoundingClientRect().top-above.getBoundingClientRect().bottom),bot:Math.round(foot.getBoundingClientRect().top-l.getBoundingClientRect().bottom),hero:above.tagName!=='HEADER',first:f.tagName+'.'+f.className,last:l.tagName+'.'+l.className}});
   res.push({w,p,...r}); }}
 await br.close();

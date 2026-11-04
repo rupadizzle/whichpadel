@@ -4,10 +4,12 @@ import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
 import { D, SITE, url } from '../i18n/index.js';
 import { BUY, BUY_UI } from '../i18n/buying-guides.js';
+import { moneyProse } from '../lib/money.js';
 import { ART } from '../i18n/articles.js';
 const { lang, id } = Astro.props;
 const d = D(lang), u = d.ui;
-const T = BUY[id][lang];
+const deepMoney = v => typeof v === 'string' ? moneyProse(v) : Array.isArray(v) ? v.map(deepMoney) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepMoney(x)])) : v;
+const T = deepMoney(BUY[id][lang]); // amounts in the prose follow the visitor's currency
 const UI = BUY_UI[lang];
 const U = SITE + url('buyGuide', lang, id);
 const also = (T.next || []).map(k => ({ href: url('buyGuide', lang, k), label: BUY[k][lang].crumb }));

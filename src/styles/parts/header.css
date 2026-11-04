@@ -133,3 +133,6 @@ body:has(.nav.open) .hdr,body:has(.nav.open) .ubar{z-index:var(--z-nav-open)}
 .fz-x{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--r-pill);color:var(--on-dark);text-decoration:none;font-size:var(--fs-xl);background:var(--wash-1)}
 #saved-n{margin-left:var(--s2);min-width:calc(var(--s4) + var(--s1));height:calc(var(--s4) + var(--s1));padding:0 var(--s1);border-radius:var(--r-pill);background:var(--lime);color:var(--navy);font-size:var(--fs-xs);font-weight:var(--fw-black);line-height:calc(var(--s4) + var(--s1));text-align:center}
 #saved-n:not([hidden]){display:inline-block}
+/* desktop: the search button lives in the utility bar (moved there by script). Keep its header slot out of the
+   header grid from the first paint, otherwise the header re-centres 9px when the script runs (layout shift). */
+@media (width > 1180px){#hdr-search{display:none}}

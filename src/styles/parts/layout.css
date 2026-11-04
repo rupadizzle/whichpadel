@@ -49,13 +49,13 @@ main.wrap>*+*,.detail>div>*+*{margin-top:var(--gap)}
 /* flat sections: no box, a hairline divider between consecutive blocks */
 .panel{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin-block:0}
 .section{margin-block:0}
-main.wrap>section+section,.detail>div>section+section{border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
+main.wrap>section:where(:not([hidden]))~section:where(:not([hidden])),.detail>div>section:where(:not([hidden]))~section:where(:not([hidden])){border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
 .panel h2,.section h2{margin-bottom:var(--s4)}
 /* Page shell: a title and stacked sections. The gap holds when a section sits inside another section. */
 main.wrap>.page{margin-top:0}
 .page>*+*{margin-top:var(--gap)}
-.page>section+section{border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
-.page section>section+section{margin-top:var(--gap)}
+.page>section:where(:not([hidden]))~section:where(:not([hidden])){border-top:1px solid var(--line);padding-top:calc(var(--gap) / 2);margin-top:calc(var(--gap) / 2)}
+.page section>section:where(:not([hidden]))~section:where(:not([hidden])){margin-top:var(--gap)}
 .page h2{margin:0 0 var(--s4)}
 .page h3{margin:0 0 var(--s3)}
 .sec-head{margin-bottom:var(--s4)}
