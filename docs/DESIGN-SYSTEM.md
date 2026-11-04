@@ -2,12 +2,39 @@
 
 Every visual value lives in `src/styles/tokens.css`. Every shared component lives in `src/styles/components.css`, which loads last.
 
-`npx stylelint "src/**/*.css"` runs inside `deploy.sh` and `preview.sh` and blocks the build on:
+## Files
+
+`src/layouts/Base.astro` loads these in this order. Order matters: a later file wins at equal specificity.
+
+| File | Holds |
+|---|---|
+| `tokens.css` | Custom properties only |
+| `parts/base.css` | Element defaults, text utilities, shared image slot |
+| `parts/layout.css` | Container, `main` rhythm, panels, dark hero |
+| `parts/header.css` | Utility bar, header, nav, dropdowns |
+| `parts/footer.css` | Footer and newsletter |
+| `parts/region.css` | Region, currency and language sheet, geo banner (after footer: the sheet opens from it) |
+| `parts/dialogs.css` | Voice describe, price alert, picker sheet |
+| `parts/home.css` | Home page |
+| `parts/cards.css` | Card additions (the core card is in `hub.css`, loaded by `RkCard`) |
+| `parts/compare.css` | Compare header, verdict, spec rows, buy row |
+| `parts/product.css` | Gallery, price box, price sheet, sticky price bar |
+| `parts/finder.css` | Finder shell |
+| `parts/pages.css` | Tools, kit, saved, brand lists, guides |
+| `shoes.css`, `search.css` | Shoe pages, site search |
+| `components.css` | Canonical components (last) |
+
+Page-only: `hub.css` (catalogues and cards), `bf.css` (Black Friday). Noindex experiments, not part of the system: `home2.css`, `home3.css`, `hero-page.css`.
+
+## Lint
+
+`npx stylelint "src/**/*.{css,astro}"` runs inside `deploy.sh` and `preview.sh` and blocks the build on:
 
 - px spacing
 - negative margins (except `margin-inline` full-bleed)
 - raw hex colours outside `tokens.css`
 - `!important` without a reason
+- a z-index that isn't a `--z-*` layer (or a local 0–5)
 
 ## Principles
 
@@ -33,6 +60,7 @@ Every visual value lives in `src/styles/tokens.css`. Every shared component live
 | Shape | `--r-xs` 4 · `--r-s` 8 (chips, small controls) · `--r` 12 (cards, buttons, panels, dialogs) · `--r-l` 16 (sheets) · `--r-pill` |
 | Elevation | `--sh` none (cards) · `--sh-1` · `--sh-pop` (menus, dialogs) · `--sh-bar` (sticky bottom bars) · `--ring` |
 | Motion | `--t-fast` .15s · `--t` .25s, both off under `prefers-reduced-motion` |
+| Stacking | local 1–3 inside a component; global: `--z-sticky` 15 · `--z-header` 21 · `--z-header-top` 22 · `--z-bar` 25 · `--z-menu` 30 · `--z-panel` 40 · `--z-sheet` 60 · `--z-shade` 79 · `--z-drawer` 80 · `--z-nav-open` 100 |
 | Breakpoints | **600** (phone → large phone/tablet), **900** (one → two columns; sticky price bar), **1180** (burger → full nav; matches JS `innerWidth > 1180`). Under 480px, small-phone tweaks only. |
 
 ## Components
