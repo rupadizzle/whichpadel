@@ -48,7 +48,14 @@
      "inside-function"
     ]
    }
-  ]
+  ],
+  "declaration-property-value-allowed-list": {
+   "z-index": [
+    "/^var\\(--z-[a-z-]+\\)$/",
+    "/^-?[0-5]$/",
+    "auto"
+   ]
+  }
  },
  "ignoreFiles": [
   "src/styles/home2.css",
