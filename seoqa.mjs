@@ -1,6 +1,7 @@
 // Static check over dist: canonical = own URL; hreflang en/es/fr + x-default present, absolute, self-including, reciprocal, and pointing at built pages.
 import fs from 'fs'; import path from 'path';
 const D='dist', S='https://whichpadel.com'; const LANGS=['en',...fs.readdirSync(D).filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`${D}/${d}/index.html`))]; const errs=[]; const map={};
+const EN_ONLY_XD=['/guides/best-padel-gifts-for-men/','/guides/best-padel-gifts-for-women/','/guides/best-padel-clothing-brands/'];
 const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):e.name.endsWith('.html')?[path.join(d,e.name)]:[]);
 for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/,'').replace(/\\/g,'/'); if(/404/.test(rel)) continue;
  const h=fs.readFileSync(f,'utf8'); if(/<meta name="robots" content="noindex/.test(h)) continue; const canon=(h.match(/<link rel="canonical" href="([^"]+)"/)||[])[1];
@@ -10,6 +11,7 @@ for(const f of walk(D)){ const rel='/'+path.relative(D,f).replace(/index\.html$/
  if(rel.startsWith('/us/')){ if(Object.keys(alts).join()!=='en-US'||alts['en-US']!==S+rel) errs.push(`${rel}: want only self en-US hreflang`); continue; }
  // English-only pages with no translations: canonical only, no hreflang set
  if(['/deals/','/describe/','/describe-shoes/','/my-kit/','/padel-vs-paddle-tennis/','/guides/how-to-hold-a-padel-racket/','/guides/padel-rules/'].includes(rel)){ if(Object.keys(alts).length) errs.push(`${rel}: English-only page should have no hreflang`); continue; }
+ if(EN_ONLY_XD.includes(rel)){ if(Object.keys(alts).sort().join()!=='en,x-default'||alts.en!==S+rel||alts['x-default']!==alts.en) errs.push(`${rel}: want only self en + x-default hreflang`); continue; }
  // English + Spanish pair pages (no other translations yet): exactly en, es and x-default, reciprocal like the rest
  const PAIR=rel.startsWith('/bags/')||rel.startsWith('/es/paleteros-mochilas-padel/')||['/padel-clothing/','/es/ropa-padel/','/padel-accessories/','/es/accesorios-padel/','/padel-grips-overgrips/','/es/grips-overgrips-padel/','/padel-ball-pressuriser/','/es/presurizador-pelotas-padel/','/padel-ball-machine/','/es/maquina-lanzapelotas-padel/'].includes(rel);
  for(const l of [...(PAIR?['en','es']:LANGS),'x-default']) if(!alts[l]) errs.push(`${rel}: missing hreflang ${l}`);
