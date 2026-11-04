@@ -21,6 +21,7 @@ Branch: `claude/design-audit-system-dbn27e`. The audit is below. The fixes are o
 | Stylesheet structure | 8 date-layered files overriding each other | 12 per-component files in `src/styles/parts/` + tokens + components |
 | Global z-index values | 22 raw numbers | 10 named layers (lint-enforced) |
 | `padqa` vertical rhythm | FAIL | PASS (32px above and below content on every page type) |
+| Saved page layout shift (CLS, measured on the live preview) | 0.15–0.19 on production, up to 0.39 with items | 0.000 at 390 and 1280 with 0, 1 or 5 items |
 | Functional `qa.mjs` failures | 10 | 7 (compare tick / add / swap now pass; the rest are stale selectors) |
 | Horizontal overflow at 360/390/412/768/1280 (30 page types, 6 languages on home) | n/a | none |
 
