@@ -1,6 +1,40 @@
 # WhichPadel design audit (Nov 2026)
 
-Branch: `claude/design-audit-system-dbn27e`. Audit only. No styles changed yet.
+Branch: `claude/design-audit-system-dbn27e`. The audit is below. The fixes are on the same branch, and the system they produce is documented in [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md).
+
+## Outcome on this branch
+
+| Measure | Before (main) | After |
+|---|---:|---:|
+| Distinct font sizes | 74 | 10-step scale + 3 fluid headings |
+| Distinct hex colours outside tokens | 80 | 0 (lint-enforced) |
+| Distinct border radii | 24 | 5 tokens (+ `50%` circles) |
+| Distinct breakpoints | 47 | 600 / 900 / 1180 (+ small-phone tweaks under 480) |
+| `:not(#_)` specificity hacks | 69 | 0 |
+| `!important` | 35 | 6, all state utilities, annotated |
+| stylelint errors (repo config) | 809 | 0, and stylelint now blocks `deploy.sh` / `preview.sh` |
+| Dead CSS rules (classes used nowhere) | ~300 | 0 |
+| Breadcrumb implementations | 15 hand-built | 1 component |
+| Page-head patterns | 3 + ad hoc | light `page-hd` + dark `phero` |
+| Button variants (measured) | 9 | 3 colours, 1 height (44px; 48px full-width CTA) |
+| Callout styles | 8 (incl. off-palette yellow) | 1 |
+| `padqa` vertical rhythm | FAIL | PASS (32px above and below content on every page type) |
+| Functional `qa.mjs` failures | 10 | 7 (compare tick / add / swap now pass; the rest are stale selectors) |
+| Horizontal overflow at 360/390/412/768/1280 (30 page types, 6 languages on home) | n/a | none |
+
+How it was verified:
+
+- **Computed-style diffs.** Snapshots of every element on 20 page types (plus open price sheets) at 390px and 1280px were taken before and after each refactor. Hack removal produced no visible change.
+- **Repo QA suite.** `layoutqa.mjs` shows no new violations; the remaining ones are scroll-strip peeks and the fanned hero art, both pre-existing. `geoqa` and `pickerqa` pass, and `padqa` passes.
+- **New browser checks.** A tap-target, contrast and price-spacing check ran across 30 page types at four widths.
+
+Known exceptions and what's left:
+
+- **Dense controls.** Desktop filter controls are 36px when a mouse is detected (WCAG AA minimum is 24px). The compare-header swap and remove buttons have 36px-tall hit areas because they are stacked.
+- **CSS structure.** `v4.css`–`v10.css` still exist, but they are now token-only, hack-free and dead-free, and `components.css` holds the canonical components. Splitting the remaining page rules into per-component files is mechanical follow-up.
+- **z-index.** Not yet tokenised (21 values; the order matters, so this needs its own pass).
+- **Test pages.** `/homepage-2`, `/homepage-3`, `/hero` and `/shells` are noindex experiments with their own CSS. They are excluded from lint; delete them once decided.
+- **Pre-existing QA script issues.** `qa.mjs` has stale selectors (`.toolbar`, `.buybox .btn-sm`, `.rk-p`). `parity.mjs` and `cmpqa.mjs` crash on a removed `/compare/` index. `pxqa` and `curtext` need the live price API.
 
 ## How this was measured
 

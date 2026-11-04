@@ -326,7 +326,7 @@ const view = (() => {
 {kind === 'racket' && page.inLists.length > 0 && <p class="muted small" style="margin:0">{u.featuredIn}: {page.inLists.map(([k], i) => <>{i > 0 && ' · '}<a href={url('best', lang, k)}>{d.copy.best.titles[k][0]}</a></>)}</p>}
 {view.shoeLinks && <p class="small rpguide">{view.shoeLinks.map((link, i) => <>{i > 0 && ' · '}<a href={link.href}>{link.label}</a></>)}</p>}
 </section>
-{view.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(#13795c ${view.avg * 3.6}deg,#e8edf0 0)`}><span>{view.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
+{view.rated && <section class="panel"><div class="overall"><div class="ring" style={`background:conic-gradient(var(--green-2) ${view.avg * 3.6}deg,var(--line) 0)`}><span>{view.avg}</span></div><div><h2 style="margin:0">{u.calcRatings}</h2><p class="muted small" style="margin:0">{u.avgOfSix}</p></div></div>
 <div class="scores">{Object.entries(view.ratings).map(([k, v]) => <div class="row"><span>{page.t.rt[k]}</span><div class="bar"><i style={`width:${v}%`}></i></div><b>{v}</b></div>)}</div>
 <p class="muted small">{u.ratingsNote}</p></section>}
 <details class="panel rpspec" id="rpspec" open><summary><h2>{view.specH}</h2></summary><div class="tscroll"><table class="spec"><tbody>{view.rows.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}{view.specPrice && <tr><th>{page.t.spec.price}</th><td><Price r={r} lang={lang}/>{r.priceChecked && <> ({u.checked} {r.priceChecked})</>}</td></tr>}{view.usRow && <tr data-usrow hidden><th>{view.usRow.label}</th><td>{view.usRow.value}</td></tr>}</tbody></table></div>

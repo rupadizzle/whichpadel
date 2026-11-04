@@ -104,5 +104,5 @@ main.wrap>.stickycta{margin:0}
 /* stand-alone link pills are not a dense filter UI: full tap height everywhere */
 .gchips a,.brandlinks a{line-height:calc(var(--tap) - 2px)}
 
-/* home hero counts: one row at phone widths in every language (labels wrap per word) */
-@media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(5,min-content);column-gap:var(--s4)}.hero .stats span{display:block}}
+/* home hero counts: four product counts in one row, the paid-placements note on its own line, same in every language */
+@media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(4,min-content);gap:var(--s2) var(--s4)}.hero .stats>:nth-child(5){grid-column:1 / -1;display:flex;align-items:baseline;gap:var(--s2)}.hero .stats>:nth-child(5) b{font-size:var(--fs-base)}}
