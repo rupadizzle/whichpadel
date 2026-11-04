@@ -12,12 +12,12 @@ main{padding:var(--s6) var(--s5) var(--s5)}
 /* cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:var(--s4)}
 /* best list hero */
-.phero{background:linear-gradient(160deg,var(--navy),var(--green));color:var(--on-dark);padding:var(--s6) 0 var(--s6)}
+.phero{background:var(--grad-hero);color:var(--on-dark);padding:var(--s6) 0 var(--s6)}
 .phero h1{overflow-wrap:anywhere;text-wrap:balance;margin:0 0 var(--s2)}
-.phero .byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s2);margin:var(--s2) 0 var(--s4);color:var(--on-dark-2);font-size:var(--fs-s);line-height:1.4}
+.phero .byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s2);margin:var(--s2) 0 var(--s4);color:var(--on-dark-2);font-size:var(--fs-s);line-height:var(--lh-body)}
 .phero .byline a{color:var(--on-dark);text-decoration:underline}
 .phero .byline time{color:var(--on-dark-2)}
-.phero .seo{max-width:68ch;color:var(--on-dark-2);font-size:var(--fs-base);line-height:1.65}
+.phero .seo{max-width:68ch;color:var(--on-dark-2);font-size:var(--fs-base);line-height:var(--lh-prose)}
 .phero .seo p{color:inherit;max-width:none;margin:0 0 .75em}
 .phero .seo p:last-child{margin-bottom:0}
 .phero .seo a{color:var(--on-dark);text-decoration:underline}

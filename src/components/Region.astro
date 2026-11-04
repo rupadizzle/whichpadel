@@ -16,7 +16,7 @@ const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404
 <h3 class="rgn-sub">{UI.language}</h3>
 <ul class="lang-seg" data-lang-pick><li><a aria-current="true" href={selfHref} lang={lang} hreflang={lang} class="on">{LANG_NAME[lang]}</a></li>{switcher.map(([l,h])=><li><a href={h} lang={l} hreflang={l}>{LANG_NAME[l]}</a></li>)}</ul>
 <h3 class="rgn-sub">{RG.countryH}</h3>
-<p class="muted small" style="margin:0">{RG.shops}</p>
+<p class="muted small m0">{RG.shops}</p>
 <ul class="rgn-list">{Object.entries(REGIONS).map(([k,[f,n,c]])=><li><button type="button" data-rgn={k} aria-pressed={k===def?'true':'false'}><span>{f} {n} · {SYM[c]}</span></button></li>)}</ul>
 </div>
 <button type="button" class="btn btn-accent rgn-save" data-rgn-save>{RG.save}</button></div></dialog>

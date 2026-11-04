@@ -29,13 +29,13 @@ const run=()=>{ if(q) return go(q); fetch('/api/geo').then(r=>r.json()).then(j=>
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run):run();})();
 </script>
 <style is:global>
-.geo-bn{position:fixed;inset:0;z-index:var(--z-sheet);display:flex;align-items:center;justify-content:center;padding:var(--s4);box-sizing:border-box;background:rgb(7 28 40 / .28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.geo-bn{position:fixed;inset:0;z-index:var(--z-sheet);display:flex;align-items:center;justify-content:center;padding:var(--s4);box-sizing:border-box;background:var(--scrim-light);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 /* stylelint-disable-next-line declaration-no-important -- keeps the banner laid out while hidden (no layout shift) */
 .geo-bn[hidden]{display:flex !important;visibility:hidden;pointer-events:none;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 html:has(.geo-bn:not([hidden])){overflow:hidden}
 .geo-card{position:relative;width:min(28rem,100%);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;align-items:stretch;gap:var(--s3);padding:var(--s5) var(--s5) var(--s5);background:var(--card);color:var(--navy);border:1px solid var(--line);border-radius:var(--r);box-sizing:border-box;box-shadow:var(--sh-pop)}
-.geo-q{margin:0;padding-right:var(--s6);font-size:var(--fs-xl);font-weight:800;line-height:1.25;letter-spacing:-.02em}
-#geo-sub{margin:0;color:var(--mut);font-size:var(--fs-base);line-height:1.45}
+.geo-q{margin:0;padding-right:var(--s6);font-size:var(--fs-xl);font-weight:var(--fw-black);line-height:var(--lh-ui);letter-spacing:-.02em}
+#geo-sub{margin:0;color:var(--mut);font-size:var(--fs-base);line-height:var(--lh-body)}
 .geo-act{display:flex;flex-direction:column;gap:var(--s2);margin-top:var(--s2)}.geo-act .btn{width:100%;min-height:48px;min-width:44px}
 .geo-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:none;color:inherit;font-size:var(--fs-base);cursor:pointer}
 @media (prefers-reduced-transparency:reduce){.geo-bn{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--scrim)}}

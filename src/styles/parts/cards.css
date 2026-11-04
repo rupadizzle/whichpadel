@@ -1,5 +1,5 @@
 /* Product card additions (core card lives in hub.css). Values come from tokens.css; shared components live in components.css. */
-.rank{position:absolute;top:10px;left:10px;background:var(--navy);color:var(--lime);font-weight:800;border-radius:var(--r);padding:var(--s1) var(--s2);font-size:var(--fs-m);z-index:2}
+.rank{position:absolute;top:10px;left:10px;background:var(--navy);color:var(--lime);font-weight:var(--fw-black);border-radius:var(--r);padding:var(--s1) var(--s2);font-size:var(--fs-m);z-index:2}
 .rk .pz.cv::after,.hc .pz.cv::after,.h2-rk .pz.cv::after,.h3-rk .pz.cv::after,.h2-tube .pz.cv::after,.h3-tube .pz.cv::after,.hvd .pz.cv::after,.rpsim .pz.cv::after{content:none}
 .rk-b:has(.save-heart),.brand:has(.save-heart){display:flex;align-items:center;justify-content:space-between;gap:var(--s2);min-width:0}
 .rk-b:has(.save-heart)>span:first-child,.brand:has(.save-heart)>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

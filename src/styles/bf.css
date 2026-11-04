@@ -1,5 +1,5 @@
 /* Black Friday: a full-width dark cover, then the waitlist. */
-.bf-hero{background:var(--navy-2);color:var(--on-dark);overflow:clip;width:100%}
+.bf-hero{background:var(--grad-hero);color:var(--on-dark);overflow:clip;width:100%}
 .bf-hero .wrap{display:flex;flex-direction:column;align-items:center;gap:var(--s6);padding-top:var(--s8);padding-bottom:var(--s7);text-align:center}
 .bf-top{display:flex;flex-direction:column;align-items:center;width:min(40rem,100%)}
 .bf-copy{display:flex;flex-direction:column;align-items:center;min-width:0;padding:0}
@@ -7,20 +7,20 @@
 .bf-hero .nl{margin:0;padding:0;border:0;background:transparent;max-width:none}
 .bf-hero .nl-r{flex-wrap:nowrap;justify-content:center}
 .bf-hero .nl-r input[type="email"]{min-width:0;background:var(--card)}
-.bf-hero .nl-r .btn{flex:none;padding-inline:var(--s4);font-weight:700}
+.bf-hero .nl-r .btn{flex:none;padding-inline:var(--s4);font-weight:var(--fw-head)}
 .bf-hero .nl-c{justify-content:flex-start;text-align:left}
 .bf-hero .nl-c,.bf-hero .nl-c span{color:var(--on-dark-2)}
 .bf-hero .nl-c a{color:var(--lime)}
 .bf-hero .nl-m.good{color:var(--lime)}
-.bf-kicker{margin:0 0 var(--s4);color:var(--lime);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--track-label);text-transform:uppercase}
-.bf-hero h1{margin:0 auto;max-width:16ch;color:var(--on-dark);font-size:var(--display-xl);font-weight:800;letter-spacing:-.045em;line-height:.96;text-wrap:balance}
+.bf-kicker{margin:0 0 var(--s4);color:var(--lime);font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase}
+.bf-hero h1{margin:0 auto;max-width:16ch;color:var(--on-dark);font-size:var(--display-xl);font-weight:var(--fw-black);letter-spacing:-.045em;line-height:var(--lh-display);text-wrap:balance}
 .bf-hero h1 em{font-style:normal;color:var(--lime)}
-.bf-lead{margin:var(--s4) auto 0;max-width:38rem;color:var(--on-dark-2);font-size:var(--fs-base);line-height:1.5}
+.bf-lead{margin:var(--s4) auto 0;max-width:38rem;color:var(--on-dark-2);font-size:var(--fs-base);line-height:var(--lh-body)}
 .bf-count{display:flex;justify-content:center;gap:clamp(var(--s5),6vw,var(--s8));margin:0}
 .bf-count span{display:flex;flex-direction:column;align-items:center;min-width:3.2rem}
-.bf-count b{color:var(--lime);font-size:clamp(2.4rem,4vw,3.6rem);font-weight:700;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
-.bf-count i{margin-top:var(--s2);color:var(--on-dark-3);font-style:normal;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--track-label);text-transform:uppercase}
-.bf-copy .btn{order:4;align-self:flex-start;margin-top:var(--s5);padding-inline:var(--s5);font-weight:700}
+.bf-count b{color:var(--lime);font-size:var(--display);font-weight:var(--fw-head);letter-spacing:-.045em;line-height:var(--lh-none);font-variant-numeric:tabular-nums}
+.bf-count i{margin-top:var(--s2);color:var(--on-dark-3);font-style:normal;font-size:var(--fs-xs);font-weight:var(--fw-head);letter-spacing:var(--track-label);text-transform:uppercase}
+.bf-copy .btn{order:4;align-self:flex-start;margin-top:var(--s5);padding-inline:var(--s5);font-weight:var(--fw-head)}
 
 body:has(.bf-hero) main.wrap{display:flex;flex-direction:column;align-items:center;padding-top:var(--s6)}
 body:has(.bf-hero) main.wrap > *{width:min(40rem,100%)}
@@ -30,8 +30,8 @@ body:has(.bf-hero) main.wrap > *{width:min(40rem,100%)}
 .bf-points .bf-tip:last-child{border-bottom:1px solid var(--line)}
 
 .bf-more{margin:var(--s3) 0 0}
-.bf-more a{font-weight:700;color:var(--ink)}
-body:has(.bf-hero) main .byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s2);margin:var(--s5) 0 0;color:var(--mut);font-size:var(--fs-s);line-height:1.4}
+.bf-more a{font-weight:var(--fw-head);color:var(--ink)}
+body:has(.bf-hero) main .byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s2);margin:var(--s5) 0 0;color:var(--mut);font-size:var(--fs-s);line-height:var(--lh-body)}
 body:has(.bf-hero) main .byline a{color:var(--ink)}
 .bf-quiet{margin-top:var(--s7);max-width:none}
 .bf-quiet h2{margin:0 0 var(--s1)}

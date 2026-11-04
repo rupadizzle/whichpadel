@@ -54,6 +54,33 @@
     "/^var\\(--z-[a-z-]+\\)$/",
     "/^-?[0-5]$/",
     "auto"
+   ],
+   "font-weight": [
+    "/^var\\(--fw-[a-z]+\\)$/",
+    "inherit"
+   ],
+   "line-height": [
+    "/^var\\(--(lh|ctl)/",
+    "/^calc\\(/",
+    "normal",
+    "0",
+    "inherit"
+   ],
+   "transition": [
+    "/var\\(--t/",
+    "none"
+   ],
+   "font-size": [
+    "/^var\\(--(fs-[a-z0-9]+|title|display(-xl)?)\\)/",
+    "inherit",
+    "/^[.0-9]+em$/"
+   ],
+   "border-radius": [
+    "/^(var\\(--r|0|50%)/"
+   ],
+   "box-shadow": [
+    "none",
+    "/var\\(--/"
    ]
   },
   "selector-pseudo-class-no-unknown": [
@@ -63,6 +90,12 @@
      "global"
     ]
    }
+  ],
+  "function-disallowed-list": [
+   "rgb",
+   "rgba",
+   "hsl",
+   "hsla"
   ]
  },
  "ignoreFiles": [
@@ -80,7 +113,8 @@
     "src/styles/tokens.css"
    ],
    "rules": {
-    "color-no-hex": null
+    "color-no-hex": null,
+    "function-disallowed-list": null
    }
   },
   {

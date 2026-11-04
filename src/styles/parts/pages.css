@@ -13,7 +13,7 @@
 .bcard>span:not(.bmark){display:flex;flex-direction:column;min-width:0}
 .bcard .bmark{flex:0 0 72px;width:72px;height:28px}
 .bcard .bmark.on{background:var(--ink);-webkit-mask:var(--mark) center/contain no-repeat;mask:var(--mark) center/contain no-repeat;mask-mode:alpha}
-.bmeta{display:flex;flex-direction:column;gap:var(--s0);line-height:1.35}
+.bmeta{display:flex;flex-direction:column;gap:var(--s0);line-height:var(--lh-ui)}
 .brandlinks{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}
 @media (width < 900px){
 /* filter sheet */
@@ -54,7 +54,7 @@
 .fcta-t{display:flex;flex-direction:column;gap:var(--s0)}
 .fcta-t b{font-size:var(--fs-base)}
 .fcta-t span{font-size:var(--fs-s);color:var(--mut)}
-.fcta-arr{margin-left:auto;width:44px;height:44px;border-radius:var(--r-pill);background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:var(--fs-xl);flex:0 0 auto}
+.fcta-arr{margin-left:auto;width:44px;height:44px;border-radius:var(--r-pill);background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:var(--fw-black);font-size:var(--fs-xl);flex:0 0 auto}
 /* Best lists: ranking in two thirds, finder and other lists in the third. */
 .fcard{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);justify-content:space-between;margin:var(--s5) 0}
 .fcard h2{margin:0 0 var(--s2)}
@@ -83,9 +83,9 @@
 .kit-fig{position:relative;background:var(--tint);border-radius:var(--r-l);overflow:hidden}
 .kit-fig img{display:block;width:100%;height:auto}
 .kit-fig svg{position:absolute;inset:0;width:100%;height:100%}
-.kit-zone{position:absolute;z-index:2;margin:0;padding:0;border:2px dashed var(--on-dark);border-radius:var(--r-l);background:var(--wash-2);box-shadow:0 0 0 1px rgb(11 42 60 / .4);color:var(--ink);font:inherit;cursor:pointer}
-.kit-zone span{position:absolute;left:8px;top:8px;padding:var(--s0) var(--s2);border-radius:var(--r-s);background:var(--card);font-size:var(--fs-xs);font-weight:700;line-height:1.4;pointer-events:none}
-.kit-zone:hover,.kit-zone.is-open{background:rgb(212 255 58 / .32);border-color:var(--lime)}
+.kit-zone{position:absolute;z-index:2;margin:0;padding:0;border:2px dashed var(--on-dark);border-radius:var(--r-l);background:var(--wash-2);box-shadow:0 0 0 1px var(--navy-ring);color:var(--ink);font:inherit;cursor:pointer}
+.kit-zone span{position:absolute;left:8px;top:8px;padding:var(--s0) var(--s2);border-radius:var(--r-s);background:var(--card);font-size:var(--fs-xs);font-weight:var(--fw-head);line-height:var(--lh-body);pointer-events:none}
+.kit-zone:hover,.kit-zone.is-open{background:var(--lime-wash-2);border-color:var(--lime)}
 .kit-zone.is-set{border-style:solid;border-color:var(--lime)}
 .kit-zone.is-open{border-color:var(--lime);box-shadow:0 0 0 3px var(--lime)}
 .kit-zone:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
@@ -94,7 +94,7 @@
 .kit-pick-h h2{margin:0}
 .kit-pick>p{margin:var(--s2) 0 0}
 .kit-field{margin:var(--s3) 0 0}
-.kit-field label{font-weight:600}
+.kit-field label{font-weight:var(--fw-ui)}
 .kit-field select,.kit-field input{width:100%;box-sizing:border-box;margin-top:var(--s2)}
 .kit-field p{margin:var(--s2) 0 0}
 .kit-results{list-style:none;margin:var(--s3) 0 0;padding:0;max-height:min(440px,52vh);overflow:auto}
@@ -102,7 +102,7 @@
 .kit-results button:hover,.kit-results button[aria-current="true"]{background:var(--tint)}
 .kit-results img,.kit-ph{width:48px;height:48px;object-fit:contain;flex:none}
 .kit-rn{flex:1;min-width:0}
-.kit-results button[aria-current="true"]::after{content:"Selected";margin-left:auto;color:var(--green);font-size:var(--fs-s);font-weight:700}
+.kit-results button[aria-current="true"]::after{content:"Selected";margin-left:auto;color:var(--green);font-size:var(--fs-s);font-weight:var(--fw-head)}
 .kit-balls{margin:var(--s4) 0 0}
 .kit-balls div{display:flex;gap:var(--s2);margin-top:var(--s2)}
 .kit-balls input{flex:1;min-width:0}
@@ -111,3 +111,10 @@
 .kit-board{grid-template-columns:1fr}
 .kit-stage{max-width:280px;margin:0 auto}
 }
+
+/* my kit: chosen-items list */
+.kit-list{list-style:none;margin:0;padding:0}
+.kit-li{display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-top:1px solid var(--line)}
+.kit-li-img{object-fit:contain}
+.kit-li-txt{flex:1}
+.kit-sub{display:block}

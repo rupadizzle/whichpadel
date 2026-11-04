@@ -34,13 +34,13 @@
 .empty404{padding:var(--s4) 0 var(--s6)}
 
 /* ---------- page head: dark (editorial: lists, guides, brands, compare) ---------- */
-.phero{background:linear-gradient(160deg,var(--navy),var(--green));color:var(--on-dark);padding:var(--s4) 0 var(--s6)}
+.phero{background:var(--grad-hero);color:var(--on-dark);padding:var(--s4) 0 var(--s6)}
 .phero h1{margin:0 0 var(--s2);font-size:var(--title);line-height:var(--lh-tight)}
 .phero .eyebrow{margin:var(--s1) 0 var(--s3)}
 @media (width >= 900px){.phero{padding:var(--s5) 0 var(--s7)}}
 
 /* ---------- buttons: 3 variants x 2 sizes ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:var(--ctl);padding:var(--s2) var(--s5);border:1px solid transparent;border-radius:var(--r);background:var(--green);color:var(--on-dark);font:inherit;font-size:var(--fs-base);font-weight:var(--fw-head);line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:background-color var(--t-fast),border-color var(--t-fast),color var(--t-fast)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:var(--ctl);padding:var(--s2) var(--s5);border:1px solid transparent;border-radius:var(--r);background:var(--green);color:var(--on-dark);font:inherit;font-size:var(--fs-base);font-weight:var(--fw-head);line-height:var(--lh-tight);text-align:center;text-decoration:none;cursor:pointer;transition:background-color var(--t-fast),border-color var(--t-fast),color var(--t-fast)}
 .btn:hover{background:var(--green-2);color:var(--on-dark)}
 .btn-accent,.aff{background:var(--lime);color:var(--navy)}
 .btn-accent:hover,.aff:hover{background:var(--lime-2);color:var(--navy)}
@@ -52,12 +52,12 @@
 .btn-row{display:flex;flex-wrap:wrap;gap:var(--s2);margin:var(--s4) 0 0}
 
 /* ---------- callout: "how this list is built", notes ---------- */
-.rulebox{margin:0;padding:var(--s3) var(--s4);border:0;border-left:3px solid var(--green-2);border-radius:var(--r-s);background:var(--tint);color:var(--ink);font-size:var(--fs-m);line-height:1.5}
+.rulebox{margin:0;padding:var(--s3) var(--s4);border:0;border-left:3px solid var(--green-2);border-radius:var(--r-s);background:var(--tint);color:var(--ink);font-size:var(--fs-m);line-height:var(--lh-body)}
 .alert-panel{border-left:3px solid var(--green-2)}
 
 /* ---------- chips ---------- */
 /* static tag */
-.chip{display:inline-flex;align-items:center;padding:var(--s0) var(--s2);border-radius:var(--r-pill);background:var(--tint);color:var(--green);font-size:var(--fs-s);font-weight:var(--fw-ui);line-height:1.4}
+.chip{display:inline-flex;align-items:center;padding:var(--s0) var(--s2);border-radius:var(--r-pill);background:var(--tint);color:var(--green);font-size:var(--fs-s);font-weight:var(--fw-ui);line-height:var(--lh-body)}
 /* link pill */
 .gchips a,.hub-pre a,.brandlinks a{display:inline-block;min-height:0;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--ink);font-size:var(--fs-m);font-weight:var(--fw-ui);line-height:calc(var(--ctl-d) - 2px);white-space:nowrap;text-decoration:none}
 .gchips a:hover,.hub-pre a:hover,.brandlinks a:hover{border-color:var(--green-2);color:var(--ink)}
@@ -114,3 +114,12 @@ main.wrap>.stickycta{margin:0}
 /* placeholder cards on the saved page: same size as the real card, invisible until filled */
 .rk-ghost{visibility:hidden}
 @media (width >= 900px){#saved-list .rk-m{min-height:2.4em}}
+
+/* ---------- utilities (use sparingly; prefer a component) ---------- */
+.m0{margin:0}
+.mt2{margin-top:var(--s2)}
+.mt3{margin-top:var(--s3)}
+.btn-block{width:100%}
+
+/* gradient heroes end on green, where --on-dark-3 drops to 3.8:1; meta text there uses --on-dark-2 (5.5:1) */
+.hero,.phero,.bf-hero{--on-dark-3:var(--on-dark-2)}

@@ -29,14 +29,23 @@
  --wash-1:rgb(255 255 255 / .08);  /* hover, subtle fill on dark */
  --wash-2:rgb(255 255 255 / .16);  /* hairline / pill fill on dark */
  --wash-3:rgb(255 255 255 / .25);  /* outline on dark */
- --scrim:rgb(7 28 40 / .55);       /* dialog / sheet backdrop */
+ --wash-4:rgb(255 255 255 / .45); /* dashed slot outline on dark */
+ --scrim:rgb(7 28 40 / .55);       /* every dialog / sheet / drawer backdrop */
+ --scrim-light:rgb(7 28 40 / .28); /* non-blocking banner backdrop (geo prompt) */
+ --ink-glass:rgb(15 28 36 / .72);  /* counter pill over photos */
+ --lime-wash:rgb(212 255 58 / .16);  /* lime tint on dark: eyebrow pill, current BF link, hero glow */
+ --lime-wash-2:rgb(212 255 58 / .32); /* lime tint, hover */
+ --navy-ring:rgb(11 42 60 / .4);   /* hairline ring over photos */
+ --shade:rgb(0 0 0 / .12);         /* inner shade on the logo ball */
+ --drop:drop-shadow(0 12px 16px rgb(15 28 36 / .32)); /* lift for cut-out product photos */
  /* colour: state */
  --ok:#1a9e6a;
  --danger:#c0392b;
  --focus-light:#1d6fd8; --focus-dark:var(--lime);
  --focus:var(--focus-light);
  /* gradients */
- --grad-hero:linear-gradient(160deg,var(--navy),var(--navy-mid) 60%,var(--green));
+ --grad-hero:linear-gradient(160deg,var(--navy),var(--navy-mid) 60%,var(--green)); /* every dark hero */
+ --hero-glow:radial-gradient(1200px 400px at 85% -10%,var(--lime-wash),transparent 60%); /* home hero only, layered on --grad-hero */
  --grad-well:linear-gradient(180deg,var(--tint),var(--card));
 
  /* type */
@@ -55,7 +64,7 @@
  --display:clamp(1.95rem,4.4vw,3.25rem);         /* landing heroes: home, finder */
  --display-xl:clamp(2.75rem,5vw,4.5rem);         /* campaign poster (Black Friday) */
  --fw-body:400; --fw-ui:600; --fw-head:700; --fw-black:800;
- --lh-tight:1.15; --lh-ui:1.35; --lh-body:1.55;
+ --lh-none:1; --lh-display:1.08; --lh-tight:1.2; --lh-ui:1.3; --lh-body:1.5; --lh-prose:1.65;
  --track-label:.06em;
 
  /* space: 4px scale */
@@ -87,7 +96,7 @@
  --z-nav-open:100;    /* header while the mobile menu is open */
 
  /* motion */
- --t-fast:.15s ease; --t:.25s ease-out;
+ --t-fast:.15s ease; --t:.25s ease-out; --t-sheet:.32s cubic-bezier(.32,.72,0,1);
 
  /* layout */
  --wrap:75rem;

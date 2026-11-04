@@ -1,9 +1,9 @@
 /* Padel shoes section. 8px scale, 44px taps. */
 @media (width < 900px){.detail.rp2 #buybox{display:none}}
 #pxsheet .pxshist[hidden]{display:none}
-#pxsheet .pxshist{margin:var(--s4) 0 0}#pxsheet .pxshist svg{width:100%;height:64px;display:block;background:var(--bg);border-radius:var(--r-s)}#pxsheet .pxshist p{margin:var(--s2) 0 0;font-size:var(--fs-s);line-height:1.4;color:var(--mut)}
-#pxsheet .disc{display:block;margin:var(--s4) 0 0;font-size:var(--fs-s);line-height:1.4;color:var(--mut)}
-#pxsheet .pxsize{margin:var(--s2) 0 0;font-size:var(--fs-s);line-height:1.4;color:var(--mut)}
+#pxsheet .pxshist{margin:var(--s4) 0 0}#pxsheet .pxshist svg{width:100%;height:64px;display:block;background:var(--bg);border-radius:var(--r-s)}#pxsheet .pxshist p{margin:var(--s2) 0 0;font-size:var(--fs-s);line-height:var(--lh-body);color:var(--mut)}
+#pxsheet .disc{display:block;margin:var(--s4) 0 0;font-size:var(--fs-s);line-height:var(--lh-body);color:var(--mut)}
+#pxsheet .pxsize{margin:var(--s2) 0 0;font-size:var(--fs-s);line-height:var(--lh-body);color:var(--mut)}
 .shoe .rpg img,.sk .rk-i img{object-fit:contain;aspect-ratio:1/1;background:var(--card)}
 .ball .rpg .gslide{padding:0;cursor:zoom-in}
 .ball .rpg .gslide img{width:100%;height:100%;max-width:none;aspect-ratio:auto;object-fit:contain}
