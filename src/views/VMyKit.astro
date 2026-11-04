@@ -75,12 +75,7 @@ function put(it){let a=read().filter(x=>x.k!==it.k&&x.t!=='Shirt'); if(it.t!=='B
 function paintFig(){const w=worn();
  document.querySelectorAll('.kit-zone').forEach(el=>{const s=el.dataset.slot, x=w[s]; el.classList.toggle('is-set',!!x); el.classList.toggle('is-open',openSlot===s);
   el.setAttribute('aria-pressed',openSlot===s?'true':'false'); el.setAttribute('aria-label',x?`${SLOTS[s].t}: ${x.n}`:`${SLOTS[s].t}`);});
- placeHits();}
-function placeHits(){const fig=document.querySelector('.kit-fig'), fr=fig.getBoundingClientRect(), svg=fig.querySelector('svg'); if(!svg) return;
- const box={bag:'#fig-bag',racket:'#fig-racket',shoes:'#fig-shoes'};
- const grow={bag:[6,6],racket:[6,6],shoes:[8,6]};
- for(const [s,sel] of Object.entries(box)){const r=svg.querySelector(sel).getBoundingClientRect(); const zone=fig.querySelector(`[data-zone="${s}"]`); const [gy,gx]=grow[s];
-  zone.style.left=(r.left-fr.left-gx)+'px'; zone.style.top=(r.top-fr.top-gy)+'px'; zone.style.width=(r.width+gx*2)+'px'; zone.style.height=(r.height+gy*2)+'px';}}
+}
 function closePick(){openSlot=null; $('kpick').hidden=true; paintFig();}
 async function showResults(q){const mine=++req, slot=openSlot; if(!SLOTS[slot]) return; const n=q.trim().toLowerCase();
  if(n.length<2){$('kpick-list').innerHTML=''; $('kpick-msg').textContent=''; return;}
@@ -111,7 +106,7 @@ async function render(){const kept=read().filter(x=>x.t!=='Shirt'); if(kept.leng
   const go=x.u?`<a class="btn btn-line btn-sm" href="${esc(x.u)}">→</a>`:'';
   return `<li class="kit-li">${x.i?`<img src="${esc(x.i)}" alt="" width="56" height="56" loading="lazy" class="kit-li-img">`:''}<span class="kit-li-txt"><small class="muted">${esc(x.kind||x.t)}</small><br/><b>${x.u?`<a href="${esc(x.u)}">${esc(x.n)}</a>`:esc(x.n)}</b><small class="kit-sub">${hint}</small></span>${go} <button class="btn btn-line btn-sm" type="button" data-rm="${esc(x.k)}">✕</button></li>`;}));
  UL.innerHTML=rows.join(''); UL.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{write(read().filter(x=>x.k!==b.dataset.rm)); render();});}
-addEventListener('resize',placeHits);
+
 render();
 </script>
 </Base>
