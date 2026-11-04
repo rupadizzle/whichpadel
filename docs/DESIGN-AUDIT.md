@@ -22,7 +22,9 @@ Branch: `claude/design-audit-system-dbn27e`. The audit is below. The fixes are o
 | Global z-index values | 22 raw numbers | 10 named layers (lint-enforced) |
 | `padqa` vertical rhythm | FAIL | PASS (32px above and below content on every page type) |
 | Saved page layout shift (CLS, measured on the live preview) | 0.15–0.19 on production, up to 0.39 with items | 0.000 at 390 and 1280 with 0, 1 or 5 items |
-| Functional `qa.mjs` failures | 10 | 7 (compare tick / add / swap now pass; the rest are stale selectors) |
+| Functional `qa.mjs` checks | 10 failing (stale selectors) | 23/23 pass |
+| Repo QA suite (smoke) | 9 of 12 failing or crashing | all pass except `qa.mjs` static check: 166 + 18 duplicate titles (pre-existing SEO) |
+| Prices printed outside the currency converter (`curtextqa`) | 426 | 0 |
 | Horizontal overflow at 360/390/412/768/1280 (30 page types, 6 languages on home) | n/a | none |
 
 How it was verified:
@@ -34,9 +36,10 @@ How it was verified:
 Known exceptions and what's left:
 
 - **Dense controls.** Desktop filter controls are 36px when a mouse is detected (WCAG AA minimum is 24px). The compare-header swap and remove buttons have 36px-tall hit areas because they are stacked.
-- **Inline `style=""` attributes and colours built in JS strings** aren't linted (stylelint reads `<style>` blocks only). They were converted to tokens by hand.
+- **Data-driven inline styles** (column counts, bar widths, image sizes) stay inline by design; static ones were moved into components. JS strings are not linted.
 - **Test pages.** `/homepage-2`, `/homepage-3`, `/hero` and `/shells` are noindex experiments with their own CSS. They are excluded from lint; delete them once decided.
-- **Pre-existing QA script issues.** `qa.mjs` has stale selectors (`.toolbar`, `.buybox .btn-sm`, `.rk-p`). `parity.mjs` and `cmpqa.mjs` crash on a removed `/compare/` index. `pxqa` and `curtext` need the live price API.
+- **Duplicate page titles (SEO, pre-existing).** 166 groups of different pages share a title in the same language (title shortening drops variant words, e.g. two Nox AT10 Genius editions), plus 18 pages share a title across languages. Not changed here because titles affect rankings; needs its own change.
+- **`pxqa` API check** needs network access to whichpadel.com; `PXQA_OFFLINE=1` reports SKIP, never PASS.
 
 ## How this was measured
 
