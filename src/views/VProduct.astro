@@ -15,6 +15,7 @@ import { gallery, levelOf, RP, insight } from '../lib/rp2.js';
 import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L, ckTxt } from '../lib/data.js';
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
+import { titleCore } from '../lib/racket-title.js';
 import { offersOf, SHOPS, domainOf, FX, shopHref, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
@@ -31,30 +32,6 @@ const d = D(lang), u = d.ui;
 const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
 const pxJson = (offs, checked) => JSON.stringify((offs || []).filter(o => o && o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(checked ? { t: checked } : {}) })));
 
-const titleModel = (r) => {
-  let m = String(r.model || '');
-  m = m.replace(/\s+by\s+\S(?:.*\S)?$/i, '').trim();
-  let disamb = '';
-  if (r.player) {
-    const esc = String(r.player).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const before = m;
-    m = m.replace(new RegExp('\\s+' + esc + '\\s*$', 'i'), '').trim();
-    if (before !== m) {
-      const parts = String(r.player).trim().split(/\s+/).filter(Boolean);
-      disamb = parts.length ? parts[parts.length - 1] : '';
-    }
-  }
-  if (r.year != null) {
-    const y = String(r.year);
-    const idx = m.search(new RegExp('\\s+' + y + '\\b'));
-    if (idx >= 0) {
-      const after = m.slice(idx + y.length + 1).trim();
-      m = m.slice(0, idx).trim();
-      if (after) disamb = after.split(/\s+/).filter(Boolean).pop() || disamb;
-    }
-  }
-  return { core: m || String(r.model || ''), disamb };
-};
 const clipTitle = (core, suffix, max = 65) => {
   const room = max - suffix.length;
   if (room < 8) return (core + suffix).slice(0, max);
@@ -97,20 +74,7 @@ const page = (() => {
     const offerPick = pick(r, d.region || DEFAULT_REGION(lang));
     const offerLd = !offerPick.none ? { offers: { '@type': 'Offer', price: String(offerPick.v), priceCurrency: offerPick.cur, url: (offerPick.o && offerPick.o.u) || r.productUrl } } : {};
     const titleOverhead = C.title('').length + d.copy.titleSuffix.length;
-    const tm = titleModel(r);
-    let titleBare = tm.core;
-    const titleYear = r.year != null ? String(r.year) : '';
-    const disamb = tm.disamb;
-    const yearLen = titleYear ? titleYear.length + 1 : 0;
-    const disambLen = disamb ? disamb.length + 1 : 0;
-    if (titleBare.length + disambLen + yearLen + titleOverhead > 65) {
-      const room = Math.max(8, 65 - titleOverhead - yearLen - disambLen);
-      titleBare = titleBare.slice(0, room);
-      const sp = titleBare.lastIndexOf(' ');
-      if (sp > room * 0.5) titleBare = titleBare.slice(0, sp);
-    }
-    if (disamb) titleBare = `${titleBare} ${disamb}`.trim();
-    if (titleYear) titleBare = `${titleBare} ${titleYear}`.trim();
+    const titleBare = titleCore(r, titleOverhead); // unique within the language; see src/lib/racket-title.js
     const racketTitle = C.title(titleBare) + d.copy.titleSuffix;
     return {
       locale: d.locale, title: racketTitle, description: C.desc(r, t, x.price), ogImage: absImg(r),

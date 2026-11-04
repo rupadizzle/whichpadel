@@ -3,7 +3,11 @@ import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro'; import Byline from '../components/Byline.astro'; import RacketImage from '../components/RacketImage.astro'; import Price from '../components/Price.astro';
 import { vsPairs, sh } from '../lib/vs.js'; import { CK_L, ckTxt } from '../lib/data.js'; import { offersOf } from '../lib/price.js'; import { D, url, SITE, P, Pnum, balTxt, wt, mat } from '../i18n/index.js';
 const { p, lang } = Astro.props; const {A,B}=p; const xs=[A,B]; const d=D(lang), u=d.ui, C=d.copy.vs, t=d.terms, c=u.cmp;
-const a=sh(A), b=sh(B), title=`${a} vs ${b}`; const df=k=>A.ratings[k]-B.ratings[k]; const hi=k=>Math.max(A.ratings[k],B.ratings[k]), lo=k=>Math.min(A.ratings[k],B.ratings[k]);
+const a=sh(A), b=sh(B), title=`${a} vs ${b}`;
+// <title>: localised (unique per language) and within 65 characters; drop the years first, the keyword only as a last resort
+const noYear=(s,r)=>r.year!=null?s.replace(new RegExp('\\s+'+r.year+'\\b'),''):s; const fit=t=>(t+d.copy.titleSuffix).length<=65;
+const dropShared=(x,y)=>{const xs=x.split(' '),ys=y.split(' ');let i=0;while(i<xs.length-1&&i<ys.length-1&&xs[i]===ys[i])i++;return ys.slice(i).join(' ');}; // 'Technical Veron 3.0 vs Viper 3.0'
+const vsTitle=([C.title(a,b),C.title(noYear(a,A),noYear(b,B)),C.title(noYear(a,A),dropShared(noYear(a,A),noYear(b,B))),C.titleBare(a,b)].find(fit)||C.titleBare(a,b))+d.copy.titleSuffix; const df=k=>A.ratings[k]-B.ratings[k]; const hi=k=>Math.max(A.ratings[k],B.ratings[k]), lo=k=>Math.min(A.ratings[k],B.ratings[k]);
 const gaps=['power','control','handling','forgiveness','comfort'].map(k=>[k,df(k)]).sort((x,y)=>Math.abs(y[1])-Math.abs(x[1])); const [gk,gv]=gaps[0];
 const w=k=>df(k)>0?a:df(k)<0?b:null; const fg=(A.ratings.forgiveness+A.ratings.comfort)-(B.ratings.forgiveness+B.ratings.comfort);
 const pa=Pnum(A,lang), pb=Pnum(B,lang); const cheap=pa!=null&&pb!=null&&pa!==pb?(pa<pb?a:b):null;
@@ -16,7 +20,7 @@ const SA=spec(A), SB=spec(B);
 const jsonld={'@context':'https://schema.org','@graph':[{'@type':'FAQPage','mainEntity':faq.map(([q,an])=>({'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':an}}))},{'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+url('home',lang)},{'@type':'ListItem','position':2,'name':u.compare,'item':SITE+url('rackets',lang)},{'@type':'ListItem','position':3,'name':`${a} vs ${b}`,'item':U}]}]};
 const others=vsPairs.filter(o=>o.slug!==p.slug).slice(0,6);
 ---
-<Base lang={d.locale} title={C.title(a,b)+d.copy.titleSuffix} description={C.desc(a,b).slice(0,158)} jsonld={jsonld} ogImage={A.image?`${SITE}${A.image}`:undefined}>
+<Base lang={d.locale} title={vsTitle} description={C.desc(a,b).slice(0,158)} jsonld={jsonld} ogImage={A.image?`${SITE}${A.image}`:undefined}>
 <section class="phero" slot="hero"><div class="wrap"><Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{href:url('rackets',lang),label:u.compare},{label:`${a} vs ${b}`}]}/><h1>{title}</h1><Byline lang={lang} headline={title} pageUrl={U}/><div class="seo"><p>{intro}</p></div></div></section>
 <div class="cmp" style="--n:2">
 <div class="chead" style="--n:2">{xs.map(r=><div class="hc"><RacketImage lang={lang} r={r} size={48}/><a class="hn" href={url('racket',lang,r.slug)}>{sh(r)}</a><Price r={r} lang={lang} cls="hp"/></div>)}</div>

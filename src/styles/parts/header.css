@@ -136,3 +136,5 @@ body:has(.nav.open) .hdr,body:has(.nav.open) .ubar{z-index:var(--z-nav-open)}
 /* desktop: the search button lives in the utility bar (moved there by script). Keep its header slot out of the
    header grid from the first paint, otherwise the header re-centres 9px when the script runs (layout shift). */
 @media (width > 1180px){#hdr-search{display:none}}
+/* desktop: saved + account links live in the utility bar (moved there by script); keep them out of the centred nav from the first paint */
+@media (width > 1180px){.nav #site-util{display:none}}

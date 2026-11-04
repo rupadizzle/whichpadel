@@ -1,7 +1,7 @@
 /* Home page. Values come from tokens.css; shared components live in components.css. */
 /* hero */
 .hero{background:var(--hero-glow),var(--grad-hero);color:var(--on-dark);padding:var(--s7) 0 var(--s8)}
-.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:var(--s6);align-items:center}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:var(--s6);align-items:center} /* minmax(0,…): columns do not re-balance when the web font swaps in */
 .hero h1 em{font-style:normal;color:var(--lime)}
 .hero p.lead{font-size:var(--fs-l);color:var(--on-dark-2);max-width:560px}
 .hero-ctas{display:flex;gap:var(--s3);margin-top:var(--s4);flex-wrap:wrap}

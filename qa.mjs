@@ -11,8 +11,8 @@ const exists=u=>{u=u.split('#')[0].split('?')[0]; if(u==='') return true; const 
 const titles={},descs={}; let bad=new Set();
 for(const f of files){const h=fs.readFileSync(f,'utf8'); const pg=f.slice(4);
  for(const m of h.matchAll(/(?:href|src)="(\/[^"]*)"/g)){ if(!m[1].includes('${')&&!exists(m[1])) bad.add(pg+' -> '+m[1]); }
- const t=(h.match(/<title>(.*?)<\/title>/)||[])[1]; (titles[t]??=[]).push(pg);
- const d=(h.match(/<meta name="description" content="([^"]*)"/)||[])[1]; (descs[d]??=[]).push(pg);
+ const t=(h.match(/<title>(.*?)<\/title>/)||[])[1]; if(!/<meta name="robots" content="noindex/.test(h)) (titles[t]??=[]).push(pg); /* noindex pages are not in search results */
+ const d=(h.match(/<meta name="description" content="([^"]*)"/)||[])[1]; if(!/<meta name="robots" content="noindex/.test(h)) (descs[d]??=[]).push(pg);
  const noindex=/<meta name="robots" content="noindex/.test(h); /* internal noindex pages (design boards, experiments) are not checked for h1/img */
  const h1=(h.replace(/<script[\s\S]*?<\/script>/g,'').match(/<h1[\s>]/g)||[]).length; if(h1!==1&&!noindex) issues.push(`${pg}: ${h1} h1`); /* h1 inside a script template is not markup */
  if(!noindex) for(const m of h.matchAll(/<img [^>]*>/g)) if(!/alt="/.test(m[0])||!/width=/.test(m[0])) issues.push(pg+' img missing alt/size');
