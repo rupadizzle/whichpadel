@@ -23,7 +23,7 @@ Branch: `claude/design-audit-system-dbn27e`. The audit is below. The fixes are o
 | `padqa` vertical rhythm | FAIL | PASS (32px above and below content on every page type) |
 | Saved page layout shift (CLS, measured on the live preview) | 0.15–0.19 on production, up to 0.39 with items | 0.000 at 390 and 1280 with 0, 1 or 5 items |
 | Functional `qa.mjs` checks | 10 failing (stale selectors) | 23/23 pass |
-| Repo QA suite (smoke) | 9 of 12 failing or crashing | all pass except `qa.mjs` static check: 166 + 18 duplicate titles (pre-existing SEO) |
+| Repo QA suite (smoke) | 9 of 12 failing or crashing | all pass (`pxqa` API check needs network; `geoqa` can flake under heavy parallel load) |
 | Prices printed outside the currency converter (`curtextqa`) | 426 | 0 |
 | Horizontal overflow at 360/390/412/768/1280 (30 page types, 6 languages on home) | n/a | none |
 
@@ -38,7 +38,7 @@ Known exceptions and what's left:
 - **Dense controls.** Desktop filter controls are 36px when a mouse is detected (WCAG AA minimum is 24px). The compare-header swap and remove buttons have 36px-tall hit areas because they are stacked.
 - **Data-driven inline styles** (column counts, bar widths, image sizes) stay inline by design; static ones were moved into components. JS strings are not linted.
 - **Test pages.** `/homepage-2`, `/homepage-3`, `/hero` and `/shells` are noindex experiments with their own CSS. They are excluded from lint; delete them once decided.
-- **Duplicate page titles (SEO, pre-existing).** 166 groups of different pages share a title in the same language (title shortening drops variant words, e.g. two Nox AT10 Genius editions), plus 18 pages share a title across languages. Not changed here because titles affect rankings; needs its own change.
+- **Page titles:** were 166 duplicate groups within languages + 18 across languages; now 0, all ≤65 characters (`src/lib/racket-title.js`, localised compare/author titles).
 - **`pxqa` API check** needs network access to whichpadel.com; `PXQA_OFFLINE=1` reports SKIP, never PASS.
 
 ## How this was measured
