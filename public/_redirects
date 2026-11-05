@@ -28,7 +28,6 @@
 /black-friday-padel-rackets/ /black-friday/ 301
 /padel-bags /bags/ 301
 /padel-bags/ /bags/ 301
-/padel-bags/* /bags/:splat 301
 /compare /rackets/ 301
 /compare/ /rackets/ 301
 /rackets/compare /rackets/ 301
@@ -225,3 +224,7 @@
 /homepage-3/ / 301
 /hero / 301
 /hero/ / 301
+
+# Wildcard (dynamic) rules go LAST. Cloudflare counts every rule after the first wildcard as dynamic and
+# silently drops everything past 100 dynamic rules. scripts/redirectsqa.mjs checks this in the build.
+/padel-bags/* /bags/:splat 301
