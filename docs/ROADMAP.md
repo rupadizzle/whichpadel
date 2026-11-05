@@ -11,20 +11,17 @@ The one list of what is still to do. Tick items off (or delete them) in the same
 
 ## Now
 
-- [ ] **Merge the design tidy-ups PR**, then start the visual refresh.
+- [ ] **Merge the spec-fills PR**, then delete the `data/fill-gaps-oct29` branch on GitHub. Everything worth keeping from it is then on `main`.
+- [ ] **Visual refresh**: needs a direction first (see below).
 
-## Decide
+## Decided
 
-- [ ] **Price and spec fills from `data/fill-gaps-oct29`**: that branch also fills gaps in `data/rackets.normalised.json` and `data/shoes.json`:
-  - prices and shop links for 957 rackets that have none, checked around 29 Oct. They would add Buy buttons, affiliate links and Google price data, so check they are still current first;
-  - balance for 429 rackets, plus a few core, weight, face and year values;
-  - sole, year, wide-fit and cushioning details for about 100 shoes.
+- **Prices from `data/fill-gaps-oct29` are not used.** 957 prices and shop links checked around 29 Oct would add Buy buttons and affiliate links on week-old prices. Those rackets get prices through the normal price checks instead.
+- **Shoe wide-fit and Vibram flags from that branch are not used.** They marked 89 standard models (e.g. Asics Gel Dedicate) as wide, which looks scraped from "also available in wide" text.
 
-  It removes one price (one racket). Not merged: the photos PR takes only photos. Once this is decided (merge the fills or drop them), delete the branch.
+## Visual refresh plan
 
-## Later
-
-- [ ] **Visual refresh**, on its own branch:
+On its own branch:
   1. Agree a direction: 2–3 reference sites, plus what feels wrong today.
   2. Mock options on `/shells` (noindex design board).
   3. Change `tokens.css` and `components.css` first, then check each page type (home, catalogues, product, compare, guides) at 360/390/412/768/1280 on the preview.
