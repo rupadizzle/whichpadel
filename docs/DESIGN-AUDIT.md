@@ -37,7 +37,7 @@ Known exceptions and what's left:
 
 - **Dense controls.** Desktop filter controls are 36px when a mouse is detected (WCAG AA minimum is 24px). The compare-header swap and remove buttons have 36px-tall hit areas because they are stacked.
 - **Data-driven inline styles** (column counts, bar widths, image sizes) stay inline by design; static ones were moved into components. JS strings are not linted.
-- **Test pages.** `/homepage-2`, `/homepage-3`, `/hero` and `/shells` are noindex experiments with their own CSS. They are excluded from lint; delete them once decided.
+- **Test pages.** `/homepage-2`, `/homepage-3` and `/hero` were removed (301 to `/`). `/shells` (noindex design board) remains.
 - **Page titles:** were 166 duplicate groups within languages + 18 across languages; now 0, all ≤65 characters (`src/lib/racket-title.js`, localised compare/author titles).
 - **`pxqa` API check** needs network access to whichpadel.com; `PXQA_OFFLINE=1` reports SKIP, never PASS.
 

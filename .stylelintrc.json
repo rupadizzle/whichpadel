@@ -99,12 +99,6 @@
   ]
  },
  "ignoreFiles": [
-  "src/styles/home2.css",
-  "src/styles/home3.css",
-  "src/styles/hero-page.css",
-  "src/views/VHome2.astro",
-  "src/views/VHome3.astro",
-  "src/pages/hero.astro",
   "src/pages/shells.astro"
  ],
  "overrides": [

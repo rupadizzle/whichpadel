@@ -24,7 +24,7 @@ Every visual value lives in `src/styles/tokens.css`. Every shared component live
 | `shoes.css`, `search.css` | Shoe pages, site search |
 | `components.css` | Canonical components (last) |
 
-Page-only: `hub.css` (catalogues and cards), `bf.css` (Black Friday). Noindex experiments, not part of the system: `home2.css`, `home3.css`, `hero-page.css`.
+Page-only: `hub.css` (catalogues and cards), `bf.css` (Black Friday).
 
 ## Lint
 
