@@ -5,8 +5,10 @@
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .hdr,.ubar,.ftr,.phero,.hero,.verdict,.offer,.bf-hero,.hub-tray,.nav.open{--focus:var(--focus-dark)}
 .acct-pop,dialog.gs,.sheet,.rk-alert,.cmp-take,.gzoom{--focus:var(--focus-light)}
-.ai-dlg{--focus:var(--focus-dark)}
+.ai-dlg,.cmp-take-x,.hub-tray-x{--focus:var(--focus-dark)}
 @media (width > 1180px){.dd .menu{--focus:var(--focus-light)}}
+/* gradient heroes end on green, where --on-dark-3 drops to 3.8:1; meta text there uses --on-dark-2 (5.5:1) */
+.hero,.phero,.bf-hero{--on-dark-3:var(--on-dark-2)}
 
 /* ---------- breadcrumbs ---------- */
 .crumbs{margin:0 0 var(--s1);font-size:var(--fs-s);line-height:var(--lh-ui);color:var(--mut)}
@@ -59,7 +61,8 @@
 /* static tag */
 .chip{display:inline-flex;align-items:center;padding:var(--s0) var(--s2);border-radius:var(--r-pill);background:var(--tint);color:var(--green);font-size:var(--fs-s);font-weight:var(--fw-ui);line-height:var(--lh-body)}
 /* link pill */
-.gchips a,.hub-pre a,.brandlinks a{display:inline-block;min-height:0;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--ink);font-size:var(--fs-m);font-weight:var(--fw-ui);line-height:calc(var(--ctl-d) - 2px);white-space:nowrap;text-decoration:none}
+.gchips a,.hub-pre a,.brandlinks a{display:inline-block;min-height:0;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--ink);font-size:var(--fs-m);font-weight:var(--fw-ui);line-height:calc(var(--tap) - 2px);white-space:nowrap;text-decoration:none}
+.hub-pre a:not(.brandlinks a,.gchips a){line-height:calc(var(--ctl-d) - 2px)} /* hub filter presets: dense on desktop */
 .gchips a:hover,.hub-pre a:hover,.brandlinks a:hover{border-color:var(--green-2);color:var(--ink)}
 .gchips a.gall{background:var(--navy);border-color:var(--navy);color:var(--on-dark)}
 /* uppercase micro label */
@@ -86,7 +89,6 @@
 @media (width < 600px){
  .gchips{mask-image:linear-gradient(90deg,black calc(100% - var(--s6)),transparent)}
 }
-.cmp-take-x,.hub-tray-x{--focus:var(--focus-dark)}
 
 /* ---------- page rhythm: header/hero -> content -> footer is always --s6 ---------- */
 main.wrap>:first-child{margin-top:0}
@@ -101,25 +103,13 @@ main.wrap>.stickycta{margin:0}
 .tw tbody th,.tw td:first-child{position:sticky;left:0;background:var(--card)}
 .tw thead th:first-child{position:sticky;left:0;z-index:1}
 @media (width < 900px){.tw table{min-width:max-content;font-size:var(--fs-s)}.tw th,.tw td{white-space:nowrap}}
-/* stand-alone link pills are not a dense filter UI: full tap height everywhere */
-.gchips a,.brandlinks a{line-height:calc(var(--tap) - 2px)}
-
-/* home hero counts: four product counts in one row, the paid-placements note on its own line, same in every language */
-@media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(4,min-content);gap:var(--s2) var(--s4)}.hero .stats>:nth-child(5){grid-column:1 / -1;display:flex;align-items:baseline;gap:var(--s2)}.hero .stats>:nth-child(5) b{font-size:var(--fs-base)}}
 
 /* affiliate note inside a dark hero */
 .phero .hero-disc{color:var(--on-dark-2)}
 .phero .hero-disc a{color:inherit}
-
-/* placeholder cards on the saved page: same size as the real card, invisible until filled */
-.rk-ghost{visibility:hidden}
-@media (width >= 900px){#saved-list .rk-m{min-height:2.4em}}
 
 /* ---------- utilities (use sparingly; prefer a component) ---------- */
 .m0{margin:0}
 .mt2{margin-top:var(--s2)}
 .mt3{margin-top:var(--s3)}
 .btn-block{width:100%}
-
-/* gradient heroes end on green, where --on-dark-3 drops to 3.8:1; meta text there uses --on-dark-2 (5.5:1) */
-.hero,.phero,.bf-hero{--on-dark-3:var(--on-dark-2)}

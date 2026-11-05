@@ -11,7 +11,7 @@ The one list of what is still to do. Tick items off (or delete them) in the same
 
 ## Now
 
-- [ ] **Merge the photos PR**: 695 racket photos (from `data/fill-gaps-oct29`) for pages that show none, plus the 124 bag photos that bag pages already pointed at but were missing (broken images). It also corrects the Siux Empire photo and drops a wrong Wilson Cupra V2 photo. Keep `data/fill-gaps-oct29` until the decision below is made.
+- [ ] **Merge the design tidy-ups PR**, then start the visual refresh.
 
 ## Decide
 
@@ -21,13 +21,6 @@ The one list of what is still to do. Tick items off (or delete them) in the same
   - sole, year, wide-fit and cushioning details for about 100 shoes.
 
   It removes one price (one racket). Not merged: the photos PR takes only photos. Once this is decided (merge the fills or drop them), delete the branch.
-
-## Next
-
-- [ ] **Design tidy-ups** (see `docs/DESIGN-SYSTEM.md`):
-  - Move the page-specific rules out of `src/styles/components.css`: home hero counts, saved-page placeholders, and the link-pill `line-height` that is set twice.
-  - Remove the legacy aliases at the end of `src/styles/tokens.css` once nothing uses them.
-  - Home page layout shift at 1280px (about 0.017 CLS under load; target 0).
 
 ## Later
 
