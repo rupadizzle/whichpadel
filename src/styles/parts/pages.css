@@ -122,3 +122,6 @@
 .kit-zone[data-zone="bag"]{left:0.00%;top:22.67%;width:43.61%;height:38.22%}
 .kit-zone[data-zone="racket"]{left:53.38%;top:20.44%;width:46.62%;height:30.22%}
 .kit-zone[data-zone="shoes"]{left:23.31%;top:79.56%;width:49.62%;height:19.56%}
+/* placeholder cards on the saved page: same size as the real card, invisible until filled */
+.rk-ghost{visibility:hidden}
+@media (width >= 900px){#saved-list .rk-m{min-height:2.4em}}

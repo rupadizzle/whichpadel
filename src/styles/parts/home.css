@@ -8,7 +8,7 @@
 .stats{display:flex;gap:var(--s5);margin-top:var(--s5);flex-wrap:wrap}
 .stats b{display:block;font-size:var(--fs-2xl);color:var(--on-dark)}
 .stats span{color:var(--on-dark-3);font-size:var(--fs-m)}
-.hero .stats a{display:block;min-height:44px;color:inherit;text-decoration:none}
+.hero .stats a{display:block;min-height:var(--tap);color:inherit;text-decoration:none}
 .hero .stats a span{text-decoration:underline;text-underline-offset:.2em}
 .hero .stats a:hover span{color:var(--on-dark)}
 .hero .stats a:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:var(--r-xs)}
@@ -82,3 +82,5 @@
 .hero{padding:var(--s7) 0 var(--s7)}
 .hero h1{max-width:14em}
 }
+/* home hero counts: four product counts in one row, the paid-placements note on its own line, same in every language */
+@media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(4,min-content);gap:var(--s2) var(--s4)}.hero .stats>:nth-child(5){grid-column:1 / -1;display:flex;align-items:baseline;gap:var(--s2)}.hero .stats>:nth-child(5) b{font-size:var(--fs-base)}}

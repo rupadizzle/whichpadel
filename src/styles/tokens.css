@@ -108,9 +108,6 @@
  --acts-w:78px;       /* card action column */
  --bf:0px;
 
- /* legacy aliases (kept so older markup and inline JS keep working) */
- --green2:var(--green-2); --lime2:var(--lime-2); --muted:var(--mut); --r-card:var(--r);
- --sp-1:var(--s2); --sp-2:var(--s4); --sp-3:var(--s5); --sp-4:var(--s6); --sp-5:var(--s7);
 }
 @media(width >= 900px){:root{--gap:var(--s6)}}
 @media(width >= 900px) and (pointer:fine){:root{--ctl-d:36px}}
