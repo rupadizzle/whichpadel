@@ -64,8 +64,8 @@ const P={
  bags:{en:()=>'/bags/',es:()=>'/es/paleteros-mochilas-padel/',fr:()=>'/fr/sacs-padel/',pt:()=>'/pt/sacos-padel/',it:()=>'/it/borse-padel/',de:()=>'/de/padeltaschen/'},
  bag:{en:s=>`/bags/${s}/`,es:s=>`/es/paleteros-mochilas-padel/${s}/`,fr:s=>`/fr/sacs-padel/${s}/`,pt:s=>`/pt/sacos-padel/${s}/`,it:s=>`/it/borse-padel/${s}/`,de:s=>`/de/padeltaschen/${s}/`},
  buyGuide:{
-  en:k=>({clothing:'/padel-clothing/',accessories:'/padel-accessories/',grips:'/padel-grips-overgrips/',pressuriser:'/padel-ball-pressuriser/',ballMachine:'/padel-ball-machine/'})[k],
-  es:k=>({clothing:'/es/ropa-padel/',accessories:'/es/accesorios-padel/',grips:'/es/grips-overgrips-padel/',pressuriser:'/es/presurizador-pelotas-padel/',ballMachine:'/es/maquina-lanzapelotas-padel/'})[k],
+  en:k=>({accessories:'/padel-accessories/',grips:'/padel-grips-overgrips/',pressuriser:'/padel-ball-pressuriser/',ballMachine:'/padel-ball-machine/'})[k],
+  es:k=>({accessories:'/es/accesorios-padel/',grips:'/es/grips-overgrips-padel/',pressuriser:'/es/presurizador-pelotas-padel/',ballMachine:'/es/maquina-lanzapelotas-padel/'})[k],
   fr:k=>({accessories:'/fr/accessoires-padel/',grips:'/fr/grips-overgrips-padel/',pressuriser:'/fr/presse-balles-padel/',ballMachine:'/fr/machine-balles-padel/'})[k],
   pt:k=>({accessories:'/pt/acessorios-padel/',grips:'/pt/grips-overgrips-padel/',pressuriser:'/pt/pressurizador-bolas-padel/',ballMachine:'/pt/maquina-bolas-padel/'})[k],
   it:k=>({accessories:'/it/accessori-padel/',grips:'/it/grip-overgrip-padel/',pressuriser:'/it/pressurizzatore-palline-padel/',ballMachine:'/it/macchina-palline-padel/'})[k],
@@ -80,7 +80,6 @@ const P={
  ball:{en:s=>`/balls/${s}/`,es:s=>`/es/pelotas/${s}/`,fr:s=>`/fr/balles/${s}/`,pt:s=>`/pt/bolas/${s}/`,it:s=>`/it/palline/${s}/`,de:s=>`/de/baelle/${s}/`},
  // US money pages: English only, own URLs under /us/ (no translated or en-GB twin, so no hreflang pairs)
  us:{en:k=>`/us/${k}/`},
- clothingBrands:{en:()=>'/guides/best-padel-clothing-brands/'},
  gifts:{en:k=>({main:'/guides/best-padel-gifts/',men:'/guides/best-padel-gifts-for-men/',women:'/guides/best-padel-gifts-for-women/'})[k],es:k=>k==='main'?'/es/mejores-regalos-padel/':null,fr:k=>k==='main'?'/fr/meilleurs-cadeaux-padel/':null,pt:k=>k==='main'?'/pt/melhores-presentes-padel/':null,it:k=>k==='main'?'/it/migliori-regali-padel/':null,de:k=>k==='main'?'/de/beste-padel-geschenke/':null},
  article:{
   en:k=>({rules:'/guides/padel-rules/',hold:'/guides/how-to-hold-a-padel-racket/',vs:'/padel-vs-paddle-tennis/'})[k],
@@ -101,7 +100,7 @@ export const pages=()=>{const out=[]; const add=(type,id)=>out.push({type,id});
  ['home','guide','bestIndex','brands','players','finder','tool','bf','privacy','affiliate','about','author','years','saved'].forEach(t=>add(t));
  allRackets.forEach(r=>add('racket',r.slug)); brandList.forEach(b=>add('brand',b.slug)); brandYears.forEach(b=>add('brandYear',b.id));
  BEST_KEYS.forEach(k=>add('best',k)); [...new Set(players.map(p=>p.slug))].forEach(s=>add('player',s)); vsPairs.forEach(v=>add('vs',v.slug)); [...new Set(rackets.map(r=>r.year).filter(Boolean))].forEach(y=>add('year',y)); for(let i=1;i<=Math.ceil(allRackets.length/24);i++) add('rackets',i);
- add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['clothing','accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); add('clothingBrands'); ['main','men','women'].forEach(k=>add('gifts',k)); ['rules','hold','vs'].forEach(k=>add('article',k)); ['deals','myKit'].forEach(t=>add(t)); return out;};
+ add('shoes'); shoes.forEach(x=>add('shoe',x.slug)); shoeOnlyBrands.forEach(b=>add('brand',b.slug)); SHOE_LIST_KEYS.forEach(k=>add('shoeList',k)); US_KEYS.forEach(k=>add('us',k)); add('balls'); balls.forEach(b=>add('ball',b.slug)); add('bags'); bags.forEach(b=>add('bag',b.slug)); ['accessories','grips','pressuriser','ballMachine'].forEach(k=>add('buyGuide',k)); ['main','men','women'].forEach(k=>add('gifts',k)); ['rules','hold','vs'].forEach(k=>add('article',k)); ['deals','myKit'].forEach(t=>add(t)); return out;};
 // reverse map for hreflang on any page
 let REV=null;
 export function alternates(pathname){ if(!REV){REV={}; for(const p of pages()){const set=Object.fromEntries(LANGS.map(l=>[l,url(p.type,l,p.id)]).filter(x=>x[1])); for(const u of Object.values(set)) REV[u]=set;}}

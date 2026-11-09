@@ -224,6 +224,20 @@
 /homepage-3/ / 301
 /hero / 301
 /hero/ / 301
+/padel-clothing /padel-accessories/ 301
+/padel-clothing/ /padel-accessories/ 301
+/es/ropa-padel /es/accesorios-padel/ 301
+/es/ropa-padel/ /es/accesorios-padel/ 301
+/fr/vetements-padel /fr/accessoires-padel/ 301
+/fr/vetements-padel/ /fr/accessoires-padel/ 301
+/pt/roupa-padel /pt/acessorios-padel/ 301
+/pt/roupa-padel/ /pt/acessorios-padel/ 301
+/it/abbigliamento-padel /it/accessori-padel/ 301
+/it/abbigliamento-padel/ /it/accessori-padel/ 301
+/de/padel-bekleidung /de/padel-zubehoer/ 301
+/de/padel-bekleidung/ /de/padel-zubehoer/ 301
+/guides/best-padel-clothing-brands /padel-accessories/ 301
+/guides/best-padel-clothing-brands/ /padel-accessories/ 301
 
 # Wildcard (dynamic) rules go LAST. Cloudflare counts every rule after the first wildcard as dynamic and
 # silently drops everything past 100 dynamic rules. scripts/redirectsqa.mjs checks this in the build.
