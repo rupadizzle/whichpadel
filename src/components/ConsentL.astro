@@ -1,0 +1,16 @@
+---
+import { D, url } from '../i18n/index.js';
+const { lang='en' } = Astro.props; const u=D(lang).ui; const c=u.ck;
+---
+<div id="ck-bn" class="ck-bn" role="region" aria-label={c.label} hidden><p id="ck-msg">{c.p} <a href={url('privacy',lang)}>{u.privacy}</a>.</p><div class="ck-act"><button type="button" class="btn" data-ck="0">{c.no}</button><button type="button" class="btn btn-accent" data-ck="1">{c.yes}</button></div></div>
+<script is:inline>
+(()=>{const b=document.getElementById('ck-bn'); let v=null; try{v=localStorage.wp_ck}catch(e){}
+if(v!=='1'&&v!=='0') b.hidden=false;
+b.addEventListener('click',e=>{const k=e.target.closest('[data-ck]'); if(!k) return; const on=k.dataset.ck; try{localStorage.wp_ck=on}catch(x){} b.hidden=true; if(on==='1') window.wpGa();});})();
+</script>
+<style is:global>
+.ck-bn{position:fixed;left:var(--s3);right:var(--s3);bottom:var(--s3);z-index:var(--z-panel);display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);max-width:44rem;margin:0 auto;padding:var(--s4);background:var(--card);color:var(--navy);border:1px solid var(--line);border-radius:var(--r);box-sizing:border-box;box-shadow:var(--sh-pop)}
+.ck-bn[hidden]{display:none}
+#ck-msg{flex:1 1 18rem;margin:0;font-size:var(--fs-base);line-height:var(--lh-body)}
+.ck-act{display:flex;gap:var(--s2)}.ck-act .btn{min-height:44px;min-width:44px}
+</style>
