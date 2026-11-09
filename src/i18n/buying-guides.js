@@ -1,4 +1,4 @@
-export const BUY_KEYS = ['clothing','accessories','grips','pressuriser','ballMachine'];
+export const BUY_KEYS = ['accessories','grips','pressuriser','ballMachine'];
 export const BUY_UI = {
   en:{ tldr:'In short', toc:'Contents', faq:'FAQ', more:'Keep reading: ', racketGuide:'Padel racket buying guide' },
   es:{ tldr:'En resumen', toc:'Contenido', faq:'Preguntas frecuentes', more:'Sigue leyendo: ', racketGuide:'Guía para elegir pala' },
@@ -9,75 +9,6 @@ export const BUY_UI = {
 };
 
 export const BUY = {
-clothing:{
-en:{
- crumb:'Padel clothing', title:'Padel clothing: what to wear on court',
- desc:'What to wear for padel in the UK: shirts, shorts, skirts, socks and layers. Fabric, ball pockets and brands — no dress code at most clubs.',
- eyebrow:'Buying guide', h1:'Padel clothing: what to wear on court',
- lead:'Wear breathable, stretchy sports kit you can lunge and reach in, with a pocket or waistband that holds a ball for the serve. Most UK clubs have no dress code beyond non-marking court shoes. Padel-branded kit is optional; fabric and fit matter more than the logo.',
- tldr:[
-  '<b>Breathable stretch fabric</b> matters more than a padel logo: you move sideways and reach low a lot.',
-  '<b>A ball pocket or firm waistband</b> lets you serve without walking back to the bag.',
-  '<b>Skirts, dresses, shorts and shirts</b> are all fine; pick by how you move and how cold the club is.',
-  '<b>Pair kit with proper padel shoes</b>; casual trainers mark courts and lack lateral support.',
-  '<b>We do not list clothing prices yet</b> on WhichPadel — use the advice below, then shop a UK retailer.',
- ],
- toc:{wear:'What to wear for padel',men:'Men: shirts, shorts and socks',women:'Women: skirts, skorts, dresses, tops and shorts',fabric:'Fabric, fit and ball pockets',brands:'Padel clothing brands',weather:'Cold and wet UK clubs',buy:'Where to buy padel clothes in the UK',compare:'What we will compare later',faq:'FAQ'},
- sections:[
- {id:'wear',h:'What to wear for padel',html:`<p>Padel is doubles on an enclosed court, so you change direction often, stretch for balls off the glass and sprint to the net. Clothing needs to stretch at the shoulders and hips, wick sweat and stay put when you lunge. Soft-soled, non-marking court shoes are the one hard rule at most UK clubs; everything else is ordinary sports kit. Start with our <a href="/best-padel-shoes/">best padel shoes</a> guides if you still play in trainers.</p><p>A short-sleeve top, shorts or a skirt or skort, and mid-crew sports socks cover most sessions. Add a light mid-layer you can peel off after the warm-up if the hall is cool. Leave jeans, heavy cotton hoodies and marking soles at home. Tennis shirts and shorts transfer well; padel-branded lines mainly add cuts, colours and ball pockets rather than a different sport.</p>`},
- {id:'men',h:'Men: shirts, shorts and socks',html:`<p>A fitted athletic shirt with mesh panels stays cooler than a loose cotton tee and is less likely to flap on overheads. Look for a hem that stays tucked, or one long enough that it does not ride up when you stretch for a bandeja. Shorts need a secure waistband and enough length to cover the upper thigh in a wide lunge; a zip or button pocket is useful for a spare overgrip or keys.</p><p>Padel socks are usually mid-crew, with cushioning under the forefoot and a snug arch so the foot does not slide inside the shoe on side steps. Tennis socks with the same build work fine. Match shorts with <a href="/mens-padel-shoes/">men's padel shoes</a> that suit your usual outsole — clay or omni — rather than buying a second pair of street trainers for the club.</p>`},
- {id:'women',h:'Women: skirts, skorts, dresses, tops and shorts',html:`<p>Women's padel clothing ranges are broader than men's in most shops: skirts, skorts, dresses and shorts sit beside fitted tanks and short-sleeve shirts. Choose a cut that does not gap when you reach high, and check that built-in shorts sit flat at the waist so they do not roll during a long rally. Shorts alone suit players who prefer a freer hip, especially if they come from running or gym work.</p><h3>Skirts and skorts</h3><p>Skirts and skorts with a side ball pocket are the default for many club players. The pocket should be deep enough that a real padel ball stays put when you sprint; shallow pockets drop the ball on the first change of direction. Built-in shorts stop the skirt riding up on lunges. Try the pocket in the shop if you can — a demo ball tells you more than the product photo.</p><h3>Padel dresses</h3><p>One-piece padel dresses with built-in shorts are popular in warmer months and for players who want a single garment instead of a top-and-skirt set. Look for stretch through the torso, a neckline that stays put on overheads, and the same deep ball pocket you would expect on a skirt. Dresses can feel warmer than separates, so mesh panels and a lighter fabric help in poorly ventilated halls. Pair with <a href="/womens-padel-shoes/">women's padel shoes</a> in a known UK size rather than guessing from a fashion last.</p><p>Tops range from compression tanks to looser club shirts. If you play league in a team colour, check whether your club requires a printed shirt before you invest in a dress-only wardrobe. For gifts, skip clothing unless you already know size and preferred cut — see our <a href="/guides/best-padel-gifts/">padel gifts</a> guide for safer options.</p>`},
- {id:'fabric',h:'Fabric, fit and ball pockets',html:`<p>Polyester blends with elastane are the usual choice: they dry quickly and stretch with the swing. Flat seams reduce chafing on long sessions. A slightly compressive fit at the torso helps a shirt stay put; leave room at the shoulders for a full smash. Avoid thick cotton next to the skin — once wet it stays cold between points.</p><p>Ball storage is the detail players notice on court. Options include a side skirt or dress pocket, a small zip on shorts, or tucking the ball into a firm waistband. Test with a real padel ball if you can: if it falls out when you crouch, it will fall out in a rally. Dark colours hide court dust; pale colours show dirt sooner but can look fresher on camera. Finish the kit with a <a href="/bags/">padel bag</a> that keeps a dry shirt and mid-layer separate from sandy shoes.</p>`},
- {id:'brands',h:'Padel clothing brands',html:`<p>You do not need a padel logo to play well. For match kit, Bullpadel and Nox lean into padel-specific cuts; Adidas and Joma cover widely stocked value lines; Decathlon’s Kuikma is the usual budget entry; and a few UK labels focus on lifestyle and warm-ups. Fabric, fit and ball pockets still matter more than the badge. For a fuller brand-by-brand comparison — who suits performance, value, budget and cold-club layers — see our <a href="/guides/best-padel-clothing-brands/">best padel clothing brands</a> guide. Brand hubs such as <a href="/brands/bullpadel/">Bullpadel</a> and <a href="/brands/nox/">Nox</a> cover rackets and shoes we already list; clothing itself is not priced on WhichPadel yet.</p>`},
- {id:'weather',h:'Cold and wet UK clubs',html:`<p>Many UK clubs are indoors but cool, or outdoors with wind between the glass. A light mid-layer or track jacket you can remove after the warm-up beats a heavy cotton hoodie. Keep a compact shell in the bag for the walk from the car; you will not play in a waterproof, but you will wait for courts in one. In summer, mesh panels and a spare dry shirt matter more than brand.</p><p>Socks that wick well matter as much as the shirt when halls run warm. If you play back-to-back matches, change socks as well as tops. Small extras such as wristbands live on our <a href="/padel-accessories/">padel accessories</a> page — they are comfort, not a substitute for breathable kit.</p>`},
- {id:'buy',h:'Where to buy padel clothes in the UK',html:`<p>WhichPadel does not yet list clothing prices or stock. Until we do, shop retailers that already carry padel apparel and check size guides carefully — cuts vary between brands. Specialist padel shops and multi-sport chains both work; confirm return policy if you are ordering a skirt, dress or first pair of padel shorts online.</p><p>Useful starting points (affiliate links; we may earn a commission — see our <a href="/affiliate-disclosure/">affiliate disclosure</a>): <a href="https://www.padel-point.com/collections/padel-clothing" rel="sponsored nofollow" target="_blank">Padel-Point padel clothing</a> for a wide multi-brand range, and <a href="https://www.decathlon.co.uk/sports/padel" rel="sponsored nofollow" target="_blank">Decathlon UK padel</a> for Kuikma and entry kit. Brand sites and UK labels such as Pallacorda or Padelism suit lifestyle pieces once you know fit. Complete the kit with shoes and a bag from the links above rather than guessing clothing as a gift.</p>`},
- {id:'compare',h:'What we will compare later',html:`<p id="compare">When we list padel clothing side by side, this section becomes a comparison table. Planned columns: garment type (shirt, skirt, skort, dress, shorts, socks), gender cut, fabric notes and whether there is a ball pocket. We will unlock that table once we have a clothing catalogue with enough UK SKUs. Until then, use the advice above and the shoe and bag links to finish a kit — we are clear that WhichPadel does not yet show clothing prices.</p>`},
- ],
- faq:[
-  ['Is there a dress code for padel in the UK?','Most clubs only ask for non-marking court shoes and normal sports clothing. Check your club if you play a league that sets a kit colour.'],
-  ['Do I need padel-branded clothes?','No. Any breathable, stretchy sports kit that lets you lunge and reach will work. Brand lines mainly add cuts, colours and ball pockets aimed at padel.'],
-  ['Skirt, skort or shorts for padel?','All three work. Skirts and skorts with built-in shorts and a deep ball pocket are popular; shorts suit players who prefer a freer hip.'],
-  ['Are padel dresses worth it?','Yes if you like a one-piece kit. Check stretch, pocket depth and how warm the fabric feels in your club before you buy several.'],
-  ['What socks work for padel?','Mid-crew sports socks with cushioning under the forefoot and a snug arch reduce slip inside the shoe on side steps.'],
-  ['Can I wear tennis clothes for padel?','Yes, in most clubs. The movements are similar enough that tennis shirts, skirts and shorts transfer well.'],
-  ['What should I wear in a cold club?','Start with a light mid-layer over a wicking shirt and take it off after the warm-up. Avoid cotton against the skin.'],
- ],
- next:['accessories','grips'],
-},
-
-es:{
- crumb:'Ropa de pádel', title:'Ropa de pádel: qué ponerte en la pista',
- desc:'Cómo elegir ropa de pádel en España: camisetas, faldas, vestidos, pantalones y calcetines, con consejos de tejido, bolsillo para la bola y clima.',
- eyebrow:'Guía de compra', h1:'Ropa de pádel: qué ponerte en la pista',
- lead:'Usa ropa deportiva transpirable y elástica, con bolsillo o cintura que sujete la bola al sacar. En la mayoría de clubes españoles no hay código de vestimenta más allá de zapatillas de suela adecuada.',
- tldr:[
-  '<b>El tejido elástico y transpirable</b> importa más que el logo: te mueves de lado y bajas mucho al cristal.',
-  '<b>Un bolsillo para la bola</b> o una cintura firme evita ir al paletero en cada saque.',
-  '<b>Faldas, vestidos, pantalones y camisetas</b> valen; elige según cómo te guste moverte y si la pista está al aire libre.',
-  '<b>Completa el conjunto con zapatillas de pádel</b>; las de calle marcan la pista y no sujetan el tobillo en los cambios de dirección.',
- ],
- toc:{wear:'Qué ponerte para jugar',mujer:'Mujer: faldas, vestidos y tops',hombre:'Hombre: camisetas, pantalones y calcetines',tejido:'Tejido, talla y bolsillo',marcas:'Qué suelen ofrecer las marcas',clima:'Calor, frío y pistas al aire libre',compare:'Qué compararemos más adelante',faq:'Preguntas frecuentes'},
- sections:[
- {id:'wear',h:'Qué ponerte para jugar',html:`<p>El pádel se juega en pareja en una pista cerrada: cambias de dirección a menudo y recoges bolas que salen del cristal. La ropa tiene que estirar en hombros y cadera, evaporar el sudor y quedarse en su sitio cuando subes a la red. En casi todos los clubes de España basta con ropa deportiva y zapatillas de suela adecuada para la pista; consulta nuestras <a href="/es/mejores-zapatillas-padel/">zapatillas de pádel</a>.</p><p>Empieza con camiseta de manga corta, falda o pantalón corto y calcetines técnicos. Si juegas al aire libre al anochecer, lleva una capa fina que puedas quitarte tras el calentamiento. Evita vaqueros, sudaderas de algodón que se empapan y calzado que deje marcas negras.</p>`},
- {id:'mujer',h:'Mujer: faldas, vestidos y tops',html:`<p>Las faldas y los vestidos con short interior son muy habituales porque la bola cabe en el bolsillo lateral y el short evita que la falda suba. Los tops van desde tirantes ajustados hasta camisetas de manga corta; elige un corte que no se abra al sacar el brazo en la bandeja. El pantalón corto solo también se ve mucho, sobre todo si vienes del tenis o del running.</p><p>Mira la profundidad del bolsillo: si es corto, la bola cae al esprintar. El short interior debe quedar plano en la cintura para no enrollarse. Para el calzado, mira las <a href="/es/zapatillas-padel-mujer/">zapatillas de pádel de mujer</a>.</p>`},
- {id:'hombre',h:'Hombre: camisetas, pantalones y calcetines',html:`<p>Una camiseta ajustada con paneles de malla refresca más que una de algodón holgada. El bajo debe quedar metido o ser lo bastante largo para no subirse en los remates. El pantalón necesita cintura firme y largo suficiente para cubrir el muslo al entrar a una bola baja; muchos jugadores prefieren un bolsillo con cremallera para el overgrip de repuesto o las llaves.</p><p>Los calcetines de pádel suelen ser de media caña, con acolchado bajo la planta y arco ceñido. Eso reduce el deslizamiento dentro de la zapatilla en los pasos laterales. Si ya tienes calcetines de tenis con esa estructura, sirven. Combínalos con <a href="/es/zapatillas-padel-hombre/">zapatillas de pádel de hombre</a>.</p>`},
- {id:'tejido',h:'Tejido, talla y bolsillo',html:`<p>Las mezclas de poliéster con elastano secan rápido y estiran. Las costuras planas restan rozaduras en partidos largos. Un ajuste algo ceñido en el tronco ayuda a que la camiseta no se mueva; deja holgura en los hombros para el swing completo.</p><p>El bolsillo para la bola es el detalle que se nota en pista. Puede ir en la falda, en el pantalón o, a falta de bolsillo, sujetando la bola en la cintura. Si puedes, prueba el bolsillo con una pelota real: si cae al agacharte, caerá en el punto. Los colores oscuros disimulan el polvo de la pista; los claros muestran antes la suciedad pero disimulan mejor el sudor en foto.</p>`},
- {id:'marcas',h:'Qué suelen ofrecer las marcas',html:`<p>Bullpadel, Adidas, Head y Nox tienen líneas de ropa que acompañan a sus palas. El nombre de la marca no cambia cómo respira el tejido; marca sobre todo el corte, los colores y si hay falda y vestido o solo camiseta y pantalón. Los equipos de club suelen repetir marca para personalizar camisetas con nombre y número.</p><p>Si ya usas palas o zapatillas de una marca, coordinar la ropa es cómodo, no obligatorio. Primero el caído y el tejido. En el hub de <a href="/es/marcas/bullpadel/">Bullpadel</a> y otras marcas ves cómo encaja cada familia de producto; la prenda se juzga en la percha, no en el catálogo de palas.</p>`},
- {id:'clima',h:'Calor, frío y pistas al aire libre',html:`<p>En España juegas mucho al aire libre: sol fuerte al mediodía, viento en pistas abiertas y noches frescas en invierno. De día prioriza colores claros, malla y una gorra o visera si el sol te molesta al rematar. De noche o en pistas poco resguardadas, una capa fina encima de la camiseta técnica es más útil que una sudadera gruesa de algodón.</p><p>En verano, lleva una camiseta seca de cambio si encadenas partidos. El calcetín que evacua bien el sudor importa tanto como la camiseta cuando la pista quema. Guarda un chubasquero compacto en el <a href="/es/paleteros-mochilas-padel/">paletero</a> por si cae un chaparrón entre partidos; no juegas con él, pero sí caminas hasta la pista.</p>`},
- {id:'compare',h:'Qué compararemos más adelante',html:`<p>Cuando listemos ropa de pádel cara a cara, este bloque pasará a ser una tabla comparativa. Las columnas previstas son tipo de prenda (camiseta, falda, vestido, pantalón, calcetín), corte, notas de tejido y si trae bolsillo para la bola. Mientras tanto, usa los consejos de arriba y los enlaces de zapatillas y paletero para cerrar el equipo.</p>`},
- ],
- faq:[
-  ['¿Hay código de vestimenta en los clubes de pádel?','En la mayoría solo piden zapatillas adecuadas y ropa deportiva. Revisa tu club si compites en una liga con color de equipación.'],
-  ['¿Necesito ropa de marca de pádel?','No. Cualquier conjunto transpirable y elástico que te deje entrar a las bolas sirve. Las líneas de marca aportan cortes y colores pensados para la pista.'],
-  ['¿Falda o pantalón?','Las dos opciones valen. Falda o vestido con short y bolsillo son muy habituales; el pantalón corto gusta a quien prefiere más libertad de cadera.'],
-  ['¿Qué calcetines usar?','De media caña, con acolchado en la planta y arco ceñido, para reducir el deslizamiento dentro de la zapatilla.'],
-  ['¿Sirve la ropa de tenis?','Sí, en casi todos los clubes. El movimiento es parecido y camisetas, faldas y pantalones de tenis se adaptan bien.'],
-  ['¿Qué ponerme si hace frío en la pista?','Empieza con una capa fina sobre la camiseta técnica y quítatela tras el calentamiento. Evita el algodón pegado a la piel.'],
- ],
- next:['accessories','grips'],
-},
-},
-
 accessories:{
 en:{
  crumb:'Padel accessories', title:'Padel accessories: essentials beyond the racket',
@@ -107,7 +38,7 @@ en:{
   ['Is a wristband useful?','It keeps sweat off the grip. Many players prefer changing overgrips often instead, or use both.'],
   ['Should I buy a ball machine for home use?','Usually no. Machines need space, power and storage. Clubs and coaches are the typical buyers.'],
  ],
- next:['grips','clothing'],
+ next:['grips'],
 },
 es:{
  crumb:'Accesorios de pádel', title:'Accesorios de pádel: qué necesitas además de la pala',
@@ -137,7 +68,7 @@ es:{
   ['¿Compensa la muñequera?','Sirve para que el sudor no llegue al grip. Muchos jugadores prefieren cambiar el overgrip a menudo, o usan ambas cosas.'],
   ['¿Debo comprar una máquina lanzapelotas para casa?','En general no. Hace falta espacio, corriente y sitio para guardarla. Suelen comprarlas clubes y entrenadores.'],
  ],
- next:['grips','clothing'],
+ next:['grips'],
 },
 fr:{
  crumb:"Accessoires de padel", title:"Accessoires de padel : l’essentiel hors raquette",
