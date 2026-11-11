@@ -321,7 +321,8 @@ window.wpConv=function(n,from,to){if(n==null||!RATES[from]||!RATES[to]) return n
 {(kind === 'racket' || kind === 'shoe' || kind === 'bag') && <ProductPriceScript slug={page.slug} name={page.name} u={u} SN={page.SN} lang={lang} api={page.api} sizeNote={page.sizeNote}/>}
 {(kind === 'racket' || kind === 'shoe') && <script is:inline define:vars={{ cur: page.recent.cur, RK: page.recent.rk, CMP: page.recent.cmp, CW: page.recent.cw, CMPLINK: page.recent.link }}>
 try{const K='rv_'+RK.split('/')[1]; let rv=JSON.parse(localStorage[K]||'[]').filter(x=>x.s!==cur.s);const w=document.getElementById('rv');const e=s=>s.replace(/[<>&]/g,'');
-if(rv.length){w.innerHTML=rv.slice(0,8).map(x=>`<a href="${RK}${x.s}/">${x.i?`<img src="${x.i}" alt="" width="60" height="72" loading="lazy">`:''}<span>${e(x.m)}</span></a>`).join('')+(CMPLINK?`<a href="${CMP}?r=${cur.s},${rv[0].s}"><span>${CW.replace('§',e(rv[0].m))}</span></a>`:'');document.getElementById('rv-wrap').hidden=false;}
+rv=rv.filter(x=>x&&/^[a-z0-9-]{1,80}$/.test(x.s||''));const mk=(href,img,t)=>{const a=document.createElement('a');a.href=href;if(img){const i=document.createElement('img');i.src=img;i.alt='';i.width=60;i.height=72;i.loading='lazy';a.append(i);}const sp=document.createElement('span');sp.textContent=t;a.append(sp);return a;};
+if(rv.length){rv.slice(0,8).forEach(x=>w.append(mk(`${RK}${x.s}/`,/^\/(rackets|shoes)\/[a-z0-9\/._-]+\.webp$/.test(x.i||'')?x.i:'',e(String(x.m||'')))));if(CMPLINK)w.append(mk(`${CMP}?r=${cur.s},${rv[0].s}`,'',CW.replace('§',e(String(rv[0].m||'')))));document.getElementById('rv-wrap').hidden=false;}
 localStorage[K]=JSON.stringify([cur,...rv].slice(0,10));}catch(e){}
 </script>}
 <script is:inline define:vars={{ BUY: u.px.cmp.buyS, CLOSE: u.px.cmp.close, N1: u.px.cmp.n1, SEEK: u.px.cmp.seek, FREE: u.px.cmp.shipFree, PLUS: u.px.cmp.shipPlus, EXTRA: u.px.cmp.shipExtra }}>
