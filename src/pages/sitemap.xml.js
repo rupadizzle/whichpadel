@@ -3,17 +3,16 @@ import { allRackets } from '../lib/data.js';
 import { shoes, SHOE_CHECKED } from '../lib/shoes.js';
 import { balls, BALL_CHECKED } from '../lib/balls.js';
 import { bags, BAG_CHECKED } from '../lib/bags.js';
-import { FX } from '../lib/price.js';
 import { REVIEWED } from '../lib/byline.js';
 import { isIndexed, indexedAlternates } from '../lib/indexing.js';
 
 const iso = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') ? s : null;
 const later = (...xs) => xs.map(iso).filter(Boolean).sort().at(-1) || REVIEWED;
-const racketDate = Object.fromEntries(allRackets.map(r => [r.slug, later(r.priceChecked, FX.date, REVIEWED)]));
+const racketDate = Object.fromEntries(allRackets.map(r => [r.slug, later(r.priceChecked, REVIEWED)]));
 const shoeDate = later(SHOE_CHECKED, REVIEWED);
 const ballDate = later(BALL_CHECKED, REVIEWED);
 const bagDate = later(BAG_CHECKED, REVIEWED);
-const priceDate = later(REVIEWED, FX.date, ...Object.values(racketDate));
+const priceDate = later(REVIEWED, ...Object.values(racketDate));
 const EXTRA = {
   '/deals/': priceDate,
   '/black-friday/': priceDate,

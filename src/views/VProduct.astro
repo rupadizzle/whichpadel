@@ -17,6 +17,8 @@ import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
 import { titleCore } from '../lib/racket-title.js';
 import { offersOf, SHOPS, domainOf, FX, shopHref, affTemplate, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
+const nm = (b, m) => m.toLowerCase().startsWith(b.toLowerCase()) ? m : `${b} ${m}`;
+const VIEW = { en: 'view', es: 'vista', fr: 'vue', pt: 'vista', it: 'vista', de: 'Ansicht' };
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
@@ -78,7 +80,7 @@ const page = (() => {
     const racketTitle = C.title(titleBare) + d.copy.titleSuffix;
     return {
       locale: d.locale, title: racketTitle, description: C.desc(r, t, x.price), ogImage: absImg(r),
-      jsonld: { '@context': 'https://schema.org', '@graph': [{ '@type': 'Product', name: r.model, url: U, brand: { '@type': 'Brand', name: r.brand }, ...(r.image ? { image: absImg(r) } : {}), description: intro, category: t.racketFull, audience: audLD, ...offerLd }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.brands, item: SITE + url('brands', lang) }, { '@type': 'ListItem', position: 3, name: r.brand, item: SITE + bHref }, { '@type': 'ListItem', position: 4, name: r.model, item: U }] }] },
+      jsonld: { '@context': 'https://schema.org', '@graph': [offerPick.none ? { '@type': 'WebPage', name: r.model, url: U, ...(r.image ? { primaryImageOfPage: absImg(r) } : {}), description: intro } : { '@type': 'Product', name: r.model, url: U, brand: { '@type': 'Brand', name: r.brand }, ...(r.image ? { image: absImg(r) } : {}), description: intro, category: t.racketFull, audience: audLD, ...offerLd }, { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: u.home, item: SITE + url('home', lang) }, { '@type': 'ListItem', position: 2, name: u.brands, item: SITE + url('brands', lang) }, { '@type': 'ListItem', position: 3, name: r.brand, item: SITE + bHref }, { '@type': 'ListItem', position: 4, name: r.model, item: U }] }] },
       crumbs: [{ href: url('home', lang), label: u.home }, { href: url('brands', lang), label: u.brands }, { href: bHref, label: r.brand }, { label: r.model.replace(r.brand + ' ', '') }],
       preload: G[0] ? { href: G[0].l, srcset: G[0].one ? undefined : `${G[0].s} 400w, ${G[0].l} 800w` } : null,
       G, R2, alt, bHref, kchips, ins, lvl, inLists, avg, srows, more, vs, similar, sameBrand, cmpU, FC, BN, oj, intro, C, t, x, SN, YC: YC[lang],
@@ -201,7 +203,7 @@ const view = (() => {
     const h2h = [...page.vs.map(row => ({ href: url('vs', lang, row.slug), label: `${row.A.model} vs ${row.B.model}` })), ...page.similar.filter(item => !page.vs.some(row => row.A.slug === item.slug || row.B.slug === item.slug)).map(item => ({ href: url('rackets', lang) + `?r=${r.slug},${item.slug}`, label: `${r.model} vs ${item.model}` }))];
     return {
       brand: r.brand, brandHref: page.bHref, year: r.year, yearHref: r.year ? url('year', lang, r.year) : null, name: r.model, save: r.slug, saveKind: 'r',
-      player: r.player ? { href: url('player', lang, playerSlug(r.player)), name: r.player } : null, chips: page.kchips, slides: page.G, alt: page.alt, shape: r.shape,
+      player: r.player ? { href: url('player', lang, playerSlug(r.player)), name: r.player } : null, chips: page.kchips, slides: page.G, alt: nm(r.brand, r.model), shape: r.shape,
       price: r, tube: null, checked: r.priceChecked || null, buyHref: r.productUrl && r.price != null ? shopHref(r.productUrl, SHOPS[domainOf(r.productUrl)]?.affiliate) : null, buyLabel: u.px.cmp.buy.replace('{s}', page.BN), offers: page.oj,
       compareHref: page.cmpU, compareLabel: u.compareThis, sizeNote: null, noUS: null, localPx: page.localPx, dc: r.slug, dcApi: '/api/all-prices',
       overview: u.overview, intro: page.intro, suitsH: page.R2.suits, suits: page.ins.suits, prosH: page.R2.pros, pros: page.ins.pros, consH: page.R2.cons, cons: page.ins.cons, shoeLinks: null,
@@ -216,7 +218,7 @@ const view = (() => {
   if (kind === 'shoe') {
     const sh = page.shoe, other = sh.similar[0];
     return {
-      brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: s.player ? { href: url('player', lang, playerSlug(s.player)), name: s.player } : null, chips: sh.kchips, slides: sh.G, alt: sh.alt, shape: null,
+      brand: s.brand, brandHref: sh.bHref, year: s.year, yearHref: null, name: s.name, save: s.slug, saveKind: 's', player: s.player ? { href: url('player', lang, playerSlug(s.player)), name: s.player } : null, chips: sh.kchips, slides: sh.G, alt: nm(s.brand, s.name), shape: null,
       price: s, tube: null, checked: SHOE_CHECKED, buyHref: sh.bestUrl, buyLabel: u.px.cmp.buy.replace('{s}', sh.BN), offers: sh.oj,
       compareHref: url('shoes', lang) + '?s=' + s.slug + (other ? ',' + other.slug : ''), compareLabel: SHOE_CMP[lang].compare, sizeNote: sh.T.sizeNote, noUS: null, localPx: page.localPx, dc: s.slug, dcApi: '/api/shoe-prices',
       overview: sh.T.overview, intro: sh.intro, suitsH: null, suits: (Array.isArray(s.sole) ? s.sole : []).filter((k, i, a) => !(k === 'herringbone' && a.includes('clay'))).map(k => sh.T.soleTip[k]), prosH: null, pros: [], consH: null, cons: [],
@@ -233,7 +235,7 @@ const view = (() => {
     const same = bg.sameBrand;
     return {
       brand: g.brand, brandHref: bg.bHref, year: g.year, yearHref: null, name: g.name, save: g.slug, saveKind: 'g', player: g.player && url('player', lang, playerSlug(g.player)) ? { href: url('player', lang, playerSlug(g.player)), name: g.player } : null,
-      chips: bg.kchips, slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(g.name), shape: null,
+      chips: bg.kchips, slides: img ? [{ s: img, l: img, one: true }] : [], alt: nm(g.brand, g.name), shape: null,
       price: g, tube: null, checked: BAG_CHECKED, buyHref: bg.bestUrl, buyLabel: T.buy.replace('{s}', bg.BN), offers: bg.oj,
       compareHref: null, compareLabel: null, sizeNote: null, noUS: null, localPx: bg.localPx, dc: g.id || ('bag-' + g.slug), dcApi: '/api/shoe-prices',
       overview: T.overview, intro: bg.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
@@ -245,7 +247,7 @@ const view = (() => {
   const T = page.ball.T, img = page.ball.img, same = rankBalls(balls.filter(x => x.brand === b.brand && x.slug !== b.slug), lang).slice(0, 6);
   return {
     brand: b.brand, brandHref: page.ball.bHref, year: null, yearHref: null, name: b.name, save: b.slug, saveKind: 'b', player: null,
-    chips: [T.speeds[b.speed], b.tour && T.tour[b.tour], b.eco && T.eco, T.tube].filter(Boolean), slides: img ? [{ s: img, l: img, one: true }] : [], alt: T.alt(b.name), shape: null,
+    chips: [T.speeds[b.speed], b.tour && T.tour[b.tour], b.eco && T.eco, T.tube].filter(Boolean), slides: img ? [{ s: img, l: img, one: true }] : [], alt: nm(b.brand, b.name), shape: null,
     price: b, tube: T.tube, checked: BALL_CHECKED, buyHref: page.ball.bestUrl, buyLabel: T.buy.replace('{s}', page.ball.BN), offers: page.ball.oj, localPx: page.ball.localPx,
     compareHref: null, compareLabel: null, sizeNote: null, noUS: T.noUS, dc: 'ball-' + b.slug, dcApi: '/api/shoe-prices',
     overview: u.overview, intro: page.ball.intro, suitsH: null, suits: [], prosH: null, pros: [], consH: null, cons: [], shoeLinks: null,
@@ -265,7 +267,7 @@ const view = (() => {
 {view.player && <p class="small rpply">{u.usedBy} <a href={view.player.href}>{view.player.name}</a></p>}
 {view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
 </header>
-{view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
+{view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} view={VIEW[lang] || VIEW.en} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
 <div class="buycol">
 <aside class="panel buybox" id="buybox" data-px={view.localPx}>
 <p class="price-big" id="pxbig"><Price r={view.price} lang={lang}/>{view.tube && <> <small class="muted">({view.tube})</small></>} <span class="pxdrop" id="pxdrop" hidden></span></p>

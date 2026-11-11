@@ -11,6 +11,8 @@
   Cache-Control: public, max-age=604800
 /rackets/g/*
   Cache-Control: public, max-age=604800
+/rackets/t/*
+  Cache-Control: public, max-age=604800
 /shoes/g/*
   Cache-Control: public, max-age=604800
 /balls/g/*

@@ -16,14 +16,15 @@ import '../styles/parts/pages.css';
 import '../styles/shoes.css';
 import '../styles/search.css';
 import '../styles/components.css';
-import { D } from '../i18n/index.js'; import GeoBanner from "../components/GeoBanner.astro"; import ConsentL from '../components/ConsentL.astro'; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import SearchL from '../components/SearchL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
+import { D } from '../i18n/index.js'; import { SEO_PAGES } from '../lib/seo-titles.js'; import GeoBanner from "../components/GeoBanner.astro"; import ConsentL from '../components/ConsentL.astro'; import Region from '../components/Region.astro'; import NavL from '../components/NavL.astro'; import FooterL from '../components/FooterL.astro'; import SearchL from '../components/SearchL.astro'; import { alternates, LOCALE, LANG_NAME, OG_LOCALE, LANGS, url } from '../i18n/routes.js';
 import { lists as L0 } from '../lib/data.js'; import { isIndexed, indexedAlternates } from '../lib/indexing.js'; import { extraLists } from '../lib/seo-content.js';
 const lists={...L0,...extraLists};
-const { title, description = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, ogType = 'website', noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true, newsletter = true } = Astro.props;
+const { title: title0, description: description0 = 'Compare 300+ padel rackets by shape, weight, balance, core and price.', jsonld = null, ogImage = null, ogType = 'website', noindex = false, preload = null, lang = 'en-GB', alt = null, focus = false, closeHref = null, region = null, usPage = false, navCta = true, newsletter = true } = Astro.props;
 const L2 = LANGS.find(l=>l!=='en'&&lang.toLowerCase().startsWith(l))||'en';
 const alts = alternates(Astro.url.pathname);
 const pruned = !noindex && !isIndexed(Astro.url.pathname);
 const hreflang = pruned ? null : indexedAlternates(alts);
+const ov = noindex || pruned ? null : SEO_PAGES[Astro.url.pathname]; const title = ov?.t || title0; const description = ov?.m && !ov.m.includes('{n}') ? ov.m : description0;
 const LN=LANG_NAME;
 const switcher = alts ? Object.entries(alts).filter(([l])=>l!==L2) : [];
 const canon = new URL(Astro.url.pathname, Astro.site).href;
@@ -41,7 +42,7 @@ const short = t => t.replace('Best padel rackets ','').replace('Best padel racke
 <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',analytics_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});window.wpGa=()=>{if(window.wpGaOn)return;window.wpGaOn=1;gtag('consent','update',{analytics_storage:'granted'});gtag('js',new Date());gtag('config','G-7MERGHDZZN');const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-7MERGHDZZN';document.head.appendChild(s);if(location.pathname==='/'){const a=document.createElement('script');a.defer=true;a.src='https://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=a52e561e6375dd63575f8532b8eb75077321980b';document.head.appendChild(a)}};try{if(localStorage.wp_ck==='1')wpGa()}catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23d4ff3a'/%3E%3C/svg%3E"/>
 {showBf && <script is:inline>try{if(localStorage.wp_bf==='1')document.documentElement.classList.add('bf-off')}catch(e){}</script>}
-</head><body>
+</head><body><ConsentL lang={L2}/>
 {focus ? <Fragment><header class="hdr fz-hdr"><div class="wrap"><a class="logo" href={url("home",L2)}><span class="ball"></span><span>Which<em>Padel</em></span></a>
 <a class="fz-x" href={closeHref||url("home",L2)} aria-label={D(L2).ui.close}>✕</a><div hidden><Region lang={L2} switcher={switcher} region={region}/></div></div></header>
 <main class="fz-main"><slot/></main>
@@ -113,7 +114,6 @@ dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>5
 <p class="muted small">{D(L2).ui.placeholderNote} <a href={url('privacy', L2)}>{D(L2).ui.privacy.toLowerCase()}</a>.</p>
 </form>
 </dialog>
-<ConsentL lang={L2}/>
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
 (()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b'||x.t==='g')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);
