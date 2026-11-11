@@ -1,4 +1,5 @@
 ---
+import GiftLine from '../components/GiftLine.astro';
 import '../styles/bf.css';
 import Base from '../layouts/Base.astro';
 import Byline from '../components/Byline.astro';
@@ -27,6 +28,7 @@ const jsonld = {'@context':'https://schema.org','@type':'FAQPage','mainEntity':C
 </div></section>
 
 <section class="bf-points"><h2>{C.pointsH}</h2><div class="bf-point-row">{C.points.map(([h,p])=><div class="bf-tip"><h3>{h}</h3><p>{p}</p></div>)}</div></section>
+<GiftLine lang={lang}/>
 <section class="bf-quiet"><h2>{u.faq}</h2>{C.faq.map(([q,a])=><div class="faq"><h3>{q}</h3><p>{a}</p></div>)}</section>
 {C.now && <p class="bf-more"><a href="/deals/">{C.now}</a></p>}
 <Byline lang={lang} headline={h1plain} pageUrl={SITE+url('bf',lang)}/>

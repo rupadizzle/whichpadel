@@ -5,8 +5,19 @@ export const CAP=40;
 export const J=(o,s=200)=>new Response(JSON.stringify(o),{status:s,headers:{'content-type':'application/json','cache-control':'no-store'}});
 export const RX=/^[^\s@<>"]{1,64}@[^\s@<>"]{1,190}\.[a-z]{2,24}$/i;
 export function originOk(request){
- const o=request.headers.get('origin'); if(!o) return true;
+ const o=request.headers.get('origin'); if(!o) return false;
  return /^https:\/\/([a-z0-9-]+\.)?(whichpadel\.com|whichpadel\.pages\.dev)$/.test(o)||/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(o);
+}
+export async function limited(request, scope, max=10, windowSec=600){
+ try{
+  const ip=request.headers.get('cf-connecting-ip')||'local';
+  const key=new Request(`https://whichpadel.com/__wp_rl/${scope}/${encodeURIComponent(ip)}`);
+  const cache=caches.default; const hit=await cache.match(key);
+  const n=hit?Number(await hit.text())||0:0;
+  if(n>=max) return true;
+  await cache.put(key,new Response(String(n+1),{headers:{'cache-control':`max-age=${windowSec}`}}));
+  return false;
+ }catch{ return false; }
 }
 export function cleanItems(items){
  if(!Array.isArray(items)) return [];

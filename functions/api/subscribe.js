@@ -1,9 +1,11 @@
 // Stores newsletter / price-alert sign-ups in the SUBSCRIBERS KV namespace. Key = sub:<email>; value merges every request.
+import { originOk, limited } from './_acct.js';
 const J=(o,s=200)=>new Response(JSON.stringify(o),{status:s,headers:{'content-type':'application/json','cache-control':'no-store'}});
 const RX=/^[^\s@<>"]{1,64}@[^\s@<>"]{1,190}\.[a-z]{2,24}$/i;
 export async function onRequestPost({request,env}){
  if(!env.SUBSCRIBERS) return J({ok:false},503);
- const o=request.headers.get('origin'); if(o&&!/^https:\/\/([a-z0-9-]+\.)?(whichpadel\.com|whichpadel\.pages\.dev)$/.test(o)&&!/^http:\/\/127\.0\.0\.1(:\d+)?$/.test(o)) return J({ok:false},403);
+ if(!originOk(request)) return J({ok:false},403);
+ if(await limited(request,'sub')) return J({ok:false},429);
  if(Number(request.headers.get('content-length')||0)>2000) return J({ok:false},413);
  let b; try{b=await request.json()}catch{return J({ok:false},400)}
  if(b.website) return J({ok:true}); // honeypot: pretend success

@@ -1,0 +1,5 @@
+---
+import { D } from '../i18n/index.js';
+const { lang='en' } = Astro.props; const G=D(lang).ui.giftLine;
+---
+{G && <p class="gift-line">{G[0]}{G[1].map(x=>typeof x==='string'?x:<a href={x[1]}>{x[0]}</a>)}{G[2]}</p>}

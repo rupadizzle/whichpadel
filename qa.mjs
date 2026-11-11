@@ -35,7 +35,7 @@ for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.new
   if(r.length) issues.push(`${w} ${u}: ${r.join(' ; ')}`);
  } await c.close(); }
 // 3. interactions
-const c=await b.newContext({viewport:{width:1280,height:900}}); const p=await c.newPage(); p.setDefaultTimeout(8000); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('dialog',d=>{errs.push('dialog:'+d.message());d.dismiss()});
+const c=await b.newContext({viewport:{width:1280,height:900}}); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); const p=await c.newPage(); p.setDefaultTimeout(8000); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('dialog',d=>{errs.push('dialog:'+d.message());d.dismiss()});
 const t=async(name,fn)=>{try{await fn();log('ok',name)}catch(e){issues.push('FAIL '+name+': '+e.message.split('\n')[0])}};
 await p.goto(B+'/');
 await t('header finder',async()=>{await p.click('.nav .cta'); await p.waitForURL(/\/finder\//);});

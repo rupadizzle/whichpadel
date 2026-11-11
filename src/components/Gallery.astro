@@ -1,12 +1,12 @@
 ---
 // Shared product gallery. One photo or several. Tap a photo to open it full screen, and move through the set there.
-const { slides, alt, zoom, photo, prev, next, close, ih, th, zh } = Astro.props;
+const { slides, alt, view, zoom, photo, prev, next, close, ih, th, zh } = Astro.props;
 const n = slides.length;
 const srcset = g => g.one ? undefined : `${g.s} 400w, ${g.l} 800w`;
 ---
 <section class="rpg" aria-label={alt} data-n={n}>
 <div class="gtrack" tabindex={n>1?0:undefined}>{slides.map((g,i)=>
- <button type="button" class="gslide" data-i={i} aria-label={n>1?`${zoom}: ${photo(i+1,n)}`:zoom}><img src={g.l} srcset={srcset(g)} sizes="(max-width: 899px) 100vw, 480px" alt={i===0?alt:`${alt} – ${photo(i+1,n)}`} width="480" height={ih} loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':undefined} decoding={i===0?'sync':'async'}/></button>
+ <button type="button" class="gslide" data-i={i} aria-label={n>1?`${zoom}: ${photo(i+1,n)}`:zoom}><img src={g.l} srcset={srcset(g)} sizes="(max-width: 899px) 100vw, 480px" alt={`${alt} – ${view} ${i+1}`} width="480" height={ih} loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':undefined} decoding={i===0?'sync':'async'}/></button>
 )}</div>
 {n>1&&<><span class="gcount" aria-live="polite"><b>1</b> / {n}</span>
 <button type="button" class="garr gprev" aria-label={prev}>‹</button><button type="button" class="garr gnext" aria-label={next}>›</button>

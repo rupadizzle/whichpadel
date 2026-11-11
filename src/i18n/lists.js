@@ -7,7 +7,7 @@ const adj=r=>Math.min(4,Math.max(0,(r.year||2023)-2023))*1.5+(shops(r)>=2?3:0);
 const R=r=>r.ratings; const gen=r=>r.audience!=='women'&&r.audience!=='junior';
 const SPEC={
  under:(cap,lang)=>({f:r=>{const p=Pnum(r,lang);return gen(r)&&p!=null&&p<=cap&&p>=cap*0.4},s:r=>0.65*(R(r).power+R(r).control+R(r).handling+R(r).forgiveness+R(r).comfort)/5+0.35*Math.min(R(r).power,R(r).control)+Pnum(r,lang)/cap*8,k:['power','control','comfort']}),
- 'best-padel-rackets-for-beginners':{f:r=>gen(r)&&r.shape==='round'&&['soft','medium-soft','medium'].includes(r.coreHardness)&&(r.priceGBPApprox==null||r.priceGBPApprox<=140),s:r=>0.45*R(r).forgiveness+0.35*R(r).handling+0.2*R(r).control,k:['forgiveness','handling','control']},
+ 'best-padel-rackets-for-beginners':{f:r=>gen(r)&&r.shape==='round'&&['soft','medium-soft','medium'].includes(r.coreHardness)&&(p=>p!=null&&p<=140)(Pnum(r,'en')),s:r=>0.45*R(r).forgiveness+0.35*R(r).handling+0.2*R(r).control,k:['forgiveness','handling','control']},
  'best-padel-racket-for-tennis-elbow':{f:r=>gen(r)&&r.coreHardness==='soft'&&['round','teardrop'].includes(r.shape)&&r.balance!=='high'&&r.weightMax!=null&&r.weightMax<=365,s:r=>0.6*R(r).comfort+0.2*R(r).forgiveness+(365-r.weightMax)*0.6+(r.shape==='round'?3:0),k:['comfort','forgiveness','handling']},
  'most-comfortable-padel-rackets':{k:['comfort','forgiveness','handling']},
  'best-control-padel-rackets':{k:['control','handling','forgiveness']},

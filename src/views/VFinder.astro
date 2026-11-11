@@ -6,7 +6,7 @@ import Base from '../layouts/Base.astro'; import { rackets } from '../lib/data.j
 import { D, url, SITE, CURL } from '../i18n/index.js';
 import { FINDER } from '../i18n/finder.js'; import { FZ } from '../i18n/finder2.js'; import { KIT } from '../i18n/finder-kit.js'; import { HUB } from '../i18n/hub.js';
 import RkCardTemplate from '../components/RkCardTemplate.astro';
-import { SHOPS, offersOf, FX } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
+import { SHOPS, offersOf, FX, affTemplate } from '../lib/price.js'; import { fmtM, val, SYMS } from '../lib/money.js';
 const { lang } = Astro.props; const d=D(lang), u=d.ui, F=FINDER[lang], Z=FZ[lang], K=KIT[lang]; const CUR0=CURL(lang);
 const L=(t,id)=>url(t,lang,id);
 const hasBag=!!L('bag','x');
@@ -15,7 +15,7 @@ const doms=new Set();
 rackets.forEach(r=>offersOf(r).forEach(o=>o.d&&doms.add(o.d)));
 for(const list of [shoes,balls,...(hasBag?[bags]:[])]) list.forEach(x=>(x.offs||[]).forEach(o=>o.d&&doms.add(o.d)));
 const nShops=doms.size;
-const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:'']]));
+const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),affTemplate(s.affiliate)]]));
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]}]};

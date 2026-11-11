@@ -6,7 +6,7 @@ const { lang='en' } = Astro.props; const r=D(lang).ui.region;
 const T={m:r.geoQ('§c','§s'),ok:r.geoOk('§c'),ch:r.geoCh,x:D(lang).ui.close};
 const RC=Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,v[2]]));
 ---
-<div id="geo-bn" class="geo-bn" role="dialog" aria-modal="true" aria-labelledby="geo-msg" aria-describedby="geo-sub" hidden><div class="geo-card"><p id="geo-msg" class="geo-q"></p><p id="geo-sub"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-ok"></button><button type="button" class="btn" id="geo-ch"></button></div><button type="button" class="geo-x" id="geo-x" aria-label={T.x}>✕</button></div></div></div>
+<div id="geo-bn" class="geo-bn" role="dialog" aria-modal="true" aria-labelledby="geo-msg" aria-describedby="geo-sub" hidden><div class="geo-card"><p id="geo-msg" class="geo-q"></p><p id="geo-sub"></p><div class="geo-act"><button type="button" class="btn btn-accent" id="geo-ok"></button><button type="button" class="btn" id="geo-ch"></button></div><button type="button" class="geo-x" id="geo-x" aria-label={T.x}>✕</button></div></div>
 <script is:inline define:vars={{T,RC,SYM,lang}}>
 (()=>{const ls=k=>{try{return localStorage[k]}catch(e){return null}}; const set=(k,v)=>{try{localStorage[k]=v}catch(e){}};
 if(ls('wp_lang')||ls('wp_region')||ls('wp_cur')||ls('wp_geo_stay')) return;

@@ -1,4 +1,5 @@
 ---
+import GiftLine from '../components/GiftLine.astro';
 import Crumbs from '../components/Crumbs.astro';
 import Base from '../layouts/Base.astro';
 import RkCardTemplate from '../components/RkCardTemplate.astro';
@@ -17,6 +18,7 @@ const bfHref = url('bf', lang) + '#bf-mail';
 <div class="page">
 <header class="page-hd"><h1>{T.h1}</h1>
 <p>{T.lead}<a href={bfHref}>{T.bf}</a>.</p></header>
+<GiftLine lang={lang}/>
 <div id="d-board" class="d-board"><section id="d-cut"><h2>{T.cut}</h2><p class="muted small" data-empty hidden>{T.cutEmpty}</p>
 <section data-k="r"><h3>{T.rackets}</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-r">{skel.map(i => <li class="rk rk-skel" aria-hidden="true" data-skel></li>)}</ul></div></section>
 <section data-k="s" hidden><h3>{T.shoes}</h3><div class="hub cat"><ul class="hub-grid" data-l="cut-s"></ul></div></section>

@@ -4,6 +4,7 @@ const URLS={US:'https://whichpadel-us-prices-preview.rupertwallace.workers.dev',
 // 24h browser/edge hint; the Workers themselves also cache the prebuilt snapshot for 24h.
 const CACHE_TTL=86400;
 const CACHE_HDR={'content-type':'application/json','cache-control':`public, max-age=${CACHE_TTL}`};
+const EMPTY_HDR={'content-type':'application/json','cache-control':'no-store'};
 const get=(env,svc,path)=>{const u=URLS[svc]+path; const p=env&&env[svc]?env[svc].fetch(new Request(u)):fetch(u,{cf:{cacheTtl:CACHE_TTL}}); return p.then(r=>r.ok?r.json():null).catch(()=>null);};
 
 async function mergeBody(env, svc, path, usPath){
@@ -20,11 +21,12 @@ export async function merged(env, svc, path, usPath, ctx){
   let hit=await cache.match(key);
   if(hit) return hit;
   const out=await mergeBody(env, svc, path, usPath);
+  if(!Object.keys(out.r).length) return new Response(JSON.stringify(out),{headers:EMPTY_HDR});
   const r=new Response(JSON.stringify(out),{headers:CACHE_HDR});
   const put=cache.put(key,r.clone());
   if(ctx&&ctx.waitUntil) ctx.waitUntil(put); else await put;
   return r;
  }catch{
-  return new Response(JSON.stringify({updated:new Date().toISOString(),r:{}}),{status:200,headers:CACHE_HDR});
+  return new Response(JSON.stringify({updated:new Date().toISOString(),r:{}}),{status:200,headers:EMPTY_HDR});
  }
 }

@@ -22,6 +22,7 @@ const img0 = r ? r.image : img;
 const g0 = r ? (gallery(r)[0] || null) : (img0 && String(img0).includes('/g/') ? {s:img0,l:img0,one:true} : null);
 let imgSrc = g0 && !g0.one ? g0.s : img0;
 let imgSrcset = g0 && !g0.one ? `${g0.s} 400w, ${g0.l} 800w` : undefined;
+if(r && img0 === `/rackets/${r.slug}.webp`){ imgSrc=`/rackets/t/${r.slug}-240.webp`; imgSrcset=`${imgSrc} 240w, ${g0 && !g0.one ? g0.s + ' 400w' : img0 + ' 800w'}`; }
 if(!imgSrcset && img0 && /\/g\/.+-400\.webp$/.test(String(img0))){ imgSrcset=`${img0} 400w, ${String(img0).replace('-400.webp','-800.webp')} 800w`; imgSrc=img0; }
 const alt0 = r ? r.model : alt;
 const brand0 = r ? [r.brand, r.year].filter(Boolean).join(' · ') : brand;
