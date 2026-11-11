@@ -31,7 +31,8 @@ export const VALUE_FORMULA = 'Value score = (average of the racket’s two highe
 export const allRackets = base.map(r => {const v=rawV(r)==null?null:Math.max(1,Math.round(rawV(r)/maxV*100)); return {...r, valueScore:v, ratings: r.rated&&v!=null?{...r.ratings,value:v}:r.ratings};});
 export const rackets = allRackets.filter(r=>r.rated);
 export const bySlug = Object.fromEntries(allRackets.map(r => [r.slug, r]));
-import { priceText } from './price.js';
+import { priceText, FX } from './price.js';
+export const FXD=new Date(FX.date+'T00:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).replace(/ Sept /,' Sep ');
 export const fmtPrice = r => priceText(r,'GB','en') || 'Check price';
 export const cap = s => s ? s[0].toUpperCase() + s.slice(1) : '—';
 export const lists = {
@@ -43,9 +44,9 @@ export const lists = {
   'best-value-padel-rackets': { title: 'Best value padel rackets', intro: 'The most rating for your money: each racket’s two strongest spec-based scores, divided by its recorded price.', method: true, rule: 'Sorted by our value score (formula below). Only rackets with a recorded price.', pick: rs => rs.filter(r=>r.valueScore!=null).sort((a,b)=> b.valueScore - a.valueScore) },
   'most-comfortable-padel-rackets': { title: 'Most comfortable padel rackets', intro: 'Rackets with the highest spec-based comfort rating, which favours softer cores and lower weights.', rule: 'Sorted by the comfort rating, ties broken by forgiveness.', pick: rs => [...rs].sort((a,b)=> b.ratings.comfort - a.ratings.comfort || b.ratings.forgiveness - a.ratings.forgiveness) },
   'most-powerful-padel-rackets': { title: 'Most powerful padel rackets', intro: 'Rackets with the highest spec-based power rating, usually diamond shapes with a high balance and firmer core.', rule: 'Sorted by the power rating, ties broken by handling.', pick: rs => [...rs].sort((a,b)=> b.ratings.power - a.ratings.power || b.ratings.handling - a.ratings.handling) },
-  'best-padel-rackets-under-100': { title: 'Best padel rackets under ⟦b|100|GBP|GBP⟧', rule: 'Recorded price at or below ⟦b|100|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate), sorted by the value rating.', pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 100).sort((a,b)=> b.ratings.value - a.ratings.value) },
-  'best-padel-rackets-under-150': { title: 'Best padel rackets under ⟦b|150|GBP|GBP⟧', rule: 'Recorded price at or below ⟦b|150|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate), sorted by the value rating.', pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 150).sort((a,b)=> b.ratings.value - a.ratings.value) },
-  'best-padel-rackets-under-200': { title: 'Best padel rackets under ⟦b|200|GBP|GBP⟧', rule: 'Recorded price at or below ⟦b|200|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate), sorted by the value rating.', pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 200).sort((a,b)=> b.ratings.value - a.ratings.value) },
+  'best-padel-rackets-under-100': { title: 'Best padel rackets under ⟦b|100|GBP|GBP⟧', rule: `Recorded price at or below ⟦b|100|GBP|GBP⟧ (EUR/USD converted at the ${FXD} rate), sorted by the value rating.`, pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 100).sort((a,b)=> b.ratings.value - a.ratings.value) },
+  'best-padel-rackets-under-150': { title: 'Best padel rackets under ⟦b|150|GBP|GBP⟧', rule: `Recorded price at or below ⟦b|150|GBP|GBP⟧ (EUR/USD converted at the ${FXD} rate), sorted by the value rating.`, pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 150).sort((a,b)=> b.ratings.value - a.ratings.value) },
+  'best-padel-rackets-under-200': { title: 'Best padel rackets under ⟦b|200|GBP|GBP⟧', rule: `Recorded price at or below ⟦b|200|GBP|GBP⟧ (EUR/USD converted at the ${FXD} rate), sorted by the value rating.`, pick: rs => rs.filter(r => r.priceGBPApprox != null && r.priceGBPApprox <= 200).sort((a,b)=> b.ratings.value - a.ratings.value) },
 };
 
 export const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');

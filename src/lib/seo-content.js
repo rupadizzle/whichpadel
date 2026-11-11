@@ -1,6 +1,6 @@
 import { tk } from './money.js';
 // SEO push content (new file). Data-derived lists, brand copy, vs plan.
-import { rackets, slugify } from './data.js';
+import { rackets, slugify, FXD } from './data.js';
 const avg = (rs,k)=> rs.length? Math.round(rs.reduce((a,r)=>a+r.ratings[k],0)/rs.length):0;
 const med = a=>{const s=[...a].sort((x,y)=>x-y);return s.length?s[Math.floor(s.length/2)]:null;};
 export const isWomens = r => r.audience==='women';
@@ -24,7 +24,7 @@ export const extraLists = {
     pick: rs=>rs.filter(r=>['diamond','teardrop'].includes(r.shape) && ['medium','medium-hard','hard'].includes(r.coreHardness)).sort((a,b)=>(b.ratings.power+b.ratings.handling)-(a.ratings.power+a.ratings.handling)||b.ratings.control-a.ratings.control) },
   'best-cheap-padel-rackets': { title:'Best cheap padel rackets', kw:'cheap padel racket',
     intro:'You do not need to spend ⟦b|200|GBP|GBP⟧ to enjoy padel. These are the best-rated rackets in our database with a recorded price of ⟦b|80|GBP|GBP⟧ or less, which covers most first rackets and spares.',
-    rule:'Included: recorded price at or below ⟦b|80|GBP|GBP⟧ (EUR/USD converted at the 20 Oct 2026 rate). Sorted by the average of forgiveness, comfort and value, then lower price.',
+    rule:`Included: recorded price at or below ⟦b|80|GBP|GBP⟧ (EUR/USD converted at the ${FXD} rate). Sorted by the average of forgiveness, comfort and value, then lower price.`,
     pick: rs=>rs.filter(r=>r.priceGBPApprox!=null && r.priceGBPApprox<=80).sort((a,b)=>(b.ratings.forgiveness+b.ratings.comfort+b.ratings.value)-(a.ratings.forgiveness+a.ratings.comfort+a.ratings.value)||a.priceGBPApprox-b.priceGBPApprox) },
   'best-womens-padel-rackets': { title:"Best women's padel rackets", kw:"women's padel racket",
     pick: rs=>rs.filter(r=>!isJunior(r)&&(isWomens(r)||(r.weightMax&&r.weightMax<=360&&r.balance!=='high'&&!['hard','medium-hard'].includes(r.coreHardness)))).map(r=>({r,s:(r.ratings.handling+r.ratings.forgiveness+r.ratings.comfort)/3+(isWomens(r)?0.5:0)})).sort((a,b)=>b.s-a.s||(a.r.weightMin??999)-(b.r.weightMin??999)).map(x=>x.r) },
