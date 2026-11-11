@@ -9,5 +9,6 @@ for(const [path,sel] of [['/','form[data-sub=news]'],['/pt/','form[data-sub=news
  await pg.waitForFunction(s=>!document.querySelector(s+' .ok').hidden,sel,{timeout:8000}).catch(()=>{});
  const r=await f.$eval('.ok',o=>({t:o.textContent,ok:o.dataset.ok,h:o.hidden})); if(r.h||r.t!==r.ok) errs.push(`${path} ${sel}: got "${r.t}"`);
 }
-const bad=await fetch(B+'/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:'{"email":"nope"}'}); if(bad.status!==400) errs.push('invalid email not rejected: '+bad.status);
+const bad=await fetch(B+'/api/subscribe',{method:'POST',headers:{'content-type':'application/json',origin:new URL(B).origin},body:'{"email":"nope"}'}); if(bad.status!==400) errs.push('invalid email not rejected: '+bad.status);
+for(const o of [null,'https://evil.example']){ const r=await fetch(B+'/api/subscribe',{method:'POST',headers:{'content-type':'application/json',...(o?{origin:o}:{})},body:'{"email":"qa-origin@qa.invalid"}'}); if(r.status!==403) errs.push(`origin ${o} not rejected: ${r.status}`); }
 await b.close(); console.log(errs.length?'SUBQA FAIL\n '+errs.join('\n '):'subqa: pass'); process.exit(errs.length?1:0);

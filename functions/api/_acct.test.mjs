@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cleanItems, unionItems, toggleItem, setAlertItem, safeNext, sha256, CAP } from './_acct.js';
+import { cleanItems, unionItems, toggleItem, setAlertItem, safeNext, sha256, CAP, originOk, limited } from './_acct.js';
 
 test('cleanItems keeps kind and slug, drops junk, caps at 40', ()=>{
  const junk=[{t:'r',s:'ok-1'},{t:'x',s:'no'},{t:'r',s:'Bad'},{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'},{t:'g',s:'bag-1'},{t:'b',s:'ball-1'}, null];
@@ -42,4 +42,25 @@ test('safeNext allows site paths only', ()=>{
 
 test('sha256 is stable hex', async ()=>{
  assert.equal(await sha256('abc'), 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+});
+
+test('originOk fails closed without an allowed Origin', ()=>{
+ const req=o=>new Request('https://whichpadel.com/api/subscribe',{method:'POST',headers:o?{origin:o}:{}});
+ assert.equal(originOk(req(null)), false);
+ assert.equal(originOk(req('https://evil.example')), false);
+ assert.equal(originOk(req('https://whichpadel.com.evil.example')), false);
+ assert.equal(originOk(req('https://whichpadel.com')), true);
+ assert.equal(originOk(req('https://abc123.whichpadel.pages.dev')), true);
+ assert.equal(originOk(req('http://127.0.0.1:4987')), true);
+});
+
+test('limited allows max requests per IP and scope, then blocks', async ()=>{
+ const store=new Map();
+ globalThis.caches={default:{match:async k=>store.has(k.url)?new Response(store.get(k.url)):undefined, put:async (k,r)=>{store.set(k.url,await r.text());}}};
+ const req=ip=>new Request('https://whichpadel.com/api/subscribe',{method:'POST',headers:{'cf-connecting-ip':ip}});
+ for(let i=0;i<3;i++) assert.equal(await limited(req('1.2.3.4'),'sub',3), false);
+ assert.equal(await limited(req('1.2.3.4'),'sub',3), true);
+ assert.equal(await limited(req('5.6.7.8'),'sub',3), false);
+ assert.equal(await limited(req('1.2.3.4'),'news',3), false);
+ delete globalThis.caches;
 });
