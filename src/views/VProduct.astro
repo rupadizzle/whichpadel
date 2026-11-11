@@ -16,7 +16,7 @@ import { rackets, brandList, brandSlug, absImg, lists, playerSlug, slugify, CK_L
 import { extraLists, isWomens } from '../lib/seo-content.js';
 import { vsFor } from '../lib/vs.js';
 import { titleCore } from '../lib/racket-title.js';
-import { offersOf, SHOPS, domainOf, FX, shopHref, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
+import { offersOf, SHOPS, domainOf, FX, shopHref, affTemplate, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
@@ -29,7 +29,7 @@ import { BAG } from '../i18n/bags.js';
 const { kind, lang, r, s, b, g } = Astro.props;
 const stockAvail = offs => !Array.isArray(offs) || !offs.length || offs.every(o => o.s == null) ? undefined : (offs.some(o => o.s) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock');
 const d = D(lang), u = d.ui;
-const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), typeof v.affiliate === 'string' && v.affiliate.startsWith('https://') ? v.affiliate : '']]));
+const shopNames = re => Object.fromEntries(Object.entries(SHOPS).map(([k, v]) => [k, [v.name && v.name !== k ? v.name : k.replace(re, ''), affTemplate(v.affiliate)]]));
 const pxJson = (offs, checked) => JSON.stringify((offs || []).filter(o => o && o.p > 0 && typeof o.u === 'string' && o.u.startsWith('https://')).map(o => ({ d: o.d, p: o.p, c: o.c, u: o.u, s: o.s ? 1 : 0, ...(checked ? { t: checked } : {}) })));
 
 const clipTitle = (core, suffix, max = 65) => {
@@ -275,7 +275,7 @@ const view = (() => {
 <ul class="pxl" id="bxl" hidden></ul>
 <div class="pxhist" id="pxhist" hidden></div>
 <p class="pxnous" id="bxnous" hidden>{view.noUS}</p>
-{view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-affiliate="PLACEHOLDER" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
+{view.buyHref && <a class="btn aff btn-lg" id="buymain" href={view.buyHref} rel="sponsored nofollow" data-o={view.offers}>{view.buyLabel} →</a>} <span class="disc">{u.ad}: {u.adNote} <a href={url('affiliate', lang)}>{u.disclosure}</a></span>
 {kind !== 'racket' && view.compareHref && <a class="btn btn-sm btn-block" href={view.compareHref}>{view.compareLabel}</a>}
 {view.sizeNote && <p class="muted small m0 mt2" id="pxsize">{view.sizeNote}</p>}
 </aside>

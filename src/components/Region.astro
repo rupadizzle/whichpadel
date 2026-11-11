@@ -1,11 +1,11 @@
 ---
 // Country picker (shared, all languages). The country decides which shops deliver and which currency prices use.
 // A shop that charges in another currency is converted, and those prices get an "approx." marker.
-import { REGIONS, FX, SHOPS, DEFAULT_REGION, SYM } from '../lib/price.js'; import { D } from '../i18n/index.js';
+import { REGIONS, FX, SHOPS, DEFAULT_REGION, SYM, affTemplate } from '../lib/price.js'; import { D } from '../i18n/index.js';
 import { LANG_NAME } from '../i18n/routes.js';
 const { lang='en', switcher=[], region=null } = Astro.props; const RG=D(lang).ui.region; const UI=D(lang).ui;
 const LANG_FLAG={en:'🇬🇧',es:'🇪🇸',fr:'🇫🇷',pt:'🇵🇹',it:'🇮🇹',de:'🇩🇪'};
-const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[],a:typeof s.affiliate==='string'&&s.affiliate.startsWith('https://')?s.affiliate:''}]));
+const SH=Object.fromEntries(Object.entries(SHOPS).map(([d,s])=>[d,{y:s.delivers||[],n:s.no||[],a:affTemplate(s.affiliate)}]));
 const CFG={FX:{date:FX.date,rates:FX.rates},SH,R:Object.fromEntries(Object.entries(REGIONS).map(([k,v])=>[k,[v[0],v[2]]])),SYM};
 const def=region||DEFAULT_REGION(lang); const dc=REGIONS[def][2];
 const selfHref=Astro.url.pathname.replace(/^((?:\/[a-z][a-z])?)\/404\/$/,'$1/404.html');
