@@ -5,6 +5,7 @@ import { balls, BALL_CHECKED } from '../lib/balls.js';
 import { bags, BAG_CHECKED } from '../lib/bags.js';
 import { FX } from '../lib/price.js';
 import { REVIEWED } from '../lib/byline.js';
+import { isIndexed, indexedAlternates } from '../lib/indexing.js';
 
 const iso = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') ? s : null;
 const later = (...xs) => xs.map(iso).filter(Boolean).sort().at(-1) || REVIEWED;
@@ -45,7 +46,7 @@ export function GET() {
     }
   }
   for (const [u, d] of Object.entries(EXTRA)) dated.set(u, d);
-  const urls = [...dated.keys()];
-  const x = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.map(u => `<url><loc>${S}${u}</loc><lastmod>${dated.get(u)}</lastmod>${(() => { const a = alternates(u); return a && Object.keys(a).length > 1 ? Object.entries(a).map(([l, h]) => `<xhtml:link rel="alternate" hreflang="${l}" href="${S}${h}"/>`).join('') + `<xhtml:link rel="alternate" hreflang="x-default" href="${S}${a.en || u}"/>` : ''; })()}</url>`).join('\n')}\n</urlset>\n`;
+  const urls = [...dated.keys()].filter(isIndexed);
+  const x = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.map(u => `<url><loc>${S}${u}</loc><lastmod>${dated.get(u)}</lastmod>${(() => { const a = indexedAlternates(alternates(u)); return a && Object.keys(a).length > 1 ? Object.entries(a).map(([l, h]) => `<xhtml:link rel="alternate" hreflang="${l}" href="${S}${h}"/>`).join('') + `<xhtml:link rel="alternate" hreflang="x-default" href="${S}${a.en || u}"/>` : ''; })()}</url>`).join('\n')}\n</urlset>\n`;
   return new Response(x, { headers: { 'Content-Type': 'application/xml' } });
 }
