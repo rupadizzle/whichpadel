@@ -21,5 +21,5 @@ export const US_PAGES={
  'padel-shoes-under-100':{kind:'s',cap:100,list:()=>rankShoes(usShoes.filter(s=>s.usd<=100),'en').slice(0,30)},
 };
 // drop "under $X" pages that would just repeat a smaller one (same items) and anything under the minimum
-export const US_KEYS=(()=>{const ks=Object.keys(US_PAGES).filter(k=>US_PAGES[k].list().length>=US_MIN); const sig={}; return ks.filter(k=>{if(!US_PAGES[k].cap||isIndexed(`/us/${k}/`)) return true; const s=US_PAGES[k].kind+US_PAGES[k].list().map(x=>x.slug).sort().join(); if(sig[s]) return false; sig[s]=1; return true;});})();
+export const US_KEYS=(()=>{const ks=Object.keys(US_PAGES).filter(k=>US_PAGES[k].kind==='r'&&US_PAGES[k].list().length>=US_MIN); const sig={}; return ks.filter(k=>{if(!US_PAGES[k].cap||isIndexed(`/us/${k}/`)) return true; const s=US_PAGES[k].kind+US_PAGES[k].list().map(x=>x.slug).sort().join(); if(sig[s]) return false; sig[s]=1; return true;});})();
 export const usCoverage=()=>({rackets:usRackets.length,rTotal:rackets.length,shoes:usShoes.length,sTotal:shoes.length});
