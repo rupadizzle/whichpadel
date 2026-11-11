@@ -9,6 +9,14 @@
 
 /rackets/*.webp
   Cache-Control: public, max-age=604800
+/rackets/g/*
+  Cache-Control: public, max-age=604800
+/shoes/g/*
+  Cache-Control: public, max-age=604800
+/balls/g/*
+  Cache-Control: public, max-age=604800
+/bags/*.webp
+  Cache-Control: public, max-age=604800
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
