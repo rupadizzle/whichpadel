@@ -107,7 +107,7 @@ const page = (() => {
   const faq = [
     ['Is a padel racket the same as a padel paddle?', 'Yes. In the US many players say padel paddle; in Europe it is a padel racket. Both mean the same solid, stringless, perforated racket with a wrist strap. A padel racket is not a pickleball paddle.'],
     ['Which shops are included?', 'Only shops that deliver in the US and charge in US dollars. Each card shows the lowest current dollar price; open a racket to compare every US shop.'],
-    ['How fresh are the prices?', 'We recheck each price about every 8 hours and hide any offer that has not been confirmed in the last 48 hours. Prices can change at any time, so check the shop before you buy.'],
+    ['How fresh are the prices?', 'We recheck each price about every 20 hours and hide any offer that has not been confirmed in the last 72 hours. Prices can change at any time, so check the shop before you buy.'],
     ...(isS ? [['How do padel shoe sizes convert to US sizes?', "As a guide, men's US size = UK size + 1 and women's US size = UK size + 2. Fit varies by brand, so check the shop's size chart."]] : []),
   ];
   const label = x => C[x]?.[0] || (US_PAGES[x].kind === 's' ? `Padel shoes under $${US_PAGES[x].cap}` : `Padel rackets under $${US_PAGES[x].cap}`);

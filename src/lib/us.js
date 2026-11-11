@@ -1,6 +1,6 @@
 // US market (preview): money pages built only from real US offers (USD, shops verified to deliver to the US), snapshot in data/us.json
 // (refresh: node prices-us/snapshot.mjs). A page is published only when it has >= US_MIN real items.
-import snap from '../../data/us.json'; import { rackets, bySlug } from './data.js'; import { shoes, shoeBySlug, rankShoes } from './shoes.js'; import { pickL } from '../i18n/lists.js';
+import snap from '../../data/us.json'; import { rackets, bySlug } from './data.js'; import { shoes, shoeBySlug, rankShoes } from './shoes.js'; import { pickL } from '../i18n/lists.js'; import { isIndexed } from './indexing.js';
 export const US_MIN=3; export const US_CHECKED=snap.updated;
 const live=os=>(os||[]).filter(o=>o.p>0&&o.c==='USD');
 const usd=os=>{const a=live(os).filter(o=>o.s!==0); return a.length?Math.min(...a.map(o=>o.p)):null;};
@@ -21,5 +21,5 @@ export const US_PAGES={
  'padel-shoes-under-100':{kind:'s',cap:100,list:()=>rankShoes(usShoes.filter(s=>s.usd<=100),'en').slice(0,30)},
 };
 // drop "under $X" pages that would just repeat a smaller one (same items) and anything under the minimum
-export const US_KEYS=(()=>{const ks=Object.keys(US_PAGES).filter(k=>US_PAGES[k].list().length>=US_MIN); const sig={}; return ks.filter(k=>{if(!US_PAGES[k].cap) return true; const s=US_PAGES[k].kind+US_PAGES[k].list().map(x=>x.slug).sort().join(); if(sig[s]) return false; sig[s]=1; return true;});})();
+export const US_KEYS=(()=>{const ks=Object.keys(US_PAGES).filter(k=>US_PAGES[k].list().length>=US_MIN); const sig={}; return ks.filter(k=>{if(!US_PAGES[k].cap||isIndexed(`/us/${k}/`)) return true; const s=US_PAGES[k].kind+US_PAGES[k].list().map(x=>x.slug).sort().join(); if(sig[s]) return false; sig[s]=1; return true;});})();
 export const usCoverage=()=>({rackets:usRackets.length,rTotal:rackets.length,shoes:usShoes.length,sTotal:shoes.length});
