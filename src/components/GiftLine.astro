@@ -1,12 +1,5 @@
 ---
-const { lang='en' } = Astro.props;
-const G={
- en:['Looking for a present? See our ',[['best padel gifts for 2026','/guides/best-padel-gifts/'],', including ',['gifts for men','/guides/best-padel-gifts-for-men/'],' and ',['gifts for women','/guides/best-padel-gifts-for-women/']],'.'],
- es:['¿Buscas un regalo? Consulta nuestros ',[['mejores regalos de pádel','/es/mejores-regalos-padel/']],'.'],
- fr:['Vous cherchez un cadeau ? Découvrez nos ',[['meilleurs cadeaux padel','/fr/meilleurs-cadeaux-padel/']],'.'],
- de:['Suchst du ein Geschenk? Hier sind unsere ',[['besten Padel-Geschenke','/de/beste-padel-geschenke/']],'.'],
- it:['Cerchi un regalo? Scopri i nostri ',[['migliori regali da padel','/it/migliori-regali-padel/']],'.'],
- pt:['À procura de uma prenda? Vê os nossos ',[['melhores presentes de pádel','/pt/melhores-presentes-padel/']],'.'],
-}[lang];
+import { D } from '../i18n/index.js';
+const { lang='en' } = Astro.props; const G=D(lang).ui.giftLine;
 ---
 {G && <p class="gift-line">{G[0]}{G[1].map(x=>typeof x==='string'?x:<a href={x[1]}>{x[0]}</a>)}{G[2]}</p>}

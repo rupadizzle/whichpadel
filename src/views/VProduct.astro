@@ -18,7 +18,6 @@ import { vsFor } from '../lib/vs.js';
 import { titleCore } from '../lib/racket-title.js';
 import { offersOf, SHOPS, domainOf, FX, shopHref, affTemplate, pick, DEFAULT_REGION, conv, REGIONS } from '../lib/price.js';
 const nm = (b, m) => m.toLowerCase().startsWith(b.toLowerCase()) ? m : `${b} ${m}`;
-const VIEW = { en: 'view', es: 'vista', fr: 'vue', pt: 'vista', it: 'vista', de: 'Ansicht' };
 import shipData from '../../data/shipping.json';
 import { D, url, racketX, mat, wt, SITE } from '../i18n/index.js';
 import { HUB as HUBA } from '../i18n/hub.js';
@@ -267,7 +266,7 @@ const view = (() => {
 {view.player && <p class="small rpply">{u.usedBy} <a href={view.player.href}>{view.player.name}</a></p>}
 {view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
 </header>
-{view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} view={VIEW[lang] || VIEW.en} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
+{view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} view={u.galView} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
 <div class="buycol">
 <aside class="panel buybox" id="buybox" data-px={view.localPx}>
 <p class="price-big" id="pxbig"><Price r={view.price} lang={lang}/>{view.tube && <> <small class="muted">({view.tube})</small></>} <span class="pxdrop" id="pxdrop" hidden></span></p>
