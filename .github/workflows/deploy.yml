@@ -37,13 +37,14 @@ jobs:
           [ $bad = 0 ] || echo "::error title=Site checks failed::See the run summary"
           exit $bad
       - name: Deploy to Cloudflare Pages
-        run: npx -y wrangler@latest pages deploy dist --project-name whichpadel --branch "$GITHUB_REF_NAME" --commit-hash "$GITHUB_SHA" | tee deploy.log
+        shell: bash
+        run: set -o pipefail; npx -y wrangler@latest pages deploy dist --project-name whichpadel --branch "$GITHUB_REF_NAME" --commit-hash "$GITHUB_SHA" | tee deploy.log
       - name: Live check
         run: |
           base=https://whichpadel.com
           [ "$GITHUB_REF_NAME" = main ] || base=$(grep -oE 'https://[a-z0-9-]+\.whichpadel\.pages\.dev' deploy.log | tail -1)
           sleep 10; bad=0
-          for p in $(node scripts/smoke-pages.mjs | tr ',' ' ') /shoes/ /balls/ /bags/ /deals/ /sitemap.xml; do
+          for p in $(node scripts/smoke-pages.mjs | tr ',' ' ') /rackets/ /shoes/ /balls/ /bags/ /deals/ /sitemap.xml; do
             [ "$p" = /404.html ] && continue
             c=$(curl -s -o /dev/null -w '%{http_code}' "$base$p"); echo "$p $c"; [ "$c" = 200 ] || bad=1
           done
