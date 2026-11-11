@@ -12,7 +12,7 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh
  const m=h.match(/<ul class="lang-seg"[^>]*>(.*?)<\/ul>/s); if(!m){bad.push('no language list: '+rel); continue;}
  const links=[...m[1].matchAll(/href="([^"]+)"[^>]*hreflang="([a-z]{2})"/g)].map(x=>[x[2],x[1]]);
  const alts=Object.fromEntries([...h.matchAll(/<link rel="alternate" hreflang="([a-z]{2})" href="https:\/\/whichpadel\.com([^"]+)"/g)].map(x=>[x[1],x[2]]));
- if(Object.keys(alts).length&&links.length!==Object.keys(alts).length) bad.push(`lang count ${links.length}/${Object.keys(alts).length}: ${rel}`);
+ for(const l of Object.keys(alts)) if(!links.some(([k])=>k===l)) bad.push(`hreflang ${l} has no language link: ${rel}`);
  for(const [l,u] of links){ if(!exists(u)) bad.push(`dead lang link ${l} ${u} on ${rel}`); if(alts[l]&&alts[l]!==u) bad.push(`lang ${l} ${u}≠hreflang ${alts[l]} on ${rel}`);}
  const seg=rel.split('/')[1]; const lang=['es','fr','pt','it','de'].includes(seg)?seg:'en'; const depth=rel.split('/').filter(Boolean).length; const k=lang+':'+(rel.split('/')[lang==='en'?1:2]||'home')+':'+Math.min(depth,4);
  if(!types.has(k)) types.set(k,rel);}
