@@ -57,3 +57,5 @@
 
 .ts-box{flex-basis:100%;margin:var(--s2) 0 0;min-height:65px}
 .ts-box[hidden]{display:none}
+
+.ftr .small a{display:inline-block;min-height:var(--tap);padding-block:var(--s2);line-height:var(--lh-ui)}
