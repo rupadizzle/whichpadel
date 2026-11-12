@@ -6,6 +6,11 @@ pages_build_output_dir = "dist"
 [[kv_namespaces]]
 binding = "SUBSCRIBERS"
 id = "030127a373d949d4a7f83b9e845ececf"
+preview_id = "aea3c86a469447f7b439a2d171c89cd9"
+
+[[kv_namespaces]]
+binding = "AFFILIATE"
+id = "98b1fbef5aac49d684383bfb12893812"
 
 # Accounts, saved rackets, newsletter signups, and price-alert signups.
 # database_id is filled once whichpadel-accounts exists. Until then this binding is absent and those routes return 503.
@@ -22,8 +27,8 @@ service = "whichpadel-prices"
 
 [[services]]
 binding = "US"
-service = "whichpadel-us-prices-preview"
+service = "whichpadel-us-prices"
 
 [[services]]
 binding = "SHOES"
-service = "whichpadel-shoe-prices-preview"
+service = "whichpadel-shoe-prices"

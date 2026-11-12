@@ -1,15 +1,16 @@
 // Finder price-drop alert sign-ups -> D1 (finder_alerts). Double opt-in: confirmed=0, nothing is sent yet.
-import { originOk, limited } from './_acct.js';
+import { originOk, limited, turnstileOk } from './_acct.js';
 const J=(o,s=200)=>new Response(JSON.stringify(o),{status:s,headers:{'content-type':'application/json','cache-control':'no-store'}});
 const RX=/^[^\s@<>"]{1,64}@[^\s@<>"]{1,190}\.[a-z]{2,24}$/i;
 let ready=false;
 export async function onRequestPost({request,env}){
  if(!env.ACCT) return J({ok:false},503);
  if(!originOk(request)) return J({ok:false},403);
- if(await limited(request,'alert')) return J({ok:false},429);
- if(Number(request.headers.get('content-length')||0)>2000) return J({ok:false},413);
+ if(await limited(request,'alert',env)) return J({ok:false},429);
+ if(Number(request.headers.get('content-length')||0)>8192) return J({ok:false},413);
  let b; try{b=await request.json()}catch{return J({ok:false},400)}
  if(b.website) return J({ok:true});
+ if(!await turnstileOk(request,env,b.turnstile||b['cf-turnstile-response'])) return J({ok:false},400);
  const email=String(b.email||'').trim().toLowerCase(); if(!RX.test(email)||b.consent!==true) return J({ok:false},400);
  if(email.endsWith('@qa.invalid')) return J({ok:true,dry:true});
  const s=(v,n=120)=>String(v||'').slice(0,n); const price=Number.isFinite(b.price)&&b.price>0&&b.price<100000?Math.round(b.price):null;

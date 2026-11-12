@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cleanItems, unionItems, toggleItem, setAlertItem, safeNext, sha256, CAP, originOk, limited } from './_acct.js';
+import { cleanItems, unionItems, toggleItem, setAlertItem, safeNext, sha256, CAP, originOk, limited, turnstileOk } from './_acct.js';
 
 test('cleanItems keeps kind and slug, drops junk, caps at 40', ()=>{
  const junk=[{t:'r',s:'ok-1'},{t:'x',s:'no'},{t:'r',s:'Bad'},{t:'r',s:'ok-1'},{t:'s',s:'shoe-1'},{t:'g',s:'bag-1'},{t:'b',s:'ball-1'}, null];
@@ -56,11 +56,29 @@ test('originOk fails closed without an allowed Origin', ()=>{
 
 test('limited allows max requests per IP and scope, then blocks', async ()=>{
  const store=new Map();
- globalThis.caches={default:{match:async k=>store.has(k.url)?new Response(store.get(k.url)):undefined, put:async (k,r)=>{store.set(k.url,await r.text());}}};
+ const env={SUBSCRIBERS:{get:async k=>store.has(k)?store.get(k):null, put:async (k,v)=>store.set(k,v)}};
  const req=ip=>new Request('https://whichpadel.com/api/subscribe',{method:'POST',headers:{'cf-connecting-ip':ip}});
- for(let i=0;i<3;i++) assert.equal(await limited(req('1.2.3.4'),'sub',3), false);
- assert.equal(await limited(req('1.2.3.4'),'sub',3), true);
- assert.equal(await limited(req('5.6.7.8'),'sub',3), false);
- assert.equal(await limited(req('1.2.3.4'),'news',3), false);
- delete globalThis.caches;
+ for(let i=0;i<10;i++) assert.equal(await limited(req('1.2.3.4'),'sub',env), false);
+ assert.equal(await limited(req('1.2.3.4'),'sub',env), true);
+ assert.equal(await limited(req('5.6.7.8'),'sub',env), false);
+ assert.equal(await limited(req('1.2.3.4'),'news',env), false);
+ assert.equal(await limited(req('1.2.3.4'),'sub',{}), false);
+});
+
+test('turnstileOk fails closed and accepts a successful siteverify', async ()=>{
+ const req=new Request('https://whichpadel.com/api/subscribe',{method:'POST',headers:{'cf-connecting-ip':'1.2.3.4'}});
+ assert.equal(await turnstileOk(req,{},'token'), false);
+ assert.equal(await turnstileOk(req,{TURNSTILE_SECRET:'s'},''), false);
+ assert.equal(await turnstileOk(req,{TURNSTILE_SECRET:'s'},null), false);
+ const calls=[];
+ const prev=globalThis.fetch;
+ globalThis.fetch=async (url,opts)=>{calls.push({url,body:String(opts.body)}); return {json:async()=>({success:true})};};
+ assert.equal(await turnstileOk(req,{TURNSTILE_SECRET:'s'},' tok '), true);
+ assert.equal(calls.length,1);
+ assert.equal(calls[0].url,'https://challenges.cloudflare.com/turnstile/v0/siteverify');
+ assert.match(calls[0].body,/response=tok/);
+ assert.match(calls[0].body,/remoteip=1\.2\.3\.4/);
+ globalThis.fetch=async ()=>({json:async()=>({success:false})});
+ assert.equal(await turnstileOk(req,{TURNSTILE_SECRET:'s'},'tok'), false);
+ globalThis.fetch=prev;
 });

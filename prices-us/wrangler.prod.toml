@@ -1,0 +1,10 @@
+name = "whichpadel-us-prices"
+main = "worker.js"
+compatibility_date = "2026-10-20"
+workers_dev = true
+[triggers]
+crons = ["0-58/2 * * * *"]
+[[d1_databases]]
+binding = "DB"
+database_name = "whichpadel-us"
+database_id = "dff0fe88-291b-4791-be6c-6370c68b376c"
