@@ -80,3 +80,7 @@ service = "whichpadel-us-prices"
 binding = "SHOES"
 service = "whichpadel-shoe-prices"
 
+[[env.production.services]]
+binding = "EMAIL"
+service = "whichpadel-send"
+entrypoint = "Sender"
