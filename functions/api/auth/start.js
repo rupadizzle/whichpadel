@@ -1,5 +1,5 @@
 // Magic-link sign-in. Sends the link through the EMAIL binding (Cloudflare Email Sending).
-import { J, RX, originOk, limited, readyDb, safeNext, newToken, sha256 } from '../_acct.js';
+import { J, RX, originOk, limited, turnstileOk, readyDb, safeNext, newToken, sha256 } from '../_acct.js';
 const LANG=new Set(['en','es','fr','pt','it','de']);
 const MAIL={
  en:['Your WhichPadel sign-in link','Use this link to keep your saved rackets. It expires in 30 minutes.\n\n{url}\n\nIf you did not ask for this, ignore this email.'],
@@ -25,10 +25,11 @@ async function sendLink(env, email, link, lang){
 export async function onRequestPost({request,env}){
  if(!env.ACCT) return J({ok:false},503);
  if(!originOk(request)) return J({ok:false},403);
- if(await limited(request,'auth')) return J({ok:false},429);
- if(Number(request.headers.get('content-length')||0)>2000) return J({ok:false},413);
+ if(await limited(request,'auth',env)) return J({ok:false},429);
+ if(Number(request.headers.get('content-length')||0)>8192) return J({ok:false},413);
  let b; try{b=await request.json()}catch{return J({ok:false},400)}
  if(b.website) return J({ok:true});
+ if(!await turnstileOk(request,env,b.turnstile||b['cf-turnstile-response'])) return J({ok:false},400);
  const email=String(b.email||'').trim().toLowerCase(); if(!RX.test(email)) return J({ok:false},400);
  if(email.endsWith('@qa.invalid')) return J({ok:true,dry:true});
  const lang=LANG.has(b.lang)?b.lang:'en';

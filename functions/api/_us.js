@@ -1,6 +1,6 @@
 // Merge US offers (USD, US-delivering shops; US price Worker + own D1) into a price payload. Read-only.
-// Uses service bindings (wrangler.toml) when present, public workers.dev URLs as fallback (previews).
-const URLS={US:'https://whichpadel-us-prices-preview.rupertwallace.workers.dev',SHOES:'https://whichpadel-shoe-prices-preview.rupertwallace.workers.dev',PRICES:'https://whichpadel.com'};
+// Uses service bindings (wrangler.toml) when present, public workers.dev URLs as fallback.
+const URLS={US:'https://whichpadel-us-prices.rupertwallace.workers.dev',SHOES:'https://whichpadel-shoe-prices.rupertwallace.workers.dev',PRICES:'https://whichpadel.com'};
 // 24h browser/edge hint; the Workers themselves also cache the prebuilt snapshot for 24h.
 const CACHE_TTL=86400;
 const CACHE_HDR={'content-type':'application/json','cache-control':`public, max-age=${CACHE_TTL}`};

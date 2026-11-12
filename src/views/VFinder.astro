@@ -15,7 +15,7 @@ const doms=new Set();
 rackets.forEach(r=>offersOf(r).forEach(o=>o.d&&doms.add(o.d)));
 for(const list of [shoes,balls,...(hasBag?[bags]:[])]) list.forEach(x=>(x.offs||[]).forEach(o=>o.d&&doms.add(o.d)));
 const nShops=doms.size;
-const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),affTemplate(s.affiliate)]]));
+const SN=Object.fromEntries(Object.entries(SHOPS).map(([k,s])=>[k,[s.name&&s.name!==k?s.name:k.replace(/\.(com|net|co\.uk|es|de|fr|it|pt)$/,''),affTemplate(s.affiliate),!!s.go,Array.isArray(s.affRegions)?s.affRegions:[]]]));
 const jsonld={'@context':'https://schema.org','@graph':[
  {'@type':'WebApplication','name':F.h1,'url':SITE+L('finder'),'applicationCategory':'SportsApplication','inLanguage':lang,'offers':{'@type':'Offer','price':'0','priceCurrency':'EUR'}},
  {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':u.home,'item':SITE+L('home')},{'@type':'ListItem','position':2,'name':F.crumb,'item':SITE+L('finder')}]}]};
@@ -104,7 +104,7 @@ const PW={comfort:{comfort:2,forgiveness:1},light:{handling:2},durable:{},latest
 const SHP={control:'round',all:'teardrop',power:'diamond'};
 const OK={beginner:d=>d.sh!=='diamond'&&['soft','medium-soft','medium',''].includes(d.c)&&d.forgiveness>=60,intermediate:d=>d.power>=30&&d.control>=30,advanced:()=>true};
 const shopsOf=d=>{const m=new Map(); (d.o||[]).forEach(o=>{if(window.WP&&WP.shop(o.d,o.c)==='n') return; const q=WP.best([o]); if(q.v==null) return; const x=m.get(o.d); if(!x||q.v<x.v) m.set(o.d,{...o,v:q.v,txt:q.txt});}); return [...m.values()].sort((a,b)=>((a.s===0)-(b.s===0))||a.v-b.v);};
-const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=(SN[o.d]||[])[1]; if(a) return a.replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
+const sn=d=>esc((SN[d]||[d])[0]); const hrefShop=o=>{const a=SN[o.d]||[], reg=(window.WP&&WP.region)||'GB'; if(a[2]) return '/api/go?shop='+encodeURIComponent(o.d)+'&region='+encodeURIComponent(reg)+'&url='+encodeURIComponent(o.u); if(a[1]) return a[1].replace('{url}',encodeURIComponent(o.u)); try{const u=new URL(o.u); if(!u.searchParams.has('utm_source')){u.searchParams.set('utm_source','whichpadel'); u.searchParams.set('utm_medium','referral');} return u.toString();}catch(e){return o.u;}};
 function budgetBand(){const name=prod==='racket'?'budget':prod+'-budget'; const inputs=[...document.querySelectorAll(`#fq input[name="${name}"][data-mb]`)]; const i=inputs.findIndex(inp=>inp.checked); if(i<0) return null; return {lo:i?+inputs[i-1].value:0,hi:+inputs[i].value};}
 function inBand(price,band){return !band||(price<=band.hi&&(!band.lo||price>=band.lo));}
 function rank(A){const L=A.level,S=A.style,P=A.prio,Sd=A.side||'either'; const band=budgetBand(); const B=band?band.hi:0;

@@ -29,7 +29,7 @@ const jsonld={'@context':'https://schema.org','@graph':[
 <div class="tw bagt"><table><thead><tr><th>{T.col.bag}</th><th>{T.col.rackets}</th><th>{T.col.thermal}</th><th>{T.col.shoe}</th><th>{T.col.price}</th></tr></thead><tbody>{l.map(({b,o})=><tr>
 <td><span class="bagn">{bagImg(b)&&<img src={bagImg(b)} alt={b.name} width={b.img[0]} height={b.img[1]} loading="lazy" decoding="async"/>}<span><b>{b.name}</b><small>{[b.type==='holdall'&&T.holdall,b.year,b.dims&&`${T.size}: ${b.dims} cm`].filter(Boolean).join(' · ')}</small></span></span></td>
 <td data-l={T.col.rackets}>{b.rackets??T.ns}</td><td data-l={T.col.thermal}>{yn(b.thermal)}</td><td data-l={T.col.shoe}>{yn(b.shoe)}</td>
-<td class="bagp">{o?<><b set:html={tk(o.o.p,o.o.c,o.cur)}/><br/><a class="btn btn-sm aff" href={bagHref(o.o)} rel="sponsored nofollow" target="_blank" data-ev="buy">{T.cta}</a></>:<span class="muted">{T.noPrice}</span>}</td></tr>)}</tbody></table></div></>)}
+<td class="bagp">{o?<><b set:html={tk(o.o.p,o.o.c,o.cur)}/><br/><a class="btn btn-sm aff" href={bagHref(o.o, reg)} rel="sponsored nofollow" target="_blank" data-ev="buy" data-o={JSON.stringify([{d:o.o.d,p:o.o.p,c:o.o.c,u:o.o.u}])}>{T.cta}</a></>:<span class="muted">{T.noPrice}</span>}</td></tr>)}</tbody></table></div></>)}
 <h2 id="brands">{T.brandsH}</h2><p>{T.brandsP}</p>
 {brands.map(b=><><h3>{b.name}</h3><p><Fragment set:html={T.brandLine(b,m)}/>{b.slug&&<> <a href={url('brand',lang,b.slug)}>{T.brandLink(b.name)}</a></>}</p></>)}
 <h2 id="gender">{T.genderH}</h2><p>{T.genderP}</p>

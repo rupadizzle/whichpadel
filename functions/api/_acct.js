@@ -8,15 +8,29 @@ export function originOk(request){
  const o=request.headers.get('origin'); if(!o) return false;
  return /^https:\/\/([a-z0-9-]+\.)?(whichpadel\.com|whichpadel\.pages\.dev)$/.test(o)||/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(o);
 }
-export async function limited(request, scope, max=10, windowSec=600){
+export async function limited(request, scope, env, max=10, windowSec=600){
  try{
+  const kv=env&&env.SUBSCRIBERS; if(!kv) return false;
   const ip=request.headers.get('cf-connecting-ip')||'local';
-  const key=new Request(`https://whichpadel.com/__wp_rl/${scope}/${encodeURIComponent(ip)}`);
-  const cache=caches.default; const hit=await cache.match(key);
-  const n=hit?Number(await hit.text())||0:0;
+  const bucket=Math.floor(Date.now()/(windowSec*1000));
+  const key='rl:'+scope+':'+ip+':'+bucket;
+  const n=Number(await kv.get(key))||0;
   if(n>=max) return true;
-  await cache.put(key,new Response(String(n+1),{headers:{'cache-control':`max-age=${windowSec}`}}));
+  await kv.put(key,String(n+1),{expirationTtl:Math.max(60,windowSec+60)});
   return false;
+ }catch{ return false; }
+}
+export async function turnstileOk(request, env, token){
+ const secret=env&&env.TURNSTILE_SECRET;
+ const t=typeof token==='string'?token.trim():'';
+ if(!secret||!t) return false;
+ try{
+  const ip=request.headers.get('cf-connecting-ip')||'';
+  const body=new URLSearchParams({secret,response:t});
+  if(ip) body.set('remoteip',ip);
+  const r=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body});
+  const j=await r.json();
+  return !!(j&&j.success);
  }catch{ return false; }
 }
 export function cleanItems(items){

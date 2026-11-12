@@ -54,3 +54,6 @@
 .ftr .news .inline-form{flex-wrap:wrap}
 }
 .ftr .ok{color:var(--lime)}
+
+.ts-box{flex-basis:100%;margin:var(--s2) 0 0;min-height:65px}
+.ts-box[hidden]{display:none}

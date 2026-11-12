@@ -7,6 +7,10 @@ pages_build_output_dir = "dist"
 binding = "SUBSCRIBERS"
 id = "030127a373d949d4a7f83b9e845ececf"
 
+[[kv_namespaces]]
+binding = "AFFILIATE"
+id = "98b1fbef5aac49d684383bfb12893812"
+
 # Accounts, saved rackets, newsletter signups, and price-alert signups.
 # database_id is filled once whichpadel-accounts exists. Until then this binding is absent and those routes return 503.
 # [[d1_databases]]
@@ -15,15 +19,15 @@ id = "030127a373d949d4a7f83b9e845ececf"
 # database_id = ""
 
 # Price Workers reached via service bindings (same-zone fetch to a Worker route is not reliable from Functions).
-# PRICES = production racket Worker (unchanged); US + SHOES = US and shoe price Workers (own D1s, cron every 10 min).
+# PRICES = production racket Worker (unchanged); US + SHOES = production US and shoe price Workers (own D1s).
 [[services]]
 binding = "PRICES"
 service = "whichpadel-prices"
 
 [[services]]
 binding = "US"
-service = "whichpadel-us-prices-preview"
+service = "whichpadel-us-prices"
 
 [[services]]
 binding = "SHOES"
-service = "whichpadel-shoe-prices-preview"
+service = "whichpadel-shoe-prices"

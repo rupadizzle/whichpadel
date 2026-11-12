@@ -20,5 +20,5 @@ export const bagStats = region => {
   return { n: bags.length, nBags: g.bags.length, nPacks: g.packs.length, brands: new Set(bags.map(b => b.brand)).size, priceBags: price(g.bags), pricePacks: price(g.packs), capBags: cap(g.bags), capPacks: cap(g.packs), thermal: yes('thermal'), shoe: yes('shoe'), cur: bagOffer(g.bags[0], region)?.cur };
 };
 export const bagBrand = (name, region) => { const l = bags.filter(b => b.brand === name).sort(byPrice(region)); const slug = brandList.find(x => x.name.toLowerCase() === name.toLowerCase())?.slug || null; return { name, slug, list: l, n: l.length, from: l.length ? bagOffer(l[0], region) : null }; };
-export const bagHref = o => shopHref(o.u, SHOPS[o.d]?.affiliate);
+export const bagHref = (o, region) => shopHref(o.u, SHOPS[o.d]?.affiliate, {go:!!SHOPS[o.d]?.go, shop:o.d, region});
 export const bagComp = v => v === 'yes' || v === 'no' ? v : 'ns';

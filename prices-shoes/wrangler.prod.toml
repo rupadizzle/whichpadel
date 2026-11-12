@@ -1,0 +1,11 @@
+# Shoe/ball/bag price engine (production): same code as wrangler.toml (preview), own D1.
+name = "whichpadel-shoe-prices"
+main = "worker.js"
+compatibility_date = "2026-10-20"
+workers_dev = true
+[triggers]
+crons = ["0-58/2 * * * *"]
+[[d1_databases]]
+binding = "DB"
+database_name = "whichpadel-shoes"
+database_id = "d2e1f690-2a6a-4f5e-8f79-60ff50ca5d4d"

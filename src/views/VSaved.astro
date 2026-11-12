@@ -25,6 +25,7 @@ const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
  <form id="keep-form" class="inline-form" novalidate>
   <input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
+  <div class="ts-box" data-ts></div>
   <button class="btn btn-accent" type="submit">{u.keepBtn}</button>
   <p hidden class="ok" id="keep-msg" role="status"></p>
  </form>
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   e.preventDefault(); const f=e.target, i=f.querySelector('input[type=email]'), b=f.querySelector('button'), msg=$('keep-msg');
   if(!i.checkValidity()){ i.reportValidity(); return; }
   b.disabled=true; let status=0;
-  try{ const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||''})}); status=r.status; }catch(err){ status=0; }
+  try{ const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||'',turnstile:window.wpTs&&wpTs.token(f)||''})}); status=r.status; }catch(err){ status=0; }
   b.disabled=false; msg.hidden=false; msg.textContent=status===503?TX.keepMail:(status>=200&&status<300)?TX.keepOk:TX.keepErr;
  };
  $('saved-out').onclick=async()=>{ try{ await fetch('/api/auth/out',{method:'POST',credentials:'same-origin'}); }catch(e){} showOut(); };

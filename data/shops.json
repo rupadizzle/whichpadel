@@ -611,7 +611,9 @@
     "ROW"
    ],
    "source": "https://padelproshop.com/en/pages/shipping-payment (Spain, Portugal, rest of the EU, UK, USA and an international rate; checked 2026-10-28)",
-   "affiliate": "PLACEHOLDER"
+   "affiliate": "PLACEHOLDER",
+   "go": true,
+   "affRegions": ["IT", "FR", "ES"]
   },
   "pdhsports.com": {
    "name": "PDH Sports",

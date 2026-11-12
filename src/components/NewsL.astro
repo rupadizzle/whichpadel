@@ -5,6 +5,7 @@ const { lang='en', src='', bare=false, consent='', button='' } = Astro.props; co
 <form class="nl" novalidate data-sub="nl" data-lang={lang} data-src={src} data-err={N.err}>
 {!bare && <p class="nl-t"><b>✉ {N.h}:</b> {N.p}</p>}
 <div class="nl-r"><input type="email" required placeholder={N.ph} aria-label={N.ph} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{button||N.b}</button></div>
+<div class="ts-box" data-ts></div>
 <label class="nl-c"><input type="checkbox" required/><span>{consent||N.c} <a href={url('privacy',lang)}>{N.priv}</a>.</span></label>
 <p hidden class="nl-m" role="status" data-ok={N.ok}></p>
 </form>
@@ -13,4 +14,5 @@ const { lang='en', src='', bare=false, consent='', button='' } = Astro.props; co
 .nl-t{margin:0}.nl-r{display:flex;gap:var(--s2);flex-wrap:wrap}.nl-r input[type="email"]{flex:1;min-width:200px;min-height:44px;padding:0 var(--s4)}.nl-r .btn{min-height:44px;padding:0 var(--s4)}
 .nl-c{display:flex;gap:var(--s2);align-items:flex-start;font-size:var(--fs-m);min-height:44px;cursor:pointer}.nl-c input{width:24px;height:24px;margin:0;flex:none}
 .nl-m{margin:0;font-weight:var(--fw-ui)}.nl-m.bad{color:var(--danger)}.nl-m.good{color:var(--green)}
+.ts-box{margin:var(--s2) 0 0}
 </style>
