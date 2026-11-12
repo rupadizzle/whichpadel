@@ -37,6 +37,19 @@ for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.new
 // 3. interactions
 const c=await b.newContext({viewport:{width:1280,height:900}}); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); const p=await c.newPage(); p.setDefaultTimeout(8000); const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('dialog',d=>{errs.push('dialog:'+d.message());d.dismiss()});
 const t=async(name,fn)=>{try{await fn();log('ok',name)}catch(e){issues.push('FAIL '+name+': '+e.message.split('\n')[0])}};
+await t('turnstile not on page load',async()=>{
+  const ctx=await b.newContext({viewport:{width:1280,height:900}});
+  await ctx.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}});
+  const pg=await ctx.newPage();
+  const hits=[];
+  pg.on('request',r=>{if(/challenges\.cloudflare\.com/i.test(r.url())) hits.push(r.url());});
+  await pg.goto(B+'/',{waitUntil:'load'});
+  await pg.waitForTimeout(1500);
+  if(hits.length) throw Error('challenges.cloudflare.com request on load ('+hits.length+')');
+  const src=await pg.locator('script[src*="challenges.cloudflare.com"]').count();
+  if(src) throw Error('turnstile script tag on load');
+  await ctx.close();
+});
 await p.goto(B+'/');
 await t('header finder',async()=>{await p.click('.nav .cta'); await p.waitForURL(/\/finder\//);});
 await t('finder quiz',async()=>{await p.click('.fz-prod[data-prod=racket]'); for(const x of ['Advanced','Either side','Power','Latest','No limit']) await p.locator('[data-scr=q] .fz-o:visible',{hasText:x}).first().click(); await p.waitForSelector('[data-scr=res]:not([hidden]) .fz-pick',{timeout:8000}); const n=await p.locator('[data-scr=res] .fz-pick').count(); if(n<2) throw Error('picks '+n); for(const q of ['level=advanced','side=either','style=power','prio=latest','budget=any']) if(!p.url().includes(q)) throw Error('url '+p.url()); const ext=await p.locator('[data-scr=res] a[href^="http"]').evaluateAll(as=>as.map(a=>a.rel)); if(ext.some(r=>r!=='sponsored nofollow')) throw Error('rel '+ext); const card=p.locator('[data-scr=res] .rk-a[role=button]').first(); const slug=await card.evaluate(a=>a.closest('[data-s]').dataset.s); await card.click(); await p.waitForTimeout(300); if(!((await p.getAttribute('#fz-sticky a.btn','href'))||'').includes(slug)) throw Error('pick not promoted '+slug); if(!/\/rackets\/\?r=/.test(await p.getAttribute('[data-scr=res] a.btn[href*="?r="]','href')||'')) throw Error('compare link'); await p.goto(p.url()); await p.waitForSelector('[data-scr=res]:not([hidden]) .fz-pick');}); /* product cards, 5 questions, result with picks (tap one to feature it) + 'compare these' link; answers live in the URL and reload restores the result */

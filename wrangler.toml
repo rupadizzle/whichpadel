@@ -12,15 +12,12 @@ preview_id = "aea3c86a469447f7b439a2d171c89cd9"
 binding = "AFFILIATE"
 id = "98b1fbef5aac49d684383bfb12893812"
 
-# Accounts, saved rackets, newsletter signups, and price-alert signups.
-# database_id is filled once whichpadel-accounts exists. Until then this binding is absent and those routes return 503.
-# [[d1_databases]]
-# binding = "ACCT"
-# database_name = "whichpadel-accounts"
-# database_id = ""
+[[d1_databases]]
+binding = "ACCT"
+database_name = "whichpadel-accounts"
+database_id = "18a6503d-938d-4b46-9c0d-07022fb5ab98"
+preview_database_id = "2dbd9911-d4cd-4d04-8c6f-9f391ceabf96"
 
-# Price Workers reached via service bindings (same-zone fetch to a Worker route is not reliable from Functions).
-# PRICES = production racket Worker (unchanged); US + SHOES = US and shoe price Workers (own D1s, cron every 10 min).
 [[services]]
 binding = "PRICES"
 service = "whichpadel-prices"
@@ -32,3 +29,54 @@ service = "whichpadel-us-prices"
 [[services]]
 binding = "SHOES"
 service = "whichpadel-shoe-prices"
+
+[[env.preview.kv_namespaces]]
+binding = "SUBSCRIBERS"
+id = "aea3c86a469447f7b439a2d171c89cd9"
+
+[[env.preview.kv_namespaces]]
+binding = "AFFILIATE"
+id = "98b1fbef5aac49d684383bfb12893812"
+
+[[env.preview.d1_databases]]
+binding = "ACCT"
+database_name = "whichpadel-accounts-preview"
+database_id = "2dbd9911-d4cd-4d04-8c6f-9f391ceabf96"
+
+[[env.preview.services]]
+binding = "PRICES"
+service = "whichpadel-prices"
+
+[[env.preview.services]]
+binding = "US"
+service = "whichpadel-us-prices"
+
+[[env.preview.services]]
+binding = "SHOES"
+service = "whichpadel-shoe-prices"
+
+[[env.production.kv_namespaces]]
+binding = "SUBSCRIBERS"
+id = "030127a373d949d4a7f83b9e845ececf"
+
+[[env.production.kv_namespaces]]
+binding = "AFFILIATE"
+id = "98b1fbef5aac49d684383bfb12893812"
+
+[[env.production.d1_databases]]
+binding = "ACCT"
+database_name = "whichpadel-accounts"
+database_id = "18a6503d-938d-4b46-9c0d-07022fb5ab98"
+
+[[env.production.services]]
+binding = "PRICES"
+service = "whichpadel-prices"
+
+[[env.production.services]]
+binding = "US"
+service = "whichpadel-us-prices"
+
+[[env.production.services]]
+binding = "SHOES"
+service = "whichpadel-shoe-prices"
+

@@ -101,9 +101,10 @@ document.addEventListener('DOMContentLoaded',async()=>{
  $('keep-form').onsubmit=async e=>{
   e.preventDefault(); const f=e.target, i=f.querySelector('input[type=email]'), b=f.querySelector('button'), msg=$('keep-msg');
   if(!i.checkValidity()){ i.reportValidity(); return; }
-  b.disabled=true; let status=0;
-  try{ const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||'',turnstile:window.wpTs&&wpTs.token(f)||''})}); status=r.status; }catch(err){ status=0; }
-  b.disabled=false; msg.hidden=false; msg.textContent=status===503?TX.keepMail:(status>=200&&status<300)?TX.keepOk:TX.keepErr;
+  if(window.wpTs) await wpTs.ensure(f);
+  b.disabled=true; let status=0, err='';
+  try{ const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:f.querySelector('input.hp')?.value||'',turnstile:window.wpTs&&wpTs.token(f)||''})}); status=r.status; try{err=(await r.json()).err||'';}catch(x){} }catch(e2){ status=0; }
+  b.disabled=false; msg.hidden=false; msg.textContent=window.wpTs?wpTs.copy(status,err,TX.keepMail,TX.keepOk,TX.keepErr):(err==='soon'||err==='mail'||status===503)?TX.keepMail:(status>=200&&status<300)?TX.keepOk:TX.keepErr;
  };
  $('saved-out').onclick=async()=>{ try{ await fetch('/api/auth/out',{method:'POST',credentials:'same-origin'}); }catch(e){} showOut(); };
  $('saved-del').onclick=async()=>{ if(!confirm(TX.deleteAsk)) return; try{ const r=await fetch('/api/account',{method:'DELETE',credentials:'same-origin'}); if(!r.ok) return; }catch(e){ return; } showOut(); };
