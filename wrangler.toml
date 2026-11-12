@@ -6,6 +6,7 @@ pages_build_output_dir = "dist"
 [[kv_namespaces]]
 binding = "SUBSCRIBERS"
 id = "030127a373d949d4a7f83b9e845ececf"
+preview_id = "aea3c86a469447f7b439a2d171c89cd9"
 
 [[kv_namespaces]]
 binding = "AFFILIATE"
@@ -19,7 +20,7 @@ id = "98b1fbef5aac49d684383bfb12893812"
 # database_id = ""
 
 # Price Workers reached via service bindings (same-zone fetch to a Worker route is not reliable from Functions).
-# PRICES = production racket Worker (unchanged); US + SHOES = production US and shoe price Workers (own D1s).
+# PRICES = production racket Worker (unchanged); US + SHOES = US and shoe price Workers (own D1s, cron every 10 min).
 [[services]]
 binding = "PRICES"
 service = "whichpadel-prices"

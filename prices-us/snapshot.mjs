@@ -1,4 +1,4 @@
-// Writes data/us.json from the US production Worker: {updated, r:{racketSlug:[offers]}, s:{shoeSlug:[offers]}} (USD only). Build-time input for the US pages.
+// Writes data/us.json from the US preview Worker: {updated, r:{racketSlug:[offers]}, s:{shoeSlug:[offers]}} (USD only). Build-time input for the US pages.
 import fs from 'node:fs'; const B='https://whichpadel-us-prices.rupertwallace.workers.dev'; const F=new URL('../data/us.json',import.meta.url);
 const prev=JSON.parse(fs.readFileSync(F,'utf8')); const RM=JSON.parse(fs.readFileSync(new URL('./racket-matches.json',import.meta.url))); const OK=new Set(Object.values(RM).flatMap(m=>Object.values(m)));
 const get=async p=>{const res=await fetch(B+p,{signal:AbortSignal.timeout(10000)}); if(!res.ok) throw new Error(p+' HTTP '+res.status); const j=await res.json(); if(!j.r||!Object.keys(j.r).length) throw new Error(p+' empty'); return j.r;};
