@@ -6,7 +6,7 @@ const { lang='en' } = Astro.props; const u=D(lang).ui; const c=u.ck;
 <script is:inline>
 (()=>{const b=document.getElementById('ck-bn'); let v=null; try{v=localStorage.wp_ck}catch(e){}
 if(v!=='1'&&v!=='0') b.hidden=false;
-b.addEventListener('click',e=>{const k=e.target.closest('[data-ck]'); if(!k) return; const on=k.dataset.ck; try{localStorage.wp_ck=on}catch(x){} b.hidden=true; if(on==='1') window.wpGa(); else if(window.wpGaOn) gtag('consent','update',{analytics_storage:'denied'});});
+b.addEventListener('click',e=>{const k=e.target.closest('[data-ck]'); if(!k) return; const on=k.dataset.ck; try{localStorage.wp_ck=on}catch(x){} b.hidden=true; document.dispatchEvent(new Event('wp:ck')); if(on==='1') window.wpGa(); else if(window.wpGaOn) gtag('consent','update',{analytics_storage:'denied'});});
 document.addEventListener('click',e=>{if(!e.target.closest('[data-ck-open]')) return; b.hidden=false; b.querySelector('[data-ck]').focus();});})();
 </script>
 <style is:global>

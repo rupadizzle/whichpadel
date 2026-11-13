@@ -5,7 +5,7 @@ const { lang='en', src='', bare=false, consent='', button='' } = Astro.props; co
 <form class="nl" novalidate data-sub="nl" data-lang={lang} data-src={src} data-err={N.err}>
 {!bare && <p class="nl-t"><b>✉ {N.h}:</b> {N.p}</p>}
 <div class="nl-r"><input type="email" required placeholder={N.ph} aria-label={N.ph} autocomplete="email"/><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/><button class="btn btn-accent">{button||N.b}</button></div>
-<div class="ts-box" data-ts></div>
+<div class="ts-box" data-ts data-parity-skip></div>
 <label class="nl-c"><input type="checkbox" required/><span>{consent||N.c} <a href={url('privacy',lang)}>{N.priv}</a>.</span></label>
 <p hidden class="nl-m" role="status" data-ok={N.ok}></p>
 </form>

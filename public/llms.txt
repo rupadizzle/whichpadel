@@ -12,7 +12,7 @@ WhichPadel compares gear so a player can match shape, weight, balance, core and 
 - [All buying lists](https://whichpadel.com/best/): Beginners, power, control, budget, women, juniors and more. Each list states its rule.
 - [All rackets](https://whichpadel.com/rackets/): Filter by brand, year, shape, balance, weight, core and price.
 - [Brands](https://whichpadel.com/brands/): One page per brand, with model counts and spec averages.
-- [Racket finder](https://whichpadel.com/finder/): Four questions, then matches from the same spec ratings.
+- [Racket finder](https://whichpadel.com/finder/): Five questions, then matches from the same spec ratings.
 - [About](https://whichpadel.com/about/): How specs, ratings and prices are compiled.
 - [Rupert Wallace](https://whichpadel.com/author/rupert-wallace/): Author of the pages. LinkedIn: https://www.linkedin.com/in/rupertwallace/
 - [Affiliate disclosure](https://whichpadel.com/affiliate-disclosure/): How the site makes money.

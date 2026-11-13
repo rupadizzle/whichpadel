@@ -25,7 +25,7 @@ const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
  <form id="keep-form" class="inline-form" novalidate>
   <input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
-  <div class="ts-box" data-ts></div>
+  <div class="ts-box" data-ts data-parity-skip></div>
   <button class="btn btn-accent" type="submit">{u.keepBtn}</button>
   <p hidden class="ok" id="keep-msg" role="status"></p>
  </form>
