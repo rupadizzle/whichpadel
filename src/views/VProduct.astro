@@ -66,7 +66,10 @@ const page = (() => {
     const alt = t.imgAlt(r.model);
     const srows = rows.filter(([, v]) => v != null && v !== '' && v !== false);
     const kchips = [r.audience && audLbl, r.shape && t.shapeCap[r.shape], x.bal && t.fBal(x.bal), wt(r), r.coreHardness && t.fCore(t.core[r.coreHardness]), lv && R2.lvl[lv]].filter(Boolean);
-    const more = [...new Map([...similar, ...rackets.filter(y => y.slug !== r.slug && y.shape === r.shape && y.brand !== r.brand && y.image)].map(y => [y.slug, y])).values()].slice(0, 4);
+    // pad the similar list with same-shape rackets from other brands, closest recorded price first (no price sorts last)
+    const gap = y => y.priceGBPApprox && r.priceGBPApprox ? Math.abs(y.priceGBPApprox - r.priceGBPApprox) : Infinity;
+    const pad = rackets.filter(y => y.slug !== r.slug && y.shape === r.shape && y.brand !== r.brand && y.image).sort((a, b) => gap(a) - gap(b));
+    const more = [...new Map([...similar, ...pad].map(y => [y.slug, y])).values()].slice(0, 4);
     const oj = JSON.stringify(offersOf(r));
     const BD = domainOf(r.productUrl || '');
     const BN = (SN[BD] || [BD || r.brand])[0];
@@ -196,6 +199,9 @@ const page = (() => {
   };
 })();
 const crumb = page.crumbs;
+// mobile price strip under the title: same price and shop as the sticky bar (StickyCta), opens the same sheet
+const ctaR = kind === 'racket' ? r : kind === 'shoe' ? s : kind === 'ball' ? b : g;
+const ctaShop = kind === 'racket' ? page.BN : kind === 'shoe' ? page.shoe.BN : kind === 'ball' ? page.ball.BN : page.bag.BN;
 const R2 = kind === 'racket' ? page.R2 : kind === 'shoe' ? page.shoe.R2 : RP(lang); // bag/ball reuse RP labels only where needed
 const view = (() => {
   if (kind === 'racket') {
@@ -265,6 +271,7 @@ const view = (() => {
 <h1>{view.name}</h1>
 {view.player && <p class="small rpply">{u.usedBy} <a href={view.player.href}>{view.player.name}</a></p>}
 {view.chips.length > 0 && <ul class="kchips">{view.chips.map(c => <li>{c}</li>)}</ul>}
+<div class="mbuy" id="mbuy"><button type="button" class="sp" data-mbuy aria-haspopup="dialog" aria-label={u.px.cmp.openS}><b><Price r={ctaR} lang={lang}/></b><span>{ctaShop}</span></button><button type="button" class="btn btn-accent" data-mbuy aria-haspopup="dialog">{u.px.cmp.showP}</button></div>
 </header>
 {view.slides.length > 0 ? <Gallery slides={view.slides} alt={view.alt} view={u.galView} zoom={R2.zoom} photo={R2.photo} prev={R2.prev} next={R2.next} close={R2.close} ih={600} th={80} zh={1200}/> : <section class="rpg" aria-label={view.alt} data-n="0"><div class="gtrack gnone">{view.shape && <RacketIcon shape={view.shape} size={120}/>}</div></section>}
 <div class="buycol">
@@ -304,11 +311,16 @@ const view = (() => {
 </div>
 </div>
 {kind === 'racket' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
-<StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
+<StickyCta r={r} lang={lang} shop={page.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP} alert={{ slug: r.slug, kind: 'r', h: u.alertH('{n}'), off: u.alertBar, on: u.alerted }}/></>}
 {kind === 'shoe' && <><section class="nudge" id="rv-wrap" hidden><h2>{u.recent}</h2><div class="rv" id="rv"></div></section>
 <StickyCta r={s} lang={lang} shop={page.shoe.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/></>}
 {kind === 'ball' && <StickyCta r={b} lang={lang} shop={page.ball.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
 {kind === 'bag' && <StickyCta r={g} lang={lang} shop={page.bag.BN} openLabel={u.px.cmp.openS} buyLabel={u.px.cmp.showP}/>}
+<script is:inline>
+(()=>{const m=document.getElementById('mbuy'), sc=document.getElementById('stickycta'); if(!m||!sc) return; const src=sc.querySelector('.sp'), dst=m.querySelector('.sp');
+ if(src&&dst){dst.innerHTML=src.innerHTML; new MutationObserver(()=>{dst.innerHTML=src.innerHTML;}).observe(src,{childList:true,subtree:true,characterData:true});}
+ m.addEventListener('click',e=>{if(e.target.closest('[data-mbuy]')) sc.click();});})();
+</script>
 <script is:inline define:vars={{ SHIP: shipData.shops, RATES: FX.rates }}>
 window.wpShip=function(d,region,price,cur){
  const rules=SHIP[d]; if(!rules||price==null||!region) return null;
@@ -358,7 +370,7 @@ function arm(){
  p.addEventListener('touchstart',e=>{if(box.scrollTop>0&&box.contains(e.target)){y0=null;return;} y0=e.touches[0].clientY; dy=0; p.style.transition='none';},{passive:true});
  p.addEventListener('touchmove',e=>{if(y0==null) return; dy=Math.max(0,e.touches[0].clientY-y0); p.style.transform=`translateY(${dy}px)`;},{passive:true});
  p.addEventListener('touchend',()=>{if(y0==null) return; p.style.transition=''; if(dy>80) sheetClose(); else p.style.transform=''; y0=null;});
- if(sc&&!sc.dataset.wired){sc.dataset.wired='1'; sc.addEventListener('click',sheetOpen);}
+ if(sc&&!sc.dataset.wired){sc.dataset.wired='1'; sc.addEventListener('click',e=>{if(e.target.closest('.rk-bell')) return; sheetOpen();});}
 }
 if(!window.__pxStaticKeys){window.__pxStaticKeys=1; document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden||D.dataset.live==='1') return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
  if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];

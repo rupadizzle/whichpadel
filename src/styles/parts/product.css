@@ -355,3 +355,34 @@ body:has(.stickycta){padding-bottom:var(--bar)}
 /* icon buttons: glyph stays small, hit area reaches the 44px tap height */
 .save-heart::after,.rk-bell::after{content:"";position:absolute;inset:calc(50% - var(--tap) / 2) calc(-1 * var(--s1))}
 .pxaff{display:block;font-size:var(--fs-xs);color:var(--mut)}
+/* mobile price strip under the product title (desktop has the buy box) */
+.mbuy{display:none}
+@media (width < 900px){
+.mbuy{display:flex;align-items:center;gap:var(--s3);margin-top:var(--s3);padding:var(--s3);background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.mbuy .sp{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:var(--s0);flex:1 1 auto;min-width:0;min-height:48px;padding:0;margin:0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.mbuy .sp b{display:flex;align-items:center;gap:var(--s1);font-size:var(--fs-l);font-weight:var(--fw-black);line-height:var(--lh-tight);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mbuy .sp b small{font-size:var(--fs-s);font-weight:var(--fw-body);color:var(--mut)}
+.mbuy .spchev{display:none}
+.mbuy .sp span{display:block;max-width:100%;font-size:var(--fs-s);line-height:var(--lh-ui);color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mbuy .btn{flex:0 1 auto;min-width:0;min-height:48px;padding:0 var(--s4);white-space:nowrap}
+}
+/* mobile: the price alert is also in the bottom bar as a labelled button (the in-page panel stays) */
+@media (width < 900px){
+.rp2 .buycol>.pxwatch{margin-bottom:var(--s5)} /* same 24px as the body panels below it (was 0 on phones) */
+.stickycta .sbell{flex:none;width:auto;max-width:7.5rem;height:auto;min-height:48px;gap:var(--s1);padding:0 var(--s3);border:1.5px solid transparent;border-radius:var(--r);background:var(--lime);color:var(--navy);font-size:var(--fs-s);font-weight:var(--fw-head);line-height:var(--lh-tight);text-align:left}
+.stickycta .sbell .bell{width:18px;height:18px;flex:none}
+.stickycta .sbell .pxalert-lab{min-width:0;hyphens:manual}
+.stickycta .sbell:hover{background:var(--lime-2);color:var(--navy)}
+.stickycta .sbell[aria-pressed="true"]{background:var(--card);border-color:var(--green);color:var(--green)} /* same as the in-page .pxalert-cta */
+.stickycta .sbell[aria-pressed="true"] .bell{fill:currentColor}
+.stickycta .sbell::after{content:none}
+}
+/* small phones: price, labelled alert and Show prices share the bar, so tighten spacing instead of truncating */
+@media (width < 421px){
+.stickycta:has(.sbell){gap:var(--s2);padding-inline:var(--s3)}
+.stickycta:has(.sbell) .spchev{display:none}
+.stickycta:has(.sbell) .sp{min-width:min-content} /* the price never shrinks below its own width; */
+.stickycta:has(.sbell) .sp>span{width:0;min-width:100%} /* the shop name truncates instead */
+.stickycta:has(.sbell) #stickybuy{display:flex;align-items:center;justify-content:center;max-width:none;padding:0 var(--s3);line-height:var(--lh-tight);white-space:normal;overflow:visible;text-overflow:clip} /* long labels (de) wrap to two lines instead of truncating */
+.stickycta .sbell{padding:0 var(--s2)}
+}

@@ -45,8 +45,8 @@
 .ftr .news p{max-width:42rem}
 .ftr .news a{color:var(--lime);text-decoration:underline;text-underline-offset:.15em}
 .ftr .news a:hover{color:var(--on-dark)}
-.ftr .news .inline-form{flex-wrap:nowrap;align-items:center;gap:var(--s2)}
-.ftr .news .inline-form input[type="email"]{flex:1;min-width:0;width:auto;min-height:44px}
+.ftr .news .inline-form{flex-wrap:wrap;align-items:center;gap:var(--s2)}
+.ftr .news .inline-form input[type="email"]{flex:1 1 12rem;min-width:0;width:auto;min-height:44px}
 .ftr .news .inline-form .btn{flex:none}
 @media (width < 900px){
 .ftr .news .wrap{grid-template-columns:1fr;gap:var(--s4);padding-top:var(--s5);padding-bottom:var(--s4)}
@@ -55,5 +55,7 @@
 }
 .ftr .ok{color:var(--lime)}
 
-.ts-box{flex-basis:100%;margin:var(--s2) 0 0;min-height:65px}
+/* Turnstile renders only when a visitor must interact (appearance: interaction-only in sub.js), so reserve no space */
+.ts-box{flex-basis:100%;margin:0}
+.ts-box:has(iframe){margin-top:var(--s2)}
 .ts-box[hidden]{display:none}

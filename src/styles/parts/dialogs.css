@@ -46,3 +46,14 @@
 .rk-alert form{display:flex;flex-direction:column;gap:var(--s3)}
 .rk-alert input[type="email"]{width:100%;min-height:44px}
 .rk-alert-x{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:none;color:var(--ink);font-size:var(--fs-l);cursor:pointer}
+/* phones: the price-alert dialog is a bottom sheet like the price sheet (#pxsheet), not a centred modal */
+@media (width < 900px){
+.rk-alert{inset:auto 0 0;width:100vw;max-width:none;max-height:85dvh;margin:0;box-sizing:border-box;overflow:auto;padding:var(--s2) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom));border:0;border-radius:var(--r-l) var(--r-l) 0 0;box-shadow:var(--sh-bar)}
+.rk-alert::before{content:"";display:block;width:40px;height:5px;margin:var(--s1) auto var(--s3);border-radius:var(--r-xs);background:var(--line-2)}
+.rk-alert[open]{animation:alert-sheet-up var(--t-sheet) ease-out}
+.rk-alert-x{top:var(--s3)}
+}
+@keyframes alert-sheet-up{from{transform:translateY(100%)}to{transform:none}}
+@media (prefers-reduced-motion: reduce){
+.rk-alert[open]{animation:none}
+}

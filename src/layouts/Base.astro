@@ -109,14 +109,13 @@ dlg.addEventListener('click',e=>{if(e.target===dlg&&performance.now()-openedAt>5
 <form novalidate data-lang={L2}>
 <input type="email" required placeholder={D(L2).ui.emailPh} aria-label={D(L2).ui.emailLabel} autocomplete="email"/>
 <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
-<div class="ts-box" data-ts></div>
+<div class="ts-box" data-ts data-parity-skip></div>
 <button class="btn" type="submit">{D(L2).ui.alertBtn}</button>
 <p hidden class="ok" role="status"></p>
 <p class="muted small">{D(L2).ui.placeholderNote} <a href={url('privacy', L2)}>{D(L2).ui.privacy.toLowerCase()}</a>.</p>
 </form>
 </dialog>
 <script is:inline>window.WP_TS=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'1x00000000000000000000AA':'0x4AAAAAAF9_NrTkX1qVgewy';</script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <script is:inline src="/sub.js" defer></script><script is:inline src="/news.js" defer></script>
 <script is:inline>
 (()=>{const K='wp_saved',CAP=40,ok=x=>x&&(x.t==='r'||x.t==='s'||x.t==='b'||x.t==='g')&&typeof x.s==='string'&&/^[a-z0-9-]{1,80}$/.test(x.s);

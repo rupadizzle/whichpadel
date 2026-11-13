@@ -4,7 +4,9 @@ const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/
 const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); let bad=0; const F=(m)=>{bad++;console.log('FAIL',m);};
 const S='head-evo-speed-2025', T=new Date().toISOString().slice(0,10), Y=new Date(Date.now()-3*864e5).toISOString().slice(0,10);
 const of=(d,p,c,s=1,t=T)=>({d,p,c,u:`https://${d}/p/${S}`,s,t,min30:p-5});
-const O=[of('padelnuestro.com',90,'EUR'),of('allforpadel.com',80,'EUR',1,Y),of('decathlon.co.uk',70,'GBP'),of('padelsmith.co.uk',60,'GBP',0),of('tennis-warehouse.com',100,'USD'),of('mantissport.com',85,'EUR')];
+// $97 keeps Tennis Warehouse ~3% clear of its neighbours in GBP (Mantis ~£71, Padel Nuestro ~£75) and EUR (Padel Nuestro €90)
+// under daily FX moves; at $100 it sat 70p from Padel Nuestro and the order flipped with the 12 Nov rates.
+const O=[of('padelnuestro.com',90,'EUR'),of('allforpadel.com',80,'EUR',1,Y),of('decathlon.co.uk',70,'GBP'),of('padelsmith.co.uk',60,'GBP',0),of('tennis-warehouse.com',97,'USD'),of('mantissport.com',85,'EUR')];
 const API={updated:'x',r:{[S]:{...O[0],min90:80,since:T,drop:0,h:[],o:O}}};
 const dirs={en:'rackets',es:'es/palas',fr:'fr/raquettes',pt:'pt/raquetes',it:'it/racchette',de:'de/schlaeger'};
 async function page(path,w,ls={},api=API){const pg=await b.newPage({viewport:{width:w,height:800}}); await pg.addInitScript(o=>{for(const[k,v] of Object.entries(o)) localStorage[k]=v; localStorage.wp_geo_seen='1';},ls);
@@ -33,7 +35,7 @@ for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Numbe
 {const pg=await page('/rackets/'+S+'/',390,{wp_region:'ES',wp_cur:'EUR'}); const x=await info(pg); if(x.rows.map(r=>r[0]).join()!=='All For Padel,Tennis Warehouse,Padel Nuestro,Padelsmith'||!x.rows.every(r=>/€/.test(r[1]))) F('ES/EUR '+JSON.stringify(x.rows));
  if(!/3d ago/.test(await pg.locator('#pxcmp').textContent())) F('age text');
  await pg.evaluate(()=>WP.setRC('US','USD')); const y=await info(pg); // US is strict: only shops delivering to the US that charge in USD (no converted EU prices)
- if(y.rows[0][0]!=='Tennis Warehouse'||y.rows.length!==1||!/\$100/.test(y.rows[0][1])) F('live switch US '+JSON.stringify(y.rows)); await pg.close();}
+ if(y.rows[0][0]!=='Tennis Warehouse'||y.rows.length!==1||!/\$97/.test(y.rows[0][1])) F('live switch US '+JSON.stringify(y.rows)); await pg.close();}
 // expander: 7 shops delivering GB
 {const many=Array.from({length:7},(_,i)=>of('padelnuestro.com',100+i,'EUR')).map((o,i)=>({...o,d:i<3?'padelnuestro.com':'decathlon.co.uk',u:o.u+i}));
  const pg=await page('/rackets/'+S+'/',360,{wp_region:'GB',wp_cur:'GBP'},{updated:'x',r:{[S]:{...many[0],min90:1,since:T,drop:0,h:[],o:many}}});
