@@ -33,7 +33,7 @@ const page = (() => {
     const top = pickL(k, lang).slice(0, 10);
     const U = SITE + url('best', lang, k);
     const faq = B.faq(T, rule, top.length, top[0]?.model);
-    const FC = { en: ['Not sure which one fits you?', 'Answer 4 quick questions and get your best match with recent prices.', 'Find my racket'], es: ['¿No sabes cuál te va mejor?', 'Responde 4 preguntas rápidas y recibe tu pala ideal con precios recientes.', 'Encontrar mi pala'], fr: ['Vous hésitez ?', 'Répondez à 4 questions rapides et obtenez votre raquette idéale avec les prix récents.', 'Trouver ma raquette'], pt: ['Não sabe qual escolher?', 'Responda a 4 perguntas rápidas e receba a sua raquete ideal com preços recentes.', 'Encontrar a minha raquete'], it: ['Non sai quale fa per te?', 'Rispondi a 4 domande veloci e trova la racchetta giusta con i prezzi aggiornati.', 'Trova la mia racchetta'], de: ['Unsicher, welcher passt?', 'Beantworte 4 kurze Fragen und erhalte deinen passenden Schläger mit aktuellen Preisen.', 'Meinen Schläger finden'] }[lang] || [];
+    const FC = FCARD[lang] || [];
     return {
       locale: d.locale, title: B.title(T) + d.copy.titleSuffix, description: B.desc(SEO_PAGES[url('best', lang, k)]?.t?.replace(/ \| WhichPadel$/, '') || T, top.length, rackets.length),
       h1: title, pageUrl: U, lead: intro || '', eyebrow: u.updated(top.length),

@@ -61,7 +61,7 @@ if(okHost){ window.__pxLive=1; fetch(API,{signal:AbortSignal.timeout?AbortSignal
  document.addEventListener('keydown',e=>{const D=document.getElementById('pxsheet'); if(!D||D.hidden) return; if(e.key==='Escape'){e.preventDefault(); sheetClose(); return;}
   if(e.key==='Tab'){const F=[...D.querySelectorAll('a[href],button:not([hidden])')].filter(x=>x.offsetParent!==null); if(!F.length) return; const a=F[0], z=F[F.length-1];
    if(e.shiftKey&&(document.activeElement===a||document.activeElement===D.querySelector('.pxsp'))){e.preventDefault(); z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault(); a.focus();}}});
- const SC=document.getElementById('stickycta'); if(SC&&!SC.dataset.wired){SC.dataset.wired='1'; SC.addEventListener('click',()=>sheetOpen(false));}
+ const SC=document.getElementById('stickycta'); if(SC&&!SC.dataset.wired){SC.dataset.wired='1'; SC.addEventListener('click',e=>{if(e.target.closest('.rk-bell')) return; sheetOpen(false);});}
  let HD=90; const H=Array.isArray(e.h)?e.h.filter(x=>x&&x[1]>0):[];
  function hist(cv,f){const B=document.getElementById('pxhist'),S=document.getElementById('pxshist'); if(!H.length) return;
   const dd=new Set(H.map(x=>x[0])).size; if(dd<3){if(S){S.hidden=true;S.innerHTML='';} if(!B) return; const L=document.documentElement.lang||'en'; let d=H[0][0]; try{d=new Date(d+'T12:00:00Z').toLocaleDateString(L,{day:'numeric',month:'short'});}catch(_){} B.innerHTML=`<p class="pxsince">${C.since.replace('{d}',d)}</p>`; B.hidden=false; return;}

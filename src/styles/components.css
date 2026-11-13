@@ -63,6 +63,7 @@
 /* link pill */
 .gchips a,.hub-pre a,.brandlinks a{display:inline-block;min-height:0;padding:0 var(--s3);border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--ink);font-size:var(--fs-m);font-weight:var(--fw-ui);line-height:calc(var(--tap) - 2px);white-space:nowrap;text-decoration:none}
 .hub-pre a:not(.brandlinks a,.gchips a){line-height:calc(var(--ctl-d) - 2px)} /* hub filter presets: dense on desktop */
+.brandlinks a{max-width:100%;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis} /* long product names stay on one line inside narrow phones */
 .gchips a:hover,.hub-pre a:hover,.brandlinks a:hover{border-color:var(--green-2);color:var(--ink)}
 .gchips a.gall{background:var(--navy);border-color:var(--navy);color:var(--on-dark)}
 /* uppercase micro label */

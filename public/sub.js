@@ -1,6 +1,6 @@
 // Shared handler for every email form (newsletter + price alerts), all languages. Strings come from data-* attributes.
 (()=>{
-function mount(el){if(!el||el.dataset.tsOn||!window.turnstile||!window.WP_TS)return; try{el.dataset.tsOn=window.turnstile.render(el,{sitekey:window.WP_TS,size:'compact'});}catch(e){}}
+function mount(el){if(!el||el.dataset.tsOn||!window.turnstile||!window.WP_TS)return; try{el.dataset.tsOn=window.turnstile.render(el,{sitekey:window.WP_TS,size:'compact',appearance:'interaction-only'});}catch(e){}}
 function token(f){const el=f&&f.querySelector('[data-ts]'); if(el&&el.dataset.tsOn&&window.turnstile) return window.turnstile.getResponse(el.dataset.tsOn)||''; return '';}
 function reset(f){const el=f&&f.querySelector('[data-ts]'); if(el&&el.dataset.tsOn&&window.turnstile) try{window.turnstile.reset(el.dataset.tsOn)}catch(e){}}
 function mountAll(){document.querySelectorAll('[data-ts]').forEach(mount);}

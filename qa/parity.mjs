@@ -8,7 +8,8 @@ const first=d=>fs.readdirSync('dist/'+d,{withFileTypes:true}).filter(e=>e.isDire
 const brand=first('brands'), y27=fs.readdirSync('dist/brands').find(b=>fs.existsSync(`dist/brands/${b}/2027/index.html`));
 const vs=fs.readdirSync('dist/compare').find(x=>x.includes('-vs-'));
 const EN={home:'/',guide:'/padel-rackets/',compare:'/rackets/',bestIndex:'/best/',best:'/best/best-value-padel-rackets/',racket:`/rackets/${first('rackets')}/`,brands:'/brands/',brand:`/brands/${brand}/`,brand2027:`/brands/${y27}/2027/`,players:'/players/',player:`/players/${first('players')}/`,vs:`/compare/${vs}/`,tool:'/tools/real-weight/',bf:'/black-friday/',privacy:'/privacy/',affiliate:'/affiliate-disclosure/',about:'/about/'};
-const alts=p=>{const h=fs.readFileSync('dist'+p+'index.html','utf8'); const o={}; for(const m of h.matchAll(/hreflang="([a-z]{2})" href="https:\/\/whichpadel\.com([^"]+)"/g)) o[m[1]]=m[2]; return o;};
+// language versions: hreflang tags where the page is indexed, else the language picker links (noindex pages keep all six there, MC-302)
+const alts=p=>{const h=fs.readFileSync('dist'+p+'index.html','utf8'); const o={}; for(const m of h.matchAll(/hreflang="([a-z]{2})" href="https:\/\/whichpadel\.com([^"]+)"/g)) o[m[1]]=m[2]; for(const m of h.matchAll(/<a[^>]*href="(\/[^"]*)"[^>]*hreflang="([a-z]{2})"/g)) if(!o[m[2]]) o[m[2]]=m[1]; return o;};
 const FT=['home','racket','compare','vs','best','guide','brand','player'];
 const sets=Object.entries(EN).filter(([t])=>!process.env.QA_FAST||FT.includes(t)).map(([t,p])=>[t,alts(p)]); if(!process.env.QA_FAST) sets.push(['404',Object.fromEntries(LANGS.map(l=>[l,l==='en'?'/404.html':`/${l}/404.html`]))]);
 const SIG=()=>{const STATE=['cv','open','show','active','on','sel','nc']; /* nc = shop delivery unknown for the visitor's region: data, not layout */const PROPS=['paddingTop','paddingRight','paddingBottom','paddingLeft','marginTop','marginBottom','rowGap','columnGap','fontSize','borderRadius','display'];
@@ -18,7 +19,8 @@ const SIG=()=>{const STATE=['cv','open','show','active','on','sel','nc']; /* nc 
   const ks=[]; for(const c of kids){const s=skel(c,d+1); if(ks.at(-1)!==s) ks.push(s);} return key(e)+(ks.length?'['+ks.join(',')+']':''); };
  const sp=[]; const visit=(e,d)=>{ if(d>3) return; const cs=getComputedStyle(e); sp.push(key(e)+' '+PROPS.map(p=>cs[p]).join(' ')); const seen=new Set(); for(const c of e.children){if(c.hasAttribute('data-parity-skip')||(['B','EM','I','SMALL','SPAN','STRONG','A'].includes(c.tagName)&&!(c.className&&c.tagName!=='A'))) continue; /* inline text elements vary with copy; same rule as the skeleton */ const k=key(c); if(seen.has(k)||['SCRIPT','TEMPLATE'].includes(c.tagName)) continue; seen.add(k); visit(c,d+1);} };
  roots.forEach(r=>visit(r,0)); return {skel:roots.map(r=>skel(r,0)), sp:[...new Set(sp)]}; };
-const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const fails=[]; let n=0;
+const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; // CI is Linux; local runs are macOS
+const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const fails=[]; let n=0;
 for(const w of [390,1280]){ const ctx=await b.newContext({viewport:{width:w,height:900}});
  for(const [t,set] of sets){ const res={}; for(const l of LANGS){ if(!set[l]){fails.push(`${t}: no ${l} version`);continue;} const pg=await ctx.newPage(); const errs=[];
    pg.on('pageerror',e=>errs.push(e.message)); await pg.goto(base+set[l],{waitUntil:process.env.QA_FAST?'load':'networkidle'}).catch(()=>{}); await pg.waitForTimeout(300); res[l]=await pg.evaluate(SIG); if(errs.length) fails.push(`${t} ${l} ${w}: JS error ${errs[0]}`); await pg.close(); n++; }

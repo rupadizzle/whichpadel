@@ -9,6 +9,7 @@ const money=x=>{const q=pick(x,DEFAULT_REGION(lang)); return q.none?'':fmt(q.v,q
 const MORE=[...shoes.map(s=>({t:'s',s:s.slug,b:s.brand,m:s.name,y:s.year||'',i:shoeImg(s)||'',p:money(s)})),...balls.map(b=>({t:'b',s:b.slug,b:b.brand,m:b.name,y:'',i:ballImg(b)||'',p:money(b)})),...bags.map(g=>({t:'g',s:g.slug,b:g.brand,m:g.name,y:g.year||'',i:bagImg(g)||'',p:money(g)}))];
 const ballBase=url('ball',lang,'X').replace(/X\/$/,'');
 const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
+import { ACCOUNTS } from '../lib/features.js';
 ---
 <Base lang={d.locale} title={u.savedH+d.copy.titleSuffix} description={u.savedDesc} noindex preload="/cards.json">
 <Crumbs label={u.breadcrumb} items={[{href:url('home',lang),label:u.home},{label:u.savedNav}]}/>
@@ -19,13 +20,13 @@ const bagBase=(url('bag',lang,'X')||url('bag','en','X')).replace(/X\/$/,'');
 <div class="hub cat"><ul class="hub-grid" id="saved-list"></ul></div>
 <RkCardTemplate lang={lang}/>
 <p id="saved-cmp-wrap" hidden><a class="btn" id="saved-cmp" href={url('rackets',lang)}>{u.savedCompare}</a></p>
-<section class="panel" id="saved-keep">
+<section class="panel" id="saved-keep" hidden={!ACCOUNTS} data-off={ACCOUNTS ? undefined : ""}>
  <h2 class="h3">{u.keepH}</h2>
  <p class="muted">{u.keepP} <a href={url('privacy',lang)}>{u.privacy}</a></p>
  <form id="keep-form" class="inline-form" novalidate>
   <input type="email" required placeholder={u.emailPh} aria-label={u.emailLabel} autocomplete="email"/>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"/>
-  <div class="ts-box" data-ts></div>
+  <div class="ts-box" data-ts data-parity-skip></div>
   <button class="btn btn-accent" type="submit">{u.keepBtn}</button>
   <p hidden class="ok" id="keep-msg" role="status"></p>
  </form>
@@ -54,7 +55,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
  const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
  let acctQuiet=false;
  function showIn(email){ try{localStorage.wp_acct='1'}catch(e){} $('saved-keep').hidden=true; $('saved-acct').hidden=false; $('saved-email').textContent=email||''; $('saved-device').hidden=true; if(!acctQuiet) document.dispatchEvent(new CustomEvent('wp:acct',{detail:{on:true,email:email||''}})); }
- function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=false; $('saved-acct').hidden=true; $('saved-device').hidden=false; if(!acctQuiet) document.dispatchEvent(new CustomEvent('wp:acct',{detail:null})); }
+ function showOut(){ try{localStorage.removeItem('wp_acct')}catch(e){} $('saved-keep').hidden=$('saved-keep').hasAttribute('data-off'); $('saved-acct').hidden=true; $('saved-device').hidden=false; if(!acctQuiet) document.dispatchEvent(new CustomEvent('wp:acct',{detail:null})); }
  document.addEventListener('wp:acct',e=>{acctQuiet=true; if(e.detail&&e.detail.on) showIn(e.detail.email); else showOut(); acctQuiet=false;});
  function render(){
   const by=Object.fromEntries(cat.map(r=>[key(r),r]));

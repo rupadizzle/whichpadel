@@ -82,7 +82,7 @@ Page-only: `hub.css` (catalogues and cards), `bf.css` (Black Friday).
 
 ## Page rhythm
 
-- **Header or hero to content:** `--s6` (32px) on every page type, measured by `padqa.mjs`.
+- **Header or hero to content:** `--s6` (32px) on every page type, measured by `qa/padqa.mjs`.
 - **Content to footer:** `--s6`. The last child's bottom margin is zeroed, skipping scripts.
 - **Catalogue hubs** (`main > .crumbs + .cat`): compact `--s2` top.
 
@@ -91,4 +91,4 @@ Page-only: `hub.css` (catalogues and cards), `bf.css` (Black Friday).
 - Use a token, never a raw value. If no token fits, add one to `tokens.css` with a comment.
 - Prefer an existing component. If a page needs a variant, add it to `components.css`, not to a page file.
 - No `:not(#_)` or `!important` to win the cascade. Delete or lower the rule that is winning instead. `!important` is reserved for state utilities (`[hidden]`, honeypot, reduced motion) and needs a `stylelint-disable` comment with a reason.
-- Check any new page at 360/390/412/768/1280 with `layoutqa.mjs` and `padqa.mjs`.
+- Check any new page at 360/390/412/768/1280 with `qa/layoutqa.mjs` and `qa/padqa.mjs`.

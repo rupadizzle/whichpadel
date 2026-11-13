@@ -84,3 +84,8 @@
 }
 /* home hero counts: four product counts in one row, the paid-placements note on its own line, same in every language */
 @media (width < 600px){.hero .stats{display:grid;grid-template-columns:repeat(4,min-content);gap:var(--s2) var(--s4)}.hero .stats>:nth-child(5){grid-column:1 / -1;display:flex;align-items:baseline;gap:var(--s2)}.hero .stats>:nth-child(5) b{font-size:var(--fs-base)}}
+/* hero: one primary action into the finder */
+.hero-go{margin:var(--s4) 0 0}
+@media (width < 421px){
+.hero-go .btn{display:flex;width:100%;justify-content:center}
+}

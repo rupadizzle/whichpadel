@@ -4,3 +4,5 @@
 .rk-b:has(.save-heart),.brand:has(.save-heart){display:flex;align-items:center;justify-content:space-between;gap:var(--s2);min-width:0}
 .rk-b:has(.save-heart)>span:first-child,.brand:has(.save-heart)>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cat .hub-grid .rk:has(.rk-x) .rk-b:has(.save-heart){overflow:visible;text-overflow:clip}
+/* overall spec score on product cards (RkCard, HubRacketScript): small badge in the image's top-right corner */
+.rk-sc{position:absolute;top:var(--s1);right:var(--s1);z-index:2;min-width:24px;padding:var(--s0) var(--s1);border-radius:var(--r-pill);background:var(--navy);color:var(--lime);font-size:var(--fs-xs);font-weight:var(--fw-black);line-height:var(--lh-tight);text-align:center;font-variant-numeric:tabular-nums}

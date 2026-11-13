@@ -18,16 +18,16 @@ par(){ local pids=() names=() pats=(); for j in "$@"; do IFS='|' read -r n p c <
  local bad=0; for i in "${!pids[@]}"; do wait ${pids[$i]}; grep -qE "${pats[$i]}" $L/${names[$i]}.log || { echo "FAIL ${names[$i]} (see $L/${names[$i]}.log)"; tail -15 $L/${names[$i]}.log; bad=1; }; done
  [ $bad = 0 ] || fail QA; }
 smoke(){
- step "smoke QA (parallel, 390+1280)"; export QA_FAST=1 QA_WIDTHS=390,1280 QA_PAGES=$(node scripts/smoke-pages.mjs)
- par "curtext|CURTEXT PASS|node curtextqa.mjs" "mix|^0 issues|node mixqa.mjs" "px|PXQA PASS|node pxqa.mjs" "seo|0 issues|NODE_OPTIONS=--max-old-space-size=6144 node seoqa.mjs" \
-     "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs" "parity|, 0 mismatches|node parity.mjs http://127.0.0.1:${QA_PORT:-4987}" \
-     "pad|PASS|node padqa.mjs" "geo|GEOQA PASS|node geoqa.mjs" "cmp|CMPQA PASS|node cmpqa.mjs" "picker|PICKERQA PASS|node pickerqa.mjs" "cur|curqa: pass|node curqa.mjs http://127.0.0.1:${QA_PORT:-4987}"
+ step "smoke QA (parallel, 360+390+1280)"; export QA_FAST=1 QA_WIDTHS=360,390,1280 QA_PAGES=$(node scripts/smoke-pages.mjs)
+ par "curtext|CURTEXT PASS|node qa/curtextqa.mjs" "mix|^0 issues|node qa/mixqa.mjs" "px|PXQA PASS|node qa/pxqa.mjs" "seo|0 issues|NODE_OPTIONS=--max-old-space-size=6144 node qa/seoqa.mjs" \
+     "qa|QA PASS|node qa/qa.mjs" "layout|LAYOUT VIOLATIONS 0|node qa/layoutqa.mjs" "parity|, 0 mismatches|node qa/parity.mjs http://127.0.0.1:${QA_PORT:-4987}" \
+     "pad|PASS|node qa/padqa.mjs" "geo|GEOQA PASS|node qa/geoqa.mjs" "cmp|CMPQA PASS|node qa/cmpqa.mjs" "picker|PICKERQA PASS|node qa/pickerqa.mjs" "cur|curqa: pass|node qa/curqa.mjs http://127.0.0.1:${QA_PORT:-4987}"
  unset QA_FAST QA_WIDTHS QA_PAGES; }
 full(){
  step "full QA (all pages/sizes)"
- par "curtext|CURTEXT PASS|node curtextqa.mjs" "mix|^0 issues|node mixqa.mjs" "px|PXQA PASS|node pxqa.mjs" "cmp|CMPQA PASS|node cmpqa.mjs" "geo|GEOQA PASS|node geoqa.mjs" "pad|PAD .*PASS|node padqa.mjs"
- par "qa|QA PASS|node qa.mjs" "layout|LAYOUT VIOLATIONS 0|node layoutqa.mjs"; }
+ par "curtext|CURTEXT PASS|node qa/curtextqa.mjs" "mix|^0 issues|node qa/mixqa.mjs" "px|PXQA PASS|node qa/pxqa.mjs" "cmp|CMPQA PASS|node qa/cmpqa.mjs" "geo|GEOQA PASS|node qa/geoqa.mjs" "pad|PAD .*PASS|node qa/padqa.mjs"
+ par "qa|QA PASS|node qa/qa.mjs" "layout|LAYOUT VIOLATIONS 0|node qa/layoutqa.mjs"; }
 live(){ # post-deploy check against a deployed URL
  step "check $1"; sleep 3
  for p in / /es/ /rackets/head-evo-speed-2025/ /compare/ /best/best-round-padel-rackets/ /api/prices /api/all-prices /api/shoe-prices; do c=$(curl -s -o /dev/null -w '%{http_code}' "$1$p"); [ "$c" = 200 ] || fail "$1$p -> $c"; done
- node subqa.mjs "$1" >$L/sub.log 2>&1 || { cat $L/sub.log; fail "subqa $1"; } }
+ node qa/subqa.mjs "$1" >$L/sub.log 2>&1 || { cat $L/sub.log; fail "subqa $1"; } }
