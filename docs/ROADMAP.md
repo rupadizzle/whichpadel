@@ -13,6 +13,7 @@ The one list of what is still to do. Tick items off (or delete them) in the same
 
 - [ ] **Merge the spec-fills PR**, then delete the `data/fill-gaps-oct29` branch on GitHub. Everything worth keeping from it is then on `main`.
 - [ ] **Visual refresh**: needs a direction first (see below).
+- [ ] **Set up accounts (sign-in and synced saved lists).** Create the `whichpadel-accounts` D1 database and Cloudflare Email Sending for `noreply@whichpadel.com`, bind both in `wrangler.toml` (`ACCT`, `EMAIL`), then set `ACCOUNTS = true` in `src/lib/features.js`. Until then `/api/auth/*`, `/api/saved`, `/api/news` and `/api/alert` return 503, Sign in is hidden, and price alerts and Black Friday signups go to `/api/subscribe` (#34).
 - [ ] **Test a real signup on a phone.** Since #32, Turnstile loads only when a form nears the screen and shows only if Cloudflare needs an interaction. Submit the footer newsletter and a racket price alert once on whichpadel.com and confirm both arrive. (Automated test browsers get no Turnstile token, before or after #32, so this needs a real device.)
 - [ ] **Fill racket specs and shop links.** Only 319 of 1,432 rackets have ratings, shop links and an indexed page; balance is missing on more than half. Biggest gaps by brand are in `PAUSED.md`. This is the main lever for traffic and income.
 - [ ] **About page translations are shorter than English.** English has four headed sections; es/fr/pt/it/de have one. `qa/parity.mjs` flags it on every run.
