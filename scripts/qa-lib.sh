@@ -1,5 +1,5 @@
 # Shared by deploy.sh / preview.sh. Sourced; expects set -euo pipefail.
-export CLOUDFLARE_ACCOUNT_ID=d8202fcd97eb92f367c3d0faf4b31372
+if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then echo "ABORT: CLOUDFLARE_ACCOUNT_ID is not set" >&2; exit 1; fi
 W="npx -y -p node@22 -p wrangler@latest wrangler pages deploy dist --project-name whichpadel"
 L=${WPQA_DIR:-/tmp/wpqa}; mkdir -p $L
 fail(){ echo "ABORT: $1"; exit 1; }

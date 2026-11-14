@@ -18,12 +18,12 @@ async function sendLink(env, email, link, lang){
  if(!env.EMAIL) return 'mail';
  const [subject, body]=(MAIL[lang]||MAIL.en);
  try{
-  await env.EMAIL.send({from:FROM,to:email,subject,text:body.replace('{url}',link),html:mailHtml(body,link)});
+  await env.EMAIL.send({from:FROM,to:email,subject,text:body.replace('{url}',link),html:mailHtml(body,link),replyTo:{email:'hello@whichpadel.com',name:'WhichPadel'}});
   return 'ok';
  }catch{ return 'send'; }
 }
 export async function onRequestPost({request,env}){
- if(!env.ACCT) return J({ok:false},503);
+ if(!env.ACCT) return J({ok:false,err:'soon'},503);
  if(!originOk(request)) return J({ok:false},403);
  if(await limited(request,'auth',env)) return J({ok:false},429);
  if(Number(request.headers.get('content-length')||0)>8192) return J({ok:false},413);
@@ -32,6 +32,7 @@ export async function onRequestPost({request,env}){
  if(!await turnstileOk(request,env,b.turnstile||b['cf-turnstile-response'])) return J({ok:false},400);
  const email=String(b.email||'').trim().toLowerCase(); if(!RX.test(email)) return J({ok:false},400);
  if(email.endsWith('@qa.invalid')) return J({ok:true,dry:true});
+ if(!env.EMAIL) return J({ok:false,err:'soon'},503);
  const lang=LANG.has(b.lang)?b.lang:'en';
  await readyDb(env);
  const now=new Date().toISOString();

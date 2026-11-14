@@ -36,10 +36,15 @@ jobs:
           pkill -f "astro preview" || true
           [ $bad = 0 ] || echo "::error title=Site checks failed::See the run summary"
           exit $bad
+      - name: Deploy sender Worker
+        if: github.ref_name == 'main'
+        run: npx -y wrangler@latest deploy --config email-send/wrangler.toml
       - name: Deploy to Cloudflare Pages
+        if: github.ref_name == 'main' || contains(github.event.head_commit.message, '[preview]') || contains(join(github.event.commits.*.message, '\n'), '[preview]')
         shell: bash
         run: set -o pipefail; npx -y wrangler@latest pages deploy dist --project-name whichpadel --branch "$GITHUB_REF_NAME" --commit-hash "$GITHUB_SHA" | tee deploy.log
       - name: Live check
+        if: github.ref_name == 'main' || contains(github.event.head_commit.message, '[preview]') || contains(join(github.event.commits.*.message, '\n'), '[preview]')
         run: |
           base=https://whichpadel.com
           [ "$GITHUB_REF_NAME" = main ] || base=$(grep -oE 'https://[a-z0-9-]+\.whichpadel\.pages\.dev' deploy.log | tail -1)

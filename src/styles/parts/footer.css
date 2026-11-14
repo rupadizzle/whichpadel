@@ -59,3 +59,5 @@
 .ts-box{flex-basis:100%;margin:0}
 .ts-box:has(iframe){margin-top:var(--s2)}
 .ts-box[hidden]{display:none}
+
+.ftr .small a{display:inline-block;min-height:var(--tap);padding-block:var(--s2);line-height:var(--lh-ui)}

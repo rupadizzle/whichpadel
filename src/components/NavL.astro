@@ -28,16 +28,16 @@ import { ACCOUNTS } from '../lib/features.js';
 <script is:inline define:vars={{SIGN:u.signIn, ACCT:u.account, OK:u.keepOk, ERR:u.keepErr, MAIL:u.keepMail}}>
 (()=>{const btn=document.getElementById('acct-btn'), pop=document.getElementById('acct-pop'), lab=document.getElementById('acct-lab'), form=document.getElementById('acct-form'), inn=document.getElementById('acct-in'), mail=document.getElementById('acct-email');
  if(!btn||!pop) return;
- const setOpen=on=>{pop.hidden=!on; btn.setAttribute('aria-expanded',on?'true':'false'); if(on){const f=form.hidden?document.getElementById('acct-out'):form.querySelector('input[type=email]'); if(f) f.focus();}};
+ const setOpen=on=>{pop.hidden=!on; btn.setAttribute('aria-expanded',on?'true':'false'); if(on){if(window.wpTs) wpTs.load(); const f=form.hidden?document.getElementById('acct-out'):form.querySelector('input[type=email]'); if(f) f.focus();}};
  const short=email=>{const name=(email||'').split('@')[0]; if(!name) return ACCT; return name.length>18?name.slice(0,17)+'…':name;};
  const apply=d=>{const on=!!(d&&d.on); window.wpAcct=on?{on:true,email:(d&&d.email)||''}:null; form.hidden=on; inn.hidden=!on; mail.textContent=on?(d.email||''):''; lab.textContent=on?short(d.email):SIGN; if(on&&d.email) btn.setAttribute('aria-label',d.email); else btn.removeAttribute('aria-label');};
  btn.onclick=()=>setOpen(pop.hidden);
  document.addEventListener('click',e=>{if(!pop.hidden&&!document.getElementById('acct').contains(e.target)) setOpen(false);});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){setOpen(false); btn.focus();}});
  document.addEventListener('wp:acct',e=>apply(e.detail));
- form.onsubmit=async e=>{e.preventDefault(); const i=form.querySelector('input[type=email]'), b=form.querySelector('button'), msg=document.getElementById('acct-msg'); if(!i.checkValidity()){i.reportValidity(); return;} b.disabled=true; let status=0;
-  try{const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:form.querySelector('input.hp')?.value||'',turnstile:window.wpTs&&wpTs.token(form)||''})}); status=r.status;}catch(err){status=0;}
-  b.disabled=false; msg.hidden=false; msg.textContent=status===503?MAIL:(status>=200&&status<300)?OK:ERR;};
+ form.onsubmit=async e=>{e.preventDefault(); const i=form.querySelector('input[type=email]'), b=form.querySelector('button'), msg=document.getElementById('acct-msg'); if(!i.checkValidity()){i.reportValidity(); return;} if(window.wpTs) await wpTs.ensure(form); b.disabled=true; let status=0, err='';
+  try{const r=await fetch('/api/auth/start',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({email:i.value.trim(),lang:(document.documentElement.lang||'en').slice(0,2),next:location.pathname,website:form.querySelector('input.hp')?.value||'',turnstile:window.wpTs&&wpTs.token(form)||''})}); status=r.status; try{err=(await r.json()).err||'';}catch(x){}}catch(e2){status=0;}
+  b.disabled=false; msg.hidden=false; msg.textContent=window.wpTs?wpTs.copy(status,err,MAIL,OK,ERR):(err==='soon'||err==='mail'||status===503)?MAIL:(status>=200&&status<300)?OK:ERR;};
  document.getElementById('acct-out').onclick=async()=>{try{await fetch('/api/auth/out',{method:'POST',credentials:'same-origin'});}catch(e){} try{localStorage.removeItem('wp_acct')}catch(e){} apply(null); document.dispatchEvent(new CustomEvent('wp:acct',{detail:null})); setOpen(false);};
  document.addEventListener('DOMContentLoaded',async()=>{
   const q=new URLSearchParams(location.search), own=!!document.getElementById('keep-form');

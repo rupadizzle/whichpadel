@@ -1,0 +1,8 @@
+name = "whichpadel-send"
+main = "src/index.js"
+compatibility_date = "2026-10-20"
+workers_dev = false
+
+[[send_email]]
+name = "MAIL"
+allowed_sender_addresses = ["noreply@whichpadel.com"]
