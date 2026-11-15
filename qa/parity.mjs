@@ -2,6 +2,8 @@
 // (tags + classes; repeated identical siblings collapsed) and the same computed spacing at 390px and 1280px.
 // Usage: node parity.mjs [baseUrl]   Exit 1 on any mismatch.
 import { chromium } from 'playwright-core'; import fs from 'fs';
+// Pages open as a visitor who answered the cookie dialog (it is centred and blocks the page until answered).
+const ckCtx=async(b,o)=>{const c=await b.newContext(o); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); return c;};
 const LANGS=['en',...fs.readdirSync('dist').filter(d=>/^[a-z]{2}$/.test(d)&&fs.existsSync(`dist/${d}/index.html`))];
 const base=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,'');
 const first=d=>fs.readdirSync('dist/'+d,{withFileTypes:true}).filter(e=>e.isDirectory()&&fs.existsSync(`dist/${d}/${e.name}/index.html`)).map(e=>e.name).sort()[0];
@@ -21,7 +23,7 @@ const SIG=()=>{const STATE=['cv','open','show','active','on','sel','nc']; /* nc 
  roots.forEach(r=>visit(r,0)); return {skel:roots.map(r=>skel(r,0)), sp:[...new Set(sp)]}; };
 const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; // CI is Linux; local runs are macOS
 const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const fails=[]; let n=0;
-for(const w of [390,1280]){ const ctx=await b.newContext({viewport:{width:w,height:900}});
+for(const w of [390,1280]){ const ctx=await ckCtx(b,{viewport:{width:w,height:900}});
  for(const [t,set] of sets){ const res={}; for(const l of LANGS){ if(!set[l]){fails.push(`${t}: no ${l} version`);continue;} const pg=await ctx.newPage(); const errs=[];
    pg.on('pageerror',e=>errs.push(e.message)); await pg.goto(base+set[l],{waitUntil:process.env.QA_FAST?'load':'networkidle'}).catch(()=>{}); await pg.waitForTimeout(300); res[l]=await pg.evaluate(SIG); if(errs.length) fails.push(`${t} ${l} ${w}: JS error ${errs[0]}`); await pg.close(); n++; }
   for(const l of LANGS.slice(1)){ if(!res.en||!res[l]) continue;

@@ -1,8 +1,10 @@
 // Email forms (newsletter + price alert) post to /api/subscribe and show the localized result. Uses @qa.invalid (validated, never stored).
 import { chromium } from 'playwright-core'; import fs from 'fs';
+// Pages open as a visitor who answered the cookie dialog (it is centred and blocks the page until answered).
+const ckCtx=async(b,o)=>{const c=await b.newContext(o); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); return c;};
 const B=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,''); const errs=[];
 const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'; // CI is Linux; local runs are macOS
-const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const pg=await (await b.newContext({viewport:{width:390,height:844}})).newPage();
+const b=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); const pg=await (await ckCtx(b,{viewport:{width:390,height:844}})).newPage();
 const R=(await (await fetch(B+'/cards.json')).json())[0].s;
 // Real submits need a Turnstile token. Cloudflare's always-pass test keys are used on localhost (Base.astro WP_TS); on the
 // live site automated browsers get no token, so there the forms are only checked to render. Run against

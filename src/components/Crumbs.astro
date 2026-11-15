@@ -1,5 +1,5 @@
 ---
 // Breadcrumb trail for every page type. items: [{ href?, label }], last item is the current page.
-const { label, items } = Astro.props;
+const { label, items, cls = '' } = Astro.props; // cls: extra class, e.g. crumbs-hub (catalogue pages hide the trail on phones)
 ---
-<nav class="crumbs" aria-label={label}><ol>{items.map((c, i) => <li>{c.href && i < items.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}</ol></nav>
+<nav class:list={['crumbs', cls]} aria-label={label}><ol>{items.map((c, i) => <li>{c.href && i < items.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}</ol></nav>

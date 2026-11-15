@@ -19,7 +19,7 @@ for(const f of files){const h=fs.readFileSync(f,'utf8'); if(/http-equiv="refresh
 console.log(`pickerqa: ${n} pages checked statically, ${types.size} sampled for geometry`);
 const CHROME=fs.existsSync('/usr/bin/google-chrome')?'/usr/bin/google-chrome':'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const br=await chromium.launch({executablePath:CHROME,args:['--no-sandbox']}); 
-for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1024,1181,1280,1440])){const pg=await br.newPage({viewport:{width:w,height:800}});
+for(const w of (process.env.QA_WIDTHS?process.env.QA_WIDTHS.split(',').map(Number):[360,390,1024,1181,1280,1440])){const pg=await br.newPage({viewport:{width:w,height:800}}); await pg.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); /* consent answered: the centred cookie dialog blocks the page */
  for(const rel of types.values()){ await pg.goto(B+rel,{waitUntil:'domcontentloaded'});
   const r=await pg.evaluate(()=>{const o=[]; const hd=document.querySelector('.hdr .wrap'); const R=e=>e.getBoundingClientRect();
    const kids=[...hd.children].filter(e=>{const s=getComputedStyle(e);return s.display!=='none'&&s.position!=='absolute'&&R(e).width>0&&e.tagName!=='SCRIPT'&&e.tagName!=='DIALOG'});
