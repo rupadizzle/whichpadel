@@ -50,7 +50,7 @@ const hub = (() => {
     const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const shortM = r => { let s = r.model || ''; if (r.brand) s = s.replace(new RegExp('^' + escRe(r.brand) + '\\s+', 'i'), ''); if (r.year) s = s.replace(new RegExp('\\s+' + r.year + '\\s*$'), ''); return s.trim() || r.model; };
     const CKL = CK_L[lang] || CK_L.en;
-    const spec = r => [r.audience !== 'unisex' && audL(r.audience), r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`, r.carbon || `${CKL[0]}: ${CKL[1].toLowerCase()}`].filter(Boolean).join(' · ');
+    const spec = r => [r.audience !== 'unisex' && audL(r.audience), r.shape && t.shapeCap[r.shape], r.weightMin && `${r.weightMin}${r.weightMax && r.weightMax !== r.weightMin ? '–' + r.weightMax : ''}\u00a0g`, r.carbon].filter(Boolean).join(' · ');
     const ckV = [...new Set(rackets.map(r => r.carbon).filter(Boolean))].sort((a, b) => parseInt(a) - parseInt(b));
     const pu = i => url('rackets', lang, i);
     const U = SITE + pu(p);
@@ -129,7 +129,7 @@ const hub = (() => {
 })();
 ---
 <Base lang={hub.locale} title={hub.title} description={hub.description} jsonld={hub.jsonld}>
-<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:hub.crumb}]}/>
+<Crumbs label={u.breadcrumb} items={[{href:url('home', lang),label:u.home},{label:hub.crumb}]} cls="crumbs-hub"/>
 <div class:list={['hub', 'cat', hub.cat]} id="hub" data-p={hub.page}>
 <header class="page-hd hub-hd"><h1>{hub.h1}</h1><p>{hub.intro}</p></header>
 <div class="hub-bar">

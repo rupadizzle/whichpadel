@@ -63,7 +63,7 @@ function check(){
 }
 export async function layoutQA(b){
  const issues=[];
- for(const w of WIDTHS){ const c=await b.newContext({viewport:{width:w,height:900}}); const p=await c.newPage();
+ for(const w of WIDTHS){ const c=await b.newContext({viewport:{width:w,height:900}}); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); /* consent answered: the centred cookie dialog blocks the page */ const p=await c.newPage();
   for(const u of PAGES){ await p.goto(B+u); await p.waitForTimeout(300); for(const s of [...new Set(await p.evaluate(check))]) issues.push(`[layout ${w} ${u}] ${s}`);
    if(u==='/'||u==='/es/'){ // open states: region picker sheet, mobile menu
     await p.click('#rgn-btn'); await p.waitForTimeout(250); for(const s of [...new Set(await p.evaluate(check))]) issues.push(`[layout ${w} ${u} picker-open] ${s}`);

@@ -28,7 +28,7 @@ const near=r=>window.WP?offers(r).some(o=>WP.shop(o.d,o.c)==='y'&&o.s!==0):offer
 const saving=r=>{const os=reach(r); if(os.length<2) return (r.drop||0); const v=os.map(o=>o.p); return Math.max(r.drop||0,(Math.max(...v)-Math.min(...v))/Math.max(...v));};
 const ptxt=r=>{const q=best(r); return (!q||q.v==null)?T.none:T.fromP.replace('{p}',q.txt);};
 const shortM=r=>{let s=r.m||''; if(r.b) s=s.replace(new RegExp('^'+r.b.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s+','i'),''); if(r.y) s=s.replace(new RegExp('\\s+'+r.y+'\\s*$'),''); return s.trim()||r.m;};
-const spec=r=>[r.a&&r.a!=='unisex'&&T.auds[['men','women','junior'].indexOf(r.a)],r.sh&&T.shapeCap[r.sh],r.w0&&`${r.w0}${r.w1&&r.w1!==r.w0?'–'+r.w1:''}\u00a0g`,r.ck&&r.ck!=='none'?r.ck:T.ckT[0]+': '+T.ckT[1].toLowerCase()].filter(Boolean).join(' · ');
+const spec=r=>[r.a&&r.a!=='unisex'&&T.auds[['men','women','junior'].indexOf(r.a)],r.sh&&T.shapeCap[r.sh],r.w0&&`${r.w0}${r.w1&&r.w1!==r.w0?'–'+r.w1:''}\u00a0g`,r.ck&&r.ck!=='none'&&r.ck].filter(Boolean).join(' · ');
 const card=(r,i)=>{const li=document.getElementById('rk-card').content.firstElementChild.cloneNode(true); const on=sel.includes(r.s); const id='hk-'+r.s;
  li.dataset.s=r.s; li.classList.toggle('sel',on);
  const a=li.querySelector('.rk-a'); a.href=T.rk+r.s+'/'; a.setAttribute('aria-labelledby',id);

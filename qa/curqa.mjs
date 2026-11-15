@@ -1,8 +1,10 @@
 // The country sets the currency. Choosing another country switches the currency, a reload keeps it,
 // and a shop that charges in another currency still carries the approx. marker.
 import { chromium } from 'playwright-core';
+// Pages open as a visitor who answered the cookie dialog (it is centred and blocks the page until answered).
+const ckCtx=async(b,o)=>{const c=await b.newContext(o); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); return c;};
 const B=(process.argv[2]||'http://127.0.0.1:'+(process.env.QA_PORT||4987)+'').replace(/\/$/,''); const errs=[]; const ok=(c,m)=>{ if(!c) errs.push(m); };
-const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const pg=await (await b.newContext({viewport:{width:390,height:844}})).newPage();
+const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']}); const pg=await (await ckCtx(b,{viewport:{width:390,height:844}})).newPage();
 const R=(await (await fetch(B+'/cards.json')).json()).find(r=>r.o?.length).s;
 for(const [home,rk] of [['/es/','/es/palas/'],['/','/rackets/']]){
  await pg.goto(B+home,{waitUntil:'networkidle'}); await pg.evaluate(()=>localStorage.clear()); await pg.goto(B+rk+R+'/',{waitUntil:'networkidle'});

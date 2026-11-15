@@ -33,6 +33,14 @@
 .page-hd p+p{margin-top:var(--s2)}
 .cat .page-hd{margin-bottom:var(--s3)}
 .cat .page-hd p{font-size:var(--fs-m);line-height:var(--lh-ui)}
+/* catalogue pages (VHub: rackets, shoes, balls, bags) on phones: products first. The one-level trail and the intro line go;
+   BreadcrumbList JSON-LD and the intro stay in the page for search, and desktop keeps both. */
+@media (width < 900px){
+.crumbs-hub{display:none}
+.hub-hd{margin-top:var(--s4)}
+.hub-hd h1{font-size:var(--fs-xl);margin-bottom:0}
+.hub-hd p{display:none}
+}
 .empty404{padding:var(--s4) 0 var(--s6)}
 
 /* ---------- page head: dark (editorial: lists, guides, brands, compare) ---------- */

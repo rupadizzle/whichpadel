@@ -2,17 +2,21 @@
 import { D, url } from '../i18n/index.js';
 const { lang='en' } = Astro.props; const u=D(lang).ui; const c=u.ck;
 ---
-<div id="ck-bn" class="ck-bn" role="region" aria-label={c.label} hidden><p id="ck-msg">{c.p} <a href={url('privacy',lang)}>{u.privacy}</a>.</p><div class="ck-act"><button type="button" class="btn" data-ck="0">{c.no}</button><button type="button" class="btn btn-accent" data-ck="1">{c.yes}</button></div></div>
+<div id="ck-bn" class="ck-bn" hidden><div class="ck-card" role="dialog" aria-modal="true" aria-label={c.label} aria-describedby="ck-msg"><p id="ck-msg">{c.p} <a href={url('privacy',lang)}>{u.privacy}</a>.</p><div class="ck-act"><button type="button" class="btn" data-ck="0">{c.no}</button><button type="button" class="btn btn-accent" data-ck="1">{c.yes}</button></div></div></div>
 <script is:inline>
 (()=>{const b=document.getElementById('ck-bn'); let v=null; try{v=localStorage.wp_ck}catch(e){}
-if(v!=='1'&&v!=='0') b.hidden=false;
+// centred dialog: focus Reject when shown so keyboard and screen-reader users land on the choice
+if(v!=='1'&&v!=='0'){b.hidden=false; const f=()=>{const r=b.querySelector('[data-ck]'); if(r&&!b.hidden) r.focus({preventScroll:true});}; document.readyState==='loading'?document.addEventListener('DOMContentLoaded',f):f();}
 b.addEventListener('click',e=>{const k=e.target.closest('[data-ck]'); if(!k) return; const on=k.dataset.ck; try{localStorage.wp_ck=on}catch(x){} b.hidden=true; document.dispatchEvent(new Event('wp:ck')); if(on==='1') window.wpGa(); else if(window.wpGaOn) gtag('consent','update',{analytics_storage:'denied'});});
 document.addEventListener('click',e=>{if(!e.target.closest('[data-ck-open]')) return; b.hidden=false; b.querySelector('[data-ck]').focus();});})();
 </script>
 <style is:global>
 .ck-open{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
-.ck-bn{position:fixed;left:var(--s3);right:var(--s3);bottom:var(--s3);z-index:var(--z-panel);display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);max-width:44rem;margin:0 auto;padding:var(--s4);background:var(--card);color:var(--navy);border:1px solid var(--line);border-radius:var(--r);box-sizing:border-box;box-shadow:var(--sh-pop)}
+.ck-bn{position:fixed;inset:0;z-index:var(--z-sheet);display:flex;align-items:center;justify-content:center;padding:var(--s4);box-sizing:border-box;background:var(--scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)} /* centred dialog: blocks the page until answered, so it uses the standard dialog scrim */
 .ck-bn[hidden]{display:none}
-#ck-msg{flex:1 1 18rem;margin:0;font-size:var(--fs-base);line-height:var(--lh-body)}
-.ck-act{display:flex;gap:var(--s2)}.ck-act .btn{min-height:44px;min-width:44px}
+html:has(.ck-bn:not([hidden])){overflow:hidden}
+.ck-card{width:min(28rem,100%);max-height:calc(100dvh - 48px);overflow:auto;display:flex;flex-direction:column;gap:var(--s4);padding:var(--s5);background:var(--card);color:var(--navy);border:1px solid var(--line);border-radius:var(--r);box-sizing:border-box;box-shadow:var(--sh-pop)}
+#ck-msg{margin:0;font-size:var(--fs-base);line-height:var(--lh-body)}
+.ck-act{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}.ck-act .btn{min-height:48px;min-width:44px;width:100%}
+@media (prefers-reduced-transparency:reduce){.ck-bn{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--scrim)}}
 </style>

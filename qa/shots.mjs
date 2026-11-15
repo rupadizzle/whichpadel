@@ -1,7 +1,9 @@
 import { chromium } from 'playwright-core'; import fs from 'fs';
+// Pages open as a visitor who answered the cookie dialog (it is centred and blocks the page until answered).
+const ckCtx=async(b,o)=>{const c=await b.newContext(o); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); return c;};
 const B='http://127.0.0.1:'+(process.env.QA_PORT||4987)+''; const C3=Object.entries(JSON.parse(fs.readFileSync('data/images.json'))).filter(([k,v])=>v.ok).slice(40,43).map(x=>x[0]).join(',');
 const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
-const m=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true})).newPage();
+const m=await (await ckCtx(b,{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true})).newPage();
 const S=n=>m.screenshot({path:'shots/v4/'+n+'.png'});
 await m.goto(B+'/compare/?r='+C3); await m.waitForTimeout(500); await S('compare-mobile-top');
 await m.evaluate(()=>scrollTo(0,900)); await m.waitForTimeout(300); await S('compare-mobile-scrolled');
@@ -10,5 +12,5 @@ await m.goto(B+'/rackets/'+C3.split(',')[0]+'/'); await m.waitForTimeout(500); a
 await m.goto(B+'/'); await m.waitForTimeout(400); await S('home-mobile');
 await m.click('#quiz label:has-text("Intermediate")'); await m.click('#q-go'); await m.waitForSelector('.qc'); await m.waitForTimeout(800); await S('quiz-result-mobile');
 await m.evaluate(()=>document.getElementById('rackets').scrollIntoView()); await m.tap('#f-open'); await m.tap('input[name=f-shape][value=round] + span'); await m.waitForTimeout(400); await S('filter-sheet-mobile');
-const d=await (await b.newContext({viewport:{width:1280,height:900}})).newPage(); await d.goto(B+'/compare/?r='+C3); await d.waitForTimeout(500); await d.screenshot({path:'shots/v4/compare-desktop.png',fullPage:true});
+const d=await (await ckCtx(b,{viewport:{width:1280,height:900}})).newPage(); await d.goto(B+'/compare/?r='+C3); await d.waitForTimeout(500); await d.screenshot({path:'shots/v4/compare-desktop.png',fullPage:true});
 await b.close();

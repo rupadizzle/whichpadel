@@ -23,7 +23,7 @@ for(const [t,p] of Object.entries(descs)) if(p.length>1) issues.push('dup desc '
 log('pages',files.length,'broken internal',bad.size,[...bad].slice(0,10));
 // 2. overflow + tap targets
 const pages=['/','/brands/bullpadel/2027/','/tools/real-weight/','/black-friday/','/players/','/players/agustin-tapia/','/best/best-value-padel-rackets/','/rackets/adidas-2026-world-cup-argentina/','/compare/?r=adidas-2026-world-cup-argentina,adidas-2026-world-cup-belgium','/compare/?r='+CMP3,'/compare/','/best/best-padel-rackets-for-beginners/','/brands/','/brands/bullpadel/','/padel-rackets/','/best/best-padel-racket-2026/','/best/best-womens-padel-rackets/','/brands/nox/','/privacy/','/affiliate-disclosure/','/404.html','/compare/adidas-metalbone-2026-vs-nox-at10-pro-cup-hard-2026/','/es/','/es/palas-padel/','/es/mejores-palas-padel/','/es/comparador-palas-padel/?r=adidas-metalbone-2026,nox-at10-pro-cup-hard-2026'];
-for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.newContext({viewport:{width:w,height:800}}); const p=await c.newPage();
+for(const w of (process.env.QA_FAST?[]:[360,390,768,1280])){ const c=await b.newContext({viewport:{width:w,height:800}}); await c.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); const p=await c.newPage();
  for(const u of pages){ await p.goto(B+u); await p.waitForTimeout(400);
   const r=await p.evaluate(()=>{const W=document.documentElement.clientWidth; const o=[];
    if(document.documentElement.scrollWidth>W+1) o.push('overflow '+document.documentElement.scrollWidth);
@@ -76,7 +76,7 @@ await t('best list',async()=>{const r=await p.evaluate(()=>({cards:document.quer
 await p.goto(B+'/brands/'); await t('brand click',async()=>{await p.click('.bcard >> nth=0'); await p.waitForURL(/brands\/.+/);});
 await t('brand cards',async()=>{const n=await p.locator('#rgrid .rk').count(); if(n<1) throw Error('cards '+n);});
 // mobile menu + finder from another page
-const m=await (await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true})).newPage(); m.setDefaultTimeout(8000);
+const mc=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true}); await mc.addInitScript(()=>{try{localStorage.wp_ck='0'}catch(e){}}); /* consent answered: the centred cookie dialog blocks the page until then */ const m=await mc.newPage(); m.setDefaultTimeout(8000);
 await m.goto(B+'/brands/');
 await t('mobile burger+finder',async()=>{await m.tap('.burger'); await m.tap('.nav .cta'); await m.waitForURL(/\/finder\//); await m.waitForTimeout(400); if(await m.isVisible('.nav')) throw Error('nav still open');});
 await m.goto(B+'/brands/');
