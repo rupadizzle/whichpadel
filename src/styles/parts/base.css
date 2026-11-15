@@ -1,3 +1,6 @@
+/* Fallback sized to Inter's metrics, so text takes the same space before and after the web font swaps in (no layout shift on slow loads).
+   Arial on macOS/Windows; Liberation Sans is its metric twin on Linux. */
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Helvetica');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0%}
 /* Element defaults, shared text utilities, image slot. Values come from tokens.css; shared components live in components.css. */
 *{box-sizing:border-box}
 body{font-family:var(--font);margin:0;color:var(--ink);background:var(--bg);line-height:var(--lh-body);font-size:var(--fs-base);-webkit-font-smoothing:antialiased}
